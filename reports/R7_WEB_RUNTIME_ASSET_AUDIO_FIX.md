@@ -50,5 +50,7 @@ CHR006/CHR007 Web card source files are kept separately in
 
 The compact cards restore UI and map-pawn identity in the hosted Web build.
 They do not claim to replace the full high-frame SD combat packs.  Local audio
-assets are included only as supplied local files; their manifest remains
-`LICENSE_UNRESOLVED`, so this correction does not assert commercial clearance.
+assets are included as supplied local files. On 2026-08-19 the project user
+declared the Sound folder to contain original Manus-created material and
+authorized commercial use; the audio manifest now records `USER_OWNED` with
+that declaration basis.

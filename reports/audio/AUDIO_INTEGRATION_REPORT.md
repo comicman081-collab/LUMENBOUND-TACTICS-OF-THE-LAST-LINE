@@ -39,4 +39,10 @@ WEB_BUILD: PASS (R7 fixed overwrite path)
 SITES_ARCHIVE_LIMIT: PASS
 ```
 
-The generated runtime manifest records source and runtime SHA-256 values. Source ownership and commercial rights for the supplied Sound folder have not been independently verified, so generated entries remain `LICENSE_UNRESOLVED` and are not claimed as commercially cleared.
+The generated runtime manifest records source and runtime SHA-256 values. On
+2026-08-19, the project user declared that all entries in the supplied Sound
+folder are original Manus-created audio and authorized their use. The runtime
+entries are therefore recorded as `USER_OWNED`, `commercial_use=true`, and
+`attribution_required=false`, with the declaration basis retained in the
+manifest. This records the user's rights statement; it is not independent legal
+advice.

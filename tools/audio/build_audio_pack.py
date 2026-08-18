@@ -149,6 +149,7 @@ def compact_mp3(source: Path, target: Path, max_seconds: float) -> None:
 def main() -> int:
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     entries = manifest.get("entries", [])
+    ownership_declaration = manifest.get("ownership_declaration", {})
     if not entries:
         raise SystemExit("audio manifest has no entries")
     OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
@@ -172,14 +173,20 @@ def main() -> int:
         item["source_bytes"] = source.stat().st_size
         item["runtime_sha256"] = sha256(target)
         item["runtime_bytes"] = target.stat().st_size
-        item["ownership_status"] = "LICENSE_UNRESOLVED"
-        item["commercial_use"] = False
+        # Rights are carried from the source-of-truth declaration rather than
+        # reset by every sync.  This keeps a user-provided ownership statement
+        # auditable while preserving the original Sound folder unchanged.
+        item["ownership_status"] = str(entry.get("ownership_status", ownership_declaration.get("ownership_status", "LICENSE_UNRESOLVED")))
+        item["commercial_use"] = bool(entry.get("commercial_use", ownership_declaration.get("commercial_use", False)))
+        item["attribution_required"] = bool(entry.get("attribution_required", ownership_declaration.get("attribution_required", False)))
+        item["rights_basis"] = str(entry.get("rights_basis", ownership_declaration.get("rights_basis", "")))
         item["runtime_path"] = entry["runtime_path"]
         resolved.append(item)
     output_manifest = {
         "schema_version": 1,
         "source_root": str(SOURCE_ROOT),
         "generated_by": "tools/audio/build_audio_pack.py",
+        "ownership_declaration": ownership_declaration,
         "entries": resolved,
     }
     (OUTPUT_ROOT / "audio_manifest.json").write_text(

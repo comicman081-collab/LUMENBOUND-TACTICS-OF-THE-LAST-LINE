@@ -1,0 +1,41 @@
+{
+  "policy_version": 1,
+  "scope": "PROJECT_WIDE_IMMUTABLE_CONSTRAINT",
+  "character_policy": {
+    "human_and_humanoid_characters": "FEMALE_ONLY",
+    "male_character_creation": "PROHIBITED",
+    "playable_character_gender": "FEMALE",
+    "human_npc_gender": "FEMALE",
+    "age_category": "ADULT_ONLY",
+    "nonhuman_enemy_gender": "GENDERLESS_NONHUMAN",
+    "required_positive_prompt_terms": [
+      "adult woman"
+    ],
+    "forbidden_positive_prompt_terms": [
+      "male",
+      "man",
+      "boy",
+      "masculine"
+    ]
+  },
+  "appearance_policy": {
+    "scope": ["ILLUSTRATION", "SD_CHARACTER", "IN_GAME_CHARACTER", "PORTRAIT", "ICON"],
+    "attire_exposure": "MAXIMUM_NON_EXPLICIT",
+    "required_positive_prompt_terms": ["revealing non-explicit", "opaque coverage"],
+    "adult_readability": "UNAMBIGUOUSLY_ADULT",
+    "intimate_anatomy_coverage": "REQUIRED",
+    "prohibited_read": ["CHILD", "TEEN", "SCHOOL_UNIFORM", "JUVENILE_BODY"],
+    "integration_requires": ["FEMALE_CONFIRMED", "ADULT_CONFIRMED", "ATTIRE_POLICY_CONFIRMED"]
+  },
+  "enforcement": {
+    "data_validation": true,
+    "prompt_preflight": true,
+    "visual_gender_readability_gate": "REQUIRED_MANUAL_QA",
+    "visual_adult_readability_gate": "REQUIRED_MANUAL_QA",
+    "attire_policy_gate": "REQUIRED_MANUAL_QA",
+    "asset_integration_requires": ["FEMALE_CONFIRMED", "ADULT_CONFIRMED", "ATTIRE_POLICY_CONFIRMED"],
+    "concept_manifest_validation": true,
+    "blender_bridge_validation": true,
+    "production_exception_allowed": false
+  }
+}

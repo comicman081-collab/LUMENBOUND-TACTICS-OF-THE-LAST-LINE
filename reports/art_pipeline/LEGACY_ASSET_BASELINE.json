@@ -1,0 +1,585 @@
+{
+  "schema_version": 1,
+  "captured_utc": "2026-08-17T06:12:38.1629287Z",
+  "source": "res://assets/generated_import",
+  "destination": "res://assets/placeholders_legacy",
+  "file_count": 96,
+  "files": [
+    {
+      "relative_path": "attribution.md",
+      "bytes": 23614,
+      "sha256": "80b6298e49bb8fe6d5869ffe16bfab52dd67c0ac3eef9d27de2af6dfe3b5e0f3",
+      "classification": "LEGACY_METADATA"
+    },
+    {
+      "relative_path": "import_manifest.json",
+      "bytes": 82806,
+      "sha256": "f2b303059717abd765f6f161e34de7315a8a7d7b45960b08813f81d135eb0d45",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "licenses.json",
+      "bytes": 62300,
+      "sha256": "3b4b522f7e7c33cfe8ec946dc59e4b3dba9946703059055783390f29dc735a81",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_character_portrait_sample_1_v4_art.png",
+      "bytes": 53101,
+      "sha256": "a4f4de4d327c6a0d7df076ba3cc7e7e93e23ab07d481efa3c7bb073fc6a170bb",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_character_portrait_sample_1_v4_deck.png",
+      "bytes": 26813,
+      "sha256": "77200eb3154a677fc2316871fac95cb38d1ea08d2a2488209e9122d0cbfec20f",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_character_portrait_sample_1_v4_detail.png",
+      "bytes": 209458,
+      "sha256": "489eca66c14aec478adbf5a6d7521e45399df84a03c48c58dab7cd370f1cd833",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_character_portrait_sample_1_v4_final.png",
+      "bytes": 69232,
+      "sha256": "105d8be737aec1c38c8e817e9abd3be3f81b28b643bbf5ae99f3e2f6b7ff47e4",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_character_portrait_sample_1_v4_frame.png",
+      "bytes": 23649,
+      "sha256": "11c0510d6b8bee6a1e608bef831070eddc0ad55ca156dee96e5f0c8217a4b935",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_character_portrait_sample_1_v4_thumb.png",
+      "bytes": 13678,
+      "sha256": "db5dc78d96faa52e738ff1599c76cbf2b80ddfe5dd2b3425f0c1489e300ccd74",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_defense_barrier_sample_7_v4_art.png",
+      "bytes": 55811,
+      "sha256": "1582f452320356a96efed1683c2137eb24d738d2fe8553075620efef6c5e3cc6",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_defense_barrier_sample_7_v4_deck.png",
+      "bytes": 27893,
+      "sha256": "b15df2ed6ba245349694708a43b3e8d91f4b17b831aea197bef1c2aed4479443",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_defense_barrier_sample_7_v4_detail.png",
+      "bytes": 212653,
+      "sha256": "fa550e72eb39032372f6f9b43c2414676c31735c46d7fdf84e13dec48ee82cd9",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_defense_barrier_sample_7_v4_final.png",
+      "bytes": 71014,
+      "sha256": "b9aeaa106ad6e4122a6066d3eb6723068db80b792cbd1b4cddd590c97347aa7b",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_defense_barrier_sample_7_v4_frame.png",
+      "bytes": 24340,
+      "sha256": "002d5bf81c0fa0fb267b322c31c74031c2f463e9e904e85c4be955001b75911a",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_defense_barrier_sample_7_v4_thumb.png",
+      "bytes": 14371,
+      "sha256": "b66c49381b5d5b4c245504588d7481873a62a7fdb1fde5615f3c646151fee02a",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_explosion_area_sample_8_v4_art.png",
+      "bytes": 64610,
+      "sha256": "1d4b8aa44aea1e21a39c16dc5214b39b1a7e997f5f71f87836119975923ce31a",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_explosion_area_sample_8_v4_deck.png",
+      "bytes": 32444,
+      "sha256": "e6001127c82767c35327c5941f03592a1ec4f4bed2c53a0442844b2ec8fe7681",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_explosion_area_sample_8_v4_detail.png",
+      "bytes": 230041,
+      "sha256": "4d399e0acc50dede53a81504d80d0f12df63a3ef121bdde9eebcb1aee1ace2a7",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_explosion_area_sample_8_v4_final.png",
+      "bytes": 79279,
+      "sha256": "30b44d99cb922a07c241efd3df675f42482c86527a65d3aee2e43a8aa2ff8844",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_explosion_area_sample_8_v4_frame.png",
+      "bytes": 22754,
+      "sha256": "97c265fb9059afdd585c481da2e15cd772e8a2e01bdb66c7bb29044a03817e2f",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_explosion_area_sample_8_v4_thumb.png",
+      "bytes": 16710,
+      "sha256": "321758a456232beb520b934144df628eca44c1354b346e4191a31ef94f2a9a9d",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_full_body_action_sample_2_v4_art.png",
+      "bytes": 60613,
+      "sha256": "4eaf32f9aa3e9894db4a514862f2cab20c2d6033dd02b306fb3302f863b27b86",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_full_body_action_sample_2_v4_deck.png",
+      "bytes": 30061,
+      "sha256": "e330cfa556b9252e6cb863af8e7907dd3763bda1f37bf8b2dfec1714ae17a4d0",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_full_body_action_sample_2_v4_detail.png",
+      "bytes": 228127,
+      "sha256": "8a4eb4793d686c276a923fbd20428177e9d00af853172ac9ce054775bdcab424",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_full_body_action_sample_2_v4_final.png",
+      "bytes": 74188,
+      "sha256": "b86315db44b3905173040cd9c83b545c48e09a4adae64ac13675cd23f28c27db",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_full_body_action_sample_2_v4_frame.png",
+      "bytes": 23530,
+      "sha256": "2a190a124560d4d7b9f7e60e2cbf0e6d2a0dc253556c7d35ec9290b48fc2bcf6",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_full_body_action_sample_2_v4_thumb.png",
+      "bytes": 15460,
+      "sha256": "fefe3ece3b1983f009e791acee13649ab1bbc37a63985ff32d2bc684414209d7",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_relic_object_sample_6_v4_art.png",
+      "bytes": 55863,
+      "sha256": "c0823140736de95b54df1771849d0933f4148a20bb5e936519a311c9a87496f5",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_relic_object_sample_6_v4_deck.png",
+      "bytes": 28046,
+      "sha256": "621a4ddacf186ecb7a1c98d14b3e453195d518b73d08c6f65183e7fd71d18cff",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_relic_object_sample_6_v4_detail.png",
+      "bytes": 213016,
+      "sha256": "556e6fb61f2a69add9a923fcaeb7009a4898f1bbb995810a7a259bb736c17c5e",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_relic_object_sample_6_v4_final.png",
+      "bytes": 70050,
+      "sha256": "25df572e502fbf6494e0adb70f4fc10986e0636c5e13e1ffcd2871da86ab0d2a",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_relic_object_sample_6_v4_frame.png",
+      "bytes": 23507,
+      "sha256": "90a450c8b4bd75bc23410fbf24a41428fc88f7cdc0ed2eaeb80ab5adc8640dc0",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_relic_object_sample_6_v4_thumb.png",
+      "bytes": 14550,
+      "sha256": "812300be2d8fd9e8ebb2e461a6fa5b82504b2c1dd6fc63b9bc24e50b3762b9b1",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_skill_burst_sample_4_v4_art.png",
+      "bytes": 77495,
+      "sha256": "a4a14e16116ec29eeb7de96c44beb547fb4ab0c5a7f0bd8c0b9206ec75cbfd11",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_skill_burst_sample_4_v4_deck.png",
+      "bytes": 37821,
+      "sha256": "30fbeec772fd43a38e76e4458175754aea71ed09e26607da7ae9b29b43822f5f",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_skill_burst_sample_4_v4_detail.png",
+      "bytes": 268038,
+      "sha256": "833fb862e8ec9af79669262fe8956d3b9f165759775e738feea4244c668e7b21",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_skill_burst_sample_4_v4_final.png",
+      "bytes": 91110,
+      "sha256": "a685bea1c0798d81f70d6c8bdbec9eeb1b825ee460c2bd257894dd21893f817a",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_skill_burst_sample_4_v4_frame.png",
+      "bytes": 22550,
+      "sha256": "588f3336c14e4b98750b300926f4d693ec210482f15a8eb4a7359e7191103e1e",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_skill_burst_sample_4_v4_thumb.png",
+      "bytes": 19907,
+      "sha256": "1db9cb604ff0701341994625855b05151b0d6a47776a97acd2bce34946034e6b",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_summon_sample_5_v4_art.png",
+      "bytes": 52977,
+      "sha256": "2706d400b332cd4750f2ec84303c9a1a801188d2212551c3d89e9d026bc973fb",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_summon_sample_5_v4_deck.png",
+      "bytes": 27586,
+      "sha256": "ec490505f36c8a4e0f57f91b5a240f56b5550cf2229f2d995d62644b7b0d2212",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_summon_sample_5_v4_detail.png",
+      "bytes": 212205,
+      "sha256": "10cfe32dcf9b7f4b3a5386a3adfd7d9f971c3512e24a2e96b461ee0775a8c59b",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_summon_sample_5_v4_final.png",
+      "bytes": 69151,
+      "sha256": "8f83866c602d2d725423176578da9b48c2ee10e2871102b249b5d7d4934b48f0",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_summon_sample_5_v4_frame.png",
+      "bytes": 24243,
+      "sha256": "d2cc3c5eddbffdf47e90d8da0d6d4f3f47a75991ac11b1ad500fa727131719b6",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_summon_sample_5_v4_thumb.png",
+      "bytes": 14128,
+      "sha256": "6286b401da4d05e16d3f5848a605897c877e76b51d76ce958194083ee7ce13fd",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_weapon_focus_sample_3_v4_art.png",
+      "bytes": 57748,
+      "sha256": "621bd5c8f60b3c81a5cda3d4004aaf40e4ef837374c19093114888e6a39e489f",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_weapon_focus_sample_3_v4_deck.png",
+      "bytes": 29773,
+      "sha256": "2a280c580807efb9c68d41264ac0a808502f916f0c98de5886e9d9cad537a84a",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_weapon_focus_sample_3_v4_detail.png",
+      "bytes": 221431,
+      "sha256": "ad641bbc419c8cbd7591d4044c6916383bc92040f2ac551ce9cfddf03d71889b",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_weapon_focus_sample_3_v4_final.png",
+      "bytes": 75601,
+      "sha256": "7b034123443793aefa59bbe96bcd2b3ff6d9021116dfc2f420c19d5aa6dff3b5",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_weapon_focus_sample_3_v4_frame.png",
+      "bytes": 24365,
+      "sha256": "5bba9a72c5296d37209c5605e892552bdf361adff5a4b46994e52d356a550723",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/cards/card_weapon_focus_sample_3_v4_thumb.png",
+      "bytes": 15282,
+      "sha256": "796d623ec9c8ff1266bb7564bc4757f79cdd7b7bc20e93bf27f2c6224adeb59f",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_female_sd_engineer_v3_back.png",
+      "bytes": 2587,
+      "sha256": "ea29fc7206d8ee386b82cde026e2bfec3d0f8e21accc938c8787784b55dbcf15",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_female_sd_engineer_v3_front.png",
+      "bytes": 2632,
+      "sha256": "3659046b7a1552b66c263e939c7a35485544be6bfd6d8b3cb68b31634c0b0b43",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_female_sd_engineer_v3_side.png",
+      "bytes": 2531,
+      "sha256": "6c7500f64c016a7f58005c326169a05c66df01b05249e57eff0479a26e51b203",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_female_sd_engineer_v3_three_quarter.png",
+      "bytes": 2632,
+      "sha256": "48af647a4a96ad1eb38fd0274cdb47ba5df6554befe790cc5b11405233d63015",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_female_sd_engineer_v3_walk.atlas.json",
+      "bytes": 1655,
+      "sha256": "54fe34e5fa8bb6c68023c131357d586004e63b84c7cead5f847c87cd65ba41ae",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_female_sd_engineer_v3_walk.png",
+      "bytes": 9207,
+      "sha256": "84fc4427fa22df2b3d6392b7c4da745e6de1417be1813c288b4177d63139f4ae",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_female_stylized_scout_v3_back.png",
+      "bytes": 2582,
+      "sha256": "acb3ad8601c6b6f07696394253d7ecb615915f01be78bd9f8a6e691d490dc2de",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_female_stylized_scout_v3_front.png",
+      "bytes": 2629,
+      "sha256": "31284909147bc09174fe6b61ed39b16f06ba2093e8f3a0ceb12fcb63555d40d7",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_female_stylized_scout_v3_side.png",
+      "bytes": 2528,
+      "sha256": "d1d936b6463b411f1d96969b1b2b4f0c616c5f26a13a5659044c793db71ce587",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_female_stylized_scout_v3_three_quarter.png",
+      "bytes": 2629,
+      "sha256": "cc1a679895300e7f3e4de231f729fb4401ff368bac27475a110957b6f8bf41c0",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_female_stylized_scout_v3_walk.atlas.json",
+      "bytes": 1658,
+      "sha256": "02895699c7359a18affa822d04c63ba0a8af510a23fe378e50c3448ae193567c",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_female_stylized_scout_v3_walk.png",
+      "bytes": 9204,
+      "sha256": "c70bd764e1a3a4931681fdc83cd3f626bc9ef63907ff3f884883e37734e31949",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_neutral_mannequin_vanguard_v3_back.png",
+      "bytes": 2586,
+      "sha256": "7066e3b6aca875b657370deda0324049faa027b7a77a90979c08c03f6fdbb2c2",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_neutral_mannequin_vanguard_v3_front.png",
+      "bytes": 2632,
+      "sha256": "47bd783cbbb52df06df5c6d7bf1873e0045f6e0b2a772130a6db91833ed60426",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_neutral_mannequin_vanguard_v3_side.png",
+      "bytes": 2531,
+      "sha256": "75286f022c622b5af709dec3a57665d85ee1628f58f98ef0dc5017116991cce8",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_neutral_mannequin_vanguard_v3_three_quarter.png",
+      "bytes": 2633,
+      "sha256": "f15df43483386e41355ccbab79b4a9f2f60025efcd17754b7cad0ace90082b51",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_neutral_mannequin_vanguard_v3_walk.atlas.json",
+      "bytes": 1663,
+      "sha256": "5a527a80c7b915df661ee015e9983fc058d7795d1cb63759ef057c4bf78d71da",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/characters/character_neutral_mannequin_vanguard_v3_walk.png",
+      "bytes": 9207,
+      "sha256": "80cca1aaf5a365641fb6b93b95e371c6d69894aafdc95c75aed7508f4bd3ff80",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/enemies/enemy_boss_siege_core_v3_wear_0_5.png",
+      "bytes": 3011,
+      "sha256": "1510264ce987c9e817f32b9c59a931626ae0cb29e18110eaecc89c8ae780a152",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/enemies/enemy_boss_siege_core_v3_wear_0.png",
+      "bytes": 2851,
+      "sha256": "cd5f66f1a869b120e5109658e7849c4b1f04aa59777bf86d0b75465baa7beb20",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/enemies/enemy_boss_siege_core_v3_wear_1.png",
+      "bytes": 3128,
+      "sha256": "a18767413212b0862f9dd0c7e526552075cdffc38f9759e08d3da08751b2c84b",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/enemies/enemy_humanoid_raider_v3_wear_0_5.png",
+      "bytes": 2814,
+      "sha256": "ce9ab6fffc45c9849732852ebe075e6097e8a54e3d45de98197fab7ea40ba8e2",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/enemies/enemy_humanoid_raider_v3_wear_0.png",
+      "bytes": 2632,
+      "sha256": "47bd783cbbb52df06df5c6d7bf1873e0045f6e0b2a772130a6db91833ed60426",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/enemies/enemy_humanoid_raider_v3_wear_1.png",
+      "bytes": 2938,
+      "sha256": "3c1936905f8467f4054e685d1c88c76d16a392fdd2be4a6f3a49e62e72bf7bd7",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/enemies/enemy_mechanical_artillery_v3_wear_0_5.png",
+      "bytes": 2801,
+      "sha256": "26acfba41651b4304965d822f235ef62c2d64ed90b9df788ec2e56bd0c8166c0",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/enemies/enemy_mechanical_artillery_v3_wear_0.png",
+      "bytes": 2645,
+      "sha256": "c89bbeb6669e507457139d04f7ca6de9820f4b8bf2d840fb35dba54eac503d7c",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/enemies/enemy_mechanical_artillery_v3_wear_1.png",
+      "bytes": 2892,
+      "sha256": "026abfc1937318b3f881ed0856c9b93c81f9c336b2fba01be83ec97c6f6f5885",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_industrial_foundry_v2_composite.png",
+      "bytes": 20941,
+      "sha256": "8cca860dd532a73ab801e6ca5a4a1ec6fc0a08a83ff9be94345c458959ac3dc2",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_industrial_foundry_v2_layer_1.png",
+      "bytes": 4324,
+      "sha256": "bce10f6bd3fecb3d4244f257351b3957a6eb9a30f82c28af1ceb4dbdffc976a0",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_industrial_foundry_v2_layer_2.png",
+      "bytes": 3729,
+      "sha256": "c54fc0394a2155ca6723efd658d92c46bae210878c05529590aa728863ee5707",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_industrial_foundry_v2_layer_3.png",
+      "bytes": 8227,
+      "sha256": "a217a9c1949db9ccaa1cfabe871a817cca22199b067b54dfe130cdc3b6e574ef",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_industrial_foundry_v2_layer_4.png",
+      "bytes": 4660,
+      "sha256": "8979e8d3d8a73726a38a9c9f02badce6980a049ea28676c151c61ac0003d139d",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_industrial_foundry_v2.png",
+      "bytes": 7306,
+      "sha256": "07361913064506a5239e7ec370e50c0904d19a42306553a86f01df57b4788846",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_laboratory_outpost_v2_composite.png",
+      "bytes": 20941,
+      "sha256": "8cca860dd532a73ab801e6ca5a4a1ec6fc0a08a83ff9be94345c458959ac3dc2",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_laboratory_outpost_v2_layer_1.png",
+      "bytes": 4324,
+      "sha256": "bce10f6bd3fecb3d4244f257351b3957a6eb9a30f82c28af1ceb4dbdffc976a0",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_laboratory_outpost_v2_layer_2.png",
+      "bytes": 3729,
+      "sha256": "c54fc0394a2155ca6723efd658d92c46bae210878c05529590aa728863ee5707",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_laboratory_outpost_v2_layer_3.png",
+      "bytes": 8227,
+      "sha256": "a217a9c1949db9ccaa1cfabe871a817cca22199b067b54dfe130cdc3b6e574ef",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_laboratory_outpost_v2_layer_4.png",
+      "bytes": 4660,
+      "sha256": "8979e8d3d8a73726a38a9c9f02badce6980a049ea28676c151c61ac0003d139d",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_laboratory_outpost_v2.png",
+      "bytes": 7802,
+      "sha256": "8a09c2145c3109d1c86b376f3ce1ba9d7b0bc89ef727f9555c3a9e2951c79d62",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_ruin_frontier_v2_composite.png",
+      "bytes": 20943,
+      "sha256": "65878f3756eb1d563c317565ba086db1a98c4f65f666df32a3978664bd5270ab",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_ruin_frontier_v2_layer_1.png",
+      "bytes": 4324,
+      "sha256": "bce10f6bd3fecb3d4244f257351b3957a6eb9a30f82c28af1ceb4dbdffc976a0",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_ruin_frontier_v2_layer_2.png",
+      "bytes": 3729,
+      "sha256": "70e94e132f5524469df7b91502b161083addeb5385d4604e77f2e216f2d97575",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_ruin_frontier_v2_layer_3.png",
+      "bytes": 8227,
+      "sha256": "a217a9c1949db9ccaa1cfabe871a817cca22199b067b54dfe130cdc3b6e574ef",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_ruin_frontier_v2_layer_4.png",
+      "bytes": 4660,
+      "sha256": "8979e8d3d8a73726a38a9c9f02badce6980a049ea28676c151c61ac0003d139d",
+      "classification": "DEV_PLACEHOLDER"
+    },
+    {
+      "relative_path": "factory_sync/environments/environment_ruin_frontier_v2.png",
+      "bytes": 7751,
+      "sha256": "c762af1339abd4effd7ef3864a56c2357fc73b53cd8bf9a0fb44bc6b2b5dc794",
+      "classification": "DEV_PLACEHOLDER"
+    }
+  ]
+}

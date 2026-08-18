@@ -1,0 +1,308 @@
+{
+  "kind": "STATIC_DATA_SOURCE_AUDIT",
+  "total": 60,
+  "pass": 60,
+  "fail": 0,
+  "checks": [
+    {
+      "name": "engine lock 4.7.1",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "Compatibility renderer",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "characters IDs unique",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "skills IDs unique",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "weapons IDs unique",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "enemies IDs unique",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "stages IDs unique",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "rewards IDs unique",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "items IDs unique",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "scenarios IDs unique",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "character count 8",
+      "pass": true,
+      "details": "8"
+    },
+    {
+      "name": "project character policy FEMALE_ONLY",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "all playable characters FEMALE",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "all playable characters ADULT",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "all playable attire policy maximum non-explicit",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "all enemies genderless nonhuman",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "role distribution 1/1/2/1/2/1",
+      "pass": true,
+      "details": "{'GUARDIAN': 1, 'VANGUARD': 1, 'ASSAULT': 2, 'ARTILLERY': 1, 'SPECIALIST': 2, 'MEDIC': 1}"
+    },
+    {
+      "name": "all character skill references valid",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "skill arrays 10/10/5",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "exactly three skills per character",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "enemy counts 6/3/2",
+      "pass": true,
+      "details": "{'NORMAL': 6, 'ELITE': 3, 'BOSS': 2}"
+    },
+    {
+      "name": "boss phases/patterns data-defined",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "Chapter 1 NORMAL exactly 10",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "Chapter 1 HARD exactly 5",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "N10 and H5 are bosses",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "all stages have rewards",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "rare rate 8% and pity 8",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "all breakthrough skill and weapon materials are repeatable",
+      "pass": true,
+      "details": "[]"
+    },
+    {
+      "name": "character curve rows 100",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "account curve rows 100",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "weapon curve rows 60",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "character XP regression 905,520",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "character credits regression 412,400",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "weapon XP regression 144,330",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "no negative growth values",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "stats monotonic endpoints",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "affinity matrix exact",
+      "pass": true,
+      "details": "{'PHYSICAL': {'ARMOR': 1.25, 'BARRIER': 0.85, 'WARD': 1.0}, 'ENERGY': {'ARMOR': 1.0, 'BARRIER': 1.25, 'WARD': 0.85}, 'ANOMALY': {'ARMOR': 0.85, 'BARRIER': 1.0, 'WARD': 1.25}}"
+    },
+    {
+      "name": "B0-B5 definitions",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "weapon T1-T6 caps",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "no exclusive weapons",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "all thirteen status IDs",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "scenario count 9",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "scenario commands and jumps valid",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "ScenarioRunner implements full command contract",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "all KO localization keys exist",
+      "pass": true,
+      "details": "[]"
+    },
+    {
+      "name": "all EN localization keys exist",
+      "pass": true,
+      "details": "[]"
+    },
+    {
+      "name": "legacy asset bridge status SYNCED",
+      "pass": true,
+      "details": "SYNCED"
+    },
+    {
+      "name": "legacy asset bridge 93 files resolve",
+      "pass": true,
+      "details": "93"
+    },
+    {
+      "name": "all legacy SHA-256 values match",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "all legacy assets DEV_PLACEHOLDER",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "license entry per synchronized file",
+      "pass": true,
+      "details": "109"
+    },
+    {
+      "name": "unconfirmed output rights not claimed commercial",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "project-generated combat bundles are in license ledger",
+      "pass": true,
+      "details": "15"
+    },
+    {
+      "name": "every license record has SHA-256",
+      "pass": true,
+      "details": "109"
+    },
+    {
+      "name": "foundation implementation files present",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "GDScript only / no C#",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "no HTTP runtime code",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "Krea2 permanently excluded",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "approved local models are build-time only",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "active art guides meet global visual policy",
+      "pass": true,
+      "details": ""
+    }
+  ]
+}

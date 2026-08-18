@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "source_root_env": "SD_RPG_ASSET_FACTORY_ROOT",
+  "source_root": "D:/AI 종합 폴더/Games/asset_share",
+  "destination_root": "../../godot/assets/generated_import",
+  "godot_path_prefix": "res://assets/generated_import/",
+  "categories": ["character", "enemy", "environment", "card", "projectile"],
+  "allowed_extensions": [".png", ".atlas.json"],
+  "latest_version_only": true,
+  "mark_as": "DEV_PLACEHOLDER",
+  "required_manifest_fields": ["assetId", "category", "subtype", "seed", "generatorVersion", "sourcePreset", "generatedPath", "exportPaths"]
+}

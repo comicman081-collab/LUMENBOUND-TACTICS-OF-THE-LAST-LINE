@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "policy": "premium_manifest_overrides_legacy_fallback",
+  "status_values": [
+    "DEV_PLACEHOLDER",
+    "PREMIUM_PILOT",
+    "ART_QA_CANDIDATE",
+    "ART_QA_PASS",
+    "PRODUCTION_APPROVED",
+    "REJECTED"
+  ],
+  "migrations": [
+    {
+      "content_id": "CHR001",
+      "legacy_asset_id": "sd_chr001_dev",
+      "premium_asset_id": "sd_chr001_maeru_pilot",
+      "portrait_asset_id": "portrait_chr001_maeru_pilot",
+      "icon_asset_id": "icon_chr001_maeru_pilot",
+      "status": "PREMIUM_PILOT"
+    },
+    {
+      "content_id": "CHR008",
+      "legacy_asset_id": "sd_chr008_dev",
+      "premium_asset_id": "sd_chr008_iri_pilot",
+      "portrait_asset_id": "portrait_chr008_iri_pilot",
+      "icon_asset_id": "icon_chr008_iri_pilot",
+      "status": "PREMIUM_PILOT"
+    }
+  ]
+}

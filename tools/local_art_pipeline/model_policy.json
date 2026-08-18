@@ -1,0 +1,158 @@
+{
+  "policy_version": 2,
+  "content_policy": {
+    "path": "tools/policy/project_content_policy.json",
+    "character_gender": "FEMALE_ONLY",
+    "male_character_generation": "PROHIBITED"
+  },
+  "source_roots": [
+    {
+      "path": "C:/AI_MODELS",
+      "mode": "READ_ONLY",
+      "preserve_originals": true
+    },
+    {
+      "path": "C:/AI_ENVS",
+      "mode": "READ_ONLY",
+      "preserve_originals": true
+    }
+  ],
+  "selected": [
+    {
+      "id": "stabilityai-sdxl-base-1.0-local",
+      "path": "C:/AI_MODELS/sdxl-base-1.0",
+      "license": "CreativeML Open RAIL++-M",
+      "use": ["CONCEPT_GENERATION", "BUILD_TIME_ASSET_GENERATION"],
+      "commercial_use": "ALLOWED_SUBJECT_TO_LICENSE_RESTRICTIONS",
+      "evidence": ["LOCAL_LICENSE", "OFFICIAL_MODEL_CARD"],
+      "runtime_dependency": false
+    },
+    {
+      "id": "diffusers-sdxl-inpaint-0.1-local",
+      "path": "C:/AI_MODELS/sdxl-inpaint",
+      "license": "CreativeML Open RAIL++-M",
+      "use": ["MASKED_ANATOMY_CORRECTION", "DEVICE_AND_COSTUME_REFINEMENT"],
+      "commercial_use": "ALLOWED_SUBJECT_TO_LICENSE_RESTRICTIONS",
+      "evidence": ["OFFICIAL_MODEL_CARD", "LOCAL_HUGGINGFACE_COMMIT_METADATA"],
+      "runtime_dependency": false
+    },
+    {
+      "id": "diffusers-controlnet-canny-sdxl-1.0-local",
+      "path": "C:/AI_MODELS/controlnet-sdxl/controlnet-canny-sdxl-1.0",
+      "license": "CreativeML Open RAIL++-M",
+      "use": ["SILHOUETTE_AND_PROP_SHAPE_LOCK"],
+      "commercial_use": "ALLOWED_SUBJECT_TO_LICENSE_RESTRICTIONS",
+      "evidence": ["OFFICIAL_MODEL_CARD_AT_LOCAL_COMMIT"],
+      "runtime_dependency": false
+    },
+    {
+      "id": "diffusers-controlnet-depth-sdxl-1.0-local",
+      "path": "C:/AI_MODELS/controlnet-sdxl/controlnet-depth-sdxl-1.0",
+      "license": "CreativeML Open RAIL++-M",
+      "use": ["DEPTH_AND_VOLUME_CONSISTENCY"],
+      "commercial_use": "ALLOWED_SUBJECT_TO_LICENSE_RESTRICTIONS",
+      "evidence": ["LOCAL_MODEL_CARD", "OFFICIAL_MODEL_CARD"],
+      "runtime_dependency": false
+    },
+    {
+      "id": "depth-anything-v2-small-local",
+      "path": "C:/AI_MODELS/depth-anything-v2-small",
+      "license": "Apache-2.0",
+      "use": ["DEPTH_GUIDE_EXTRACTION"],
+      "commercial_use": "ALLOWED_WITH_NOTICE",
+      "evidence": ["LOCAL_OFFICIAL_SOURCE_LICENSE", "OFFICIAL_REPOSITORY"],
+      "runtime_dependency": false
+    },
+    {
+      "id": "h94-ip-adapter-sdxl-local",
+      "path": "C:/AI_MODELS/ip-adapter/sdxl_models",
+      "companion_image_encoder_path": "C:/AI_MODELS/clip-vit-h-14-laion2b/models/image_encoder",
+      "license": "Apache-2.0",
+      "use": ["PROJECT_OWNED_CONCEPT_CONSISTENCY"],
+      "commercial_use": "ALLOWED_WITH_NOTICE",
+      "evidence": ["OFFICIAL_MODEL_REPOSITORY_AT_LOCAL_COMMIT", "OFFICIAL_CODE_REPOSITORY"],
+      "runtime_dependency": false
+    },
+    {
+      "id": "facebook-sam2.1-hiera-small-local",
+      "path": "C:/AI_MODELS/SAM2/sam2.1-hiera-small",
+      "license": "Apache-2.0",
+      "use": ["MASK_EXTRACTION", "SPRITE_ALPHA_QA"],
+      "commercial_use": "ALLOWED_WITH_NOTICE",
+      "evidence": ["LOCAL_MODEL_CARD", "LOCAL_OFFICIAL_SOURCE_LICENSE", "OFFICIAL_REPOSITORY"],
+      "runtime_dependency": false
+    },
+    {
+      "id": "idea-grounding-dino-base-local",
+      "path": "C:/AI_MODELS/GroundingDINO/grounding-dino-base",
+      "license": "Apache-2.0",
+      "use": ["OBJECT_LOCALIZATION_FOR_MASKS", "AUTOMATED_ART_QA"],
+      "commercial_use": "ALLOWED_WITH_NOTICE",
+      "evidence": ["LOCAL_MODEL_CARD", "OFFICIAL_MODEL_CARD"],
+      "runtime_dependency": false
+    },
+    {
+      "id": "cidas-clipseg-rd64-refined-local",
+      "path": "C:/AI_MODELS/auto-mask",
+      "license": "Apache-2.0",
+      "use": ["TEXT_GUIDED_MASK_EXTRACTION"],
+      "commercial_use": "ALLOWED_WITH_NOTICE",
+      "evidence": ["LOCAL_MODEL_CARD"],
+      "runtime_dependency": false
+    },
+    {
+      "id": "kandinsky-community-2.2-local",
+      "path": "C:/AI_MODELS/kandinsky-2-2-prior",
+      "companion_decoder_path": "C:/AI_MODELS/kandinsky-2-2-decoder-inpaint",
+      "license": "Apache-2.0",
+      "use": ["ALTERNATE_INPAINT_CANDIDATES", "CONCEPT_VARIATION"],
+      "commercial_use": "ALLOWED_WITH_NOTICE",
+      "evidence": ["LOCAL_MODEL_CARDS", "OFFICIAL_MODEL_CARDS"],
+      "runtime_dependency": false
+    }
+  ],
+  "excluded": [
+    {
+      "id": "krea2-local",
+      "path": "C:/AI_MODELS/Krea2",
+      "reason": "NON_COMMERCIAL_EXCLUDED",
+      "must_never_be_used": true
+    },
+    {
+      "id": "dreamshaper-xl-local",
+      "path": "C:/AI_MODELS/photorealistic/dreamshaper-xl-1-0",
+      "reason": "LICENSE_UNRESOLVED",
+      "must_never_be_used": true
+    },
+    {
+      "id": "controlnet-openpose-sdxl-local",
+      "path": "C:/AI_MODELS/controlnet-sdxl/controlnet-openpose-sdxl-1.0",
+      "reason": "MODEL_CARD_LICENSE_OTHER_AND_REFERENCES_OPENPOSE_TERMS",
+      "must_never_be_used": true
+    },
+    {
+      "id": "ip-adapter-faceid-plusv2-sdxl-local",
+      "path": "C:/AI_MODELS/ip-adapter-faceid-plusv2-sdxl",
+      "reason": "INSIGHTFACE_WEIGHT_COMMERCIAL_RIGHTS_NOT_APPROVED",
+      "must_never_be_used": true
+    },
+    {
+      "id": "insightface-local",
+      "path": "C:/AI_MODELS/insightface",
+      "reason": "PRETRAINED_MODEL_COMMERCIAL_RIGHTS_NOT_APPROVED",
+      "must_never_be_used": true
+    },
+    {
+      "id": "project-local-lora-collection",
+      "path": "C:/AI_MODELS/LORA",
+      "reason": "TRAINING_DATA_AND_BASE_MODEL_LINEAGE_REQUIRES_PER_LORA_AUDIT",
+      "must_never_be_used": true
+    },
+    {
+      "id": "sd15-inpainting-local",
+      "path": "C:/AI_MODELS/sd15-inpainting",
+      "reason": "LOCAL_SOURCE_BINDING_AND_LICENSE_FILE_NOT_YET_VERIFIED",
+      "must_never_be_used": true
+    }
+  ]
+}

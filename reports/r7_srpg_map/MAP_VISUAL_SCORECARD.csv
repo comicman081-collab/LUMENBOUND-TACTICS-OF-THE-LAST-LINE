@@ -1,0 +1,10 @@
+category,max_score,score,verdict,notes
+overall_composition_and_terrain_flow,15,13,PASS,"Readable coastal route and elevation arc"
+hex_terrain_and_elevation_finish,15,12,PASS,"R4 adds forest clusters, moss points and coast foam; surface variety still below production target"
+terrain_and_node_readability,15,14,PASS,"Terrain, locks, clear states and stage IDs remain legible"
+squad_pawn_movement_and_grounding,15,12,PASS,"Pawn follows deterministic path and is grounded; full directional map-pawn animation remains incomplete"
+camera_and_selection_feedback,10,8,PASS,"Focus, pan, zoom and route selection work"
+stage_panel_integration,10,9,PASS,"Desktop and 844x390 layouts avoid overlap"
+map_battle_transition,10,7,FAIL,"Functional fade/focus transition; premium motion language needs another art pass"
+originality_and_project_style,10,8,PASS,"Independent teal/amber relay motif; no reference frame or asset reused"
+TOTAL,100,83,FAIL,"Pass threshold is 88; no score inflation"

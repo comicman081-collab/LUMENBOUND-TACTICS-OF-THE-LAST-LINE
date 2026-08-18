@@ -1,0 +1,657 @@
+{
+  "summary": {
+    "browser": "Codex In-app Browser",
+    "url": "http://127.0.0.1:8766/index.html",
+    "samples": 63,
+    "elapsed_seconds": 315.003,
+    "average_fps": 91.96825396825396,
+    "minimum_fps": 82,
+    "maximum_fps": 95,
+    "node_count_start": 34,
+    "node_count_end": 201,
+    "orphan_nodes_end": 0,
+    "draw_calls_end": 168,
+    "static_memory_note": "Godot Web reports 0; exact per-tab memory unavailable",
+    "fatal_console_errors": 0,
+    "console_warnings": 0,
+    "raf_percentiles": "UNVERIFIED: in-app isolated evaluation does not expose requestAnimationFrame",
+    "chrome": "UNVERIFIED: extension/native host unavailable",
+    "edge": "UNVERIFIED: extension/native host unavailable",
+    "tail_node_min": 201,
+    "tail_node_max": 201,
+    "tail_object_min": 2401,
+    "tail_object_max": 2401
+  },
+  "samples": [
+    {
+      "draw_calls": 10,
+      "elapsed_seconds": 5.01,
+      "fps": 93,
+      "node_count": 34,
+      "object_count": 1450,
+      "orphan_node_count": 0,
+      "sample": 1,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 10.005,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 2,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 15.002,
+      "fps": 95,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 3,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 20.005,
+      "fps": 94,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 4,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 25.005,
+      "fps": 94,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 5,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 30.005,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 6,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 35.005,
+      "fps": 95,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 7,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 40.005,
+      "fps": 92,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 8,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 45,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 9,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 50,
+      "fps": 92,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 10,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 55.01,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 11,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 60.008,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 12,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 65.009,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 13,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 70.01,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 14,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 75.01,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 15,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 80.01,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 16,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 85.002,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 17,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 90.006,
+      "fps": 92,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 18,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 95.012,
+      "fps": 92,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 19,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 100.002,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 20,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 105.001,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 21,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 110.003,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 22,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 115.003,
+      "fps": 92,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 23,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 120.003,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 24,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 125,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 25,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 130.01,
+      "fps": 92,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 26,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 135.002,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 27,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 140.002,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 28,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 145.005,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 29,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 150.002,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 30,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 155.002,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 31,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 160.005,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 32,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 165.008,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 33,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 170.009,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 34,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 175.009,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 35,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 180.002,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 36,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 185.012,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 37,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 190.006,
+      "fps": 92,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 38,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 195.009,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 39,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 200.003,
+      "fps": 92,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 40,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 205.001,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 41,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 210.008,
+      "fps": 92,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 42,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 215.009,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 43,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 220.009,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 44,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 225.009,
+      "fps": 92,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 45,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 230.002,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 46,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 235.009,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 47,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 240.006,
+      "fps": 82,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 48,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 245.008,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 49,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 250.008,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 50,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 255.008,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 51,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 260.008,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 52,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 265.006,
+      "fps": 92,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 53,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 270.009,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 54,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 275.009,
+      "fps": 92,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 55,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 280.011,
+      "fps": 85,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 56,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 285.006,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 57,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 290.004,
+      "fps": 90,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 58,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 295.008,
+      "fps": 90,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 59,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 300.006,
+      "fps": 91,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 60,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 305.001,
+      "fps": 92,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 61,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 310.005,
+      "fps": 92,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 62,
+      "static_memory_bytes": 0
+    },
+    {
+      "draw_calls": 168,
+      "elapsed_seconds": 315.003,
+      "fps": 93,
+      "node_count": 201,
+      "object_count": 2401,
+      "orphan_node_count": 0,
+      "sample": 63,
+      "static_memory_bytes": 0
+    }
+  ]
+}

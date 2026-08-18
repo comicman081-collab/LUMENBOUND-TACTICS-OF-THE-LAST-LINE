@@ -1,0 +1,24 @@
+.godot/
+godot/.runtime_profile/
+builds/*.exe
+builds/*.pck
+builds/*.apk
+*.tmp
+*.log
+__pycache__/
+
+# Generated caches, historical builds, and local-only working artifacts.
+builds/
+work/
+DELETE_CANDIDATES/
+godot/.godot/
+godot/.runtime_profile/
+godot/assets/generated_import/
+godot/assets/art/
+godot/assets/placeholders_legacy/
+reports/**/*.png
+reports/**/*.jpg
+reports/**/*.jpeg
+reports/**/*.mp4
+reports/**/*.zip
+reports/**/contact_sheets/

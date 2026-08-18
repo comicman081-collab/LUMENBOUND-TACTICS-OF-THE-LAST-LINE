@@ -1,0 +1,15 @@
+[
+  {"id":"STUN","duration":4.0,"stack_policy":"REFRESH","max_stacks":1,"refresh_policy":"RESET_DURATION","tick_interval":0.0,"dispellable":true,"boss_resistance":0.5,"source_id":""},
+  {"id":"SILENCE","duration":4.0,"stack_policy":"REFRESH","max_stacks":1,"refresh_policy":"RESET_DURATION","tick_interval":0.0,"dispellable":true,"boss_resistance":0.5,"source_id":""},
+  {"id":"SLOW","duration":4.0,"stack_policy":"REFRESH","max_stacks":1,"refresh_policy":"RESET_DURATION","tick_interval":0.0,"dispellable":true,"boss_resistance":0.5,"source_id":""},
+  {"id":"HASTE","duration":4.0,"stack_policy":"REFRESH","max_stacks":1,"refresh_policy":"RESET_DURATION","tick_interval":0.0,"dispellable":true,"boss_resistance":0.5,"source_id":""},
+  {"id":"TAUNT","duration":4.0,"stack_policy":"REFRESH","max_stacks":1,"refresh_policy":"RESET_DURATION","tick_interval":0.0,"dispellable":true,"boss_resistance":0.5,"source_id":""},
+  {"id":"DEF_DOWN","duration":4.0,"stack_policy":"REFRESH","max_stacks":1,"refresh_policy":"RESET_DURATION","tick_interval":0.0,"dispellable":true,"boss_resistance":0.5,"source_id":""},
+  {"id":"ATK_DOWN","duration":4.0,"stack_policy":"REFRESH","max_stacks":1,"refresh_policy":"RESET_DURATION","tick_interval":0.0,"dispellable":true,"boss_resistance":0.5,"source_id":""},
+  {"id":"DAMAGE_OVER_TIME","duration":4.0,"stack_policy":"STACK","max_stacks":3,"refresh_policy":"EXTEND_TO_MAX","tick_interval":1.0,"dispellable":true,"boss_resistance":0.5,"source_id":""},
+  {"id":"HEAL_OVER_TIME","duration":4.0,"stack_policy":"STACK","max_stacks":3,"refresh_policy":"EXTEND_TO_MAX","tick_interval":1.0,"dispellable":true,"boss_resistance":0.0,"source_id":""},
+  {"id":"SHIELD","duration":8.0,"stack_policy":"SOURCE_REFRESH","max_stacks":5,"refresh_policy":"RESET_DURATION","tick_interval":0.0,"dispellable":true,"boss_resistance":0.0,"source_id":""},
+  {"id":"INVULNERABLE","duration":2.0,"stack_policy":"REFRESH","max_stacks":1,"refresh_policy":"KEEP_LONGER","tick_interval":0.0,"dispellable":false,"boss_resistance":0.8,"source_id":""},
+  {"id":"CLEANSE","duration":0.0,"stack_policy":"INSTANT","max_stacks":1,"refresh_policy":"NONE","tick_interval":0.0,"dispellable":false,"boss_resistance":0.0,"source_id":""},
+  {"id":"DISPEL","duration":0.0,"stack_policy":"INSTANT","max_stacks":1,"refresh_policy":"NONE","tick_interval":0.0,"dispellable":false,"boss_resistance":0.0,"source_id":""}
+]

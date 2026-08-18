@@ -1,0 +1,11 @@
+metric,value,unit,status,notes
+baseline_zip,219207871,bytes,MEASURED,"보존된 HTML baseline"
+pilot_r2_zip,343286085,bytes,MEASURED,"이전 over-budget Web pilot"
+r6p5_uncompressed,299550684,bytes,PASS,"Web Release 폴더 18개 runtime 파일"
+r6p5_zip,268919133,bytes,PASS,"builds/review/LANTERNLINE_WEB_ART_PILOT_R6P5.zip"
+r6p5_pck,259586992,bytes,MEASURED,"index.pck"
+r6p5_wasm,39513091,bytes,MEASURED,"index.wasm"
+delta_zip_from_baseline,49711262,bytes,WITHIN_BUDGET,"baseline 대비 증가"
+delta_percent,22.68,percent,WITHIN_BUDGET,"baseline 대비"
+optimization_saved_from_r2,74366952,bytes,MEASURED,"이전 R2 ZIP 대비 감소"
+recommended_limit,300000000,bytes,PASS,"ZIP과 비압축 runtime 합계 모두 상한 미만"

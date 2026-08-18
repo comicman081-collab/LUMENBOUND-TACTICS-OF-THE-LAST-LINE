@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Lanternline compiled game data",
+  "type": "object",
+  "required": ["data_version", "characters", "skills", "enemies", "stages", "rewards", "items", "weapons", "scenarios", "affinity_matrix"],
+  "properties": {
+    "characters": {"type": "array", "minItems": 8},
+    "skills": {"type": "array", "minItems": 24},
+    "stages": {"type": "array", "minItems": 15},
+    "affinity_matrix": {"type": "object"}
+  }
+}
+

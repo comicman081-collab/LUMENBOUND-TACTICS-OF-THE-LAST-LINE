@@ -1,0 +1,36 @@
+{
+  "bridge_version": "sdxl-to-blender-guide-0.1.0",
+  "status": "MODELING_REFERENCE_ONLY",
+  "content_policy": {
+    "version": 1,
+    "character_gender": "FEMALE_ONLY",
+    "male_character_generation": "PROHIBITED",
+    "age_category": "ADULT_ONLY",
+    "attire_policy": "MAXIMUM_NON_EXPLICIT",
+    "integration_requires": ["FEMALE_CONFIRMED", "ADULT_CONFIRMED", "ATTIRE_POLICY_CONFIRMED"]
+  },
+  "source_model": {
+    "id": "stabilityai-sdxl-base-1.0-local",
+    "path": "C:/AI_MODELS/sdxl-base-1.0",
+    "license": "CreativeML Open RAIL++-M",
+    "original_preserved": true,
+    "krea2_used": false
+  },
+  "guides": [],
+  "rejected_guides": [
+    {
+      "guide_id": "GUIDE_CHR001_R02",
+      "character_id": "CHR001",
+      "qa_verdict": "REJECTED_GENDER_READABILITY_POLICY_VIOLATION",
+      "active": false,
+      "quarantine": "DELETE_CANDIDATES/art_rejected_gender_policy_20260817"
+    },
+    {
+      "guide_id": "GUIDE_CHR008_R02",
+      "character_id": "CHR008",
+      "qa_verdict": "REJECTED_NEW_ATTIRE_POLICY_NOT_MET",
+      "active": false,
+      "quarantine": "DELETE_CANDIDATES/art_rejected_global_policy_20260817"
+    }
+  ]
+}

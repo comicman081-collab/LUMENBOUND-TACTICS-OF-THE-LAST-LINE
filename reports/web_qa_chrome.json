@@ -1,0 +1,25 @@
+{
+  "kind": "GODOT_WEB_RELEASE_BROWSER_QA",
+  "build": "builds/web_release",
+  "pagePrefix": "http://127.0.0.1:8062",
+  "ready": true,
+  "testedFlow": [
+    "TITLE",
+    "HOME",
+    "STORY_CHOICE",
+    "FORMATION",
+    "STAGE_SELECT",
+    "STAGE_DETAIL",
+    "BATTLE",
+    "BATTLE_PAUSE",
+    "RESULT",
+    "GROWTH",
+    "SAVE_RELOAD"
+  ],
+  "saveRecovered": true,
+  "consoleWarnings": [],
+  "consoleErrors": [],
+  "exceptions": [],
+  "networkErrors": [],
+  "artStatus": "DEV_PLACEHOLDER_AND_DEV_CUTOUT_RIG"
+}

@@ -1,0 +1,131 @@
+{
+  "rows": [
+    {
+      "control": "AUTO",
+      "factor": 3.5,
+      "mean_time": 19.8153333333333,
+      "runs": 100,
+      "stage_id": "CH01-N01",
+      "win_rate": 1.0,
+      "wins": 100
+    },
+    {
+      "control": "MANUAL",
+      "factor": 3.5,
+      "mean_time": 19.802,
+      "runs": 100,
+      "stage_id": "CH01-N01",
+      "win_rate": 1.0,
+      "wins": 100
+    },
+    {
+      "control": "AUTO",
+      "factor": 3.0,
+      "mean_time": 27.1033333333333,
+      "runs": 100,
+      "stage_id": "CH01-N05",
+      "win_rate": 0.98,
+      "wins": 98
+    },
+    {
+      "control": "MANUAL",
+      "factor": 3.0,
+      "mean_time": 26.983,
+      "runs": 100,
+      "stage_id": "CH01-N05",
+      "win_rate": 0.98,
+      "wins": 98
+    },
+    {
+      "control": "AUTO",
+      "factor": 1.57,
+      "mean_time": 52.2343333333334,
+      "runs": 100,
+      "stage_id": "CH01-N10",
+      "win_rate": 0.9,
+      "wins": 90
+    },
+    {
+      "control": "MANUAL",
+      "factor": 1.57,
+      "mean_time": 52.0953333333333,
+      "runs": 100,
+      "stage_id": "CH01-N10",
+      "win_rate": 0.96,
+      "wins": 96
+    },
+    {
+      "control": "AUTO",
+      "factor": 1.6,
+      "mean_time": 53.3553333333334,
+      "runs": 100,
+      "stage_id": "CH01-N10",
+      "win_rate": 0.75,
+      "wins": 75
+    },
+    {
+      "control": "MANUAL",
+      "factor": 1.6,
+      "mean_time": 53.0986666666667,
+      "runs": 100,
+      "stage_id": "CH01-N10",
+      "win_rate": 0.82,
+      "wins": 82
+    },
+    {
+      "control": "AUTO",
+      "factor": 2.0,
+      "mean_time": 35.0723333333333,
+      "runs": 100,
+      "stage_id": "CH01-H01",
+      "win_rate": 0.7,
+      "wins": 70
+    },
+    {
+      "control": "MANUAL",
+      "factor": 2.0,
+      "mean_time": 34.7966666666667,
+      "runs": 100,
+      "stage_id": "CH01-H01",
+      "win_rate": 0.68,
+      "wins": 68
+    },
+    {
+      "control": "AUTO",
+      "factor": 1.38,
+      "mean_time": 76.313,
+      "runs": 100,
+      "stage_id": "CH01-H05",
+      "win_rate": 0.64,
+      "wins": 64
+    },
+    {
+      "control": "MANUAL",
+      "factor": 1.38,
+      "mean_time": 77.69,
+      "runs": 100,
+      "stage_id": "CH01-H05",
+      "win_rate": 0.65,
+      "wins": 65
+    },
+    {
+      "control": "AUTO",
+      "factor": 1.4,
+      "mean_time": 77.1203333333334,
+      "runs": 100,
+      "stage_id": "CH01-H05",
+      "win_rate": 0.55,
+      "wins": 55
+    },
+    {
+      "control": "MANUAL",
+      "factor": 1.4,
+      "mean_time": 76.5516666666667,
+      "runs": 100,
+      "stage_id": "CH01-H05",
+      "win_rate": 0.42,
+      "wins": 42
+    }
+  ],
+  "runs_per_cell": 100
+}

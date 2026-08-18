@@ -1,0 +1,6 @@
+entity,silhouette_14,face_10,proportion_12,costume_weapon_12,motion_16,vfx_14,frame_stability_12,integration_10,total,verdict,notes
+CHR001,13,9,11,11,13,12,11,9,89,PASS,authored state poses plus planted-foot deformation; actual Web integration verified
+CHR008,13,9,11,11,12,12,11,9,88,PASS,distinct state silhouettes and stable R6P2 frame contract
+ENM001,13,8,11,11,13,11,11,10,88,PASS,normal enemy animation and opposing facing verified in Web battle
+ENM007,13,8,11,11,13,11,11,10,88,PASS,elite state silhouette and technical frame contract verified
+BOSS001,14,9,12,12,13,11,10,9,90,PASS,boss silhouette and phase key-pose pack verified; production expansion remains gated

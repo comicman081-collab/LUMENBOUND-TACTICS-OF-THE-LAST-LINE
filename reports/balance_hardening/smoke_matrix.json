@@ -1,0 +1,7328 @@
+{
+  "cells": [
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 886,
+        "CHR002": 1434,
+        "CHR003": 1600,
+        "CHR005": 789,
+        "CHR008": 426
+      },
+      "death_causes": {
+        "BASIC": 7,
+        "NORMAL": 1
+      },
+      "healing_totals": {
+        "CHR008": 53
+      },
+      "mean_lowest_hp_ratio": 0.980611483967189,
+      "mean_survivors": 5.0,
+      "mean_time": 3.91666666666667,
+      "p10_time": 3.33333333333333,
+      "p50_time": 3.33333333333333,
+      "p90_time": 3.33333333333333,
+      "profile": "A_INITIAL",
+      "profile_spec": {
+        "level": 1,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 414,
+            "CHR002": 686,
+            "CHR003": 812,
+            "CHR005": 431,
+            "CHR008": 253
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 68,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR003",
+              "tick": 97,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 135,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {
+            "CHR008": 53
+          },
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 810000,
+          "survivors": 5,
+          "time": 4.5,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 472,
+            "CHR002": 748,
+            "CHR003": 788,
+            "CHR005": 358,
+            "CHR008": 173
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 61,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 74,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 100,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.961222967934377,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 810001,
+          "survivors": 5,
+          "time": 3.33333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 505,
+        "CHR002": 920,
+        "CHR003": 1185,
+        "CHR005": 2245,
+        "CHR008": 346
+      },
+      "death_causes": {
+        "BASIC": 7,
+        "NORMAL": 1
+      },
+      "healing_totals": {},
+      "mean_lowest_hp_ratio": 0.945563012677107,
+      "mean_survivors": 5.0,
+      "mean_time": 3.35,
+      "p10_time": 3.23333333333333,
+      "p50_time": 3.23333333333333,
+      "p90_time": 3.23333333333333,
+      "profile": "A_INITIAL",
+      "profile_spec": {
+        "level": 1,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 254,
+            "CHR002": 373,
+            "CHR003": 373,
+            "CHR005": 1358,
+            "CHR008": 190
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 30,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 65,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR003",
+              "tick": 97,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.891126025354213,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 815000,
+          "survivors": 5,
+          "time": 3.23333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 251,
+            "CHR002": 547,
+            "CHR003": 812,
+            "CHR005": 887,
+            "CHR008": 156
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 30,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 68,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 104,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 815001,
+          "survivors": 5,
+          "time": 3.46666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 4,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 872,
+        "CHR002": 1573,
+        "CHR003": 1604,
+        "CHR005": 726,
+        "CHR008": 175
+      },
+      "death_causes": {
+        "BASIC": 7,
+        "NORMAL": 1
+      },
+      "healing_totals": {},
+      "mean_lowest_hp_ratio": 1.0,
+      "mean_survivors": 5.0,
+      "mean_time": 3.4,
+      "p10_time": 3.33333333333333,
+      "p50_time": 3.33333333333333,
+      "p90_time": 3.33333333333333,
+      "profile": "B_RECOMMENDED",
+      "profile_spec": {
+        "level": 1,
+        "normal": 2,
+        "passive": 2,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 471,
+            "CHR002": 773,
+            "CHR003": 696,
+            "CHR005": 364,
+            "CHR008": 175
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 61,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 74,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 100,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 820000,
+          "survivors": 5,
+          "time": 3.33333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 401,
+            "CHR002": 800,
+            "CHR003": 908,
+            "CHR005": 362
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 65,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR002",
+              "tick": 78,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 104,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 820001,
+          "survivors": 5,
+          "time": 3.46666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 635,
+        "CHR002": 1262,
+        "CHR003": 629,
+        "CHR005": 2485,
+        "CHR008": 306
+      },
+      "death_causes": {
+        "BASIC": 8
+      },
+      "healing_totals": {},
+      "mean_lowest_hp_ratio": 0.980571847507331,
+      "mean_survivors": 5.0,
+      "mean_time": 3.05,
+      "p10_time": 2.76666666666667,
+      "p50_time": 2.76666666666667,
+      "p90_time": 2.76666666666667,
+      "profile": "B_RECOMMENDED",
+      "profile_spec": {
+        "level": 1,
+        "normal": 2,
+        "passive": 2,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 255,
+            "CHR002": 591,
+            "CHR003": 223,
+            "CHR005": 1421,
+            "CHR008": 152
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 30,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 35,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 68,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 83,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.961143695014663,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 825000,
+          "survivors": 5,
+          "time": 2.76666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 380,
+            "CHR002": 671,
+            "CHR003": 406,
+            "CHR005": 1064,
+            "CHR008": 154
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 30,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 74,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 100,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 825001,
+          "survivors": 5,
+          "time": 3.33333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 4,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 686,
+        "CHR002": 1820,
+        "CHR003": 1657,
+        "CHR005": 656,
+        "CHR008": 371
+      },
+      "death_causes": {
+        "BASIC": 7,
+        "NORMAL": 1
+      },
+      "healing_totals": {},
+      "mean_lowest_hp_ratio": 0.967044649184975,
+      "mean_survivors": 5.0,
+      "mean_time": 3.46666666666667,
+      "p10_time": 3.46666666666667,
+      "p50_time": 3.46666666666667,
+      "p90_time": 3.46666666666667,
+      "profile": "C_RECOMMENDED_UPGRADED",
+      "profile_spec": {
+        "level": 1,
+        "normal": 4,
+        "passive": 4,
+        "ultimate": 2,
+        "weapon_level": 11
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 322,
+            "CHR002": 1026,
+            "CHR003": 825,
+            "CHR005": 247,
+            "CHR008": 195
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 65,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 74,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 94,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 104,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.998582565556343,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 830000,
+          "survivors": 5,
+          "time": 3.46666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 364,
+            "CHR002": 794,
+            "CHR003": 832,
+            "CHR005": 409,
+            "CHR008": 176
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 35,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 68,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR002",
+              "tick": 78,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 104,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.935506732813607,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 830001,
+          "survivors": 5,
+          "time": 3.46666666666667,
+          "ultimate_uses": {
+            "CHR001": 1,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 1,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 633,
+        "CHR002": 934,
+        "CHR003": 1091,
+        "CHR005": 3129,
+        "CHR008": 75
+      },
+      "death_causes": {
+        "BASIC": 6,
+        "ULTIMATE": 2
+      },
+      "healing_totals": {},
+      "mean_lowest_hp_ratio": 0.980864635010631,
+      "mean_survivors": 5.0,
+      "mean_time": 2.36666666666667,
+      "p10_time": 2.26666666666667,
+      "p50_time": 2.26666666666667,
+      "p90_time": 2.26666666666667,
+      "profile": "C_RECOMMENDED_UPGRADED",
+      "profile_spec": {
+        "level": 1,
+        "normal": 4,
+        "passive": 4,
+        "ultimate": 2,
+        "weapon_level": 11
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 319,
+            "CHR002": 472,
+            "CHR003": 546,
+            "CHR005": 1636,
+            "CHR008": 75
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 28,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 68,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 835000,
+          "survivors": 5,
+          "time": 2.26666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 1,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 314,
+            "CHR002": 462,
+            "CHR003": 545,
+            "CHR005": 1493
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 28,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 35,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 74,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.961729270021262,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 835001,
+          "survivors": 5,
+          "time": 2.46666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 1,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 2,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 654,
+        "CHR002": 1071,
+        "CHR003": 1762,
+        "CHR005": 949,
+        "CHR008": 401
+      },
+      "death_causes": {
+        "BASIC": 8
+      },
+      "healing_totals": {},
+      "mean_lowest_hp_ratio": 1.0,
+      "mean_survivors": 5.0,
+      "mean_time": 3.61666666666667,
+      "p10_time": 3.46666666666667,
+      "p50_time": 3.46666666666667,
+      "p90_time": 3.46666666666667,
+      "profile": "D_MINUS_15",
+      "profile_spec": {
+        "level": 1,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 251,
+            "CHR002": 507,
+            "CHR003": 906,
+            "CHR005": 593,
+            "CHR008": 176
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 68,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 94,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 113,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 840000,
+          "survivors": 5,
+          "time": 3.76666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 403,
+            "CHR002": 564,
+            "CHR003": 856,
+            "CHR005": 356,
+            "CHR008": 225
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 61,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 74,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 104,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 840001,
+          "survivors": 5,
+          "time": 3.46666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 435,
+        "CHR002": 1305,
+        "CHR003": 818,
+        "CHR005": 2611,
+        "CHR008": 234
+      },
+      "death_causes": {
+        "BASIC": 6,
+        "NORMAL": 2
+      },
+      "healing_totals": {},
+      "mean_lowest_hp_ratio": 1.0,
+      "mean_survivors": 5.0,
+      "mean_time": 2.96666666666667,
+      "p10_time": 2.6,
+      "p50_time": 2.6,
+      "p90_time": 2.6,
+      "profile": "D_MINUS_15",
+      "profile_spec": {
+        "level": 1,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 119,
+            "CHR002": 749,
+            "CHR003": 378,
+            "CHR005": 1382,
+            "CHR008": 154
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 65,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 68,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR002",
+              "tick": 78,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 100,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 845000,
+          "survivors": 5,
+          "time": 3.33333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 316,
+            "CHR002": 556,
+            "CHR003": 440,
+            "CHR005": 1229,
+            "CHR008": 80
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 35,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 68,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR002",
+              "tick": 78,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 845001,
+          "survivors": 5,
+          "time": 2.6,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 4,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 639,
+        "CHR002": 1769,
+        "CHR003": 1970,
+        "CHR005": 830,
+        "CHR008": 288
+      },
+      "death_causes": {
+        "BASIC": 6,
+        "NORMAL": 2
+      },
+      "healing_totals": {},
+      "mean_lowest_hp_ratio": 0.963028169014085,
+      "mean_survivors": 5.0,
+      "mean_time": 3.35,
+      "p10_time": 3.23333333333333,
+      "p50_time": 3.23333333333333,
+      "p90_time": 3.23333333333333,
+      "profile": "E_PLUS_15",
+      "profile_spec": {
+        "level": 2,
+        "normal": 3,
+        "passive": 3,
+        "ultimate": 2,
+        "weapon_level": 7
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 150,
+            "CHR002": 949,
+            "CHR003": 1115,
+            "CHR005": 422,
+            "CHR008": 106
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 65,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR002",
+              "tick": 78,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 104,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.962676056338028,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 850000,
+          "survivors": 5,
+          "time": 3.46666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 489,
+            "CHR002": 820,
+            "CHR003": 855,
+            "CHR005": 408,
+            "CHR008": 182
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 61,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 68,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR003",
+              "tick": 97,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.963380281690141,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 850001,
+          "survivors": 5,
+          "time": 3.23333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 673,
+        "CHR002": 868,
+        "CHR003": 1018,
+        "CHR005": 2676,
+        "CHR008": 163
+      },
+      "death_causes": {
+        "BASIC": 6,
+        "ULTIMATE": 2
+      },
+      "healing_totals": {},
+      "mean_lowest_hp_ratio": 0.981338028169014,
+      "mean_survivors": 5.0,
+      "mean_time": 2.46666666666667,
+      "p10_time": 2.46666666666667,
+      "p50_time": 2.46666666666667,
+      "p90_time": 2.46666666666667,
+      "profile": "E_PLUS_15",
+      "profile_spec": {
+        "level": 2,
+        "normal": 3,
+        "passive": 3,
+        "ultimate": 2,
+        "weapon_level": 7
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 293,
+            "CHR002": 432,
+            "CHR003": 507,
+            "CHR005": 1433,
+            "CHR008": 80
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 28,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 35,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 74,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.962676056338028,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 855000,
+          "survivors": 5,
+          "time": 2.46666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 1,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 380,
+            "CHR002": 436,
+            "CHR003": 511,
+            "CHR005": 1243,
+            "CHR008": 83
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 28,
+              "unit_id": "E:1:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 40,
+              "unit_id": "E:2:0:ENM001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 74,
+              "unit_id": "E:2:1:ENM003"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 855001,
+          "survivors": 5,
+          "time": 2.46666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 1,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 2,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 1262,
+        "CHR002": 1893,
+        "CHR003": 2143,
+        "CHR005": 1441,
+        "CHR008": 553
+      },
+      "death_causes": {
+        "BASIC": 6
+      },
+      "healing_totals": {
+        "CHR008": 12
+      },
+      "mean_lowest_hp_ratio": 1.0,
+      "mean_survivors": 5.0,
+      "mean_time": 7.35,
+      "p10_time": 6.43333333333333,
+      "p50_time": 6.43333333333333,
+      "p90_time": 6.43333333333333,
+      "profile": "A_INITIAL",
+      "profile_spec": {
+        "level": 1,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 707,
+            "CHR002": 1148,
+            "CHR003": 863,
+            "CHR005": 559,
+            "CHR008": 320
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 68,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 94,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 193,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {
+            "CHR008": 8
+          },
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 910000,
+          "survivors": 5,
+          "time": 6.43333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 555,
+            "CHR002": 745,
+            "CHR003": 1280,
+            "CHR005": 882,
+            "CHR008": 233
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 40,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 94,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 248,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {
+            "CHR008": 4
+          },
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 910001,
+          "survivors": 5,
+          "time": 8.26666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 2,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 886,
+        "CHR002": 1361,
+        "CHR003": 1480,
+        "CHR005": 3339,
+        "CHR008": 267
+      },
+      "death_causes": {
+        "BASIC": 6
+      },
+      "healing_totals": {
+        "CHR008": 367
+      },
+      "mean_lowest_hp_ratio": 1.0,
+      "mean_survivors": 5.0,
+      "mean_time": 4.86666666666667,
+      "p10_time": 4.66666666666667,
+      "p50_time": 4.66666666666667,
+      "p90_time": 4.66666666666667,
+      "profile": "A_INITIAL",
+      "profile_spec": {
+        "level": 1,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 367,
+            "CHR002": 603,
+            "CHR003": 902,
+            "CHR005": 1639,
+            "CHR008": 201
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 30,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 35,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 140,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {
+            "CHR008": 188
+          },
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 915000,
+          "survivors": 5,
+          "time": 4.66666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 519,
+            "CHR002": 758,
+            "CHR003": 578,
+            "CHR005": 1700,
+            "CHR008": 66
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 30,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 61,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 152,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {
+            "CHR008": 179
+          },
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 915001,
+          "survivors": 5,
+          "time": 5.06666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 4,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 453,
+        "CHR002": 2775,
+        "CHR003": 2063,
+        "CHR005": 1728,
+        "CHR008": 418
+      },
+      "death_causes": {
+        "BASIC": 6
+      },
+      "healing_totals": {
+        "CHR008": 70
+      },
+      "mean_lowest_hp_ratio": 1.0,
+      "mean_survivors": 5.0,
+      "mean_time": 5.16666666666667,
+      "p10_time": 4.66666666666667,
+      "p50_time": 4.66666666666667,
+      "p90_time": 4.66666666666667,
+      "profile": "B_RECOMMENDED",
+      "profile_spec": {
+        "level": 5,
+        "normal": 2,
+        "passive": 2,
+        "ultimate": 1,
+        "weapon_level": 5
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 182,
+            "CHR002": 1496,
+            "CHR003": 1094,
+            "CHR005": 607,
+            "CHR008": 262
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 35,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 68,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 140,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {
+            "CHR008": 70
+          },
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 920000,
+          "survivors": 5,
+          "time": 4.66666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 271,
+            "CHR002": 1279,
+            "CHR003": 969,
+            "CHR005": 1121,
+            "CHR008": 156
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 35,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 74,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 170,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {
+            "CHR008": 0
+          },
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 920001,
+          "survivors": 5,
+          "time": 5.66666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 2,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 652,
+        "CHR002": 1160,
+        "CHR003": 1641,
+        "CHR005": 3643,
+        "CHR008": 344
+      },
+      "death_causes": {
+        "BASIC": 3,
+        "NORMAL": 1,
+        "ULTIMATE": 2
+      },
+      "healing_totals": {},
+      "mean_lowest_hp_ratio": 0.823026315789474,
+      "mean_survivors": 5.0,
+      "mean_time": 3.58333333333333,
+      "p10_time": 3.33333333333333,
+      "p50_time": 3.33333333333333,
+      "p90_time": 3.33333333333333,
+      "profile": "B_RECOMMENDED",
+      "profile_spec": {
+        "level": 5,
+        "normal": 2,
+        "passive": 2,
+        "ultimate": 1,
+        "weapon_level": 5
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 130,
+            "CHR002": 816,
+            "CHR003": 724,
+            "CHR005": 1883,
+            "CHR008": 188
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 100,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.940789473684211,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 925000,
+          "survivors": 5,
+          "time": 3.33333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 522,
+            "CHR002": 344,
+            "CHR003": 917,
+            "CHR005": 1760,
+            "CHR008": 156
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 28,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR005",
+              "tick": 115,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.705263157894737,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 925001,
+          "survivors": 5,
+          "time": 3.83333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 4,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 1024,
+        "CHR002": 3337,
+        "CHR003": 1793,
+        "CHR005": 1139,
+        "CHR008": 364
+      },
+      "death_causes": {
+        "BASIC": 5,
+        "NORMAL": 1
+      },
+      "healing_totals": {},
+      "mean_lowest_hp_ratio": 0.97644812221515,
+      "mean_survivors": 5.0,
+      "mean_time": 3.83333333333333,
+      "p10_time": 3.46666666666667,
+      "p50_time": 3.46666666666667,
+      "p90_time": 3.46666666666667,
+      "profile": "C_RECOMMENDED_UPGRADED",
+      "profile_spec": {
+        "level": 5,
+        "normal": 4,
+        "passive": 4,
+        "ultimate": 2,
+        "weapon_level": 15
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 398,
+            "CHR002": 1652,
+            "CHR003": 898,
+            "CHR005": 669,
+            "CHR008": 260
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR002",
+              "tick": 78,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 126,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 930000,
+          "survivors": 5,
+          "time": 4.2,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 626,
+            "CHR002": 1685,
+            "CHR003": 895,
+            "CHR005": 470,
+            "CHR008": 104
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 35,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 68,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 104,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.952896244430299,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 930001,
+          "survivors": 5,
+          "time": 3.46666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 2,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 830,
+        "CHR002": 1323,
+        "CHR003": 1395,
+        "CHR005": 4205,
+        "CHR008": 234
+      },
+      "death_causes": {
+        "BASIC": 1,
+        "ULTIMATE": 5
+      },
+      "healing_totals": {},
+      "mean_lowest_hp_ratio": 0.897835773392744,
+      "mean_survivors": 5.0,
+      "mean_time": 3.0,
+      "p10_time": 2.53333333333333,
+      "p50_time": 2.53333333333333,
+      "p90_time": 2.53333333333333,
+      "profile": "C_RECOMMENDED_UPGRADED",
+      "profile_spec": {
+        "level": 5,
+        "normal": 4,
+        "passive": 4,
+        "ultimate": 2,
+        "weapon_level": 15
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 496,
+            "CHR002": 723,
+            "CHR003": 838,
+            "CHR005": 1576,
+            "CHR008": 155
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 104,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.842138765117759,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 935000,
+          "survivors": 5,
+          "time": 3.46666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 334,
+            "CHR002": 600,
+            "CHR003": 557,
+            "CHR005": 2629,
+            "CHR008": 79
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 76,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.953532781667728,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 935001,
+          "survivors": 5,
+          "time": 2.53333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 4,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 1346,
+        "CHR002": 2109,
+        "CHR003": 2034,
+        "CHR005": 1388,
+        "CHR008": 504
+      },
+      "death_causes": {
+        "BASIC": 5,
+        "NORMAL": 1
+      },
+      "healing_totals": {
+        "CHR008": 306
+      },
+      "mean_lowest_hp_ratio": 0.94,
+      "mean_survivors": 5.0,
+      "mean_time": 6.63333333333333,
+      "p10_time": 6.43333333333333,
+      "p50_time": 6.43333333333333,
+      "p90_time": 6.43333333333333,
+      "profile": "D_MINUS_15",
+      "profile_spec": {
+        "level": 4,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 4
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 605,
+            "CHR002": 969,
+            "CHR003": 1040,
+            "CHR005": 747,
+            "CHR008": 251
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 74,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 205,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {
+            "CHR008": 192
+          },
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 940000,
+          "survivors": 5,
+          "time": 6.83333333333333,
+          "ultimate_uses": {
+            "CHR001": 1,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 741,
+            "CHR002": 1140,
+            "CHR003": 994,
+            "CHR005": 641,
+            "CHR008": 253
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 35,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR002",
+              "tick": 78,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 193,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {
+            "CHR008": 114
+          },
+          "lowest_hp_ratio": 0.88,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 940001,
+          "survivors": 5,
+          "time": 6.43333333333333,
+          "ultimate_uses": {
+            "CHR001": 1,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 2,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 918,
+        "CHR002": 1467,
+        "CHR003": 1678,
+        "CHR005": 3139,
+        "CHR008": 148
+      },
+      "death_causes": {
+        "BASIC": 6
+      },
+      "healing_totals": {},
+      "mean_lowest_hp_ratio": 0.902413793103448,
+      "mean_survivors": 5.0,
+      "mean_time": 3.83333333333333,
+      "p10_time": 3.46666666666667,
+      "p50_time": 3.46666666666667,
+      "p90_time": 3.46666666666667,
+      "profile": "D_MINUS_15",
+      "profile_spec": {
+        "level": 4,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 4
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 434,
+            "CHR002": 767,
+            "CHR003": 1000,
+            "CHR005": 1518
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 28,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 30,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 104,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.872413793103448,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 945000,
+          "survivors": 5,
+          "time": 3.46666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 484,
+            "CHR002": 700,
+            "CHR003": 678,
+            "CHR005": 1621,
+            "CHR008": 148
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 28,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 61,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 126,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 0.932413793103448,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 945001,
+          "survivors": 5,
+          "time": 4.2,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 4,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 1345,
+        "CHR002": 2281,
+        "CHR003": 1764,
+        "CHR005": 1439,
+        "CHR008": 545
+      },
+      "death_causes": {
+        "BASIC": 6
+      },
+      "healing_totals": {
+        "CHR008": 299
+      },
+      "mean_lowest_hp_ratio": 0.926553672316384,
+      "mean_survivors": 5.0,
+      "mean_time": 5.36666666666667,
+      "p10_time": 5.06666666666667,
+      "p50_time": 5.06666666666667,
+      "p90_time": 5.06666666666667,
+      "profile": "E_PLUS_15",
+      "profile_spec": {
+        "level": 6,
+        "normal": 3,
+        "passive": 3,
+        "ultimate": 2,
+        "weapon_level": 11
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 592,
+            "CHR002": 927,
+            "CHR003": 819,
+            "CHR005": 1073,
+            "CHR008": 272
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 40,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 74,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 152,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {
+            "CHR008": 187
+          },
+          "lowest_hp_ratio": 0.903327055869429,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 950000,
+          "survivors": 5,
+          "time": 5.06666666666667,
+          "ultimate_uses": {
+            "CHR001": 1,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 753,
+            "CHR002": 1354,
+            "CHR003": 945,
+            "CHR005": 366,
+            "CHR008": 273
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 68,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 170,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {
+            "CHR008": 112
+          },
+          "lowest_hp_ratio": 0.94978028876334,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 950001,
+          "survivors": 5,
+          "time": 5.66666666666667,
+          "ultimate_uses": {
+            "CHR001": 1,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 2,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 630,
+        "CHR002": 1491,
+        "CHR003": 677,
+        "CHR005": 4518,
+        "CHR008": 165
+      },
+      "death_causes": {
+        "BASIC": 1,
+        "NORMAL": 1,
+        "ULTIMATE": 4
+      },
+      "healing_totals": {},
+      "mean_lowest_hp_ratio": 1.0,
+      "mean_survivors": 5.0,
+      "mean_time": 2.86666666666667,
+      "p10_time": 2.6,
+      "p50_time": 2.6,
+      "p90_time": 2.6,
+      "profile": "E_PLUS_15",
+      "profile_spec": {
+        "level": 6,
+        "normal": 3,
+        "passive": 3,
+        "ultimate": 2,
+        "weapon_level": 11
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 476,
+            "CHR002": 748,
+            "CHR003": 268,
+            "CHR005": 1990,
+            "CHR008": 83
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 94,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 955000,
+          "survivors": 5,
+          "time": 3.13333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 154,
+            "CHR002": 743,
+            "CHR003": 409,
+            "CHR005": 2528,
+            "CHR008": 82
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:0:ENM002"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR002",
+              "tick": 78,
+              "unit_id": "E:2:0:ENM007"
+            }
+          ],
+          "healing": {},
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 955001,
+          "survivors": 5,
+          "time": 2.6,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 4,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 5624,
+        "CHR002": 9878,
+        "CHR003": 11045,
+        "CHR005": 8564,
+        "CHR008": 2879
+      },
+      "death_causes": {
+        "BASIC": 8,
+        "NORMAL": 2
+      },
+      "healing_totals": {
+        "CHR008": 2564
+      },
+      "mean_lowest_hp_ratio": 0.461968680089485,
+      "mean_survivors": 5.0,
+      "mean_time": 44.1166666666667,
+      "p10_time": 42.9,
+      "p50_time": 42.9,
+      "p90_time": 42.9,
+      "profile": "A_INITIAL",
+      "profile_spec": {
+        "level": 1,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 3098,
+            "CHR002": 4805,
+            "CHR003": 5462,
+            "CHR005": 4176,
+            "CHR008": 1474
+          },
+          "deaths": [
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR002",
+              "tick": 78,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 140,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 391,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 581,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 1360,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 1379
+          },
+          "lowest_hp_ratio": 0.500372856077554,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1010000,
+          "survivors": 5,
+          "time": 45.3333333333333,
+          "ultimate_uses": {
+            "CHR001": 7,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 2526,
+            "CHR002": 5073,
+            "CHR003": 5583,
+            "CHR005": 4388,
+            "CHR008": 1405
+          },
+          "deaths": [
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR002",
+              "tick": 78,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 126,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 298,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 450,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 1287,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 1185
+          },
+          "lowest_hp_ratio": 0.423564504101417,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1010001,
+          "survivors": 5,
+          "time": 42.9,
+          "ultimate_uses": {
+            "CHR001": 5,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N10",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 12,
+        "CHR002": 1,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 4754,
+        "CHR002": 8036,
+        "CHR003": 9980,
+        "CHR005": 13008,
+        "CHR008": 2507
+      },
+      "death_causes": {
+        "BASIC": 5,
+        "NORMAL": 2,
+        "ULTIMATE": 4
+      },
+      "healing_totals": {
+        "CHR008": 2429
+      },
+      "mean_lowest_hp_ratio": 0.222222222222222,
+      "mean_survivors": 4.5,
+      "mean_time": 39.85,
+      "p10_time": 37.1666666666667,
+      "p50_time": 37.1666666666667,
+      "p90_time": 37.1666666666667,
+      "profile": "A_INITIAL",
+      "profile_spec": {
+        "level": 1,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 1913,
+            "CHR002": 4258,
+            "CHR003": 5339,
+            "CHR005": 6477,
+            "CHR008": 1154
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 76,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR005",
+              "tick": 115,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 310,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 415,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:3:0:BOSS001",
+              "tick": 836,
+              "unit_id": "P:CHR001"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1276,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 1302
+          },
+          "lowest_hp_ratio": 0.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1015000,
+          "survivors": 4,
+          "time": 42.5333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 10,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 2841,
+            "CHR002": 3778,
+            "CHR003": 4641,
+            "CHR005": 6531,
+            "CHR008": 1353
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 76,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR002",
+              "tick": 78,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 255,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 376,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 1115,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 1127
+          },
+          "lowest_hp_ratio": 0.444444444444444,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1015001,
+          "survivors": 5,
+          "time": 37.1666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 8,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N10",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 18,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 6380,
+        "CHR002": 10982,
+        "CHR003": 10078,
+        "CHR005": 8689,
+        "CHR008": 2340
+      },
+      "death_causes": {
+        "BASIC": 10
+      },
+      "healing_totals": {
+        "CHR008": 1711
+      },
+      "mean_lowest_hp_ratio": 0.892835757810574,
+      "mean_survivors": 5.0,
+      "mean_time": 25.8666666666667,
+      "p10_time": 25.0666666666667,
+      "p50_time": 25.0666666666667,
+      "p90_time": 25.0666666666667,
+      "profile": "B_RECOMMENDED",
+      "profile_spec": {
+        "level": 10,
+        "normal": 2,
+        "passive": 2,
+        "ultimate": 1,
+        "weapon_level": 10
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 3151,
+            "CHR002": 5623,
+            "CHR003": 4904,
+            "CHR005": 4174,
+            "CHR008": 1293
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 65,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 94,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 193,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 308,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 800,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 1022
+          },
+          "lowest_hp_ratio": 0.985109717868339,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1020000,
+          "survivors": 5,
+          "time": 26.6666666666667,
+          "ultimate_uses": {
+            "CHR001": 3,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 3229,
+            "CHR002": 5359,
+            "CHR003": 5174,
+            "CHR005": 4515,
+            "CHR008": 1047
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 65,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 100,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 212,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 298,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 752,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 689
+          },
+          "lowest_hp_ratio": 0.800561797752809,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1020001,
+          "survivors": 5,
+          "time": 25.0666666666667,
+          "ultimate_uses": {
+            "CHR001": 3,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N10",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 6,
+        "CHR002": 2,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 5348,
+        "CHR002": 9134,
+        "CHR003": 9464,
+        "CHR005": 12575,
+        "CHR008": 2311
+      },
+      "death_causes": {
+        "BASIC": 9,
+        "ULTIMATE": 1
+      },
+      "healing_totals": {
+        "CHR008": 2439
+      },
+      "mean_lowest_hp_ratio": 0.762359550561798,
+      "mean_survivors": 5.0,
+      "mean_time": 24.1166666666667,
+      "p10_time": 22.5333333333333,
+      "p50_time": 22.5333333333333,
+      "p90_time": 22.5333333333333,
+      "profile": "B_RECOMMENDED",
+      "profile_spec": {
+        "level": 10,
+        "normal": 2,
+        "passive": 2,
+        "ultimate": 1,
+        "weapon_level": 10
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 2420,
+            "CHR002": 4751,
+            "CHR003": 4713,
+            "CHR005": 6803,
+            "CHR008": 1040
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 35,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 61,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 127,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 193,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 676,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 1095
+          },
+          "lowest_hp_ratio": 0.78314606741573,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1025000,
+          "survivors": 5,
+          "time": 22.5333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 6,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 2928,
+            "CHR002": 4383,
+            "CHR003": 4751,
+            "CHR005": 5772,
+            "CHR008": 1271
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 35,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 61,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 169,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 248,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 771,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 1344
+          },
+          "lowest_hp_ratio": 0.741573033707865,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1025001,
+          "survivors": 5,
+          "time": 25.7,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 6,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N10",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 12,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 6702,
+        "CHR002": 9493,
+        "CHR003": 11217,
+        "CHR005": 9278,
+        "CHR008": 2438
+      },
+      "death_causes": {
+        "BASIC": 9,
+        "NORMAL": 1
+      },
+      "healing_totals": {
+        "CHR008": 2391
+      },
+      "mean_lowest_hp_ratio": 0.589130434782609,
+      "mean_survivors": 5.0,
+      "mean_time": 23.4,
+      "p10_time": 22.9333333333333,
+      "p50_time": 22.9333333333333,
+      "p90_time": 22.9333333333333,
+      "profile": "C_RECOMMENDED_UPGRADED",
+      "profile_spec": {
+        "level": 10,
+        "normal": 4,
+        "passive": 4,
+        "ultimate": 2,
+        "weapon_level": 20
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 3279,
+            "CHR002": 4484,
+            "CHR003": 5877,
+            "CHR005": 4756,
+            "CHR008": 1286
+          },
+          "deaths": [
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR003",
+              "tick": 97,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 113,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 240,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 320,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 716,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 1136
+          },
+          "lowest_hp_ratio": 0.533695652173913,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1030000,
+          "survivors": 5,
+          "time": 23.8666666666667,
+          "ultimate_uses": {
+            "CHR001": 4,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 3423,
+            "CHR002": 5009,
+            "CHR003": 5340,
+            "CHR005": 4522,
+            "CHR008": 1152
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 61,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 74,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 170,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 269,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 688,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 1255
+          },
+          "lowest_hp_ratio": 0.644565217391304,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1030001,
+          "survivors": 5,
+          "time": 22.9333333333333,
+          "ultimate_uses": {
+            "CHR001": 2,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N10",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 6,
+        "CHR002": 1,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 4683,
+        "CHR002": 7819,
+        "CHR003": 10063,
+        "CHR005": 14302,
+        "CHR008": 1795
+      },
+      "death_causes": {
+        "BASIC": 8,
+        "ULTIMATE": 2
+      },
+      "healing_totals": {
+        "CHR008": 1420
+      },
+      "mean_lowest_hp_ratio": 0.599131968106856,
+      "mean_survivors": 5.0,
+      "mean_time": 17.75,
+      "p10_time": 17.4333333333333,
+      "p50_time": 17.4333333333333,
+      "p90_time": 17.4333333333333,
+      "profile": "C_RECOMMENDED_UPGRADED",
+      "profile_spec": {
+        "level": 10,
+        "normal": 4,
+        "passive": 4,
+        "ultimate": 2,
+        "weapon_level": 20
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 2080,
+            "CHR002": 3839,
+            "CHR003": 4930,
+            "CHR005": 7346,
+            "CHR008": 982
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 40,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 113,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 169,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 542,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 501
+          },
+          "lowest_hp_ratio": 0.492934782608696,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1035000,
+          "survivors": 5,
+          "time": 18.0666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 5,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 2603,
+            "CHR002": 3980,
+            "CHR003": 5133,
+            "CHR005": 6956,
+            "CHR008": 813
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 113,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 152,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 523,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 919
+          },
+          "lowest_hp_ratio": 0.705329153605016,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1035001,
+          "survivors": 5,
+          "time": 17.4333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 4,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N10",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 9,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 6694,
+        "CHR002": 9850,
+        "CHR003": 11572,
+        "CHR005": 7984,
+        "CHR008": 2625
+      },
+      "death_causes": {
+        "BASIC": 10
+      },
+      "healing_totals": {
+        "CHR008": 2226
+      },
+      "mean_lowest_hp_ratio": 0.535648994515539,
+      "mean_survivors": 5.0,
+      "mean_time": 30.4666666666667,
+      "p10_time": 29.8666666666667,
+      "p50_time": 29.8666666666667,
+      "p90_time": 29.8666666666667,
+      "profile": "D_MINUS_15",
+      "profile_spec": {
+        "level": 8,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 8
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 3505,
+            "CHR002": 5152,
+            "CHR003": 5726,
+            "CHR005": 3674,
+            "CHR008": 1163
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 65,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 94,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 248,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 356,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 932,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 997
+          },
+          "lowest_hp_ratio": 0.521023765996344,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1040000,
+          "survivors": 5,
+          "time": 31.0666666666667,
+          "ultimate_uses": {
+            "CHR001": 5,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 3189,
+            "CHR002": 4698,
+            "CHR003": 5846,
+            "CHR005": 4310,
+            "CHR008": 1462
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 74,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 104,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 230,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 347,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 896,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 1229
+          },
+          "lowest_hp_ratio": 0.550274223034735,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1040001,
+          "survivors": 5,
+          "time": 29.8666666666667,
+          "ultimate_uses": {
+            "CHR001": 4,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N10",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 9,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 5503,
+        "CHR002": 8165,
+        "CHR003": 9508,
+        "CHR005": 13389,
+        "CHR008": 1990
+      },
+      "death_causes": {
+        "BASIC": 9,
+        "ULTIMATE": 1
+      },
+      "healing_totals": {
+        "CHR008": 1772
+      },
+      "mean_lowest_hp_ratio": 0.404326630103595,
+      "mean_survivors": 5.0,
+      "mean_time": 26.3333333333333,
+      "p10_time": 25.1333333333333,
+      "p50_time": 25.1333333333333,
+      "p90_time": 25.1333333333333,
+      "profile": "D_MINUS_15",
+      "profile_spec": {
+        "level": 8,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 8
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 2716,
+            "CHR002": 4127,
+            "CHR003": 5188,
+            "CHR005": 6372,
+            "CHR008": 933
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 65,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 74,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 193,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 240,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 754,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 837
+          },
+          "lowest_hp_ratio": 0.268738574040219,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1045000,
+          "survivors": 5,
+          "time": 25.1333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 6,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 2787,
+            "CHR002": 4038,
+            "CHR003": 4320,
+            "CHR005": 7017,
+            "CHR008": 1057
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 61,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 68,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 191,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 269,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 826,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 935
+          },
+          "lowest_hp_ratio": 0.539914686166971,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1045001,
+          "survivors": 5,
+          "time": 27.5333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 7,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N10",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 13,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 6522,
+        "CHR002": 9881,
+        "CHR003": 10953,
+        "CHR005": 8889,
+        "CHR008": 2310
+      },
+      "death_causes": {
+        "BASIC": 10
+      },
+      "healing_totals": {
+        "CHR008": 2160
+      },
+      "mean_lowest_hp_ratio": 0.865613671672709,
+      "mean_survivors": 5.0,
+      "mean_time": 21.4666666666667,
+      "p10_time": 21.4666666666667,
+      "p50_time": 21.4666666666667,
+      "p90_time": 21.4666666666667,
+      "profile": "E_PLUS_15",
+      "profile_spec": {
+        "level": 12,
+        "normal": 3,
+        "passive": 3,
+        "ultimate": 2,
+        "weapon_level": 17
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 3257,
+            "CHR002": 5197,
+            "CHR003": 5160,
+            "CHR005": 4560,
+            "CHR008": 1154
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 61,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 74,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 140,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 226,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 644,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 1212
+          },
+          "lowest_hp_ratio": 0.74469186949767,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1050000,
+          "survivors": 5,
+          "time": 21.4666666666667,
+          "ultimate_uses": {
+            "CHR001": 2,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 3265,
+            "CHR002": 4684,
+            "CHR003": 5793,
+            "CHR005": 4329,
+            "CHR008": 1156
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 68,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 94,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 169,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 248,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 644,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 948
+          },
+          "lowest_hp_ratio": 0.986535473847747,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1050001,
+          "survivors": 5,
+          "time": 21.4666666666667,
+          "ultimate_uses": {
+            "CHR001": 3,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N10",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 5,
+        "CHR002": 1,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 5165,
+        "CHR002": 8236,
+        "CHR003": 9574,
+        "CHR005": 13819,
+        "CHR008": 1612
+      },
+      "death_causes": {
+        "BASIC": 9,
+        "ULTIMATE": 1
+      },
+      "healing_totals": {
+        "CHR008": 1966
+      },
+      "mean_lowest_hp_ratio": 0.699896426721906,
+      "mean_survivors": 5.0,
+      "mean_time": 20.1666666666667,
+      "p10_time": 19.6666666666667,
+      "p50_time": 19.6666666666667,
+      "p90_time": 19.6666666666667,
+      "profile": "E_PLUS_15",
+      "profile_spec": {
+        "level": 12,
+        "normal": 3,
+        "passive": 3,
+        "ultimate": 2,
+        "weapon_level": 17
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 2699,
+            "CHR002": 4688,
+            "CHR003": 4462,
+            "CHR005": 6299,
+            "CHR008": 836
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 32,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 65,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 113,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 170,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 620,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 1167
+          },
+          "lowest_hp_ratio": 0.566545831175557,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1055000,
+          "survivors": 5,
+          "time": 20.6666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 5,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 2466,
+            "CHR002": 3548,
+            "CHR003": 5112,
+            "CHR005": 7520,
+            "CHR008": 776
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM006"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 35,
+              "unit_id": "E:1:0:ENM003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 140,
+              "unit_id": "E:2:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 191,
+              "unit_id": "E:2:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 590,
+              "unit_id": "E:3:0:BOSS001"
+            }
+          ],
+          "healing": {
+            "CHR008": 799
+          },
+          "lowest_hp_ratio": 0.833247022268255,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1055001,
+          "survivors": 5,
+          "time": 19.6666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 5,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N10",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 10,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 3157,
+        "CHR002": 3896,
+        "CHR003": 3843,
+        "CHR005": 3403,
+        "CHR008": 1226
+      },
+      "death_causes": {
+        "BASIC": 6
+      },
+      "healing_totals": {
+        "CHR008": 1303
+      },
+      "mean_lowest_hp_ratio": 0.715137956748695,
+      "mean_survivors": 5.0,
+      "mean_time": 18.5333333333333,
+      "p10_time": 18.5333333333333,
+      "p50_time": 18.5333333333333,
+      "p90_time": 18.5333333333333,
+      "profile": "A_INITIAL",
+      "profile_spec": {
+        "level": 1,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 1570,
+            "CHR002": 2046,
+            "CHR003": 1798,
+            "CHR005": 1634,
+            "CHR008": 670
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 212,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 248,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 556,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 723
+          },
+          "lowest_hp_ratio": 0.734526472781506,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1110000,
+          "survivors": 5,
+          "time": 18.5333333333333,
+          "ultimate_uses": {
+            "CHR001": 2,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 1587,
+            "CHR002": 1850,
+            "CHR003": 2045,
+            "CHR005": 1769,
+            "CHR008": 556
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 205,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 255,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 556,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 580
+          },
+          "lowest_hp_ratio": 0.695749440715884,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1110001,
+          "survivors": 5,
+          "time": 18.5333333333333,
+          "ultimate_uses": {
+            "CHR001": 2,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 4,
+        "CHR002": 2,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 2357,
+        "CHR002": 2877,
+        "CHR003": 2986,
+        "CHR005": 6047,
+        "CHR008": 1125
+      },
+      "death_causes": {
+        "BASIC": 5,
+        "NORMAL": 1
+      },
+      "healing_totals": {
+        "CHR008": 960
+      },
+      "mean_lowest_hp_ratio": 0.333333333333333,
+      "mean_survivors": 5.0,
+      "mean_time": 15.75,
+      "p10_time": 14.1666666666667,
+      "p50_time": 14.1666666666667,
+      "p90_time": 14.1666666666667,
+      "profile": "A_INITIAL",
+      "profile_spec": {
+        "level": 1,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 1235,
+            "CHR002": 1482,
+            "CHR003": 1682,
+            "CHR005": 2623,
+            "CHR008": 603
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 160,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 176,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 520,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 481
+          },
+          "lowest_hp_ratio": 0.12751677852349,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1115000,
+          "survivors": 5,
+          "time": 17.3333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 4,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 1122,
+            "CHR002": 1395,
+            "CHR003": 1304,
+            "CHR005": 3424,
+            "CHR008": 522
+          },
+          "deaths": [
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR005",
+              "tick": 115,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 170,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 425,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 479
+          },
+          "lowest_hp_ratio": 0.539149888143177,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1115001,
+          "survivors": 5,
+          "time": 14.1666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 4,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 8,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 3105,
+        "CHR002": 3264,
+        "CHR003": 4146,
+        "CHR005": 3571,
+        "CHR008": 1368
+      },
+      "death_causes": {
+        "BASIC": 5,
+        "NORMAL": 1
+      },
+      "healing_totals": {
+        "CHR008": 1242
+      },
+      "mean_lowest_hp_ratio": 1.0,
+      "mean_survivors": 5.0,
+      "mean_time": 12.45,
+      "p10_time": 11.8666666666667,
+      "p50_time": 11.8666666666667,
+      "p90_time": 11.8666666666667,
+      "profile": "B_RECOMMENDED",
+      "profile_spec": {
+        "level": 12,
+        "normal": 2,
+        "passive": 2,
+        "ultimate": 1,
+        "weapon_level": 12
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 1551,
+            "CHR002": 1869,
+            "CHR003": 1784,
+            "CHR005": 1974,
+            "CHR008": 649
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 113,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 170,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 391,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 627
+          },
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1120000,
+          "survivors": 5,
+          "time": 13.0333333333333,
+          "ultimate_uses": {
+            "CHR001": 2,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 1554,
+            "CHR002": 1395,
+            "CHR003": 2362,
+            "CHR005": 1597,
+            "CHR008": 719
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 113,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 152,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR005",
+              "tick": 356,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 615
+          },
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1120001,
+          "survivors": 5,
+          "time": 11.8666666666667,
+          "ultimate_uses": {
+            "CHR001": 2,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 4,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 2306,
+        "CHR002": 3016,
+        "CHR003": 3427,
+        "CHR005": 6454,
+        "CHR008": 926
+      },
+      "death_causes": {
+        "BASIC": 4,
+        "NORMAL": 1,
+        "ULTIMATE": 1
+      },
+      "healing_totals": {
+        "CHR008": 579
+      },
+      "mean_lowest_hp_ratio": 0.839125855713533,
+      "mean_survivors": 5.0,
+      "mean_time": 8.45,
+      "p10_time": 8.26666666666667,
+      "p50_time": 8.26666666666667,
+      "p90_time": 8.26666666666667,
+      "profile": "B_RECOMMENDED",
+      "profile_spec": {
+        "level": 12,
+        "normal": 2,
+        "passive": 2,
+        "ultimate": 1,
+        "weapon_level": 12
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 1395,
+            "CHR002": 1385,
+            "CHR003": 1746,
+            "CHR005": 2816,
+            "CHR008": 521
+          },
+          "deaths": [
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR003",
+              "tick": 97,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 100,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 259,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 197
+          },
+          "lowest_hp_ratio": 0.925750394944708,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1125000,
+          "survivors": 5,
+          "time": 8.63333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 3,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 911,
+            "CHR002": 1631,
+            "CHR003": 1681,
+            "CHR005": 3638,
+            "CHR008": 405
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 76,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 100,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 248,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 382
+          },
+          "lowest_hp_ratio": 0.752501316482359,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1125001,
+          "survivors": 5,
+          "time": 8.26666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 3,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 6,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 3363,
+        "CHR002": 3828,
+        "CHR003": 4450,
+        "CHR005": 3561,
+        "CHR008": 1114
+      },
+      "death_causes": {
+        "BASIC": 5,
+        "NORMAL": 1
+      },
+      "healing_totals": {
+        "CHR008": 758
+      },
+      "mean_lowest_hp_ratio": 0.879011716760061,
+      "mean_survivors": 5.0,
+      "mean_time": 10.55,
+      "p10_time": 9.73333333333333,
+      "p50_time": 9.73333333333333,
+      "p90_time": 9.73333333333333,
+      "profile": "C_RECOMMENDED_UPGRADED",
+      "profile_spec": {
+        "level": 12,
+        "normal": 4,
+        "passive": 4,
+        "ultimate": 2,
+        "weapon_level": 22
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 1537,
+            "CHR002": 2108,
+            "CHR003": 2064,
+            "CHR005": 1907,
+            "CHR008": 656
+          },
+          "deaths": [
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR003",
+              "tick": 97,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 113,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 292,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 228
+          },
+          "lowest_hp_ratio": 0.986754966887417,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1130000,
+          "survivors": 5,
+          "time": 9.73333333333333,
+          "ultimate_uses": {
+            "CHR001": 1,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 1826,
+            "CHR002": 1720,
+            "CHR003": 2386,
+            "CHR005": 1654,
+            "CHR008": 458
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 135,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 160,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 341,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 530
+          },
+          "lowest_hp_ratio": 0.771268466632705,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1130001,
+          "survivors": 5,
+          "time": 11.3666666666667,
+          "ultimate_uses": {
+            "CHR001": 2,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 3,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 2567,
+        "CHR002": 2780,
+        "CHR003": 3262,
+        "CHR005": 7141,
+        "CHR008": 516
+      },
+      "death_causes": {
+        "BASIC": 2,
+        "ULTIMATE": 4
+      },
+      "healing_totals": {
+        "CHR008": 511
+      },
+      "mean_lowest_hp_ratio": 0.964595007641365,
+      "mean_survivors": 5.0,
+      "mean_time": 6.4,
+      "p10_time": 6.36666666666667,
+      "p50_time": 6.36666666666667,
+      "p90_time": 6.36666666666667,
+      "profile": "C_RECOMMENDED_UPGRADED",
+      "profile_spec": {
+        "level": 12,
+        "normal": 4,
+        "passive": 4,
+        "ultimate": 2,
+        "weapon_level": 22
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 1465,
+            "CHR002": 1391,
+            "CHR003": 1630,
+            "CHR005": 3400,
+            "CHR008": 215
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 76,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 193,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 30
+          },
+          "lowest_hp_ratio": 0.92919001528273,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1135000,
+          "survivors": 5,
+          "time": 6.43333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 1102,
+            "CHR002": 1389,
+            "CHR003": 1632,
+            "CHR005": 3741,
+            "CHR008": 301
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 76,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 191,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 481
+          },
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1135001,
+          "survivors": 5,
+          "time": 6.36666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 4,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 3118,
+        "CHR002": 3271,
+        "CHR003": 3977,
+        "CHR005": 3876,
+        "CHR008": 1322
+      },
+      "death_causes": {
+        "BASIC": 6
+      },
+      "healing_totals": {
+        "CHR008": 906
+      },
+      "mean_lowest_hp_ratio": 0.871714285714286,
+      "mean_survivors": 5.0,
+      "mean_time": 13.3166666666667,
+      "p10_time": 12.8,
+      "p50_time": 12.8,
+      "p90_time": 12.8,
+      "profile": "D_MINUS_15",
+      "profile_spec": {
+        "level": 10,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 10
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 1558,
+            "CHR002": 1388,
+            "CHR003": 2149,
+            "CHR005": 1855,
+            "CHR008": 776
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 140,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 169,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 415,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 567
+          },
+          "lowest_hp_ratio": 0.829142857142857,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1140000,
+          "survivors": 5,
+          "time": 13.8333333333333,
+          "ultimate_uses": {
+            "CHR001": 1,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 1560,
+            "CHR002": 1883,
+            "CHR003": 1828,
+            "CHR005": 2021,
+            "CHR008": 546
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 127,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 170,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 384,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 339
+          },
+          "lowest_hp_ratio": 0.914285714285714,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1140001,
+          "survivors": 5,
+          "time": 12.8,
+          "ultimate_uses": {
+            "CHR001": 1,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 2,
+        "CHR002": 2,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 2217,
+        "CHR002": 2984,
+        "CHR003": 3329,
+        "CHR005": 6225,
+        "CHR008": 1172
+      },
+      "death_causes": {
+        "BASIC": 5,
+        "ULTIMATE": 1
+      },
+      "healing_totals": {
+        "CHR008": 940
+      },
+      "mean_lowest_hp_ratio": 0.897142857142857,
+      "mean_survivors": 5.0,
+      "mean_time": 10.5166666666667,
+      "p10_time": 9.46666666666667,
+      "p50_time": 9.46666666666667,
+      "p90_time": 9.46666666666667,
+      "profile": "D_MINUS_15",
+      "profile_spec": {
+        "level": 10,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 10
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 1041,
+            "CHR002": 1317,
+            "CHR003": 1792,
+            "CHR005": 3012,
+            "CHR008": 752
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 113,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 135,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 347,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 618
+          },
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1145000,
+          "survivors": 5,
+          "time": 11.5666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 3,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 1176,
+            "CHR002": 1667,
+            "CHR003": 1537,
+            "CHR005": 3213,
+            "CHR008": 420
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 76,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 127,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 284,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 322
+          },
+          "lowest_hp_ratio": 0.794285714285714,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1145001,
+          "survivors": 5,
+          "time": 9.46666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 3,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 6,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 2928,
+        "CHR002": 4415,
+        "CHR003": 4201,
+        "CHR005": 2855,
+        "CHR008": 1514
+      },
+      "death_causes": {
+        "BASIC": 5,
+        "NORMAL": 1
+      },
+      "healing_totals": {
+        "CHR008": 787
+      },
+      "mean_lowest_hp_ratio": 0.967217095677513,
+      "mean_survivors": 5.0,
+      "mean_time": 10.0666666666667,
+      "p10_time": 8.63333333333333,
+      "p50_time": 8.63333333333333,
+      "p90_time": 8.63333333333333,
+      "profile": "E_PLUS_15",
+      "profile_spec": {
+        "level": 14,
+        "normal": 3,
+        "passive": 3,
+        "ultimate": 2,
+        "weapon_level": 19
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 1226,
+            "CHR002": 2020,
+            "CHR003": 2047,
+            "CHR005": 1773,
+            "CHR008": 722
+          },
+          "deaths": [
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR003",
+              "tick": 97,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 113,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 259,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 260
+          },
+          "lowest_hp_ratio": 0.934434191355027,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1150000,
+          "survivors": 5,
+          "time": 8.63333333333333,
+          "ultimate_uses": {
+            "CHR001": 2,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 1702,
+            "CHR002": 2395,
+            "CHR003": 2154,
+            "CHR005": 1082,
+            "CHR008": 792
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 104,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 135,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 345,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 527
+          },
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1150001,
+          "survivors": 5,
+          "time": 11.5,
+          "ultimate_uses": {
+            "CHR001": 2,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 4,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 2694,
+        "CHR002": 3052,
+        "CHR003": 3122,
+        "CHR005": 6377,
+        "CHR008": 857
+      },
+      "death_causes": {
+        "BASIC": 1,
+        "NORMAL": 2,
+        "ULTIMATE": 3
+      },
+      "healing_totals": {
+        "CHR008": 144
+      },
+      "mean_lowest_hp_ratio": 0.968188440990772,
+      "mean_survivors": 5.0,
+      "mean_time": 7.9,
+      "p10_time": 7.53333333333333,
+      "p50_time": 7.53333333333333,
+      "p90_time": 7.53333333333333,
+      "profile": "E_PLUS_15",
+      "profile_spec": {
+        "level": 14,
+        "normal": 3,
+        "passive": 3,
+        "ultimate": 2,
+        "weapon_level": 19
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 1355,
+            "CHR002": 1513,
+            "CHR003": 1173,
+            "CHR005": 3434,
+            "CHR008": 435
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR002",
+              "tick": 78,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 226,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 115
+          },
+          "lowest_hp_ratio": 0.936376881981544,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1155000,
+          "survivors": 5,
+          "time": 7.53333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 3,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 1339,
+            "CHR002": 1539,
+            "CHR003": 1949,
+            "CHR005": 2943,
+            "CHR008": 422
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1,
+              "unit_id": "E:1:1:ENM002"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR003",
+              "tick": 97,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 248,
+              "unit_id": "E:2:0:ENM009"
+            }
+          ],
+          "healing": {
+            "CHR008": 29
+          },
+          "lowest_hp_ratio": 1.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1155001,
+          "survivors": 5,
+          "time": 8.26666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 3,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 6,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 658,
+        "CHR002": 5913,
+        "CHR003": 5267,
+        "CHR005": 6315,
+        "CHR008": 1748
+      },
+      "death_causes": {
+        "BASIC": 14
+      },
+      "healing_totals": {
+        "CHR008": 1912
+      },
+      "mean_lowest_hp_ratio": 0.0,
+      "mean_survivors": 0.0,
+      "mean_time": 38.5166666666667,
+      "p10_time": 34.3666666666667,
+      "p50_time": 34.3666666666667,
+      "p90_time": 34.3666666666667,
+      "profile": "A_INITIAL",
+      "profile_spec": {
+        "level": 1,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 234,
+            "CHR002": 2724,
+            "CHR003": 2375,
+            "CHR005": 3727,
+            "CHR008": 929
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "E:1:0:ENM007",
+              "tick": 113,
+              "unit_id": "P:CHR001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 384,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 680,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:2:1:ENM009",
+              "tick": 928,
+              "unit_id": "P:CHR003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:2:1:ENM009",
+              "tick": 972,
+              "unit_id": "P:CHR008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:2:0:ENM009",
+              "tick": 1013,
+              "unit_id": "P:CHR002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:2:1:ENM009",
+              "tick": 1280,
+              "unit_id": "P:CHR005"
+            }
+          ],
+          "healing": {
+            "CHR008": 721
+          },
+          "lowest_hp_ratio": 0.0,
+          "reason": "PARTY_DEFEATED",
+          "seed": 1210000,
+          "survivors": 0,
+          "time": 42.6666666666667,
+          "ultimate_uses": {
+            "CHR001": 1,
+            "CHR002": 3,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": false
+        },
+        {
+          "damage": {
+            "CHR001": 424,
+            "CHR002": 3189,
+            "CHR003": 2892,
+            "CHR005": 2588,
+            "CHR008": 819
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "E:1:1:ENM008",
+              "tick": 160,
+              "unit_id": "P:CHR001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 356,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 695,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:2:1:ENM009",
+              "tick": 943,
+              "unit_id": "P:CHR003"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:2:1:ENM009",
+              "tick": 987,
+              "unit_id": "P:CHR005"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:2:0:ENM009",
+              "tick": 1028,
+              "unit_id": "P:CHR002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:2:1:ENM009",
+              "tick": 1031,
+              "unit_id": "P:CHR008"
+            }
+          ],
+          "healing": {
+            "CHR008": 1191
+          },
+          "lowest_hp_ratio": 0.0,
+          "reason": "PARTY_DEFEATED",
+          "seed": 1210001,
+          "survivors": 0,
+          "time": 34.3666666666667,
+          "ultimate_uses": {
+            "CHR001": 1,
+            "CHR002": 3,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": false
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 2,
+        "CHR002": 6,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 0.0,
+      "wins": 0
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 1752,
+        "CHR002": 4673,
+        "CHR003": 3157,
+        "CHR005": 11084,
+        "CHR008": 1828
+      },
+      "death_causes": {
+        "BASIC": 12,
+        "NORMAL": 1,
+        "ULTIMATE": 1
+      },
+      "healing_totals": {
+        "CHR008": 1902
+      },
+      "mean_lowest_hp_ratio": 0.0,
+      "mean_survivors": 0.0,
+      "mean_time": 37.0,
+      "p10_time": 17.0666666666667,
+      "p50_time": 17.0666666666667,
+      "p90_time": 17.0666666666667,
+      "profile": "A_INITIAL",
+      "profile_spec": {
+        "level": 1,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 233,
+            "CHR002": 1139,
+            "CHR003": 865,
+            "CHR005": 3415,
+            "CHR008": 491
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "E:1:1:ENM008",
+              "tick": 116,
+              "unit_id": "P:CHR001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:1:1:ENM008",
+              "tick": 336,
+              "unit_id": "P:CHR003"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 376,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:1:1:ENM008",
+              "tick": 380,
+              "unit_id": "P:CHR002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:1:1:ENM008",
+              "tick": 468,
+              "unit_id": "P:CHR005"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:1:1:ENM008",
+              "tick": 512,
+              "unit_id": "P:CHR008"
+            }
+          ],
+          "healing": {
+            "CHR008": 231
+          },
+          "lowest_hp_ratio": 0.0,
+          "reason": "PARTY_DEFEATED",
+          "seed": 1215000,
+          "survivors": 0,
+          "time": 17.0666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 4,
+            "CHR008": 0
+          },
+          "victory": false
+        },
+        {
+          "damage": {
+            "CHR001": 1519,
+            "CHR002": 3534,
+            "CHR003": 2292,
+            "CHR005": 7669,
+            "CHR008": 1337
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 341,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 536,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:2:0:ENM009",
+              "tick": 869,
+              "unit_id": "P:CHR001"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:2:1:ENM009",
+              "tick": 916,
+              "unit_id": "P:CHR003"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR005",
+              "tick": 1079,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:2:1:ENM009",
+              "tick": 1576,
+              "unit_id": "P:CHR008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:2:1:ENM009",
+              "tick": 1620,
+              "unit_id": "P:CHR002"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "E:2:1:ENM009",
+              "tick": 1708,
+              "unit_id": "P:CHR005"
+            }
+          ],
+          "healing": {
+            "CHR008": 1671
+          },
+          "lowest_hp_ratio": 0.0,
+          "reason": "PARTY_DEFEATED",
+          "seed": 1215001,
+          "survivors": 0,
+          "time": 56.9333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 12,
+            "CHR008": 0
+          },
+          "victory": false
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 16,
+        "CHR008": 0
+      },
+      "win_rate": 0.0,
+      "wins": 0
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 13514,
+        "CHR002": 15996,
+        "CHR003": 19787,
+        "CHR005": 21223,
+        "CHR008": 4131
+      },
+      "death_causes": {
+        "BASIC": 8,
+        "NORMAL": 2
+      },
+      "healing_totals": {
+        "CHR008": 6261
+      },
+      "mean_lowest_hp_ratio": 0.639901679639492,
+      "mean_survivors": 5.0,
+      "mean_time": 46.0666666666667,
+      "p10_time": 45.4666666666667,
+      "p50_time": 45.4666666666667,
+      "p90_time": 45.4666666666667,
+      "profile": "B_RECOMMENDED",
+      "profile_spec": {
+        "level": 20,
+        "normal": 2,
+        "passive": 2,
+        "ultimate": 1,
+        "weapon_level": 20
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 7128,
+            "CHR002": 7940,
+            "CHR003": 10148,
+            "CHR005": 9901,
+            "CHR008": 2148
+          },
+          "deaths": [
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR005",
+              "tick": 115,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 230,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 457,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 659,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 1400,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 3303
+          },
+          "lowest_hp_ratio": 0.783695206882425,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1220000,
+          "survivors": 5,
+          "time": 46.6666666666667,
+          "ultimate_uses": {
+            "CHR001": 7,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 6386,
+            "CHR002": 8056,
+            "CHR003": 9639,
+            "CHR005": 11322,
+            "CHR008": 1983
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 140,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 275,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 424,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR002",
+              "tick": 620,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 1364,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 2958
+          },
+          "lowest_hp_ratio": 0.496108152396559,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1220001,
+          "survivors": 5,
+          "time": 45.4666666666667,
+          "ultimate_uses": {
+            "CHR001": 7,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 14,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 10653,
+        "CHR002": 14161,
+        "CHR003": 17347,
+        "CHR005": 29086,
+        "CHR008": 4147
+      },
+      "death_causes": {
+        "BASIC": 8,
+        "NORMAL": 1,
+        "ULTIMATE": 1
+      },
+      "healing_totals": {
+        "CHR008": 5781
+      },
+      "mean_lowest_hp_ratio": 0.486333041052664,
+      "mean_survivors": 5.0,
+      "mean_time": 41.6,
+      "p10_time": 40.6666666666667,
+      "p50_time": 40.6666666666667,
+      "p90_time": 40.6666666666667,
+      "profile": "B_RECOMMENDED",
+      "profile_spec": {
+        "level": 20,
+        "normal": 2,
+        "passive": 2,
+        "ultimate": 1,
+        "weapon_level": 20
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 5023,
+            "CHR002": 7690,
+            "CHR003": 8702,
+            "CHR005": 14552,
+            "CHR008": 1981
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 135,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 212,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 391,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 542,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1276,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 2977
+          },
+          "lowest_hp_ratio": 0.293971924029727,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1225000,
+          "survivors": 5,
+          "time": 42.5333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 10,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 5630,
+            "CHR002": 6471,
+            "CHR003": 8645,
+            "CHR005": 14534,
+            "CHR008": 2166
+          },
+          "deaths": [
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR003",
+              "tick": 97,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 176,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 347,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 503,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 1220,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 2804
+          },
+          "lowest_hp_ratio": 0.678694158075601,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1225001,
+          "survivors": 5,
+          "time": 40.6666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 9,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 19,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 11477,
+        "CHR002": 18075,
+        "CHR003": 19212,
+        "CHR005": 21135,
+        "CHR008": 4669
+      },
+      "death_causes": {
+        "BASIC": 9,
+        "NORMAL": 1
+      },
+      "healing_totals": {
+        "CHR008": 6293
+      },
+      "mean_lowest_hp_ratio": 0.720533962164821,
+      "mean_survivors": 5.0,
+      "mean_time": 40.1833333333333,
+      "p10_time": 38.7333333333333,
+      "p50_time": 38.7333333333333,
+      "p90_time": 38.7333333333333,
+      "profile": "C_RECOMMENDED_UPGRADED",
+      "profile_spec": {
+        "level": 20,
+        "normal": 4,
+        "passive": 4,
+        "ultimate": 2,
+        "weapon_level": 30
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 5850,
+            "CHR002": 9105,
+            "CHR003": 8873,
+            "CHR005": 10534,
+            "CHR008": 2745
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 113,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 205,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 386,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 590,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 1249,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 3615
+          },
+          "lowest_hp_ratio": 0.849942726231386,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1230000,
+          "survivors": 5,
+          "time": 41.6333333333333,
+          "ultimate_uses": {
+            "CHR001": 4,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 5627,
+            "CHR002": 8970,
+            "CHR003": 10339,
+            "CHR005": 10601,
+            "CHR008": 1924
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 104,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 212,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 358,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 536,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR002",
+              "tick": 1162,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 2678
+          },
+          "lowest_hp_ratio": 0.591125198098257,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1230001,
+          "survivors": 5,
+          "time": 38.7333333333333,
+          "ultimate_uses": {
+            "CHR001": 6,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 10,
+        "CHR002": 1,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 10727,
+        "CHR002": 13342,
+        "CHR003": 16294,
+        "CHR005": 30739,
+        "CHR008": 3798
+      },
+      "death_causes": {
+        "BASIC": 5,
+        "NORMAL": 2,
+        "ULTIMATE": 3
+      },
+      "healing_totals": {
+        "CHR008": 4933
+      },
+      "mean_lowest_hp_ratio": 0.768621236133122,
+      "mean_survivors": 5.0,
+      "mean_time": 32.8333333333333,
+      "p10_time": 29.7,
+      "p50_time": 29.7,
+      "p90_time": 29.7,
+      "profile": "C_RECOMMENDED_UPGRADED",
+      "profile_spec": {
+        "level": 20,
+        "normal": 4,
+        "passive": 4,
+        "ultimate": 2,
+        "weapon_level": 30
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 5658,
+            "CHR002": 6582,
+            "CHR003": 8474,
+            "CHR005": 14640,
+            "CHR008": 1972
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 83,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 170,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 347,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 526,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR005",
+              "tick": 1079,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 3029
+          },
+          "lowest_hp_ratio": 0.698098256735341,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1235000,
+          "survivors": 5,
+          "time": 35.9666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 8,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 5069,
+            "CHR002": 6760,
+            "CHR003": 7820,
+            "CHR005": 16099,
+            "CHR008": 1826
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 76,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 135,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 269,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 376,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR002",
+              "tick": 891,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 1904
+          },
+          "lowest_hp_ratio": 0.839144215530903,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1235001,
+          "survivors": 5,
+          "time": 29.7,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 7,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 15,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 12366,
+        "CHR002": 15674,
+        "CHR003": 20400,
+        "CHR005": 20627,
+        "CHR008": 5438
+      },
+      "death_causes": {
+        "BASIC": 10
+      },
+      "healing_totals": {
+        "CHR008": 6300
+      },
+      "mean_lowest_hp_ratio": 0.382998171846435,
+      "mean_survivors": 5.0,
+      "mean_time": 53.8666666666667,
+      "p10_time": 53.8666666666667,
+      "p50_time": 53.8666666666667,
+      "p90_time": 53.8666666666667,
+      "profile": "D_MINUS_15",
+      "profile_spec": {
+        "level": 17,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 17
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 6457,
+            "CHR002": 8718,
+            "CHR003": 10008,
+            "CHR005": 9179,
+            "CHR008": 2921
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 152,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 310,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 520,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 752,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 1616,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 2978
+          },
+          "lowest_hp_ratio": 0.512797074954296,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1240000,
+          "survivors": 5,
+          "time": 53.8666666666667,
+          "ultimate_uses": {
+            "CHR001": 8,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 5909,
+            "CHR002": 6956,
+            "CHR003": 10392,
+            "CHR005": 11448,
+            "CHR008": 2517
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 160,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 345,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 556,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 728,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 1616,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 3322
+          },
+          "lowest_hp_ratio": 0.253199268738574,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1240001,
+          "survivors": 5,
+          "time": 53.8666666666667,
+          "ultimate_uses": {
+            "CHR001": 8,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 16,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 10334,
+        "CHR002": 14781,
+        "CHR003": 15047,
+        "CHR005": 30177,
+        "CHR008": 4496
+      },
+      "death_causes": {
+        "BASIC": 6,
+        "NORMAL": 1,
+        "ULTIMATE": 3
+      },
+      "healing_totals": {
+        "CHR008": 5637
+      },
+      "mean_lowest_hp_ratio": 0.135540860322411,
+      "mean_survivors": 5.0,
+      "mean_time": 47.75,
+      "p10_time": 47.5333333333333,
+      "p50_time": 47.5333333333333,
+      "p90_time": 47.5333333333333,
+      "profile": "D_MINUS_15",
+      "profile_spec": {
+        "level": 17,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 17
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 5034,
+            "CHR002": 7489,
+            "CHR003": 7195,
+            "CHR005": 15329,
+            "CHR008": 2312
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 140,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 226,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 464,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 676,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 1426,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 2703
+          },
+          "lowest_hp_ratio": 0.262397991211551,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1245000,
+          "survivors": 5,
+          "time": 47.5333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 11,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 5300,
+            "CHR002": 7292,
+            "CHR003": 7852,
+            "CHR005": 14848,
+            "CHR008": 2184
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 140,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 226,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR003",
+              "tick": 398,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 608,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 1439,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 2934
+          },
+          "lowest_hp_ratio": 0.00868372943327239,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1245001,
+          "survivors": 5,
+          "time": 47.9666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 11,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 22,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 13330,
+        "CHR002": 17425,
+        "CHR003": 18079,
+        "CHR005": 22192,
+        "CHR008": 4597
+      },
+      "death_causes": {
+        "BASIC": 7,
+        "NORMAL": 3
+      },
+      "healing_totals": {
+        "CHR008": 4900
+      },
+      "mean_lowest_hp_ratio": 0.719913263462233,
+      "mean_survivors": 5.0,
+      "mean_time": 36.1166666666667,
+      "p10_time": 35.9666666666667,
+      "p50_time": 35.9666666666667,
+      "p90_time": 35.9666666666667,
+      "profile": "E_PLUS_15",
+      "profile_spec": {
+        "level": 23,
+        "normal": 3,
+        "passive": 3,
+        "ultimate": 2,
+        "weapon_level": 28
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 6540,
+            "CHR002": 7673,
+            "CHR003": 9352,
+            "CHR005": 11821,
+            "CHR008": 2333
+          },
+          "deaths": [
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR003",
+              "tick": 97,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 176,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR008",
+              "tick": 341,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 464,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR005",
+              "tick": 1079,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 2957
+          },
+          "lowest_hp_ratio": 0.736537766534152,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1250000,
+          "survivors": 5,
+          "time": 35.9666666666667,
+          "ultimate_uses": {
+            "CHR001": 5,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 6790,
+            "CHR002": 9752,
+            "CHR003": 8727,
+            "CHR005": 10371,
+            "CHR008": 2264
+          },
+          "deaths": [
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 100,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 191,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR005",
+              "tick": 356,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 523,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 1088,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 1943
+          },
+          "lowest_hp_ratio": 0.703288760390314,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1250001,
+          "survivors": 5,
+          "time": 36.2666666666667,
+          "ultimate_uses": {
+            "CHR001": 4,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 9,
+        "CHR002": 1,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 8893,
+        "CHR002": 11396,
+        "CHR003": 14901,
+        "CHR005": 36997,
+        "CHR008": 3248
+      },
+      "death_causes": {
+        "BASIC": 5,
+        "NORMAL": 3,
+        "ULTIMATE": 2
+      },
+      "healing_totals": {
+        "CHR008": 3550
+      },
+      "mean_lowest_hp_ratio": 0.681243223707987,
+      "mean_survivors": 5.0,
+      "mean_time": 28.1,
+      "p10_time": 27.5333333333333,
+      "p50_time": 27.5333333333333,
+      "p90_time": 27.5333333333333,
+      "profile": "E_PLUS_15",
+      "profile_spec": {
+        "level": 23,
+        "normal": 3,
+        "passive": 3,
+        "ultimate": 2,
+        "weapon_level": 28
+      },
+      "run_results": [
+        {
+          "damage": {
+            "CHR001": 4692,
+            "CHR002": 5477,
+            "CHR003": 6821,
+            "CHR005": 18506,
+            "CHR008": 1677
+          },
+          "deaths": [
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 76,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 113,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR002",
+              "tick": 240,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR005",
+              "tick": 356,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR003",
+              "tick": 860,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 1829
+          },
+          "lowest_hp_ratio": 0.690278279725334,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1255000,
+          "survivors": 5,
+          "time": 28.6666666666667,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 7,
+            "CHR008": 0
+          },
+          "victory": true
+        },
+        {
+          "damage": {
+            "CHR001": 4201,
+            "CHR002": 5919,
+            "CHR003": 8080,
+            "CHR005": 18491,
+            "CHR008": 1571
+          },
+          "deaths": [
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR003",
+              "tick": 97,
+              "unit_id": "E:1:0:ENM007"
+            },
+            {
+              "source": "NORMAL",
+              "source_uid": "P:CHR005",
+              "tick": 115,
+              "unit_id": "E:1:1:ENM008"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR005",
+              "tick": 230,
+              "unit_id": "E:2:0:ENM009"
+            },
+            {
+              "source": "BASIC",
+              "source_uid": "P:CHR001",
+              "tick": 358,
+              "unit_id": "E:2:1:ENM009"
+            },
+            {
+              "source": "ULTIMATE",
+              "source_uid": "P:CHR005",
+              "tick": 826,
+              "unit_id": "E:3:0:BOSS002"
+            }
+          ],
+          "healing": {
+            "CHR008": 1721
+          },
+          "lowest_hp_ratio": 0.67220816769064,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1255001,
+          "survivors": 5,
+          "time": 27.5333333333333,
+          "ultimate_uses": {
+            "CHR001": 0,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 7,
+            "CHR008": 0
+          },
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-H05",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 14,
+        "CHR008": 0
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    }
+  ],
+  "elapsed_wall_seconds": 1.838,
+  "engine": "4.7.1-stable (official)",
+  "party_ids": [
+    "CHR001",
+    "CHR002",
+    "CHR003",
+    "CHR005",
+    "CHR008"
+  ],
+  "runs_per_cell": 2,
+  "schema_version": 1,
+  "simulation": "BattleSimulation fixed 30 Hz",
+  "total_runs": 100
+}

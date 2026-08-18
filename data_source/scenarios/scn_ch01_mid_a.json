@@ -1,0 +1,45 @@
+{
+  "id": "SCN_CH01_MID_A",
+  "title_key": "SCENARIO_CH01_MID_A_TITLE",
+  "chapter_id": "CH01",
+  "commands": [
+    {
+      "id": "start",
+      "command": "set_background",
+      "asset_id": "bg_lantern_tunnel_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "DEFAULT"
+    },
+    {
+      "command": "fade_in",
+      "duration": 0.35
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_C1A_01"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_C1A_02"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_C1A_03"
+    },
+    {
+      "command": "grant_reward",
+      "item_id": "LANTERN_SHARD",
+      "quantity": 5
+    },
+    {
+      "command": "end_scenario"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+; Engine configuration file.
+; Required editor/runtime: Godot 4.7.1 Stable Standard (GDScript, not .NET)
+config_version=5
+
+[application]
+
+config/name="LANTERNLINE DEV"
+config/description="Offline SD story collection RPG vertical slice"
+run/main_scene="res://screens/boot/boot.tscn"
+config/icon="res://assets/ui/app_icon.svg"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+config/required_engine_version="4.7.1-stable"
+
+[autoload]
+
+EventBus="*res://core/event_bus.gd"
+DataRegistry="*res://autoload/data_registry.gd"
+SettingsService="*res://autoload/settings_service.gd"
+LocalizationService="*res://autoload/localization_service.gd"
+AssetRegistry="*res://autoload/asset_registry.gd"
+SaveService="*res://autoload/save_service.gd"
+AppState="*res://autoload/app_state.gd"
+SceneRouter="*res://autoload/scene_router.gd"
+AudioService="*res://autoload/audio_service.gd"
+WebSoakProbe="*res://autoload/web_soak_probe.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=6
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
+textures/default_filters/use_nearest_mipmap_filter=false
+environment/defaults/default_clear_color=Color(0.025, 0.035, 0.065, 1)
+
+[physics]
+
+common/physics_ticks_per_second=60
+
+[audio]
+
+driver/driver="Dummy"
+driver/enable_input=false

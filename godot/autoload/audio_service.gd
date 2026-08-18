@@ -53,7 +53,7 @@ func _load_manifest() -> void:
 	entries_by_event.clear()
 	var file := FileAccess.open(AUDIO_MANIFEST_PATH, FileAccess.READ)
 	if file == null:
-		push_warning("Local audio manifest missing; audio hooks remain safe no-ops")
+		push_warning("Local audio manifest missing; audio hooks remain safe no-ops (R7 local pack)")
 		return
 	var parsed = JSON.parse_string(file.get_as_text())
 	if not parsed is Dictionary:

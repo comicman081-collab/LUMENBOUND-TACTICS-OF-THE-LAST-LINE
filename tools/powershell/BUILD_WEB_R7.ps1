@@ -85,6 +85,12 @@ foreach ($directory in @($development, $release)) {
 Invoke-Checked $godot @('--headless', '--path', (Join-Path $root 'godot'), '--export-debug', 'Web Development', (Join-Path $development 'index.html'))
 Invoke-Checked $godot @('--headless', '--path', (Join-Path $root 'godot'), '--export-release', 'Web HTML Release', (Join-Path $release 'index.html'))
 $runtimeArtifacts = ConvertTo-HashedR7RuntimeArtifacts $release
+$compressor = Join-Path $root 'tools\web\compress_web_wasm.py'
+if (-not (Test-Path -LiteralPath $compressor -PathType Leaf)) { throw "Web WASM compressor missing: $compressor" }
+$pako = Join-Path $root 'tools\web\pako_inflate.min.js'
+if (-not (Test-Path -LiteralPath $pako -PathType Leaf)) { throw "Web gzip fallback missing: $pako" }
+Copy-Item -LiteralPath $pako -Destination (Join-Path $release 'pako_inflate.min.js') -Force
+Invoke-Checked 'python' @($compressor, $release)
 
 @'
 # LANTERNLINE R7 SRPG Chapter Map Web Review

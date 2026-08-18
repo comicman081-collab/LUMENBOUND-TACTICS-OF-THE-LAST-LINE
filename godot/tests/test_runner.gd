@@ -108,6 +108,33 @@ func _test_combat_art_contracts() -> void:
 	check(projectile_manifests_valid, "seven character-specific projectile manifests parse")
 	check(projectile_files_valid, "all 56 animated projectile frame files exist")
 	check(projectile_speed_valid, "projectile flights stay within fast 0.05 to 0.15 second window")
+	# The source packs above are intentionally excluded from Web.  These checks
+	# protect the separate, compact runtime atlases that the actual battle view
+	# loads in a browser instead of silently falling back to code silhouettes.
+	var runtime_sprites := BattleSpriteLibrary.new()
+	var runtime_sprite_loaded := runtime_sprites.load_pack()
+	var runtime_sprite_frames_valid := runtime_sprite_loaded
+	for entity_id in ["CHR001", "CHR002", "CHR003", "CHR004", "CHR005", "CHR006", "CHR007", "CHR008", "ENM001", "ENM002", "ENM003", "ENM004", "ENM005", "ENM006", "ENM007", "ENM008", "ENM009", "BOSS001", "BOSS002"]:
+		runtime_sprite_frames_valid = runtime_sprite_frames_valid and runtime_sprites.supports_character(entity_id)
+		for animation_name in expected:
+			runtime_sprite_frames_valid = runtime_sprite_frames_valid and runtime_sprites.texture_at(entity_id, animation_name, 0.0) != null
+	check(runtime_sprite_frames_valid, "Web battle presentation resolves all eight players, eleven enemies, and both bosses")
+	var runtime_projectiles := ProjectileSpriteLibrary.new()
+	var runtime_projectile_loaded := runtime_projectiles.load_pack()
+	var runtime_projectile_frames_valid := runtime_projectile_loaded
+	for source_id in projectile_roots:
+		runtime_projectile_frames_valid = runtime_projectile_frames_valid and runtime_projectiles.supports_source(source_id) and runtime_projectiles.texture_at(source_id, 0.0) != null
+	check(runtime_projectile_frames_valid, "Web animated projectile atlases load for all seven combat sources")
+	var runtime_vfx_valid := true
+	for folder in ["vfx_chr001_basic", "vfx_chr001_normal", "vfx_chr001_ultimate", "vfx_chr008_basic", "vfx_chr008_normal", "vfx_chr008_ultimate"]:
+		runtime_vfx_valid = runtime_vfx_valid and ResourceLoader.exists("res://assets/runtime_web/vfx/%s/atlas.png" % folder)
+	check(runtime_vfx_valid, "Web authored VFX atlases resolve without art-folder fallback")
+	var runtime_audio_valid := true
+	var audio_manifest := _read_json("res://assets/audio/audio_manifest.json")
+	for entry_value in audio_manifest.get("entries", []):
+		var entry: Dictionary = entry_value
+		runtime_audio_valid = runtime_audio_valid and ResourceLoader.exists(str(entry.get("runtime_path", "")))
+	check(runtime_audio_valid and audio_manifest.get("ownership_declaration", {}).get("ownership_status", "") == "USER_OWNED", "all 15 user-owned local audio streams resolve in runtime")
 
 func _test_data() -> void:
 	check(DataRegistry.load_error == "", "compiled data loads", DataRegistry.load_error)

@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "combat": [
+    {
+      "entity_id": "CHR001",
+      "path": "combat/CHR001/atlas.png",
+      "frames": 84,
+      "sha256": "5bb869a35cf610f34a5af225ccc2990953a26bc3f9fdefc950fa929bd6948737"
+    },
+    {
+      "entity_id": "CHR002",
+      "path": "combat/CHR002/atlas.png",
+      "frames": 80,
+      "sha256": "8b3cdaaa814ad9a39250020f94d30c107de060d818aaa1a51d30ddf8a4d6185a"
+    },
+    {
+      "entity_id": "CHR003",
+      "path": "combat/CHR003/atlas.png",
+      "frames": 80,
+      "sha256": "e1c8d861b57d33e6d70a5fd6e9b5cd4bf7e12810f294b626c59b6ab88f9042ec"
+    },
+    {
+      "entity_id": "CHR004",
+      "path": "combat/CHR004/atlas.png",
+      "frames": 80,
+      "sha256": "b920b4750ebced5de0cf2c7813fe0ec257043c80aa1a95bb2c9b934183293d60"
+    },
+    {
+      "entity_id": "CHR005",
+      "path": "combat/CHR005/atlas.png",
+      "frames": 80,
+      "sha256": "0ab64bfdcc2766585fe58b9f0081c06803fb90056f0b7478fbc60a4c747d3bc5"
+    },
+    {
+      "entity_id": "ENM001",
+      "path": "combat/ENM001/atlas.png",
+      "frames": 84,
+      "sha256": "db1ccd95121aa7c46300219f3aea3e80d66eb19ec07fd88492776d2a5f7cdaf2"
+    },
+    {
+      "entity_id": "ENM002",
+      "path": "combat/ENM002/atlas.png",
+      "frames": 80,
+      "sha256": "fb9f16f207fe3880841bcfcb7e3bb986341033674e88c3dd17dfc848a93dce69"
+    },
+    {
+      "entity_id": "ENM007",
+      "path": "combat/ENM007/atlas.png",
+      "frames": 84,
+      "sha256": "e1714df21221ff3d26be147701175a3cac0283c96a8b853f3a593bbe7d08b54e"
+    },
+    {
+      "entity_id": "BOSS001",
+      "path": "combat/BOSS001/atlas.png",
+      "frames": 84,
+      "sha256": "2d21647b8428ad1819616602fb46b4f893447e8b0c39c518aaaaf666adcd3017"
+    },
+    {
+      "entity_id": "ENM003",
+      "path": "combat/ENM003/atlas.png",
+      "frames": 84,
+      "sha256": "7bb86982e781fe6b25d12b24cdbc2899c06c93b437c36454e0baf2e9aed39855",
+      "status": "IMAGEGEN_STATIC_ANIMATED_SOURCE"
+    },
+    {
+      "entity_id": "ENM004",
+      "path": "combat/ENM004/atlas.png",
+      "frames": 84,
+      "sha256": "3e0f5486ae610116d6c9810df23dfa6f7c6cc360fbebbc98acfb9f49240b13fa",
+      "status": "IMAGEGEN_STATIC_ANIMATED_SOURCE"
+    },
+    {
+      "entity_id": "ENM005",
+      "path": "combat/ENM005/atlas.png",
+      "frames": 84,
+      "sha256": "10acfe1d0b6f6a61973c4e692a661ce0caf5efc776d6b5c078fc44e32ec9b7c2",
+      "status": "IMAGEGEN_STATIC_ANIMATED_SOURCE"
+    },
+    {
+      "entity_id": "ENM006",
+      "path": "combat/ENM006/atlas.png",
+      "frames": 84,
+      "sha256": "9b527ea7883fe073c34f28648185b7ac909fb1b43644ec4dafd6c7ba471b4802",
+      "status": "IMAGEGEN_STATIC_ANIMATED_SOURCE"
+    },
+    {
+      "entity_id": "ENM008",
+      "path": "combat/ENM008/atlas.png",
+      "frames": 84,
+      "sha256": "6be7a7ae94f37bb70b3b70dc4ddb6d3d1e325ce6b8991250712b2a673b34a024",
+      "status": "IMAGEGEN_STATIC_ANIMATED_SOURCE"
+    },
+    {
+      "entity_id": "ENM009",
+      "path": "combat/ENM009/atlas.png",
+      "frames": 84,
+      "sha256": "2cc85c71a3acb130d1d85294b60cc3ebc10a6ac5c66a6e92d673e998a7a488d3",
+      "status": "IMAGEGEN_STATIC_ANIMATED_SOURCE"
+    },
+    {
+      "entity_id": "BOSS002",
+      "path": "combat/BOSS002/atlas.png",
+      "frames": 84,
+      "sha256": "9c9e8b65684ef7da26045db5e90c5a05ceacd70e46013f24d7bde065b8dd6f3f",
+      "status": "IMAGEGEN_STATIC_ANIMATED_SOURCE"
+    }
+  ],
+  "projectiles": [
+    {
+      "source_id": "CHR001",
+      "path": "projectiles/CHR001/atlas.png",
+      "sha256": "461f2384adfd63f51f6936ae7f91fbdbaba8781cd905e22edd6534ac96a3b524"
+    },
+    {
+      "source_id": "CHR002",
+      "path": "projectiles/CHR002/atlas.png",
+      "sha256": "22a65b90c84a76d4a494b2ac44300b15a6fc3f6da453d3d94151b0b4fa46f2ee"
+    },
+    {
+      "source_id": "CHR003",
+      "path": "projectiles/CHR003/atlas.png",
+      "sha256": "3ae2841a99368dd0b3d8ceb4ac6e8cb87f07eb29884f628a149f517f26e4aa97"
+    },
+    {
+      "source_id": "CHR004",
+      "path": "projectiles/CHR004/atlas.png",
+      "sha256": "964de5ab4d1b3b4781c956a910cd0fe584a791eccd004f7876ea4e3ff7e0c36b"
+    },
+    {
+      "source_id": "CHR005",
+      "path": "projectiles/CHR005/atlas.png",
+      "sha256": "28e08a7431c5c2ed552a750b9c217b5c449fdebc44812b5a7861a7520a0afb10"
+    },
+    {
+      "source_id": "ENM001",
+      "path": "projectiles/ENM001/atlas.png",
+      "sha256": "33e74f8dc4e9e4a8a2fb09def19a2f06fd08a21b7ca6bce6e728c8e91c82c141"
+    },
+    {
+      "source_id": "ENM002",
+      "path": "projectiles/ENM002/atlas.png",
+      "sha256": "357e686c965f44151d03ad3307e1e78a227291b89a64609cac4a9465455236f7"
+    }
+  ],
+  "vfx": [
+    {
+      "folder": "vfx_chr001_basic",
+      "path": "vfx/vfx_chr001_basic/atlas.png",
+      "frames": 12,
+      "columns": 4,
+      "sha256": "4d2c80c4909fb93d48775757abefee8775e7df49d192a512300be9f23323ca54"
+    },
+    {
+      "folder": "vfx_chr001_normal",
+      "path": "vfx/vfx_chr001_normal/atlas.png",
+      "frames": 12,
+      "columns": 4,
+      "sha256": "06245a9e5e1d2196e77e0df5cda2f54e6872d4aad5f9b43def51f0c54339cb53"
+    },
+    {
+      "folder": "vfx_chr001_ultimate",
+      "path": "vfx/vfx_chr001_ultimate/atlas.png",
+      "frames": 12,
+      "columns": 4,
+      "sha256": "7066f3af8d24ff5670f5a739b10da958f94f141286d0b548c0939332f2dc583c"
+    },
+    {
+      "folder": "vfx_chr008_basic",
+      "path": "vfx/vfx_chr008_basic/atlas.png",
+      "frames": 12,
+      "columns": 4,
+      "sha256": "730be5b92f997db85f1c02a9e26595ca5690b8b77e04c0bf399afd6a821909fd"
+    },
+    {
+      "folder": "vfx_chr008_normal",
+      "path": "vfx/vfx_chr008_normal/atlas.png",
+      "frames": 12,
+      "columns": 4,
+      "sha256": "a2ff54920658d890ceafa0a785b09eccf691f456df3c0fce3c150c1cc12a316b"
+    },
+    {
+      "folder": "vfx_chr008_ultimate",
+      "path": "vfx/vfx_chr008_ultimate/atlas.png",
+      "frames": 12,
+      "columns": 4,
+      "sha256": "f95a9038d01068d013a14d14f92a1370daa389e1e0a5db8abdf887bfd7c4dd99"
+    }
+  ]
+}

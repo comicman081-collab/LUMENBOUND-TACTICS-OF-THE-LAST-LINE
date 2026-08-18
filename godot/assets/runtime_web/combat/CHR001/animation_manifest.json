@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "asset_id": "runtime_web_combat_chr001",
+  "character_id": "CHR001",
+  "status": "RUNTIME_WEB_COMBAT_ATLAS",
+  "source_status": "ART_QA_CANDIDATE",
+  "source_root": "assets/art/sd/CHR001",
+  "source_asset_id": "sd_chr001_premium_r6p2",
+  "source_blend": "D:\\AI 종합 폴더\\Games\\asset_share\\blender_sources\\characters\\CHR001\\CHR001_SD_R6P2.blend",
+  "ownership_status": "ORIGINAL_INTERNAL",
+  "frame_size": [
+    104,
+    104
+  ],
+  "foot_anchor": [
+    0.5,
+    0.88
+  ],
+  "head_anchor": [
+    0.5,
+    0.12
+  ],
+  "view": "THREE_QUARTER_RIGHT_DOWN_30",
+  "facing_policy": "SEPARATE_LEFT_RIGHT",
+  "atlas_path": "atlas.png",
+  "atlas_columns": 10,
+  "total_frames": 84,
+  "animations": {
+    "idle": {
+      "fps": 12,
+      "loop": true,
+      "frame_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "events": []
+    },
+    "move": {
+      "fps": 12,
+      "loop": true,
+      "frame_indices": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "events": []
+    },
+    "basic_attack": {
+      "fps": 12,
+      "loop": false,
+      "frame_indices": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "events": []
+    },
+    "normal_skill": {
+      "fps": 12,
+      "loop": false,
+      "frame_indices": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "events": []
+    },
+    "ultimate": {
+      "fps": 12,
+      "loop": false,
+      "frame_indices": [
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57
+      ],
+      "events": []
+    },
+    "hit": {
+      "fps": 12,
+      "loop": false,
+      "frame_indices": [
+        58,
+        59,
+        60,
+        61
+      ],
+      "events": []
+    },
+    "down": {
+      "fps": 12,
+      "loop": false,
+      "frame_indices": [
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69
+      ],
+      "events": []
+    },
+    "victory": {
+      "fps": 12,
+      "loop": false,
+      "frame_indices": [
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79
+      ],
+      "events": []
+    },
+    "stun": {
+      "fps": 12,
+      "loop": true,
+      "frame_indices": [
+        80,
+        81,
+        82,
+        83
+      ],
+      "events": []
+    }
+  },
+  "sha256": "5bb869a35cf610f34a5af225ccc2990953a26bc3f9fdefc950fa929bd6948737"
+}

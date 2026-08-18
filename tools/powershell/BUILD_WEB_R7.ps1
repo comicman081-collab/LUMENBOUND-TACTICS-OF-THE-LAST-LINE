@@ -8,6 +8,9 @@ $root = Get-ProjectRoot
 $godot = Find-Godot471
 Set-ProjectGodotUserPaths $root
 Copy-GodotWebTemplatesToProjectProfile $root
+$runtimeCombatBuilder = Join-Path $root 'tools\web\build_runtime_combat_packs.py'
+if (-not (Test-Path -LiteralPath $runtimeCombatBuilder -PathType Leaf)) { throw "Runtime combat pack builder missing: $runtimeCombatBuilder" }
+Invoke-Checked 'python' @($runtimeCombatBuilder)
 
 if ($Tag -notmatch '^[a-z0-9_]+$') { throw "Invalid Web build tag: $Tag" }
 $development = Join-Path $root "builds\web_${Tag}_development"

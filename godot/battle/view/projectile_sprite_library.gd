@@ -2,13 +2,13 @@ class_name ProjectileSpriteLibrary
 extends RefCounted
 
 const PACK_ROOTS := {
-	"CHR001": "res://assets/generated_import/projectiles/proj_chr001_teal_guard_wave_r28",
-	"CHR002": "res://assets/generated_import/projectiles/proj_chr002_coral_blade_arc_r28",
-	"CHR003": "res://assets/generated_import/projectiles/proj_chr003_ice_rifle_tracer_r28",
-	"CHR004": "res://assets/generated_import/projectiles/proj_chr004_magenta_energy_bolt_r28",
-	"CHR005": "res://assets/generated_import/projectiles/proj_chr005_emerald_cannon_orb_r28",
-	"ENM001": "res://assets/generated_import/projectiles/proj_enm001_crystal_claw_r28",
-	"ENM002": "res://assets/generated_import/projectiles/proj_enm002_arc_mote_r28",
+	"CHR001": "res://assets/runtime_web/projectiles/CHR001",
+	"CHR002": "res://assets/runtime_web/projectiles/CHR002",
+	"CHR003": "res://assets/runtime_web/projectiles/CHR003",
+	"CHR004": "res://assets/runtime_web/projectiles/CHR004",
+	"CHR005": "res://assets/runtime_web/projectiles/CHR005",
+	"ENM001": "res://assets/runtime_web/projectiles/ENM001",
+	"ENM002": "res://assets/runtime_web/projectiles/ENM002",
 }
 
 var manifests: Dictionary = {}
@@ -36,10 +36,24 @@ func _load_projectile(source_id: String, pack_root: String) -> String:
 	if str(manifest.get("source_id", "")) != source_id: return "%s:SOURCE_ID_MISMATCH" % source_id
 	if int(manifest.get("frames", 0)) != 8: return "%s:FRAME_COUNT_MISMATCH" % source_id
 	var textures: Array[Texture2D] = []
-	for relative_path in manifest.get("frame_paths", []):
-		var resource = load(pack_root + "/" + str(relative_path))
-		if not resource is Texture2D: return "%s:FRAME_LOAD_FAILED:%s" % [source_id, relative_path]
-		textures.append(resource)
+	if not str(manifest.get("atlas_path", "")).is_empty():
+		var atlas_resource = load(pack_root + "/" + str(manifest.atlas_path))
+		if not atlas_resource is Texture2D: return "%s:ATLAS_LOAD_FAILED" % source_id
+		var frame_size: Array = manifest.get("frame_size", [96, 96])
+		var cell_size := Vector2(float(frame_size[0]), float(frame_size[1]))
+		var columns := int(manifest.get("atlas_columns", 0))
+		if columns <= 0: return "%s:ATLAS_COLUMNS_INVALID" % source_id
+		for frame_index in manifest.get("frame_indices", []):
+			var cell := int(frame_index)
+			var texture := AtlasTexture.new()
+			texture.atlas = atlas_resource
+			texture.region = Rect2(float(cell % columns) * cell_size.x, float(cell / columns) * cell_size.y, cell_size.x, cell_size.y)
+			textures.append(texture)
+	else:
+		for relative_path in manifest.get("frame_paths", []):
+			var resource = load(pack_root + "/" + str(relative_path))
+			if not resource is Texture2D: return "%s:FRAME_LOAD_FAILED:%s" % [source_id, relative_path]
+			textures.append(resource)
 	if textures.size() != 8: return "%s:TEXTURE_COUNT_MISMATCH" % source_id
 	manifests[source_id] = manifest
 	frames[source_id] = textures

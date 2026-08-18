@@ -230,10 +230,13 @@ func _load_pilot_vfx() -> void:
 			var key := "%s_%s" % [character_id, kind]
 			var folder := "vfx_%s" % key
 			var textures: Array[Texture2D] = []
-			for frame in range(12):
-				var path := "res://assets/art/vfx/%s/%s_%02d.png" % [folder, folder, frame]
-				var texture = load(path)
-				if texture is Texture2D: textures.append(texture)
+			var atlas = load("res://assets/runtime_web/vfx/%s/atlas.png" % folder)
+			if atlas is Texture2D:
+				for frame in range(12):
+					var texture := AtlasTexture.new()
+					texture.atlas = atlas
+					texture.region = Rect2(float(frame % 4) * 128.0, float(frame / 4) * 128.0, 128.0, 128.0)
+					textures.append(texture)
 			if textures.size() == 12: vfx_frames[key] = textures
 
 func _play_animation(uid: String, animation_name: String) -> void:
@@ -460,6 +463,9 @@ func _draw_combat_sprite(unit: Dictionary, p: Vector2, alive: bool) -> bool:
 	if texture == null:
 		return false
 	var scale := 0.44 if str(unit.team) == "PLAYER" else 0.42
+	# Runtime atlases use a smaller canvas but retain the immutable 512px
+	# gameplay anchor.  Scale from the authored canvas so Web compaction never
+	# shrinks a real character back into a code-placeholder silhouette.
 	var destination_size := Vector2(512.0, 512.0) * scale
 	var top_left := p - Vector2(256.0 * scale, 512.0 * .88 * scale)
 	var modulate := Color(1.0, .72, .72, 1.0) if unit_flash.has(unit.uid) else Color.WHITE

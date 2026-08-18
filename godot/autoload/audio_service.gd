@@ -18,6 +18,8 @@ var requested_bgm_id := ""
 var browser_audio_unlocked := not OS.has_feature("web")
 var sfx_cursor := 0
 var last_event_at: Dictionary = {}
+var playback_counts: Dictionary = {}
+var last_playback_id := ""
 
 func _ready() -> void:
 	_load_manifest()
@@ -57,6 +59,12 @@ func _audio_enabled() -> bool:
 	return _interactive_display() and bool(SettingsService.values.get("audio_enabled", false))
 
 func _interactive_display() -> bool:
+	# Godot's Web display backend has reported both "web" and a transient
+	# fallback name during first-frame initialization on different browsers.
+	# Web is always an interactive target here, so do not let that transient
+	# name suppress the local audio players before the first trusted tap.
+	if OS.has_feature("web"):
+		return PHASE_AUDIO_ENABLED
 	var display_name := DisplayServer.get_name().to_lower()
 	return PHASE_AUDIO_ENABLED and display_name not in ["headless", "dummy", "null"]
 
@@ -119,15 +127,33 @@ func _stream_for(asset_id: String):
 func _configure_music_loop(resource) -> void:
 	if resource is AudioStreamWAV:
 		resource.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	elif resource is AudioStreamMP3:
+		resource.loop = true
+	elif resource is AudioStreamOggVorbis:
+		resource.loop = true
+
+func _apply_mix() -> void:
+	var master := clampf(float(SettingsService.values.get("master_volume", 0.8)), 0.0, 1.0)
+	var bgm := clampf(float(SettingsService.values.get("bgm_volume", 0.7)), 0.0, 1.0)
+	var sfx := clampf(float(SettingsService.values.get("sfx_volume", 0.8)), 0.0, 1.0)
+	if music_player != null:
+		music_player.volume_db = linear_to_db(maxf(0.001, master * bgm))
+	if voice_player != null:
+		voice_player.volume_db = linear_to_db(maxf(0.001, master * sfx))
+	for player in sfx_players:
+		player.volume_db = linear_to_db(maxf(0.001, master * sfx))
 
 func _play_sfx_asset(asset_id: String) -> void:
 	if sfx_players.is_empty(): return
 	var resource = _stream_for(asset_id)
 	if resource == null: return
+	_apply_mix()
 	var player := sfx_players[sfx_cursor % sfx_players.size()]
 	sfx_cursor = (sfx_cursor + 1) % sfx_players.size()
 	player.stream = resource
 	player.play()
+	last_playback_id = asset_id
+	playback_counts[asset_id] = int(playback_counts.get(asset_id, 0)) + 1
 
 func _event_asset(event_id: String) -> String:
 	var choices: Array = entries_by_event.get(event_id, [])
@@ -157,10 +183,13 @@ func _start_bgm(asset_id: String) -> void:
 	if current_bgm_id == asset_id and music_player.playing: return
 	var resource = _stream_for(asset_id)
 	if resource == null: return
+	_apply_mix()
 	_configure_music_loop(resource)
 	music_player.stream = resource
 	music_player.play()
 	current_bgm_id = asset_id
+	last_playback_id = asset_id
+	playback_counts[asset_id] = int(playback_counts.get(asset_id, 0)) + 1
 
 func stop_bgm() -> void:
 	if music_player != null:
@@ -182,8 +211,22 @@ func play_voice(asset_or_path: String) -> void:
 	if path != "" and ResourceLoader.exists(path):
 		var resource = load(path)
 		if resource is AudioStream:
+			_apply_mix()
 			voice_player.stream = resource
 			voice_player.play()
+			last_playback_id = asset_or_path
+			playback_counts[asset_or_path] = int(playback_counts.get(asset_or_path, 0)) + 1
 
 func voice_is_playing() -> bool:
 	return _can_play_now() and voice_player != null and voice_player.playing
+
+func runtime_status() -> Dictionary:
+	return {
+		"audio_enabled": _audio_enabled(),
+		"web_unlocked": browser_audio_unlocked,
+		"requested_bgm": requested_bgm_id,
+		"current_bgm": current_bgm_id,
+		"music_playing": music_player != null and music_player.playing,
+		"last_playback": last_playback_id,
+		"playback_counts": playback_counts.duplicate(true),
+	}

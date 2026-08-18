@@ -402,7 +402,13 @@ func _button(text_value: String, callback: Callable, disabled := false, minimum 
 	else:
 		button.custom_minimum_size = minimum
 	button.disabled = disabled
-	button.pressed.connect(callback)
+	# WebAudio must be resumed in the same call stack as a real button press.
+	# Keeping this wrapper at the shared button factory covers title, map,
+	# formation, growth and settings without duplicating platform branches.
+	button.pressed.connect(func():
+		AudioService.unlock_from_user_gesture()
+		callback.call()
+	)
 	return button
 
 func _make_primary_button(button: Button) -> void:
@@ -783,7 +789,12 @@ func _show_formation() -> void:
 	roster_box.add_child(grid)
 	for character in DataRegistry.list_of("characters"):
 		var unlocked := bool(AppState.profile.roster[character.id].unlocked)
-		grid.add_child(_button("%s\n%s / %s" % [LocalizationService.tr_key(character.name_key), character.role, character.preferred_position], func(character_id: String = str(character.id)): AppState.set_party_slot(formation_slot, character_id); SaveService.save_game(); _show_screen("FORMATION"), not unlocked, Vector2(250, 80)))
+		var roster_card := VBoxContainer.new()
+		roster_card.custom_minimum_size = Vector2(250, 184)
+		roster_card.add_theme_constant_override("separation", 5)
+		grid.add_child(roster_card)
+		roster_card.add_child(_art_rect(str(character.icon_asset_id), Vector2(250, 104)))
+		roster_card.add_child(_button("%s\n%s / %s" % [LocalizationService.tr_key(character.name_key), character.role, character.preferred_position], func(character_id: String = str(character.id)): AppState.set_party_slot(formation_slot, character_id); SaveService.save_game(); _show_screen("FORMATION"), not unlocked, Vector2(250, 74)))
 	var actions := HBoxContainer.new()
 	content.add_child(actions)
 	actions.add_child(_button("스테이지 선택으로", func(): SceneRouter.go("STAGE_SELECT"), false, Vector2(240, 64)))
@@ -1329,7 +1340,10 @@ func _show_settings() -> void:
 	_title("설정", "로컬 설정은 저장 파일에 보존")
 	var box := _panel()
 	box.add_child(_button("언어: %s" % SettingsService.values.language, func(): SettingsService.values.language = "en" if SettingsService.values.language == "ko" else "ko"; _show_screen("SETTINGS"), false, Vector2(300, 64)))
-	box.add_child(_button("로컬 오디오: %s" % ("ON" if SettingsService.values.audio_enabled else "OFF"), func(): SettingsService.values.audio_enabled = not SettingsService.values.audio_enabled; SaveService.save_game(); _show_screen("SETTINGS"), false, Vector2(300, 64)))
+	box.add_child(_button("로컬 오디오: %s" % ("ON" if SettingsService.values.audio_enabled else "OFF"), func():
+		AudioService.set_enabled(not bool(SettingsService.values.audio_enabled))
+		SaveService.save_game()
+		_show_screen("SETTINGS"), false, Vector2(300, 64)))
 	box.add_child(_button("텍스트 속도: %.2fs" % SettingsService.values.text_speed, func(): SettingsService.values.text_speed = .01 if float(SettingsService.values.text_speed) >= .03 else float(SettingsService.values.text_speed) + .01; _show_screen("SETTINGS"), false, Vector2(300, 64)))
 	box.add_child(_button("전투 AUTO 기본: %s" % SettingsService.values.battle_auto, func(): SettingsService.values.battle_auto = not SettingsService.values.battle_auto; _show_screen("SETTINGS"), false, Vector2(300, 64)))
 	box.add_child(_button("맵 카메라 추적: %d%%" % roundi(float(SettingsService.values.map_camera_follow_strength) * 100.0), func(): SettingsService.values.map_camera_follow_strength = 0.35 if float(SettingsService.values.map_camera_follow_strength) > 0.7 else float(SettingsService.values.map_camera_follow_strength) + 0.2; _show_screen("SETTINGS"), false, Vector2(360, 64)))

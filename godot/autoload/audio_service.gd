@@ -11,12 +11,22 @@ var manifest: Dictionary = {}
 var entries_by_id: Dictionary = {}
 var entries_by_event: Dictionary = {}
 var current_bgm_id := ""
+var requested_bgm_id := ""
+# Browsers reject WebAudio that starts during boot.  Title/home code may still
+# request BGM at boot, but it is held until an actual button/touch gesture
+# reaches unlock_from_user_gesture(). Desktop starts unlocked as before.
+var browser_audio_unlocked := not OS.has_feature("web")
 var sfx_cursor := 0
 var last_event_at: Dictionary = {}
 
 func _ready() -> void:
 	_load_manifest()
-	if not _audio_enabled():
+	_ensure_players()
+
+func _ensure_players() -> void:
+	if not _interactive_display():
+		return
+	if music_player != null:
 		return
 	music_player = AudioStreamPlayer.new()
 	voice_player = AudioStreamPlayer.new()
@@ -44,8 +54,33 @@ func _exit_tree() -> void:
 func _audio_enabled() -> bool:
 	# Headless QA validates manifests and hooks without creating a playback
 	# device; browser and interactive desktop builds keep the real audio path.
+	return _interactive_display() and bool(SettingsService.values.get("audio_enabled", false))
+
+func _interactive_display() -> bool:
 	var display_name := DisplayServer.get_name().to_lower()
-	return PHASE_AUDIO_ENABLED and display_name not in ["headless", "dummy", "null"] and bool(SettingsService.values.get("audio_enabled", false))
+	return PHASE_AUDIO_ENABLED and display_name not in ["headless", "dummy", "null"]
+
+func _can_play_now() -> bool:
+	return _audio_enabled() and browser_audio_unlocked
+
+func unlock_from_user_gesture() -> void:
+	# Call this only from a real Control/input callback.  It is deliberately
+	# idempotent so a tap on any screen safely activates deferred title BGM.
+	browser_audio_unlocked = true
+	_ensure_players()
+	if _audio_enabled() and not requested_bgm_id.is_empty():
+		_start_bgm(requested_bgm_id)
+
+func set_enabled(enabled: bool) -> void:
+	SettingsService.values.audio_enabled = enabled
+	_ensure_players()
+	if not enabled:
+		if music_player != null:
+			music_player.stop()
+		current_bgm_id = ""
+		return
+	if browser_audio_unlocked and not requested_bgm_id.is_empty():
+		_start_bgm(requested_bgm_id)
 
 func _load_manifest() -> void:
 	manifest = {}
@@ -104,7 +139,7 @@ func _event_asset(event_id: String) -> String:
 	return str(choices[index])
 
 func play_event(event_id: String, minimum_interval := 0.04) -> void:
-	if not _audio_enabled(): return
+	if not _can_play_now(): return
 	var now := Time.get_ticks_msec() / 1000.0
 	var last := float(last_event_at.get(event_id, -1000.0))
 	if now - last < minimum_interval: return
@@ -113,7 +148,11 @@ func play_event(event_id: String, minimum_interval := 0.04) -> void:
 	if asset_id != "": _play_sfx_asset(asset_id)
 
 func play_bgm(asset_id: String) -> void:
-	if not _audio_enabled(): return
+	requested_bgm_id = asset_id
+	if not _can_play_now(): return
+	_start_bgm(asset_id)
+
+func _start_bgm(asset_id: String) -> void:
 	if music_player == null: return
 	if current_bgm_id == asset_id and music_player.playing: return
 	var resource = _stream_for(asset_id)
@@ -127,16 +166,17 @@ func stop_bgm() -> void:
 	if music_player != null:
 		music_player.stop()
 	current_bgm_id = ""
+	requested_bgm_id = ""
 
 func play_sfx(asset_id: String) -> void:
-	if not _audio_enabled(): return
+	if not _can_play_now(): return
 	if entries_by_event.has(asset_id):
 		play_event(asset_id)
 	else:
 		_play_sfx_asset(asset_id)
 
 func play_voice(asset_or_path: String) -> void:
-	if not _audio_enabled(): return
+	if not _can_play_now() or voice_player == null: return
 	var path := AssetRegistry.resolve(asset_or_path)
 	if asset_or_path.begins_with("res://") or asset_or_path.begins_with("user://"): path = asset_or_path
 	if path != "" and ResourceLoader.exists(path):
@@ -146,4 +186,4 @@ func play_voice(asset_or_path: String) -> void:
 			voice_player.play()
 
 func voice_is_playing() -> bool:
-	return _audio_enabled() and voice_player != null and voice_player.playing
+	return _can_play_now() and voice_player != null and voice_player.playing

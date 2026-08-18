@@ -841,12 +841,12 @@ func _create_pawn() -> void:
 	var lead_id := str(AppState.get_party()[0])
 	var lead := DataRegistry.character(lead_id)
 	var texture_path := AssetRegistry.resolve(str(lead.get("icon_asset_id", "")))
-	if lead_id in ["CHR001", "CHR008"] and texture_path != "" and ResourceLoader.exists(texture_path):
+	if texture_path != "" and ResourceLoader.exists(texture_path):
 		pawn_sprite = Sprite3D.new()
 		pawn_sprite.texture = load(texture_path) as Texture2D
 		pawn_sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-		pawn_sprite.pixel_size = 0.0048
-		pawn_sprite.position.y = 0.26
+		pawn_sprite.pixel_size = 0.0054
+		pawn_sprite.position.y = 0.34
 		# This is a UI-readable pawn portrait, never a terrain occluder.  The
 		# contact shadow and standard beneath it still establish ground contact.
 		pawn_sprite.no_depth_test = true
@@ -1207,6 +1207,10 @@ func _focus_full_map() -> void:
 	_stream_visible_tiles(HexCoordScript.world_to_axial(camera_target, TILE_SIZE))
 
 func _on_map_input(event: InputEvent) -> void:
+	# The SubViewport receives direct pointer events, bypassing AppShell's
+	# shared Button wrapper.  Unlock deferred WebAudio on the first map gesture.
+	if event is InputEventScreenTouch or event is InputEventMouseButton:
+		AudioService.unlock_from_user_gesture()
 	if moving: return
 	if event is InputEventScreenTouch:
 		# Mobile Web sends screen touch events instead of mouse buttons on some

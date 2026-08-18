@@ -169,6 +169,12 @@ func _test_data() -> void:
 	for character in DataRegistry.list_of("characters"):
 		for key in ["asset_id", "portrait_asset_id", "icon_asset_id"]: assets_resolve = assets_resolve and AssetRegistry.resolve(character[key]) != ""
 	check(assets_resolve, "all character asset IDs resolve (placeholder allowed)")
+	var runtime_cards_valid := true
+	for character in DataRegistry.list_of("characters"):
+		for key in ["portrait_asset_id", "icon_asset_id"]:
+			var runtime_path := AssetRegistry.resolve(str(character[key]))
+			runtime_cards_valid = runtime_cards_valid and runtime_path.begins_with("res://assets/runtime_web/characters/") and ResourceLoader.exists(runtime_path)
+	check(runtime_cards_valid, "all eight roster and portrait IDs resolve to packaged runtime character cards")
 	check(DataRegistry.list_of("characters").size() == 8, "vertical slice has 8 player characters")
 	check(DataRegistry.list_of("enemies").filter(func(enemy): return enemy.rank == "NORMAL").size() == 6, "vertical slice has 6 normal enemies")
 	check(DataRegistry.list_of("enemies").filter(func(enemy): return enemy.rank == "ELITE").size() == 3, "vertical slice has 3 elites")

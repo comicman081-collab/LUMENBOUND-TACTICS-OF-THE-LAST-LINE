@@ -2,6 +2,7 @@ extends Node
 
 const PREMIUM_MANIFEST_PATH := "res://assets/art/asset_manifest.json"
 const LEGACY_MANIFEST_PATH := "res://assets/generated_import/import_manifest.json"
+const RUNTIME_WEB_MANIFEST_PATH := "res://assets/runtime_web/runtime_asset_manifest.json"
 var assets: Dictionary = {}
 
 func _ready() -> void:
@@ -9,6 +10,9 @@ func _ready() -> void:
 	# Premium entries intentionally load last so stable asset IDs can supersede
 	# legacy placeholders without retaining duplicate runtime paths.
 	_load_manifest(PREMIUM_MANIFEST_PATH)
+	# Compact Web cards are loaded last.  They preserve every immutable asset ID
+	# while keeping roster, formation and map-pawn visuals inside the Web PCK.
+	_load_manifest(RUNTIME_WEB_MANIFEST_PATH)
 
 func _load_manifest(path: String) -> void:
 	var file := FileAccess.open(path, FileAccess.READ)

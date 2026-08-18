@@ -97,7 +97,7 @@ func _build_root() -> void:
 func _make_theme() -> Theme:
 	var value := Theme.new()
 	var ui_scale := _portrait_ui_scale()
-	var bundled_font := load("res://assets/fonts/NotoSansKR-VF.ttf") as Font
+	var bundled_font := load("res://assets/fonts/NotoSansKR-RuntimeSubset.ttf") as Font
 	if bundled_font != null:
 		interface_font = bundled_font
 		value.default_font = bundled_font
@@ -521,6 +521,7 @@ func _scroll_box() -> VBoxContainer:
 	return box
 
 func _show_title() -> void:
+	AudioService.play_bgm("audio_bgm_title_en")
 	var spacer := Control.new()
 	spacer.custom_minimum_size.y = 170.0 * _portrait_ui_scale()
 	content.add_child(spacer)
@@ -540,6 +541,7 @@ func _show_title() -> void:
 	hero.add_child(start)
 
 func _show_home() -> void:
+	AudioService.play_bgm("audio_bgm_lobby")
 	AppState.refresh_stamina()
 	_title("랜턴라인 본부", "오프라인 싱글플레이 버티컬 슬라이스")
 	var resource_bar := _panel()
@@ -592,6 +594,7 @@ func _show_home() -> void:
 	row.add_child(_label("현재 파티: " + ", ".join(AppState.get_party()), 18, Color("8ba8c8")))
 
 func _show_story() -> void:
+	AudioService.play_bgm("audio_bgm_story")
 	var portrait := _is_portrait_layout()
 	var ui_scale := _portrait_ui_scale()
 	_title("정적 일러스트 스토리", AppState.active_scenario_id)
@@ -806,6 +809,7 @@ func _show_stage_select() -> void:
 		grid.add_child(_button("%s%s\n권장 Lv.%d\n%s" % [stage.id, boss, stage.recommended_level, "★".repeat(stars) + "☆".repeat(3 - stars)], func(stage_id: String = str(stage.id)): AppState.selected_stage_id = stage_id; SceneRouter.go("STAGE_DETAIL"), not unlocked, Vector2(235, 120)))
 
 func _show_chapter_map() -> void:
+	AudioService.play_bgm("audio_bgm_lobby")
 	_title("제1장 — 꺼진 노선의 신호", "탐색 경로를 따라 조우를 선택하고, 기존 실시간 전투에 진입합니다.")
 	var definition: Dictionary = ChapterMapLoaderScript.load_map("CH01_MAP")
 	var errors: Array[String] = ChapterMapLoaderScript.validate(definition)
@@ -892,6 +896,7 @@ func _play_map_battle_transition() -> void:
 func _show_battle() -> void:
 	battle_transition_active = false
 	var stage := DataRegistry.stage(AppState.selected_stage_id)
+	AudioService.play_bgm("audio_bgm_boss" if bool(stage.boss) else "audio_bgm_battle")
 	var simulation := BattleSimulation.new()
 	simulation.setup(AppState.create_party_snapshot(), stage, AppState.battle_seed, DataRegistry.data, {"invincible": AppState.debug_options.invincible, "enemy_multiplier": AppState.debug_options.enemy_multiplier})
 	simulation.auto_enabled = bool(SettingsService.values.battle_auto)
@@ -1118,6 +1123,7 @@ func _battle_finished(result: Dictionary) -> void:
 	SceneRouter.go("RESULT")
 
 func _show_result() -> void:
+	AudioService.play_bgm("audio_bgm_lobby")
 	_title("전투 결과", AppState.selected_stage_id)
 	# A desktop-side illustration/report split spills past a 390 px portrait
 	# viewport.  Keep the complete report scrollable, but reserve a separate
@@ -1323,6 +1329,7 @@ func _show_settings() -> void:
 	_title("설정", "로컬 설정은 저장 파일에 보존")
 	var box := _panel()
 	box.add_child(_button("언어: %s" % SettingsService.values.language, func(): SettingsService.values.language = "en" if SettingsService.values.language == "ko" else "ko"; _show_screen("SETTINGS"), false, Vector2(300, 64)))
+	box.add_child(_button("로컬 오디오: %s" % ("ON" if SettingsService.values.audio_enabled else "OFF"), func(): SettingsService.values.audio_enabled = not SettingsService.values.audio_enabled; SaveService.save_game(); _show_screen("SETTINGS"), false, Vector2(300, 64)))
 	box.add_child(_button("텍스트 속도: %.2fs" % SettingsService.values.text_speed, func(): SettingsService.values.text_speed = .01 if float(SettingsService.values.text_speed) >= .03 else float(SettingsService.values.text_speed) + .01; _show_screen("SETTINGS"), false, Vector2(300, 64)))
 	box.add_child(_button("전투 AUTO 기본: %s" % SettingsService.values.battle_auto, func(): SettingsService.values.battle_auto = not SettingsService.values.battle_auto; _show_screen("SETTINGS"), false, Vector2(300, 64)))
 	box.add_child(_button("맵 카메라 추적: %d%%" % roundi(float(SettingsService.values.map_camera_follow_strength) * 100.0), func(): SettingsService.values.map_camera_follow_strength = 0.35 if float(SettingsService.values.map_camera_follow_strength) > 0.7 else float(SettingsService.values.map_camera_follow_strength) + 0.2; _show_screen("SETTINGS"), false, Vector2(360, 64)))

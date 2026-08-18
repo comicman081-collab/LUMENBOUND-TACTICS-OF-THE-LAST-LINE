@@ -84,7 +84,7 @@ func run() -> void:
 	check(portrait_path.begins_with("res://assets/art/characters/CHR001/"), "legacy CHR001 portrait ID migrates to premium portrait")
 
 	var settings_source := FileAccess.get_file_as_string("res://autoload/settings_service.gd")
-	check(settings_source.contains("\"audio_enabled\": false"), "project-stage audio flag is disabled")
+	check(settings_source.contains("\"audio_enabled\": true"), "local audio integration flag is enabled")
 	var battle_source := FileAccess.get_file_as_string("res://battle/view/battle_view.gd")
 	check(battle_source.contains("BG_BATTLE_GLASS_RAIL") and battle_source.contains("vfx_presentations"), "battle view integrates premium background and pooled VFX")
 

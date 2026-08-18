@@ -2,7 +2,7 @@ extends Node
 
 var values := {
 	"language": "ko",
-	"audio_enabled": false,
+	"audio_enabled": true,
 	"master_volume": 0.8,
 	"bgm_volume": 0.7,
 	"sfx_volume": 0.8,

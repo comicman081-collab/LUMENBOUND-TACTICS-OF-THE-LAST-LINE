@@ -104,6 +104,11 @@ func _consume_events() -> void:
 		if event.type == BattleEvent.DAMAGE:
 			_spawn_floating_text({"target": event.target, "text": "MISS" if int(event.value) == 0 else ("CRIT %d" % event.value if event.extra.get("crit", false) else str(event.value)), "color": Color("ffd166") if event.extra.get("crit", false) else Color.WHITE, "age": 0.0})
 			unit_flash[event.target] = .14
+			var hit_unit := simulation.find_unit(str(event.target))
+			if not hit_unit.is_empty():
+				if str(hit_unit.team) == "PLAYER": AudioService.play_event("PLAYER_HIT", .06)
+				elif str(hit_unit.get("rank", "NORMAL")) == "BOSS": AudioService.play_event("BOSS_HIT", .06)
+				else: AudioService.play_event("ENEMY_HIT", .06)
 			if int(event.value) > 0:
 				var damage_source := str(event.extra.get("source", ""))
 				if damage_source in ["NORMAL", "ULTIMATE"]:
@@ -118,14 +123,26 @@ func _consume_events() -> void:
 			_spawn_floating_text({"target": event.target, "text": "SHIELD %d" % event.value, "color": Color("72d5ff"), "age": 0.0})
 			_spawn_vfx(str(event.source), str(event.target), "shield")
 		elif event.type == BattleEvent.BASIC_ATTACK:
+			var basic_source := simulation.find_unit(str(event.source))
+			if str(basic_source.team) == "PLAYER": AudioService.play_event("PLAYER_BASIC_ATTACK", .05)
+			elif str(basic_source.get("rank", "NORMAL")) == "BOSS": AudioService.play_event("BOSS_BASIC_ATTACK", .05)
+			else: AudioService.play_event("ENEMY_BASIC_ATTACK", .05)
 			_spawn_projectile(str(event.source), str(event.target), "BASIC")
 			_spawn_vfx(str(event.source), str(event.target), "basic")
 			_play_animation(str(event.source), "basic_attack")
 		elif event.type == BattleEvent.NORMAL_SKILL:
+			var skill_source := simulation.find_unit(str(event.source))
+			if str(skill_source.team) == "PLAYER": AudioService.play_event("PLAYER_NORMAL_SKILL", .10)
+			elif str(skill_source.get("rank", "NORMAL")) == "BOSS": AudioService.play_event("BOSS_SKILL", .10)
+			else: AudioService.play_event("ENEMY_SKILL", .10)
 			_spawn_skill_callout(str(event.source), "SKILL", Color("79e8ff"))
 			_spawn_vfx(str(event.source), str(event.target), "normal")
 			_play_animation(str(event.source), "normal_skill")
 		elif event.type == BattleEvent.ULTIMATE:
+			var ultimate_source := simulation.find_unit(str(event.source))
+			if str(ultimate_source.team) == "PLAYER": AudioService.play_event("PLAYER_ULTIMATE", .12)
+			elif str(ultimate_source.get("rank", "NORMAL")) == "BOSS": AudioService.play_event("BOSS_SKILL", .12)
+			else: AudioService.play_event("ENEMY_SKILL", .12)
 			_spawn_skill_callout(str(event.source), "ULT", Color("ffd36f"))
 			_spawn_vfx(str(event.source), str(event.target), "ultimate")
 			_play_animation(str(event.source), "ultimate")

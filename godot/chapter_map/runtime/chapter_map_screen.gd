@@ -1131,7 +1131,7 @@ func _spawn_pawn_step_trail(position: Vector3) -> void:
 	world_root.add_child(marker)
 	pawn_step_trails.append(marker)
 	if pawn_step_trails.size() > 7:
-		var oldest := pawn_step_trails.pop_front()
+		var oldest = pawn_step_trails.pop_front()
 		if is_instance_valid(oldest): oldest.queue_free()
 	var fade := create_tween()
 	fade.tween_property(marker, "scale", Vector3(1.75, 1.0, 1.75), 0.30)
@@ -1208,7 +1208,26 @@ func _focus_full_map() -> void:
 
 func _on_map_input(event: InputEvent) -> void:
 	if moving: return
-	if event is InputEventMouseButton:
+	if event is InputEventScreenTouch:
+		# Mobile Web sends screen touch events instead of mouse buttons on some
+		# browsers. Keep the same tap-vs-drag threshold as desktop and never let a
+		# touch pan accidentally confirm a long route.
+		if event.pressed:
+			dragging = true
+			drag_origin = event.position
+			camera_origin = camera_target
+		else:
+			if dragging and event.position.distance_to(drag_origin) <= 24.0 * _portrait_ui_scale(_runtime_layout_size()):
+				_select_node_near_screen(event.position)
+			dragging = false
+	elif event is InputEventScreenDrag:
+		if not dragging: return
+		var touch_delta: Vector2 = event.position - drag_origin
+		camera_target = camera_origin + Vector3(-touch_delta.x * 0.012 / camera_zoom, 0, -touch_delta.y * 0.012 / camera_zoom)
+		camera_target.x = clampf(camera_target.x, -42.0, 170.0)
+		camera_target.z = clampf(camera_target.z, -58.0, 30.0)
+		map_state.camera_center = [camera_target.x, camera_target.z]
+	elif event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
 				dragging = true

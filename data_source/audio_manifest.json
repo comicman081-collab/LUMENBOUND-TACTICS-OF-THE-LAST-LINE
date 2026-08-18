@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "audio_policy": "LOCAL_SOUND_FOLDER_ONLY",
+  "title_language": "en",
+  "entries": [
+    {
+      "asset_id": "audio_bgm_title_en",
+      "category": "BGM",
+      "event": "TITLE",
+      "source_path": "Title,ending/01_wake_the_black_star.wav",
+      "runtime_path": "res://assets/audio/bgm/title_theme.mp3",
+      "format": "MP3_SOURCE_RELABELED",
+      "loop": true,
+      "max_seconds": 30,
+      "notes": "English-titled local track; source is an ID3 MP3 stored with a .wav suffix."
+    },
+    {
+      "asset_id": "audio_bgm_lobby",
+      "category": "BGM",
+      "event": "LOBBY",
+      "source_path": "BGM/final_wav/073_lobby_menu_1.wav",
+      "runtime_path": "res://assets/audio/bgm/lobby_menu.wav",
+      "format": "PCM_WAV_COMPACT",
+      "loop": true,
+      "max_seconds": 5
+    },
+    {
+      "asset_id": "audio_bgm_story",
+      "category": "BGM",
+      "event": "STORY",
+      "source_path": "BGM/final_wav/019_scenario_emotional_1.wav",
+      "runtime_path": "res://assets/audio/bgm/story_emotional.wav",
+      "format": "PCM_WAV_COMPACT",
+      "loop": true,
+      "max_seconds": 5
+    },
+    {
+      "asset_id": "audio_bgm_battle",
+      "category": "BGM",
+      "event": "BATTLE",
+      "source_path": "BGM/final_wav/037_battle_tactical_1.wav",
+      "runtime_path": "res://assets/audio/bgm/battle_tactical.wav",
+      "format": "PCM_WAV_COMPACT",
+      "loop": true,
+      "max_seconds": 5
+    },
+    {
+      "asset_id": "audio_bgm_boss",
+      "category": "BGM",
+      "event": "BOSS",
+      "source_path": "BGM/final_wav/055_boss_battle_1.wav",
+      "runtime_path": "res://assets/audio/bgm/boss_battle.wav",
+      "format": "PCM_WAV_COMPACT",
+      "loop": true,
+      "max_seconds": 5
+    },
+    {
+      "asset_id": "audio_sfx_player_gun",
+      "category": "SFX",
+      "event": "PLAYER_BASIC_ATTACK",
+      "source_path": "Characters/01_GUN/BLUE_ARCHIVE_INSPIRED_총_001.wav",
+      "runtime_path": "res://assets/audio/sfx/player_gun.wav",
+      "format": "PCM_WAV_SOURCE"
+    },
+    {
+      "asset_id": "audio_sfx_player_skill",
+      "category": "SFX",
+      "event": "PLAYER_NORMAL_SKILL",
+      "source_path": "Characters/02_ATTACK/BLUE_ARCHIVE_INSPIRED_공_001.wav",
+      "runtime_path": "res://assets/audio/sfx/player_skill.wav",
+      "format": "PCM_WAV_SOURCE"
+    },
+    {
+      "asset_id": "audio_sfx_player_ultimate",
+      "category": "SFX",
+      "event": "PLAYER_ULTIMATE",
+      "source_path": "Characters/03_ULTIMATE_IMPACT/BLUE_ARCHIVE_INSPIRED_타_001.wav",
+      "runtime_path": "res://assets/audio/sfx/player_ultimate.wav",
+      "format": "PCM_WAV_SOURCE"
+    },
+    {
+      "asset_id": "audio_sfx_player_hit",
+      "category": "SFX",
+      "event": "PLAYER_HIT",
+      "source_path": "Characters/04_HIT_RECEIVED/BLUE_ARCHIVE_INSPIRED_피_001.wav",
+      "runtime_path": "res://assets/audio/sfx/player_hit.wav",
+      "format": "PCM_WAV_SOURCE"
+    },
+    {
+      "asset_id": "audio_sfx_enemy_attack",
+      "category": "SFX",
+      "event": "ENEMY_BASIC_ATTACK",
+      "source_path": "Mobs/01_NORMAL_MOBS/01_ATTACK_HIT/BLUE_ARCHIVE_INSPIRED_일반 몹_타격_001.wav",
+      "runtime_path": "res://assets/audio/sfx/enemy_attack.wav",
+      "format": "PCM_WAV_SOURCE"
+    },
+    {
+      "asset_id": "audio_sfx_enemy_hit",
+      "category": "SFX",
+      "event": "ENEMY_HIT",
+      "source_path": "Mobs/01_NORMAL_MOBS/02_DAMAGE_HIT/BLUE_ARCHIVE_INSPIRED_일반 몹_피격_001.wav",
+      "runtime_path": "res://assets/audio/sfx/enemy_hit.wav",
+      "format": "PCM_WAV_SOURCE"
+    },
+    {
+      "asset_id": "audio_sfx_enemy_skill",
+      "category": "SFX",
+      "event": "ENEMY_SKILL",
+      "source_path": "Mobs/01_NORMAL_MOBS/03_SKILL_USE/BLUE_ARCHIVE_INSPIRED_일반 몹_스킬_사용_001.wav",
+      "runtime_path": "res://assets/audio/sfx/enemy_skill.wav",
+      "format": "PCM_WAV_SOURCE"
+    },
+    {
+      "asset_id": "audio_sfx_boss_attack",
+      "category": "SFX",
+      "event": "BOSS_BASIC_ATTACK",
+      "source_path": "Mobs/03_BOSSES/01_ATTACK_HIT/BLUE_ARCHIVE_INSPIRED_보스_타격_001.wav",
+      "runtime_path": "res://assets/audio/sfx/boss_attack.wav",
+      "format": "PCM_WAV_SOURCE"
+    },
+    {
+      "asset_id": "audio_sfx_boss_hit",
+      "category": "SFX",
+      "event": "BOSS_HIT",
+      "source_path": "Mobs/03_BOSSES/02_DAMAGE_HIT/BLUE_ARCHIVE_INSPIRED_보스_피격_001.wav",
+      "runtime_path": "res://assets/audio/sfx/boss_hit.wav",
+      "format": "PCM_WAV_SOURCE"
+    },
+    {
+      "asset_id": "audio_sfx_boss_skill",
+      "category": "SFX",
+      "event": "BOSS_SKILL",
+      "source_path": "Mobs/03_BOSSES/03_SKILL_USE/BLUE_ARCHIVE_INSPIRED_보스_스킬_사용_001.wav",
+      "runtime_path": "res://assets/audio/sfx/boss_skill.wav",
+      "format": "PCM_WAV_SOURCE"
+    }
+  ]
+}

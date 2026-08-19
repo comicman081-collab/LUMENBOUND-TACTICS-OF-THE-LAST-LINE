@@ -38,6 +38,7 @@ var pawn: Node3D
 var pawn_visual: Node3D
 var pawn_banner: MeshInstance3D
 var pawn_sprite: Sprite3D
+var pawn_animation_pack: Dictionary = {}
 var pawn_motion_state := "IDLE"
 var pawn_motion_phase := 0.0
 var pawn_last_position := Vector3.ZERO
@@ -92,6 +93,8 @@ var compact_optional_buttons: Array[Control] = []
 var wait_button: Button
 var simulation_accumulator := 0.0
 var map_simulation_paused := false
+var map_notice := ""
+var map_notice_until_msec := 0
 
 func _ready() -> void:
 	definition = ChapterMapLoaderScript.load_map(MAP_ID)
@@ -181,6 +184,10 @@ func _build_interface() -> void:
 	layer.add_child(overlay)
 	status_label = Label.new()
 	status_label.position = Vector2(22, 18)
+	status_label.custom_minimum_size = Vector2(520, 34)
+	status_label.size = Vector2(520, 34)
+	status_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	status_label.clip_text = false
 	status_label.add_theme_font_size_override("font_size", 22)
 	status_label.add_theme_color_override("font_shadow_color", Color("031018"))
 	status_label.add_theme_constant_override("shadow_offset_x", 2)
@@ -271,6 +278,7 @@ func _apply_responsive_layout() -> void:
 			action_button.text = ["일반 작전", "위험 작전", "현재 부대", "구역 개요", "이동 건너뛰기"][index]
 	if status_label != null:
 		status_label.position = Vector2(14.0 * ui_scale, 14.0 * ui_scale) if portrait else Vector2(22, 18)
+		status_label.size = Vector2(350.0 * ui_scale, 30.0 * ui_scale) if portrait else Vector2(520, 34)
 		status_label.add_theme_font_size_override("font_size", roundi(17.0 * ui_scale) if portrait else 22)
 	if next_encounter_button != null:
 		var next_width := 188.0 * ui_scale if portrait else 248.0
@@ -282,7 +290,10 @@ func _apply_responsive_layout() -> void:
 		next_encounter_button.offset_bottom = next_encounter_button.offset_top + next_height
 		next_encounter_button.add_theme_font_size_override("font_size", roundi(16.0 * ui_scale) if portrait else 17)
 	if legend_card != null:
-		legend_card.visible = not portrait
+		# The minimap already carries the compact Korean legend. Hiding this
+		# secondary card prevents a clipped narrow label from reading as release
+		# debug residue on constrained embedded Web viewports.
+		legend_card.visible = false
 		legend_card.position = Vector2(12.0 * ui_scale, -112.0 * ui_scale) if portrait else Vector2(18, -58)
 		legend_card.custom_minimum_size = Vector2(0.0, 76.0 * ui_scale) if portrait else Vector2.ZERO
 	if legend_label != null:
@@ -398,12 +409,14 @@ func _build_world() -> void:
 	environment.background_color = Color("05131f")
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	environment.ambient_light_color = Color("7fa89d")
-	environment.ambient_light_energy = 0.38
+	# Compatibility/Web maps need enough bounce light that elevation reads as
+	# moss, stone, and layered earth—not as a field of near-black hex walls.
+	environment.ambient_light_energy = 0.66
 	# The map uses a restrained filmic pass and a very low fog density to make
 	# elevation, coast and distant route sections recede. This is visual depth,
 	# not a gameplay fog-of-war substitute.
 	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
-	environment.tonemap_exposure = 0.72
+	environment.tonemap_exposure = 0.88
 	environment.adjustment_enabled = true
 	environment.adjustment_brightness = 0.82
 	environment.adjustment_contrast = 1.16
@@ -415,6 +428,8 @@ func _build_world() -> void:
 	environment.fog_sky_affect = 0.42
 	world_environment.environment = environment
 	world_root.add_child(world_environment)
+	_load_blender_kit()
+	_load_terrain_relief()
 	_create_world_backdrop()
 	_create_world_island_shelf()
 	var sun := DirectionalLight3D.new()
@@ -428,7 +443,12 @@ func _build_world() -> void:
 	sun.directional_shadow_fade_start = 0.72
 	sun.light_angular_distance = 1.8
 	world_root.add_child(sun)
-	_load_blender_kit()
+	var fill := DirectionalLight3D.new()
+	fill.rotation_degrees = Vector3(-48, 136, 0)
+	fill.light_color = Color("8fd8de")
+	fill.light_energy = 0.76
+	fill.shadow_enabled = false
+	world_root.add_child(fill)
 	_stream_visible_tiles(Vector2i(int(map_state.current_q), int(map_state.current_r)), true)
 	route_mesh = MeshInstance3D.new()
 	world_root.add_child(route_mesh)
@@ -549,6 +569,54 @@ func _create_world_island_shelf() -> void:
 	moss_shelf.scale = shelf_aspect
 	moss_shelf.material_override = _material(Color("234e43"), Color("103b38"))
 	world_root.add_child(moss_shelf)
+	_create_landmass_formations(route_points)
+
+func _create_landmass_formations(route_points: Array[Vector3]) -> void:
+	# Three deliberately broad relief shelves bind local hex cells into memorable
+	# terrain districts. They sit under, never over, walkable cells: gameplay
+	# still reads mathematical axial tiles while the map stops looking like an
+	# isolated collection of identical columns.
+	if route_points.size() < 3:
+		return
+	for formation_definition in [
+		{"index": 1, "prefix": "RELIEF_FOREST_MESA_A", "radius": 8.8, "aspect": Vector3(1.55, 1.0, 0.68), "color": Color("1b4a41"), "height": 0.42},
+		{"index": route_points.size() / 2, "prefix": "RELIEF_RUIN_TERRACE_B", "radius": 10.5, "aspect": Vector3(1.42, 1.0, 0.72), "color": Color("24463d"), "height": 0.58},
+		{"index": route_points.size() - 2, "prefix": "RELIEF_COAST_SHELF_C", "radius": 9.4, "aspect": Vector3(1.36, 1.0, 0.70), "color": Color("244b49"), "height": 0.48}
+	]:
+		var anchor: Vector3 = route_points[int(formation_definition.index)]
+		var anchor_coord := HexCoordScript.world_to_axial(anchor, TILE_SIZE)
+		var anchor_surface := float(grid.tile(anchor_coord).get("elevation", 0)) * 0.42
+		# The authored relief becomes the large continuous district floor. A very
+		# small offset keeps it above the individual mathematical cells, visually
+		# breaking up the old disconnected-hex-column silhouette without changing
+		# pathing, collision, or the source axial coordinates.
+		var relief_parts := _spawn_kit_components(str(formation_definition.prefix), anchor + Vector3(0.0, anchor_surface + 0.02, 0.0), 1.0, 0.0)
+		if not relief_parts.is_empty():
+			# Source meshes are authored at a compact reusable scale. Expand only
+			# X/Z here so they become a connected district floor while preserving
+			# the shallow strata height under the gameplay tile caps.
+			var lateral_scale := float(formation_definition.radius) / 3.4
+			for relief_part in relief_parts:
+				relief_part.scale.x *= lateral_scale * float(formation_definition.aspect.x)
+				relief_part.scale.z *= lateral_scale * float(formation_definition.aspect.z)
+			var ridge_parts := _spawn_kit_components("RELIEF_RIDGE_A", anchor + Vector3(0.0, anchor_surface + 0.16, 0.0), 0.90, float(int(formation_definition.index) % 3) * 0.48)
+			for ridge_part in ridge_parts:
+				ridge_part.scale.x *= lateral_scale * 0.85
+				ridge_part.scale.z *= lateral_scale * 0.58
+			continue
+		var formation := MeshInstance3D.new()
+		formation.name = "TerrainLandmassFormation"
+		var formation_mesh := CylinderMesh.new()
+		formation_mesh.top_radius = float(formation_definition.radius)
+		formation_mesh.bottom_radius = float(formation_definition.radius) + 1.2
+		formation_mesh.height = float(formation_definition.height)
+		formation_mesh.radial_segments = 9
+		formation.mesh = formation_mesh
+		formation.scale = formation_definition.aspect
+		formation.rotation_degrees.y = 18.0 + float(int(formation_definition.index) % 3) * 14.0
+		formation.position = anchor + Vector3(0.0, -0.52, 0.0)
+		formation.material_override = _material(formation_definition.color, formation_definition.color.darkened(0.58))
+		world_root.add_child(formation)
 
 func _load_blender_kit() -> void:
 	var kit_path := "res://assets/art/chapter_map/R7/CH01_MAP_KIT_R7.glb"
@@ -558,6 +626,17 @@ func _load_blender_kit() -> void:
 	var kit := packed.instantiate()
 	_collect_kit_meshes(kit)
 	kit.free()
+
+func _load_terrain_relief() -> void:
+	# This project-owned source is built headlessly by tools/blender and is kept
+	# separate from asset_share so shared generator originals are never mutated.
+	var relief_path := "res://assets/art/chapter_map/R7/CH01_TERRAIN_RELIEF_R7.glb"
+	if not ResourceLoader.exists(relief_path): return
+	var packed := load(relief_path) as PackedScene
+	if packed == null: return
+	var relief := packed.instantiate()
+	_collect_kit_meshes(relief)
+	relief.free()
 
 func _collect_kit_meshes(node: Node) -> void:
 	if node is MeshInstance3D:
@@ -591,20 +670,36 @@ func _create_tile(tile: Dictionary) -> void:
 		return
 	var instance := MeshInstance3D.new()
 	var surface_y := float(tile.elevation) * 0.42
-	# Each traversable cell has a compact, low-poly land cap.  It is intentionally
-	# not a flat coloured board: stacked side walls make the seeded elevation tiers
-	# legible even when the camera is close to the moving squad.
-	var elevation := int(tile.elevation)
-	var cap := CylinderMesh.new()
-	cap.top_radius = TILE_SIZE * .96
-	cap.bottom_radius = TILE_SIZE * (1.01 + minf(float(elevation), 3.0) * .025)
-	cap.height = .22 + float(elevation) * .24
-	cap.radial_segments = 6
-	instance.mesh = cap
-	instance.rotation_degrees.y = 30.0
-	instance.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y - cap.height * .5)
+	# Prefer the authored Blender low-poly kit. It carries bevelled edge normals,
+	# layered terrain materials, and avoids the old uniform runtime cylinder slab
+	# impression. The small procedural cap remains only as a safe import fallback.
+	var kit_prefix := str({"FOREST": "HEX_FOREST_", "ROAD": "HEX_ROAD_", "RUINS": "HEX_RUIN_"}.get(terrain_type, "HEX_FOREST_"))
+	var kit_info := _kit_component(kit_prefix)
+	if not kit_info.is_empty() and kit_info.get("mesh") is Mesh:
+		var kit_mesh: Mesh = kit_info.get("mesh")
+		instance.mesh = kit_mesh
+		instance.scale = kit_info.get("scale", Vector3.ONE)
+		# The authored hex is now a thin readable surface accent, not the whole
+		# landmass. Broad Blender relief carries the district silhouette below it;
+		# this prevents the old black-walled column field while retaining precise
+		# selectable hex locations for map input and accessibility.
+		instance.scale.y *= 0.44
+		instance.rotation = kit_info.get("rotation", Vector3.ZERO)
+		var kit_height := maxf(0.18, kit_mesh.get_aabb().size.y * instance.scale.y)
+		instance.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y - kit_height * .5)
+		instance.set_meta("blender_kit", true)
+	else:
+		var elevation := int(tile.elevation)
+		var cap := CylinderMesh.new()
+		cap.top_radius = TILE_SIZE * .96
+		cap.bottom_radius = TILE_SIZE * (1.01 + minf(float(elevation), 3.0) * .025)
+		cap.height = .10 + float(elevation) * .07
+		cap.radial_segments = 6
+		instance.mesh = cap
+		instance.rotation_degrees.y = 30.0
+		instance.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y - cap.height * .5)
+		instance.set_meta("blender_kit", false)
 	instance.set_meta("tile", tile)
-	instance.set_meta("blender_kit", false)
 	world_root.add_child(instance)
 	tile_meshes[HexCoordScript.key(coord)] = instance
 	active_dressing_root = Node3D.new()
@@ -1121,22 +1216,24 @@ func _create_pawn() -> void:
 	pawn.add_child(crest)
 	pawn_visual = Node3D.new()
 	pawn_visual.name = "PawnVisual"
-	pawn_visual.position.y = PAWN_VISUAL_BASE_Y
+	# The map pawn is its own small SD token, not a large profile-card cutout.
+	# Keep the same combat-atlas rendering contract as hostile pawns so both
+	# sides share a coherent map scale, shadow, and light direction.
+	pawn_visual.position.y = 0.18
 	pawn.add_child(pawn_visual)
 	_spawn_kit_components("SQUAD_STANDARD", Vector3(0.0, 0.02, 0.0), 1.48, 0.0, pawn_visual)
 	var lead_id := str(AppState.get_party()[0])
-	var lead := DataRegistry.character(lead_id)
-	var texture_path := AssetRegistry.resolve(str(lead.get("icon_asset_id", "")))
-	if texture_path != "" and ResourceLoader.exists(texture_path):
+	pawn_animation_pack = _map_idle_texture(lead_id)
+	if not pawn_animation_pack.is_empty():
 		pawn_sprite = Sprite3D.new()
-		pawn_sprite.texture = load(texture_path) as Texture2D
+		pawn_sprite.name = "SquadIdleSprite"
+		pawn_sprite.texture = pawn_animation_pack.texture
 		pawn_sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-		pawn_sprite.pixel_size = 0.0054
-		pawn_sprite.position.y = 0.34
-		# This is a UI-readable pawn portrait, never a terrain occluder.  The
-		# contact shadow and standard beneath it still establish ground contact.
+		pawn_sprite.pixel_size = 0.0152
+		var sprite_height := float(pawn_animation_pack.get("frame_size", Vector2(104.0, 104.0)).y) * pawn_sprite.pixel_size
+		pawn_sprite.position.y = 0.08 + sprite_height * 0.40
 		pawn_sprite.no_depth_test = true
-		pawn_sprite.render_priority = 4
+		pawn_sprite.render_priority = 10
 		pawn_visual.add_child(pawn_sprite)
 	else:
 		# The Blender-made standard remains legible for leaders without a map-pawn
@@ -1148,7 +1245,7 @@ func _create_pawn() -> void:
 	signal_mesh.size = Vector3(0.30, 0.46, 0.12)
 	pawn_banner.mesh = signal_mesh
 	pawn_banner.material_override = _material(Color("f1b864"), Color("dc8f39"))
-	pawn_banner.position = Vector3(0.0, 1.15, 0.0)
+	pawn_banner.position = Vector3(0.0, 1.05, 0.0)
 	pawn_visual.add_child(pawn_banner)
 	pawn_last_position = pawn.position
 
@@ -1291,7 +1388,8 @@ func _refresh_state_visuals() -> void:
 	for node_id in enemy_pawns:
 		_update_enemy_pawn_from_simulation(str(node_id))
 	var completion := MapExplorationServiceScript.completion(map_state, definition)
-	status_label.text = "제1장  ·  꺼진 노선의 신호  ·  %s  ·  탐험 %d%%" % ["위험 작전" if hard_overlay else "일반 작전", int(completion.get("percent", 0))]
+	if Time.get_ticks_msec() >= map_notice_until_msec:
+		status_label.text = "제1장  ·  꺼진 노선의 신호  ·  %s  ·  탐험 %d%%" % ["위험 작전" if hard_overlay else "일반 작전", int(completion.get("percent", 0))]
 	if wait_button != null: wait_button.disabled = moving or map_simulation_paused
 	_update_route_minimap()
 	_update_next_encounter_button()
@@ -1434,14 +1532,24 @@ func _encounter_coord(node: Dictionary) -> Vector2i:
 		return MapSimulationScript.coord_for(map_state, node_id)
 	return Vector2i(int(node.get("q", 0)), int(node.get("r", 0)))
 
-func _update_enemy_pawn_from_simulation(node_id: String) -> void:
+func _update_enemy_pawn_from_simulation(node_id: String, animate := false) -> void:
 	var root: Node3D = enemy_pawns.get(node_id)
 	if root == null: return
 	var node := ChapterMapLoaderScript.node_by_id(definition, node_id)
 	if node.is_empty(): return
 	var coord := _encounter_coord(node)
 	var target := HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * 0.42 + 0.18)
-	root.position = target
+	var prior := root.position
+	var moving_until := int(root.get_meta("patrol_motion_until_msec", 0))
+	if animate and prior.distance_to(target) > 0.08:
+		var motion := create_tween()
+		motion.set_trans(Tween.TRANS_SINE)
+		motion.set_ease(Tween.EASE_IN_OUT)
+		motion.tween_property(root, "position", target, 0.22)
+		_spawn_patrol_step_cue(prior, target)
+		root.set_meta("patrol_motion_until_msec", Time.get_ticks_msec() + 240)
+	elif Time.get_ticks_msec() >= moving_until:
+		root.position = target
 	var runtime: Dictionary = map_state.get("patrol_states", {}).get(node_id, {})
 	var awareness_state := str(runtime.get("awareness", MapSimulationScript.UNAWARE))
 	var awareness_label = root.get_meta("awareness_label", null)
@@ -1453,6 +1561,33 @@ func _update_enemy_pawn_from_simulation(node_id: String) -> void:
 		var warning := Color("e96871") if awareness_state == MapSimulationScript.ALERT else (Color("e4bd62") if awareness_state == MapSimulationScript.SUSPICIOUS else Color("a95762"))
 		(ring as MeshInstance3D).material_override = _material(warning, warning.darkened(0.14))
 
+func _spawn_patrol_step_cue(from: Vector3, to: Vector3) -> void:
+	# A concise, diegetic after-signal makes WAIT visibly causal without drawing
+	# a permanent debug patrol line across the release map.
+	var cue := MeshInstance3D.new()
+	var cue_mesh := TorusMesh.new()
+	cue_mesh.inner_radius = 0.18
+	cue_mesh.outer_radius = 0.23
+	cue_mesh.rings = 6
+	cue_mesh.ring_segments = 14
+	cue.mesh = cue_mesh
+	cue.position = from + Vector3(0.0, 0.12, 0.0)
+	cue.material_override = _material(Color("e5ba65"), Color("e0953f"))
+	world_root.add_child(cue)
+	var cue_tween := create_tween()
+	cue_tween.set_parallel(true)
+	cue_tween.tween_property(cue, "scale", Vector3(2.1, 1.0, 2.1), 0.34)
+	cue_tween.tween_property(cue, "position", to + Vector3(0.0, 0.10, 0.0), 0.34)
+	cue_tween.chain().tween_callback(cue.queue_free)
+
+func _show_map_notice(text_value: String) -> void:
+	map_notice = text_value
+	# Keep exploration feedback visible long enough to survive a mobile tap and
+	# the short pawn-motion tween; otherwise a completed Wait can look inert.
+	map_notice_until_msec = Time.get_ticks_msec() + 3200
+	if status_label != null:
+		status_label.text = map_notice
+
 func _advance_map_simulation(delta: float) -> void:
 	if map_simulation_paused or moving and map_state.get("pending_encounter", {}).size() > 0: return
 	simulation_accumulator += minf(delta, MapSimulationScript.TICK_SECONDS)
@@ -1460,7 +1595,7 @@ func _advance_map_simulation(delta: float) -> void:
 		simulation_accumulator -= MapSimulationScript.TICK_SECONDS
 		var party_coord := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
 		var update: Dictionary = MapSimulationScript.advance_ticks(map_state, definition, grid, party_coord, 1)
-		for node_id in update.get("changed", []): _update_enemy_pawn_from_simulation(str(node_id))
+		for node_id in update.get("changed", []): _update_enemy_pawn_from_simulation(str(node_id), true)
 		for node_id in update.get("awareness", {}).keys(): _update_enemy_pawn_from_simulation(str(node_id))
 		if not update.get("contacts", []).is_empty():
 			_start_patrol_contact(str(update.contacts[0]), party_coord)
@@ -1470,10 +1605,11 @@ func _wait_pulse() -> void:
 	if moving or map_simulation_paused: return
 	var party_coord := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
 	var update := MapSimulationScript.advance_wait(map_state, definition, grid, party_coord)
-	for node_id in update.get("changed", []): _update_enemy_pawn_from_simulation(str(node_id))
+	for node_id in update.get("changed", []): _update_enemy_pawn_from_simulation(str(node_id), true)
 	for node_id in update.get("awareness", {}).keys(): _update_enemy_pawn_from_simulation(str(node_id))
 	SaveService.save_game()
 	_refresh_state_visuals()
+	_show_map_notice("대기 완료 · 주변 순찰 %d체 이동" % int(update.get("changed", []).size()))
 	if not update.get("contacts", []).is_empty():
 		_start_patrol_contact(str(update.contacts[0]), party_coord)
 
@@ -1596,9 +1732,13 @@ func _set_action_states(move_disabled: bool, fast_disabled: bool, battle_disable
 
 func _reward_text(reward: Dictionary) -> String:
 	var lines: Array[String] = []
-	for entry in reward.get("guaranteed", []): lines.append("• %s ×%d" % [str(entry.get("item_id", "?")), int(entry.get("quantity", entry.get("min", 1)))])
-	for entry in reward.get("bonus", []): lines.append("• %s %.0f%%" % [str(entry.get("item_id", "?")), float(entry.get("chance", 0.0))*100.0])
+	for entry in reward.get("guaranteed", []): lines.append("• %s ×%d" % [_display_item_name(str(entry.get("item_id", "?"))), int(entry.get("quantity", entry.get("min", 1)))])
+	for entry in reward.get("bonus", []): lines.append("• %s %.0f%%" % [_display_item_name(str(entry.get("item_id", "?"))), float(entry.get("chance", 0.0))*100.0])
 	return "\n".join(lines)
+
+func _display_item_name(item_id: String) -> String:
+	var item := DataRegistry.by_id("items", item_id)
+	return LocalizationService.tr_key(str(item.get("name_key", item_id.replace("_", " ")))).replace(" (DEV)", "")
 
 func _risk_text() -> String:
 	return "[color=#71e6c7]안전 경로[/color]" if preview_risk == "SAFE" else ("[color=#f0c46b]경계 구간 가능[/color]" if preview_risk == "WATCHED" else "[color=#f07f79]적 접촉 예상[/color]")
@@ -2002,6 +2142,12 @@ func _process(delta: float) -> void:
 		var frame_size: Vector2 = pack.get("frame_size", Vector2(104, 104))
 		var frame := int(floor(Time.get_ticks_msec() / 150.0)) % maxi(1, int(pack.get("frames", 1)))
 		atlas_texture.region = Rect2(float(frame % int(pack.get("columns", 1))) * frame_size.x, float(frame / int(pack.get("columns", 1))) * frame_size.y, frame_size.x, frame_size.y)
+	if pawn_sprite != null and pawn_sprite.texture is AtlasTexture and not pawn_animation_pack.is_empty():
+		var leader_atlas := pawn_sprite.texture as AtlasTexture
+		var leader_frame_size: Vector2 = pawn_animation_pack.get("frame_size", Vector2(104, 104))
+		var leader_columns := maxi(1, int(pawn_animation_pack.get("columns", 1)))
+		var leader_frame := int(floor(Time.get_ticks_msec() / 150.0)) % maxi(1, int(pawn_animation_pack.get("frames", 1)))
+		leader_atlas.region = Rect2(float(leader_frame % leader_columns) * leader_frame_size.x, float(leader_frame / leader_columns) * leader_frame_size.y, leader_frame_size.x, leader_frame_size.y)
 	for treasure_id in treasure_visuals:
 		var root: Node3D = treasure_visuals[treasure_id]
 		if root == null or not root.visible: continue

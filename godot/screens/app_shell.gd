@@ -492,7 +492,7 @@ func _format_counts(values: Dictionary, bullet := true) -> String:
 	keys.sort()
 	var parts: Array[String] = []
 	for key in keys:
-		parts.append(("• " if bullet else "") + "%s  ×%s" % [str(key).replace("_", " "), MathUtil.comma(int(values[key]))])
+		parts.append(("• " if bullet else "") + "%s  ×%s" % [_display_runtime_name(str(key)), MathUtil.comma(int(values[key]))])
 	return "\n".join(parts) if bullet else "   ".join(parts)
 
 func _format_stats(values: Dictionary) -> String:
@@ -520,7 +520,7 @@ func _format_reward_entries(entries: Array) -> String:
 		var amount_text := "×%d" % amount if amount == amount_max else "×%d~%d" % [amount, amount_max]
 		var chance_text := ""
 		if entry.has("chance"): chance_text = "  %d%%" % roundi(float(entry.chance) * 100.0)
-		lines.append("• %s  %s%s" % [str(entry.get("item_id", "UNKNOWN")).replace("_", " "), amount_text, chance_text])
+		lines.append("• %s  %s%s" % [_display_item_name(str(entry.get("item_id", "UNKNOWN"))), amount_text, chance_text])
 	return "\n".join(lines)
 
 func _scroll_box() -> VBoxContainer:
@@ -605,7 +605,10 @@ func _show_home() -> void:
 	var row: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
 	content.add_child(row)
 	row.add_child(_button("즉시 저장", func(): _report_result(SaveService.save_game()), false, Vector2(180, 58)))
-	row.add_child(_label("현재 파티: " + ", ".join(AppState.get_party()), 18, Color("8ba8c8")))
+	var party_names: Array[String] = []
+	for character_id in AppState.get_party():
+		party_names.append(_display_character_name(str(character_id)))
+	row.add_child(_label("현재 파티: " + ", ".join(party_names), 18, Color("8ba8c8")))
 
 func _show_story() -> void:
 	AudioService.play_bgm("audio_bgm_story")
@@ -824,8 +827,9 @@ func _show_stage_select() -> void:
 		if stage.mode != stage_mode: continue
 		var stars := int(AppState.profile.stage_stars.get(stage.id, 0))
 		var unlocked := AppState.is_stage_unlocked(stage.id)
-		var boss := " BOSS" if stage.boss else ""
-		grid.add_child(_button("%s%s\n권장 Lv.%d\n%s" % [stage.id, boss, stage.recommended_level, "★".repeat(stars) + "☆".repeat(3 - stars)], func(stage_id: String = str(stage.id)): AppState.selected_stage_id = stage_id; SceneRouter.go("STAGE_DETAIL"), not unlocked, Vector2(235, 120)))
+		var boss := " · 보스" if stage.boss else ""
+		var stage_name := LocalizationService.tr_key(str(stage.name_key))
+		grid.add_child(_button("%s%s\n권장 Lv.%d\n%s" % [stage_name, boss, stage.recommended_level, "★".repeat(stars) + "☆".repeat(3 - stars)], func(stage_id: String = str(stage.id)): AppState.selected_stage_id = stage_id; SceneRouter.go("STAGE_DETAIL"), not unlocked, Vector2(235, 120)))
 
 func _show_chapter_map() -> void:
 	AudioService.play_bgm("audio_bgm_lobby")
@@ -861,7 +865,7 @@ func _map_treasure_reward_requested(report: Dictionary) -> void:
 
 func _show_stage_detail() -> void:
 	var stage := DataRegistry.stage(AppState.selected_stage_id)
-	_title(stage.id + (" • BOSS" if stage.boss else ""), "권장 Lv.%d • %d 작전력 • %d초" % [stage.recommended_level, stage.stamina_cost, stage.time_limit])
+	_title(LocalizationService.tr_key(str(stage.name_key)) + (" • 보스" if stage.boss else ""), "권장 Lv.%d • %d 작전력 • %d초" % [stage.recommended_level, stage.stamina_cost, stage.time_limit])
 	var columns := HBoxContainer.new()
 	columns.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	columns.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -1053,7 +1057,7 @@ func _update_battle_hud() -> void:
 	var boss_text := ""
 	if simulation.has_boss():
 		var boss: Dictionary = simulation.alive_enemies().filter(func(unit): return unit.rank == "BOSS")[0]
-		boss_text = "  BOSS %d/%d [%s]" % [boss.hp, boss.max_hp, boss.get("phase", "PHASE_1")]
+		boss_text = "  보스 %d/%d [위상 %s]" % [boss.hp, boss.max_hp, str(boss.get("phase", "PHASE_1")).replace("PHASE_", "")]
 	battle_hud.text = "WAVE %d/%d   %.1fs   TACTICAL %.2f/10%s" % [simulation.state.wave, simulation.state.wave_count, remain, simulation.state.tactical_gauge, boss_text]
 	if battle_auto_button != null:
 		battle_auto_button.text = "AUTO ON" if simulation.auto_enabled else "AUTO OFF"
@@ -1176,6 +1180,25 @@ func _display_character_name(character_id: String) -> String:
 	var definition := DataRegistry.character(character_id)
 	return LocalizationService.tr_key(str(definition.get("name_key", character_id))).replace(" (DEV)", "")
 
+func _display_runtime_name(runtime_id: String) -> String:
+	# Runtime IDs are stable save/combat keys, not player-facing text. Every
+	# result, reward, wave, and inventory view flows through this resolver so
+	# CHR001 / TRAINING_NOTE_M-style implementation codes cannot leak into a
+	# release build.
+	var item := DataRegistry.by_id("items", runtime_id)
+	if not item.is_empty():
+		return LocalizationService.tr_key(str(item.get("name_key", runtime_id))).replace(" (DEV)", "")
+	var character := DataRegistry.character(runtime_id)
+	if not character.is_empty():
+		return LocalizationService.tr_key(str(character.get("name_key", runtime_id))).replace(" (DEV)", "")
+	var enemy := DataRegistry.enemy(runtime_id)
+	if not enemy.is_empty():
+		return LocalizationService.tr_key(str(enemy.get("name_key", runtime_id))).replace(" (DEV)", "")
+	var weapon := DataRegistry.by_id("weapons", runtime_id)
+	if not weapon.is_empty():
+		return LocalizationService.tr_key(str(weapon.get("name_key", runtime_id))).replace(" (DEV)", "")
+	return runtime_id.replace("_", " ")
+
 func _growth_candidate_text(candidate: Dictionary) -> String:
 	var kind := str(candidate.get("kind", ""))
 	var character_id := str(candidate.get("character_id", ""))
@@ -1283,7 +1306,7 @@ func _add_reward_clarity(parent: VBoxContainer, font_size: int) -> void:
 	var newly: Array = growth.get("newly_affordable", [])
 	parent.add_child(_label("이번 보상으로 새롭게 가능한 성장", font_size + 5, Color("f1d77a")))
 	if newly.is_empty():
-		_reward_summary_card(parent, "NEW 0\n이번 보상으로 새롭게 열린 성장 항목은 없습니다.", font_size - 1)
+		_reward_summary_card(parent, "새로 열린 성장 없음\n이번 보상으로 새롭게 열린 성장 항목은 없습니다.", font_size - 1)
 	else:
 		for candidate in newly:
 			var candidate_button := _button("NEW  ·  " + _growth_candidate_text(candidate), func(value: Dictionary = candidate.duplicate(true)): _goto_growth_candidate(value), false, Vector2(460, 76))
@@ -1412,7 +1435,7 @@ func _show_growth() -> void:
 	grid.columns = 3
 	content.add_child(grid)
 	var level_disabled: bool = AppState.inventory_count("TRAINING_NOTE_L") < 1 or AppState.inventory_count("CREDIT") < int(level_preview.credit_cost) or int(level_preview.unused_xp) > 0 or int(progress.level) >= CharacterProgression.level_cap(progress)
-	grid.add_child(_button("레벨업\nNOTE_L %d개" % AppState.inventory_count("TRAINING_NOTE_L"), func(): _report_result(CharacterProgression.use_material(cid, "TRAINING_NOTE_L", 1)); _show_screen("GROWTH"), level_disabled, Vector2(290, 86)))
+	grid.add_child(_button("레벨업\n%s %d개" % [_display_item_name("TRAINING_NOTE_L"), AppState.inventory_count("TRAINING_NOTE_L")], func(): _report_result(CharacterProgression.use_material(cid, "TRAINING_NOTE_L", 1)); _show_screen("GROWTH"), level_disabled, Vector2(290, 86)))
 	grid.add_child(_button("돌파 B%d→B%d" % [progress.breakthrough, mini(5, int(progress.breakthrough) + 1)], func(): _report_result(BreakthroughService.upgrade(cid)); _show_screen("GROWTH"), int(progress.breakthrough) >= 5, Vector2(290, 86)))
 	grid.add_child(_button("관계 경험 +50 (DEV 선물)", func(): RelationshipService.grant(cid, 50); _show_screen("GROWTH"), int(progress.relationship_level) >= 20, Vector2(290, 86)))
 	for slot in ["normal", "passive", "ultimate"]:
@@ -1424,17 +1447,17 @@ func _show_growth() -> void:
 	var weapon_state: Dictionary = AppState.profile.weapons[weapon_id]
 	var weapon_preview := WeaponUpgradeService.preview(weapon_id, "WEAPON_CHIP_M", 1)
 	var weapon_level_disabled: bool = AppState.inventory_count("WEAPON_CHIP_M") < 1 or not weapon_preview.ok or int(weapon_preview.value.get("unused_xp", 0)) > 0
-	grid.add_child(_button("%s 강화\nLv.%d T%d" % [weapon_id, weapon_state.level, weapon_state.tier], func(): _report_result(WeaponUpgradeService.use_material(weapon_id, "WEAPON_CHIP_M", 1)); _show_screen("GROWTH"), weapon_level_disabled, Vector2(290, 86)))
-	grid.add_child(_button("%s 티어업" % weapon_id, func(): _report_result(WeaponUpgradeService.tier_up(weapon_id)); _show_screen("GROWTH"), int(weapon_state.tier) >= 6, Vector2(290, 86)))
+	grid.add_child(_button("%s 강화\nLv.%d T%d" % [_display_runtime_name(weapon_id), weapon_state.level, weapon_state.tier], func(): _report_result(WeaponUpgradeService.use_material(weapon_id, "WEAPON_CHIP_M", 1)); _show_screen("GROWTH"), weapon_level_disabled, Vector2(290, 86)))
+	grid.add_child(_button("%s 티어업" % _display_runtime_name(weapon_id), func(): _report_result(WeaponUpgradeService.tier_up(weapon_id)); _show_screen("GROWTH"), int(weapon_state.tier) >= 6, Vector2(290, 86)))
 	var detail_box := _panel()
 	var detail_lines: Array[String] = []
-	detail_lines.append("레벨업 재료: TRAINING_NOTE_L 1/%d • CREDIT %s/%s" % [AppState.inventory_count("TRAINING_NOTE_L"), MathUtil.comma(AppState.inventory_count("CREDIT")), MathUtil.comma(int(level_preview.credit_cost))])
+	detail_lines.append("레벨업 재료: %s 1/%d • %s %s/%s" % [_display_item_name("TRAINING_NOTE_L"), AppState.inventory_count("TRAINING_NOTE_L"), _display_item_name("CREDIT"), MathUtil.comma(AppState.inventory_count("CREDIT")), MathUtil.comma(int(level_preview.credit_cost))])
 	detail_lines.append("돌파 요구: %s" % _cost_detail(BreakthroughService.next_cost(cid)))
 	for slot in ["normal", "passive", "ultimate"]:
 		var comparison := SkillUpgradeService.comparison(cid, slot)
 		var value_text := "MAX" if comparison.max else "%.3f → %.3f / 실제 +%.3f" % [comparison.current, comparison.next, comparison.increase]
 		detail_lines.append("%s: %s • 요구 %s" % [slot.to_upper(), value_text, _cost_detail(SkillUpgradeService.next_cost(cid, slot))])
-	detail_lines.append("무기 강화: WEAPON CHIP M 1/%d • 현재 추가 %s" % [AppState.inventory_count("WEAPON_CHIP_M"), _format_counts(WeaponUpgradeService.flat_stats_for(weapon_id, weapon_state), false)])
+	detail_lines.append("무기 강화: %s 1/%d • 현재 추가 %s" % [_display_item_name("WEAPON_CHIP_M"), AppState.inventory_count("WEAPON_CHIP_M"), _format_counts(WeaponUpgradeService.flat_stats_for(weapon_id, weapon_state), false)])
 	detail_lines.append("무기 티어업 요구: %s" % _cost_detail(WeaponUpgradeService.tier_up_cost(weapon_id)))
 	detail_box.add_child(_label("\n".join(detail_lines), 17, Color("b8cae0")))
 	var compatible := HBoxContainer.new()
@@ -1442,7 +1465,7 @@ func _show_growth() -> void:
 	compatible.add_child(_label("호환 %s:" % definition.weapon_class, 19, Color("91aac8")))
 	for weapon in DataRegistry.list_of("weapons"):
 		if weapon.weapon_class == definition.weapon_class:
-			compatible.add_child(_button("%s 장착" % weapon.id, func(value: String = str(weapon.id)): progress.equipped_weapon_id = value; SaveService.save_game(); _show_screen("GROWTH"), weapon.id == weapon_id, Vector2(150, 58)))
+			compatible.add_child(_button("%s 장착" % _display_runtime_name(str(weapon.id)), func(value: String = str(weapon.id)): progress.equipped_weapon_id = value; SaveService.save_game(); _show_screen("GROWTH"), weapon.id == weapon_id, Vector2(150, 58)))
 	var missing_items: Array[String] = []
 	var current_costs: Array = [BreakthroughService.next_cost(cid), SkillUpgradeService.next_cost(cid, "normal"), SkillUpgradeService.next_cost(cid, "passive"), SkillUpgradeService.next_cost(cid, "ultimate"), WeaponUpgradeService.tier_up_cost(weapon_id)]
 	for cost in current_costs:
@@ -1457,7 +1480,7 @@ func _show_growth() -> void:
 		footer.add_child(_button("재료 획득처 보기", func(): SceneRouter.go("STAGE_SELECT"), false, Vector2(230, 60)))
 	else:
 		for item_id in missing_items.slice(0, 3):
-			footer.add_child(_button("%s 획득처" % item_id, func(value: String = str(item_id)): _go_to_item_source(value), false, Vector2(230, 60)))
+			footer.add_child(_button("%s 획득처" % _display_item_name(str(item_id)), func(value: String = str(item_id)): _go_to_item_source(value), false, Vector2(230, 60)))
 	footer.add_child(_button("인벤토리", func(): SceneRouter.go("INVENTORY"), false, Vector2(170, 60)))
 	footer.add_child(_label("B3 프로필 추가 / B5 승리 테두리 해제", 18, Color("879fba")))
 
@@ -1470,7 +1493,7 @@ func _cost_detail(cost: Dictionary) -> String:
 		if not stages.is_empty():
 			source = ",".join(stages.slice(0, 3))
 			if stages.size() > 3: source += " 외 %d" % (stages.size() - 3)
-		parts.append("%s %s/%s [%s]" % [item_id, MathUtil.comma(AppState.inventory_count(str(item_id))), MathUtil.comma(int(cost[item_id])), source])
+		parts.append("%s %s/%s [%s]" % [_display_item_name(str(item_id)), MathUtil.comma(AppState.inventory_count(str(item_id))), MathUtil.comma(int(cost[item_id])), source])
 	return " · ".join(parts)
 
 func _source_stages_for_item(item_id: String) -> Array[String]:
@@ -1485,7 +1508,7 @@ func _source_stages_for_item(item_id: String) -> Array[String]:
 func _go_to_item_source(item_id: String) -> void:
 	var stages := _source_stages_for_item(item_id)
 	if stages.is_empty():
-		footer_status.text = "%s: 현재 Chapter 1 반복 획득처 없음" % item_id
+		footer_status.text = "%s: 현재 Chapter 1 반복 획득처 없음" % _display_item_name(item_id)
 		return
 	AppState.selected_stage_id = stages[0]
 	SceneRouter.go("STAGE_DETAIL")
@@ -1499,7 +1522,7 @@ func _show_inventory() -> void:
 	for item in DataRegistry.list_of("items"):
 		var count := AppState.inventory_count(item.id)
 		if count > 0:
-			grid.add_child(_button("%s\n%s" % [item.id, MathUtil.comma(count)], func(): footer_status.text = "획득처: Chapter 1 스테이지 상세에서 확인", false, Vector2(260, 76)))
+			grid.add_child(_button("%s\n%s" % [_display_item_name(str(item.id)), MathUtil.comma(count)], func(): footer_status.text = "획득처: Chapter 1 스테이지 상세에서 확인", false, Vector2(260, 76)))
 
 func _show_archive() -> void:
 	_title("스토리 아카이브", "메인 7편 + 캐릭터 개인 스토리 2편")

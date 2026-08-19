@@ -106,7 +106,7 @@ func _draw() -> void:
 	var rect := Rect2(Vector2.ZERO, size)
 	draw_style_box(_panel_style(), rect)
 	var font := get_theme_default_font()
-	draw_string(font, Vector2(12.0, 16.0), "CHAPTER ROUTE", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 12, Color("c8eee8"))
+	draw_string(font, Vector2(12.0, 16.0), "탐색 경로", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 12, Color("c8eee8"))
 	_draw_route(normal_points, Color("5fe5c8"), show_hard)
 	_draw_route(hard_points, Color("d38cff"), not show_hard)
 	for point in landmark_points:
@@ -124,9 +124,9 @@ func _draw() -> void:
 		var selected := _map_point(_axial_point(selected_coord))
 		draw_arc(selected, 8.0, 0.0, TAU, 20, Color("edfff8"), 1.7, true)
 	var legend_y := size.y - 9.0
-	draw_string(font, Vector2(12.0, legend_y), "● squad", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 11, Color("f4c56a"))
-	draw_string(font, Vector2(size.x * 0.46, legend_y), "━ normal", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 11, Color("5fe5c8"))
-	draw_string(font, Vector2(size.x * 0.75, legend_y), "━ hard", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 11, Color("d38cff"))
+	draw_string(font, Vector2(12.0, legend_y), "● 부대", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 11, Color("f4c56a"))
+	draw_string(font, Vector2(size.x * 0.46, legend_y), "━ 일반", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 11, Color("5fe5c8"))
+	draw_string(font, Vector2(size.x * 0.75, legend_y), "━ 위험", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 11, Color("d38cff"))
 
 func _panel_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()

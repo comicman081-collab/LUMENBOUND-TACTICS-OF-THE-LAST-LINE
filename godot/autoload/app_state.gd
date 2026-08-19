@@ -5,7 +5,7 @@ const ChapterMapLoaderScript := preload("res://chapter_map/runtime/chapter_map_l
 const ChapterMapProgressScript := preload("res://chapter_map/model/chapter_map_progress.gd")
 const MapExplorationServiceScript := preload("res://chapter_map/model/map_exploration_service.gd")
 
-const SAVE_SCHEMA_VERSION := 4
+const SAVE_SCHEMA_VERSION := 5
 var profile: Dictionary = {}
 var route_payload: Dictionary = {}
 var selected_stage_id := "CH01-N01"

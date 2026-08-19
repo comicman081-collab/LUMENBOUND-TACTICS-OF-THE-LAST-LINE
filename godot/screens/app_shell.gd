@@ -856,7 +856,7 @@ func _map_sweep_requested(stage_id: String, count: int) -> void:
 func _map_treasure_reward_requested(report: Dictionary) -> void:
 	last_rewards = report.get("rewards", {}).duplicate(true)
 	last_reward_report = report.duplicate(true)
-	last_battle_result = {"victory": true, "time": 0.0, "survivors": 5, "seed": AppState.battle_seed, "event_hash": "TREASURE:%s" % str(report.get("source_id", "")), "damage": {}, "healing": {}, "source_type": "TREASURE"}
+	last_battle_result = {"victory": true, "time": 0.0, "survivors": 5, "seed": AppState.battle_seed, "event_hash": "%s:%s" % [str(report.get("source_type", "EXPLORE")), str(report.get("source_id", ""))], "damage": {}, "healing": {}, "source_type": str(report.get("source_type", "TREASURE"))}
 	SceneRouter.go("RESULT")
 
 func _show_stage_detail() -> void:
@@ -1257,7 +1257,7 @@ func _reward_summary_card(parent: VBoxContainer, text_value: String, font_size: 
 
 func _add_reward_clarity(parent: VBoxContainer, font_size: int) -> void:
 	var source_type := str(last_reward_report.get("source_type", "BATTLE"))
-	parent.add_child(_label("보상 내역 · 탐색 보상" if source_type == "TREASURE" else "보상 내역 · 전투 보상", font_size + 5, Color("8fe0b6")))
+	parent.add_child(_label("보상 내역 · 탐색 보상" if source_type != "BATTLE" else "보상 내역 · 전투 보상", font_size + 5, Color("8fe0b6")))
 	var rewards: Dictionary = last_reward_report.get("rewards", last_rewards)
 	var before_inventory: Dictionary = last_reward_report.get("pre_inventory", {})
 	var after_inventory: Dictionary = last_reward_report.get("post_inventory", AppState.profile.get("inventory", {}))
@@ -1294,7 +1294,7 @@ func _add_reward_clarity(parent: VBoxContainer, font_size: int) -> void:
 
 func _show_result() -> void:
 	AudioService.play_bgm("audio_bgm_lobby")
-	_title("탐색 보상" if str(last_reward_report.get("source_type", "")) == "TREASURE" else "전투 결과", str(last_reward_report.get("source_id", AppState.selected_stage_id)))
+	_title("탐색 보상" if str(last_reward_report.get("source_type", "")) != "BATTLE" else "전투 결과", str(last_reward_report.get("source_id", AppState.selected_stage_id)))
 	# A desktop-side illustration/report split spills past a 390 px portrait
 	# viewport.  Keep the complete report scrollable, but reserve a separate
 	# bottom action rail inside the device safe area so map return is never

@@ -7,6 +7,10 @@ extends Control
 
 var normal_points: Array[Vector2] = []
 var hard_points: Array[Vector2] = []
+var relay_points: Array[Vector2] = []
+var landmark_points: Array[Vector2] = []
+var enemy_points: Array[Vector2] = []
+var treasure_points: Array[Vector2] = []
 var revealed_coords: Dictionary = {}
 var current_coord := Vector2i.ZERO
 var selected_coord := Vector2i(-99999, -99999)
@@ -17,6 +21,10 @@ var bounds_max := Vector2.ONE
 func configure(map_definition: Dictionary, state: Dictionary, selected: Dictionary, hard_visible: bool) -> void:
 	normal_points.clear()
 	hard_points.clear()
+	relay_points.clear()
+	landmark_points.clear()
+	enemy_points.clear()
+	treasure_points.clear()
 	revealed_coords.clear()
 	show_hard = hard_visible
 	current_coord = Vector2i(int(state.get("current_q", 0)), int(state.get("current_r", 0)))
@@ -35,6 +43,22 @@ func configure(map_definition: Dictionary, state: Dictionary, selected: Dictiona
 	for stage_id in map_definition.get("hard_route", []):
 		if nodes_by_stage.has(str(stage_id)):
 			hard_points.append(nodes_by_stage[str(stage_id)])
+	for relay in map_definition.get("relays", []):
+		if str(state.get("relay_states", {}).get(str(relay.get("relay_id", "")), "OFFLINE")) == "ACTIVE":
+			relay_points.append(_axial_point(Vector2i(int(relay.get("q", 0)), int(relay.get("r", 0)))))
+	for landmark in map_definition.get("landmarks", []):
+		if str(landmark.get("kind", "")) == "MAJOR":
+			var coord := Vector2i(int(landmark.get("q", 0)), int(landmark.get("r", 0)))
+			if revealed_coords.has("%d,%d" % [coord.x, coord.y]): landmark_points.append(_axial_point(coord))
+	for node in map_definition.get("nodes", []):
+		var node_id := str(node.get("node_id", ""))
+		var stage_id := str(node.get("stage_id", ""))
+		var coord := Vector2i(int(node.get("q", 0)), int(node.get("r", 0)))
+		if stage_id != "" and revealed_coords.has("%d,%d" % [coord.x, coord.y]) and not state.get("cleared_encounters", []).has(node_id): enemy_points.append(_axial_point(coord))
+	for treasure in map_definition.get("treasures", []):
+		var treasure_id := str(treasure.get("treasure_id", ""))
+		var coord := Vector2i(int(treasure.get("q", 0)), int(treasure.get("r", 0)))
+		if str(state.get("treasure_states", {}).get(treasure_id, "UNDISCOVERED")) == "REVEALED": treasure_points.append(_axial_point(coord))
 	_recalculate_bounds()
 	queue_redraw()
 
@@ -85,6 +109,14 @@ func _draw() -> void:
 	draw_string(font, Vector2(12.0, 16.0), "CHAPTER ROUTE", HORIZONTAL_ALIGNMENT_LEFT, -1.0, 12, Color("c8eee8"))
 	_draw_route(normal_points, Color("5fe5c8"), show_hard)
 	_draw_route(hard_points, Color("d38cff"), not show_hard)
+	for point in landmark_points:
+		draw_circle(_map_point(point), 4.8, Color("b7a76a"))
+	for point in relay_points:
+		draw_circle(_map_point(point), 4.0, Color("68f1d2"))
+	for point in enemy_points:
+		draw_circle(_map_point(point), 3.2, Color("e57276"))
+	for point in treasure_points:
+		draw_circle(_map_point(point), 3.2, Color("f2cd75"))
 	var current := _map_point(_axial_point(current_coord))
 	draw_circle(current, 8.0, Color("071b25"))
 	draw_circle(current, 5.2, Color("f4c56a"))

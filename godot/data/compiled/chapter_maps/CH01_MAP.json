@@ -11,7 +11,12 @@
     "linear_scale_viewports": 12,
     "corridor_radius": 4,
     "direction_policy": "SEEDED_WANDERING_ROUTE",
-    "bounds": {"min_q": -18, "max_q": 112, "min_r": -34, "max_r": 18}
+    "bounds": {
+      "min_q": -18,
+      "max_q": 112,
+      "min_r": -34,
+      "max_r": 18
+    }
   },
   "normal_route": [
     "CH01-N01",
@@ -32,17 +37,479 @@
     "CH01-H04",
     "CH01-H05"
   ],
+  "map_simulation": {
+    "seed": 140701,
+    "tick_seconds": 0.25,
+    "wait_pulse_ticks": 4
+  },
+  "patrols": [
+    {
+      "encounter_id": "NODE_N01",
+      "patrol_enabled": true,
+      "patrol_mode": "PING_PONG",
+      "patrol_route_hexes": [
+        {
+          "q": 8,
+          "r": 1
+        },
+        {
+          "q": 7,
+          "r": 1
+        },
+        {
+          "q": 7,
+          "r": 0
+        },
+        {
+          "q": 6,
+          "r": 0
+        }
+      ],
+      "patrol_speed_ticks": 18,
+      "wait_time_ticks": 2,
+      "awareness_radius": 3,
+      "alert_radius": 0,
+      "engagement_radius": 0,
+      "return_hex": {
+        "q": 8,
+        "r": 1
+      },
+      "entry_type": "PATROL_CONTACT"
+    },
+    {
+      "encounter_id": "NODE_N03",
+      "patrol_enabled": true,
+      "patrol_mode": "LOOP",
+      "patrol_route_hexes": [
+        {
+          "q": 25,
+          "r": -2
+        },
+        {
+          "q": 24,
+          "r": -2
+        },
+        {
+          "q": 23,
+          "r": -2
+        },
+        {
+          "q": 23,
+          "r": -1
+        },
+        {
+          "q": 24,
+          "r": -1
+        }
+      ],
+      "patrol_speed_ticks": 3,
+      "wait_time_ticks": 1,
+      "awareness_radius": 3,
+      "alert_radius": 0,
+      "engagement_radius": 0,
+      "return_hex": {
+        "q": 25,
+        "r": -2
+      },
+      "entry_type": "PATROL_CONTACT"
+    },
+    {
+      "encounter_id": "NODE_N04",
+      "patrol_enabled": true,
+      "patrol_mode": "GUARD_AREA",
+      "patrol_route_hexes": [
+        {
+          "q": 33,
+          "r": -6
+        },
+        {
+          "q": 32,
+          "r": -6
+        },
+        {
+          "q": 32,
+          "r": -5
+        },
+        {
+          "q": 33,
+          "r": -5
+        }
+      ],
+      "patrol_speed_ticks": 4,
+      "wait_time_ticks": 2,
+      "awareness_radius": 4,
+      "alert_radius": 1,
+      "engagement_radius": 0,
+      "return_hex": {
+        "q": 33,
+        "r": -6
+      },
+      "guard_radius": 3,
+      "chase_short": true,
+      "entry_type": "ELITE_GUARD"
+    },
+    {
+      "encounter_id": "NODE_N07",
+      "patrol_enabled": true,
+      "patrol_mode": "PING_PONG",
+      "patrol_route_hexes": [
+        {
+          "q": 63,
+          "r": -8
+        },
+        {
+          "q": 62,
+          "r": -8
+        },
+        {
+          "q": 62,
+          "r": -7
+        },
+        {
+          "q": 61,
+          "r": -7
+        }
+      ],
+      "patrol_speed_ticks": 3,
+      "wait_time_ticks": 1,
+      "awareness_radius": 4,
+      "alert_radius": 1,
+      "engagement_radius": 0,
+      "return_hex": {
+        "q": 63,
+        "r": -8
+      },
+      "entry_type": "ELITE_GUARD"
+    },
+    {
+      "encounter_id": "NODE_N10",
+      "patrol_enabled": false,
+      "patrol_mode": "GUARD_AREA",
+      "patrol_route_hexes": [
+        {
+          "q": 95,
+          "r": -16
+        }
+      ],
+      "patrol_speed_ticks": 99,
+      "wait_time_ticks": 0,
+      "awareness_radius": 5,
+      "alert_radius": 1,
+      "engagement_radius": 0,
+      "return_hex": {
+        "q": 95,
+        "r": -16
+      },
+      "entry_type": "BOSS_GATE"
+    }
+  ],
+  "relays": [
+    {
+      "relay_id": "RELAY_START",
+      "q": 3,
+      "r": 0,
+      "name": "새벽 중계소",
+      "effects": {
+        "reveal_radius": 3,
+        "hint_treasure_id": "CH01_HT01",
+        "intel_id": "INTEL_START_RELAY"
+      }
+    },
+    {
+      "relay_id": "RELAY_MID",
+      "q": 39,
+      "r": -5,
+      "name": "절단선 송신탑",
+      "effects": {
+        "reveal_radius": 4,
+        "hint_treasure_id": "CH01_HT03",
+        "intel_id": "INTEL_MID_RELAY"
+      }
+    },
+    {
+      "relay_id": "RELAY_COAST",
+      "q": 76,
+      "r": -12,
+      "name": "해안 복구 비콘",
+      "effects": {
+        "reveal_radius": 4,
+        "hint_treasure_id": "CH01_HT04",
+        "intel_id": "INTEL_COAST_RELAY"
+      }
+    }
+  ],
+  "map_events": [
+    {
+      "event_id": "EVENT_CRYSTAL_TRACE",
+      "type": "DISCOVERY",
+      "q": 11,
+      "r": 0,
+      "discover_radius": 1,
+      "title": "잔광 수정의 흔적",
+      "body": "수정 군락의 미세한 진동이 북쪽 샛길을 가리킨다.",
+      "choices": [
+        {
+          "choice_id": "INVESTIGATE",
+          "label": "조사한다",
+          "intel_id": "INTEL_CRYSTAL_TRACE",
+          "effects": {
+            "hint_treasure_id": "CH01_HT01"
+          }
+        },
+        {
+          "choice_id": "PASS",
+          "label": "지나간다",
+          "intel_id": "INTEL_CRYSTAL_TRACE_PASS",
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "event_id": "EVENT_BROKEN_SWITCH",
+      "type": "CHOICE",
+      "q": 29,
+      "r": -4,
+      "discover_radius": 1,
+      "title": "끊긴 분기 스위치",
+      "body": "손상된 분기 장치가 짧은 우회로와 연결되어 있다.",
+      "choices": [
+        {
+          "choice_id": "RESTORE",
+          "label": "신호를 복구한다",
+          "intel_id": "INTEL_SWITCH_RESTORED",
+          "effects": {
+            "reveal_radius": 3
+          }
+        },
+        {
+          "choice_id": "SALVAGE",
+          "label": "부품을 회수한다",
+          "intel_id": "INTEL_SWITCH_SALVAGED",
+          "rewards": {
+            "SKILL_TOKEN_T1": 1,
+            "CREDIT": 600
+          },
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "event_id": "EVENT_COAST_LOG",
+      "type": "ENVIRONMENT",
+      "q": 70,
+      "r": -12,
+      "discover_radius": 1,
+      "title": "해안 관측 기록",
+      "body": "파도 아래의 빛이 다음 복구 지점을 잠시 비춘다.",
+      "choices": [
+        {
+          "choice_id": "LOG",
+          "label": "기록을 동기화한다",
+          "intel_id": "INTEL_COAST_LOG",
+          "effects": {
+            "activate_relay_id": "RELAY_COAST"
+          }
+        },
+        {
+          "choice_id": "LEAVE",
+          "label": "지나간다",
+          "intel_id": "INTEL_COAST_LOG_PASS",
+          "effects": {}
+        }
+      ]
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "LM_MAJOR_START",
+      "kind": "MAJOR",
+      "q": 3,
+      "r": 0,
+      "name": "새벽 중계소",
+      "prop": "PROP_SIGNAL_TOWER"
+    },
+    {
+      "landmark_id": "LM_MAJOR_RUIN",
+      "kind": "MAJOR",
+      "q": 39,
+      "r": -5,
+      "name": "절단선 송신탑",
+      "prop": "PROP_SIGNAL_TOWER"
+    },
+    {
+      "landmark_id": "LM_MAJOR_COAST",
+      "kind": "MAJOR",
+      "q": 76,
+      "r": -12,
+      "name": "해안 복구 비콘",
+      "prop": "PROP_SIGNAL_BEACON"
+    },
+    {
+      "landmark_id": "LM_MINOR_01",
+      "kind": "MINOR",
+      "q": 11,
+      "r": 0,
+      "name": "수정 군락",
+      "prop": "PROP_CRYSTAL_SHARD_1"
+    },
+    {
+      "landmark_id": "LM_MINOR_02",
+      "kind": "MINOR",
+      "q": 20,
+      "r": -2,
+      "name": "부서진 아치",
+      "prop": "PROP_RUIN_ARCH"
+    },
+    {
+      "landmark_id": "LM_MINOR_03",
+      "kind": "MINOR",
+      "q": 48,
+      "r": -7,
+      "name": "신호 잔해",
+      "prop": "PROP_SIGNAL_BEACON"
+    },
+    {
+      "landmark_id": "LM_MINOR_04",
+      "kind": "MINOR",
+      "q": 58,
+      "r": -10,
+      "name": "절벽 관측소",
+      "prop": "PROP_RUIN_ARCH"
+    },
+    {
+      "landmark_id": "LM_MINOR_05",
+      "kind": "MINOR",
+      "q": 87,
+      "r": -14,
+      "name": "해안 정박지",
+      "prop": "PROP_CRYSTAL_SHARD_1"
+    }
+  ],
+  "los_blockers": [
+    {
+      "q": 31,
+      "r": -5
+    },
+    {
+      "q": 61,
+      "r": -8
+    },
+    {
+      "q": 82,
+      "r": -12
+    }
+  ],
   "treasures": [
-    {"treasure_id":"CH01_VT01","visibility":"VISIBLE","q":4,"r":2,"landmark":"부서진 릴레이 보급 상자","rewards":{"TRAINING_NOTE_M":3,"CREDIT":1200}},
-    {"treasure_id":"CH01_VT02","visibility":"VISIBLE","q":18,"r":-1,"landmark":"coastline_supply_case","rewards":{"WEAPON_CHIP_M":2,"CREDIT":1400}},
-    {"treasure_id":"CH01_VT03","visibility":"VISIBLE","q":31,"r":-4,"landmark":"ruined_signal_crate","rewards":{"SKILL_BOOK_T1":2,"SKILL_TOKEN_T1":1}},
-    {"treasure_id":"CH01_VT04","visibility":"VISIBLE","q":48,"r":-8,"landmark":"crystal_survey_chest","rewards":{"BREAK_CORE_T1":2,"ROLE_TOKEN_T1":1}},
-    {"treasure_id":"CH01_VT05","visibility":"VISIBLE","q":69,"r":-11,"landmark":"railside_armament_case","rewards":{"WEAPON_ORE_T1":2,"BLUEPRINT_T1":1}},
-    {"treasure_id":"CH01_VT06","visibility":"VISIBLE","q":88,"r":-14,"landmark":"beacon_vault","rewards":{"TRAINING_NOTE_L":1,"CREDIT":2400}},
-    {"treasure_id":"CH01_HT01","visibility":"HIDDEN","q":6,"r":-1,"landmark":"비정상 수정 군락","rewards":{"SKILL_TOKEN_T1":2,"CREDIT":900}},
-    {"treasure_id":"CH01_HT02","visibility":"HIDDEN","q":28,"r":-5,"landmark":"collapsed_archway","rewards":{"BREAK_CORE_T1":2,"FACTION_SEAL_T1":1}},
-    {"treasure_id":"CH01_HT03","visibility":"HIDDEN","q":55,"r":-11,"landmark":"broken_infrastructure_end","rewards":{"WEAPON_CHIP_L":1,"WEAPON_ORE_T1":2}},
-    {"treasure_id":"CH01_HT04","visibility":"HIDDEN","q":80,"r":-14,"landmark":"open_coastal_clearing","rewards":{"ULT_BOOK_T1":2,"CREDIT":1800}}
+    {
+      "treasure_id": "CH01_VT01",
+      "visibility": "VISIBLE",
+      "q": 4,
+      "r": 2,
+      "landmark": "부서진 릴레이 보급 상자",
+      "rewards": {
+        "TRAINING_NOTE_M": 3,
+        "CREDIT": 1200
+      }
+    },
+    {
+      "treasure_id": "CH01_VT02",
+      "visibility": "VISIBLE",
+      "q": 18,
+      "r": -1,
+      "landmark": "coastline_supply_case",
+      "rewards": {
+        "WEAPON_CHIP_M": 2,
+        "CREDIT": 1400
+      }
+    },
+    {
+      "treasure_id": "CH01_VT03",
+      "visibility": "VISIBLE",
+      "q": 31,
+      "r": -4,
+      "landmark": "ruined_signal_crate",
+      "rewards": {
+        "SKILL_BOOK_T1": 2,
+        "SKILL_TOKEN_T1": 1
+      }
+    },
+    {
+      "treasure_id": "CH01_VT04",
+      "visibility": "VISIBLE",
+      "q": 48,
+      "r": -8,
+      "landmark": "crystal_survey_chest",
+      "rewards": {
+        "BREAK_CORE_T1": 2,
+        "ROLE_TOKEN_T1": 1
+      }
+    },
+    {
+      "treasure_id": "CH01_VT05",
+      "visibility": "VISIBLE",
+      "q": 69,
+      "r": -11,
+      "landmark": "railside_armament_case",
+      "rewards": {
+        "WEAPON_ORE_T1": 2,
+        "BLUEPRINT_T1": 1
+      }
+    },
+    {
+      "treasure_id": "CH01_VT06",
+      "visibility": "VISIBLE",
+      "q": 88,
+      "r": -14,
+      "landmark": "beacon_vault",
+      "rewards": {
+        "TRAINING_NOTE_L": 1,
+        "CREDIT": 2400
+      }
+    },
+    {
+      "treasure_id": "CH01_HT01",
+      "visibility": "HIDDEN",
+      "q": 6,
+      "r": -1,
+      "landmark": "비정상 수정 군락",
+      "rewards": {
+        "SKILL_TOKEN_T1": 2,
+        "CREDIT": 900
+      }
+    },
+    {
+      "treasure_id": "CH01_HT02",
+      "visibility": "HIDDEN",
+      "q": 28,
+      "r": -5,
+      "landmark": "collapsed_archway",
+      "rewards": {
+        "BREAK_CORE_T1": 2,
+        "FACTION_SEAL_T1": 1
+      }
+    },
+    {
+      "treasure_id": "CH01_HT03",
+      "visibility": "HIDDEN",
+      "q": 55,
+      "r": -11,
+      "landmark": "broken_infrastructure_end",
+      "rewards": {
+        "WEAPON_CHIP_L": 1,
+        "WEAPON_ORE_T1": 2
+      }
+    },
+    {
+      "treasure_id": "CH01_HT04",
+      "visibility": "HIDDEN",
+      "q": 80,
+      "r": -14,
+      "landmark": "open_coastal_clearing",
+      "rewards": {
+        "ULT_BOOK_T1": 2,
+        "CREDIT": 1800
+      }
+    }
   ],
   "tiles": [
     {
@@ -526,8 +993,8 @@
       "fog_initial": true
     },
     {
-      "q": 1,
-      "r": 0,
+      "q": 8,
+      "r": 1,
       "elevation": 0,
       "terrain_type": "FOREST",
       "movement_blocked": false,

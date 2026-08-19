@@ -3,6 +3,7 @@ extends Node
 const ChapterMapLoaderScript := preload("res://chapter_map/runtime/chapter_map_loader.gd")
 const ChapterMapProgressScript := preload("res://chapter_map/model/chapter_map_progress.gd")
 const MapExplorationServiceScript := preload("res://chapter_map/model/map_exploration_service.gd")
+const MapSimulationScript := preload("res://chapter_map/model/map_simulation.gd")
 
 const SAVE_PATH := "user://save_v1.json"
 const BACKUP_PATH := "user://save_v1.backup.json"
@@ -117,6 +118,16 @@ func _migrate(data: Dictionary) -> GameResult:
 			data["chapter_map"] = exploration_maps
 			data["save_schema_version"] = 4
 			version = 4
+		elif version == 4:
+			var dynamic_definition: Dictionary = ChapterMapLoaderScript.load_map("CH01_MAP")
+			var dynamic_maps: Dictionary = data.get("chapter_map", {})
+			var dynamic_state: Dictionary = dynamic_maps.get("CH01_MAP", ChapterMapProgressScript.create_default(dynamic_definition))
+			MapExplorationServiceScript.ensure_state(dynamic_state, dynamic_definition)
+			MapSimulationScript.ensure_state(dynamic_state, dynamic_definition)
+			dynamic_maps["CH01_MAP"] = dynamic_state
+			data["chapter_map"] = dynamic_maps
+			data["save_schema_version"] = 5
+			version = 5
 		else:
 			return GameResult.failure("missing migration from %d" % version)
 	return GameResult.success(data)

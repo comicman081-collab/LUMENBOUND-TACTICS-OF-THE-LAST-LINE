@@ -434,6 +434,14 @@ def main() -> None:
         write_csv(SOURCE / "localization" / f"{locale}.csv", rows, ["key", "text"])
     write_json(COMPILED / "localization.json", compiled_localization)
 
+    # Chapter-map JSON remains a separate content authority because it contains
+    # geometry/patrol/relay data rather than battle balance rows.  Compile it
+    # through the same deterministic tool so source and Web runtime cannot
+    # silently diverge after an exploration update.
+    chapter_map_source = SOURCE / "chapter_maps"
+    for map_path in sorted(chapter_map_source.glob("*.json")):
+        write_json(COMPILED / "chapter_maps" / map_path.name, json.loads(map_path.read_text(encoding="utf-8")))
+
     compiled = {
         "data_version": "0.1.0-dev.2",
         "content_policy_version": 1,

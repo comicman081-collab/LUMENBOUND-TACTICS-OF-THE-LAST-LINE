@@ -34,6 +34,19 @@ static func world_to_axial(position: Vector3, size: float = 1.0) -> Vector2i:
 	var r := (2.0 / 3.0 * position.z) / size
 	return _cube_round(q, r)
 
+static func line(from: Vector2i, to: Vector2i) -> Array[Vector2i]:
+	## Stable axial line used by the map simulation's deliberately light-weight
+	## line-of-sight rule.  It is independent from Node3D positions and has an
+	## explicit rounding policy, so browser frame pacing cannot alter vision.
+	var count := distance(from, to)
+	var result: Array[Vector2i] = []
+	if count == 0:
+		return [from]
+	for index in range(count + 1):
+		var weight := float(index) / float(count)
+		result.append(_cube_round(lerpf(float(from.x), float(to.x), weight), lerpf(float(from.y), float(to.y), weight)))
+	return result
+
 static func _cube_round(q: float, r: float) -> Vector2i:
 	var x := q
 	var z := r

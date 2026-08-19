@@ -20,6 +20,7 @@ const ChapterMapLoaderScript := preload("res://chapter_map/runtime/chapter_map_l
 const ChapterMapProgressScript := preload("res://chapter_map/model/chapter_map_progress.gd")
 const ChapterRouteMinimapScript := preload("res://chapter_map/ui/chapter_route_minimap.gd")
 const MapExplorationServiceScript := preload("res://chapter_map/model/map_exploration_service.gd")
+const MapSimulationScript := preload("res://chapter_map/model/map_simulation.gd")
 
 var definition: Dictionary
 var grid = HexGridScript.new()
@@ -45,6 +46,9 @@ var node_markers: Dictionary = {}
 var enemy_pawns: Dictionary = {}
 var enemy_animation_packs: Dictionary = {}
 var treasure_visuals: Dictionary = {}
+var relay_visuals: Dictionary = {}
+var event_visuals: Dictionary = {}
+var landmark_visuals: Dictionary = {}
 var tile_meshes: Dictionary = {}
 var tile_dressing_roots: Dictionary = {}
 var active_dressing_root: Node3D
@@ -56,7 +60,10 @@ var route_nodes: Array[MeshInstance3D] = []
 var selected_ring: MeshInstance3D
 var selected_node: Dictionary = {}
 var selected_treasure: Dictionary = {}
+var selected_relay: Dictionary = {}
+var selected_event: Dictionary = {}
 var preview_path: Array[Vector2i] = []
+var preview_risk := "SAFE"
 var detail_title: Label
 var detail_body: RichTextLabel
 var move_button: Button
@@ -82,13 +89,16 @@ var map_toolbar_buttons: Array[Button] = []
 var detail_panel: PanelContainer
 var detail_scroll: ScrollContainer
 var compact_optional_buttons: Array[Control] = []
+var wait_button: Button
+var simulation_accumulator := 0.0
+var map_simulation_paused := false
 
 func _ready() -> void:
 	definition = ChapterMapLoaderScript.load_map(MAP_ID)
 	grid.load_tiles(definition.get("tiles", []))
 	map_state = AppState.chapter_map_state(MAP_ID)
 	MapExplorationServiceScript.ensure_state(map_state, definition)
-	MapExplorationServiceScript.update_hidden_proximity(map_state, definition, Vector2i(int(map_state.current_q), int(map_state.current_r)))
+	MapExplorationServiceScript.update_proximity(map_state, definition, Vector2i(int(map_state.current_q), int(map_state.current_r)))
 	camera_zoom = clampf(float(map_state.get("camera_zoom", 1.0)), 0.72, 1.55)
 	_build_interface()
 	_build_world()
@@ -120,6 +130,9 @@ func _build_interface() -> void:
 	for action_button in [normal_button, hard_button, current_button, overview_button, skip_button]:
 		toolbar.add_child(action_button)
 		map_toolbar_buttons.append(action_button)
+	wait_button = _button("대기", _wait_pulse, Vector2(86, 56))
+	wait_button.tooltip_text = "부대는 멈춘 채 주변 순찰만 한 펄스 진행합니다."
+	toolbar.add_child(wait_button)
 	var formation := _button("파티 편성", func(): formation_requested.emit(), Vector2(116, 56))
 	toolbar.add_child(formation)
 	compact_optional_buttons.append(formation)
@@ -294,7 +307,7 @@ func _apply_responsive_layout() -> void:
 			node_button.custom_minimum_size = Vector2(86.0, 40.0)
 			node_button.size = Vector2(86.0, 40.0)
 			node_button.add_theme_font_size_override("font_size", 15)
-	var has_selection := not selected_node.is_empty() or not selected_treasure.is_empty()
+	var has_selection := not selected_node.is_empty() or not selected_treasure.is_empty() or not selected_relay.is_empty() or not selected_event.is_empty()
 	if compact:
 		# A real mobile bottom sheet reserves the top status strip and bottom safe
 		# area before it takes map space. It is not a desktop right panel scaled down.
@@ -436,6 +449,12 @@ func _build_world() -> void:
 			_create_enemy_pawn(node)
 	for treasure in definition.get("treasures", []):
 		_create_treasure_visual(treasure)
+	for relay in definition.get("relays", []):
+		_create_relay_visual(relay)
+	for event in definition.get("map_events", []):
+		_create_event_visual(event)
+	for landmark in definition.get("landmarks", []):
+		_create_landmark_visual(landmark)
 	# Nodes are created after the initial interface reflow. Apply the active
 	# viewport profile once more so first-load portrait controls are touch-sized.
 	_apply_responsive_layout()
@@ -831,7 +850,7 @@ func _create_enemy_pawn(node: Dictionary) -> void:
 	var node_id := str(node.get("node_id", ""))
 	var root := Node3D.new()
 	root.name = "EnemyMapPawn_%s" % node_id
-	var coord := Vector2i(int(node.get("q", 0)), int(node.get("r", 0)))
+	var coord := MapSimulationScript.coord_for(map_state, node_id)
 	root.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * 0.42 + 0.18)
 	var rank := str(enemy.get("rank", "NORMAL"))
 	var scale_factor := 1.0 if rank == "NORMAL" else (1.28 if rank == "ELITE" else 1.72)
@@ -891,6 +910,18 @@ func _create_enemy_pawn(node: Dictionary) -> void:
 	threat.no_depth_test = true
 	threat.position.y = sprite.position.y + sprite_world_height * 0.48 + 0.10
 	root.add_child(threat)
+	var awareness := Label3D.new()
+	awareness.name = "AwarenessCue"
+	awareness.text = ""
+	awareness.font_size = 50
+	awareness.outline_size = 9
+	awareness.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	awareness.no_depth_test = true
+	awareness.position.y = threat.position.y + 0.40
+	root.add_child(awareness)
+	root.set_meta("threat_ring", danger_ring)
+	root.set_meta("awareness_label", awareness)
+	root.set_meta("node_id", node_id)
 	world_root.add_child(root)
 	enemy_pawns[node_id] = root
 
@@ -955,6 +986,91 @@ func _create_treasure_visual(treasure: Dictionary) -> void:
 	root.set_meta("glow", glow)
 	world_root.add_child(root)
 	treasure_visuals[treasure_id] = root
+
+func _create_relay_visual(relay: Dictionary) -> void:
+	var relay_id := str(relay.get("relay_id", ""))
+	if relay_id.is_empty(): return
+	var root := Node3D.new()
+	root.name = "MapRelay_%s" % relay_id
+	var coord := Vector2i(int(relay.get("q", 0)), int(relay.get("r", 0)))
+	root.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * 0.42 + 0.18)
+	var parts := _spawn_kit_components("PROP_SIGNAL_TOWER", Vector3.ZERO, 0.78, 0.0, root)
+	if parts.is_empty():
+		var mast := MeshInstance3D.new()
+		var mast_mesh := CylinderMesh.new()
+		mast_mesh.top_radius = 0.12
+		mast_mesh.bottom_radius = 0.22
+		mast_mesh.height = 1.25
+		mast_mesh.radial_segments = 6
+		mast.mesh = mast_mesh
+		mast.position.y = 0.62
+		mast.material_override = _material(Color("1e5361"), Color("15535c"))
+		root.add_child(mast)
+	var signal_ring := MeshInstance3D.new()
+	var signal_mesh := TorusMesh.new()
+	signal_mesh.inner_radius = 0.26
+	signal_mesh.outer_radius = 0.34
+	signal_mesh.rings = 8
+	signal_mesh.ring_segments = 16
+	signal_ring.mesh = signal_mesh
+	signal_ring.position.y = 1.10
+	signal_ring.material_override = _material(Color("5b8090"), Color("224552"))
+	root.add_child(signal_ring)
+	var label := Label3D.new()
+	label.text = "릴레이"
+	label.font_size = 34
+	label.outline_size = 7
+	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	label.no_depth_test = true
+	label.position.y = 1.48
+	label.modulate = Color("a7d4de")
+	root.add_child(label)
+	root.set_meta("signal", signal_ring)
+	root.set_meta("label", label)
+	world_root.add_child(root)
+	relay_visuals[relay_id] = root
+
+func _create_event_visual(event: Dictionary) -> void:
+	var event_id := str(event.get("event_id", ""))
+	if event_id.is_empty(): return
+	var root := Node3D.new()
+	root.name = "MapEvent_%s" % event_id
+	var coord := Vector2i(int(event.get("q", 0)), int(event.get("r", 0)))
+	root.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * 0.42 + 0.16)
+	_spawn_kit_component("PROP_CRYSTAL_SHARD_1", Vector3(0.0, 0.06, 0.0), 0.95, 0.0, root)
+	var beacon := MeshInstance3D.new()
+	var beacon_mesh := SphereMesh.new()
+	beacon_mesh.radius = 0.11
+	beacon_mesh.height = 0.22
+	beacon.mesh = beacon_mesh
+	beacon.position.y = 0.62
+	beacon.material_override = _material(Color("78d9d0"), Color("6effd5"))
+	root.add_child(beacon)
+	root.set_meta("beacon", beacon)
+	world_root.add_child(root)
+	event_visuals[event_id] = root
+
+func _create_landmark_visual(landmark: Dictionary) -> void:
+	var landmark_id := str(landmark.get("landmark_id", ""))
+	if landmark_id.is_empty(): return
+	var root := Node3D.new()
+	root.name = "Landmark_%s" % landmark_id
+	var coord := Vector2i(int(landmark.get("q", 0)), int(landmark.get("r", 0)))
+	root.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * 0.42 + 0.16)
+	var is_major := str(landmark.get("kind", "MINOR")) == "MAJOR"
+	_spawn_kit_components(str(landmark.get("prop", "PROP_CRYSTAL_SHARD_1")), Vector3.ZERO, 1.05 if is_major else 0.70, 0.0, root)
+	if is_major:
+		var label := Label3D.new()
+		label.text = str(landmark.get("name", "지형 표식"))
+		label.font_size = 32
+		label.outline_size = 7
+		label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		label.no_depth_test = true
+		label.position.y = 1.35
+		label.modulate = Color("c9e9e4")
+		root.add_child(label)
+	world_root.add_child(root)
+	landmark_visuals[landmark_id] = root
 
 func _node_style(fill: Color, border: Color) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
@@ -1047,8 +1163,9 @@ func _update_route_mesh() -> void:
 	route_nodes.clear()
 	selected_ring.visible = false
 	var immediate := ImmediateMesh.new()
+	var route_color := Color("4fd3c2") if preview_risk == "SAFE" else (Color("e7bd63") if preview_risk == "WATCHED" else Color("e87972"))
 	if preview_path.size() >= 2:
-		immediate.surface_begin(Mesh.PRIMITIVE_LINE_STRIP, _material(Color("93fff0"), Color("36d8c5")))
+		immediate.surface_begin(Mesh.PRIMITIVE_LINE_STRIP, _material(route_color.lightened(0.18), route_color))
 		for coord in preview_path:
 			immediate.surface_add_vertex(HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * 0.42 + 0.54))
 		immediate.surface_end()
@@ -1059,7 +1176,7 @@ func _update_route_mesh() -> void:
 			var ribbon_mesh := BoxMesh.new()
 			ribbon_mesh.size = Vector3(0.18, 0.045, from.distance_to(to))
 			ribbon.mesh = ribbon_mesh
-			ribbon.material_override = _material(Color("4fd3c2"), Color("31e0c2"))
+			ribbon.material_override = _material(route_color, route_color.darkened(0.05))
 			ribbon.position = (from + to) * 0.5
 			world_root.add_child(ribbon)
 			ribbon.look_at(to, Vector3.UP)
@@ -1075,7 +1192,7 @@ func _update_route_mesh() -> void:
 			pulse.position = to + Vector3(0.0, 0.035, 0.0)
 			world_root.add_child(pulse)
 			route_nodes.append(pulse)
-	var selected_target: Dictionary = selected_node if not selected_node.is_empty() else selected_treasure
+	var selected_target: Dictionary = selected_node if not selected_node.is_empty() else (selected_treasure if not selected_treasure.is_empty() else (selected_relay if not selected_relay.is_empty() else selected_event))
 	if not selected_target.is_empty():
 		var selected_coord := Vector2i(int(selected_target.get("q", 0)), int(selected_target.get("r", 0)))
 		selected_ring.position = HexCoordScript.axial_to_world(selected_coord, TILE_SIZE, float(grid.tile(selected_coord).get("elevation", 0)) * 0.42 + 0.18)
@@ -1152,7 +1269,30 @@ func _refresh_state_visuals() -> void:
 			visual.visible = revealed_treasure
 			if visual_name == "glow" and revealed_treasure:
 				visual.scale = Vector3.ONE
-	status_label.text = "제1장  ·  꺼진 노선의 신호  ·  %s" % ["위험 작전" if hard_overlay else "일반 작전"]
+	for relay in definition.get("relays", []):
+		var relay_id := str(relay.get("relay_id", ""))
+		var relay_root: Node3D = relay_visuals.get(relay_id)
+		if relay_root == null: continue
+		var relay_key := "%d,%d" % [int(relay.get("q", 0)), int(relay.get("r", 0))]
+		var relay_active := MapExplorationServiceScript.relay_state(map_state, relay_id) == "ACTIVE"
+		relay_root.visible = relay_active or revealed.has(relay_key)
+		var relay_signal = relay_root.get_meta("signal", null)
+		if relay_signal is MeshInstance3D:
+			(relay_signal as MeshInstance3D).material_override = _material(Color("71f7d3") if relay_active else Color("4c6876"), Color("48f4d1") if relay_active else Color("183744"))
+		var relay_label = relay_root.get_meta("label", null)
+		if relay_label is Label3D:
+			(relay_label as Label3D).text = "활성 릴레이" if relay_active else "고장 난 릴레이"
+	for event in definition.get("map_events", []):
+		var event_id := str(event.get("event_id", ""))
+		var event_root: Node3D = event_visuals.get(event_id)
+		if event_root == null: continue
+		var event_status := MapExplorationServiceScript.event_state(map_state, event_id)
+		event_root.visible = event_status == "DISCOVERED"
+	for node_id in enemy_pawns:
+		_update_enemy_pawn_from_simulation(str(node_id))
+	var completion := MapExplorationServiceScript.completion(map_state, definition)
+	status_label.text = "제1장  ·  꺼진 노선의 신호  ·  %s  ·  탐험 %d%%" % ["위험 작전" if hard_overlay else "일반 작전", int(completion.get("percent", 0))]
+	if wait_button != null: wait_button.disabled = moving or map_simulation_paused
 	_update_route_minimap()
 	_update_next_encounter_button()
 	_update_panel()
@@ -1191,16 +1331,19 @@ func _select_next_encounter() -> void:
 func _select_node(node: Dictionary) -> void:
 	if moving: return
 	selected_treasure = {}
+	selected_relay = {}
+	selected_event = {}
 	selected_node = node
 	AppState.selected_map_node_id = str(node.node_id)
 	map_state.last_selected_node = str(node.node_id)
 	var allowed: Dictionary = {}
 	for key in map_state.revealed_tiles: allowed[str(key)] = true
-	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), Vector2i(int(node.q), int(node.r)), allowed)
+	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), _encounter_coord(node), allowed)
 	preview_path = _truncate_at_first_unresolved_encounter(preview_path)
-	if not preview_path.is_empty() and preview_path[-1] != Vector2i(int(node.q), int(node.r)):
+	if not preview_path.is_empty() and preview_path[-1] != _encounter_coord(node):
 		selected_node = _node_at_coord(preview_path[-1])
 		AppState.selected_map_node_id = str(selected_node.get("node_id", ""))
+	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path)
 	_update_route_mesh()
 	# Frame both the squad and the hostile pawn while retaining enough route
 	# context to make movement legible.  This keeps a selected N01 from being
@@ -1217,6 +1360,8 @@ func _select_treasure(treasure: Dictionary) -> void:
 	if MapExplorationServiceScript.treasure_state(map_state, treasure_id) != "REVEALED":
 		return
 	selected_node = {}
+	selected_relay = {}
+	selected_event = {}
 	selected_treasure = treasure
 	# Treasure selection is the explicit opt-in for a short exploratory detour.
 	# Do not restrict this route to currently revealed tiles: otherwise a hinted
@@ -1227,6 +1372,33 @@ func _select_treasure(treasure: Dictionary) -> void:
 	if not preview_path.is_empty() and preview_path[-1] != Vector2i(int(treasure.q), int(treasure.r)):
 		selected_treasure = {}
 		selected_node = _node_at_coord(preview_path[-1])
+	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path)
+	_update_route_mesh()
+	_focus_preview_route()
+	_update_panel()
+
+func _select_relay(relay: Dictionary) -> void:
+	if moving: return
+	selected_node = {}
+	selected_treasure = {}
+	selected_event = {}
+	selected_relay = relay
+	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), Vector2i(int(relay.get("q", 0)), int(relay.get("r", 0))))
+	preview_path = _truncate_at_first_unresolved_encounter(preview_path)
+	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path)
+	_update_route_mesh()
+	_focus_preview_route()
+	_update_panel()
+
+func _select_event(event: Dictionary) -> void:
+	if moving: return
+	selected_node = {}
+	selected_treasure = {}
+	selected_relay = {}
+	selected_event = event
+	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), Vector2i(int(event.get("q", 0)), int(event.get("r", 0))))
+	preview_path = _truncate_at_first_unresolved_encounter(preview_path)
+	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path)
 	_update_route_mesh()
 	_focus_preview_route()
 	_update_panel()
@@ -1244,22 +1416,86 @@ func _truncate_at_first_unresolved_encounter(path: Array[Vector2i]) -> Array[Vec
 		var coord := path[index]
 		for node in definition.get("nodes", []):
 			if str(node.get("stage_id", "")).is_empty(): continue
-			if int(node.get("q", 0)) != coord.x or int(node.get("r", 0)) != coord.y: continue
+			if _encounter_coord(node) != coord: continue
 			if not MapExplorationServiceScript.encounter_cleared(map_state, str(node.get("node_id", ""))) and int(AppState.profile.stage_stars.get(str(node.get("stage_id", "")), 0)) <= 0:
 				return path.slice(0, index + 1)
 	return path
 
 func _node_at_coord(coord: Vector2i) -> Dictionary:
 	for node in definition.get("nodes", []):
-		if int(node.get("q", 0)) == coord.x and int(node.get("r", 0)) == coord.y:
+		var node_coord := _encounter_coord(node)
+		if node_coord == coord:
 			return node
 	return {}
+
+func _encounter_coord(node: Dictionary) -> Vector2i:
+	var node_id := str(node.get("node_id", ""))
+	if not MapSimulationScript.patrol_definition(definition, node_id).is_empty() and not MapExplorationServiceScript.encounter_cleared(map_state, node_id):
+		return MapSimulationScript.coord_for(map_state, node_id)
+	return Vector2i(int(node.get("q", 0)), int(node.get("r", 0)))
+
+func _update_enemy_pawn_from_simulation(node_id: String) -> void:
+	var root: Node3D = enemy_pawns.get(node_id)
+	if root == null: return
+	var node := ChapterMapLoaderScript.node_by_id(definition, node_id)
+	if node.is_empty(): return
+	var coord := _encounter_coord(node)
+	var target := HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * 0.42 + 0.18)
+	root.position = target
+	var runtime: Dictionary = map_state.get("patrol_states", {}).get(node_id, {})
+	var awareness_state := str(runtime.get("awareness", MapSimulationScript.UNAWARE))
+	var awareness_label = root.get_meta("awareness_label", null)
+	if awareness_label is Label3D:
+		(awareness_label as Label3D).text = "!" if awareness_state == MapSimulationScript.ALERT else ("?" if awareness_state == MapSimulationScript.SUSPICIOUS else "")
+		(awareness_label as Label3D).modulate = Color("ff766f") if awareness_state == MapSimulationScript.ALERT else Color("f4d77c")
+	var ring = root.get_meta("threat_ring", null)
+	if ring is MeshInstance3D:
+		var warning := Color("e96871") if awareness_state == MapSimulationScript.ALERT else (Color("e4bd62") if awareness_state == MapSimulationScript.SUSPICIOUS else Color("a95762"))
+		(ring as MeshInstance3D).material_override = _material(warning, warning.darkened(0.14))
+
+func _advance_map_simulation(delta: float) -> void:
+	if map_simulation_paused or moving and map_state.get("pending_encounter", {}).size() > 0: return
+	simulation_accumulator += minf(delta, MapSimulationScript.TICK_SECONDS)
+	while simulation_accumulator >= MapSimulationScript.TICK_SECONDS:
+		simulation_accumulator -= MapSimulationScript.TICK_SECONDS
+		var party_coord := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
+		var update: Dictionary = MapSimulationScript.advance_ticks(map_state, definition, grid, party_coord, 1)
+		for node_id in update.get("changed", []): _update_enemy_pawn_from_simulation(str(node_id))
+		for node_id in update.get("awareness", {}).keys(): _update_enemy_pawn_from_simulation(str(node_id))
+		if not update.get("contacts", []).is_empty():
+			_start_patrol_contact(str(update.contacts[0]), party_coord)
+			break
+
+func _wait_pulse() -> void:
+	if moving or map_simulation_paused: return
+	var party_coord := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
+	var update := MapSimulationScript.advance_wait(map_state, definition, grid, party_coord)
+	for node_id in update.get("changed", []): _update_enemy_pawn_from_simulation(str(node_id))
+	for node_id in update.get("awareness", {}).keys(): _update_enemy_pawn_from_simulation(str(node_id))
+	SaveService.save_game()
+	_refresh_state_visuals()
+	if not update.get("contacts", []).is_empty():
+		_start_patrol_contact(str(update.contacts[0]), party_coord)
+
+func _start_patrol_contact(node_id: String, return_coord: Vector2i) -> void:
+	if not map_state.get("pending_encounter", {}).is_empty(): return
+	var node := ChapterMapLoaderScript.node_by_id(definition, node_id)
+	if node.is_empty() or not AppState.is_stage_unlocked(str(node.get("stage_id", ""))): return
+	if MapExplorationServiceScript.encounter_cleared(map_state, node_id): return
+	movement_generation += 1
+	moving = false
+	active_movement_path.clear()
+	if map_state.get("patrol_states", {}).has(node_id):
+		map_state.patrol_states[node_id].patrol_state = MapSimulationScript.PATROL_ENGAGED
+	if AppState.prepare_map_encounter(str(node.get("stage_id", "")), node_id, return_coord, MAP_ID):
+		SaveService.save_game()
+		battle_requested.emit(str(node.get("stage_id", "")))
 
 func _update_panel() -> void:
 	if detail_title == null: return
 	_apply_responsive_layout()
 	_update_route_minimap()
-	if selected_node.is_empty() and selected_treasure.is_empty():
+	if selected_node.is_empty() and selected_treasure.is_empty() and selected_relay.is_empty() and selected_event.is_empty():
 		detail_title.text = "조우 타일을 선택하세요"
 		detail_body.text = "[color=#91aac8]한 번 선택하면 예상 경로를 표시합니다. 이동 확정 전에는 위치와 저장 데이터가 바뀌지 않습니다.[/color]\n\n클리어 타일: 빠른 이동\n3성 타일: 원격 소탕\n맵 이동: 작전력 소비 없음"
 		move_button.visible = false
@@ -1268,10 +1504,43 @@ func _update_panel() -> void:
 		for button in sweep_buttons: button.visible = false
 		_set_action_states(true, true, true)
 		return
+	if not selected_relay.is_empty():
+		var relay_id := str(selected_relay.get("relay_id", ""))
+		var relay_status := MapExplorationServiceScript.relay_state(map_state, relay_id)
+		var relay_coord := Vector2i(int(selected_relay.get("q", 0)), int(selected_relay.get("r", 0)))
+		var at_relay := Vector2i(int(map_state.current_q), int(map_state.current_r)) == relay_coord
+		detail_title.text = str(selected_relay.get("name", "지역 릴레이"))
+		detail_body.text = "[color=#78e6d0][b]%s[/b][/color]\n%s\n\n예상 이동  [color=#85e8ff]%d 구간[/color]  ·  %s\n\n복구하면 주변 지도 정보와 탐색 단서를 복원합니다. 성장 재료는 소비하지 않습니다." % ["ACTIVE" if relay_status == "ACTIVE" else "OFFLINE", "연결된 활성 릴레이 사이를 빠르게 이동할 수 있습니다." if relay_status == "ACTIVE" else "현장 접근 후 신호를 복구할 수 있습니다.", maxi(0, preview_path.size() - 1), _risk_text()]
+		move_button.visible = true
+		move_button.text = "릴레이 복구" if at_relay and relay_status != "ACTIVE" else "릴레이로 이동"
+		move_button.disabled = (at_relay and relay_status == "ACTIVE") or (not at_relay and preview_path.size() <= 1)
+		fast_travel_button.visible = relay_status == "ACTIVE" and not at_relay and not _active_relay_at_party().is_empty()
+		fast_travel_button.text = "활성 릴레이로 빠른 이동"
+		fast_travel_button.disabled = not MapExplorationServiceScript.can_fast_travel_between(map_state, definition, str(_active_relay_at_party().get("relay_id", "")), relay_id)
+		battle_button.visible = false
+		for button in sweep_buttons: button.visible = false
+		return
+	if not selected_event.is_empty():
+		var event_id := str(selected_event.get("event_id", ""))
+		var event_coord := Vector2i(int(selected_event.get("q", 0)), int(selected_event.get("r", 0)))
+		var at_event := Vector2i(int(map_state.current_q), int(map_state.current_r)) == event_coord
+		var choices: Array = selected_event.get("choices", [])
+		var resolved := MapExplorationServiceScript.event_state(map_state, event_id) == "RESOLVED"
+		detail_title.text = str(selected_event.get("title", "탐색 기록"))
+		detail_body.text = "%s\n\n예상 이동  [color=#85e8ff]%d 구간[/color]  ·  %s" % [str(selected_event.get("body", "주변의 작은 변화가 탐색을 유도합니다.")), maxi(0, preview_path.size() - 1), _risk_text()]
+		move_button.visible = not resolved
+		move_button.text = str(choices[0].get("label", "조사한다")) if at_event and not choices.is_empty() else "탐색 지점으로 이동"
+		move_button.disabled = resolved or (not at_event and preview_path.size() <= 1)
+		fast_travel_button.visible = at_event and not resolved and choices.size() > 1
+		fast_travel_button.text = str(choices[1].get("label", "지나간다")) if choices.size() > 1 else ""
+		fast_travel_button.disabled = resolved
+		battle_button.visible = false
+		for button in sweep_buttons: button.visible = false
+		return
 	if not selected_treasure.is_empty():
 		var treasure_id := str(selected_treasure.get("treasure_id", ""))
 		detail_title.text = "탐색 보급품 · 발견됨"
-		detail_body.text = "[color=#f1d77a][b]%s[/b][/color]\n환경 단서를 따라 확인된 보급품입니다.\n\n예상 이동  [color=#85e8ff]%d 구간[/color]\n\n도착하면 보급품을 회수합니다. 이동에는 작전력을 소비하지 않습니다." % [str(selected_treasure.get("landmark", "탐색 지점")).replace("_", " "), maxi(0, preview_path.size() - 1)]
+		detail_body.text = "[color=#f1d77a][b]%s[/b][/color]\n환경 단서를 따라 확인된 보급품입니다.\n\n예상 이동  [color=#85e8ff]%d 구간[/color]  ·  %s\n\n도착하면 보급품을 회수합니다. 이동에는 작전력을 소비하지 않습니다." % [str(selected_treasure.get("landmark", "탐색 지점")).replace("_", " "), maxi(0, preview_path.size() - 1), _risk_text()]
 		move_button.visible = true
 		move_button.text = "보급품으로 이동"
 		move_button.disabled = preview_path.size() <= 1
@@ -1299,7 +1568,7 @@ func _update_panel() -> void:
 	var lock_reason := "" if unlocked else ("CH01-N10 클리어 필요" if stage.mode == "HARD" else "직전 NORMAL 클리어 필요")
 	var operation_type := "위험 작전" if stage.mode == "HARD" else "일반 작전"
 	detail_title.text = "%s%s" % [LocalizationService.tr_key(stage.name_key), " · 대형 조우" if stage.boss else ""]
-	detail_body.text = "[color=#7cf1dc][b]%s[/b][/color]\n[color=#f1d77a]권장 Lv.%d[/color]     작전력 [b]%d[/b]     제한 %d초\n완료 등급  %s\n입장 횟수  %s\n예상 이동  [color=#85e8ff]%d 구간[/color]\n\n[color=#9cc5dc][b]3성 조건[/b][/color]\n클리어 · 전투불능 0 · %d초 내\n\n[color=#9cc5dc][b]획득 가능 보상[/b][/color]\n%s%s" % [operation_type, int(stage.recommended_level), int(stage.stamina_cost), int(stage.time_limit), "★".repeat(stars) + "☆".repeat(3-stars), attempts, maxi(0, preview_path.size()-1), int(stage.target_time), _reward_text(reward), "\n\n[color=#ffbd7a][b]잠금[/b]  " + lock_reason + "[/color]" if not unlocked else ""]
+	detail_body.text = "[color=#7cf1dc][b]%s[/b][/color]\n[color=#f1d77a]권장 Lv.%d[/color]     작전력 [b]%d[/b]     제한 %d초\n완료 등급  %s\n입장 횟수  %s\n예상 이동  [color=#85e8ff]%d 구간[/color]  ·  %s\n\n[color=#9cc5dc][b]3성 조건[/b][/color]\n클리어 · 전투불능 0 · %d초 내\n\n[color=#9cc5dc][b]획득 가능 보상[/b][/color]\n%s%s" % [operation_type, int(stage.recommended_level), int(stage.stamina_cost), int(stage.time_limit), "★".repeat(stars) + "☆".repeat(3-stars), attempts, maxi(0, preview_path.size()-1), _risk_text(), int(stage.target_time), _reward_text(reward), "\n\n[color=#ffbd7a][b]잠금[/b]  " + lock_reason + "[/color]" if not unlocked else ""]
 	# Keep the primary map actions above the portrait bottom edge. Remote farming
 	# tools appear only after their real unlock condition, rather than occupying
 	# the first-visit encounter sheet as disabled controls.
@@ -1331,9 +1600,43 @@ func _reward_text(reward: Dictionary) -> String:
 	for entry in reward.get("bonus", []): lines.append("• %s %.0f%%" % [str(entry.get("item_id", "?")), float(entry.get("chance", 0.0))*100.0])
 	return "\n".join(lines)
 
+func _risk_text() -> String:
+	return "[color=#71e6c7]안전 경로[/color]" if preview_risk == "SAFE" else ("[color=#f0c46b]경계 구간 가능[/color]" if preview_risk == "WATCHED" else "[color=#f07f79]적 접촉 예상[/color]")
+
+func _active_relay_at_party() -> Dictionary:
+	var current := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
+	for relay in definition.get("relays", []):
+		if MapExplorationServiceScript.relay_state(map_state, str(relay.get("relay_id", ""))) == "ACTIVE" and current == Vector2i(int(relay.get("q", 0)), int(relay.get("r", 0))):
+			return relay
+	return {}
+
 func _confirm_move() -> void:
-	if moving or preview_path.size() <= 1: return
+	if moving: return
+	if not selected_relay.is_empty() and preview_path.size() <= 1:
+		_activate_selected_relay()
+		return
+	if not selected_event.is_empty() and preview_path.size() <= 1:
+		_resolve_selected_event(0)
+		return
+	if preview_path.size() <= 1: return
 	_move_along(preview_path.duplicate())
+
+func _activate_selected_relay() -> void:
+	if selected_relay.is_empty(): return
+	var result := MapExplorationServiceScript.activate_relay(map_state, definition, str(selected_relay.get("relay_id", "")))
+	if result.ok:
+		SaveService.save_game()
+		_refresh_state_visuals()
+
+func _resolve_selected_event(choice_index: int) -> void:
+	if selected_event.is_empty(): return
+	var choices: Array = selected_event.get("choices", [])
+	if choice_index < 0 or choice_index >= choices.size(): return
+	var result := MapExplorationServiceScript.resolve_event(map_state, definition, str(selected_event.get("event_id", "")), str(choices[choice_index].get("choice_id", "")))
+	if result.ok:
+		SaveService.save_game()
+		_refresh_state_visuals()
+		if not result.value.get("rewards", {}).is_empty(): treasure_reward_requested.emit(result.value)
 
 func _move_along(path: Array[Vector2i]) -> void:
 	moving = true
@@ -1359,8 +1662,19 @@ func _move_along(path: Array[Vector2i]) -> void:
 		# exactly to every footstep; this makes travelled distance immediately legible.
 		if index == 1 or index % 3 == 0 or index == path.size() - 1:
 			_follow_moving_pawn(target)
-		var proximity_changes := MapExplorationServiceScript.update_hidden_proximity(map_state, definition, coord)
+		# Logical party position advances on the same discrete hex boundary that
+		# the pawn animation reaches.  The map simulation may then interrupt this
+		# route, but never reads tween progress or rendered Node3D coordinates.
+		ChapterMapProgressScript.mark_visited(map_state, [coord])
+		var proximity_changes := MapExplorationServiceScript.update_proximity(map_state, definition, coord)
 		if not proximity_changes.is_empty(): _refresh_state_visuals()
+		var patrol_update := MapSimulationScript.advance_ticks(map_state, definition, grid, coord, 1)
+		for node_id in patrol_update.get("changed", []): _update_enemy_pawn_from_simulation(str(node_id))
+		for node_id in patrol_update.get("awareness", {}).keys(): _update_enemy_pawn_from_simulation(str(node_id))
+		if not patrol_update.get("contacts", []).is_empty():
+			var prior_coord := path[index - 1]
+			_start_patrol_contact(str(patrol_update.contacts[0]), prior_coord)
+			return
 	ChapterMapProgressScript.mark_visited(map_state, path)
 	map_state.last_selected_node = str(selected_node.get("node_id", ""))
 	SaveService.save_game()
@@ -1407,14 +1721,26 @@ func _spawn_pawn_step_trail(position: Vector3) -> void:
 
 func skip_movement() -> void:
 	if not moving or active_movement_path.is_empty(): return
-	var skipped_path := active_movement_path.duplicate()
+	var skipped_path: Array[Vector2i] = active_movement_path.duplicate()
 	movement_generation += 1
-	ChapterMapProgressScript.mark_visited(map_state, skipped_path)
-	pawn.position = _pawn_world_position()
-	preview_path = [skipped_path[-1]]
 	active_movement_path.clear()
 	moving = false
 	pawn_motion_state = "IDLE"
+	for index in range(1, skipped_path.size()):
+		var coord: Vector2i = skipped_path[index]
+		ChapterMapProgressScript.mark_visited(map_state, [coord])
+		MapExplorationServiceScript.update_proximity(map_state, definition, coord)
+		var update := MapSimulationScript.advance_ticks(map_state, definition, grid, coord, 1)
+		for node_id in update.get("changed", []): _update_enemy_pawn_from_simulation(str(node_id))
+		if not update.get("contacts", []).is_empty():
+			pawn.position = _pawn_world_position()
+			preview_path = [coord]
+			_update_route_mesh()
+			_refresh_state_visuals()
+			_start_patrol_contact(str(update.contacts[0]), skipped_path[index - 1])
+			return
+	pawn.position = _pawn_world_position()
+	preview_path = [skipped_path[-1]]
 	_update_route_mesh()
 	_refresh_state_visuals()
 	SaveService.save_game()
@@ -1423,7 +1749,7 @@ func skip_movement() -> void:
 func _resolve_arrival(path: Array[Vector2i]) -> void:
 	if path.is_empty(): return
 	var arrival := path[-1]
-	var proximity_changes := MapExplorationServiceScript.update_hidden_proximity(map_state, definition, arrival)
+	var proximity_changes := MapExplorationServiceScript.update_proximity(map_state, definition, arrival)
 	if not proximity_changes.is_empty():
 		_refresh_state_visuals()
 	if not selected_treasure.is_empty() and arrival == Vector2i(int(selected_treasure.q), int(selected_treasure.r)):
@@ -1432,20 +1758,44 @@ func _resolve_arrival(path: Array[Vector2i]) -> void:
 			SaveService.save_game()
 			treasure_reward_requested.emit(report.value)
 		return
+	if not selected_relay.is_empty() and arrival == Vector2i(int(selected_relay.get("q", 0)), int(selected_relay.get("r", 0))):
+		_activate_selected_relay()
+		return
+	if not selected_event.is_empty() and arrival == Vector2i(int(selected_event.get("q", 0)), int(selected_event.get("r", 0))):
+		_update_panel()
+		return
 	if selected_node.is_empty() or str(selected_node.get("stage_id", "")).is_empty(): return
-	if arrival != Vector2i(int(selected_node.q), int(selected_node.r)): return
+	if arrival != _encounter_coord(selected_node): return
 	if MapExplorationServiceScript.encounter_cleared(map_state, str(selected_node.node_id)) or int(AppState.profile.stage_stars.get(str(selected_node.stage_id), 0)) > 0:
 		return
 	var return_coord := path[path.size() - 2] if path.size() >= 2 else Vector2i(int(map_state.current_q), int(map_state.current_r))
-	if AppState.prepare_map_encounter(str(selected_node.stage_id), str(selected_node.node_id), return_coord, MAP_ID):
-		SaveService.save_game()
-		battle_requested.emit(str(selected_node.stage_id))
+	_start_patrol_contact(str(selected_node.node_id), return_coord)
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and moving:
-		skip_movement()
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		map_simulation_paused = true
+		map_state.map_simulation_state.paused = true
+		if moving: skip_movement()
+	elif what == NOTIFICATION_APPLICATION_FOCUS_IN:
+		map_simulation_paused = false
+		map_state.map_simulation_state.paused = false
 
 func _fast_travel() -> void:
+	if not selected_event.is_empty():
+		_resolve_selected_event(1)
+		return
+	if not selected_relay.is_empty():
+		var origin := _active_relay_at_party()
+		var destination_id := str(selected_relay.get("relay_id", ""))
+		if origin.is_empty() or not MapExplorationServiceScript.can_fast_travel_between(map_state, definition, str(origin.get("relay_id", "")), destination_id): return
+		AppState.set_chapter_map_position(Vector2i(int(selected_relay.get("q", 0)), int(selected_relay.get("r", 0))), "", MAP_ID)
+		pawn.position = _pawn_world_position()
+		_focus_current(false)
+		SaveService.save_game()
+		preview_path = [Vector2i(int(selected_relay.get("q", 0)), int(selected_relay.get("r", 0)))]
+		_update_route_mesh()
+		_update_panel()
+		return
 	if selected_node.is_empty(): return
 	var stage_id := str(selected_node.get("stage_id", ""))
 	if int(AppState.profile.stage_stars.get(stage_id, 0)) <= 0: return
@@ -1469,7 +1819,10 @@ func _request_sweep(count: int) -> void:
 func _clear_selection() -> void:
 	selected_node = {}
 	selected_treasure = {}
+	selected_relay = {}
+	selected_event = {}
 	preview_path.clear()
+	preview_risk = "SAFE"
 	_update_route_mesh()
 	_update_panel()
 
@@ -1554,6 +1907,17 @@ func _select_node_near_screen(screen_position: Vector2) -> void:
 	var closest: Dictionary = {}
 	var closest_kind := ""
 	var closest_distance := INF
+	# Hostile pawns take priority over their authored stage marker: selecting one
+	# previews a route but cannot start combat before the squad really reaches it.
+	for node_id in enemy_pawns:
+		var hostile_root: Node3D = enemy_pawns[node_id]
+		if hostile_root == null or not hostile_root.visible: continue
+		var hostile_projected := camera.unproject_position(hostile_root.position + Vector3(0.0, 0.68, 0.0)) * surface_scale
+		var hostile_distance := hostile_projected.distance_to(screen_position)
+		if hostile_distance < closest_distance:
+			closest_distance = hostile_distance
+			closest = ChapterMapLoaderScript.node_by_id(definition, str(node_id))
+			closest_kind = "NODE"
 	for node in definition.get("nodes", []):
 		var node_button: Button = node_buttons.get(str(node.get("node_id", "")))
 		if node_button == null or not node_button.visible: continue
@@ -1582,12 +1946,35 @@ func _select_node_near_screen(screen_position: Vector2) -> void:
 			closest_distance = distance
 			closest = treasure
 			closest_kind = "TREASURE"
+	for relay in definition.get("relays", []):
+		var relay_id := str(relay.get("relay_id", ""))
+		var relay_root: Node3D = relay_visuals.get(relay_id)
+		if relay_root == null or not relay_root.visible: continue
+		var relay_projected := camera.unproject_position(relay_root.position + Vector3(0.0, 0.82, 0.0)) * surface_scale
+		var relay_distance := relay_projected.distance_to(screen_position)
+		if relay_distance < closest_distance:
+			closest_distance = relay_distance
+			closest = relay
+			closest_kind = "RELAY"
+	for event in definition.get("map_events", []):
+		var event_id := str(event.get("event_id", ""))
+		var event_root: Node3D = event_visuals.get(event_id)
+		if event_root == null or not event_root.visible: continue
+		var event_projected := camera.unproject_position(event_root.position + Vector3(0.0, 0.62, 0.0)) * surface_scale
+		var event_distance := event_projected.distance_to(screen_position)
+		if event_distance < closest_distance:
+			closest_distance = event_distance
+			closest = event
+			closest_kind = "EVENT"
 	if not closest.is_empty() and closest_distance <= hit_radius:
 		if closest_kind == "TREASURE": _select_treasure(closest)
+		elif closest_kind == "RELAY": _select_relay(closest)
+		elif closest_kind == "EVENT": _select_event(closest)
 		else: _select_node(closest)
 
 func _process(delta: float) -> void:
 	if camera == null: return
+	_advance_map_simulation(delta)
 	pawn_motion_phase += delta * (8.5 if pawn_motion_state == "WALK" else 3.0)
 	if pawn_visual != null:
 		var bob := sin(pawn_motion_phase) * (0.060 if pawn_motion_state == "WALK" else 0.018)
@@ -1625,7 +2012,18 @@ func _process(delta: float) -> void:
 	camera.size = 13.2 / camera_zoom
 	camera.position = camera_target + Vector3(9.4, 12.8, 11.2)
 	camera.look_at(camera_target, Vector3.UP)
-	_stream_visible_tiles(HexCoordScript.world_to_axial(camera_target, TILE_SIZE))
+	var camera_coord := HexCoordScript.world_to_axial(camera_target, TILE_SIZE)
+	_stream_visible_tiles(camera_coord)
+	# Rendering is streamed, but patrol state never is: offscreen hostiles retain
+	# only their tiny logical state and wake visually when the camera returns.
+	for node_id in enemy_pawns:
+		var root: Node3D = enemy_pawns[node_id]
+		var node := ChapterMapLoaderScript.node_by_id(definition, str(node_id))
+		if root == null or node.is_empty(): continue
+		var stage_id := str(node.get("stage_id", ""))
+		var unlocked := stage_id != "" and AppState.is_stage_unlocked(stage_id)
+		var cleared := MapExplorationServiceScript.encounter_cleared(map_state, str(node_id)) or int(AppState.profile.stage_stars.get(stage_id, 0)) > 0
+		root.visible = unlocked and not cleared and (not stage_id.contains("-H") or hard_overlay) and MapSimulationScript.should_render_pawn(_encounter_coord(node), camera_coord, STREAM_RADIUS + 2)
 	# The render target grows on responsive layouts.  Scaling node controls from
 	# the original 1280×720 constant displaced labels from their actual 3D
 	# encounter markers after a resize; use the live SubViewport size instead.

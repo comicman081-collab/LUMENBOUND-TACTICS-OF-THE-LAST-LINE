@@ -15,7 +15,11 @@ static func create_default(definition: Dictionary) -> Dictionary:
 		"current_party_hex": [int(start.get("q", 0)), int(start.get("r", 0))],
 		"cleared_encounters": [], "encounter_states": {},
 		"treasure_states": {}, "revealed_treasures": [], "claimed_treasures": [],
-		"pending_encounter": {}, "last_map_camera_hex": [int(start.get("q", 0)), int(start.get("r", 0))]
+		"pending_encounter": {}, "last_map_camera_hex": [int(start.get("q", 0)), int(start.get("r", 0))],
+		"discovered_tiles": [], "patrol_states": {}, "patrol_positions": {},
+		"relay_states": {}, "map_event_states": {}, "intel_states": {},
+		"exploration_completion": {},
+		"map_simulation_state": {"tick": 0, "seed": int(definition.get("map_simulation", {}).get("seed", 140701)), "paused": false}
 	}
 	state.visited_tiles.append("%d,%d" % [state.current_q, state.current_r])
 	refresh_reveal(state, definition, 0, 0, false)
@@ -93,6 +97,12 @@ static func refresh_reveal(state: Dictionary, definition: Dictionary, highest_no
 					revealed[HexCoordScript.key(neighbor)] = true
 	var start: Dictionary = definition.get("start_hex", {"q": 0, "r": 0})
 	revealed["%d,%d" % [int(start.q), int(start.r)]] = true
+	# Exploration devices can reveal a local area without changing the authored
+	# stage unlock route.  Keep these discovered cells when stage progression
+	# refreshes the normal route rather than silently erasing a repaired relay's
+	# map information.
+	for key in state.get("discovered_tiles", []):
+		revealed[str(key)] = true
 	state.revealed_tiles = revealed.keys()
 	state.revealed_tiles.sort()
 

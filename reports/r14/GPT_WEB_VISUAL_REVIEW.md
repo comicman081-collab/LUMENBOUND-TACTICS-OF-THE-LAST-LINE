@@ -110,3 +110,34 @@ The current local R7 overwrite adds exactly that P1-only follow-up:
 The follow-up was rebuilt into `builds/web_r7_current_release` and inspected in
 the local Web runtime. A subsequent external review is still required before
 claiming the 88-point visual gate as passed.
+
+## External re-review 3 — deep-water P1 closure
+
+The same GPT Web collaboration thread then reviewed one fresh actual R7 Web
+overview after the P1 deep-water follow-up. The external verdict was
+**89/100 — PASS** against the 88-point commercial-visual gate.
+
+| Category | Score | Verdict |
+| --- | ---: | --- |
+| Terrain topology / continuity | 19/20 | PASS |
+| Shoreline / deep water | 14/15 | PASS |
+| Signal road / route readability | 14/15 | PASS |
+| Encounter grounding | 10/10 | PASS |
+| Environment composition | 13/15 | PASS |
+| Chapter identity / landmarks | 9/10 | PASS |
+| Overview readability | 10/10 | PASS |
+| Technical visual polish | 10/15 | PASS |
+| **Total** | **89/100** | **PASS** |
+
+The reviewer explicitly cleared the relevant hard failures:
+
+- deep-water flatness: **PASS**;
+- shoreline: **PASS**;
+- commercial water hard failure: **NO**;
+- technical hard failure: **NO**;
+- remaining P0: **none**.
+
+The reviewer noted that the water-current animation itself cannot be proven by
+a still image. That is recorded as a separate runtime-visual observation, not
+a visual-gate failure: the shader's time-based band animation remains covered
+by the local Web runtime inspection and must stay in future motion QA.

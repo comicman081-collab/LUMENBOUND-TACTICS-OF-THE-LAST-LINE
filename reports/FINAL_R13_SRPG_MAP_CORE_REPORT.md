@@ -17,10 +17,10 @@
 
 - Directory: `builds/web_r7_current_release`
 - Build files: 18
-- Total bytes: `42,008,285`
-- PCK: `r7_current_a7f7ca803ea6.pck`, `31,479,680` bytes
-- PCK SHA-256: `A7F7CA803EA65E82BB3D2A731656B261C34209E1385D9E12346BC28DA5568FED`
-- WASM SHA-256: `52E161B049AF1696730D31DE0846B3B34CBE79275A65EA9B279B4C62CA299331`
+- Total bytes: `42,009,389`
+- PCK: `r7_current_aab97113dc33.pck`, `31,480,784` bytes
+- PCK SHA-256: `AAB97113DC3308072C37E2F1D424CDB4D6E91262A3C8FAD31B8BBCB605896436`
+- This artifact replaces the same fixed R7 output directory; no versioned release directory or public deployment was created.
 
 ## Actual in-app browser evidence
 
@@ -37,6 +37,8 @@ The following are real Web screenshots, not editor renders:
 - `reports/r13/screenshots/12_HIDDEN_TREASURE_REVEALED.png`
 - `reports/r13/screenshots/13_TREASURE_REWARD.png`
 - `reports/r13/screenshots/14_RELOAD_RESTORED.png`
+- `reports/r13/screenshots/R13_FINAL_HINT_ENVIRONMENTAL.png`
+- `reports/r13/screenshots/R13_FINAL_REWARD_CLARITY.png`
 
 The final browser run had `0` captured console errors and `0` captured console warnings.
 
@@ -50,6 +52,14 @@ The final browser run had `0` captured console errors and `0` captured console w
 | In-app Web N01 end-to-end | PASS |
 | Exact-once reward / save recovery | PASS |
 | Deployment / publishing | NOT PERFORMED |
-| External GPT-web review message | NOT SENT — requires confirmation immediately before external transmission |
+| External GPT-web visual re-review | PASS — in-app ChatGPT review, 2026-08-19 |
 
-No public deployment, git push, release upload, or external message was performed in this R13 validation pass.
+## In-app GPT-web visual re-review
+
+The user explicitly authorized the in-app ChatGPT exchange and requested it be sent. The reviewer received the actual Web captures rather than editor renders.
+
+- `HIDDEN TREASURE VISUAL / EXPLORATION UX`: **PASS**. The reviewer confirmed that the HINT screen exposes no exact ring, chest, selection state, or automatic route; the environmental crystal/prop cue remains the only clue before the close-range reveal.
+- `REWARD / GROWTH HUMAN READABILITY`: **PASS**. The reviewer confirmed the high-contrast two-column reward cards, pre/post inventory values, separate NEW-0 state, and separate current-growth summary have a clear visual hierarchy.
+- Non-blocking P1 follow-up: add a very subtle 1–2 second brightness pulse or light particle to the hinted environmental prop. Do not restore an exact location marker.
+
+No public deployment, git push, release upload, or hosted publication was performed.

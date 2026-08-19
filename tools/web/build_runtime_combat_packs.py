@@ -149,9 +149,23 @@ def load_json(path: Path) -> dict:
 
 
 def prepare_output(path: Path) -> None:
-    if path.exists():
-        shutil.rmtree(path)
-    path.mkdir(parents=True, exist_ok=True)
+    """Clear bridge outputs without deleting Godot's tracked import metadata.
+
+    The atlas and manifest are regenerated deterministically, but `*.import`
+    files are project metadata that point at Godot's imported cache. Removing
+    those files during every Web build can leave a headless validation process
+    with an invalid texture record even though the raw PNG exists.
+    """
+    if not path.exists():
+        path.mkdir(parents=True, exist_ok=True)
+        return
+    for child in path.iterdir():
+        if child.name.endswith(".import"):
+            continue
+        if child.is_dir():
+            shutil.rmtree(child)
+        else:
+            child.unlink()
 
 
 def image_cell(source: Path, size: int) -> Image.Image:

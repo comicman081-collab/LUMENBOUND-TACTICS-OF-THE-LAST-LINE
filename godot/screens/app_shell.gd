@@ -1210,31 +1210,87 @@ func _goto_growth_candidate(candidate: Dictionary) -> void:
 	AppState.selected_character_id = character_id
 	SceneRouter.go("GROWTH")
 
+func _reward_item_card(parent: Node, item_name: String, amount: int, before: int, after: int, font_size: int) -> void:
+	var card := PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.custom_minimum_size = Vector2(0.0, 92.0 * _portrait_ui_scale())
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("142b3d")
+	style.border_color = Color("3e8f91")
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(10)
+	style.content_margin_left = 18
+	style.content_margin_right = 18
+	style.content_margin_top = 9
+	style.content_margin_bottom = 9
+	card.add_theme_stylebox_override("panel", style)
+	parent.add_child(card)
+	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation", 3)
+	card.add_child(body)
+	var heading := HBoxContainer.new()
+	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body.add_child(heading)
+	var name_label := _label(item_name, font_size + 1, Color("e7f7f4"))
+	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	heading.add_child(name_label)
+	var amount_label := _label("+%s" % MathUtil.comma(amount), font_size + 6, Color("76f1c9"))
+	amount_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	heading.add_child(amount_label)
+	body.add_child(_label("보유량   %s  →  %s" % [MathUtil.comma(before), MathUtil.comma(after)], font_size - 1, Color("b8d8e5")))
+
+func _reward_summary_card(parent: VBoxContainer, text_value: String, font_size: int) -> void:
+	var card := PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("1e2737")
+	style.border_color = Color("8c7a3f")
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(10)
+	style.content_margin_left = 18
+	style.content_margin_right = 18
+	style.content_margin_top = 11
+	style.content_margin_bottom = 11
+	card.add_theme_stylebox_override("panel", style)
+	parent.add_child(card)
+	card.add_child(_label(text_value, font_size, Color("e6edf8")))
+
 func _add_reward_clarity(parent: VBoxContainer, font_size: int) -> void:
 	var source_type := str(last_reward_report.get("source_type", "BATTLE"))
-	parent.add_child(_label("탐색 보상" if source_type == "TREASURE" else "전투 보상", font_size + 4, Color("8fe0b6")))
+	parent.add_child(_label("보상 내역 · 탐색 보상" if source_type == "TREASURE" else "보상 내역 · 전투 보상", font_size + 5, Color("8fe0b6")))
 	var rewards: Dictionary = last_reward_report.get("rewards", last_rewards)
 	var before_inventory: Dictionary = last_reward_report.get("pre_inventory", {})
 	var after_inventory: Dictionary = last_reward_report.get("post_inventory", AppState.profile.get("inventory", {}))
 	if rewards.is_empty():
 		parent.add_child(_label("획득 보상 없음", font_size, Color("91aac8")))
 	else:
+		# At the 1280×720 review size a single reward column pushes the NEW
+		# affordance below the fold. Two compact cards preserve item diffs while
+		# keeping the growth impact visible without a scroll on landscape screens.
+		var reward_grid := GridContainer.new()
+		reward_grid.columns = 1 if _is_portrait_layout() else 2
+		reward_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		reward_grid.add_theme_constant_override("h_separation", 10)
+		reward_grid.add_theme_constant_override("v_separation", 8)
+		parent.add_child(reward_grid)
 		var reward_keys: Array = rewards.keys()
 		reward_keys.sort()
 		for item_id in reward_keys:
 			var before := int(before_inventory.get(item_id, 0))
 			var after := int(after_inventory.get(item_id, before + int(rewards[item_id])))
-			parent.add_child(_label("%s     +%s\n보유량     %s → %s" % [_display_item_name(str(item_id)), MathUtil.comma(int(rewards[item_id])), MathUtil.comma(before), MathUtil.comma(after)], font_size, Color("d8f5e9")))
+			_reward_item_card(reward_grid, _display_item_name(str(item_id)), int(rewards[item_id]), before, after, font_size)
 	var growth: Dictionary = last_reward_report.get("growth", {})
 	var newly: Array = growth.get("newly_affordable", [])
-	parent.add_child(_label("이번 보상으로 새롭게 가능한 성장", font_size + 2, Color("f1d77a")))
+	parent.add_child(_label("이번 보상으로 새롭게 가능한 성장", font_size + 5, Color("f1d77a")))
 	if newly.is_empty():
-		parent.add_child(_label("새롭게 해금된 성장 항목 없음", font_size - 2, Color("91aac8")))
+		_reward_summary_card(parent, "NEW 0\n이번 보상으로 새롭게 열린 성장 항목은 없습니다.", font_size - 1)
 	else:
 		for candidate in newly:
-			parent.add_child(_button("[NEW] " + _growth_candidate_text(candidate), func(value: Dictionary = candidate.duplicate(true)): _goto_growth_candidate(value), false, Vector2(290, 70)))
+			var candidate_button := _button("NEW  ·  " + _growth_candidate_text(candidate), func(value: Dictionary = candidate.duplicate(true)): _goto_growth_candidate(value), false, Vector2(460, 76))
+			_make_primary_button(candidate_button)
+			parent.add_child(candidate_button)
 	var summary: Dictionary = growth.get("summary", {})
-	parent.add_child(_label("현재 재료로 성장 가능한 후보\n레벨업 가능 캐릭터 %d명 · 돌파 가능 캐릭터 %d명\n스킬 강화 가능 캐릭터 %d명 · 무기 강화 %d개 · 무기 티어업 %d개" % [int(summary.get("level_characters", 0)), int(summary.get("breakthrough_characters", 0)), int(summary.get("skill_characters", 0)), int(summary.get("weapon_levels", 0)), int(summary.get("weapon_tiers", 0))], font_size - 1, Color("cdd5e3")))
+	_reward_summary_card(parent, "현재 재료로 성장 가능한 후보\n레벨업 %d명 · 돌파 %d명 · 스킬 %d명 · 무기 강화 %d개 · 티어업 %d개" % [int(summary.get("level_characters", 0)), int(summary.get("breakthrough_characters", 0)), int(summary.get("skill_characters", 0)), int(summary.get("weapon_levels", 0)), int(summary.get("weapon_tiers", 0))], font_size)
 
 func _show_result() -> void:
 	AudioService.play_bgm("audio_bgm_lobby")
@@ -1261,15 +1317,14 @@ func _show_result() -> void:
 	report_scroll.add_child(hero)
 	var lead := DataRegistry.character(AppState.get_party()[0])
 	var art_panel := PanelContainer.new()
-	art_panel.custom_minimum_size = Vector2(340, 500)
+	art_panel.custom_minimum_size = Vector2(260, 500)
 	hero.add_child(art_panel)
-	art_panel.add_child(_art_rect(str(lead.portrait_asset_id), Vector2(320, 470)))
+	art_panel.add_child(_art_rect(str(lead.portrait_asset_id), Vector2(240, 470)))
 	var box := _panel_box(hero)
 	box.add_child(_label("VICTORY" if last_battle_result.get("victory", false) else "DEFEAT", 52, Color("f1d77a") if last_battle_result.get("victory", false) else Color("ff7f8a")))
-	box.add_child(_label("시간 %.2fs • 생존 %d • seed %d" % [last_battle_result.get("time", 0), last_battle_result.get("survivors", 0), last_battle_result.get("seed", 0)], 24))
-	box.add_child(_label("이벤트 해시: %s" % last_battle_result.get("event_hash", ""), 16, Color("7e9dbd")))
-	_add_reward_clarity(box, 19)
-	box.add_child(_label("가한 피해\n%s\n\n회복\n%s" % [_format_counts(last_battle_result.get("damage", {})), _format_counts(last_battle_result.get("healing", {}))], 18, Color("cdd5e3")))
+	box.add_child(_label("시간 %.2fs  ·  생존 %d" % [last_battle_result.get("time", 0), last_battle_result.get("survivors", 0)], 26))
+	_add_reward_clarity(box, 23)
+	box.add_child(_label("가한 피해\n%s\n\n회복\n%s" % [_format_counts(last_battle_result.get("damage", {})), _format_counts(last_battle_result.get("healing", {}))], 19, Color("cdd5e3")))
 	var actions := HBoxContainer.new()
 	content.add_child(actions)
 	actions.add_child(_button("캐릭터 성장", func(): AppState.selected_character_id = AppState.get_party()[0]; SceneRouter.go("GROWTH"), false, Vector2(220, 66)))

@@ -24,3 +24,7 @@ Fresh local Web run at the fixed test port `8078` completed this sequence withou
 `title → home → Chapter 1 map → N01 enemy select → route preview → squad movement → contact-only real-time battle → victory reward → map return → visible treasure → hidden-treasure hint → reveal/claim → reload → saved map state`.
 
 This is local verification only. No deployment or publication was performed.
+
+## R13 visual re-review
+
+The user-authorized in-app ChatGPT re-review accepted the revised HINT visual and revised reward/growth screen as **PASS**. See `reports/r13/GPT_WEB_REVIEW_R13.md` for the supplied real-Web evidence and exact verdicts.

@@ -1142,16 +1142,16 @@ func _refresh_state_visuals() -> void:
 		if root == null: continue
 		var state := MapExplorationServiceScript.treasure_state(map_state, treasure_id)
 		var revealed_treasure := state == "REVEALED"
-		var hinted_treasure := state == "HINTED" and str(treasure.get("visibility", "VISIBLE")) == "HIDDEN"
+		# HIDDEN/HINTED keeps only the authored crystal/ruin dressing created
+		# above.  Do not expose the cache ring, chest, route, or exact target
+		# before proximity has actually revealed it.
 		root.visible = state != "UNDISCOVERED" and state != "CLAIMED"
 		for visual_name in ["crate", "lid", "seal", "glow"]:
 			var visual = root.get_meta(visual_name, null)
 			if visual == null: continue
-			# A hidden cache announces only a restrained ground shimmer at two hexes.
-			# The physical crate, lid, and seal remain absent until close-range reveal.
-			visual.visible = hinted_treasure if visual_name == "glow" else revealed_treasure
-			if visual_name == "glow" and hinted_treasure:
-				visual.scale = Vector3(0.42, 1.0, 0.42)
+			visual.visible = revealed_treasure
+			if visual_name == "glow" and revealed_treasure:
+				visual.scale = Vector3.ONE
 	status_label.text = "제1장  ·  꺼진 노선의 신호  ·  %s" % ["위험 작전" if hard_overlay else "일반 작전"]
 	_update_route_minimap()
 	_update_next_encounter_button()
@@ -1210,6 +1210,12 @@ func _select_node(node: Dictionary) -> void:
 
 func _select_treasure(treasure: Dictionary) -> void:
 	if moving: return
+	var treasure_id := str(treasure.get("treasure_id", ""))
+	# A hint is an environmental observation, not a navigable treasure marker.
+	# The player may discover it while traversing the map; only REVEALED opens
+	# an exact collection route and the reward panel.
+	if MapExplorationServiceScript.treasure_state(map_state, treasure_id) != "REVEALED":
+		return
 	selected_node = {}
 	selected_treasure = treasure
 	# Treasure selection is the explicit opt-in for a short exploratory detour.
@@ -1264,14 +1270,10 @@ func _update_panel() -> void:
 		return
 	if not selected_treasure.is_empty():
 		var treasure_id := str(selected_treasure.get("treasure_id", ""))
-		var treasure_state := MapExplorationServiceScript.treasure_state(map_state, treasure_id)
-		detail_title.text = "탐색 보급품 · %s" % ("은닉 신호" if str(selected_treasure.get("visibility", "VISIBLE")) == "HIDDEN" else "발견됨")
-		detail_body.text = "[color=#f1d77a][b]%s[/b][/color]\n%s\n\n예상 이동  [color=#85e8ff]%d 구간[/color]\n\n도착하면 보급품을 회수합니다. 이동에는 작전력을 소비하지 않습니다." % [str(selected_treasure.get("landmark", "탐색 지점")).replace("_", " "), "환경 단서가 안정된 보급 반응을 가리킵니다." if treasure_state == "REVEALED" else "미세한 반응만 감지됩니다. 더 가까이 이동하세요.", maxi(0, preview_path.size() - 1)]
+		detail_title.text = "탐색 보급품 · 발견됨"
+		detail_body.text = "[color=#f1d77a][b]%s[/b][/color]\n환경 단서를 따라 확인된 보급품입니다.\n\n예상 이동  [color=#85e8ff]%d 구간[/color]\n\n도착하면 보급품을 회수합니다. 이동에는 작전력을 소비하지 않습니다." % [str(selected_treasure.get("landmark", "탐색 지점")).replace("_", " "), maxi(0, preview_path.size() - 1)]
 		move_button.visible = true
 		move_button.text = "보급품으로 이동"
-		# A hinted landmark is intentionally selectable: reaching it is what turns
-		# a weak environmental clue into a revealed cache.  It still cannot be
-		# claimed until the proximity state reaches REVEALED.
 		move_button.disabled = preview_path.size() <= 1
 		fast_travel_button.visible = false
 		battle_button.visible = false
@@ -1566,7 +1568,10 @@ func _select_node_near_screen(screen_position: Vector2) -> void:
 	for treasure in definition.get("treasures", []):
 		var treasure_id := str(treasure.get("treasure_id", ""))
 		var treasure_state := MapExplorationServiceScript.treasure_state(map_state, treasure_id)
-		if treasure_state not in ["HINTED", "REVEALED"]: continue
+		# HINTED caches intentionally have no exact selectable target. The map
+		# keeps their authored environmental clue visible but routing stays hidden
+		# until the party reaches the area and the cache becomes REVEALED.
+		if treasure_state != "REVEALED": continue
 		var root: Node3D = treasure_visuals.get(treasure_id)
 		if root == null or not root.visible: continue
 		var coord := Vector2i(int(treasure.get("q", 0)), int(treasure.get("r", 0)))

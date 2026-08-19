@@ -54,7 +54,17 @@ function ConvertTo-HashedR7RuntimeArtifacts([string]$Directory) {
     $html = $html.Replace($htmlOld, $htmlNew)
     $html = $html -replace '"index\.pck":\d+', ('"' + $pckName + '":' + (Get-Item -LiteralPath $pckTarget).Length)
     $html = $html -replace '"index\.wasm":\d+', ('"' + $wasmName + '":' + (Get-Item -LiteralPath $wasmTarget).Length)
+    # Godot 4.7.1 web templates can emit either the legacy `Engine` global or
+    # the current `Godot` global depending on the installed export template.
+    # Resolve the supported global explicitly so a valid release never reaches
+    # the bootstrap with an undefined constructor.
+    $engineBootstrap = "const GameEngine = typeof Engine !== 'undefined' ? Engine : Godot;"
+    if ($html -notmatch [regex]::Escape($engineBootstrap)) {
+        $html = $html.Replace('const engine = new Engine(GODOT_CONFIG);', "$engineBootstrap`nconst engine = new GameEngine(GODOT_CONFIG);")
+    }
     if ($html.IndexOf($htmlNew, [StringComparison]::Ordinal) -lt 0) { throw 'Failed to set hashed R7 executable in Web HTML.' }
+    if ($html -notmatch [regex]::Escape($engineBootstrap)) { throw 'Failed to add the compatible Godot Web bootstrap.' }
+    $html = $html.Replace('const missing = Engine.getMissingFeatures({', 'const missing = GameEngine.getMissingFeatures({')
     Set-Content -LiteralPath $htmlPath -Value $html -Encoding UTF8
 
     $workerPath = Join-Path $Directory 'index.service.worker.js'
@@ -63,6 +73,13 @@ function ConvertTo-HashedR7RuntimeArtifacts([string]$Directory) {
     $workerNew = '"' + $wasmName + '","' + $pckName + '"'
     $worker = $worker.Replace($workerOld, $workerNew)
     if ($worker -notmatch [regex]::Escape("`"$pckName`"")) { throw 'Failed to set hashed R7 PCK in service worker cache list.' }
+    # The generated cache version is tied to the export-template timestamp,
+    # not to our PCK.  Pin it to the immutable runtime artifact so a rebuilt
+    # fixed R7 directory cannot serve a stale index.js / PCK pair.
+    $cacheVersionPattern = "const CACHE_VERSION = '[^']+';"
+    $cacheVersionReplacement = "const CACHE_VERSION = '$artifactBase';"
+    $worker = [regex]::Replace($worker, $cacheVersionPattern, $cacheVersionReplacement, 1)
+    if ($worker -notmatch [regex]::Escape($cacheVersionReplacement)) { throw 'Failed to version the R7 service worker cache.' }
     Set-Content -LiteralPath $workerPath -Value $worker -Encoding UTF8
 
     return [ordered]@{

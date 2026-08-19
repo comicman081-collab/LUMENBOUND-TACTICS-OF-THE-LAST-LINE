@@ -23,4 +23,6 @@ func load_compiled_table() -> void:
 
 func tr_key(key: String) -> String:
 	language = SettingsService.values.get("language", "ko")
-	return tables.get(language, {}).get(key, "[%s]" % key)
+	# Source data can retain a DEV suffix while naming is curated. It must never
+	# leak into the player-facing Web Release UI.
+	return str(tables.get(language, {}).get(key, "[%s]" % key)).replace(" (DEV)", "")

@@ -38,6 +38,16 @@ static func validate(definition: Dictionary) -> Array[String]:
 		if node.get("node_type", "") in ["HARD_BATTLE", "HARD_ELITE", "HARD_BOSS"]: hard += 1
 	if normal != 10: errors.append("NORMAL node count %d" % normal)
 	if hard != 5: errors.append("HARD node count %d" % hard)
+	var treasure_ids: Dictionary = {}
+	for treasure in definition.get("treasures", []):
+		var treasure_id := str(treasure.get("treasure_id", ""))
+		var treasure_key := "%d,%d" % [int(treasure.get("q", 0)), int(treasure.get("r", 0))]
+		if treasure_id == "" or treasure_ids.has(treasure_id): errors.append("invalid or duplicate treasure " + treasure_id)
+		treasure_ids[treasure_id] = true
+		if not tile_keys.has(treasure_key): errors.append("treasure outside map " + treasure_id)
+		elif bool(tile_keys[treasure_key].get("movement_blocked", false)): errors.append("treasure on blocked tile " + treasure_id)
+		if str(treasure.get("visibility", "")) not in ["VISIBLE", "HIDDEN"]: errors.append("invalid treasure visibility " + treasure_id)
+		if treasure.get("rewards", {}).is_empty(): errors.append("treasure without reward " + treasure_id)
 	return errors
 
 static func node_for_stage(definition: Dictionary, stage_id: String) -> Dictionary:

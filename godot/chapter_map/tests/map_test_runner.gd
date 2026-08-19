@@ -5,6 +5,8 @@ const HexGridScript := preload("res://chapter_map/model/hex_grid.gd")
 const HexPathfinderScript := preload("res://chapter_map/model/hex_pathfinder.gd")
 const LoaderScript := preload("res://chapter_map/runtime/chapter_map_loader.gd")
 const ProgressScript := preload("res://chapter_map/model/chapter_map_progress.gd")
+const ExplorationScript := preload("res://chapter_map/model/map_exploration_service.gd")
+const GrowthAnalyzerScript := preload("res://progression/growth_affordability_analyzer.gd")
 
 var passed := 0
 var failed := 0
@@ -25,7 +27,7 @@ func check(condition: bool, name: String, details := "") -> void:
 		printerr("FAIL | ", name, " | ", details)
 
 func _run() -> void:
-	print("R7 SRPG MAP TESTS | Godot ", Engine.get_version_info().get("string", "unknown"))
+	print("R13 SRPG MAP TESTS | Godot ", Engine.get_version_info().get("string", "unknown"))
 	definition = LoaderScript.load_map("CH01_MAP")
 	grid = HexGridScript.new()
 	grid.load_tiles(definition.get("tiles", []))
@@ -35,6 +37,8 @@ func _run() -> void:
 	_test_unlock_and_progress()
 	_test_save_and_migration()
 	_test_transactions_and_roundtrip()
+	_test_encounters_and_treasures()
+	_test_reward_affordability()
 	_test_regressions()
 	print("MAP_TEST_SUMMARY total=%d pass=%d fail=%d" % [passed + failed, passed, failed])
 	if not failures.is_empty(): print("FAILURES=", JSON.stringify(failures))
@@ -59,6 +63,11 @@ func _test_data() -> void:
 	var n10 := LoaderScript.node_for_stage(definition, "CH01-N10")
 	check(HexCoordScript.distance(Vector2i.ZERO, Vector2i(int(n10.q), int(n10.r))) >= 90, "NORMAL route spans ten-plus local map lengths")
 	check(LoaderScript.load_map("CH01_MAP").get("tiles", []) == definition.get("tiles", []), "macro terrain seed is deterministic across loads")
+	var visible_treasures: Array = definition.get("treasures", []).filter(func(treasure): return str(treasure.get("visibility", "")) == "VISIBLE")
+	var hidden_treasures: Array = definition.get("treasures", []).filter(func(treasure): return str(treasure.get("visibility", "")) == "HIDDEN")
+	check(visible_treasures.size() >= 6 and hidden_treasures.size() >= 4, "side branches include visible and hidden treasure targets")
+	check(definition.get("treasures", []).all(func(treasure): return grid.traversable(Vector2i(int(treasure.q), int(treasure.r)))), "all treasure targets occupy traversable tiles")
+	check(definition.nodes.filter(func(node): return str(node.get("stage_id", "")) != "").all(func(node): return DataRegistry.stage(str(node.stage_id)).get("waves", []).all(func(wave): return wave.all(func(enemy_id): return not DataRegistry.enemy(str(enemy_id)).is_empty()))), "all encounter nodes resolve actual enemy definitions")
 
 func _test_coordinates() -> void:
 	var samples := [Vector2i.ZERO, Vector2i(1, 0), Vector2i(3, -2), Vector2i(-2, 1), Vector2i(4, -3)]
@@ -161,15 +170,16 @@ func _test_transactions_and_roundtrip() -> void:
 	var first := AppState.record_stage_clear("CH01-N01", 3)
 	var applied := AppState.apply_battle_result_to_map("CH01-N01", true)
 	var applied_twice := AppState.apply_battle_result_to_map("CH01-N01", true)
-	check(first and applied and not applied_twice and AppState.pending_battle_token == token, "victory map result applied exactly once")
+	check(first and applied and not applied_twice and AppState.pending_battle_token == "", "victory map result applied exactly once")
 	check(AppState.chapter_map_state().cleared_nodes.has("NODE_N01"), "victory marks corresponding map node")
 	check(AppState.is_stage_unlocked("CH01-N02"), "victory unlocks exactly the next stage")
 	AppState.selected_stage_id = "CH01-N02"
+	var pre_contact := Vector2i(14, -3)
+	AppState.prepare_map_encounter("CH01-N02", "NODE_N02", pre_contact)
 	AppState.pending_battle_token = "DEFEAT_TOKEN"
 	AppState.apply_battle_result_to_map("CH01-N02", false)
 	check(not AppState.chapter_map_state().cleared_nodes.has("NODE_N02") and not AppState.is_stage_unlocked("CH01-N03"), "defeat does not clear or unlock next node")
-	var n02 := LoaderScript.node_for_stage(definition, "CH01-N02")
-	check(int(AppState.chapter_map_state().current_q) == int(n02.q) and int(AppState.chapter_map_state().current_r) == int(n02.r), "defeat policy leaves squad on encounter node")
+	check(int(AppState.chapter_map_state().current_q) == pre_contact.x and int(AppState.chapter_map_state().current_r) == pre_contact.y, "defeat restores squad to pre-contact map hex")
 	var inventory_before: Dictionary = AppState.profile.inventory.duplicate(true)
 	var stamina_fast := int(AppState.profile.account.stamina)
 	AppState.set_chapter_map_position(Vector2i(1, 0), "NODE_N01")
@@ -177,6 +187,50 @@ func _test_transactions_and_roundtrip() -> void:
 	check(str(LoaderScript.node_for_stage(definition, "CH01-N01").node_id) == "NODE_N01", "map to battle stage ID adapter stable")
 	check(str(LoaderScript.node_by_id(definition, "NODE_N01").stage_id) == "CH01-N01", "battle to map node ID adapter stable")
 	AppState.profile = backup
+
+func _test_encounters_and_treasures() -> void:
+	var backup := AppState.profile.duplicate(true)
+	AppState.new_game()
+	var state := AppState.chapter_map_state()
+	var battle_nodes: Array = definition.get("nodes", []).filter(func(node): return str(node.get("stage_id", "")) != "")
+	check(battle_nodes.all(func(node): return not ExplorationScript.encounter_cleared(state, str(node.node_id))), "all uncleared encounter states begin hostile")
+	var n01 := LoaderScript.node_for_stage(definition, "CH01-N01")
+	ExplorationScript.mark_encounter_cleared(state, str(n01.node_id))
+	check(ExplorationScript.encounter_cleared(state, str(n01.node_id)), "cleared encounter state removes hostile-map eligibility")
+	var visible: Dictionary = definition.get("treasures", []).filter(func(treasure): return str(treasure.visibility) == "VISIBLE")[0]
+	var hidden: Dictionary = definition.get("treasures", []).filter(func(treasure): return str(treasure.visibility) == "HIDDEN")[0]
+	check(ExplorationScript.treasure_state(state, str(visible.treasure_id)) == "REVEALED", "visible treasure is renderable from initial state")
+	check(ExplorationScript.treasure_state(state, str(hidden.treasure_id)) == "UNDISCOVERED", "hidden treasure begins invisible")
+	var hidden_coord := Vector2i(int(hidden.q), int(hidden.r))
+	ExplorationScript.update_hidden_proximity(state, definition, hidden_coord + Vector2i(-2, 0))
+	check(ExplorationScript.treasure_state(state, str(hidden.treasure_id)) == "HINTED", "hidden treasure enters hinted state at two hexes")
+	ExplorationScript.update_hidden_proximity(state, definition, hidden_coord + Vector2i(-1, 0))
+	check(ExplorationScript.treasure_state(state, str(hidden.treasure_id)) == "REVEALED", "hidden treasure reveals at one hex")
+	var inventory_before: Dictionary = AppState.profile.inventory.duplicate(true)
+	var claim := ExplorationScript.claim_treasure(state, definition, str(visible.treasure_id))
+	var claim_again := ExplorationScript.claim_treasure(state, definition, str(visible.treasure_id))
+	check(claim.ok and not claim_again.ok and state.claimed_treasures.has(str(visible.treasure_id)), "visible treasure reward is claimed exactly once")
+	check(AppState.profile.inventory != inventory_before and str(claim.value.get("source_type", "")) == "TREASURE", "treasure uses shared reward resolver output")
+	var restored := state.duplicate(true)
+	ExplorationScript.ensure_state(restored, definition)
+	check(str(restored.treasure_states.get(str(hidden.treasure_id), "")) == "REVEALED" and restored.claimed_treasures.has(str(visible.treasure_id)), "treasure reveal and claim states survive save payload restoration")
+	check(AppState.is_stage_unlocked("CH01-N01"), "treasure exploration is optional to normal route progress")
+	AppState.profile = backup
+
+func _test_reward_affordability() -> void:
+	var before := AppState.profile.duplicate(true)
+	before.inventory = {"CREDIT": 0, "TRAINING_NOTE_M": 0}
+	before.roster.CHR001.level = 1
+	before.roster.CHR001.xp = 0
+	before.roster.CHR001.breakthrough = 0
+	var after := before.duplicate(true)
+	after.inventory.CREDIT = 10000
+	after.inventory.TRAINING_NOTE_M = 1
+	var analysis := GrowthAnalyzerScript.analyze(before, after)
+	check(analysis.newly_affordable.any(func(candidate): return str(candidate.get("key", "")) == "LEVEL:CHR001"), "reward analyzer detects newly affordable character level-up")
+	check(GrowthAnalyzerScript.analyze(after, after).newly_affordable.is_empty(), "already-affordable growth is not incorrectly marked NEW")
+	var summary: Dictionary = GrowthAnalyzerScript.summary(GrowthAnalyzerScript.candidates(after))
+	check(summary.has("level_characters") and summary.has("weapon_tiers"), "growth summary reports independent candidate categories")
 
 func _simulation_hash(seed_value: int) -> Dictionary:
 	var sim := BattleSimulation.new()

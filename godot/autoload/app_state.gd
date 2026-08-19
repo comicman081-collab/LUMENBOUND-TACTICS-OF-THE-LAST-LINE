@@ -3,8 +3,9 @@ extends Node
 const HexCoordScript := preload("res://chapter_map/model/hex_coord.gd")
 const ChapterMapLoaderScript := preload("res://chapter_map/runtime/chapter_map_loader.gd")
 const ChapterMapProgressScript := preload("res://chapter_map/model/chapter_map_progress.gd")
+const MapExplorationServiceScript := preload("res://chapter_map/model/map_exploration_service.gd")
 
-const SAVE_SCHEMA_VERSION := 3
+const SAVE_SCHEMA_VERSION := 4
 var profile: Dictionary = {}
 var route_payload: Dictionary = {}
 var selected_stage_id := "CH01-N01"
@@ -19,6 +20,7 @@ func _ready() -> void:
 	new_game()
 
 func new_game() -> void:
+	pending_battle_token = ""
 	var now := int(Time.get_unix_time_from_system())
 	var roster: Dictionary = {}
 	for index in range(DataRegistry.list_of("characters").size()):
@@ -54,6 +56,9 @@ func new_game() -> void:
 	inventory["SKILL_TOKEN_T1"] = 8
 	inventory["ULT_BOOK_T1"] = 8
 	inventory["WEAPON_CHIP_M"] = 10
+	var map_definition := ChapterMapLoaderScript.load_map("CH01_MAP")
+	var initial_map_state := ChapterMapProgressScript.create_default(map_definition)
+	MapExplorationServiceScript.ensure_state(initial_map_state, map_definition)
 	profile = {
 		"save_schema_version": SAVE_SCHEMA_VERSION,
 		"data_version": DataRegistry.data.get("data_version", "unknown"),
@@ -70,7 +75,7 @@ func new_game() -> void:
 		],
 		"active_party": 0,
 		"chapter_progress": {"CH01": {"normal_highest": 0, "hard_unlocked": false}},
-		"chapter_map": {"CH01_MAP": ChapterMapProgressScript.create_default(ChapterMapLoaderScript.load_map("CH01_MAP"))},
+		"chapter_map": {"CH01_MAP": initial_map_state},
 		"stage_stars": {},
 		"first_clear": {},
 		"story_flags": {},
@@ -86,8 +91,20 @@ func new_game() -> void:
 
 func apply_loaded(loaded: Dictionary) -> void:
 	profile = loaded
+	pending_battle_token = ""
 	if not profile.has("chapter_map") or not profile.chapter_map.has("CH01_MAP"):
 		profile["chapter_map"] = {"CH01_MAP": ChapterMapProgressScript.migrate_from_profile(profile, ChapterMapLoaderScript.load_map("CH01_MAP"))}
+	var map_state := chapter_map_state("CH01_MAP")
+	MapExplorationServiceScript.ensure_state(map_state, ChapterMapLoaderScript.load_map("CH01_MAP"))
+	# A reload cannot resume a live BattleSimulation.  Recover at the exact
+	# pre-contact hex, leave the hostile pawn intact, and never mint rewards.
+	if not map_state.get("pending_encounter", {}).is_empty():
+		var pending: Dictionary = map_state.pending_encounter
+		map_state.current_q = int(pending.get("return_q", map_state.current_q))
+		map_state.current_r = int(pending.get("return_r", map_state.current_r))
+		map_state.current_party_hex = [map_state.current_q, map_state.current_r]
+		map_state.pending_encounter = {}
+		pending_battle_token = ""
 	SettingsService.apply_saved(profile.get("settings", {}))
 	refresh_stamina()
 	reset_hard_attempts_if_needed()
@@ -207,9 +224,39 @@ func consume_stage_entries(stage_id: String, count: int) -> bool:
 	return true
 
 func begin_battle_transaction(stage_id: String) -> bool:
+	if pending_battle_token != "": return false
 	if not consume_stage_entry(stage_id): return false
 	pending_battle_token = "%s:%d:%d" % [stage_id, int(Time.get_unix_time_from_system()), Time.get_ticks_msec()]
+	var map_state := chapter_map_state()
+	if str(map_state.get("pending_encounter", {}).get("stage_id", "")) == stage_id:
+		map_state.pending_encounter.token = pending_battle_token
 	return true
+
+func prepare_map_encounter(stage_id: String, node_id: String, return_coord: Vector2i, map_id := "CH01_MAP") -> bool:
+	var state := chapter_map_state(map_id)
+	MapExplorationServiceScript.ensure_state(state, ChapterMapLoaderScript.load_map(map_id))
+	if not state.get("pending_encounter", {}).is_empty(): return false
+	state.pending_encounter = {"stage_id": stage_id, "node_id": node_id, "return_q": return_coord.x, "return_r": return_coord.y, "token": ""}
+	return true
+
+func claim_pending_reward_once(stage_id: String, map_id := "CH01_MAP") -> bool:
+	var state := chapter_map_state(map_id)
+	var pending: Dictionary = state.get("pending_encounter", {})
+	var token := pending_battle_token
+	if not pending.is_empty() and str(pending.get("stage_id", "")) != stage_id: return false
+	if token == "": return false
+	if not state.has("processed_reward_tokens"): state.processed_reward_tokens = []
+	if state.processed_reward_tokens.has(token): return false
+	state.processed_reward_tokens.append(token)
+	return true
+
+func abandon_pending_map_encounter(map_id := "CH01_MAP") -> void:
+	var state := chapter_map_state(map_id)
+	var pending: Dictionary = state.get("pending_encounter", {})
+	if not pending.is_empty():
+		set_chapter_map_position(Vector2i(int(pending.get("return_q", state.current_q)), int(pending.get("return_r", state.current_r))), "", map_id)
+	state.pending_encounter = {}
+	pending_battle_token = ""
 
 func record_stage_clear(stage_id: String, stars: int) -> bool:
 	var first: bool = not bool(profile.first_clear.get(stage_id, false))
@@ -227,7 +274,9 @@ func chapter_map_state(map_id := "CH01_MAP") -> Dictionary:
 	if not profile.has("chapter_map"): profile["chapter_map"] = {}
 	if not profile.chapter_map.has(map_id):
 		profile.chapter_map[map_id] = ChapterMapProgressScript.migrate_from_profile(profile, ChapterMapLoaderScript.load_map(map_id))
-	return profile.chapter_map[map_id]
+	var state: Dictionary = profile.chapter_map[map_id]
+	MapExplorationServiceScript.ensure_state(state, ChapterMapLoaderScript.load_map(map_id))
+	return state
 
 func refresh_chapter_map_reveal(map_id := "CH01_MAP") -> void:
 	var state := chapter_map_state(map_id)
@@ -241,6 +290,8 @@ func set_chapter_map_position(coord: Vector2i, node_id := "", map_id := "CH01_MA
 	var state := chapter_map_state(map_id)
 	state.current_q = coord.x
 	state.current_r = coord.y
+	state.current_party_hex = [coord.x, coord.y]
+	state.last_map_camera_hex = [coord.x, coord.y]
 	var key: String = HexCoordScript.key(coord)
 	if not state.visited_tiles.has(key): state.visited_tiles.append(key)
 	if node_id != "":
@@ -251,10 +302,24 @@ func apply_battle_result_to_map(stage_id: String, victory: bool, map_id := "CH01
 	var definition: Dictionary = ChapterMapLoaderScript.load_map(map_id)
 	var node: Dictionary = ChapterMapLoaderScript.node_for_stage(definition, stage_id)
 	if node.is_empty(): return false
-	set_chapter_map_position(Vector2i(int(node.q), int(node.r)), str(node.node_id), map_id)
-	if not victory: return true
+	var state := chapter_map_state(map_id)
+	var pending: Dictionary = state.get("pending_encounter", {})
+	# Result delivery is a one-shot transaction. A stale view callback after the
+	# map has already consumed the token must not clear/unlock anything again.
+	if pending.is_empty() and pending_battle_token == "": return false
+	if victory:
+		set_chapter_map_position(Vector2i(int(node.q), int(node.r)), str(node.node_id), map_id)
+	else:
+		var return_coord := Vector2i(int(pending.get("return_q", state.current_q)), int(pending.get("return_r", state.current_r)))
+		set_chapter_map_position(return_coord, "", map_id)
+		state.pending_encounter = {}
+		pending_battle_token = ""
+		return true
 	var token := pending_battle_token if pending_battle_token != "" else "%s:RECOVERED" % stage_id
-	var applied: bool = ChapterMapProgressScript.record_clear_once(chapter_map_state(map_id), str(node.node_id), token)
+	var applied: bool = ChapterMapProgressScript.record_clear_once(state, str(node.node_id), token)
+	if applied: MapExplorationServiceScript.mark_encounter_cleared(state, str(node.node_id))
+	state.pending_encounter = {}
+	pending_battle_token = ""
 	refresh_chapter_map_reveal(map_id)
 	return applied
 

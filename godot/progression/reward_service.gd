@@ -1,6 +1,18 @@
 class_name RewardService
 extends RefCounted
 
+## Stage, sweep and treasure grants converge here.  Map treasures never bypass
+## the inventory event path or invent a separate reward implementation.
+
+static func resolve_direct(items: Dictionary) -> Dictionary:
+	var normalized: Dictionary = {}
+	for item_id in items:
+		var quantity := int(items[item_id])
+		if quantity > 0:
+			normalized[str(item_id)] = quantity
+	InventoryService.grant(normalized)
+	return normalized
+
 static func resolve(stage_id: String, count: int, seed: int, include_first_clear: bool) -> Dictionary:
 	var stage := DataRegistry.stage(stage_id)
 	var table: Dictionary = {}
@@ -26,8 +38,7 @@ static func resolve(stage_id: String, count: int, seed: int, include_first_clear
 	if include_first_clear:
 		for item in table.get("first_clear", []):
 			total[item.item_id] = int(total.get(item.item_id, 0)) + int(item.quantity)
-	InventoryService.grant(total)
-	return total
+	return resolve_direct(total)
 
 static func sweep(stage_id: String, count: int, seed: int) -> GameResult:
 	if count not in [1, 5, 10]: return GameResult.failure("INVALID_SWEEP_COUNT")

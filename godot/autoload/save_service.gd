@@ -2,6 +2,7 @@ extends Node
 
 const ChapterMapLoaderScript := preload("res://chapter_map/runtime/chapter_map_loader.gd")
 const ChapterMapProgressScript := preload("res://chapter_map/model/chapter_map_progress.gd")
+const MapExplorationServiceScript := preload("res://chapter_map/model/map_exploration_service.gd")
 
 const SAVE_PATH := "user://save_v1.json"
 const BACKUP_PATH := "user://save_v1.backup.json"
@@ -107,6 +108,15 @@ func _migrate(data: Dictionary) -> GameResult:
 			data["chapter_map"] = chapter_maps
 			data["save_schema_version"] = 3
 			version = 3
+		elif version == 3:
+			var exploration_definition: Dictionary = ChapterMapLoaderScript.load_map("CH01_MAP")
+			var exploration_maps: Dictionary = data.get("chapter_map", {})
+			var exploration_state: Dictionary = exploration_maps.get("CH01_MAP", ChapterMapProgressScript.create_default(exploration_definition))
+			MapExplorationServiceScript.ensure_state(exploration_state, exploration_definition)
+			exploration_maps["CH01_MAP"] = exploration_state
+			data["chapter_map"] = exploration_maps
+			data["save_schema_version"] = 4
+			version = 4
 		else:
 			return GameResult.failure("missing migration from %d" % version)
 	return GameResult.success(data)
@@ -127,6 +137,7 @@ func _sanitize(data: Dictionary) -> Dictionary:
 	var known_nodes: Dictionary = {}
 	for node in definition.get("nodes", []): known_nodes[str(node.node_id)] = true
 	var map_state: Dictionary = data.get("chapter_map", {}).get("CH01_MAP", {})
+	MapExplorationServiceScript.ensure_state(map_state, definition)
 	var unknown_nodes: Array = []
 	for node_id in map_state.get("cleared_nodes", []).duplicate():
 		if not known_nodes.has(str(node_id)):
@@ -136,6 +147,21 @@ func _sanitize(data: Dictionary) -> Dictionary:
 		unknown_nodes.append(str(map_state.last_selected_node))
 		map_state.last_selected_node = ""
 	data["quarantined_unknown_map_node_ids"] = unknown_nodes
+	var known_treasures: Dictionary = {}
+	for treasure in definition.get("treasures", []): known_treasures[str(treasure.get("treasure_id", ""))] = true
+	var unknown_treasures: Array = []
+	for treasure_id in map_state.get("claimed_treasures", []).duplicate():
+		if not known_treasures.has(str(treasure_id)):
+			unknown_treasures.append(str(treasure_id))
+			map_state.claimed_treasures.erase(treasure_id)
+			map_state.treasure_states.erase(treasure_id)
+	for treasure_id in map_state.get("revealed_treasures", []).duplicate():
+		if not known_treasures.has(str(treasure_id)):
+			if not unknown_treasures.has(str(treasure_id)): unknown_treasures.append(str(treasure_id))
+			map_state.revealed_treasures.erase(treasure_id)
+	if not data.has("chapter_map"): data["chapter_map"] = {}
+	data.chapter_map["CH01_MAP"] = map_state
+	data["quarantined_unknown_treasure_ids"] = unknown_treasures
 	return data
 
 func export_save_json() -> String:

@@ -32,11 +32,17 @@ func _ensure_players() -> void:
 		return
 	music_player = AudioStreamPlayer.new()
 	voice_player = AudioStreamPlayer.new()
+	# Godot's Web audio driver does not provide the sample-playback backend.
+	# Force authored local WAV/MP3 streams through the streaming path so a
+	# trusted browser gesture yields actual playback instead of driver warnings.
+	music_player.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
+	voice_player.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
 	add_child(music_player)
 	add_child(voice_player)
 	for index in range(SFX_POOL_SIZE):
 		var player := AudioStreamPlayer.new()
 		player.name = "SFXPlayer%02d" % index
+		player.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
 		add_child(player)
 		sfx_players.append(player)
 

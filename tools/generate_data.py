@@ -318,24 +318,58 @@ LOCALIZED = {
 
 def localization(characters, enemies, stages, skills, weapons, items, scenarios) -> dict[str, tuple[str, str]]:
     loc = dict(LOCALIZED)
+    ko_names = {"MAERU": "마에루", "ROAN": "로안", "NARIN": "나린", "EDA": "에다", "SOREN": "소렌", "VERA": "베라", "TOA": "토아", "IRI": "이리"}
+    skill_names = {
+        "MAERU": {"NORMAL": "결속 방패", "PASSIVE": "수호자의 맹세", "ULTIMATE": "성벽의 등불"},
+        "ROAN": {"NORMAL": "선로 돌진", "PASSIVE": "돌파 호흡", "ULTIMATE": "철편 난무"},
+        "NARIN": {"NORMAL": "정밀 사격", "PASSIVE": "관측 보정", "ULTIMATE": "유성 연사"},
+        "EDA": {"NORMAL": "전류 도약", "PASSIVE": "과충전 회로", "ULTIMATE": "청뢰 낙하"},
+        "SOREN": {"NORMAL": "공명 포격", "PASSIVE": "포구 안정화", "ULTIMATE": "별가루 포화"},
+        "VERA": {"NORMAL": "교란 잔상", "PASSIVE": "변조 필드", "ULTIMATE": "침묵의 파장"},
+        "TOA": {"NORMAL": "보호 신호", "PASSIVE": "중계 증폭", "ULTIMATE": "안전지대 전개"},
+        "IRI": {"NORMAL": "회복 파동", "PASSIVE": "온기 기록", "ULTIMATE": "새벽의 합창"},
+    }
+    enemy_names = {
+        "ENM001": "화염 송곳짐승", "ENM002": "전류 부유체", "ENM003": "장갑 중계기",
+        "ENM004": "수복 잔향", "ENM005": "합창 파편", "ENM006": "먼지 렌즈",
+        "ENM007": "감시자 골격", "ENM008": "왜곡 방송국", "ENM009": "철의 선창자",
+        "BOSS001": "공허 기관", "BOSS002": "심야의 종",
+    }
+    item_names = {
+        "BLUEPRINT_T1": "설계도 T1", "BLUEPRINT_T2": "설계도 T2", "BLUEPRINT_T3": "설계도 T3", "BLUEPRINT_T4": "설계도 T4",
+        "BREAK_CORE_T1": "돌파 코어 T1", "BREAK_CORE_T2": "돌파 코어 T2", "BREAK_CORE_T3": "돌파 코어 T3", "BREAK_CORE_T4": "돌파 코어 T4",
+        "CREDIT": "크레딧", "FACTION_SEAL_T1": "조직 인장 T1", "FACTION_SEAL_T2": "조직 인장 T2", "FACTION_SEAL_T3": "조직 인장 T3",
+        "LANTERN_SHARD": "등불 파편", "ROLE_TOKEN_T1": "역할 토큰 T1", "ROLE_TOKEN_T2": "역할 토큰 T2", "ROLE_TOKEN_T3": "역할 토큰 T3", "ROLE_TOKEN_T4": "역할 토큰 T4",
+        "SKILL_BOOK_T1": "기술 교본 T1", "SKILL_BOOK_T2": "기술 교본 T2", "SKILL_BOOK_T3": "기술 교본 T3", "SKILL_BOOK_T4": "기술 교본 T4",
+        "SKILL_TOKEN_T1": "기술 토큰 T1", "SKILL_TOKEN_T2": "기술 토큰 T2", "SKILL_TOKEN_T3": "기술 토큰 T3", "SKILL_TOKEN_T4": "기술 토큰 T4",
+        "TRAINING_NOTE_S": "훈련 노트 S", "TRAINING_NOTE_M": "훈련 노트 M", "TRAINING_NOTE_L": "훈련 노트 L", "TRAINING_NOTE_XL": "훈련 노트 XL",
+        "ULT_BOOK_T1": "궁극 교본 T1", "ULT_BOOK_T2": "궁극 교본 T2", "ULT_BOOK_T3": "궁극 교본 T3", "ULT_BOOK_T4": "궁극 교본 T4",
+        "UNIVERSAL_CATALYST": "범용 촉매", "WEAPON_CHIP_S": "무기 칩 S", "WEAPON_CHIP_M": "무기 칩 M", "WEAPON_CHIP_L": "무기 칩 L", "WEAPON_CHIP_XL": "무기 칩 XL",
+        "WEAPON_ORE_T1": "무기 광석 T1", "WEAPON_ORE_T2": "무기 광석 T2", "WEAPON_ORE_T3": "무기 광석 T3", "WEAPON_ORE_T4": "무기 광석 T4",
+    }
     for c in characters:
         code = c["name_key"].split("_")[1]
-        ko_names = {"MAERU": "마에루", "ROAN": "로안", "NARIN": "나린", "EDA": "에다", "SOREN": "소렌", "VERA": "베라", "TOA": "토아", "IRI": "이리"}
-        loc[c["name_key"]] = (ko_names[code] + " (DEV)", code.title() + " (DEV)")
-        loc[c["description_key"]] = ("등로단의 %s 역할을 맡은 독립 세계관 개발 캐릭터." % c["role"], "An original DEV character serving as %s of the Lamplighters." % c["role"])
+        loc[c["name_key"]] = (ko_names[code], code.title())
+        loc[c["description_key"]] = ("등로단의 %s 역할을 맡은 탐사대원." % c["role"], "A Lamplighter serving as %s of the expedition." % c["role"])
     for s in skills:
         suffix = s["type"].replace("_SKILL", "")
-        loc[s["name_key"]] = (f"{s['owner_id']} {suffix} 기술 (DEV)", f"{s['owner_id']} {suffix} Skill (DEV)")
+        code = next(c["name_key"].split("_")[1] for c in characters if c["id"] == s["owner_id"])
+        loc[s["name_key"]] = (skill_names[code][suffix], f"{code.title()} {suffix.title()} Skill")
     for e in enemies:
-        loc[e["name_key"]] = (f"잔향체 {e['id']} (DEV)", f"Echoform {e['id']} (DEV)")
+        loc[e["name_key"]] = (enemy_names[e["id"]], f"Echoform {e['id']}")
     for s in stages:
         loc[s["name_key"]] = (f"제1장 {s['mode']} {s['stage_number']}", f"Chapter 1 {s['mode']} {s['stage_number']}")
     for w in weapons:
-        loc[w["name_key"]] = (f"공용 {w['weapon_class']} 장비 {w['id']} (DEV)", f"Common {w['weapon_class']} Gear {w['id']} (DEV)")
+        loc[w["name_key"]] = (f"공용 {w['weapon_class']} 장비 {w['id']}", f"Common {w['weapon_class']} Gear {w['id']}")
     for item in items:
-        loc[item["name_key"]] = (item["id"], item["id"])
+        if item["id"].startswith("SHARD_"):
+            character_code = item["id"].replace("SHARD_", "")
+            character = next(c for c in characters if c["id"] == character_code)
+            loc[item["name_key"]] = (ko_names[character["name_key"].split("_")[1]] + " 조각", item["id"])
+        else:
+            loc[item["name_key"]] = (item_names[item["id"]], item["id"])
     for scn in scenarios:
-        loc[scn["title_key"]] = (scn["id"].replace("SCN_", "") + " (DEV)", scn["id"].replace("SCN_", "") + " (DEV)")
+        loc[scn["title_key"]] = (scn["id"].replace("SCN_", "").replace("_", " "), scn["id"].replace("SCN_", "").replace("_", " "))
     story_ko = {
         "STORY_PRO_01": "대정전 뒤, 지하의 광맥 철로는 마지막 도시들을 잇는 유일한 길이 되었다.", "STORY_PRO_02": "새로 깨어난 기록 항해자는 끊긴 등불과 사람들의 기억을 복구해야 한다.", "STORY_PRO_03": "첫 신호는 폐쇄된 제7 승강장에서 깜박이고 있었다.",
         "STORY_C1I_01": "등로단은 잔광 폭풍 속에서도 움직이는 소규모 복구 조직이다.", "STORY_C1I_02": "마에루는 지도에 없는 선로에서 구조 요청을 들었다고 말했다.", "STORY_C1I_03": "우리는 신호의 진위를 확인하기 위해 출발했다.",

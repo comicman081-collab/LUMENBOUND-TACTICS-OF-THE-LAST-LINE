@@ -5,6 +5,7 @@ signal battle_requested(stage_id: String)
 signal formation_requested
 signal fallback_requested
 signal sweep_requested(stage_id: String, count: int)
+signal treasure_reward_requested(report: Dictionary)
 
 const MAP_ID := "CH01_MAP"
 const TILE_SIZE := 1.08
@@ -18,6 +19,7 @@ const HexPathfinderScript := preload("res://chapter_map/model/hex_pathfinder.gd"
 const ChapterMapLoaderScript := preload("res://chapter_map/runtime/chapter_map_loader.gd")
 const ChapterMapProgressScript := preload("res://chapter_map/model/chapter_map_progress.gd")
 const ChapterRouteMinimapScript := preload("res://chapter_map/ui/chapter_route_minimap.gd")
+const MapExplorationServiceScript := preload("res://chapter_map/model/map_exploration_service.gd")
 
 var definition: Dictionary
 var grid = HexGridScript.new()
@@ -40,6 +42,9 @@ var pawn_motion_phase := 0.0
 var pawn_last_position := Vector3.ZERO
 var node_buttons: Dictionary = {}
 var node_markers: Dictionary = {}
+var enemy_pawns: Dictionary = {}
+var enemy_animation_packs: Dictionary = {}
+var treasure_visuals: Dictionary = {}
 var tile_meshes: Dictionary = {}
 var tile_dressing_roots: Dictionary = {}
 var active_dressing_root: Node3D
@@ -50,6 +55,7 @@ var route_segments: Array[MeshInstance3D] = []
 var route_nodes: Array[MeshInstance3D] = []
 var selected_ring: MeshInstance3D
 var selected_node: Dictionary = {}
+var selected_treasure: Dictionary = {}
 var preview_path: Array[Vector2i] = []
 var detail_title: Label
 var detail_body: RichTextLabel
@@ -81,6 +87,8 @@ func _ready() -> void:
 	definition = ChapterMapLoaderScript.load_map(MAP_ID)
 	grid.load_tiles(definition.get("tiles", []))
 	map_state = AppState.chapter_map_state(MAP_ID)
+	MapExplorationServiceScript.ensure_state(map_state, definition)
+	MapExplorationServiceScript.update_hidden_proximity(map_state, definition, Vector2i(int(map_state.current_q), int(map_state.current_r)))
 	camera_zoom = clampf(float(map_state.get("camera_zoom", 1.0)), 0.72, 1.55)
 	_build_interface()
 	_build_world()
@@ -136,6 +144,9 @@ func _build_interface() -> void:
 	layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	map_frame.add_child(layer)
 	viewport_container = SubViewportContainer.new()
+	# The container owns presentation sizing so the 3D map fills both desktop and
+	# portrait layouts.  Do not manually resize its SubViewport while this is on:
+	# Godot rejects that combination and emits a warning on each reflow.
 	viewport_container.stretch = true
 	viewport_container.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	viewport_container.gui_input.connect(_on_map_input)
@@ -235,10 +246,6 @@ func _apply_responsive_layout() -> void:
 	var portrait := size.y > size.x
 	var ui_scale := _portrait_ui_scale(size)
 	var compact := portrait or size.x <= 980.0
-	if viewport != null:
-		# Match the render target to the device aspect ratio. Stretching a fixed
-		# 16:9 SubViewport into a portrait phone is distortion, not support.
-		viewport.size = Vector2i(maxi(480, int(size.x * 1.2)), maxi(480, int(size.y * 1.2)))
 	for index in range(map_toolbar_buttons.size()):
 		var action_button := map_toolbar_buttons[index]
 		if portrait:
@@ -287,6 +294,7 @@ func _apply_responsive_layout() -> void:
 			node_button.custom_minimum_size = Vector2(86.0, 40.0)
 			node_button.size = Vector2(86.0, 40.0)
 			node_button.add_theme_font_size_override("font_size", 15)
+	var has_selection := not selected_node.is_empty() or not selected_treasure.is_empty()
 	if compact:
 		# A real mobile bottom sheet reserves the top status strip and bottom safe
 		# area before it takes map space. It is not a desktop right panel scaled down.
@@ -299,11 +307,11 @@ func _apply_responsive_layout() -> void:
 		detail_panel.offset_right = -8.0 * ui_scale if portrait else -16.0
 		detail_panel.offset_top = -330.0 * ui_scale if portrait else -246.0
 		detail_panel.offset_bottom = -8.0 * ui_scale if portrait else -16.0
-		detail_panel.visible = not selected_node.is_empty()
+		detail_panel.visible = has_selection
 		detail_body.custom_minimum_size = Vector2(0.0, 84.0 * ui_scale if portrait else 102.0)
 		detail_body.add_theme_font_size_override("normal_font_size", roundi(17.0 * ui_scale) if portrait else 17)
 	else:
-		var show_detail := not selected_node.is_empty()
+		var show_detail := has_selection
 		map_frame.offset_right = -414.0 if show_detail else 0.0
 		detail_panel.anchor_left = 1.0
 		detail_panel.anchor_right = 1.0
@@ -424,6 +432,10 @@ func _build_world() -> void:
 	for node in definition.get("nodes", []):
 		_create_node_marker(node)
 		_create_node_button(node)
+		if str(node.get("stage_id", "")) != "":
+			_create_enemy_pawn(node)
+	for treasure in definition.get("treasures", []):
+		_create_treasure_visual(treasure)
 	# Nodes are created after the initial interface reflow. Apply the active
 	# viewport profile once more so first-load portrait controls are touch-sized.
 	_apply_responsive_layout()
@@ -786,6 +798,164 @@ func _create_node_marker(node: Dictionary) -> void:
 	world_root.add_child(marker_root)
 	node_markers[str(node.node_id)] = marker_root
 
+func _enemy_for_node(node: Dictionary) -> Dictionary:
+	var stage := DataRegistry.stage(str(node.get("stage_id", "")))
+	var first_enemy_id := ""
+	var boss_enemy_id := ""
+	for wave in stage.get("waves", []):
+		for enemy_id in wave:
+			var enemy := DataRegistry.enemy(str(enemy_id))
+			if str(enemy.get("rank", "")) == "BOSS": boss_enemy_id = str(enemy_id)
+			elif first_enemy_id == "": first_enemy_id = str(enemy_id)
+	var selected_id := boss_enemy_id if not boss_enemy_id.is_empty() else first_enemy_id
+	return DataRegistry.enemy(selected_id)
+
+func _map_idle_texture(enemy_id: String) -> Dictionary:
+	var manifest_path := "res://assets/runtime_web/combat/%s/animation_manifest.json" % enemy_id
+	if not FileAccess.file_exists(manifest_path): return {}
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
+	if not parsed is Dictionary: return {}
+	var atlas_path := "res://assets/runtime_web/combat/%s/%s" % [enemy_id, str(parsed.get("atlas_path", "atlas.png"))]
+	var atlas := load(atlas_path) as Texture2D
+	if atlas == null: return {}
+	var frame_size: Array = parsed.get("frame_size", [104, 104])
+	var texture := AtlasTexture.new()
+	texture.atlas = atlas
+	texture.region = Rect2(0, 0, float(frame_size[0]), float(frame_size[1]))
+	var idle_frames := int(parsed.get("animations", {}).get("idle", {}).get("frames", 1))
+	return {"texture": texture, "frame_size": Vector2(float(frame_size[0]), float(frame_size[1])), "columns": int(parsed.get("atlas_columns", 1)), "frames": clampi(idle_frames, 1, 8)}
+
+func _create_enemy_pawn(node: Dictionary) -> void:
+	var enemy := _enemy_for_node(node)
+	if enemy.is_empty(): return
+	var node_id := str(node.get("node_id", ""))
+	var root := Node3D.new()
+	root.name = "EnemyMapPawn_%s" % node_id
+	var coord := Vector2i(int(node.get("q", 0)), int(node.get("r", 0)))
+	root.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * 0.42 + 0.18)
+	var rank := str(enemy.get("rank", "NORMAL"))
+	var scale_factor := 1.0 if rank == "NORMAL" else (1.28 if rank == "ELITE" else 1.72)
+	var shadow := MeshInstance3D.new()
+	var shadow_mesh := CylinderMesh.new()
+	shadow_mesh.top_radius = 0.38 * scale_factor
+	shadow_mesh.bottom_radius = 0.50 * scale_factor
+	shadow_mesh.height = 0.025
+	shadow_mesh.radial_segments = 12
+	shadow.mesh = shadow_mesh
+	shadow.position.y = 0.02
+	shadow.material_override = _material(Color("061019"))
+	root.add_child(shadow)
+	var danger_ring := MeshInstance3D.new()
+	var ring_mesh := TorusMesh.new()
+	ring_mesh.inner_radius = 0.34 * scale_factor
+	ring_mesh.outer_radius = 0.42 * scale_factor
+	ring_mesh.rings = 8
+	ring_mesh.ring_segments = 18
+	danger_ring.mesh = ring_mesh
+	var threat_color := Color("d85d67") if rank == "NORMAL" else (Color("ef9a47") if rank == "ELITE" else Color("dc5dcc"))
+	danger_ring.material_override = _material(threat_color, threat_color.darkened(0.1))
+	danger_ring.position.y = 0.06
+	root.add_child(danger_ring)
+	var sprite := Sprite3D.new()
+	sprite.name = "EnemyIdleSprite"
+	var pack := _map_idle_texture(str(enemy.get("id", "")))
+	if not pack.is_empty():
+		sprite.texture = pack.texture
+		enemy_animation_packs[node_id] = pack
+	else:
+		var fallback := QuadMesh.new()
+		fallback.size = Vector2(0.72 * scale_factor, 0.72 * scale_factor)
+		var fallback_mesh := MeshInstance3D.new()
+		fallback_mesh.mesh = fallback
+		fallback_mesh.material_override = _material(threat_color, threat_color)
+		fallback_mesh.position.y = 0.62 * scale_factor
+		root.add_child(fallback_mesh)
+	# Combat atlases use 104px frames while the squad leader is rendered from a
+	# 512px icon.  The previous 0.007 world-pixel value made hostile pawns read
+	# as decoration at the edge of a route.  Keep the actual combat art, but give
+	# it a deliberate map-pawn scale and use the manifest foot anchor so it sits
+	# on its hostile ring rather than sinking into the terrain.
+	sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	sprite.pixel_size = 0.0165 * scale_factor
+	var sprite_world_height := float(pack.get("frame_size", Vector2(104.0, 104.0)).y) * sprite.pixel_size
+	sprite.position.y = 0.16 + sprite_world_height * 0.38
+	sprite.no_depth_test = true
+	sprite.render_priority = 12
+	root.add_child(sprite)
+	var threat := Label3D.new()
+	threat.text = "위협" if rank == "NORMAL" else ("정예" if rank == "ELITE" else "보스")
+	threat.font_size = 46 if rank == "BOSS" else 38
+	threat.outline_size = 8
+	threat.modulate = threat_color.lightened(0.16)
+	threat.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	threat.no_depth_test = true
+	threat.position.y = sprite.position.y + sprite_world_height * 0.48 + 0.10
+	root.add_child(threat)
+	world_root.add_child(root)
+	enemy_pawns[node_id] = root
+
+func _create_treasure_visual(treasure: Dictionary) -> void:
+	var treasure_id := str(treasure.get("treasure_id", ""))
+	if treasure_id.is_empty(): return
+	var root := Node3D.new()
+	root.name = "Treasure_%s" % treasure_id
+	var coord := Vector2i(int(treasure.get("q", 0)), int(treasure.get("r", 0)))
+	root.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * 0.42 + 0.16)
+	var shadow := MeshInstance3D.new()
+	var shadow_mesh := CylinderMesh.new()
+	shadow_mesh.top_radius = 0.34
+	shadow_mesh.bottom_radius = 0.46
+	shadow_mesh.height = 0.02
+	shadow_mesh.radial_segments = 12
+	shadow.mesh = shadow_mesh
+	shadow.material_override = _material(Color("061019"))
+	shadow.position.y = 0.01
+	root.add_child(shadow)
+	var crate := MeshInstance3D.new()
+	var crate_mesh := BoxMesh.new()
+	crate_mesh.size = Vector3(0.56, 0.34, 0.40)
+	crate.mesh = crate_mesh
+	crate.material_override = _material(Color("875a2f"), Color("6f3c1f"))
+	crate.position.y = 0.22
+	root.add_child(crate)
+	var lid := MeshInstance3D.new()
+	var lid_mesh := BoxMesh.new()
+	lid_mesh.size = Vector3(0.61, 0.11, 0.45)
+	lid.mesh = lid_mesh
+	lid.material_override = _material(Color("e2a853"), Color("b97830"))
+	lid.position.y = 0.43
+	root.add_child(lid)
+	var seal := MeshInstance3D.new()
+	var seal_mesh := SphereMesh.new()
+	seal_mesh.radius = 0.09
+	seal_mesh.height = 0.18
+	seal.mesh = seal_mesh
+	seal.material_override = _material(Color("b9fff2"), Color("6af8d4"))
+	seal.position = Vector3(0, 0.50, 0.22)
+	root.add_child(seal)
+	var glow := MeshInstance3D.new()
+	var glow_mesh := TorusMesh.new()
+	glow_mesh.inner_radius = 0.38
+	glow_mesh.outer_radius = 0.46
+	glow_mesh.rings = 8
+	glow_mesh.ring_segments = 18
+	glow.mesh = glow_mesh
+	glow.material_override = _material(Color("edcc76"), Color("f7d76f"))
+	glow.position.y = 0.065
+	root.add_child(glow)
+	if str(treasure.get("visibility", "VISIBLE")) == "HIDDEN":
+		crate.visible = false
+		lid.visible = false
+		seal.visible = false
+		glow.visible = false
+		_spawn_kit_component("PROP_CRYSTAL_SHARD_1", Vector3(0.20, 0.12, -0.10), 0.76, 0.0, root)
+	root.set_meta("crate", crate)
+	root.set_meta("lid", lid)
+	root.set_meta("seal", seal)
+	root.set_meta("glow", glow)
+	world_root.add_child(root)
+	treasure_visuals[treasure_id] = root
+
 func _node_style(fill: Color, border: Color) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = fill
@@ -905,8 +1075,9 @@ func _update_route_mesh() -> void:
 			pulse.position = to + Vector3(0.0, 0.035, 0.0)
 			world_root.add_child(pulse)
 			route_nodes.append(pulse)
-	if not selected_node.is_empty():
-		var selected_coord := Vector2i(int(selected_node.q), int(selected_node.r))
+	var selected_target: Dictionary = selected_node if not selected_node.is_empty() else selected_treasure
+	if not selected_target.is_empty():
+		var selected_coord := Vector2i(int(selected_target.get("q", 0)), int(selected_target.get("r", 0)))
 		selected_ring.position = HexCoordScript.axial_to_world(selected_coord, TILE_SIZE, float(grid.tile(selected_coord).get("elevation", 0)) * 0.42 + 0.18)
 		selected_ring.visible = true
 	route_mesh.mesh = immediate
@@ -957,6 +1128,30 @@ func _refresh_state_visuals() -> void:
 			for marker_child in marker_root.get_children():
 				if marker_child is MeshInstance3D and (str(marker_child.name).contains("SYMBOL") or str(marker_child.name).contains("FallbackMarker")):
 					(marker_child as MeshInstance3D).material_override = _material(marker_color, marker_color.darkened(0.18))
+		var enemy_root: Node3D = enemy_pawns.get(str(node.node_id))
+		if enemy_root != null:
+			var cleared := MapExplorationServiceScript.encounter_cleared(map_state, str(node.node_id)) or stars > 0
+			enemy_root.visible = button.visible and not cleared and unlocked
+			# A cleared relay stays in the map as a quiet visual anchor, but the
+			# hostile pawn is gone.  This keeps the encounter readable before text.
+			if marker_root != null and cleared:
+				marker_root.visible = button.visible
+	for treasure in definition.get("treasures", []):
+		var treasure_id := str(treasure.get("treasure_id", ""))
+		var root: Node3D = treasure_visuals.get(treasure_id)
+		if root == null: continue
+		var state := MapExplorationServiceScript.treasure_state(map_state, treasure_id)
+		var revealed_treasure := state == "REVEALED"
+		var hinted_treasure := state == "HINTED" and str(treasure.get("visibility", "VISIBLE")) == "HIDDEN"
+		root.visible = state != "UNDISCOVERED" and state != "CLAIMED"
+		for visual_name in ["crate", "lid", "seal", "glow"]:
+			var visual = root.get_meta(visual_name, null)
+			if visual == null: continue
+			# A hidden cache announces only a restrained ground shimmer at two hexes.
+			# The physical crate, lid, and seal remain absent until close-range reveal.
+			visual.visible = hinted_treasure if visual_name == "glow" else revealed_treasure
+			if visual_name == "glow" and hinted_treasure:
+				visual.scale = Vector3(0.42, 1.0, 0.42)
 	status_label.text = "제1장  ·  꺼진 노선의 신호  ·  %s" % ["위험 작전" if hard_overlay else "일반 작전"]
 	_update_route_minimap()
 	_update_next_encounter_button()
@@ -995,23 +1190,70 @@ func _select_next_encounter() -> void:
 
 func _select_node(node: Dictionary) -> void:
 	if moving: return
+	selected_treasure = {}
 	selected_node = node
 	AppState.selected_map_node_id = str(node.node_id)
 	map_state.last_selected_node = str(node.node_id)
 	var allowed: Dictionary = {}
 	for key in map_state.revealed_tiles: allowed[str(key)] = true
 	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), Vector2i(int(node.q), int(node.r)), allowed)
+	preview_path = _truncate_at_first_unresolved_encounter(preview_path)
+	if not preview_path.is_empty() and preview_path[-1] != Vector2i(int(node.q), int(node.r)):
+		selected_node = _node_at_coord(preview_path[-1])
+		AppState.selected_map_node_id = str(selected_node.get("node_id", ""))
 	_update_route_mesh()
-	# Selection must preview the route from the current view.  Focusing the
-	# destination here made the pawn appear stationary as soon as movement began.
-	_focus_current(false)
+	# Frame both the squad and the hostile pawn while retaining enough route
+	# context to make movement legible.  This keeps a selected N01 from being
+	# clipped behind the panel on a wide Chapter 1 map.
+	_focus_preview_route()
 	_update_panel()
+
+func _select_treasure(treasure: Dictionary) -> void:
+	if moving: return
+	selected_node = {}
+	selected_treasure = treasure
+	# Treasure selection is the explicit opt-in for a short exploratory detour.
+	# Do not restrict this route to currently revealed tiles: otherwise a hinted
+	# side branch can be visible but unreachable. Unresolved encounters still
+	# cut the route below, so this never lets a treasure selection bypass battle.
+	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), Vector2i(int(treasure.q), int(treasure.r)))
+	preview_path = _truncate_at_first_unresolved_encounter(preview_path)
+	if not preview_path.is_empty() and preview_path[-1] != Vector2i(int(treasure.q), int(treasure.r)):
+		selected_treasure = {}
+		selected_node = _node_at_coord(preview_path[-1])
+	_update_route_mesh()
+	_focus_preview_route()
+	_update_panel()
+
+func _focus_preview_route() -> void:
+	if preview_path.size() <= 1:
+		_focus_current(false)
+		return
+	var midpoint_index := clampi(int(round(float(preview_path.size() - 1) * 0.55)), 1, preview_path.size() - 1)
+	_focus_coord(preview_path[midpoint_index], false)
+
+func _truncate_at_first_unresolved_encounter(path: Array[Vector2i]) -> Array[Vector2i]:
+	if path.size() <= 1: return path
+	for index in range(1, path.size()):
+		var coord := path[index]
+		for node in definition.get("nodes", []):
+			if str(node.get("stage_id", "")).is_empty(): continue
+			if int(node.get("q", 0)) != coord.x or int(node.get("r", 0)) != coord.y: continue
+			if not MapExplorationServiceScript.encounter_cleared(map_state, str(node.get("node_id", ""))) and int(AppState.profile.stage_stars.get(str(node.get("stage_id", "")), 0)) <= 0:
+				return path.slice(0, index + 1)
+	return path
+
+func _node_at_coord(coord: Vector2i) -> Dictionary:
+	for node in definition.get("nodes", []):
+		if int(node.get("q", 0)) == coord.x and int(node.get("r", 0)) == coord.y:
+			return node
+	return {}
 
 func _update_panel() -> void:
 	if detail_title == null: return
 	_apply_responsive_layout()
 	_update_route_minimap()
-	if selected_node.is_empty():
+	if selected_node.is_empty() and selected_treasure.is_empty():
 		detail_title.text = "조우 타일을 선택하세요"
 		detail_body.text = "[color=#91aac8]한 번 선택하면 예상 경로를 표시합니다. 이동 확정 전에는 위치와 저장 데이터가 바뀌지 않습니다.[/color]\n\n클리어 타일: 빠른 이동\n3성 타일: 원격 소탕\n맵 이동: 작전력 소비 없음"
 		move_button.visible = false
@@ -1019,6 +1261,21 @@ func _update_panel() -> void:
 		battle_button.visible = false
 		for button in sweep_buttons: button.visible = false
 		_set_action_states(true, true, true)
+		return
+	if not selected_treasure.is_empty():
+		var treasure_id := str(selected_treasure.get("treasure_id", ""))
+		var treasure_state := MapExplorationServiceScript.treasure_state(map_state, treasure_id)
+		detail_title.text = "탐색 보급품 · %s" % ("은닉 신호" if str(selected_treasure.get("visibility", "VISIBLE")) == "HIDDEN" else "발견됨")
+		detail_body.text = "[color=#f1d77a][b]%s[/b][/color]\n%s\n\n예상 이동  [color=#85e8ff]%d 구간[/color]\n\n도착하면 보급품을 회수합니다. 이동에는 작전력을 소비하지 않습니다." % [str(selected_treasure.get("landmark", "탐색 지점")).replace("_", " "), "환경 단서가 안정된 보급 반응을 가리킵니다." if treasure_state == "REVEALED" else "미세한 반응만 감지됩니다. 더 가까이 이동하세요.", maxi(0, preview_path.size() - 1)]
+		move_button.visible = true
+		move_button.text = "보급품으로 이동"
+		# A hinted landmark is intentionally selectable: reaching it is what turns
+		# a weak environmental clue into a revealed cache.  It still cannot be
+		# claimed until the proximity state reaches REVEALED.
+		move_button.disabled = preview_path.size() <= 1
+		fast_travel_button.visible = false
+		battle_button.visible = false
+		for button in sweep_buttons: button.visible = false
 		return
 	var stage_id := str(selected_node.get("stage_id", ""))
 	if stage_id == "":
@@ -1045,10 +1302,15 @@ func _update_panel() -> void:
 	# tools appear only after their real unlock condition, rather than occupying
 	# the first-visit encounter sheet as disabled controls.
 	move_button.visible = not at_node
+	move_button.text = "경로를 따라 조우로 이동"
 	fast_travel_button.visible = stars > 0
-	battle_button.visible = true
+	var uncleared_encounter := not MapExplorationServiceScript.encounter_cleared(map_state, str(selected_node.get("node_id", ""))) and stars <= 0
+	# An uncleared hostile starts combat by physical contact only.  Cleared
+	# stages retain their normal repeat-battle action without an enemy pawn.
+	battle_button.visible = not uncleared_encounter
+	battle_button.text = "기존 실시간 전투 재도전"
 	for button in sweep_buttons: button.visible = stars >= 3
-	move_button.disabled = not unlocked or preview_path.size() <= 1
+	move_button.disabled = not unlocked or preview_path.size() <= 1 or (uncleared_encounter and not AppState.can_enter_stage(stage_id))
 	fast_travel_button.disabled = stars <= 0 or at_node or not bool(selected_node.get("fast_travel_allowed", false))
 	battle_button.disabled = not at_node or not AppState.can_enter_stage(stage_id)
 	for index in range(sweep_buttons.size()):
@@ -1095,6 +1357,8 @@ func _move_along(path: Array[Vector2i]) -> void:
 		# exactly to every footstep; this makes travelled distance immediately legible.
 		if index == 1 or index % 3 == 0 or index == path.size() - 1:
 			_follow_moving_pawn(target)
+		var proximity_changes := MapExplorationServiceScript.update_hidden_proximity(map_state, definition, coord)
+		if not proximity_changes.is_empty(): _refresh_state_visuals()
 	ChapterMapProgressScript.mark_visited(map_state, path)
 	map_state.last_selected_node = str(selected_node.get("node_id", ""))
 	SaveService.save_game()
@@ -1106,6 +1370,7 @@ func _move_along(path: Array[Vector2i]) -> void:
 	preview_path = [path[-1]]
 	_update_route_mesh()
 	_refresh_state_visuals()
+	_resolve_arrival(path)
 	# Do not snap to the destination after walking: the stepped follow camera has
 	# already kept the squad in view and retains surrounding terrain context.
 
@@ -1140,16 +1405,39 @@ func _spawn_pawn_step_trail(position: Vector3) -> void:
 
 func skip_movement() -> void:
 	if not moving or active_movement_path.is_empty(): return
+	var skipped_path := active_movement_path.duplicate()
 	movement_generation += 1
-	ChapterMapProgressScript.mark_visited(map_state, active_movement_path)
+	ChapterMapProgressScript.mark_visited(map_state, skipped_path)
 	pawn.position = _pawn_world_position()
-	preview_path = [active_movement_path[-1]]
+	preview_path = [skipped_path[-1]]
 	active_movement_path.clear()
 	moving = false
 	pawn_motion_state = "IDLE"
 	_update_route_mesh()
 	_refresh_state_visuals()
 	SaveService.save_game()
+	_resolve_arrival(skipped_path)
+
+func _resolve_arrival(path: Array[Vector2i]) -> void:
+	if path.is_empty(): return
+	var arrival := path[-1]
+	var proximity_changes := MapExplorationServiceScript.update_hidden_proximity(map_state, definition, arrival)
+	if not proximity_changes.is_empty():
+		_refresh_state_visuals()
+	if not selected_treasure.is_empty() and arrival == Vector2i(int(selected_treasure.q), int(selected_treasure.r)):
+		var report := MapExplorationServiceScript.claim_treasure(map_state, definition, str(selected_treasure.treasure_id))
+		if report.ok:
+			SaveService.save_game()
+			treasure_reward_requested.emit(report.value)
+		return
+	if selected_node.is_empty() or str(selected_node.get("stage_id", "")).is_empty(): return
+	if arrival != Vector2i(int(selected_node.q), int(selected_node.r)): return
+	if MapExplorationServiceScript.encounter_cleared(map_state, str(selected_node.node_id)) or int(AppState.profile.stage_stars.get(str(selected_node.stage_id), 0)) > 0:
+		return
+	var return_coord := path[path.size() - 2] if path.size() >= 2 else Vector2i(int(map_state.current_q), int(map_state.current_r))
+	if AppState.prepare_map_encounter(str(selected_node.stage_id), str(selected_node.node_id), return_coord, MAP_ID):
+		SaveService.save_game()
+		battle_requested.emit(str(selected_node.stage_id))
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and moving:
@@ -1178,6 +1466,7 @@ func _request_sweep(count: int) -> void:
 
 func _clear_selection() -> void:
 	selected_node = {}
+	selected_treasure = {}
 	preview_path.clear()
 	_update_route_mesh()
 	_update_panel()
@@ -1261,6 +1550,7 @@ func _select_node_near_screen(screen_position: Vector2) -> void:
 	var runtime_size := _runtime_layout_size()
 	var hit_radius := 72.0 * _portrait_ui_scale(runtime_size) if runtime_size.y > runtime_size.x else 46.0
 	var closest: Dictionary = {}
+	var closest_kind := ""
 	var closest_distance := INF
 	for node in definition.get("nodes", []):
 		var node_button: Button = node_buttons.get(str(node.get("node_id", "")))
@@ -1272,8 +1562,24 @@ func _select_node_near_screen(screen_position: Vector2) -> void:
 		if distance < closest_distance:
 			closest_distance = distance
 			closest = node
+			closest_kind = "NODE"
+	for treasure in definition.get("treasures", []):
+		var treasure_id := str(treasure.get("treasure_id", ""))
+		var treasure_state := MapExplorationServiceScript.treasure_state(map_state, treasure_id)
+		if treasure_state not in ["HINTED", "REVEALED"]: continue
+		var root: Node3D = treasure_visuals.get(treasure_id)
+		if root == null or not root.visible: continue
+		var coord := Vector2i(int(treasure.get("q", 0)), int(treasure.get("r", 0)))
+		var world_position := HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * 0.42 + 0.62)
+		var projected := camera.unproject_position(world_position) * surface_scale
+		var distance := projected.distance_to(screen_position)
+		if distance < closest_distance:
+			closest_distance = distance
+			closest = treasure
+			closest_kind = "TREASURE"
 	if not closest.is_empty() and closest_distance <= hit_radius:
-		_select_node(closest)
+		if closest_kind == "TREASURE": _select_treasure(closest)
+		else: _select_node(closest)
 
 func _process(delta: float) -> void:
 	if camera == null: return
@@ -1290,6 +1596,27 @@ func _process(delta: float) -> void:
 	if selected_ring != null and selected_ring.visible:
 		var pulse := 1.0 + sin(pawn_motion_phase * 1.4) * 0.08
 		selected_ring.scale = Vector3(pulse, 1.0, pulse)
+	for node_id in enemy_animation_packs:
+		var root: Node3D = enemy_pawns.get(node_id)
+		if root == null or not root.visible: continue
+		var pack: Dictionary = enemy_animation_packs[node_id]
+		var sprite: Sprite3D = null
+		for child in root.get_children():
+			if child is Sprite3D:
+				sprite = child
+				break
+		if sprite == null or not sprite.texture is AtlasTexture: continue
+		var atlas_texture := sprite.texture as AtlasTexture
+		var frame_size: Vector2 = pack.get("frame_size", Vector2(104, 104))
+		var frame := int(floor(Time.get_ticks_msec() / 150.0)) % maxi(1, int(pack.get("frames", 1)))
+		atlas_texture.region = Rect2(float(frame % int(pack.get("columns", 1))) * frame_size.x, float(frame / int(pack.get("columns", 1))) * frame_size.y, frame_size.x, frame_size.y)
+	for treasure_id in treasure_visuals:
+		var root: Node3D = treasure_visuals[treasure_id]
+		if root == null or not root.visible: continue
+		var glow = root.get_meta("glow", null)
+		if glow != null and glow.visible:
+			var pulse := 1.0 + sin(pawn_motion_phase * 1.5 + float(treasure_id.hash() % 9)) * 0.08
+			glow.scale = Vector3(pulse, 1.0, pulse)
 	camera.size = 13.2 / camera_zoom
 	camera.position = camera_target + Vector3(9.4, 12.8, 11.2)
 	camera.look_at(camera_target, Vector3.UP)

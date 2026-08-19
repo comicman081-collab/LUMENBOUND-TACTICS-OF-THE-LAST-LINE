@@ -32,6 +32,18 @@
     "CH01-H04",
     "CH01-H05"
   ],
+  "treasures": [
+    {"treasure_id":"CH01_VT01","visibility":"VISIBLE","q":4,"r":2,"landmark":"부서진 릴레이 보급 상자","rewards":{"TRAINING_NOTE_M":3,"CREDIT":1200}},
+    {"treasure_id":"CH01_VT02","visibility":"VISIBLE","q":18,"r":-1,"landmark":"coastline_supply_case","rewards":{"WEAPON_CHIP_M":2,"CREDIT":1400}},
+    {"treasure_id":"CH01_VT03","visibility":"VISIBLE","q":31,"r":-4,"landmark":"ruined_signal_crate","rewards":{"SKILL_BOOK_T1":2,"SKILL_TOKEN_T1":1}},
+    {"treasure_id":"CH01_VT04","visibility":"VISIBLE","q":48,"r":-8,"landmark":"crystal_survey_chest","rewards":{"BREAK_CORE_T1":2,"ROLE_TOKEN_T1":1}},
+    {"treasure_id":"CH01_VT05","visibility":"VISIBLE","q":69,"r":-11,"landmark":"railside_armament_case","rewards":{"WEAPON_ORE_T1":2,"BLUEPRINT_T1":1}},
+    {"treasure_id":"CH01_VT06","visibility":"VISIBLE","q":88,"r":-14,"landmark":"beacon_vault","rewards":{"TRAINING_NOTE_L":1,"CREDIT":2400}},
+    {"treasure_id":"CH01_HT01","visibility":"HIDDEN","q":6,"r":-1,"landmark":"비정상 수정 군락","rewards":{"SKILL_TOKEN_T1":2,"CREDIT":900}},
+    {"treasure_id":"CH01_HT02","visibility":"HIDDEN","q":28,"r":-5,"landmark":"collapsed_archway","rewards":{"BREAK_CORE_T1":2,"FACTION_SEAL_T1":1}},
+    {"treasure_id":"CH01_HT03","visibility":"HIDDEN","q":55,"r":-11,"landmark":"broken_infrastructure_end","rewards":{"WEAPON_CHIP_L":1,"WEAPON_ORE_T1":2}},
+    {"treasure_id":"CH01_HT04","visibility":"HIDDEN","q":80,"r":-14,"landmark":"open_coastal_clearing","rewards":{"ULT_BOOK_T1":2,"CREDIT":1800}}
+  ],
   "tiles": [
     {
       "q": -3,

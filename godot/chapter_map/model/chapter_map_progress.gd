@@ -11,7 +11,11 @@ static func create_default(definition: Dictionary) -> Dictionary:
 		"current_q": int(start.get("q", 0)), "current_r": int(start.get("r", 0)),
 		"visited_tiles": [], "revealed_tiles": [], "cleared_nodes": [],
 		"last_selected_node": "", "camera_zoom": 1.0, "camera_center": [0.0, 0.0],
-		"processed_battle_tokens": []
+		"processed_battle_tokens": [], "processed_reward_tokens": [],
+		"current_party_hex": [int(start.get("q", 0)), int(start.get("r", 0))],
+		"cleared_encounters": [], "encounter_states": {},
+		"treasure_states": {}, "revealed_treasures": [], "claimed_treasures": [],
+		"pending_encounter": {}, "last_map_camera_hex": [int(start.get("q", 0)), int(start.get("r", 0))]
 	}
 	state.visited_tiles.append("%d,%d" % [state.current_q, state.current_r])
 	refresh_reveal(state, definition, 0, 0, false)
@@ -99,6 +103,7 @@ static func mark_visited(state: Dictionary, path: Array[Vector2i]) -> void:
 	if not path.is_empty():
 		state.current_q = path[-1].x
 		state.current_r = path[-1].y
+		state.current_party_hex = [path[-1].x, path[-1].y]
 
 static func record_clear_once(state: Dictionary, node_id: String, battle_token: String) -> bool:
 	if state.processed_battle_tokens.has(battle_token): return false

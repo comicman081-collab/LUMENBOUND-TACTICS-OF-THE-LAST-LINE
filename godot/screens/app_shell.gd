@@ -3,6 +3,7 @@ extends Control
 const BattleViewScene := preload("res://battle/scenes/battle_root.tscn")
 const ChapterMapScene := preload("res://chapter_map/view/chapter_map_root.tscn")
 const ChapterMapLoaderScript := preload("res://chapter_map/runtime/chapter_map_loader.gd")
+const GrowthAffordabilityAnalyzerScript := preload("res://progression/growth_affordability_analyzer.gd")
 var content: VBoxContainer
 var footer_status: Label
 var safe_margin: MarginContainer
@@ -38,14 +39,18 @@ var layout_refresh_queued := false
 var orientation_probe_left := 0.0
 var last_battle_result: Dictionary = {}
 var last_rewards: Dictionary = {}
+var last_reward_report: Dictionary = {}
 var debug_reset_armed := false
 var battle_transition_active := false
 
 func _ready() -> void:
 	_build_root()
 	EventBus.screen_changed.connect(_show_screen)
-	var loaded := SaveService.load_game()
-	footer_status.text = "저장 상태: %s" % ("복구 완료" if loaded.ok else "새 탐색 기록")
+	SaveService.load_game()
+	# A persistent save diagnostic belonged to the development shell.  Saving is
+	# still atomic and reported by its own action feedback, but Release screens
+	# must not expose a bottom-right implementation status.
+	footer_status.visible = false
 	_show_screen("TITLE")
 
 func _build_root() -> void:
@@ -97,7 +102,10 @@ func _build_root() -> void:
 func _make_theme() -> Theme:
 	var value := Theme.new()
 	var ui_scale := _portrait_ui_scale()
-	var bundled_font := load("res://assets/fonts/NotoSansKR-RuntimeSubset.ttf") as Font
+	# The earlier subset deliberately reduced the Web payload, but it omitted
+	# glyphs introduced by localized reward names.  Use the project-owned OFL
+	# variable font so every Korean runtime string remains readable.
+	var bundled_font := load("res://assets/fonts/NotoSansKR-VF.ttf") as Font
 	if bundled_font != null:
 		interface_font = bundled_font
 		value.default_font = bundled_font
@@ -834,6 +842,7 @@ func _show_chapter_map() -> void:
 	map_screen.formation_requested.connect(func(): SceneRouter.go("FORMATION"))
 	map_screen.fallback_requested.connect(func(): SceneRouter.go("STAGE_LIST_FALLBACK"))
 	map_screen.sweep_requested.connect(_map_sweep_requested)
+	map_screen.treasure_reward_requested.connect(_map_treasure_reward_requested)
 	content.add_child(map_screen)
 
 func _map_battle_requested(stage_id: String) -> void:
@@ -843,6 +852,12 @@ func _map_battle_requested(stage_id: String) -> void:
 func _map_sweep_requested(stage_id: String, count: int) -> void:
 	AppState.selected_stage_id = stage_id
 	_sweep(count)
+
+func _map_treasure_reward_requested(report: Dictionary) -> void:
+	last_rewards = report.get("rewards", {}).duplicate(true)
+	last_reward_report = report.duplicate(true)
+	last_battle_result = {"victory": true, "time": 0.0, "survivors": 5, "seed": AppState.battle_seed, "event_hash": "TREASURE:%s" % str(report.get("source_id", "")), "damage": {}, "healing": {}, "source_type": "TREASURE"}
+	SceneRouter.go("RESULT")
 
 func _show_stage_detail() -> void:
 	var stage := DataRegistry.stage(AppState.selected_stage_id)
@@ -962,7 +977,7 @@ func _build_battle_overlay() -> void:
 	battle_speed_button = _button("×1", _cycle_battle_speed, false, Vector2(110, 56))
 	battle_actions.add_child(battle_speed_button)
 	battle_actions.add_child(_button("일시정지", _toggle_battle_pause, false, Vector2(140, 56)))
-	battle_actions.add_child(_button("나가기", func(): SceneRouter.go("STAGE_SELECT"), false, Vector2(120, 56)))
+	battle_actions.add_child(_button("나가기", _abandon_battle, false, Vector2(120, 56)))
 	var party_row: Container = GridContainer.new() if portrait else HBoxContainer.new()
 	party_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	if party_row is GridContainer:
@@ -1029,7 +1044,7 @@ func _build_battle_overlay() -> void:
 	pause_actions.alignment = BoxContainer.ALIGNMENT_CENTER
 	pause_box.add_child(pause_actions)
 	pause_actions.add_child(_button("재시작", func(): SceneRouter.go("BATTLE"), false, Vector2(190, 62)))
-	pause_actions.add_child(_button("나가기", func(): SceneRouter.go("STAGE_SELECT"), false, Vector2(190, 62)))
+	pause_actions.add_child(_button("나가기", _abandon_battle, false, Vector2(190, 62)))
 	_update_battle_hud()
 
 func _update_battle_hud() -> void:
@@ -1122,20 +1137,108 @@ func _compact_number(value: int) -> String:
 func _battle_finished(result: Dictionary) -> void:
 	last_battle_result = result
 	last_rewards = {}
+	last_reward_report = {}
+	var pre_profile := AppState.profile.duplicate(true)
 	if result.victory:
 		var stage := DataRegistry.stage(AppState.selected_stage_id)
 		var stars := 1 + (1 if int(result.survivors) == 5 else 0) + (1 if float(result.time) <= float(stage.target_time) else 0)
 		var first := AppState.record_stage_clear(stage.id, stars)
-		last_rewards = RewardService.resolve(stage.id, 1, AppState.battle_seed + int(result.ticks), first)
-		AccountProgression.grant_stage_xp(int(stage.stamina_cost), 20 if first else 0)
-		for character_id in AppState.get_party(): RelationshipService.grant(character_id, 10)
+		# A battle transaction receives one immutable token at entry.  Reloads,
+		# duplicate callbacks, and result-screen revisits cannot grant it twice.
+		if AppState.claim_pending_reward_once(stage.id):
+			last_rewards = RewardService.resolve(stage.id, 1, AppState.battle_seed + int(result.ticks), first)
+			AccountProgression.grant_stage_xp(int(stage.stamina_cost), 20 if first else 0)
+			for character_id in AppState.get_party(): RelationshipService.grant(character_id, 10)
 	AppState.apply_battle_result_to_map(AppState.selected_stage_id, bool(result.get("victory", false)))
+	var post_profile := AppState.profile.duplicate(true)
+	last_reward_report = {
+		"source_type": "BATTLE",
+		"source_id": AppState.selected_stage_id,
+		"rewards": last_rewards.duplicate(true),
+		"pre_inventory": pre_profile.get("inventory", {}).duplicate(true),
+		"post_inventory": post_profile.get("inventory", {}).duplicate(true),
+		"growth": GrowthAffordabilityAnalyzerScript.analyze(pre_profile, post_profile),
+	}
 	SaveService.save_game()
 	SceneRouter.go("RESULT")
 
+func _abandon_battle() -> void:
+	AppState.abandon_pending_map_encounter()
+	SaveService.save_game()
+	SceneRouter.go("STAGE_SELECT")
+
+func _display_item_name(item_id: String) -> String:
+	var item := DataRegistry.by_id("items", item_id)
+	var fallback := item_id.replace("_", " ")
+	return LocalizationService.tr_key(str(item.get("name_key", fallback))).replace(" (DEV)", "")
+
+func _display_character_name(character_id: String) -> String:
+	var definition := DataRegistry.character(character_id)
+	return LocalizationService.tr_key(str(definition.get("name_key", character_id))).replace(" (DEV)", "")
+
+func _growth_candidate_text(candidate: Dictionary) -> String:
+	var kind := str(candidate.get("kind", ""))
+	var character_id := str(candidate.get("character_id", ""))
+	var character_name := _display_character_name(character_id)
+	if kind == "LEVEL":
+		return "%s\nLv.%d → Lv.%d 가능" % [character_name, int(candidate.get("from_level", 0)), int(candidate.get("to_level", 0))]
+	if kind == "BREAKTHROUGH":
+		return "%s\n돌파 B%d → B%d 가능" % [character_name, int(candidate.get("from_breakthrough", 0)), int(candidate.get("to_breakthrough", 0))]
+	if kind == "SKILL":
+		var definition := DataRegistry.character(character_id)
+		var slot := str(candidate.get("slot", "normal"))
+		var skill_id := str(definition.get(slot + "_skill_id", ""))
+		var skill := DataRegistry.skill(skill_id)
+		var skill_name := LocalizationService.tr_key(str(skill.get("name_key", slot.to_upper()))).replace(" (DEV)", "")
+		return "%s\n%s  Lv.%d → Lv.%d 가능" % [character_name, skill_name, int(candidate.get("from_level", 0)), int(candidate.get("to_level", 0))]
+	var weapon_id := str(candidate.get("weapon_id", ""))
+	var weapon := DataRegistry.by_id("weapons", weapon_id)
+	var weapon_name := LocalizationService.tr_key(str(weapon.get("name_key", weapon_id))).replace(" (DEV)", "")
+	if kind == "WEAPON_TIER":
+		return "%s\nT%d → T%d 티어업 가능" % [weapon_name, int(candidate.get("from_tier", 0)), int(candidate.get("to_tier", 0))]
+	return "%s\nLv.%d → Lv.%d 가능" % [weapon_name, int(candidate.get("from_level", 0)), int(candidate.get("to_level", 0))]
+
+func _goto_growth_candidate(candidate: Dictionary) -> void:
+	var character_id := str(candidate.get("character_id", ""))
+	if character_id.is_empty():
+		var weapon_id := str(candidate.get("weapon_id", ""))
+		for roster_id in AppState.profile.get("roster", {}):
+			if str(AppState.profile.roster[roster_id].get("equipped_weapon_id", "")) == weapon_id:
+				character_id = str(roster_id)
+				break
+	if character_id.is_empty(): character_id = str(AppState.get_party()[0])
+	AppState.selected_character_id = character_id
+	SceneRouter.go("GROWTH")
+
+func _add_reward_clarity(parent: VBoxContainer, font_size: int) -> void:
+	var source_type := str(last_reward_report.get("source_type", "BATTLE"))
+	parent.add_child(_label("탐색 보상" if source_type == "TREASURE" else "전투 보상", font_size + 4, Color("8fe0b6")))
+	var rewards: Dictionary = last_reward_report.get("rewards", last_rewards)
+	var before_inventory: Dictionary = last_reward_report.get("pre_inventory", {})
+	var after_inventory: Dictionary = last_reward_report.get("post_inventory", AppState.profile.get("inventory", {}))
+	if rewards.is_empty():
+		parent.add_child(_label("획득 보상 없음", font_size, Color("91aac8")))
+	else:
+		var reward_keys: Array = rewards.keys()
+		reward_keys.sort()
+		for item_id in reward_keys:
+			var before := int(before_inventory.get(item_id, 0))
+			var after := int(after_inventory.get(item_id, before + int(rewards[item_id])))
+			parent.add_child(_label("%s     +%s\n보유량     %s → %s" % [_display_item_name(str(item_id)), MathUtil.comma(int(rewards[item_id])), MathUtil.comma(before), MathUtil.comma(after)], font_size, Color("d8f5e9")))
+	var growth: Dictionary = last_reward_report.get("growth", {})
+	var newly: Array = growth.get("newly_affordable", [])
+	parent.add_child(_label("이번 보상으로 새롭게 가능한 성장", font_size + 2, Color("f1d77a")))
+	if newly.is_empty():
+		parent.add_child(_label("새롭게 해금된 성장 항목 없음", font_size - 2, Color("91aac8")))
+	else:
+		for candidate in newly:
+			parent.add_child(_button("[NEW] " + _growth_candidate_text(candidate), func(value: Dictionary = candidate.duplicate(true)): _goto_growth_candidate(value), false, Vector2(290, 70)))
+	var summary: Dictionary = growth.get("summary", {})
+	parent.add_child(_label("현재 재료로 성장 가능한 후보\n레벨업 가능 캐릭터 %d명 · 돌파 가능 캐릭터 %d명\n스킬 강화 가능 캐릭터 %d명 · 무기 강화 %d개 · 무기 티어업 %d개" % [int(summary.get("level_characters", 0)), int(summary.get("breakthrough_characters", 0)), int(summary.get("skill_characters", 0)), int(summary.get("weapon_levels", 0)), int(summary.get("weapon_tiers", 0))], font_size - 1, Color("cdd5e3")))
+
 func _show_result() -> void:
 	AudioService.play_bgm("audio_bgm_lobby")
-	_title("전투 결과", AppState.selected_stage_id)
+	_title("탐색 보상" if str(last_reward_report.get("source_type", "")) == "TREASURE" else "전투 결과", str(last_reward_report.get("source_id", AppState.selected_stage_id)))
 	# A desktop-side illustration/report split spills past a 390 px portrait
 	# viewport.  Keep the complete report scrollable, but reserve a separate
 	# bottom action rail inside the device safe area so map return is never
@@ -1143,11 +1246,19 @@ func _show_result() -> void:
 	if _is_portrait_layout():
 		_show_result_portrait()
 		return
+	# Keep the full report scrollable independently from the action rail.  The
+	# former expanding HBox consumed the complete landscape height and could
+	# leave the return/growth actions below the visible safe area.
+	var report_scroll := ScrollContainer.new()
+	report_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	report_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	report_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content.add_child(report_scroll)
 	var hero := HBoxContainer.new()
 	hero.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hero.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	hero.custom_minimum_size = Vector2(0.0, 500.0)
 	hero.add_theme_constant_override("separation", 18)
-	content.add_child(hero)
+	report_scroll.add_child(hero)
 	var lead := DataRegistry.character(AppState.get_party()[0])
 	var art_panel := PanelContainer.new()
 	art_panel.custom_minimum_size = Vector2(340, 500)
@@ -1157,7 +1268,7 @@ func _show_result() -> void:
 	box.add_child(_label("VICTORY" if last_battle_result.get("victory", false) else "DEFEAT", 52, Color("f1d77a") if last_battle_result.get("victory", false) else Color("ff7f8a")))
 	box.add_child(_label("시간 %.2fs • 생존 %d • seed %d" % [last_battle_result.get("time", 0), last_battle_result.get("survivors", 0), last_battle_result.get("seed", 0)], 24))
 	box.add_child(_label("이벤트 해시: %s" % last_battle_result.get("event_hash", ""), 16, Color("7e9dbd")))
-	box.add_child(_label("보상\n" + _format_counts(last_rewards), 23, Color("8fe0b6")))
+	_add_reward_clarity(box, 19)
 	box.add_child(_label("가한 피해\n%s\n\n회복\n%s" % [_format_counts(last_battle_result.get("damage", {})), _format_counts(last_battle_result.get("healing", {}))], 18, Color("cdd5e3")))
 	var actions := HBoxContainer.new()
 	content.add_child(actions)
@@ -1185,7 +1296,7 @@ func _show_result_portrait() -> void:
 	box.add_child(_label("VICTORY" if last_battle_result.get("victory", false) else "DEFEAT", 40, Color("f1d77a") if last_battle_result.get("victory", false) else Color("ff7f8a")))
 	box.add_child(_label("시간 %.2fs  ·  생존 %d" % [last_battle_result.get("time", 0), last_battle_result.get("survivors", 0)], 20))
 	box.add_child(_label("결정론 기록  %s" % str(last_battle_result.get("event_hash", "")).left(16), 14, Color("7e9dbd")))
-	box.add_child(_label("보상\n" + _format_counts(last_rewards), 19, Color("8fe0b6")))
+	_add_reward_clarity(box, 16)
 	box.add_child(_label("가한 피해\n%s\n\n회복\n%s" % [_format_counts(last_battle_result.get("damage", {})), _format_counts(last_battle_result.get("healing", {}))], 15, Color("cdd5e3")))
 	var actions := VBoxContainer.new()
 	actions.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1196,10 +1307,19 @@ func _show_result_portrait() -> void:
 	actions.add_child(_button("홈", func(): SceneRouter.go("HOME"), false, Vector2(320, 52)))
 
 func _sweep(count: int) -> void:
+	var pre_profile := AppState.profile.duplicate(true)
 	var result := RewardService.sweep(AppState.selected_stage_id, count, AppState.battle_seed + count)
 	if result.ok:
 		last_battle_result = {"victory": true, "time": 0.0, "survivors": 5, "seed": AppState.battle_seed + count, "event_hash": "SWEEP_USES_REWARD_RESOLVER", "damage": {}, "healing": {}}
 		last_rewards = result.value
+		var post_profile := AppState.profile.duplicate(true)
+		last_reward_report = {
+			"source_type": "SWEEP", "source_id": AppState.selected_stage_id,
+			"rewards": last_rewards.duplicate(true),
+			"pre_inventory": pre_profile.get("inventory", {}).duplicate(true),
+			"post_inventory": post_profile.get("inventory", {}).duplicate(true),
+			"growth": GrowthAffordabilityAnalyzerScript.analyze(pre_profile, post_profile),
+		}
 		SaveService.save_game()
 		SceneRouter.go("RESULT")
 	else: footer_status.text = result.error

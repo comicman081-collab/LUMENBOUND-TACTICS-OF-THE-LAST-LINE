@@ -438,6 +438,7 @@ func _build_world() -> void:
 	_create_world_island_shelf()
 	_create_connected_terrain_surface()
 	_create_boundary_coastline()
+	_create_signal_causeways()
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-54, -38, 0)
 	sun.light_color = Color("ffeac4")
@@ -515,7 +516,7 @@ func _create_world_backdrop() -> void:
 	# Water uses several restrained moving bands rather than a uniform teal void.
 	# It is deliberately broad and low contrast so it reads as sea beyond the
 	# coast, while never competing with encounter or route information.
-	shader.code = "shader_type spatial; render_mode unshaded, cull_disabled; void fragment(){ float t=TIME*0.16; vec2 p=UV*18.0; float swell=sin(p.x*1.16+p.y*0.74+t)*0.5+0.5; float cross=sin(p.y*2.18-p.x*0.42-t*0.68)*0.5+0.5; float long_wave=smoothstep(0.72,0.94,sin(p.x*0.46-p.y*0.91+t*1.42)*0.5+0.5); float glint=smoothstep(0.91,0.985,sin((p.x+p.y*0.42)*4.4+t*1.8)*0.5+0.5); vec3 abyss=vec3(0.004,0.030,0.058); vec3 ocean=vec3(0.012,0.175,0.235); vec3 tide=vec3(0.045,0.355,0.385); float volume=clamp(swell*0.48+cross*0.22+long_wave*0.30,0.0,1.0); ALBEDO=mix(abyss,ocean,volume)+tide*(long_wave*0.34+glint*0.21); EMISSION=vec3(0.0,0.070,0.104)*(long_wave*0.58+glint*0.42); }"
+	shader.code = "shader_type spatial; render_mode unshaded, cull_disabled; void fragment(){ float t=TIME*0.16; vec2 p=UV*18.0; float swell=sin(p.x*1.16+p.y*0.74+t)*0.5+0.5; float cross=sin(p.y*2.18-p.x*0.42-t*0.68)*0.5+0.5; float long_wave=smoothstep(0.72,0.94,sin(p.x*0.46-p.y*0.91+t*1.42)*0.5+0.5); float glint=smoothstep(0.91,0.985,sin((p.x+p.y*0.42)*4.4+t*1.8)*0.5+0.5); float current_band=smoothstep(0.67,0.88,sin(UV.x*5.4-UV.y*2.1+t*0.72)*0.5+0.5); float deep_falloff=smoothstep(0.08,0.92,UV.x*0.72+UV.y*0.28); vec3 abyss=vec3(0.003,0.020,0.044); vec3 ocean=vec3(0.010,0.150,0.218); vec3 tide=vec3(0.048,0.392,0.414); float volume=clamp(swell*0.40+cross*0.18+long_wave*0.27+current_band*0.15,0.0,1.0); vec3 base=mix(abyss,ocean,volume); base=mix(base,abyss,deep_falloff*0.30); ALBEDO=base+tide*(long_wave*0.31+glint*0.20+current_band*0.14); EMISSION=vec3(0.0,0.082,0.116)*(long_wave*0.54+glint*0.38+current_band*0.22); }"
 	var water_material := ShaderMaterial.new()
 	water_material.shader = shader
 	water.material_override = water_material
@@ -607,6 +608,16 @@ func _create_boundary_coastline() -> void:
 	# Boundary-aware reef placement follows the actual macro-map shoreline, so
 	# the ocean has a readable coast at every streamed district instead of only a
 	# few fixed showcase props near the starting area.
+	# This is one continuous low-poly shallow-water ribbon, not a sea of water
+	# hexes. At game scale it gives the coast a pale wet edge before the deep tide
+	# begins, which makes a long land/water diagonal read as shoreline rather
+	# than the edge of a prototype board.
+	var shallow_mesh := ImmediateMesh.new()
+	var shallow_material := _material(Color("2a8f91"), Color("0f6a70"))
+	shallow_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	shallow_material.albedo_color.a = 0.82
+	shallow_material.emission_energy_multiplier = 0.34
+	shallow_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, shallow_material)
 	for raw_tile in definition.get("tiles", []):
 		var tile: Dictionary = raw_tile
 		if bool(tile.get("movement_blocked", false)):
@@ -616,19 +627,94 @@ func _create_boundary_coastline() -> void:
 			var direction: Vector2i = HexCoordScript.DIRECTIONS[direction_index]
 			if grid.has(coord + direction):
 				continue
+			var center := HexCoordScript.axial_to_world(coord, TILE_SIZE)
+			var neighbor := HexCoordScript.axial_to_world(coord + direction, TILE_SIZE)
+			var normal := (neighbor - center).normalized()
+			var tangent := Vector3(-normal.z, 0.0, normal.x)
+			var inner_center := center + normal * TILE_SIZE * 0.56
+			var outer_center := center + normal * TILE_SIZE * 1.74
+			# Keep this only a hair below the land surface.  The former ribbon sat
+			# at the deep-ocean plane, where its colour was swallowed by the large
+			# dark water backdrop at gameplay camera distance.
+			inner_center.y = -0.022
+			outer_center.y = -0.045
+			var inner_left := inner_center - tangent * TILE_SIZE * 0.60
+			var inner_right := inner_center + tangent * TILE_SIZE * 0.60
+			var outer_left := outer_center - tangent * TILE_SIZE * 0.74
+			var outer_right := outer_center + tangent * TILE_SIZE * 0.74
+			for vertex in [inner_left, outer_left, outer_right, inner_left, outer_right, inner_right]:
+				shallow_mesh.surface_add_vertex(vertex)
 			# Sparse, deterministic selection avoids a repeated once-per-hex foam
 			# ring while ensuring every route district gets some coastal structure.
 			var signature: int = absi(coord.x * 31 + coord.y * 17 + direction_index * 7)
 			if signature % 5 != 0:
 				continue
-			var center := HexCoordScript.axial_to_world(coord, TILE_SIZE)
-			var neighbor := HexCoordScript.axial_to_world(coord + direction, TILE_SIZE)
 			var edge := center.lerp(neighbor, 0.58)
-			edge.y = -0.51
+			edge.y = -0.018
 			var yaw := atan2(neighbor.z - center.z, neighbor.x - center.x)
 			_spawn_kit_components("PROP_COAST_FOAM", edge, 0.70 + float(signature % 3) * 0.13, yaw)
 			if signature % 10 == 0:
 				_spawn_kit_component("PROP_CLIFF_FACET_B", edge + Vector3(0.10, 0.10, -0.08), 0.38, yaw)
+	shallow_mesh.surface_end()
+	if shallow_mesh.get_surface_count() > 0:
+		var shallow_instance := MeshInstance3D.new()
+		shallow_instance.name = "ContinuousShallowCoastline"
+		shallow_instance.mesh = shallow_mesh
+		world_root.add_child(shallow_instance)
+
+func _create_signal_causeways() -> void:
+	# Stage coordinates are intentionally far apart.  This subdued stone-and-
+	# signal causeway makes the route a physical part of the world even across a
+	# broad valley or coast, without reverting to isolated hex podiums.  It also
+	# gives every encounter a reliable visual ground contact at map scale.
+	var base_mesh := ImmediateMesh.new()
+	var inlay_mesh := ImmediateMesh.new()
+	base_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, _material(Color("4d5943"), Color("182e2a")))
+	inlay_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, _material(Color("68bcb0"), Color("21635d")))
+	var route_sets: Array = [definition.get("normal_route", []), definition.get("hard_route", [])]
+	for route_index in range(route_sets.size()):
+		var route: Array = route_sets[route_index]
+		var previous := Vector2i(int(definition.get("start_hex", {}).get("q", 0)), int(definition.get("start_hex", {}).get("r", 0)))
+		if route_index == 1:
+			var branch_node := ChapterMapLoaderScript.node_for_stage(definition, "CH01-N10")
+			if not branch_node.is_empty():
+				previous = Vector2i(int(branch_node.get("q", 0)), int(branch_node.get("r", 0)))
+		for stage_id in route:
+			var node := ChapterMapLoaderScript.node_for_stage(definition, str(stage_id))
+			if node.is_empty():
+				continue
+			var target := Vector2i(int(node.get("q", 0)), int(node.get("r", 0)))
+			var path := HexCoordScript.line(previous, target)
+			for point_index in range(maxi(0, path.size() - 1)):
+				var from_coord: Vector2i = path[point_index]
+				var to_coord: Vector2i = path[point_index + 1]
+				var from := HexCoordScript.axial_to_world(from_coord, TILE_SIZE, float(grid.tile(from_coord).get("elevation", 0)) * 0.42 + 0.032)
+				var to := HexCoordScript.axial_to_world(to_coord, TILE_SIZE, float(grid.tile(to_coord).get("elevation", 0)) * 0.42 + 0.032)
+				var direction := (to - from).normalized()
+				var tangent := Vector3(-direction.z, 0.0, direction.x)
+				_add_causeway_segment(base_mesh, from, to, tangent, 0.36)
+				_add_causeway_segment(inlay_mesh, from + Vector3(0.0, 0.012, 0.0), to + Vector3(0.0, 0.012, 0.0), tangent, 0.055)
+			previous = target
+	base_mesh.surface_end()
+	inlay_mesh.surface_end()
+	if base_mesh.get_surface_count() > 0:
+		var base_instance := MeshInstance3D.new()
+		base_instance.name = "SignalRouteCauseway"
+		base_instance.mesh = base_mesh
+		world_root.add_child(base_instance)
+	if inlay_mesh.get_surface_count() > 0:
+		var inlay_instance := MeshInstance3D.new()
+		inlay_instance.name = "SignalRouteInlay"
+		inlay_instance.mesh = inlay_mesh
+		world_root.add_child(inlay_instance)
+
+func _add_causeway_segment(mesh: ImmediateMesh, from: Vector3, to: Vector3, tangent: Vector3, half_width: float) -> void:
+	var from_left := from - tangent * half_width
+	var from_right := from + tangent * half_width
+	var to_left := to - tangent * half_width
+	var to_right := to + tangent * half_width
+	for vertex in [from_left, to_left, to_right, from_left, to_right, from_right]:
+		mesh.surface_add_vertex(vertex)
 
 func _create_world_island_shelf() -> void:
 	# The tactical grid remains mathematical, but its visual support is an
@@ -680,6 +766,7 @@ func _create_world_island_shelf() -> void:
 	world_root.add_child(moss_shelf)
 	_create_landmass_formations(route_points)
 	_create_coastal_landmarks(route_points, shelf_center, shelf_radius, shelf_aspect)
+	_create_deep_water_reef_silhouettes(route_points, shelf_center, shelf_radius, shelf_aspect)
 
 func _create_coastal_landmarks(route_points: Array[Vector3], shelf_center: Vector3, shelf_radius: float, shelf_aspect: Vector3) -> void:
 	# The coast needs its own silhouette and small points of interest. These are
@@ -724,6 +811,25 @@ func _create_coastal_landmarks(route_points: Array[Vector3], shelf_center: Vecto
 		water_line.emission_energy_multiplier = 0.42
 		band.material_override = water_line
 		world_root.add_child(band)
+
+func _create_deep_water_reef_silhouettes(route_points: Array[Vector3], shelf_center: Vector3, shelf_radius: float, shelf_aspect: Vector3) -> void:
+	# Two or three broad silhouettes are much more useful at overview scale than
+	# dozens of tiny foam marks.  They intentionally sit well away from routes so
+	# they add deep-water identity without suggesting a traversable side path.
+	if route_points.is_empty():
+		return
+	var reef_anchors: Array[Dictionary] = [
+		{"point": shelf_center + Vector3(shelf_radius * shelf_aspect.x * 0.34, -0.46, -shelf_radius * shelf_aspect.z * 0.23), "scale": 2.25, "yaw": 0.42},
+		{"point": shelf_center + Vector3(shelf_radius * shelf_aspect.x * 0.18, -0.48, shelf_radius * shelf_aspect.z * 0.38), "scale": 1.72, "yaw": -0.24},
+		{"point": shelf_center + Vector3(-shelf_radius * shelf_aspect.x * 0.28, -0.49, shelf_radius * shelf_aspect.z * 0.20), "scale": 1.48, "yaw": 0.74},
+	]
+	for reef in reef_anchors:
+		var point: Vector3 = reef.point
+		var scale_factor := float(reef.scale)
+		var yaw := float(reef.yaw)
+		_spawn_kit_component("PROP_CLIFF_FACET_A", point, scale_factor, yaw)
+		_spawn_kit_component("PROP_CLIFF_FACET_B", point + Vector3(0.48, 0.08, -0.34), scale_factor * 0.66, yaw + 0.38)
+		_spawn_kit_components("PROP_COAST_FOAM", point + Vector3(-0.22, -0.045, 0.20), scale_factor * 0.82, yaw - 0.16)
 
 func _create_landmass_formations(route_points: Array[Vector3]) -> void:
 	# Three deliberately broad relief shelves bind local hex cells into memorable
@@ -1037,6 +1143,22 @@ func _create_node_marker(node: Dictionary) -> void:
 	marker_root.name = "EncounterMarker_%s" % str(node.node_id)
 	var coord := Vector2i(int(node.q), int(node.r))
 	marker_root.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * 0.42 + 0.18)
+	# A thin locally-authored signal socket gives the encounter beacon and its
+	# pawn a shared physical contact point.  It is deliberately only a shallow
+	# inlaid plate, not a raised hex card, so the connected terrain remains the
+	# primary visual ground.
+	var socket := MeshInstance3D.new()
+	socket.name = "SignalSocketGround"
+	var socket_mesh := CylinderMesh.new()
+	socket_mesh.top_radius = 0.56
+	socket_mesh.bottom_radius = 0.62
+	socket_mesh.height = 0.055
+	socket_mesh.radial_segments = 6
+	socket.mesh = socket_mesh
+	socket.position.y = -0.145
+	socket.rotation_degrees.y = 30.0
+	socket.material_override = _material(Color("566047"), Color("223a35"))
+	marker_root.add_child(socket)
 	var hard_stage := str(node.get("stage_id", "")).contains("-H")
 	var stage_id := str(node.get("stage_id", ""))
 	var node_type := str(node.get("node_type", ""))
@@ -1103,7 +1225,11 @@ func _create_enemy_pawn(node: Dictionary) -> void:
 	var node_id := str(node.get("node_id", ""))
 	var root := Node3D.new()
 	root.name = "EnemyMapPawn_%s" % node_id
-	var coord := MapSimulationScript.coord_for(map_state, node_id)
+	# Static encounters do not have patrol state.  Asking MapSimulation for all
+	# enemies silently returned its default (0, 0), which could place a valid
+	# stage pawn over open water.  Use the authored node coordinate unless this
+	# encounter explicitly owns a live patrol route.
+	var coord := _encounter_coord(node)
 	root.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * 0.42 + 0.18)
 	var rank := str(enemy.get("rank", "NORMAL"))
 	var scale_factor := 1.0 if rank == "NORMAL" else (1.28 if rank == "ELITE" else 1.72)

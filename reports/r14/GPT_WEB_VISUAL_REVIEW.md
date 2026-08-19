@@ -76,3 +76,37 @@ visual findings:
 
 Current local evidence still requires a new GPT Web visual re-review. Therefore
 the status remains **VISUAL PASS: NOT CLAIMED**.
+
+## External re-review 2 — causeway and shore correction
+
+The same GPT Web thread reviewed one actual 1280×720 R7 Web overview after the
+connected shallow-water ribbon, route causeway, and encounter socket changes.
+Only that single attachment was used as evidence.
+
+- Terrain / shoreline commercial hard failure: **NO / CLEARED**
+- Encounter-map-pawn floating hard failure: **NO / CLEARED**
+- Terrain continuity: **PASS**
+- Shoreline readability: **PASS**
+- Signal road / infrastructure readability: **PASS**
+- Technical hard failure: **NO**
+- Visual score: **87/100 — FAIL against the 88 gate**
+
+The external reviewer identified no remaining P0 from the supplied overview.
+The one-point gap is P1 visual polish only: a broad deep-water field still
+reads flatter than the connected coast. The reviewer recommended directional
+water highlights, minor darkening away from shore, and two or three large reef
+silhouettes rather than more small foam particles.
+
+### Local R7 follow-up pending re-review
+
+The current local R7 overwrite adds exactly that P1-only follow-up:
+
+- broader directional current bands and a controlled deep-water falloff in the
+  Web-compatible water shader;
+- three large, non-traversable reef silhouettes with sparse foam at the outer
+  water field;
+- no gameplay, map data, reward, save, or combat-state changes.
+
+The follow-up was rebuilt into `builds/web_r7_current_release` and inspected in
+the local Web runtime. A subsequent external review is still required before
+claiming the 88-point visual gate as passed.

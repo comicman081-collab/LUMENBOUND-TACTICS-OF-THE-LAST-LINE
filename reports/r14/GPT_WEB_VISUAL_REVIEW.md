@@ -53,3 +53,26 @@ After the corrective Web capture is ready, this exact GPT conversation must be
 sent the revised screenshots and asked for a fresh visual gate. Until that
 review returns, **VISUAL PASS is not claimed**.
 
+## External re-review 1 — current evidence
+
+The first corrected Web evidence was sent to the same collaboration thread.
+Its verdict was **78/100 — FAIL**: raw runtime IDs, the profile-card-like
+leader token, and their ground contact were accepted, but the reviewer still
+classified the terrain/shoreline as a commercial-visual hard failure.
+
+The current unsent local correction deliberately addresses only those remaining
+visual findings:
+
+- Replaced visible per-cell hex-prism ground with one shared-vertex connected
+  terrain surface. Axial cells remain the simulation source of truth, but their
+  former render meshes are hidden except for selection/route feedback.
+- Removed per-elevated-cell strata/platform clusters. Terrain height now reads
+  through continuous slopes and sparse asymmetric rock outcrops.
+- Added deterministic boundary-aware coast foam/reef placement, sparse coastal
+  signal debris, and stronger low-cost tide bands; no new gameplay resources or
+  map rules were introduced.
+- Reduced the desktop stage detail from a full-height inspector to a contextual
+  card. It appears only on selection and retains scroll access for longer data.
+
+Current local evidence still requires a new GPT Web visual re-review. Therefore
+the status remains **VISUAL PASS: NOT CLAIMED**.

@@ -53,6 +53,7 @@ var landmark_visuals: Dictionary = {}
 var tile_meshes: Dictionary = {}
 var tile_dressing_roots: Dictionary = {}
 var active_dressing_root: Node3D
+var terrain_surface: MeshInstance3D
 var stream_anchor := Vector2i(999999, 999999)
 var blender_mesh_library: Dictionary = {}
 var route_mesh: MeshInstance3D
@@ -340,13 +341,16 @@ func _apply_responsive_layout() -> void:
 		detail_panel.anchor_left = 1.0
 		detail_panel.anchor_right = 1.0
 		detail_panel.anchor_top = 0.0
-		detail_panel.anchor_bottom = 1.0
+		detail_panel.anchor_bottom = 0.0
 		detail_panel.offset_left = -400.0
 		detail_panel.offset_right = -12.0
-		detail_panel.offset_top = 0.0
-		detail_panel.offset_bottom = 0.0
+		# Desktop detail is a contextual stage card, not a permanently tall
+		# inspector. Preserve scrolling for long rewards but return visual space to
+		# the map when the current selection only needs a short decision.
+		detail_panel.offset_top = 14.0
+		detail_panel.offset_bottom = 560.0
 		detail_panel.visible = show_detail
-		detail_body.custom_minimum_size = Vector2(350.0, 278.0)
+		detail_body.custom_minimum_size = Vector2(350.0, 246.0)
 	if compact_optional_buttons.size() >= 2:
 		compact_optional_buttons[0].visible = not compact
 		compact_optional_buttons[1].visible = not compact
@@ -432,6 +436,8 @@ func _build_world() -> void:
 	_load_terrain_relief()
 	_create_world_backdrop()
 	_create_world_island_shelf()
+	_create_connected_terrain_surface()
+	_create_boundary_coastline()
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-54, -38, 0)
 	sun.light_color = Color("ffeac4")
@@ -506,7 +512,10 @@ func _create_world_backdrop() -> void:
 	water.mesh = water_mesh
 	water.position = Vector3(1.8, -0.58, -1.8)
 	var shader := Shader.new()
-	shader.code = "shader_type spatial; render_mode unshaded, cull_disabled; void fragment(){ float t=TIME*0.24; vec2 p=UV*18.0; float w=sin(p.x*2.4+p.y*1.7+t)*0.5+0.5; float r=sin(p.y*4.1-p.x*1.3-t*0.7)*0.5+0.5; float ripple=smoothstep(0.82,0.97,fract(p.x*0.42+p.y*0.78+t*0.38)); vec3 deep=vec3(0.012,0.058,0.105); vec3 tide=vec3(0.028,0.19,0.27); ALBEDO=mix(deep,tide,w*0.44+r*0.13)+vec3(0.018,0.075,0.082)*ripple; EMISSION=vec3(0.0,0.042,0.066)*(w*0.36+ripple*0.22); }"
+	# Water uses several restrained moving bands rather than a uniform teal void.
+	# It is deliberately broad and low contrast so it reads as sea beyond the
+	# coast, while never competing with encounter or route information.
+	shader.code = "shader_type spatial; render_mode unshaded, cull_disabled; void fragment(){ float t=TIME*0.16; vec2 p=UV*18.0; float swell=sin(p.x*1.16+p.y*0.74+t)*0.5+0.5; float cross=sin(p.y*2.18-p.x*0.42-t*0.68)*0.5+0.5; float long_wave=smoothstep(0.72,0.94,sin(p.x*0.46-p.y*0.91+t*1.42)*0.5+0.5); float glint=smoothstep(0.91,0.985,sin((p.x+p.y*0.42)*4.4+t*1.8)*0.5+0.5); vec3 abyss=vec3(0.004,0.030,0.058); vec3 ocean=vec3(0.012,0.175,0.235); vec3 tide=vec3(0.045,0.355,0.385); float volume=clamp(swell*0.48+cross*0.22+long_wave*0.30,0.0,1.0); ALBEDO=mix(abyss,ocean,volume)+tide*(long_wave*0.34+glint*0.21); EMISSION=vec3(0.0,0.070,0.104)*(long_wave*0.58+glint*0.42); }"
 	var water_material := ShaderMaterial.new()
 	water_material.shader = shader
 	water.material_override = water_material
@@ -520,6 +529,106 @@ func _create_world_backdrop() -> void:
 	horizon.rotation_degrees.x = 90.0
 	horizon.material_override = _material(Color("0a2433"), Color("082937"))
 	world_root.add_child(horizon)
+
+func _terrain_surface_color(tile: Dictionary) -> Color:
+	# Subtle contiguous-district variation avoids reintroducing a colour-coded
+	# navigation grid. Roads remain readable through their authored signal rail
+	# dressing, not by painting the axial cell a bright separate colour.
+	var coord := Vector2i(int(tile.get("q", 0)), int(tile.get("r", 0)))
+	var noise := sin(float(coord.x) * 0.47 + float(coord.y) * 0.29) * 0.035
+	var base := Color("275c4d")
+	match str(tile.get("terrain_type", "FOREST")):
+		"ROAD": base = Color("4f5941")
+		"RUINS": base = Color("40574e")
+		"SHALLOW_WATER": base = Color("1e6270")
+	return Color(clampf(base.r + noise, 0.0, 1.0), clampf(base.g + noise, 0.0, 1.0), clampf(base.b + noise, 0.0, 1.0), 1.0)
+
+func _terrain_corner_key(point: Vector3) -> String:
+	return "%d:%d" % [roundi(point.x * 1000.0), roundi(point.z * 1000.0)]
+
+func _create_connected_terrain_surface() -> void:
+	# Navigation continues to use individual axial cells, but the visible ground
+	# is a single shared-vertex landscape. This makes gentle slopes, ridges and
+	# clearings read as a world surface instead of a field of isolated hex slabs.
+	var corner_totals: Dictionary = {}
+	var corner_counts: Dictionary = {}
+	var terrain_tiles: Array = []
+	for raw_tile in definition.get("tiles", []):
+		var tile: Dictionary = raw_tile
+		if bool(tile.get("movement_blocked", false)) or str(tile.get("terrain_type", "")) == "DEEP_WATER":
+			continue
+		terrain_tiles.append(tile)
+		var coord := Vector2i(int(tile.get("q", 0)), int(tile.get("r", 0)))
+		var center := HexCoordScript.axial_to_world(coord, TILE_SIZE)
+		var height := float(tile.get("elevation", 0)) * 0.42
+		for corner_index in range(6):
+			var angle := PI / 6.0 + float(corner_index) * PI / 3.0
+			var corner := center + Vector3(cos(angle) * TILE_SIZE, 0.0, sin(angle) * TILE_SIZE)
+			var key := _terrain_corner_key(corner)
+			corner_totals[key] = float(corner_totals.get(key, 0.0)) + height
+			corner_counts[key] = int(corner_counts.get(key, 0)) + 1
+	if terrain_tiles.is_empty():
+		return
+	var surface_tool := SurfaceTool.new()
+	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for tile in terrain_tiles:
+		var coord := Vector2i(int(tile.get("q", 0)), int(tile.get("r", 0)))
+		var center := HexCoordScript.axial_to_world(coord, TILE_SIZE, float(tile.get("elevation", 0)) * 0.42 + 0.006)
+		var tint := _terrain_surface_color(tile)
+		for corner_index in range(6):
+			var next_index := (corner_index + 1) % 6
+			var angle_a := PI / 6.0 + float(corner_index) * PI / 3.0
+			var angle_b := PI / 6.0 + float(next_index) * PI / 3.0
+			var point_a := HexCoordScript.axial_to_world(coord, TILE_SIZE) + Vector3(cos(angle_a) * TILE_SIZE * 1.003, 0.0, sin(angle_a) * TILE_SIZE * 1.003)
+			var point_b := HexCoordScript.axial_to_world(coord, TILE_SIZE) + Vector3(cos(angle_b) * TILE_SIZE * 1.003, 0.0, sin(angle_b) * TILE_SIZE * 1.003)
+			point_a.y = float(corner_totals.get(_terrain_corner_key(point_a), 0.0)) / maxf(1.0, float(corner_counts.get(_terrain_corner_key(point_a), 1))) + 0.004
+			point_b.y = float(corner_totals.get(_terrain_corner_key(point_b), 0.0)) / maxf(1.0, float(corner_counts.get(_terrain_corner_key(point_b), 1))) + 0.004
+			var normal := Plane(center, point_a, point_b).normal
+			if normal.y < 0.0: normal = -normal
+			for vertex in [center, point_a, point_b]:
+				surface_tool.set_color(tint)
+				surface_tool.set_normal(normal)
+				surface_tool.add_vertex(vertex)
+	var mesh := surface_tool.commit()
+	if mesh == null:
+		return
+	terrain_surface = MeshInstance3D.new()
+	terrain_surface.name = "ConnectedTerrainSurface"
+	terrain_surface.mesh = mesh
+	var terrain_material := StandardMaterial3D.new()
+	terrain_material.vertex_color_use_as_albedo = true
+	terrain_material.roughness = 0.92
+	terrain_material.metallic = 0.0
+	terrain_material.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+	terrain_surface.material_override = terrain_material
+	world_root.add_child(terrain_surface)
+
+func _create_boundary_coastline() -> void:
+	# Boundary-aware reef placement follows the actual macro-map shoreline, so
+	# the ocean has a readable coast at every streamed district instead of only a
+	# few fixed showcase props near the starting area.
+	for raw_tile in definition.get("tiles", []):
+		var tile: Dictionary = raw_tile
+		if bool(tile.get("movement_blocked", false)):
+			continue
+		var coord := Vector2i(int(tile.get("q", 0)), int(tile.get("r", 0)))
+		for direction_index in range(HexCoordScript.DIRECTIONS.size()):
+			var direction: Vector2i = HexCoordScript.DIRECTIONS[direction_index]
+			if grid.has(coord + direction):
+				continue
+			# Sparse, deterministic selection avoids a repeated once-per-hex foam
+			# ring while ensuring every route district gets some coastal structure.
+			var signature: int = absi(coord.x * 31 + coord.y * 17 + direction_index * 7)
+			if signature % 5 != 0:
+				continue
+			var center := HexCoordScript.axial_to_world(coord, TILE_SIZE)
+			var neighbor := HexCoordScript.axial_to_world(coord + direction, TILE_SIZE)
+			var edge := center.lerp(neighbor, 0.58)
+			edge.y = -0.51
+			var yaw := atan2(neighbor.z - center.z, neighbor.x - center.x)
+			_spawn_kit_components("PROP_COAST_FOAM", edge, 0.70 + float(signature % 3) * 0.13, yaw)
+			if signature % 10 == 0:
+				_spawn_kit_component("PROP_CLIFF_FACET_B", edge + Vector3(0.10, 0.10, -0.08), 0.38, yaw)
 
 func _create_world_island_shelf() -> void:
 	# The tactical grid remains mathematical, but its visual support is an
@@ -570,6 +679,51 @@ func _create_world_island_shelf() -> void:
 	moss_shelf.material_override = _material(Color("234e43"), Color("103b38"))
 	world_root.add_child(moss_shelf)
 	_create_landmass_formations(route_points)
+	_create_coastal_landmarks(route_points, shelf_center, shelf_radius, shelf_aspect)
+
+func _create_coastal_landmarks(route_points: Array[Vector3], shelf_center: Vector3, shelf_radius: float, shelf_aspect: Vector3) -> void:
+	# The coast needs its own silhouette and small points of interest. These are
+	# sparse Blender-kit reefs, foam arcs and abandoned signal pieces—not a
+	# blanket of decorative particles—so open water reads as an explorable shore
+	# instead of an empty teal board boundary.
+	if route_points.is_empty():
+		return
+	var coast_anchors: Array[Dictionary] = [
+		{"point": route_points[mini(1, route_points.size() - 1)] + Vector3(4.2, -0.49, 1.4), "scale": 1.40, "yaw": 0.20},
+		{"point": route_points[mini(3, route_points.size() - 1)] + Vector3(4.6, -0.49, 0.8), "scale": 1.64, "yaw": -0.18},
+		{"point": route_points[mini(4, route_points.size() - 1)] + Vector3(4.1, -0.49, -1.7), "scale": 1.36, "yaw": 0.46},
+		{"point": route_points[route_points.size() / 2] + Vector3(3.4, -0.49, -2.5), "scale": 1.12, "yaw": -0.52},
+		{"point": route_points[mini(7, route_points.size() - 1)] + Vector3(4.3, -0.49, 1.5), "scale": 1.42, "yaw": 0.08},
+		{"point": route_points[route_points.size() - 2] + Vector3(4.8, -0.49, 1.0), "scale": 1.55, "yaw": 0.72}
+	]
+	for coast in coast_anchors:
+		var point: Vector3 = coast.point
+		var scale_factor := float(coast.scale)
+		var yaw := float(coast.yaw)
+		_spawn_kit_components("PROP_COAST_FOAM", point, scale_factor, yaw)
+		_spawn_kit_component("PROP_CLIFF_FACET_A", point + Vector3(-0.42, 0.10, 0.24), scale_factor * 0.72, yaw)
+		_spawn_kit_component("PROP_CLIFF_FACET_B", point + Vector3(0.36, 0.06, -0.22), scale_factor * 0.56, yaw + 0.44)
+		if int(absf(point.x)) % 2 == 0:
+			_spawn_kit_components("PROP_SIGNAL_BEACON", point + Vector3(-0.34, 0.08, 0.38), scale_factor * 0.44, yaw - 0.24)
+	# A few low, broad reflected bands give the water a shoreline rhythm at the
+	# wide zoom without adding a texture atlas or a continuous particle cost.
+	for band_index in range(4):
+		var band := MeshInstance3D.new()
+		var band_mesh := TorusMesh.new()
+		band_mesh.inner_radius = 1.25 + float(band_index) * 0.52
+		band_mesh.outer_radius = band_mesh.inner_radius + 0.026
+		band_mesh.rings = 24
+		band_mesh.ring_segments = 8
+		band.mesh = band_mesh
+		band.position = shelf_center + Vector3(shelf_radius * shelf_aspect.x * 0.36 + float(band_index) * 2.4, -0.535, -shelf_radius * shelf_aspect.z * 0.34 + float(band_index % 2) * 3.8)
+		band.scale = Vector3(1.85, 0.18, 0.62)
+		band.rotation_degrees = Vector3(0.0, 18.0 + float(band_index) * 11.0, 0.0)
+		var water_line := _material(Color("3d8f98"), Color("116c76"))
+		water_line.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		water_line.albedo_color.a = 0.44
+		water_line.emission_energy_multiplier = 0.42
+		band.material_override = water_line
+		world_root.add_child(band)
 
 func _create_landmass_formations(route_points: Array[Vector3]) -> void:
 	# Three deliberately broad relief shelves bind local hex cells into memorable
@@ -700,6 +854,11 @@ func _create_tile(tile: Dictionary) -> void:
 		instance.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y - cap.height * .5)
 		instance.set_meta("blender_kit", false)
 	instance.set_meta("tile", tile)
+	# The precise axial cell stays alive for streamed dressing/fog bookkeeping,
+	# while its old hex-prism renderer is suppressed.  ConnectedTerrainSurface is
+	# now the only normal gameplay ground; hex rings appear only for selection
+	# and route feedback.
+	instance.visible = false
 	world_root.add_child(instance)
 	tile_meshes[HexCoordScript.key(coord)] = instance
 	active_dressing_root = Node3D.new()
@@ -792,17 +951,16 @@ func _create_terrain_dressing(tile: Dictionary, tile_position: Vector3, coord: V
 	var variant := int(tile.visual_variant)
 	var yaw := float(tile.rotation_step) * PI / 3.0
 	var elevated := int(tile.elevation) > 0
-	if elevated:
-		var height_scale := 0.94 + float(int(tile.elevation)) * 0.12
-		_spawn_kit_component("PROP_CLIFF_FACET_A", tile_position + Vector3(-0.62, -0.06, 0.14), height_scale, yaw)
-		_spawn_kit_component("PROP_CLIFF_FACET_B", tile_position + Vector3(0.44, -0.08, -0.48), height_scale * .82, yaw + 0.8)
-		for strata_index in range(5):
-			_spawn_kit_component("PROP_STRATA_RING_STRATUM_%d" % strata_index, tile_position + Vector3(0.0, -0.04, 0.02), height_scale, yaw)
-	var terrain_cluster := terrain == "FOREST" and variant in [0, 4, 7]
-	if terrain_cluster:
-		_spawn_kit_components("PROP_TERRAIN_FOREST", tile_position + Vector3(0.0, 0.04, 0.0), 0.92 + float(int(tile.elevation)) * .05, yaw)
-	elif terrain == "RUINS" and variant in [1, 5]:
-		_spawn_kit_components("PROP_TERRAIN_RUIN", tile_position + Vector3(0.0, 0.04, 0.0), 0.86, yaw)
+	# R7's old component clusters each carried their own hex-sized support
+	# platform. They made even a connected world surface look like stacked game
+	# pieces. Keep only sparse asymmetric rock outcrops; the broad shared terrain
+	# mesh now owns every slope, terrace and cliff silhouette.
+	var outcrop := elevated and not _has_node_at(coord) and (variant == 7 or (terrain == "RUINS" and variant == 5))
+	if outcrop:
+		var height_scale := 0.72 + float(int(tile.elevation)) * 0.10
+		_spawn_kit_component("PROP_CLIFF_FACET_A", tile_position + Vector3(-0.42, 0.00, 0.12), height_scale, yaw)
+		_spawn_kit_component("PROP_CLIFF_FACET_B", tile_position + Vector3(0.28, 0.02, -0.26), height_scale * .64, yaw + 0.8)
+	var terrain_cluster := false
 	if terrain == "FOREST" and not _has_node_at(coord):
 		# Place silhouette props on selected seeded variants rather than every
 		# forest hex.  The cleared gaps make the long route readable and avoid a
@@ -1304,10 +1462,9 @@ func _refresh_state_visuals() -> void:
 	for key in tile_meshes:
 		var instance: MeshInstance3D = tile_meshes[key]
 		var tile: Dictionary = instance.get_meta("tile")
-		if bool(instance.get_meta("blender_kit")) and revealed.has(key):
-			instance.material_override = null
-		else:
-			instance.material_override = _material(_terrain_color(str(tile.terrain_type), revealed.has(key)))
+		# Ground coloration is intentionally owned by the continuous mesh. Keep
+		# these hidden cells only as the deterministic visual-stream registry.
+		instance.visible = false
 	for node in definition.get("nodes", []):
 		var button: Button = node_buttons[str(node.node_id)]
 		var marker_root: Node3D = node_markers.get(str(node.node_id))

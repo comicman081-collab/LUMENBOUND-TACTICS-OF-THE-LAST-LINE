@@ -27,6 +27,75 @@ jobs:
         with:
           lfs: true
 
+      - name: Install Godot 4.7.1
+        shell: bash
+        run: |
+          set -euo pipefail
+          GODOT_ZIP="$RUNNER_TEMP/Godot_v4.7.1-stable_linux.x86_64.zip"
+          GODOT_DIR="$RUNNER_TEMP/godot-4.7.1"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            --output "$GODOT_ZIP" \
+            "https://github.com/godotengine/godot/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip"
+          echo "c7ff14fd28472c8d4f193043de30278dcf7e5241a1dcf7566b02e27addaa33ba  $GODOT_ZIP" | sha256sum --check --strict
+          mkdir -p "$GODOT_DIR"
+          unzip -q "$GODOT_ZIP" -d "$GODOT_DIR"
+          chmod +x "$GODOT_DIR/Godot_v4.7.1-stable_linux.x86_64"
+          echo "GODOT_BIN=$GODOT_DIR/Godot_v4.7.1-stable_linux.x86_64" >> "$GITHUB_ENV"
+
+      - name: Repack release resources from current source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/builds/web_release"
+          "$GODOT_BIN" --headless \
+            --path "$GITHUB_WORKSPACE/godot" \
+            --export-pack "Web HTML Release" \
+            "$GITHUB_WORKSPACE/builds/web_release/index.pck"
+          test -s "$GITHUB_WORKSPACE/builds/web_release/index.pck"
+
+      - name: Rotate PWA cache and stamp deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from datetime import datetime, timezone
+          import hashlib
+          import json
+          import os
+          import re
+
+          root = Path(os.environ["GITHUB_WORKSPACE"]) / "builds" / "web_release"
+          sha = os.environ["GITHUB_SHA"]
+          pck = root / "index.pck"
+          pck_hash = hashlib.sha256(pck.read_bytes()).hexdigest()
+
+          worker_path = root / "index.service.worker.js"
+          worker = worker_path.read_text(encoding="utf-8")
+          replacement = f"const CACHE_VERSION = 'mobile_{sha[:16]}';"
+          updated, count = re.subn(r"const CACHE_VERSION = '[^']+';", replacement, worker, count=1)
+          if count != 1:
+              raise SystemExit("Could not rotate Godot PWA CACHE_VERSION")
+          if "self.skipWaiting()" not in updated or "self.clients.claim()" not in updated:
+              raise SystemExit("Release service worker lost immediate-update policy")
+          worker_path.write_text(updated, encoding="utf-8")
+
+          version_path = root / "VERSION.json"
+          version = json.loads(version_path.read_text(encoding="utf-8"))
+          version["pck_sha256"] = pck_hash
+          version["source_commit"] = sha
+          version["mobile_portrait_fix"] = True
+          version["created_utc"] = datetime.now(timezone.utc).isoformat()
+          version_path.write_text(json.dumps(version, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+          (root / "DEPLOY_SHA.txt").write_text(
+              f"source_commit={sha}\n"
+              f"pck_sha256={pck_hash}\n"
+              "mobile_portrait_fix=story_label_scale,map_header,map_detail_sheet\n",
+              encoding="utf-8",
+          )
+          PY
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:

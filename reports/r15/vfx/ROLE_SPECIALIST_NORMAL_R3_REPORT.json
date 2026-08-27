@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "source": "data_source\\art_source\\vfx_hd_sources\\generation_mattes\\role_specialist_normal_gpt_r3_chroma_green.png",
+  "source_sha256": "b9440adcd26ab9c37fc0b081686ad4c52b686cfa05741df225a98a25c6be999b",
+  "matte": "#00ff00 intermediate only",
+  "clean_source": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\role_specialist_normal_gpt_r3_keyart_alpha.png",
+  "clean_source_sha256": "2c9cf76e54f472a4c2d7ecd14047ad1ff3ac281ee829949a75efd0d64a1dc922",
+  "atlas": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\role_specialist_normal_gpt_r3_atlas_448x336.png",
+  "atlas_sha256": "00ccae979e1ac69a68c803b030475d59879097a380dd044a89cdca1610739eeb",
+  "atlas_size": [
+    448,
+    336
+  ],
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "source_crop": [
+    0,
+    0,
+    1254,
+    1254
+  ]
+}

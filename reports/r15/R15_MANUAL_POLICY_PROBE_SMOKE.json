@@ -1,0 +1,1113 @@
+{
+  "base_seed": 6150000,
+  "elapsed_wall_seconds": 1.221,
+  "engine": "4.7.1-stable (official)",
+  "health_gate": {
+    "defense_priority": "SHIELD then HEAL before offense",
+    "strong_enemy_priority": "single/debuff before AOE when a boss or elite is present",
+    "two_target_aoe": "lowest_hp >= 0.88 and average_hp >= 0.92, or lowest shield >= expected incoming and average_hp >= 0.82"
+  },
+  "noninferiority_margin": -0.025,
+  "paired_seed_count_per_policy_stage": 1,
+  "party_ids": [
+    "CHR001",
+    "CHR002",
+    "CHR003",
+    "CHR005",
+    "CHR008"
+  ],
+  "policies": {
+    "AUTO": {
+      "auto_enabled": true,
+      "decision_ticks": 30
+    },
+    "CURRENT_M3": {
+      "aoe_enemy_threshold": 3,
+      "auto_enabled": false,
+      "manual_poll_ticks": 15,
+      "source": "balance_hardening_matrix.gd"
+    },
+    "HEALTH_GATED_AOE2": {
+      "auto_enabled": false,
+      "health_gated_two_target_aoe": true,
+      "manual_poll_ticks": 15
+    },
+    "HEALTH_GATED_AOE2_CADENCE30": {
+      "auto_enabled": false,
+      "health_gated_two_target_aoe": true,
+      "manual_poll_ticks": 30
+    }
+  },
+  "policy_verdicts": {
+    "CURRENT_M3": {
+      "h05_target_45_to_75": false,
+      "h05_win_rate": 1.0,
+      "mean_win_rate_delta_vs_auto": -0.4,
+      "minimum_stage_delta_vs_auto": -1.0,
+      "noninferior_all_stages_at_margin": false
+    },
+    "HEALTH_GATED_AOE2": {
+      "h05_target_45_to_75": false,
+      "h05_win_rate": 1.0,
+      "mean_win_rate_delta_vs_auto": 0.0,
+      "minimum_stage_delta_vs_auto": -1.0,
+      "noninferior_all_stages_at_margin": false
+    },
+    "HEALTH_GATED_AOE2_CADENCE30": {
+      "h05_target_45_to_75": false,
+      "h05_win_rate": 0.0,
+      "mean_win_rate_delta_vs_auto": 0.0,
+      "minimum_stage_delta_vs_auto": 0.0,
+      "noninferior_all_stages_at_margin": true
+    }
+  },
+  "profile": "RECOMMENDED",
+  "runs_per_policy_stage": 1,
+  "schema_version": 1,
+  "shipping_data_mutated": false,
+  "simulation": "shipping BattleSimulation fixed 30 Hz",
+  "stage_results": [
+    {
+      "paired_vs_auto": {
+        "CURRENT_M3": {
+          "both_loss": 0,
+          "both_win": 1,
+          "left_only_win": 0,
+          "left_policy": "AUTO",
+          "mean_paired_time_delta_right_minus_left": 5.43333333333333,
+          "mean_time_delta_right_minus_left_when_both_win": 5.43333333333333,
+          "net_win_difference_right_minus_left": 0,
+          "paired_seeds": 1,
+          "right_only_win": 0,
+          "right_policy": "CURRENT_M3",
+          "win_rate_delta_right_minus_left": 0.0
+        },
+        "HEALTH_GATED_AOE2": {
+          "both_loss": 0,
+          "both_win": 1,
+          "left_only_win": 0,
+          "left_policy": "AUTO",
+          "mean_paired_time_delta_right_minus_left": 2.43333333333333,
+          "mean_time_delta_right_minus_left_when_both_win": 2.43333333333333,
+          "net_win_difference_right_minus_left": 0,
+          "paired_seeds": 1,
+          "right_only_win": 0,
+          "right_policy": "HEALTH_GATED_AOE2",
+          "win_rate_delta_right_minus_left": 0.0
+        },
+        "HEALTH_GATED_AOE2_CADENCE30": {
+          "both_loss": 0,
+          "both_win": 1,
+          "left_only_win": 0,
+          "left_policy": "AUTO",
+          "mean_paired_time_delta_right_minus_left": 1.13333333333333,
+          "mean_time_delta_right_minus_left_when_both_win": 1.13333333333333,
+          "net_win_difference_right_minus_left": 0,
+          "paired_seeds": 1,
+          "right_only_win": 0,
+          "right_policy": "HEALTH_GATED_AOE2_CADENCE30",
+          "win_rate_delta_right_minus_left": 0.0
+        }
+      },
+      "profile": "RECOMMENDED",
+      "profile_spec": {
+        "level": 7,
+        "normal": 2,
+        "passive": 2,
+        "ultimate": 1,
+        "weapon_level": 7
+      },
+      "seed_results": [
+        {
+          "AUTO": {
+            "lowest_hp_ratio": 0.0,
+            "reason": "ALL_WAVES_CLEARED",
+            "seed": 6150000,
+            "survivors": 4,
+            "time": 20.8333333333333,
+            "total_ultimate_uses": 4,
+            "ultimate_uses_by_character": {
+              "CHR001": 2,
+              "CHR002": 0,
+              "CHR003": 0,
+              "CHR005": 2,
+              "CHR008": 0
+            },
+            "victory": true
+          },
+          "CURRENT_M3": {
+            "lowest_hp_ratio": 0.0,
+            "reason": "ALL_WAVES_CLEARED",
+            "seed": 6150000,
+            "survivors": 3,
+            "time": 26.2666666666667,
+            "total_ultimate_uses": 4,
+            "ultimate_uses_by_character": {
+              "CHR001": 3,
+              "CHR002": 1,
+              "CHR003": 0,
+              "CHR005": 0,
+              "CHR008": 0
+            },
+            "victory": true
+          },
+          "HEALTH_GATED_AOE2": {
+            "lowest_hp_ratio": 0.0,
+            "reason": "ALL_WAVES_CLEARED",
+            "seed": 6150000,
+            "survivors": 4,
+            "time": 23.2666666666667,
+            "total_ultimate_uses": 4,
+            "ultimate_uses_by_character": {
+              "CHR001": 2,
+              "CHR002": 1,
+              "CHR003": 0,
+              "CHR005": 1,
+              "CHR008": 0
+            },
+            "victory": true
+          },
+          "HEALTH_GATED_AOE2_CADENCE30": {
+            "lowest_hp_ratio": 0.0,
+            "reason": "ALL_WAVES_CLEARED",
+            "seed": 6150000,
+            "survivors": 4,
+            "time": 21.9666666666667,
+            "total_ultimate_uses": 3,
+            "ultimate_uses_by_character": {
+              "CHR001": 2,
+              "CHR002": 0,
+              "CHR003": 0,
+              "CHR005": 1,
+              "CHR008": 0
+            },
+            "victory": true
+          },
+          "seed": 6150000
+        }
+      ],
+      "stage_id": "CH01-N07",
+      "summaries": {
+        "AUTO": {
+          "mean_lowest_hp_ratio": 0.0,
+          "mean_survivors": 4.0,
+          "mean_time": 20.8333333333333,
+          "mean_total_ultimate_uses": 4.0,
+          "p10_time": 20.8333333333333,
+          "p50_time": 20.8333333333333,
+          "p90_time": 20.8333333333333,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 4,
+          "ultimate_uses_by_character": {
+            "CHR001": 2,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 2,
+            "CHR008": 0
+          },
+          "win_rate": 1.0,
+          "wins": 1
+        },
+        "CURRENT_M3": {
+          "mean_lowest_hp_ratio": 0.0,
+          "mean_survivors": 3.0,
+          "mean_time": 26.2666666666667,
+          "mean_total_ultimate_uses": 4.0,
+          "p10_time": 26.2666666666667,
+          "p50_time": 26.2666666666667,
+          "p90_time": 26.2666666666667,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 4,
+          "ultimate_uses_by_character": {
+            "CHR001": 3,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "win_rate": 1.0,
+          "wins": 1
+        },
+        "HEALTH_GATED_AOE2": {
+          "mean_lowest_hp_ratio": 0.0,
+          "mean_survivors": 4.0,
+          "mean_time": 23.2666666666667,
+          "mean_total_ultimate_uses": 4.0,
+          "p10_time": 23.2666666666667,
+          "p50_time": 23.2666666666667,
+          "p90_time": 23.2666666666667,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 4,
+          "ultimate_uses_by_character": {
+            "CHR001": 2,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 1,
+            "CHR008": 0
+          },
+          "win_rate": 1.0,
+          "wins": 1
+        },
+        "HEALTH_GATED_AOE2_CADENCE30": {
+          "mean_lowest_hp_ratio": 0.0,
+          "mean_survivors": 4.0,
+          "mean_time": 21.9666666666667,
+          "mean_total_ultimate_uses": 3.0,
+          "p10_time": 21.9666666666667,
+          "p50_time": 21.9666666666667,
+          "p90_time": 21.9666666666667,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 3,
+          "ultimate_uses_by_character": {
+            "CHR001": 2,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 1,
+            "CHR008": 0
+          },
+          "win_rate": 1.0,
+          "wins": 1
+        }
+      }
+    },
+    {
+      "paired_vs_auto": {
+        "CURRENT_M3": {
+          "both_loss": 0,
+          "both_win": 0,
+          "left_only_win": 1,
+          "left_policy": "AUTO",
+          "mean_paired_time_delta_right_minus_left": 3.83333333333334,
+          "mean_time_delta_right_minus_left_when_both_win": 0.0,
+          "net_win_difference_right_minus_left": -1,
+          "paired_seeds": 1,
+          "right_only_win": 0,
+          "right_policy": "CURRENT_M3",
+          "win_rate_delta_right_minus_left": -1.0
+        },
+        "HEALTH_GATED_AOE2": {
+          "both_loss": 0,
+          "both_win": 1,
+          "left_only_win": 0,
+          "left_policy": "AUTO",
+          "mean_paired_time_delta_right_minus_left": -2.6,
+          "mean_time_delta_right_minus_left_when_both_win": -2.6,
+          "net_win_difference_right_minus_left": 0,
+          "paired_seeds": 1,
+          "right_only_win": 0,
+          "right_policy": "HEALTH_GATED_AOE2",
+          "win_rate_delta_right_minus_left": 0.0
+        },
+        "HEALTH_GATED_AOE2_CADENCE30": {
+          "both_loss": 0,
+          "both_win": 1,
+          "left_only_win": 0,
+          "left_policy": "AUTO",
+          "mean_paired_time_delta_right_minus_left": 0.799999999999997,
+          "mean_time_delta_right_minus_left_when_both_win": 0.799999999999997,
+          "net_win_difference_right_minus_left": 0,
+          "paired_seeds": 1,
+          "right_only_win": 0,
+          "right_policy": "HEALTH_GATED_AOE2_CADENCE30",
+          "win_rate_delta_right_minus_left": 0.0
+        }
+      },
+      "profile": "RECOMMENDED",
+      "profile_spec": {
+        "level": 10,
+        "normal": 2,
+        "passive": 2,
+        "ultimate": 1,
+        "weapon_level": 10
+      },
+      "seed_results": [
+        {
+          "AUTO": {
+            "lowest_hp_ratio": 0.0,
+            "reason": "ALL_WAVES_CLEARED",
+            "seed": 6160000,
+            "survivors": 2,
+            "time": 49.2666666666667,
+            "total_ultimate_uses": 7,
+            "ultimate_uses_by_character": {
+              "CHR001": 3,
+              "CHR002": 1,
+              "CHR003": 0,
+              "CHR005": 3,
+              "CHR008": 0
+            },
+            "victory": true
+          },
+          "CURRENT_M3": {
+            "lowest_hp_ratio": 0.0,
+            "reason": "PARTY_DEFEATED",
+            "seed": 6160000,
+            "survivors": 0,
+            "time": 53.1,
+            "total_ultimate_uses": 7,
+            "ultimate_uses_by_character": {
+              "CHR001": 5,
+              "CHR002": 1,
+              "CHR003": 1,
+              "CHR005": 0,
+              "CHR008": 0
+            },
+            "victory": false
+          },
+          "HEALTH_GATED_AOE2": {
+            "lowest_hp_ratio": 0.25,
+            "reason": "ALL_WAVES_CLEARED",
+            "seed": 6160000,
+            "survivors": 5,
+            "time": 46.6666666666667,
+            "total_ultimate_uses": 7,
+            "ultimate_uses_by_character": {
+              "CHR001": 6,
+              "CHR002": 0,
+              "CHR003": 0,
+              "CHR005": 1,
+              "CHR008": 0
+            },
+            "victory": true
+          },
+          "HEALTH_GATED_AOE2_CADENCE30": {
+            "lowest_hp_ratio": 0.0,
+            "reason": "ALL_WAVES_CLEARED",
+            "seed": 6160000,
+            "survivors": 4,
+            "time": 50.0666666666667,
+            "total_ultimate_uses": 7,
+            "ultimate_uses_by_character": {
+              "CHR001": 5,
+              "CHR002": 1,
+              "CHR003": 0,
+              "CHR005": 1,
+              "CHR008": 0
+            },
+            "victory": true
+          },
+          "seed": 6160000
+        }
+      ],
+      "stage_id": "CH01-N10",
+      "summaries": {
+        "AUTO": {
+          "mean_lowest_hp_ratio": 0.0,
+          "mean_survivors": 2.0,
+          "mean_time": 49.2666666666667,
+          "mean_total_ultimate_uses": 7.0,
+          "p10_time": 49.2666666666667,
+          "p50_time": 49.2666666666667,
+          "p90_time": 49.2666666666667,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 7,
+          "ultimate_uses_by_character": {
+            "CHR001": 3,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 3,
+            "CHR008": 0
+          },
+          "win_rate": 1.0,
+          "wins": 1
+        },
+        "CURRENT_M3": {
+          "mean_lowest_hp_ratio": 0.0,
+          "mean_survivors": 0.0,
+          "mean_time": 53.1,
+          "mean_total_ultimate_uses": 7.0,
+          "p10_time": 53.1,
+          "p50_time": 53.1,
+          "p90_time": 53.1,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 7,
+          "ultimate_uses_by_character": {
+            "CHR001": 5,
+            "CHR002": 1,
+            "CHR003": 1,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "win_rate": 0.0,
+          "wins": 0
+        },
+        "HEALTH_GATED_AOE2": {
+          "mean_lowest_hp_ratio": 0.25,
+          "mean_survivors": 5.0,
+          "mean_time": 46.6666666666667,
+          "mean_total_ultimate_uses": 7.0,
+          "p10_time": 46.6666666666667,
+          "p50_time": 46.6666666666667,
+          "p90_time": 46.6666666666667,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 7,
+          "ultimate_uses_by_character": {
+            "CHR001": 6,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 1,
+            "CHR008": 0
+          },
+          "win_rate": 1.0,
+          "wins": 1
+        },
+        "HEALTH_GATED_AOE2_CADENCE30": {
+          "mean_lowest_hp_ratio": 0.0,
+          "mean_survivors": 4.0,
+          "mean_time": 50.0666666666667,
+          "mean_total_ultimate_uses": 7.0,
+          "p10_time": 50.0666666666667,
+          "p50_time": 50.0666666666667,
+          "p90_time": 50.0666666666667,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 7,
+          "ultimate_uses_by_character": {
+            "CHR001": 5,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 1,
+            "CHR008": 0
+          },
+          "win_rate": 1.0,
+          "wins": 1
+        }
+      }
+    },
+    {
+      "paired_vs_auto": {
+        "CURRENT_M3": {
+          "both_loss": 0,
+          "both_win": 0,
+          "left_only_win": 1,
+          "left_policy": "AUTO",
+          "mean_paired_time_delta_right_minus_left": 14.8,
+          "mean_time_delta_right_minus_left_when_both_win": 0.0,
+          "net_win_difference_right_minus_left": -1,
+          "paired_seeds": 1,
+          "right_only_win": 0,
+          "right_policy": "CURRENT_M3",
+          "win_rate_delta_right_minus_left": -1.0
+        },
+        "HEALTH_GATED_AOE2": {
+          "both_loss": 0,
+          "both_win": 0,
+          "left_only_win": 1,
+          "left_policy": "AUTO",
+          "mean_paired_time_delta_right_minus_left": 6.8,
+          "mean_time_delta_right_minus_left_when_both_win": 0.0,
+          "net_win_difference_right_minus_left": -1,
+          "paired_seeds": 1,
+          "right_only_win": 0,
+          "right_policy": "HEALTH_GATED_AOE2",
+          "win_rate_delta_right_minus_left": -1.0
+        },
+        "HEALTH_GATED_AOE2_CADENCE30": {
+          "both_loss": 0,
+          "both_win": 1,
+          "left_only_win": 0,
+          "left_policy": "AUTO",
+          "mean_paired_time_delta_right_minus_left": 4.16666666666666,
+          "mean_time_delta_right_minus_left_when_both_win": 4.16666666666666,
+          "net_win_difference_right_minus_left": 0,
+          "paired_seeds": 1,
+          "right_only_win": 0,
+          "right_policy": "HEALTH_GATED_AOE2_CADENCE30",
+          "win_rate_delta_right_minus_left": 0.0
+        }
+      },
+      "profile": "RECOMMENDED",
+      "profile_spec": {
+        "level": 12,
+        "normal": 2,
+        "passive": 2,
+        "ultimate": 1,
+        "weapon_level": 12
+      },
+      "seed_results": [
+        {
+          "AUTO": {
+            "lowest_hp_ratio": 0.135860979462875,
+            "reason": "ALL_WAVES_CLEARED",
+            "seed": 6170000,
+            "survivors": 5,
+            "time": 29.7666666666667,
+            "total_ultimate_uses": 5,
+            "ultimate_uses_by_character": {
+              "CHR001": 2,
+              "CHR002": 0,
+              "CHR003": 0,
+              "CHR005": 3,
+              "CHR008": 0
+            },
+            "victory": true
+          },
+          "CURRENT_M3": {
+            "lowest_hp_ratio": 0.0,
+            "reason": "PARTY_DEFEATED",
+            "seed": 6170000,
+            "survivors": 0,
+            "time": 44.5666666666667,
+            "total_ultimate_uses": 5,
+            "ultimate_uses_by_character": {
+              "CHR001": 2,
+              "CHR002": 3,
+              "CHR003": 0,
+              "CHR005": 0,
+              "CHR008": 0
+            },
+            "victory": false
+          },
+          "HEALTH_GATED_AOE2": {
+            "lowest_hp_ratio": 0.0,
+            "reason": "PARTY_DEFEATED",
+            "seed": 6170000,
+            "survivors": 0,
+            "time": 36.5666666666667,
+            "total_ultimate_uses": 4,
+            "ultimate_uses_by_character": {
+              "CHR001": 1,
+              "CHR002": 2,
+              "CHR003": 0,
+              "CHR005": 1,
+              "CHR008": 0
+            },
+            "victory": false
+          },
+          "HEALTH_GATED_AOE2_CADENCE30": {
+            "lowest_hp_ratio": 0.42654028436019,
+            "reason": "ALL_WAVES_CLEARED",
+            "seed": 6170000,
+            "survivors": 5,
+            "time": 33.9333333333333,
+            "total_ultimate_uses": 5,
+            "ultimate_uses_by_character": {
+              "CHR001": 4,
+              "CHR002": 0,
+              "CHR003": 0,
+              "CHR005": 1,
+              "CHR008": 0
+            },
+            "victory": true
+          },
+          "seed": 6170000
+        }
+      ],
+      "stage_id": "CH01-H01",
+      "summaries": {
+        "AUTO": {
+          "mean_lowest_hp_ratio": 0.135860979462875,
+          "mean_survivors": 5.0,
+          "mean_time": 29.7666666666667,
+          "mean_total_ultimate_uses": 5.0,
+          "p10_time": 29.7666666666667,
+          "p50_time": 29.7666666666667,
+          "p90_time": 29.7666666666667,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 5,
+          "ultimate_uses_by_character": {
+            "CHR001": 2,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 3,
+            "CHR008": 0
+          },
+          "win_rate": 1.0,
+          "wins": 1
+        },
+        "CURRENT_M3": {
+          "mean_lowest_hp_ratio": 0.0,
+          "mean_survivors": 0.0,
+          "mean_time": 44.5666666666667,
+          "mean_total_ultimate_uses": 5.0,
+          "p10_time": 44.5666666666667,
+          "p50_time": 44.5666666666667,
+          "p90_time": 44.5666666666667,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 5,
+          "ultimate_uses_by_character": {
+            "CHR001": 2,
+            "CHR002": 3,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "win_rate": 0.0,
+          "wins": 0
+        },
+        "HEALTH_GATED_AOE2": {
+          "mean_lowest_hp_ratio": 0.0,
+          "mean_survivors": 0.0,
+          "mean_time": 36.5666666666667,
+          "mean_total_ultimate_uses": 4.0,
+          "p10_time": 36.5666666666667,
+          "p50_time": 36.5666666666667,
+          "p90_time": 36.5666666666667,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 4,
+          "ultimate_uses_by_character": {
+            "CHR001": 1,
+            "CHR002": 2,
+            "CHR003": 0,
+            "CHR005": 1,
+            "CHR008": 0
+          },
+          "win_rate": 0.0,
+          "wins": 0
+        },
+        "HEALTH_GATED_AOE2_CADENCE30": {
+          "mean_lowest_hp_ratio": 0.42654028436019,
+          "mean_survivors": 5.0,
+          "mean_time": 33.9333333333333,
+          "mean_total_ultimate_uses": 5.0,
+          "p10_time": 33.9333333333333,
+          "p50_time": 33.9333333333333,
+          "p90_time": 33.9333333333333,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 5,
+          "ultimate_uses_by_character": {
+            "CHR001": 4,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 1,
+            "CHR008": 0
+          },
+          "win_rate": 1.0,
+          "wins": 1
+        }
+      }
+    },
+    {
+      "paired_vs_auto": {
+        "CURRENT_M3": {
+          "both_loss": 0,
+          "both_win": 0,
+          "left_only_win": 1,
+          "left_policy": "AUTO",
+          "mean_paired_time_delta_right_minus_left": -1.0,
+          "mean_time_delta_right_minus_left_when_both_win": 0.0,
+          "net_win_difference_right_minus_left": -1,
+          "paired_seeds": 1,
+          "right_only_win": 0,
+          "right_policy": "CURRENT_M3",
+          "win_rate_delta_right_minus_left": -1.0
+        },
+        "HEALTH_GATED_AOE2": {
+          "both_loss": 0,
+          "both_win": 1,
+          "left_only_win": 0,
+          "left_policy": "AUTO",
+          "mean_paired_time_delta_right_minus_left": 34.0,
+          "mean_time_delta_right_minus_left_when_both_win": 34.0,
+          "net_win_difference_right_minus_left": 0,
+          "paired_seeds": 1,
+          "right_only_win": 0,
+          "right_policy": "HEALTH_GATED_AOE2",
+          "win_rate_delta_right_minus_left": 0.0
+        },
+        "HEALTH_GATED_AOE2_CADENCE30": {
+          "both_loss": 0,
+          "both_win": 1,
+          "left_only_win": 0,
+          "left_policy": "AUTO",
+          "mean_paired_time_delta_right_minus_left": 34.8,
+          "mean_time_delta_right_minus_left_when_both_win": 34.8,
+          "net_win_difference_right_minus_left": 0,
+          "paired_seeds": 1,
+          "right_only_win": 0,
+          "right_policy": "HEALTH_GATED_AOE2_CADENCE30",
+          "win_rate_delta_right_minus_left": 0.0
+        }
+      },
+      "profile": "RECOMMENDED",
+      "profile_spec": {
+        "level": 18,
+        "normal": 2,
+        "passive": 2,
+        "ultimate": 1,
+        "weapon_level": 18
+      },
+      "seed_results": [
+        {
+          "AUTO": {
+            "lowest_hp_ratio": 0.132839721254355,
+            "reason": "ALL_WAVES_CLEARED",
+            "seed": 6180000,
+            "survivors": 5,
+            "time": 39.4666666666667,
+            "total_ultimate_uses": 7,
+            "ultimate_uses_by_character": {
+              "CHR001": 2,
+              "CHR002": 0,
+              "CHR003": 0,
+              "CHR005": 5,
+              "CHR008": 0
+            },
+            "victory": true
+          },
+          "CURRENT_M3": {
+            "lowest_hp_ratio": 0.0,
+            "reason": "PARTY_DEFEATED",
+            "seed": 6180000,
+            "survivors": 0,
+            "time": 38.4666666666667,
+            "total_ultimate_uses": 5,
+            "ultimate_uses_by_character": {
+              "CHR001": 3,
+              "CHR002": 2,
+              "CHR003": 0,
+              "CHR005": 0,
+              "CHR008": 0
+            },
+            "victory": false
+          },
+          "HEALTH_GATED_AOE2": {
+            "lowest_hp_ratio": 0.0,
+            "reason": "ALL_WAVES_CLEARED",
+            "seed": 6180000,
+            "survivors": 2,
+            "time": 73.4666666666667,
+            "total_ultimate_uses": 8,
+            "ultimate_uses_by_character": {
+              "CHR001": 2,
+              "CHR002": 1,
+              "CHR003": 0,
+              "CHR005": 1,
+              "CHR008": 4
+            },
+            "victory": true
+          },
+          "HEALTH_GATED_AOE2_CADENCE30": {
+            "lowest_hp_ratio": 0.0,
+            "reason": "ALL_WAVES_CLEARED",
+            "seed": 6180000,
+            "survivors": 2,
+            "time": 74.2666666666667,
+            "total_ultimate_uses": 8,
+            "ultimate_uses_by_character": {
+              "CHR001": 2,
+              "CHR002": 1,
+              "CHR003": 0,
+              "CHR005": 1,
+              "CHR008": 4
+            },
+            "victory": true
+          },
+          "seed": 6180000
+        }
+      ],
+      "stage_id": "CH01-H04",
+      "summaries": {
+        "AUTO": {
+          "mean_lowest_hp_ratio": 0.132839721254355,
+          "mean_survivors": 5.0,
+          "mean_time": 39.4666666666667,
+          "mean_total_ultimate_uses": 7.0,
+          "p10_time": 39.4666666666667,
+          "p50_time": 39.4666666666667,
+          "p90_time": 39.4666666666667,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 7,
+          "ultimate_uses_by_character": {
+            "CHR001": 2,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 5,
+            "CHR008": 0
+          },
+          "win_rate": 1.0,
+          "wins": 1
+        },
+        "CURRENT_M3": {
+          "mean_lowest_hp_ratio": 0.0,
+          "mean_survivors": 0.0,
+          "mean_time": 38.4666666666667,
+          "mean_total_ultimate_uses": 5.0,
+          "p10_time": 38.4666666666667,
+          "p50_time": 38.4666666666667,
+          "p90_time": 38.4666666666667,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 5,
+          "ultimate_uses_by_character": {
+            "CHR001": 3,
+            "CHR002": 2,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "win_rate": 0.0,
+          "wins": 0
+        },
+        "HEALTH_GATED_AOE2": {
+          "mean_lowest_hp_ratio": 0.0,
+          "mean_survivors": 2.0,
+          "mean_time": 73.4666666666667,
+          "mean_total_ultimate_uses": 8.0,
+          "p10_time": 73.4666666666667,
+          "p50_time": 73.4666666666667,
+          "p90_time": 73.4666666666667,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 8,
+          "ultimate_uses_by_character": {
+            "CHR001": 2,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 1,
+            "CHR008": 4
+          },
+          "win_rate": 1.0,
+          "wins": 1
+        },
+        "HEALTH_GATED_AOE2_CADENCE30": {
+          "mean_lowest_hp_ratio": 0.0,
+          "mean_survivors": 2.0,
+          "mean_time": 74.2666666666667,
+          "mean_total_ultimate_uses": 8.0,
+          "p10_time": 74.2666666666667,
+          "p50_time": 74.2666666666667,
+          "p90_time": 74.2666666666667,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 8,
+          "ultimate_uses_by_character": {
+            "CHR001": 2,
+            "CHR002": 1,
+            "CHR003": 0,
+            "CHR005": 1,
+            "CHR008": 4
+          },
+          "win_rate": 1.0,
+          "wins": 1
+        }
+      }
+    },
+    {
+      "paired_vs_auto": {
+        "CURRENT_M3": {
+          "both_loss": 0,
+          "both_win": 0,
+          "left_only_win": 0,
+          "left_policy": "AUTO",
+          "mean_paired_time_delta_right_minus_left": 9.46666666666667,
+          "mean_time_delta_right_minus_left_when_both_win": 0.0,
+          "net_win_difference_right_minus_left": 1,
+          "paired_seeds": 1,
+          "right_only_win": 1,
+          "right_policy": "CURRENT_M3",
+          "win_rate_delta_right_minus_left": 1.0
+        },
+        "HEALTH_GATED_AOE2": {
+          "both_loss": 0,
+          "both_win": 0,
+          "left_only_win": 0,
+          "left_policy": "AUTO",
+          "mean_paired_time_delta_right_minus_left": 10.5,
+          "mean_time_delta_right_minus_left_when_both_win": 0.0,
+          "net_win_difference_right_minus_left": 1,
+          "paired_seeds": 1,
+          "right_only_win": 1,
+          "right_policy": "HEALTH_GATED_AOE2",
+          "win_rate_delta_right_minus_left": 1.0
+        },
+        "HEALTH_GATED_AOE2_CADENCE30": {
+          "both_loss": 1,
+          "both_win": 0,
+          "left_only_win": 0,
+          "left_policy": "AUTO",
+          "mean_paired_time_delta_right_minus_left": 2.63333333333334,
+          "mean_time_delta_right_minus_left_when_both_win": 0.0,
+          "net_win_difference_right_minus_left": 0,
+          "paired_seeds": 1,
+          "right_only_win": 0,
+          "right_policy": "HEALTH_GATED_AOE2_CADENCE30",
+          "win_rate_delta_right_minus_left": 0.0
+        }
+      },
+      "profile": "RECOMMENDED",
+      "profile_spec": {
+        "level": 20,
+        "normal": 2,
+        "passive": 2,
+        "ultimate": 1,
+        "weapon_level": 20
+      },
+      "seed_results": [
+        {
+          "AUTO": {
+            "lowest_hp_ratio": 0.0,
+            "reason": "PARTY_DEFEATED",
+            "seed": 6190000,
+            "survivors": 0,
+            "time": 67.3666666666667,
+            "total_ultimate_uses": 10,
+            "ultimate_uses_by_character": {
+              "CHR001": 3,
+              "CHR002": 3,
+              "CHR003": 0,
+              "CHR005": 4,
+              "CHR008": 0
+            },
+            "victory": false
+          },
+          "CURRENT_M3": {
+            "lowest_hp_ratio": 0.289225727161,
+            "reason": "ALL_WAVES_CLEARED",
+            "seed": 6190000,
+            "survivors": 5,
+            "time": 76.8333333333333,
+            "total_ultimate_uses": 11,
+            "ultimate_uses_by_character": {
+              "CHR001": 11,
+              "CHR002": 0,
+              "CHR003": 0,
+              "CHR005": 0,
+              "CHR008": 0
+            },
+            "victory": true
+          },
+          "HEALTH_GATED_AOE2": {
+            "lowest_hp_ratio": 0.130274477673085,
+            "reason": "ALL_WAVES_CLEARED",
+            "seed": 6190000,
+            "survivors": 5,
+            "time": 77.8666666666667,
+            "total_ultimate_uses": 11,
+            "ultimate_uses_by_character": {
+              "CHR001": 10,
+              "CHR002": 0,
+              "CHR003": 0,
+              "CHR005": 1,
+              "CHR008": 0
+            },
+            "victory": true
+          },
+          "HEALTH_GATED_AOE2_CADENCE30": {
+            "lowest_hp_ratio": 0.0,
+            "reason": "PARTY_DEFEATED",
+            "seed": 6190000,
+            "survivors": 0,
+            "time": 70.0,
+            "total_ultimate_uses": 9,
+            "ultimate_uses_by_character": {
+              "CHR001": 6,
+              "CHR002": 2,
+              "CHR003": 0,
+              "CHR005": 1,
+              "CHR008": 0
+            },
+            "victory": false
+          },
+          "seed": 6190000
+        }
+      ],
+      "stage_id": "CH01-H05",
+      "summaries": {
+        "AUTO": {
+          "mean_lowest_hp_ratio": 0.0,
+          "mean_survivors": 0.0,
+          "mean_time": 67.3666666666667,
+          "mean_total_ultimate_uses": 10.0,
+          "p10_time": 67.3666666666667,
+          "p50_time": 67.3666666666667,
+          "p90_time": 67.3666666666667,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 10,
+          "ultimate_uses_by_character": {
+            "CHR001": 3,
+            "CHR002": 3,
+            "CHR003": 0,
+            "CHR005": 4,
+            "CHR008": 0
+          },
+          "win_rate": 0.0,
+          "wins": 0
+        },
+        "CURRENT_M3": {
+          "mean_lowest_hp_ratio": 0.289225727161,
+          "mean_survivors": 5.0,
+          "mean_time": 76.8333333333333,
+          "mean_total_ultimate_uses": 11.0,
+          "p10_time": 76.8333333333333,
+          "p50_time": 76.8333333333333,
+          "p90_time": 76.8333333333333,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 11,
+          "ultimate_uses_by_character": {
+            "CHR001": 11,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 0,
+            "CHR008": 0
+          },
+          "win_rate": 1.0,
+          "wins": 1
+        },
+        "HEALTH_GATED_AOE2": {
+          "mean_lowest_hp_ratio": 0.130274477673085,
+          "mean_survivors": 5.0,
+          "mean_time": 77.8666666666667,
+          "mean_total_ultimate_uses": 11.0,
+          "p10_time": 77.8666666666667,
+          "p50_time": 77.8666666666667,
+          "p90_time": 77.8666666666667,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 11,
+          "ultimate_uses_by_character": {
+            "CHR001": 10,
+            "CHR002": 0,
+            "CHR003": 0,
+            "CHR005": 1,
+            "CHR008": 0
+          },
+          "win_rate": 1.0,
+          "wins": 1
+        },
+        "HEALTH_GATED_AOE2_CADENCE30": {
+          "mean_lowest_hp_ratio": 0.0,
+          "mean_survivors": 0.0,
+          "mean_time": 70.0,
+          "mean_total_ultimate_uses": 9.0,
+          "p10_time": 70.0,
+          "p50_time": 70.0,
+          "p90_time": 70.0,
+          "runs": 1,
+          "timeout_rate": 0.0,
+          "total_ultimate_uses": 9,
+          "ultimate_uses_by_character": {
+            "CHR001": 6,
+            "CHR002": 2,
+            "CHR003": 0,
+            "CHR005": 1,
+            "CHR008": 0
+          },
+          "win_rate": 0.0,
+          "wins": 0
+        }
+      }
+    }
+  ],
+  "stages": [
+    "CH01-N07",
+    "CH01-N10",
+    "CH01-H01",
+    "CH01-H04",
+    "CH01-H05"
+  ]
+}

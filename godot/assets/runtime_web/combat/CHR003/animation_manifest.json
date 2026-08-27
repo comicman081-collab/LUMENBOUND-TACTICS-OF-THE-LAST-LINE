@@ -6,11 +6,10 @@
   "source_status": "DEV_CUTOUT_RIG_ANIMATION",
   "source_root": "assets/generated_import/characters/sd_chr003_narin_combat_r27_dev",
   "source_asset_id": "sd_chr003_narin_combat_r27_dev",
-  "source_blend": "",
   "ownership_status": "PROJECT_DEV_GENERATED",
   "frame_size": [
-    104,
-    104
+    128,
+    128
   ],
   "foot_anchor": [
     0.5,
@@ -23,6 +22,8 @@
   "view": "THREE_QUARTER_RIGHT_DOWN_30",
   "facing_policy": "SEPARATE_LEFT_RIGHT",
   "atlas_path": "atlas.png",
+  "preview_path": "preview.png",
+  "preview_sha256": "70757f1fa946e38a0d54475400c085f96c479d8ae388242333c9a617969fb347",
   "atlas_columns": 10,
   "total_frames": 80,
   "animations": {
@@ -195,5 +196,5 @@
       ]
     }
   },
-  "sha256": "e1c8d861b57d33e6d70a5fd6e9b5cd4bf7e12810f294b626c59b6ab88f9042ec"
+  "sha256": "6485d45f4d1cd08499e55623fead0ebf9e6e31cdab5e585a05c25e1961e8b1ce"
 }

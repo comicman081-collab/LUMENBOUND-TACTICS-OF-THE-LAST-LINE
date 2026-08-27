@@ -20,7 +20,7 @@ import bpy
 from mathutils import Vector
 
 
-GENERATOR_VERSION = "lanternline-chapter-map-1.3.0-r7"
+GENERATOR_VERSION = "lanternline-chapter-map-1.4.0-r11"
 SEED = 20260818
 
 
@@ -57,11 +57,23 @@ def bevel(obj, amount=0.06, segments=2):
     modifier.segments = segments
 
 
-def add_hex(name: str, location: tuple[float, float, float], height: float, mat, radius=1.0):
+def add_hex(name: str, location: tuple[float, float, float], height: float, mat, radius=1.0, cliff_mat=None):
+    """Add a selectable terrain cap with a materially distinct cliff face.
+
+    The top and side cannot share the same mint material: that is what made
+    elevation read as a stack of toy pieces instead of a landform.  The runtime
+    still uses these meshes only as local caps over its connected terrain.
+    """
     bpy.ops.mesh.primitive_cylinder_add(vertices=6, radius=radius, depth=height, location=location, rotation=(0, 0, math.radians(30)))
     obj = bpy.context.object
     obj.name = name
     obj.data.materials.append(mat)
+    if cliff_mat is not None:
+        obj.data.materials.append(cliff_mat)
+        for polygon in obj.data.polygons:
+            # Local +Z is the walkable top face.  The underside deliberately
+            # shares the darker rock material with the exposed cliff walls.
+            polygon.material_index = 0 if polygon.normal.z > 0.5 else 1
     bevel(obj, min(0.075, height * 0.14), 2)
     return obj
 
@@ -466,7 +478,7 @@ def add_full_map_preview(mats, center_y=18.0):
             y = center_y + 1.5 * r * 1.03
             terrain = "road" if (q, r) in route else ("ruin" if (q * 7 + r * 5) % 8 == 0 else "forest")
             elevation = 0.86 if (q + 2 * r) % 7 == 0 else (0.64 if terrain == "ruin" else 0.52)
-            add_hex(f"MAP_{q}_{r}_{terrain.upper()}", (x, y, elevation * 0.5), elevation, mats[terrain])
+            add_hex(f"MAP_{q}_{r}_{terrain.upper()}", (x, y, elevation * 0.5), elevation, mats[terrain], cliff_mat=mats["cliff"])
             if elevation >= 0.80:
                 add_strata_ring(f"MAP_STRATA_{q}_{r}", (x, y, elevation * 0.42), mats["cliff"], mats["moss"], 0.92, (q-r) * 0.18)
             if terrain == "forest":
@@ -510,21 +522,25 @@ def build_kit(project_root: Path, revision: str, factory_root: Path):
 
     scene = setup_scene()
     mats = {
-        "forest": material("MAT_FOREST_MOSS", (0.12, 0.36, 0.25, 1)),
-        "forest_light": material("MAT_FOREST_LIGHT", (0.24, 0.55, 0.33, 1)),
-        "road": material("MAT_RELAY_ROAD", (0.48, 0.37, 0.22, 1)),
-        "ruin": material("MAT_SIGNAL_RUIN", (0.34, 0.31, 0.37, 1)),
-        "water": material("MAT_TIDAL_GLASS", (0.04, 0.30, 0.46, 1), 0.05, 0.25),
-        "deep": material("MAT_DEEP_TIDE", (0.018, 0.10, 0.23, 1), 0.1, 0.3),
-        "cliff": material("MAT_CLIFF_EDGE", (0.15, 0.20, 0.19, 1)),
-        "trunk": material("MAT_BARK", (0.17, 0.10, 0.08, 1)),
-        "crown": material("MAT_LANTERN_CANOPY", (0.08, 0.30, 0.27, 1)),
-        "crown_light": material("MAT_LANTERN_CANOPY_LIGHT", (0.16, 0.43, 0.32, 1)),
-        "moss": material("MAT_GROUND_MOSS", (0.10, 0.27, 0.18, 1)),
-        "foam": material("MAT_TIDAL_FOAM", (0.54, 0.92, 0.88, 1), 0.0, 0.38, (0.10, 0.42, 0.38, 1)),
-        "stone": material("MAT_RUIN_STONE", (0.40, 0.39, 0.43, 1)),
-        "teal": material("MAT_SIGNAL_TEAL", (0.16, 0.62, 0.55, 1), 0.15, 0.32, (0.08, 0.75, 0.65, 1)),
-        "amber": material("MAT_SIGNAL_AMBER", (0.86, 0.48, 0.12, 1), 0.15, 0.28, (1.0, 0.24, 0.04, 1)),
+        # R10 explicitly rejects the lingering all-teal grade.  Material roles
+        # must remain legible after the Web environment pass: mossy olive land,
+        # burnished ochre routes, cool slate ruins, cobalt water and blue-grey
+        # cliff strata—not five values of the same cyan-green.
+        "forest": material("MAT_FOREST_MOSS", (0.060, 0.205, 0.065, 1), 0.0, 0.80),
+        "forest_light": material("MAT_FOREST_LICHEN", (0.190, 0.285, 0.070, 1), 0.0, 0.74),
+        "road": material("MAT_RELAY_ROAD", (0.390, 0.200, 0.055, 1), 0.0, 0.68),
+        "ruin": material("MAT_SIGNAL_RUIN", (0.180, 0.220, 0.285, 1), 0.06, 0.74),
+        "water": material("MAT_TIDAL_GLASS", (0.018, 0.160, 0.500, 1), 0.12, 0.20),
+        "deep": material("MAT_DEEP_TIDE", (0.008, 0.036, 0.145, 1), 0.16, 0.28),
+        "cliff": material("MAT_CLIFF_EDGE", (0.060, 0.095, 0.115, 1), 0.0, 0.88),
+        "trunk": material("MAT_BARK", (0.155, 0.070, 0.030, 1)),
+        "crown": material("MAT_LANTERN_CANOPY", (0.025, 0.115, 0.050, 1), 0.0, 0.82),
+        "crown_light": material("MAT_LANTERN_CANOPY_LIGHT", (0.120, 0.255, 0.070, 1), 0.0, 0.76),
+        "moss": material("MAT_GROUND_MOSS", (0.080, 0.165, 0.040, 1), 0.0, 0.88),
+        "foam": material("MAT_TIDAL_FOAM", (0.50, 0.88, 0.95, 1), 0.0, 0.30, (0.08, 0.36, 0.54, 1)),
+        "stone": material("MAT_RUIN_STONE", (0.36, 0.39, 0.46, 1), 0.06, 0.64),
+        "teal": material("MAT_SIGNAL_TEAL", (0.08, 0.57, 0.62, 1), 0.18, 0.26, (0.03, 0.66, 0.76, 1)),
+        "amber": material("MAT_SIGNAL_AMBER", (0.90, 0.42, 0.08, 1), 0.18, 0.24, (1.0, 0.18, 0.02, 1)),
         "violet": material("MAT_HARD_VIOLET", (0.42, 0.22, 0.64, 1), 0.2, 0.28, (0.50, 0.16, 0.9, 1)),
     }
 
@@ -534,7 +550,7 @@ def build_kit(project_root: Path, revision: str, factory_root: Path):
         x = (index % 3) * 2.25 - 2.25
         y = (index // 3) * 2.15 - 1.0
         height = 0.52 if terrain not in ("water", "deep") else 0.24
-        tile = add_hex(f"HEX_{terrain.upper()}_{index:02d}", (x, y, height * 0.5), height, mats[terrain])
+        tile = add_hex(f"HEX_{terrain.upper()}_{index:02d}", (x, y, height * 0.5), height, mats[terrain], cliff_mat=mats["cliff"])
         positions.append(tile)
         if terrain.startswith("forest"):
             add_tree(f"TREE_{index:02d}", (x - 0.28, y + 0.12, height), mats["trunk"], mats["crown"], 0.78)

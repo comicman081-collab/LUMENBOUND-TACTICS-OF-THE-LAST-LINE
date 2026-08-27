@@ -4,7 +4,7 @@ config_version=5
 
 [application]
 
-config/name="LANTERNLINE DEV"
+config/name="LUMENBOUND: TACTICS OF THE LAST LINE"
 config/description="Offline SD story collection RPG vertical slice"
 run/main_scene="res://screens/boot/boot.tscn"
 config/icon="res://assets/ui/app_icon.svg"
@@ -48,5 +48,7 @@ common/physics_ticks_per_second=60
 
 [audio]
 
-driver/driver="Dummy"
+# Do not force the project-wide Dummy driver. Headless runs select their own
+# null backend, while Web must be allowed to initialize Godot's WebAudio driver
+# after the first trusted pointer/key gesture.
 driver/enable_input=false

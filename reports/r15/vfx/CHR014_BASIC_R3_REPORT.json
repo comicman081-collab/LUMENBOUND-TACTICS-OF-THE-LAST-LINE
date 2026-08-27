@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "source": "data_source\\art_source\\vfx_hd_sources\\generation_mattes\\chr014_basic_gpt_r3_chroma_green.png",
+  "source_sha256": "8205657132fc2d70064e5571ef4aa4081d1693effa7e8fb856dbbb4b35bf1606",
+  "matte": "#00ff00 intermediate only",
+  "clean_source": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\chr014_basic_gpt_r3_keyart_alpha.png",
+  "clean_source_sha256": "60e5695d7fa25b353b619e9487779335c003b65a6f3f00339bf3ac7eb3427e88",
+  "atlas": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\chr014_basic_gpt_r3_atlas_448x336.png",
+  "atlas_sha256": "b84ed9a7c2f1393f7846edc67978075b3f46999c54a7c667d7b778c167be9bb2",
+  "atlas_size": [
+    448,
+    336
+  ],
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "source_crop": [
+    0,
+    0,
+    1536,
+    1024
+  ]
+}

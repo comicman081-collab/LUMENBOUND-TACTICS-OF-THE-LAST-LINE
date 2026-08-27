@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "source": "data_source\\art_source\\vfx_hd_sources\\generation_mattes\\role_guardian_ultimate_gpt_r3_chroma_green.png",
+  "source_sha256": "f6b0b9f2a783d8888cb1420bbc762496bccfb9ffe00d540f2dec91a94e1368d3",
+  "matte": "#00ff00 intermediate only",
+  "clean_source": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\role_guardian_ultimate_gpt_r3_keyart_alpha.png",
+  "clean_source_sha256": "0a1d3ee1776669dd476ac20464f00ac63bef0174df3760e6185e749f4f339d7b",
+  "atlas": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\role_guardian_ultimate_gpt_r3_atlas_448x336.png",
+  "atlas_sha256": "0513dadb249d2f2c6eb424e556cef167b70ec7b23c8d014e5a701f9d4b04d9f6",
+  "atlas_size": [
+    448,
+    336
+  ],
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "source_crop": [
+    0,
+    0,
+    1536,
+    1024
+  ]
+}

@@ -13,7 +13,8 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	set_process(OS.has_feature("web"))
 	if OS.has_feature("web"):
-		print("WEB_SOAK_PROBE_READY interval=5s max_samples=240")
+		var sandbox_state := "active" if SaveService.is_soak_sandbox_enabled() else "inactive"
+		print("R7_WEB_SOAK_PROBE_READY interval=5s max_samples=240 sandbox=%s" % sandbox_state)
 
 func _process(delta: float) -> void:
 	elapsed_seconds += delta
@@ -39,13 +40,21 @@ func _capture_sample() -> void:
 		"orphan_node_count": orphan_count,
 		"object_count": int(Performance.get_monitor(Performance.OBJECT_COUNT)),
 		"draw_calls": int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)),
+		# Runtime playback evidence is intentionally metadata-only.  It proves
+		# that the WebAudio gate opened and the wired events reached actual
+		# AudioStreamPlayers without recording or exposing any audio content.
+		"audio": AudioService.runtime_status(),
 	}
 	if samples.size() >= MAX_SAMPLES:
 		samples.pop_front()
 	samples.append(sample)
-	print("WEB_SOAK_SAMPLE ", JSON.stringify(sample))
+	print("R7_WEB_SOAK_SAMPLE ", JSON.stringify(sample))
+	# Emit a non-invasive namespace audit every 30 seconds.  This observes only
+	# SaveService's resolved paths; it does not open or inspect production saves.
+	if SaveService.is_soak_sandbox_enabled() and samples.size() % 6 == 0:
+		print("R7_WEB_SOAK_SAVE_AUDIT ", JSON.stringify(SaveService.sandbox_audit_summary()))
 	if samples.size() == MAX_SAMPLES:
-		print("WEB_SOAK_COMPLETE ", JSON.stringify(summary()))
+		print("R7_WEB_SOAK_COMPLETE ", JSON.stringify(summary()))
 
 func summary() -> Dictionary:
 	var fps_total := 0.0
@@ -53,7 +62,7 @@ func summary() -> Dictionary:
 		fps_total += float(sample.fps)
 	var first_memory := int(samples.front().static_memory_bytes) if not samples.is_empty() else 0
 	var last_memory := int(samples.back().static_memory_bytes) if not samples.is_empty() else 0
-	return {
+	var report := {
 		"samples": samples.size(),
 		"elapsed_seconds": snappedf(elapsed_seconds, 0.001),
 		"average_fps": snappedf(fps_total / max(1, samples.size()), 0.01),
@@ -64,3 +73,6 @@ func summary() -> Dictionary:
 		"maximum_static_memory_bytes": int(maximum_static_memory),
 		"orphan_nodes": int(samples.back().orphan_node_count) if not samples.is_empty() else 0,
 	}
+	if SaveService.is_soak_sandbox_enabled():
+		report["save_sandbox_audit"] = SaveService.sandbox_audit_summary()
+	return report

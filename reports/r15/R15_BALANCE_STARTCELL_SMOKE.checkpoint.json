@@ -1,0 +1,98 @@
+{
+  "cells": [
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 762,
+        "CHR002": 2138,
+        "CHR003": 2431,
+        "CHR005": 2090,
+        "CHR008": 713
+      },
+      "death_causes": {
+        "BASIC": 4,
+        "NORMAL": 1
+      },
+      "healing_totals": {
+        "CHR008": 1127
+      },
+      "mean_lowest_hp_ratio": 0.0,
+      "mean_survivors": 4.0,
+      "mean_time": 23.3,
+      "p10_time": 23.3,
+      "p50_time": 23.3,
+      "p90_time": 23.3,
+      "profile": "LOW",
+      "profile_spec": {
+        "level": 1,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "lowest_hp_ratio": 0.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1500000,
+          "survivors": 4,
+          "time": 23.3,
+          "victory": true
+        }
+      ],
+      "runs": 1,
+      "stage_id": "CH01-N01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 2,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 1
+      },
+      "win_rate": 1.0,
+      "wins": 1
+    }
+  ],
+  "controls": [
+    "AUTO",
+    "SCRIPTED_MANUAL_ULTIMATE"
+  ],
+  "elapsed_wall_seconds": 0.046,
+  "engine": "4.7.1-stable (official)",
+  "max_cells": 2,
+  "party_ids": [
+    "CHR001",
+    "CHR002",
+    "CHR003",
+    "CHR005",
+    "CHR008"
+  ],
+  "profiles": {
+    "HIGH": {
+      "normal": 3,
+      "passive": 3,
+      "ratio": 1.15,
+      "ultimate": 2,
+      "weapon_bonus": 5
+    },
+    "LOW": {
+      "normal": 1,
+      "passive": 1,
+      "ratio": 0.875,
+      "ultimate": 1,
+      "weapon_bonus": 0
+    },
+    "RECOMMENDED": {
+      "normal": 2,
+      "passive": 2,
+      "ratio": 1.0,
+      "ultimate": 1,
+      "weapon_bonus": 0
+    }
+  },
+  "runs_per_cell": 1,
+  "schema_version": 1,
+  "simulation": "BattleSimulation fixed 30 Hz",
+  "total_runs": 1
+}

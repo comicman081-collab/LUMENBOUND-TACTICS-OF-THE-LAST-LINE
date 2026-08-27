@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "source": "data_source\\art_source\\vfx_hd_sources\\generation_mattes\\role_assault_basic_gpt_r3_chroma_green.png",
+  "source_sha256": "b331c728abc1fbfd16496e8ed06b87b8e44f75ae67acd305e2ca32c0bb4e7b49",
+  "matte": "#00ff00 intermediate only",
+  "clean_source": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\role_assault_basic_gpt_r3_keyart_alpha.png",
+  "clean_source_sha256": "0c87dfe8d8b2160580a5d5a0310e375b30eccfd193386011f441f9c82b3e0ce2",
+  "atlas": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\role_assault_basic_gpt_r3_atlas_448x336.png",
+  "atlas_sha256": "2205ac2e3c16b2e3ccb4887d5ba80fcd2c1b0bbc3b1256a051168b2b7ea214ca",
+  "atlas_size": [
+    448,
+    336
+  ],
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "source_crop": [
+    12,
+    175,
+    1439,
+    812
+  ]
+}

@@ -3,7 +3,16 @@ extends Control
 const BattleViewScene := preload("res://battle/scenes/battle_root.tscn")
 const ChapterMapScene := preload("res://chapter_map/view/chapter_map_root.tscn")
 const ChapterMapLoaderScript := preload("res://chapter_map/runtime/chapter_map_loader.gd")
+const MapExplorationServiceScript := preload("res://chapter_map/model/map_exploration_service.gd")
+const HexGridScript := preload("res://chapter_map/model/hex_grid.gd")
+const HexCoordScript := preload("res://chapter_map/model/hex_coord.gd")
 const GrowthAffordabilityAnalyzerScript := preload("res://progression/growth_affordability_analyzer.gd")
+const GrowthPlanBuilderScript := preload("res://progression/growth_plan_builder.gd")
+const DESIGN_VIEWPORT_SIZE := Vector2(1920.0, 1080.0)
+const COMPACT_LANDSCAPE_MAX_WIDTH := 980.0
+const MIN_TOUCH_CSS_PX := 56.0
+const SPECIAL_EVENT_CONTACT_DURATION := 1.85
+const BOSS_ENCOUNTER_CARD_DURATION := 0.82
 var content: VBoxContainer
 var footer_status: Label
 var safe_margin: MarginContainer
@@ -16,7 +25,16 @@ var scenario_text: RichTextLabel
 var scenario_choices: VBoxContainer
 var story_background: TextureRect
 var story_portrait: TextureRect
+var story_portrait_layer: Control
 var story_art_status: Label
+var story_dialogue_panel: PanelContainer
+var story_speaker_eyebrow: Label
+var story_click_hint: Label
+var story_page_indicator: Label
+var story_auto_button: Button
+var story_skip_button: Button
+var story_is_prologue := false
+var active_chapter_map_screen: Control
 var story_auto := false
 var story_auto_left := 0.0
 var story_ui_hidden := false
@@ -26,6 +44,7 @@ var battle_hud: Label
 var ultimate_buttons: Array[Button] = []
 var party_status_labels: Array[Label] = []
 var battle_auto_button: Button
+var battle_skip_button: Button
 var battle_speed_button: Button
 var battle_pause_panel: PanelContainer
 var battle_pause_center: CenterContainer
@@ -35,13 +54,29 @@ var viewport_gate_label: Label
 var interface_font: Font
 var orientation_forced_pause := false
 var last_portrait_layout := false
+var last_compact_landscape_layout := false
 var layout_refresh_queued := false
 var orientation_probe_left := 0.0
+var compact_touch_probe_left := 0.0
 var last_battle_result: Dictionary = {}
 var last_rewards: Dictionary = {}
 var last_reward_report: Dictionary = {}
+var last_growth_plan_actions: Array = []
+var last_growth_plan_report: Dictionary = {}
 var debug_reset_armed := false
 var battle_transition_active := false
+# Development-only capture aid. It is armed only by the explicit DEBUG-menu
+# fixture below, is consumed by the next companion contact, and never changes
+# the short player-facing encounter transition in a normal or Release run.
+var debug_companion_card_visual_hold := false
+var transition_edge_blocked_until_msec := 0
+var transition_edge_accept_count := 0
+var transition_edge_reject_count := 0
+var transition_edge_last_action := ""
+var transition_edge_last_source := ""
+var story_checkpoint_dirty := false
+var story_checkpoint_save_scheduled := false
+const TRANSITION_EDGE_DEBOUNCE_MSEC := 220
 
 func _ready() -> void:
 	_build_root()
@@ -88,6 +123,7 @@ func _build_root() -> void:
 	# Establish the initial responsive state now; _process also probes at a small
 	# cadence so a live battle presentation can reflow without restarting it.
 	last_portrait_layout = _is_portrait_layout()
+	last_compact_landscape_layout = _is_compact_landscape_layout()
 	footer_status = Label.new()
 	footer_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	footer_status.modulate = Color("88a4c9")
@@ -101,7 +137,7 @@ func _build_root() -> void:
 
 func _make_theme() -> Theme:
 	var value := Theme.new()
-	var ui_scale := _portrait_ui_scale()
+	var ui_scale := _responsive_control_scale()
 	# The earlier subset deliberately reduced the Web payload, but it omitted
 	# glyphs introduced by localized reward names.  Use the project-owned OFL
 	# variable font so every Korean runtime string remains readable.
@@ -109,14 +145,19 @@ func _make_theme() -> Theme:
 	if bundled_font != null:
 		interface_font = bundled_font
 		value.default_font = bundled_font
-	value.default_font_size = roundi(20.0 * ui_scale)
-	value.set_font_size("font_size", "Button", roundi(20.0 * ui_scale))
-	value.set_font_size("font_size", "Label", roundi(20.0 * ui_scale))
+	value.default_font_size = roundi(28.0 * ui_scale)
+	# Text-heavy Korean flows need their narrative to lead the hierarchy. Keep
+	# touch targets at their existing physical size while lowering default button
+	# type below body text; touch size and type size are deliberately independent.
+	# Labels carry the primary reading task. Keep generic controls comfortably
+	# tappable, but do not let their type compete with Korean narrative copy.
+	value.set_font_size("font_size", "Button", roundi(24.0 * ui_scale))
+	value.set_font_size("font_size", "Label", roundi(28.0 * ui_scale))
 	value.set_color("font_color", "Label", Color("f4f7fb"))
 	value.set_color("font_color", "Button", Color("f4f7fb"))
 	value.set_color("font_hover_color", "Button", Color("f4f7fb"))
 	value.set_color("font_pressed_color", "Button", Color("f4f7fb"))
-	value.set_color("font_disabled_color", "Button", Color("596578"))
+	value.set_color("font_disabled_color", "Button", Color("8f9caf"))
 	value.set_color("font_focus_color", "Button", Color("f4f7fb"))
 	var normal := StyleBoxFlat.new()
 	normal.bg_color = Color("151c2b")
@@ -230,20 +271,24 @@ func _update_viewport_gate() -> void:
 func _on_window_size_changed() -> void:
 	_refresh_responsive_shell_metrics()
 	var portrait := _is_portrait_layout()
-	_queue_orientation_reflow_if_needed(portrait)
+	_queue_orientation_reflow_if_needed(portrait, _is_compact_landscape_layout())
 
 func _refresh_responsive_shell_metrics() -> void:
 	_apply_safe_area()
 	if theme != null:
-		var ui_scale := _portrait_ui_scale()
-		theme.default_font_size = roundi(20.0 * ui_scale)
-		theme.set_font_size("font_size", "Button", roundi(20.0 * ui_scale))
-		theme.set_font_size("font_size", "Label", roundi(20.0 * ui_scale))
+		var ui_scale := _responsive_control_scale()
+		theme.default_font_size = roundi(28.0 * ui_scale)
+		# Keep the narrative-first hierarchy after a resize/orientation reflow.
+		# Button hit targets are managed separately, so they do not need to regain
+		# the old, oversized 20px type here.
+		theme.set_font_size("font_size", "Button", roundi(24.0 * ui_scale))
+		theme.set_font_size("font_size", "Label", roundi(28.0 * ui_scale))
 
-func _queue_orientation_reflow_if_needed(portrait := _is_portrait_layout()) -> void:
-	if portrait == last_portrait_layout or layout_refresh_queued:
+func _queue_orientation_reflow_if_needed(portrait := _is_portrait_layout(), compact_landscape := _is_compact_landscape_layout()) -> void:
+	if (portrait == last_portrait_layout and compact_landscape == last_compact_landscape_layout) or layout_refresh_queued:
 		return
 	last_portrait_layout = portrait
+	last_compact_landscape_layout = compact_landscape
 	layout_refresh_queued = true
 	call_deferred("_refresh_orientation_layout")
 
@@ -259,6 +304,13 @@ func _refresh_orientation_layout() -> void:
 	if current_screen == "BATTLE" and battle_view != null and battle_view.simulation != null:
 		_rebuild_battle_overlay()
 		return
+	# Unlike a static menu, story rotation can happen midway through an unread
+	# line or while a choice is open.  Rebuild only the presentation tree while
+	# retaining the live ScenarioRunner, so portrait gets its intended readable
+	# metrics without advancing, replaying, or checkpointing the narrative.
+	if current_screen == "STORY" and scenario_runner != null:
+		_rebuild_story_presentation()
+		return
 	# The chapter map stores only stable map state in AppState/SaveService, so it
 	# can be rebuilt on a rotation without changing traversal, rewards, or battle
 	# state. Rebuilding clears portrait-only control overrides before landscape.
@@ -266,30 +318,135 @@ func _refresh_orientation_layout() -> void:
 		_show_screen(current_screen)
 
 func _is_portrait_layout() -> bool:
-	var size := DisplayServer.window_get_size()
-	var width := float(size.x)
-	var height := float(size.y)
+	var size := _runtime_layout_size()
+	return size.y > size.x
+
+func _runtime_layout_size() -> Vector2:
+	var window_size := DisplayServer.window_get_size()
+	var width := float(window_size.x)
+	var height := float(window_size.y)
 	if OS.has_feature("web"):
 		var browser_width = JavaScriptBridge.eval("window.innerWidth", true)
 		var browser_height = JavaScriptBridge.eval("window.innerHeight", true)
 		if browser_width is int or browser_width is float: width = float(browser_width)
 		if browser_height is int or browser_height is float: height = float(browser_height)
-	return height > width
+	return Vector2(maxf(1.0, width), maxf(1.0, height))
+
+func responsive_ui_metrics_for_size(size: Vector2) -> Dictionary:
+	# `canvas_items` with aspect=expand uses the smaller physical/design ratio.
+	# Compact phones therefore need the inverse ratio applied to UI metrics or a
+	# nominal 56 logical-pixel button can collapse to about 21 CSS px at 915x412.
+	var safe_size := Vector2(maxf(1.0, size.x), maxf(1.0, size.y))
+	var portrait := safe_size.y > safe_size.x
+	var compact_landscape := not portrait and safe_size.x <= COMPACT_LANDSCAPE_MAX_WIDTH
+	var canvas_scale := minf(safe_size.x / DESIGN_VIEWPORT_SIZE.x, safe_size.y / DESIGN_VIEWPORT_SIZE.y)
+	canvas_scale = maxf(canvas_scale, 0.001)
+	var ui_scale := 1.0
+	if portrait:
+		ui_scale = clampf(1.0 / canvas_scale, 2.8, 4.9)
+	elif compact_landscape:
+		ui_scale = clampf(1.0 / canvas_scale, 1.0, 3.2)
+	return {
+		"portrait": portrait,
+		"compact_landscape": compact_landscape,
+		"canvas_scale": canvas_scale,
+		"ui_scale": ui_scale,
+	}
+
+func responsive_button_minimum_for_size(minimum: Vector2, size: Vector2) -> Vector2:
+	var metrics := responsive_ui_metrics_for_size(size)
+	var ui_scale := float(metrics.ui_scale)
+	if bool(metrics.portrait):
+		return Vector2(
+			minf(maxf(minimum.x, MIN_TOUCH_CSS_PX) * ui_scale, 840.0),
+			maxf(minimum.y, MIN_TOUCH_CSS_PX) * ui_scale
+		)
+	if bool(metrics.compact_landscape):
+		var minimum_touch_logical := MIN_TOUCH_CSS_PX / float(metrics.canvas_scale)
+		return Vector2(maxf(minimum.x, minimum_touch_logical), maxf(minimum.y, minimum_touch_logical))
+	return minimum
+
+func story_font_size_for_size(target_css_px: float, size: Vector2) -> int:
+	# Story type is specified in rendered pixels, while the project is authored on
+	# a 1920x1080 canvas. Convert the requested reading size back to logical pixels
+	# so 1280x720 Web, compact landscape and portrait all preserve the same visual
+	# hierarchy instead of inheriting the canvas shrink factor.
+	var canvas_scale := float(responsive_ui_metrics_for_size(size).canvas_scale)
+	return maxi(1, roundi(target_css_px / maxf(canvas_scale, 0.001)))
+
+static func story_page_progress(commands: Array, current_command_index: int) -> Vector2i:
+	# A "page" is a player-facing text card, not an internal art/audio command.
+	# This keeps the footer stable when the runner consumes several presentation
+	# commands between two pieces of readable copy.
+	var current_page := 0
+	var total_pages := 0
+	for command_index in range(commands.size()):
+		var command: Dictionary = commands[command_index]
+		if str(command.get("command", "")) not in ["dialogue", "narration", "choice"]:
+			continue
+		total_pages += 1
+		if command_index <= current_command_index:
+			current_page = total_pages
+	return Vector2i(current_page, total_pages)
+
+func _story_logical_px(target_css_px: float) -> int:
+	return story_font_size_for_size(target_css_px, _runtime_layout_size())
+
+func _story_weighted_font(weight: float, embolden: float = 0.0) -> Font:
+	if interface_font == null:
+		return null
+	var variation := FontVariation.new()
+	variation.base_font = interface_font
+	variation.variation_opentype = {"wght": weight}
+	variation.variation_embolden = embolden
+	return variation
+
+func _is_compact_landscape_layout() -> bool:
+	return bool(responsive_ui_metrics_for_size(_runtime_layout_size()).compact_landscape)
 
 func _portrait_ui_scale() -> float:
-	if not _is_portrait_layout(): return 1.0
-	var width := float(DisplayServer.window_get_size().x)
-	if OS.has_feature("web"):
-		var browser_width = JavaScriptBridge.eval("window.innerWidth", true)
-		if browser_width is int or browser_width is float:
-			width = float(browser_width)
-	# The project retains a 1920-wide logical canvas for desktop.  On a portrait
-	# phone, scale control metrics back up to physical touch/readability size.
-	return clampf(1920.0 / maxf(320.0, width), 2.8, 4.9)
+	var metrics := responsive_ui_metrics_for_size(_runtime_layout_size())
+	return float(metrics.ui_scale) if bool(metrics.portrait) else 1.0
+
+func _responsive_control_scale() -> float:
+	return float(responsive_ui_metrics_for_size(_runtime_layout_size()).ui_scale)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		SaveService.save_game()
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if current_screen != "STORY" or not _is_story_advance_key_event(event): return
+	get_viewport().set_input_as_handled()
+	AudioService.unlock_from_user_gesture()
+	_request_story_advance("keyboard:%d" % int((event as InputEventKey).keycode))
+
+func _is_story_advance_key_event(event: InputEvent) -> bool:
+	if not event is InputEventKey: return false
+	var key_event := event as InputEventKey
+	if not key_event.pressed or key_event.echo: return false
+	return key_event.keycode in [KEY_ENTER, KEY_KP_ENTER, KEY_SPACE]
+
+func _consume_transition_edge(action: String, source: String, now_msec := -1) -> bool:
+	var edge_time := Time.get_ticks_msec() if now_msec < 0 else now_msec
+	if edge_time < transition_edge_blocked_until_msec:
+		transition_edge_reject_count += 1
+		return false
+	transition_edge_blocked_until_msec = edge_time + TRANSITION_EDGE_DEBOUNCE_MSEC
+	transition_edge_accept_count += 1
+	transition_edge_last_action = action
+	transition_edge_last_source = source
+	return true
+
+func transition_edge_diagnostics() -> Dictionary:
+	return {
+		"accepted": transition_edge_accept_count,
+		"rejected": transition_edge_reject_count,
+		"last_action": transition_edge_last_action,
+		"last_source": transition_edge_last_source,
+		"blocked_until_msec": transition_edge_blocked_until_msec,
+		"debounce_msec": TRANSITION_EDGE_DEBOUNCE_MSEC,
+	}
 
 func _apply_safe_area() -> void:
 	if safe_margin == null: return
@@ -302,7 +459,8 @@ func _apply_safe_area() -> void:
 		footer_status.add_theme_font_size_override("font_size", roundi(16.0 * _portrait_ui_scale()))
 	var window_size := DisplayServer.window_get_size()
 	var area := DisplayServer.get_display_safe_area()
-	var base_margin := roundi(18.0 * _portrait_ui_scale()) if _is_portrait_layout() else 32
+	var responsive_mobile := _is_portrait_layout() or _is_compact_landscape_layout()
+	var base_margin := roundi(18.0 * _responsive_control_scale()) if responsive_mobile else 32
 	if window_size.x <= 0 or window_size.y <= 0 or area.size.x <= 0 or area.size.y <= 0:
 		for side in ["margin_left", "margin_top", "margin_right", "margin_bottom"]: safe_margin.add_theme_constant_override(side, base_margin)
 		return
@@ -321,6 +479,15 @@ func _process(delta: float) -> void:
 	if orientation_probe_left <= 0.0:
 		orientation_probe_left = 0.25
 		_queue_orientation_reflow_if_needed()
+	compact_touch_probe_left -= delta
+	if compact_touch_probe_left <= 0.0:
+		compact_touch_probe_left = 0.25
+		# ChapterMapScreen owns its own button factory and can reapply compact
+		# layout metrics after node selection. Reassert the shell-wide physical
+		# touch contract without changing map gameplay or focus order.
+		if _is_compact_landscape_layout() and content != null:
+			_apply_compact_touch_targets(content)
+		_apply_chapter_map_shell_overrides()
 	if current_screen == "STORY" and story_auto and scenario_runner != null and not scenario_runner.state.waiting_for_choice and not AudioService.voice_is_playing():
 		story_auto_left -= delta
 		if story_auto_left <= 0:
@@ -337,15 +504,29 @@ func _clear() -> void:
 	ultimate_buttons.clear()
 	party_status_labels.clear()
 	battle_auto_button = null
+	battle_skip_button = null
 	battle_speed_button = null
 	battle_pause_panel = null
 	battle_pause_center = null
 	battle_portrait_layout = false
 	story_background = null
 	story_portrait = null
+	story_portrait_layer = null
 	story_art_status = null
+	story_dialogue_panel = null
+	story_speaker_eyebrow = null
+	story_click_hint = null
+	story_page_indicator = null
+	story_auto_button = null
+	story_skip_button = null
+	story_is_prologue = false
+	active_chapter_map_screen = null
 
 func _show_screen(screen_id: String) -> void:
+	if not SceneRouter.screen_allowed(screen_id, SettingsService.is_developer_mode()):
+		screen_id = "HOME"
+		SceneRouter.current_screen = "HOME"
+		AppState.route_payload = {}
 	current_screen = screen_id
 	_clear()
 	match screen_id:
@@ -366,17 +547,24 @@ func _show_screen(screen_id: String) -> void:
 		"DEBUG": _show_debug()
 		"LICENSE": _show_license()
 		_: _show_home()
+	_apply_compact_touch_targets(content)
+	_apply_chapter_map_shell_overrides()
 
 func _title(text_value: String, subtitle := "") -> void:
 	var portrait := _is_portrait_layout()
-	var ui_scale := _portrait_ui_scale()
+	var ui_scale := _responsive_control_scale()
 	# In portrait, the back action gets its own top-bar row. A long Korean
 	# chapter title must never be squeezed behind that control.
 	var header: BoxContainer = VBoxContainer.new() if portrait and current_screen not in ["TITLE", "HOME"] else HBoxContainer.new()
 	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_child(header)
 	if current_screen not in ["TITLE", "HOME"]:
-		header.add_child(_button("‹ 뒤로", func(): SceneRouter.back("HOME"), false, Vector2(104 if portrait else 120, 54 if portrait else 60)))
+		# A RESULT screen is terminal for its Battle view.  Letting generic history
+		# walk back into BATTLE would construct a fresh battle from an already
+		# committed transaction after visiting Growth, which is both confusing and
+		# outside the map -> battle -> result authority flow.  Result exits always
+		# return to the canonical chapter map; other screens retain normal history.
+		header.add_child(_button("‹ 뒤로", _navigate_back_from_header, false, Vector2(104 if portrait else 120, 54 if portrait else 60)))
 	var labels := VBoxContainer.new()
 	labels.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(labels)
@@ -384,7 +572,7 @@ func _title(text_value: String, subtitle := "") -> void:
 	title_label.text = text_value
 	title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title_label.custom_minimum_size.x = 0.0
-	title_label.add_theme_font_size_override("font_size", roundi((28.0 if portrait else 36.0) * ui_scale))
+	title_label.add_theme_font_size_override("font_size", roundi((34.0 if portrait else 42.0) * ui_scale))
 	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	labels.add_child(title_label)
 	if subtitle != "":
@@ -400,15 +588,19 @@ func _title(text_value: String, subtitle := "") -> void:
 	accent.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_child(accent)
 
+func _navigate_back_from_header() -> void:
+	if current_screen == "RESULT":
+		SceneRouter.go("STAGE_SELECT")
+	else:
+		SceneRouter.back("HOME")
+
 func _button(text_value: String, callback: Callable, disabled := false, minimum := Vector2(190, 64)) -> Button:
 	var button := Button.new()
 	button.text = text_value
-	if _is_portrait_layout():
-		var ui_scale := _portrait_ui_scale()
-		button.custom_minimum_size = Vector2(minf(minimum.x * ui_scale, 840.0), maxf(52.0 * ui_scale, minimum.y * ui_scale))
-		button.add_theme_font_size_override("font_size", roundi(18.0 * ui_scale))
-	else:
-		button.custom_minimum_size = minimum
+	var metrics := responsive_ui_metrics_for_size(_runtime_layout_size())
+	button.custom_minimum_size = responsive_button_minimum_for_size(minimum, _runtime_layout_size())
+	if bool(metrics.portrait) or bool(metrics.compact_landscape):
+		button.add_theme_font_size_override("font_size", roundi(19.0 * float(metrics.ui_scale)))
 	button.disabled = disabled
 	# WebAudio must be resumed in the same call stack as a real button press.
 	# Keeping this wrapper at the shared button factory covers title, map,
@@ -418,6 +610,70 @@ func _button(text_value: String, callback: Callable, disabled := false, minimum 
 		callback.call()
 	)
 	return button
+
+func _apply_compact_touch_targets(root: Node) -> void:
+	if root == null or not _is_compact_landscape_layout(): return
+	var metrics := responsive_ui_metrics_for_size(_runtime_layout_size())
+	var minimum_touch_logical := MIN_TOUCH_CSS_PX / float(metrics.canvas_scale)
+	# Touch accessibility is determined by the physical hit box, not oversized
+	# lettering. This cap lets dense story controls stay secondary on compact Web
+	# viewports while preserving the 56 CSS-pixel touch target.
+	var minimum_font_logical := roundi(18.0 * float(metrics.ui_scale))
+	_apply_compact_touch_targets_recursive(root, minimum_touch_logical, minimum_font_logical)
+
+func _apply_compact_touch_targets_recursive(root: Node, minimum_touch_logical: float, minimum_font_logical: int) -> void:
+	for child in root.get_children():
+		# The 3D chapter world can contain hundreds of render nodes but no screen
+		# controls. Avoid walking it every responsive probe; map overlay buttons are
+		# siblings of the SubViewport and remain covered by this traversal.
+		if child is SubViewport:
+			continue
+		if child is Button:
+			var button := child as Button
+			var current := button.custom_minimum_size
+			var target := Vector2(maxf(current.x, minimum_touch_logical), maxf(current.y, minimum_touch_logical))
+			if not current.is_equal_approx(target):
+				button.custom_minimum_size = target
+			# Story controls have their own deliberately quieter type scale.  Their
+			# physical target is still enlarged above, so never re-inflate that type
+			# just because the viewport happens to be a compact landscape one.
+			if not button.has_meta("story_control"):
+				var current_font := button.get_theme_font_size("font_size")
+				if current_font < minimum_font_logical:
+					button.add_theme_font_size_override("font_size", minimum_font_logical)
+		_apply_compact_touch_targets_recursive(child, minimum_touch_logical, minimum_font_logical)
+
+func _story_button(text_value: String, callback: Callable, disabled := false, minimum := Vector2(190, 58)) -> Button:
+	var button := _button(text_value, callback, disabled, minimum)
+	# Story controls are secondary navigation, not the line the player came to
+	# read. Their generous physical hit area remains untouched, while the type
+	# stays clearly subordinate to a Korean narration line on every canvas scale.
+	button.set_meta("story_control", true)
+	button.add_theme_font_size_override("font_size", _story_logical_px(17.0))
+	return button
+
+func _apply_chapter_map_shell_overrides() -> void:
+	if active_chapter_map_screen == null or not is_instance_valid(active_chapter_map_screen): return
+	var status_value = active_chapter_map_screen.get("status_label")
+	var next_value = active_chapter_map_screen.get("next_encounter_button")
+	if not status_value is Label or not next_value is Button: return
+	var status := status_value as Label
+	var next_button := next_value as Button
+	var metrics := responsive_ui_metrics_for_size(_runtime_layout_size())
+	if bool(metrics.portrait):
+		var ui_scale := float(metrics.ui_scale)
+		var touch_height := MIN_TOUCH_CSS_PX * ui_scale
+		next_button.offset_bottom = next_button.offset_top + touch_height
+		next_button.custom_minimum_size.y = maxf(next_button.custom_minimum_size.y, touch_height)
+		# Keep the chapter status on a separate visual line below the top-right
+		# encounter shortcut. At 390px the former 350px status and 188px button
+		# geometrically overlapped over most of their text.
+		status.position.y = (14.0 + MIN_TOUCH_CSS_PX + 8.0) * ui_scale
+		return
+	if bool(metrics.compact_landscape):
+		var compact_touch_height := MIN_TOUCH_CSS_PX / float(metrics.canvas_scale)
+		next_button.offset_bottom = next_button.offset_top + compact_touch_height
+		next_button.custom_minimum_size.y = maxf(next_button.custom_minimum_size.y, compact_touch_height)
 
 func _make_primary_button(button: Button) -> void:
 	var normal := StyleBoxFlat.new()
@@ -452,7 +708,7 @@ func _label(text_value: String, size_value := 21, color := Color("dcecff")) -> L
 	var value := Label.new()
 	value.text = text_value
 	value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	value.add_theme_font_size_override("font_size", roundi(float(size_value) * _portrait_ui_scale()))
+	value.add_theme_font_size_override("font_size", roundi(float(size_value) * _responsive_control_scale()))
 	value.modulate = color
 	value.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	return value
@@ -475,16 +731,62 @@ func _asset_texture(asset_id: String) -> Texture2D:
 		return null
 	return load(path) as Texture2D
 
-func _art_rect(asset_id: String, minimum: Vector2, mode := TextureRect.STRETCH_KEEP_ASPECT_CENTERED) -> TextureRect:
+func story_art_texture_for_state(cg_asset_id: String, background_asset_id: String) -> Texture2D:
+	# A CG is the preferred story image, but a missing/import-failed CG must never
+	# turn an authored story beat into an empty black presentation band.  The
+	# scenario background is the deterministic visual fallback and does not alter
+	# any scenario, save, or progression authority.
+	var cg_texture := _asset_texture(cg_asset_id) if not cg_asset_id.is_empty() else null
+	if cg_texture != null:
+		return cg_texture
+	return _asset_texture(background_asset_id)
+
+func _apply_skill_icon(button: Button, skill: Dictionary, max_width: int) -> void:
+	var icon_asset_id := str(skill.get("icon_asset_id", ""))
+	var icon_texture := _asset_texture(icon_asset_id)
+	if icon_texture == null:
+		return
+	button.icon = icon_texture
+	button.expand_icon = true
+	button.add_theme_constant_override("icon_max_width", max_width)
+	button.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.tooltip_text = "%s · %s" % [LocalizationService.tr_key(str(skill.get("name_key", ""))), str(skill.get("effect", ""))]
+
+func _character_art_frame_style() -> StyleBoxFlat:
+	# The Web fallback-safe opaque CHR002 delivery derivative and all transparent
+	# legacy art share this same presentation card.  This is deliberately a UI
+	# contract, not a per-character backdrop, so the lineup cannot look like a
+	# mixture of cutouts and temporary blue image tiles.
+	var frame := StyleBoxFlat.new()
+	frame.bg_color = Color(0.018, 0.035, 0.075, 1.0)
+	frame.border_width_left = 1
+	frame.border_width_top = 1
+	frame.border_width_right = 1
+	frame.border_width_bottom = 1
+	frame.border_color = Color("77d8d442")
+	frame.corner_radius_top_left = 8
+	frame.corner_radius_top_right = 8
+	frame.corner_radius_bottom_left = 8
+	frame.corner_radius_bottom_right = 8
+	frame.content_margin_left = 4
+	frame.content_margin_right = 4
+	frame.content_margin_top = 4
+	frame.content_margin_bottom = 4
+	return frame
+
+func _art_rect(asset_id: String, minimum: Vector2, mode := TextureRect.STRETCH_KEEP_ASPECT_CENTERED) -> PanelContainer:
+	var frame := PanelContainer.new()
+	frame.custom_minimum_size = minimum * _portrait_ui_scale()
+	frame.add_theme_stylebox_override("panel", _character_art_frame_style())
 	var art := TextureRect.new()
 	art.texture = _asset_texture(asset_id)
 	# Art cards are content controls too. Without this scale a 260 px portrait
 	# card collapses to roughly 50 physical pixels on the retained 1920 canvas.
-	art.custom_minimum_size = minimum * _portrait_ui_scale()
 	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	art.stretch_mode = mode
 	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	return art
+	frame.add_child(art)
+	return frame
 
 func _format_counts(values: Dictionary, bullet := true) -> String:
 	if values.is_empty(): return "없음"
@@ -536,30 +838,103 @@ func _scroll_box() -> VBoxContainer:
 
 func _show_title() -> void:
 	AudioService.play_bgm("audio_bgm_title_en")
-	var spacer := Control.new()
-	spacer.custom_minimum_size.y = 170.0 * _portrait_ui_scale()
-	content.add_child(spacer)
-	var hero := _panel()
-	var game_title := _label(LocalizationService.tr_key("GAME_TITLE"), 58, Color("f4f7fb"))
-	game_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hero.add_child(game_title)
-	var subtitle := _label(LocalizationService.tr_key("GAME_SUBTITLE"), 26, Color("a8b7ff"))
-	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hero.add_child(subtitle)
-	var notice := _label("오프라인 싱글플레이 · 제1장 탐색 가능", 18, Color("8e9aaf"))
+	var portrait := _is_portrait_layout()
+	var stage := Control.new()
+	stage.name = "CommercialTitleStage"
+	stage.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	stage.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	stage.custom_minimum_size.y = 720.0 * _portrait_ui_scale()
+	stage.clip_contents = true
+	content.add_child(stage)
+	var cast_plate := TextureRect.new()
+	cast_plate.name = "FullBodyCastPlate"
+	cast_plate.texture = load("res://assets/art/title/title_cast_plate_portrait_r1.png" if portrait else "res://assets/art/title/title_cast_plate_r1.png") as Texture2D
+	cast_plate.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	cast_plate.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	cast_plate.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	cast_plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stage.add_child(cast_plate)
+	var center_scrim := ColorRect.new()
+	center_scrim.color = Color("02071224")
+	center_scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	center_scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stage.add_child(center_scrim)
+	var logo := TextureRect.new()
+	logo.name = "FantasyTitleLogo"
+	logo.texture = load("res://assets/art/title/title_logo_r1.png") as Texture2D
+	logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	logo.set_anchors_preset(Control.PRESET_CENTER)
+	logo.size = Vector2(780, 208) if portrait else Vector2(1120, 300)
+	logo.position = -logo.size * 0.5 + Vector2(0, -190 if portrait else -165)
+	logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stage.add_child(logo)
+	var cta := VBoxContainer.new()
+	cta.name = "TitleCallToAction"
+	cta.alignment = BoxContainer.ALIGNMENT_CENTER
+	cta.add_theme_constant_override("separation", 14)
+	cta.set_anchors_preset(Control.PRESET_CENTER)
+	cta.size = Vector2(620, 230)
+	cta.position = -cta.size * 0.5 + Vector2(0, 176 if portrait else 192)
+	stage.add_child(cta)
+	var notice := _label("프롤로그 · 제1장 · 제2장 탐색 / 실시간 SD 전투", 22, Color("d8e9e7"))
 	notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hero.add_child(notice)
-	var start := _button("등불을 켠다", func(): AppState.profile.tutorial_progress.title_seen = true; SceneRouter.go("HOME"), false, Vector2(360, 76))
-	_make_primary_button(start)
+	notice.add_theme_constant_override("outline_size", 4)
+	notice.add_theme_color_override("font_outline_color", Color("06101c"))
+	cta.add_child(notice)
+	var start := _button("START GAME  ·  기록 시작", _start_title_flow, false, Vector2(430, 88))
+	_make_title_start_button(start)
 	start.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	hero.add_child(start)
+	start.add_theme_font_size_override("font_size", 25)
+	cta.add_child(start)
+	var guide := _label("CLICK / TOUCH TO BEGIN", 16, Color("d3ad63"))
+	guide.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	cta.add_child(guide)
+
+func _start_title_flow() -> void:
+	AppState.profile.tutorial_progress.title_seen = true
+	# A completed prologue should not replay on every launch. An unfinished first
+	# run resumes its saved line, while a fresh profile enters the authored
+	# click-through prologue before the home screen.
+	if bool(AppState.profile.story_flags.get("PROLOGUE_READ", false)):
+		SceneRouter.go("HOME")
+		return
+	AppState.active_scenario_id = "SCN_PROLOGUE"
+	SceneRouter.go("STORY", {"after": "HOME", "origin": "TITLE"})
+
+func _make_title_start_button(button: Button) -> void:
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color("07101eea")
+	normal.border_color = Color("e3b862")
+	normal.set_border_width_all(2)
+	normal.set_corner_radius_all(4)
+	normal.shadow_color = Color("000000aa")
+	normal.shadow_size = 12
+	normal.content_margin_top = 16
+	normal.content_margin_bottom = 16
+	normal.content_margin_left = 28
+	normal.content_margin_right = 28
+	var hover := normal.duplicate()
+	hover.bg_color = Color("18273aeF")
+	hover.border_color = Color("ffe0a0")
+	var pressed := normal.duplicate()
+	pressed.bg_color = Color("030812f2")
+	pressed.border_color = Color("78e6d0")
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", pressed)
+	button.add_theme_color_override("font_color", Color("fff0c4"))
+	button.add_theme_color_override("font_hover_color", Color("ffffff"))
+	button.add_theme_color_override("font_pressed_color", Color("9df6e4"))
+	button.add_theme_constant_override("outline_size", 2)
+	button.add_theme_color_override("font_outline_color", Color("271407"))
 
 func _show_home() -> void:
 	AudioService.play_bgm("audio_bgm_lobby")
 	AppState.refresh_stamina()
 	_title("랜턴라인 본부", "오프라인 싱글플레이 버티컬 슬라이스")
 	var resource_bar := _panel()
-	resource_bar.add_child(_label("계정 Lv.%d   작전력 %d/%d   크레딧 %s" % [AppState.profile.account.level, AppState.profile.account.stamina, AppState.account_max_stamina(), MathUtil.comma(AppState.inventory_count("CREDIT"))], 24, Color("f1d77a")))
+	resource_bar.add_child(_label("계정 Lv.%d   작전력 %d/%d   크레딧 %s" % [AppState.profile.account.level, AppState.profile.account.stamina, AppState.account_max_stamina(), MathUtil.comma(AppState.inventory_count("CREDIT"))], 28, Color("ffe28a")))
 	var portrait := _is_portrait_layout()
 	var body: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
 	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -575,14 +950,14 @@ func _show_home() -> void:
 	# persistent save action.  72 physical px remains comfortably above the
 	# 56 logical-px touch target while avoiding a clipped last row.
 	var menu_height := 72.0 if portrait else 108.0
-	menu.add_child(_button("메인 스토리", func(): AppState.active_scenario_id = "SCN_PROLOGUE"; SceneRouter.go("STORY"), false, Vector2(235, menu_height)))
+	menu.add_child(_button("메인 스토리", func(): AppState.active_scenario_id = "SCN_PROLOGUE"; SceneRouter.go("STORY", {"after": "HOME"}), false, Vector2(235, menu_height)))
 	menu.add_child(_button("챕터 / 스테이지", func(): SceneRouter.go("STAGE_SELECT"), false, Vector2(235, menu_height)))
 	menu.add_child(_button("파티 편성", func(): SceneRouter.go("FORMATION"), false, Vector2(235, menu_height)))
 	menu.add_child(_button("캐릭터 / 성장", func(): SceneRouter.go("ROSTER"), false, Vector2(235, menu_height)))
 	menu.add_child(_button("인벤토리", func(): SceneRouter.go("INVENTORY"), false, Vector2(235, menu_height)))
 	menu.add_child(_button("스토리 아카이브", func(): SceneRouter.go("ARCHIVE"), false, Vector2(235, menu_height)))
 	menu.add_child(_button("설정 / 라이선스", func(): SceneRouter.go("SETTINGS"), false, Vector2(235, menu_height)))
-	menu.add_child(_button("개발자 도구", func(): SceneRouter.go("DEBUG"), not SettingsService.values.developer_mode, Vector2(235, menu_height)))
+	menu.add_child(_button("개발자 도구", func(): SceneRouter.go("DEBUG"), not SettingsService.is_developer_mode(), Vector2(235, menu_height)))
 	var pilot := PanelContainer.new()
 	pilot.custom_minimum_size = Vector2(0, (140.0 if portrait else 430.0) * _portrait_ui_scale())
 	body.add_child(pilot)
@@ -610,11 +985,33 @@ func _show_home() -> void:
 		party_names.append(_display_character_name(str(character_id)))
 	row.add_child(_label("현재 파티: " + ", ".join(party_names), 18, Color("8ba8c8")))
 
-func _show_story() -> void:
+func _show_story(reuse_runtime_state := false) -> void:
 	AudioService.play_bgm("audio_bgm_story")
 	var portrait := _is_portrait_layout()
 	var ui_scale := _portrait_ui_scale()
-	_title("정적 일러스트 스토리", AppState.active_scenario_id)
+	var story_header := story_header_data(AppState.active_scenario_id)
+	story_is_prologue = AppState.active_scenario_id == "SCN_PROLOGUE"
+	if story_is_prologue:
+		_build_prologue_story_presentation(portrait, ui_scale, story_header)
+	else:
+		_title(str(story_header.title), str(story_header.subtitle))
+		_build_standard_story_presentation(portrait, ui_scale)
+	if reuse_runtime_state and scenario_runner != null:
+		_refresh_story_art()
+		_restore_story_view_after_reflow()
+		_refresh_story_control_states()
+		return
+	scenario_runner = ScenarioRunner.new()
+	var loaded := scenario_runner.load_scenario(AppState.active_scenario_id, true)
+	if not loaded.ok:
+		scenario_text.text = loaded.error
+		return
+	_refresh_story_art()
+	story_auto_left = 1.0
+	_refresh_story_control_states()
+	_advance_story()
+
+func _build_standard_story_presentation(portrait: bool, ui_scale: float) -> void:
 	var stage := PanelContainer.new()
 	stage.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	stage.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -624,9 +1021,10 @@ func _show_story() -> void:
 	layer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	stage.add_child(layer)
 	var art_space := Control.new()
-	# Portrait reserves a readable art band, a dialogue band, and three rows of
-	# bottom controls. Those three regions must fit above the safe-area footer.
-	art_space.custom_minimum_size.y = 236.0 * ui_scale if portrait else 320.0
+	# Compact landscape gives priority to the reading panel and keeps just enough
+	# art height for the fixed 56px AUTO/SKIP rail; wide and portrait layouts retain
+	# the established character presentation band.
+	art_space.custom_minimum_size.y = float(_story_logical_px(76.0)) if _is_compact_landscape_layout() else (236.0 * ui_scale if portrait else 320.0)
 	art_space.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	art_space.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	layer.add_child(art_space)
@@ -643,44 +1041,448 @@ func _show_story() -> void:
 	story_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	story_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	art_space.add_child(story_portrait)
-	story_art_status = _label("STATIC ART", 16, Color("78e6d0"))
+	# Asset provenance is useful while authoring, but it is not player-facing
+	# story UI.  Keep the label available only in the developer build.
+	story_art_status = _label("", 16, Color("78e6d0"))
+	story_art_status.visible = SettingsService.is_developer_mode()
 	story_art_status.position = Vector2(18.0 * ui_scale, 16.0 * ui_scale) if portrait else Vector2(24, 20)
 	story_art_status.size = Vector2(900.0 * ui_scale, 40.0 * ui_scale) if portrait else Vector2(900, 40)
 	art_space.add_child(story_art_status)
+	_build_story_top_right_controls(art_space, portrait, false)
 	var dialogue := PanelContainer.new()
-	dialogue.custom_minimum_size.y = 264.0 * ui_scale if portrait else 250.0
+	dialogue.add_theme_stylebox_override("panel", _story_dialogue_style(false))
 	layer.add_child(dialogue)
+	_build_story_dialogue_content(dialogue, portrait, false)
+
+func _build_prologue_story_presentation(portrait: bool, ui_scale: float, story_header: Dictionary) -> void:
+	var stage := PanelContainer.new()
+	stage.name = "PrologueCinematicStage"
+	stage.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	stage.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	stage.add_theme_stylebox_override("panel", _prologue_stage_style())
+	content.add_child(stage)
+	var canvas := Control.new()
+	canvas.name = "PrologueCinematicCanvas"
+	canvas.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	canvas.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	stage.add_child(canvas)
+
+	story_background = TextureRect.new()
+	story_background.name = "PrologueBackground"
+	story_background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	story_background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	story_background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	story_background.modulate = Color(0.72, 0.82, 0.94, 0.72)
+	story_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(story_background)
+	var cinematic_scrim := ColorRect.new()
+	cinematic_scrim.name = "PrologueCinematicScrim"
+	cinematic_scrim.color = Color(0.008, 0.016, 0.045, 0.38)
+	cinematic_scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	cinematic_scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(cinematic_scrim)
+	var lower_scrim := ColorRect.new()
+	lower_scrim.name = "PrologueLowerScrim"
+	lower_scrim.color = Color(0.006, 0.014, 0.04, 0.48)
+	lower_scrim.anchor_left = 0.0
+	lower_scrim.anchor_top = 0.48
+	lower_scrim.anchor_right = 1.0
+	lower_scrim.anchor_bottom = 1.0
+	lower_scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(lower_scrim)
+
+	story_portrait_layer = Control.new()
+	story_portrait_layer.name = "PrologueCharacterIllustrations"
+	story_portrait_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	story_portrait_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(story_portrait_layer)
+
+	var chapter_plate := PanelContainer.new()
+	chapter_plate.name = "PrologueChapterPlate"
+	chapter_plate.anchor_left = 0.0
+	chapter_plate.anchor_top = 0.0
+	chapter_plate.anchor_right = 0.0
+	chapter_plate.anchor_bottom = 0.0
+	chapter_plate.offset_left = float(_story_logical_px(20.0))
+	chapter_plate.offset_top = float(_story_logical_px(18.0))
+	chapter_plate.offset_right = float(_story_logical_px(344.0 if portrait else 506.0))
+	chapter_plate.offset_bottom = float(_story_logical_px(116.0 if portrait else 88.0))
+	chapter_plate.add_theme_stylebox_override("panel", _prologue_plate_style(ui_scale))
+	canvas.add_child(chapter_plate)
+	var chapter_copy := VBoxContainer.new()
+	chapter_copy.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	chapter_plate.add_child(chapter_copy)
+	var eyebrow := _label("PROLOGUE · THE LAST LINE", _story_logical_px(13.0), Color("78e6d0"))
+	eyebrow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	chapter_copy.add_child(eyebrow)
+	var chapter_title := _label(str(story_header.title), _story_logical_px(30.0), Color("f4f7ff"))
+	chapter_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	chapter_copy.add_child(chapter_title)
+
+	_build_story_top_right_controls(canvas, portrait, true)
+
+	story_art_status = _label("", 14, Color("78e6d0"))
+	# The cinematic opening is itself the QA target; never stamp authoring jargon
+	# over the composition, even in a Development export.
+	story_art_status.visible = false
+	story_art_status.anchor_left = 0.0
+	story_art_status.anchor_top = 0.0
+	story_art_status.anchor_right = 0.0
+	story_art_status.anchor_bottom = 0.0
+	story_art_status.offset_left = 32.0 * ui_scale
+	story_art_status.offset_top = 144.0 * ui_scale
+	story_art_status.offset_right = 800.0 * ui_scale
+	story_art_status.offset_bottom = 188.0 * ui_scale
+	story_art_status.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(story_art_status)
+
+	var dialogue_margin := MarginContainer.new()
+	dialogue_margin.name = "PrologueDialogueMargin"
+	dialogue_margin.anchor_left = 0.0
+	dialogue_margin.anchor_top = 1.0
+	dialogue_margin.anchor_right = 1.0
+	dialogue_margin.anchor_bottom = 1.0
+	dialogue_margin.offset_left = float(_story_logical_px(18.0 if portrait else 100.0))
+	dialogue_margin.offset_top = -float(_story_logical_px(282.0))
+	dialogue_margin.offset_right = -float(_story_logical_px(18.0 if portrait else 100.0))
+	dialogue_margin.offset_bottom = -float(_story_logical_px(18.0))
+	canvas.add_child(dialogue_margin)
+	var dialogue := PanelContainer.new()
+	dialogue.add_theme_stylebox_override("panel", _story_dialogue_style(true))
+	dialogue_margin.add_child(dialogue)
+	_build_story_dialogue_content(dialogue, portrait, true)
+
+func _build_story_top_right_controls(parent: Control, portrait: bool, cinematic: bool) -> void:
+	var runtime_size := _runtime_layout_size()
+	var auto_minimum := responsive_button_minimum_for_size(Vector2(132, 64), runtime_size)
+	var skip_minimum := responsive_button_minimum_for_size(Vector2(142, 64), runtime_size)
+	var separation := float(_story_logical_px(10.0))
+	var right_inset := float(_story_logical_px(20.0))
+	var top_inset := float(_story_logical_px(126.0 if portrait and cinematic else 18.0))
+	story_controls = HBoxContainer.new()
+	story_controls.name = "PrologueTopRightControls" if cinematic else "StoryTopRightControls"
+	story_controls.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	story_controls.anchor_left = 1.0
+	story_controls.anchor_top = 0.0
+	story_controls.anchor_right = 1.0
+	story_controls.anchor_bottom = 0.0
+	story_controls.offset_left = -(auto_minimum.x + skip_minimum.x + separation + right_inset)
+	story_controls.offset_top = top_inset
+	story_controls.offset_right = -right_inset
+	story_controls.offset_bottom = top_inset + maxf(auto_minimum.y, skip_minimum.y)
+	story_controls.add_theme_constant_override("separation", roundi(separation))
+	parent.add_child(story_controls)
+	story_auto_button = _story_button("AUTO", _toggle_story_auto, false, Vector2(132, 64))
+	story_auto_button.name = "PrologueAutoButton" if cinematic else "StoryAutoButton"
+	_style_story_overlay_button(story_auto_button, Color("58d8c6"))
+	story_controls.add_child(story_auto_button)
+	story_skip_button = _story_button("SKIP  ▶", _skip_story_from_control, false, Vector2(142, 64))
+	story_skip_button.name = "PrologueSkipButton" if cinematic else "StorySkipButton"
+	_style_story_overlay_button(story_skip_button, Color("e6bd68"))
+	story_controls.add_child(story_skip_button)
+
+func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cinematic: bool) -> void:
+	story_dialogue_panel = dialogue
+	dialogue.name = "ClickablePrologueTextBox" if story_is_prologue else "ClickableStoryTextBox"
+	dialogue.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	dialogue.gui_input.connect(_on_story_text_box_input)
+	# AUTO/SKIP live in the fixed top-right rail. The reading surface retains only
+	# the secondary navigation that is useful beside the current line.
+	var compact := _is_compact_landscape_layout()
+	dialogue.custom_minimum_size.y = float(_story_logical_px(244.0 if cinematic else (220.0 if compact else 284.0)))
+	var dialogue_frame := HBoxContainer.new()
+	dialogue_frame.name = "StoryDialogueFrame"
+	dialogue_frame.add_theme_constant_override("separation", _story_logical_px(18.0))
+	dialogue.add_child(dialogue_frame)
+	var signal_rail := ColorRect.new()
+	signal_rail.name = "StoryMintSignalRail"
+	signal_rail.color = Color("5cdbc9")
+	signal_rail.custom_minimum_size.x = float(_story_logical_px(3.0))
+	signal_rail.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	dialogue_frame.add_child(signal_rail)
 	var dialogue_box := VBoxContainer.new()
-	dialogue.add_child(dialogue_box)
-	scenario_speaker = _label("", 23, Color("f1d77a"))
+	dialogue_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dialogue_box.add_theme_constant_override("separation", _story_logical_px(4.0 if compact else 8.0))
+	dialogue_frame.add_child(dialogue_box)
+	story_speaker_eyebrow = _label("LUMENBOUND · VOICE LINK", _story_logical_px(14.0), Color("9af2df"))
+	story_speaker_eyebrow.name = "StorySpeakerEyebrow"
+	story_speaker_eyebrow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	story_speaker_eyebrow.add_theme_color_override("font_outline_color", Color("01050a"))
+	story_speaker_eyebrow.add_theme_constant_override("outline_size", _story_logical_px(1.0))
+	var story_meta_font := _story_weighted_font(620.0, 0.04)
+	var story_title_font := _story_weighted_font(700.0, 0.07)
+	var story_body_font := _story_weighted_font(650.0, 0.07)
+	if story_meta_font != null:
+		story_speaker_eyebrow.add_theme_font_override("font", story_meta_font)
+	dialogue_box.add_child(story_speaker_eyebrow)
+	scenario_speaker = _label("", _story_logical_px(32.0), Color("f6d383"))
+	scenario_speaker.add_theme_color_override("font_outline_color", Color("01050a"))
+	scenario_speaker.add_theme_color_override("font_shadow_color", Color("000000b8"))
+	scenario_speaker.add_theme_constant_override("outline_size", _story_logical_px(2.0))
+	scenario_speaker.add_theme_constant_override("shadow_offset_x", _story_logical_px(1.0))
+	scenario_speaker.add_theme_constant_override("shadow_offset_y", _story_logical_px(1.0))
+	if story_title_font != null:
+		scenario_speaker.add_theme_font_override("font", story_title_font)
 	dialogue_box.add_child(scenario_speaker)
 	scenario_text = RichTextLabel.new()
 	scenario_text.bbcode_enabled = true
 	scenario_text.fit_content = true
-	scenario_text.custom_minimum_size.y = 82.0 * ui_scale if portrait else 100.0
+	scenario_text.scroll_active = false
+	scenario_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	scenario_text.custom_minimum_size.y = float(_story_logical_px(44.0 if compact else (96.0 if cinematic else 88.0)))
 	scenario_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scenario_text.add_theme_font_size_override("normal_font_size", roundi(21.0 * ui_scale) if portrait else 25)
+	# Render body copy at 28px and the speaker at 32px, independent of the authored
+	# 1920x1080 canvas. These values remain inside the requested 25-30 / 28-34px
+	# reading bands at 1280x720, compact landscape and portrait.
+	scenario_text.add_theme_font_size_override("normal_font_size", _story_logical_px(28.0))
+	scenario_text.add_theme_font_size_override("bold_font_size", _story_logical_px(28.0))
+	scenario_text.add_theme_color_override("default_color", Color("fffaf0"))
+	# The opaque dialogue plate already provides contrast. Preserve the full white
+	# face of Korean glyphs instead of shrinking it with a dark pixel outline.
+	scenario_text.add_theme_constant_override("outline_size", 0)
+	scenario_text.add_theme_constant_override("shadow_offset_x", 0)
+	scenario_text.add_theme_constant_override("shadow_offset_y", 0)
+	scenario_text.add_theme_constant_override("line_separation", _story_logical_px(8.0))
+	if story_body_font != null:
+		scenario_text.add_theme_font_override("normal_font", story_body_font)
+	if story_title_font != null:
+		scenario_text.add_theme_font_override("bold_font", story_title_font)
+	# Let the surrounding dialogue panel own click/touch progression. Choice and
+	# control buttons keep their own input, so a click on a choice never advances
+	# the scenario twice.
+	scenario_speaker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	scenario_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	dialogue_box.add_child(scenario_text)
 	scenario_choices = VBoxContainer.new()
+	scenario_choices.add_theme_constant_override("separation", _story_logical_px(8.0))
 	dialogue_box.add_child(scenario_choices)
-	story_controls = GridContainer.new() if portrait else HBoxContainer.new()
-	if story_controls is GridContainer:
-		(story_controls as GridContainer).columns = 2
-	dialogue_box.add_child(story_controls)
-	story_controls.add_child(_button("다음", _advance_story, false, Vector2(130, 58)))
-	story_controls.add_child(_button("AUTO", func(): story_auto = not story_auto; story_auto_left = 0.5, false, Vector2(120, 58)))
-	story_controls.add_child(_button("읽은 대사 SKIP", _skip_story, false, Vector2(190, 58)))
-	story_controls.add_child(_button("로그", _show_story_log, false, Vector2(110, 58)))
-	story_controls.add_child(_button("UI 숨기기", _toggle_story_ui, false, Vector2(140, 58)))
-	if SettingsService.values.developer_mode: story_controls.add_child(_button("DEV 전체 스킵", _dev_skip_story, false, Vector2(160, 58)))
-	scenario_runner = ScenarioRunner.new()
-	var loaded := scenario_runner.load_scenario(AppState.active_scenario_id, true)
-	if not loaded.ok:
-		scenario_text.text = loaded.error
+	var story_footer := HBoxContainer.new()
+	story_footer.name = "StoryProgressFooter"
+	story_footer.mouse_filter = Control.MOUSE_FILTER_PASS
+	dialogue_box.add_child(story_footer)
+	story_click_hint = _label("대화창 클릭 / 터치로 계속  >", _story_logical_px(16.0), Color("9af2df"))
+	story_click_hint.name = "StoryClickAdvanceHint"
+	story_click_hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	story_click_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	story_click_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if story_meta_font != null:
+		story_click_hint.add_theme_font_override("font", story_meta_font)
+	story_footer.add_child(story_click_hint)
+	story_page_indicator = _label("PAGE · -- / --", _story_logical_px(16.0), Color("b9d4dc"))
+	story_page_indicator.name = "StoryPageIndicator"
+	story_page_indicator.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	story_page_indicator.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if story_meta_font != null:
+		story_page_indicator.add_theme_font_override("font", story_meta_font)
+	story_footer.add_child(story_page_indicator)
+	if cinematic:
 		return
-	_refresh_story_art()
-	story_auto_left = 1.0
-	_advance_story()
+	var story_secondary_controls: Control = GridContainer.new() if portrait else HBoxContainer.new()
+	story_secondary_controls.name = "StorySecondaryControls"
+	if story_secondary_controls is GridContainer:
+		(story_secondary_controls as GridContainer).columns = 2
+	dialogue_box.add_child(story_secondary_controls)
+	story_secondary_controls.add_child(_story_button("다음", func(): _request_story_advance("button:next"), false, Vector2(130, 58)))
+	story_secondary_controls.add_child(_story_button("로그", _show_story_log, false, Vector2(110, 58)))
+	story_secondary_controls.add_child(_story_button("UI 숨기기", _toggle_story_ui, false, Vector2(140, 58)))
+	if SettingsService.is_developer_mode(): story_secondary_controls.add_child(_story_button("DEV 전체 스킵", _dev_skip_story, false, Vector2(160, 58)))
+
+func _prologue_stage_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.008, 0.016, 0.042, 0.96)
+	style.border_width_left = 1
+	style.border_width_top = 1
+	style.border_width_right = 1
+	style.border_width_bottom = 1
+	style.border_color = Color("4f8ea877")
+	style.corner_radius_top_left = 18
+	style.corner_radius_top_right = 18
+	style.corner_radius_bottom_left = 18
+	style.corner_radius_bottom_right = 18
+	return style
+
+func _prologue_plate_style(ui_scale: float) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.018, 0.036, 0.082, 0.76)
+	style.border_width_left = max(1, roundi(ui_scale))
+	style.border_color = Color("62d8c8")
+	style.corner_radius_top_right = roundi(12.0 * ui_scale)
+	style.corner_radius_bottom_right = roundi(12.0 * ui_scale)
+	style.content_margin_left = 18.0 * ui_scale
+	style.content_margin_right = 20.0 * ui_scale
+	style.content_margin_top = 10.0 * ui_scale
+	style.content_margin_bottom = 10.0 * ui_scale
+	return style
+
+func _story_dialogue_style(cinematic: bool) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.009, 0.021, 0.052, 0.93 if cinematic else 0.90)
+	var border_width := maxi(1, _story_logical_px(1.25))
+	style.border_width_left = border_width
+	style.border_width_top = border_width
+	style.border_width_right = border_width
+	style.border_width_bottom = border_width
+	style.border_color = Color("d7b967cc")
+	var radius := _story_logical_px(14.0)
+	style.corner_radius_top_left = radius
+	style.corner_radius_top_right = radius
+	style.corner_radius_bottom_left = radius
+	style.corner_radius_bottom_right = radius
+	style.content_margin_left = float(_story_logical_px(22.0))
+	style.content_margin_right = float(_story_logical_px(24.0))
+	style.content_margin_top = float(_story_logical_px(18.0))
+	style.content_margin_bottom = float(_story_logical_px(16.0))
+	style.shadow_color = Color(0.0, 0.0, 0.0, 0.34)
+	style.shadow_size = _story_logical_px(8.0)
+	return style
+
+func _style_story_overlay_button(button: Button, accent: Color) -> void:
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color(0.009, 0.025, 0.061, 0.95)
+	var border_width := maxi(1, _story_logical_px(1.25))
+	normal.border_width_left = border_width
+	normal.border_width_top = border_width
+	normal.border_width_right = border_width
+	normal.border_width_bottom = border_width
+	normal.border_color = accent
+	var radius := _story_logical_px(9.0)
+	normal.corner_radius_top_left = radius
+	normal.corner_radius_top_right = radius
+	normal.corner_radius_bottom_left = radius
+	normal.corner_radius_bottom_right = radius
+	normal.content_margin_left = float(_story_logical_px(14.0))
+	normal.content_margin_right = float(_story_logical_px(14.0))
+	var hover := normal.duplicate()
+	hover.bg_color = Color(accent.r * 0.16, accent.g * 0.16, accent.b * 0.16, 0.96)
+	var pressed := normal.duplicate()
+	pressed.bg_color = Color(accent.r * 0.24, accent.g * 0.24, accent.b * 0.24, 0.98)
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", pressed)
+	button.add_theme_stylebox_override("focus", hover)
+	button.add_theme_font_size_override("font_size", _story_logical_px(17.0))
+	button.add_theme_color_override("font_color", Color("f4f7ff"))
+	button.add_theme_color_override("font_hover_color", accent.lightened(0.28))
+
+func _on_story_text_box_input(event: InputEvent) -> void:
+	var pressed := false
+	var source := ""
+	if event is InputEventMouseButton:
+		var mouse_event := event as InputEventMouseButton
+		pressed = mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_LEFT
+		source = "dialogue:mouse"
+	elif event is InputEventScreenTouch:
+		pressed = (event as InputEventScreenTouch).pressed
+		source = "dialogue:touch"
+	if not pressed:
+		return
+	AudioService.unlock_from_user_gesture()
+	accept_event()
+	_request_story_text_box_advance(source)
+
+func _request_story_text_box_advance(source: String) -> bool:
+	if current_screen != "STORY" or scenario_runner == null or scenario_runner.state.waiting_for_choice:
+		return false
+	# The first click completes a line that is still typing; the next click moves
+	# to the following box. This keeps fast readers in control without skipping
+	# an unread line accidentally.
+	if scenario_text != null and scenario_text.visible_ratio < 0.999:
+		scenario_text.visible_ratio = 1.0
+		story_auto_left = float(SettingsService.values.auto_delay)
+		return true
+	return _request_story_advance(source)
+
+func _refresh_story_dialogue_chrome(command_type: String) -> void:
+	if story_speaker_eyebrow != null:
+		match command_type:
+			"narration": story_speaker_eyebrow.text = "LUMENBOUND · FIELD RECORD"
+			"choice": story_speaker_eyebrow.text = "LUMENBOUND · RESPONSE"
+			_: story_speaker_eyebrow.text = "LUMENBOUND · VOICE LINK"
+	if story_click_hint != null:
+		story_click_hint.text = "아래 응답을 선택해 계속" if command_type == "choice" else "대화창 클릭 / 터치로 계속  >"
+	if story_page_indicator == null or scenario_runner == null:
+		return
+	var current_command_index := int(scenario_runner.state.current_line.get("command_index", scenario_runner.state.command_index - 1))
+	var commands: Array = scenario_runner.scenario.get("commands", [])
+	var progress := story_page_progress(commands, current_command_index)
+	story_page_indicator.text = "PAGE · %02d / %02d" % [progress.x, progress.y] if progress.y > 0 else "PAGE · -- / --"
+
+func _rebuild_story_presentation() -> void:
+	_clear()
+	_show_story(true)
+
+func _restore_story_view_after_reflow() -> void:
+	if scenario_runner == null:
+		return
+	var command := scenario_runner.state.current_line
+	var type := str(command.get("command", ""))
+	if type in ["dialogue", "narration"]:
+		scenario_speaker.text = "나레이션" if type == "narration" else LocalizationService.tr_key(command.get("speaker_key", ""))
+		scenario_text.text = LocalizationService.tr_key(command.get("text_key", ""))
+		# A rotation is presentation-only: never restart the typewriter animation
+		# or consume the remaining automatic-advance delay.
+		scenario_text.visible_ratio = 1.0
+	elif type == "choice" or scenario_runner.state.waiting_for_choice:
+		scenario_speaker.text = "선택"
+		scenario_text.text = "당신의 기록 방식을 선택하세요."
+		for i in range(command.get("choices", []).size()):
+			var choice: Dictionary = command.choices[i]
+			scenario_choices.add_child(_story_button(LocalizationService.tr_key(choice.text_key), func(index := i): _request_story_choice(index, "button:choice"), false, Vector2(400, 58)))
+	else:
+		scenario_text.text = ""
+	_refresh_story_dialogue_chrome("choice" if scenario_runner.state.waiting_for_choice else type)
+	if story_ui_hidden:
+		scenario_text.visible = false
+		scenario_speaker.visible = false
+		scenario_choices.visible = false
+		story_speaker_eyebrow.visible = false
+		story_click_hint.visible = false
+		story_page_indicator.visible = false
+
+func story_header_data(scenario_id: String) -> Dictionary:
+	var scenario := DataRegistry.by_id("scenarios", scenario_id)
+	var title_key := str(scenario.get("title_key", ""))
+	var localized_title := LocalizationService.tr_key(title_key) if not title_key.is_empty() else LocalizationService.tr_key("UI_STORY_TITLE")
+	# Stable scenario IDs are useful diagnostics, but they are content-pipeline
+	# identifiers rather than player-facing episode names. Keep them exclusively
+	# behind the existing developer-mode gate.
+	return {
+		"title": localized_title,
+		"subtitle": scenario_id if SettingsService.is_developer_mode() else "",
+	}
+
+func _stage_display_name(stage_id: String) -> String:
+	var stage := DataRegistry.stage(stage_id)
+	if stage.is_empty():
+		return "작전 기록"
+	var name_key := str(stage.get("name_key", ""))
+	if name_key.is_empty():
+		return "작전 기록"
+	return LocalizationService.tr_key(name_key).replace(" (DEV)", "")
+
+func result_header_data(report: Dictionary) -> Dictionary:
+	var source_type := str(report.get("source_type", "BATTLE"))
+	var source_id := str(report.get("source_id", ""))
+	if source_id.is_empty() and source_type in ["BATTLE", "SWEEP"]:
+		source_id = str(AppState.selected_stage_id)
+	var title := "보상 결과"
+	var subtitle := "보상 정산"
+	match source_type:
+		"BATTLE":
+			title = "전투 결과"
+			subtitle = _stage_display_name(source_id)
+		"SWEEP":
+			title = "소탕 결과"
+			subtitle = _stage_display_name(source_id)
+		"TREASURE":
+			title = "탐색 보상"
+			subtitle = "현장 보급품 회수"
+		"MAP_EVENT":
+			title = "탐색 결과"
+			subtitle = "탐색 기록 완료"
+	if SettingsService.is_developer_mode() and not source_id.is_empty():
+		subtitle += " · [%s]" % source_id
+	return {"title": title, "subtitle": subtitle}
 
 func _advance_story() -> void:
 	if scenario_runner == null: return
@@ -689,11 +1491,13 @@ func _advance_story() -> void:
 	while guard < 20:
 		guard += 1
 		var command := scenario_runner.advance()
+		_persist_story_checkpoint()
 		_refresh_story_art()
 		var type := str(command.get("command", ""))
 		if type in ["dialogue", "narration"]:
 			scenario_speaker.text = "나레이션" if type == "narration" else LocalizationService.tr_key(command.get("speaker_key", ""))
 			scenario_text.text = LocalizationService.tr_key(command.get("text_key", ""))
+			_refresh_story_dialogue_chrome(type)
 			scenario_text.visible_ratio = 0.0
 			var reveal_duration := maxf(.05, scenario_text.text.length() * float(SettingsService.values.text_speed))
 			create_tween().tween_property(scenario_text, "visible_ratio", 1.0, reveal_duration)
@@ -702,17 +1506,17 @@ func _advance_story() -> void:
 		if type == "choice":
 			scenario_speaker.text = "선택"
 			scenario_text.text = "당신의 기록 방식을 선택하세요."
+			_refresh_story_dialogue_chrome(type)
 			for i in range(command.get("choices", []).size()):
 				var choice: Dictionary = command.choices[i]
-				scenario_choices.add_child(_button(LocalizationService.tr_key(choice.text_key), func(index := i): scenario_runner.choose(index); _advance_story(), false, Vector2(400, 58)))
+				scenario_choices.add_child(_button(LocalizationService.tr_key(choice.text_key), func(index := i): _request_story_choice(index, "button:choice"), false, Vector2(400, 58)))
 			return
 		if type == "start_battle":
 			AppState.selected_stage_id = command.stage_id
-			SceneRouter.go("FORMATION", {"then": "STAGE_DETAIL"})
+			SceneRouter.go("FORMATION", {"after": "STAGE_DETAIL"})
 			return
 		if type == "end_scenario" or scenario_runner.state.finished:
-			SaveService.save_game()
-			SceneRouter.go("FORMATION", {"then": "STAGE_SELECT"})
+			_finish_story_navigation()
 			return
 		if type in ["wait", "fade_in", "fade_out"]:
 			continue
@@ -720,12 +1524,52 @@ func _advance_story() -> void:
 			story_auto_left = 0.2
 			return
 
+func _request_story_advance(source: String) -> bool:
+	if current_screen != "STORY" or scenario_runner == null or scenario_runner.state.waiting_for_choice: return false
+	if not _consume_transition_edge("STORY_ADVANCE", source): return false
+	_advance_story()
+	return true
+
+func _request_story_choice(index: int, source: String) -> bool:
+	if current_screen != "STORY" or scenario_runner == null or not scenario_runner.state.waiting_for_choice: return false
+	if not _consume_transition_edge("STORY_CHOICE", source): return false
+	var chosen := scenario_runner.choose(index)
+	if not chosen.ok: return false
+	_persist_story_checkpoint()
+	_advance_story()
+	return true
+
+func _persist_story_checkpoint() -> void:
+	# ScenarioRunner owns the in-memory checkpoint.  The shell owns persistence:
+	# Web tabs do not reliably deliver a close notification, so interactive lines
+	# and choices must be written at their state boundary rather than only when a
+	# screen is left intentionally.
+	if scenario_runner == null or scenario_runner.state.scenario_id.is_empty():
+		return
+	if AppState.profile.last_scenario_position.has(scenario_runner.state.scenario_id):
+		story_checkpoint_dirty = true
+		if not story_checkpoint_save_scheduled:
+			story_checkpoint_save_scheduled = true
+			_flush_story_checkpoint_after_delay()
+
+func _flush_story_checkpoint_after_delay() -> void:
+	# Web file verification and atomic backup are intentionally off the physical
+	# button edge. Coalesce rapid Next/SKIP presses, paint the new line first, and
+	# persist one checkpoint after the short input burst.
+	await get_tree().create_timer(0.24).timeout
+	story_checkpoint_save_scheduled = false
+	if not story_checkpoint_dirty:
+		return
+	story_checkpoint_dirty = false
+	SaveService.save_game()
+
 func _refresh_story_art() -> void:
 	if scenario_runner == null: return
-	var background_id := scenario_runner.state.cg_asset_id if not scenario_runner.state.cg_asset_id.is_empty() else scenario_runner.state.background_asset_id
-	var background_path := AssetRegistry.resolve(background_id)
 	if story_background != null:
-		story_background.texture = load(background_path) as Texture2D if not background_path.is_empty() else null
+		story_background.texture = story_art_texture_for_state(scenario_runner.state.cg_asset_id, scenario_runner.state.background_asset_id)
+		story_background.visible = story_background.texture != null
+	if story_is_prologue and story_portrait_layer != null:
+		_refresh_prologue_portrait_layer()
 	var portrait_id := ""
 	if not scenario_runner.state.portraits.is_empty():
 		var slots := scenario_runner.state.portraits.keys()
@@ -736,22 +1580,149 @@ func _refresh_story_art() -> void:
 		story_portrait.texture = load(portrait_path) as Texture2D if not portrait_path.is_empty() else null
 		story_portrait.visible = not portrait_id.is_empty()
 	if story_art_status != null:
-		story_art_status.text = "STATIC ART • LOCAL ASSET"
+		if SettingsService.is_developer_mode():
+			story_art_status.text = "CINEMATIC PROLOGUE PREVIEW" if story_is_prologue else "ART PREVIEW"
+
+func _refresh_prologue_portrait_layer() -> void:
+	for child in story_portrait_layer.get_children():
+		story_portrait_layer.remove_child(child)
+		child.queue_free()
+	if scenario_runner == null or scenario_runner.state.portraits.is_empty():
+		return
+	var current_line: Dictionary = scenario_runner.state.current_line
+	var active_asset_id := _portrait_asset_for_speaker(str(current_line.get("speaker_key", "")))
+	var portrait_layout := _is_portrait_layout()
+	var ui_scale := _portrait_ui_scale()
+	var ordered_slots := ["LEFT", "CENTER", "RIGHT"]
+	for slot in scenario_runner.state.portraits.keys():
+		if str(slot) not in ordered_slots:
+			ordered_slots.append(str(slot))
+	for slot_index in range(ordered_slots.size()):
+		var slot := str(ordered_slots[slot_index])
+		if not scenario_runner.state.portraits.has(slot):
+			continue
+		var portrait_data: Dictionary = scenario_runner.state.portraits[slot]
+		var asset_id := str(portrait_data.get("asset_id", ""))
+		var texture := _asset_texture(asset_id)
+		if texture == null:
+			continue
+		var art := TextureRect.new()
+		art.name = "ProloguePortrait_%s" % slot
+		art.texture = texture
+		art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var is_active := active_asset_id.is_empty() or active_asset_id == asset_id
+		art.modulate = Color(0.88, 0.94, 1.0, 0.60 if is_active else 0.30)
+		_configure_prologue_portrait_rect(art, slot, portrait_layout, ui_scale)
+		story_portrait_layer.add_child(art)
+
+func _configure_prologue_portrait_rect(art: TextureRect, slot: String, portrait_layout: bool, ui_scale: float) -> void:
+	art.anchor_top = 1.0
+	art.anchor_bottom = 1.0
+	if portrait_layout:
+		match slot:
+			"LEFT":
+				art.anchor_left = 0.0
+				art.anchor_right = 0.0
+				art.offset_left = -92.0 * ui_scale
+				art.offset_right = 390.0 * ui_scale
+			"RIGHT":
+				art.anchor_left = 1.0
+				art.anchor_right = 1.0
+				art.offset_left = -390.0 * ui_scale
+				art.offset_right = 92.0 * ui_scale
+			_:
+				art.anchor_left = 0.5
+				art.anchor_right = 0.5
+				art.offset_left = -246.0 * ui_scale
+				art.offset_right = 246.0 * ui_scale
+		art.offset_top = -900.0 * ui_scale
+		art.offset_bottom = -220.0 * ui_scale
+		return
+	match slot:
+		"LEFT":
+			art.anchor_left = 0.0
+			art.anchor_right = 0.0
+			art.offset_left = -70.0
+			art.offset_right = 700.0
+		"RIGHT":
+			art.anchor_left = 1.0
+			art.anchor_right = 1.0
+			art.offset_left = -700.0
+			art.offset_right = 70.0
+		_:
+			art.anchor_left = 0.5
+			art.anchor_right = 0.5
+			art.offset_left = -385.0
+			art.offset_right = 385.0
+	art.offset_top = -900.0
+	art.offset_bottom = 36.0
+
+func _portrait_asset_for_speaker(speaker_key: String) -> String:
+	return str({
+		"SPEAKER_MAERU": "portrait_chr001_dev",
+		"SPEAKER_ROAN": "portrait_chr002_dev",
+		"SPEAKER_NARIN": "portrait_chr003_dev",
+		"SPEAKER_EDA": "portrait_chr004_dev",
+		"SPEAKER_SOREN": "portrait_chr005_dev",
+		"SPEAKER_IRI": "portrait_chr008_dev",
+	}.get(speaker_key, ""))
+
+func _toggle_story_auto() -> void:
+	story_auto = not story_auto
+	story_auto_left = 0.45
+	_refresh_story_control_states()
+
+func _refresh_story_control_states() -> void:
+	if story_auto_button != null:
+		story_auto_button.text = "AUTO  ON" if story_auto else "AUTO"
+		story_auto_button.add_theme_color_override("font_color", Color("8ff3e3") if story_auto else Color("f4f7ff"))
+	if story_skip_button != null:
+		story_skip_button.tooltip_text = "프롤로그 전체 건너뛰기" if story_is_prologue else "이미 읽은 대사 건너뛰기"
+
+func _skip_story_from_control() -> void:
+	if story_is_prologue:
+		_skip_prologue_to_end()
+	else:
+		_skip_story()
+
+func _skip_prologue_to_end() -> void:
+	if scenario_runner == null or not _consume_transition_edge("STORY_SKIP_ALL", "button:skip-all"):
+		return
+	var safety := 0
+	while not scenario_runner.state.finished and safety < 1000:
+		safety += 1
+		var command := scenario_runner.advance()
+		if str(command.get("command", "")) == "choice":
+			scenario_runner.choose(0)
+	_persist_story_checkpoint()
+	_finish_story_navigation()
 
 func _skip_story() -> void:
-	if scenario_runner != null and scenario_runner.can_skip_current(): _advance_story()
+	if scenario_runner != null and scenario_runner.can_skip_current(): _request_story_advance("button:skip")
 	else: footer_status.text = "읽은 대사만 건너뛸 수 있습니다."
 
 func _dev_skip_story() -> void:
-	if not SettingsService.values.developer_mode or scenario_runner == null: return
+	if not SettingsService.is_developer_mode() or scenario_runner == null: return
 	var safety := 0
 	while not scenario_runner.state.finished and safety < 1000:
 		safety += 1
 		var command := scenario_runner.advance()
 		if command.get("command", "") == "choice": scenario_runner.choose(0)
 		elif command.get("command", "") == "start_battle": continue
+	_finish_story_navigation()
+
+func _finish_story_navigation() -> void:
+	# STORY is entered from the home/archive as well as the chapter-map
+	# progression queue. Preserve the caller's stable return contract so a
+	# mandatory post-battle scene cannot strand the player in Formation.
+	var destination := str(AppState.route_payload.get("after", "FORMATION"))
+	if destination not in ["HOME", "ARCHIVE", "FORMATION", "STAGE_DETAIL", "STAGE_SELECT"]:
+		destination = "FORMATION"
+	story_checkpoint_dirty = false
 	SaveService.save_game()
-	SceneRouter.go("FORMATION")
+	SceneRouter.go(destination, {"story_return": true})
 
 func _show_story_log() -> void:
 	if scenario_runner == null: return
@@ -770,6 +1741,9 @@ func _toggle_story_ui() -> void:
 	scenario_text.visible = not story_ui_hidden
 	scenario_speaker.visible = not story_ui_hidden
 	scenario_choices.visible = not story_ui_hidden
+	if story_speaker_eyebrow != null: story_speaker_eyebrow.visible = not story_ui_hidden
+	if story_click_hint != null: story_click_hint.visible = not story_ui_hidden
+	if story_page_indicator != null: story_page_indicator.visible = not story_ui_hidden
 	if story_ui_hidden:
 		footer_status.text = "UI 숨김 — 화면 하단 버튼으로 복구"
 
@@ -808,23 +1782,41 @@ func _show_formation() -> void:
 		roster_card.add_child(_button("%s\n%s / %s" % [LocalizationService.tr_key(character.name_key), character.role, character.preferred_position], func(character_id: String = str(character.id)): AppState.set_party_slot(formation_slot, character_id); SaveService.save_game(); _show_screen("FORMATION"), not unlocked, Vector2(250, 74)))
 	var actions := HBoxContainer.new()
 	content.add_child(actions)
-	actions.add_child(_button("스테이지 선택으로", func(): SceneRouter.go("STAGE_SELECT"), false, Vector2(240, 64)))
+	var formation_destination := str(AppState.route_payload.get("after", "STAGE_SELECT"))
+	if formation_destination not in ["STAGE_DETAIL", "STAGE_SELECT"]:
+		formation_destination = "STAGE_SELECT"
+	var formation_action_text := "스테이지 상세로" if formation_destination == "STAGE_DETAIL" else "스테이지 선택으로"
+	actions.add_child(_button(formation_action_text, func(destination := formation_destination): SceneRouter.go(destination), false, Vector2(240, 64)))
 	actions.add_child(_button("저장", func(): _report_result(SaveService.save_game()), false, Vector2(140, 64)))
 
 func _show_stage_select() -> void:
-	_title("접근성 스테이지 목록", "R7 육각 맵 데이터 오류 또는 목록형 조작이 필요한 경우 사용하는 보존 화면")
+	var selected_stage: Dictionary = DataRegistry.stage(AppState.selected_stage_id)
+	var selected_chapter_id := str(selected_stage.get("chapter_id", "CH01"))
+	_title("접근성 스테이지 목록", "챕터별 장거리 육각 맵의 목록형 보존 화면")
+	var chapter_row := HBoxContainer.new()
+	content.add_child(chapter_row)
+	for chapter_value in DataRegistry.list_of("chapters"):
+		var chapter: Dictionary = chapter_value
+		var chapter_id := str(chapter.get("id", ""))
+		var progress: Dictionary = AppState.profile.get("chapter_progress", {}).get(chapter_id, {})
+		var chapter_name := LocalizationService.tr_key(str(chapter.get("name_key", "")))
+		chapter_row.add_child(_button(chapter_name, func(id := chapter_id, first_stage := str(chapter.get("normal_stage_ids", [""])[0])): AppState.selected_stage_id = first_stage; stage_mode = "NORMAL"; _show_screen("STAGE_SELECT"), chapter_id.is_empty() or not bool(progress.get("unlocked", false)), Vector2(190, 58)))
 	var mode_row := HBoxContainer.new()
 	content.add_child(mode_row)
 	mode_row.add_child(_button("NORMAL", func(): stage_mode = "NORMAL"; _show_screen("STAGE_SELECT"), stage_mode == "NORMAL", Vector2(180, 60)))
 	mode_row.add_child(_button("HARD", func(): stage_mode = "HARD"; _show_screen("STAGE_SELECT"), stage_mode == "HARD", Vector2(180, 60)))
-	if stage_mode == "HARD" and not AppState.profile.chapter_progress.CH01.hard_unlocked and not AppState.debug_options.unlock_all:
-		content.add_child(_label("HARD는 CH01-N10 클리어 후 해금됩니다.", 24, Color("ffbd7a")))
+	var selected_chapter: Dictionary = DataRegistry.chapter(selected_chapter_id)
+	var selected_progress: Dictionary = AppState.profile.get("chapter_progress", {}).get(selected_chapter_id, {})
+	if stage_mode == "HARD" and not bool(selected_progress.get("hard_unlocked", false)) and not AppState.debug_unlock_all_enabled():
+		var normal_route: Array = selected_chapter.get("normal_stage_ids", [])
+		var final_normal := str(normal_route.back()) if not normal_route.is_empty() else ""
+		content.add_child(_label("HARD는 %s 클리어 후 해금됩니다." % _stage_display_name(final_normal), 24, Color("ffbd7a")))
 	var grid := GridContainer.new()
 	grid.columns = 5
 	grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(grid)
 	for stage in DataRegistry.list_of("stages"):
-		if stage.mode != stage_mode: continue
+		if stage.mode != stage_mode or str(stage.get("chapter_id", "")) != selected_chapter_id: continue
 		var stars := int(AppState.profile.stage_stars.get(stage.id, 0))
 		var unlocked := AppState.is_stage_unlocked(stage.id)
 		var boss := " · 보스" if stage.boss else ""
@@ -832,15 +1824,27 @@ func _show_stage_select() -> void:
 		grid.add_child(_button("%s%s\n권장 Lv.%d\n%s" % [stage_name, boss, stage.recommended_level, "★".repeat(stars) + "☆".repeat(3 - stars)], func(stage_id: String = str(stage.id)): AppState.selected_stage_id = stage_id; SceneRouter.go("STAGE_DETAIL"), not unlocked, Vector2(235, 120)))
 
 func _show_chapter_map() -> void:
+	AppState.queue_story_event("MAP_ENTER")
+	var pending_story := AppState.next_pending_story_trigger()
+	if not pending_story.is_empty():
+		AppState.active_scenario_id = str(pending_story.get("scenario_id", ""))
+		SaveService.save_game()
+		SceneRouter.go("STORY", {"after": "STAGE_SELECT", "origin": "CHAPTER_MAP"})
+		return
 	AudioService.play_bgm("audio_bgm_lobby")
-	_title("제1장 — 꺼진 노선의 신호", "탐색 경로를 따라 조우를 선택하고, 기존 실시간 전투에 진입합니다.")
-	var definition: Dictionary = ChapterMapLoaderScript.load_map("CH01_MAP")
+	var selected_stage: Dictionary = DataRegistry.stage(AppState.selected_stage_id)
+	var chapter_id := str(selected_stage.get("chapter_id", "CH01"))
+	var chapter: Dictionary = DataRegistry.chapter(chapter_id)
+	var map_id := AppState.map_id_for_chapter(chapter_id)
+	_title(LocalizationService.tr_key(str(chapter.get("name_key", ""))), "탐색 경로를 따라 조우를 선택하고, 기존 실시간 전투에 진입합니다.")
+	var definition: Dictionary = ChapterMapLoaderScript.load_map(map_id)
 	var errors: Array[String] = ChapterMapLoaderScript.validate(definition)
 	if not errors.is_empty():
 		content.add_child(_label("맵 데이터 검증 실패\n" + "\n".join(errors), 22, Color("ff7f8a")))
 		content.add_child(_button("목록형 fail-safe 열기", func(): SceneRouter.go("STAGE_LIST_FALLBACK"), false, Vector2(260, 64)))
 		return
 	var map_screen = ChapterMapScene.instantiate()
+	map_screen.map_id = map_id
 	map_screen.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	map_screen.battle_requested.connect(_map_battle_requested)
 	map_screen.formation_requested.connect(func(): SceneRouter.go("FORMATION"))
@@ -848,10 +1852,11 @@ func _show_chapter_map() -> void:
 	map_screen.sweep_requested.connect(_map_sweep_requested)
 	map_screen.treasure_reward_requested.connect(_map_treasure_reward_requested)
 	content.add_child(map_screen)
+	active_chapter_map_screen = map_screen
+	_apply_chapter_map_shell_overrides()
 
 func _map_battle_requested(stage_id: String) -> void:
-	AppState.selected_stage_id = stage_id
-	_start_battle()
+	_request_battle_start("map:encounter", stage_id)
 
 func _map_sweep_requested(stage_id: String, count: int) -> void:
 	AppState.selected_stage_id = stage_id
@@ -881,23 +1886,31 @@ func _show_stage_detail() -> void:
 	reward_box.add_child(_label("추가 보상\n" + _format_reward_entries(reward.get("bonus", [])), 18, Color("cdd5e3")))
 	reward_box.add_child(_label("희귀 재료 8회 실패 후 다음 1회 보장\n소탕도 동일한 RewardResolver 사용", 17, Color("8e9aaf")))
 	var attempts := "무제한"
-	if stage.mode == "HARD": attempts = "%d/%d" % [AppState.profile.hard_attempts.counts.get(stage.id, 0), stage.daily_attempts]
+	if stage.mode == "HARD":
+		attempts = "무제한 (DEV)" if SettingsService.is_developer_mode() else "%d/%d" % [AppState.profile.hard_attempts.counts.get(stage.id, 0), stage.daily_attempts]
 	wave_box.add_child(_label("입장 횟수 %s   현재 %s/3성" % [attempts, AppState.profile.stage_stars.get(stage.id, 0)], 20, Color("e9c979")))
 	var actions := HBoxContainer.new()
 	content.add_child(actions)
 	actions.add_child(_button("파티 편성", func(): SceneRouter.go("FORMATION"), false, Vector2(190, 66)))
-	actions.add_child(_button("전투 시작", _start_battle, not AppState.can_enter_stage(stage.id), Vector2(210, 66)))
+	actions.add_child(_button("전투 시작", func(): _request_battle_start("button:battle_start"), not AppState.can_enter_stage(stage.id), Vector2(210, 66)))
 	for count in [1, 5, 10]:
 		var sweep_disabled: bool = int(AppState.profile.stage_stars.get(stage.id, 0)) < 3 or not AppState.can_enter_stage_count(stage.id, int(count))
 		actions.add_child(_button("소탕 %d회" % count, func(value: int = int(count)): _sweep(value), sweep_disabled, Vector2(160, 66)))
 
-func _start_battle() -> void:
-	if battle_transition_active: return
+func _request_battle_start(source: String, stage_id := "") -> bool:
+	if battle_transition_active: return false
+	if not _consume_transition_edge("BATTLE_START", source): return false
+	if not stage_id.is_empty(): AppState.selected_stage_id = stage_id
+	return _start_battle()
+
+func _start_battle() -> bool:
+	if battle_transition_active: return false
 	if not AppState.begin_battle_transaction(AppState.selected_stage_id):
 		footer_status.text = "입장 조건/작전력/일일 횟수를 확인하세요."
-		return
+		return false
 	battle_transition_active = true
 	_play_map_battle_transition()
+	return true
 
 func _play_map_battle_transition() -> void:
 	var veil := ColorRect.new()
@@ -906,19 +1919,205 @@ func _play_map_battle_transition() -> void:
 	veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	veil.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(veil)
+	var special_event := AppState.pending_map_special_event()
+	var encounter_presentation := AppState.pending_map_encounter_presentation()
 	var focus := Label.new()
-	focus.text = "◇  SIGNAL LOCK  ◇"
+	var stage := DataRegistry.stage(AppState.selected_stage_id)
+	var encounter_title := LocalizationService.tr_key(str(stage.get("name_key", AppState.selected_stage_id)))
+	if not special_event.is_empty():
+		encounter_title = LocalizationService.tr_key(str(special_event.get("title_key", "MAP_EVENT_DEFAULT_TITLE")))
+	elif not str(encounter_presentation.get("event_title_key", "")).is_empty():
+		encounter_title = LocalizationService.tr_key(str(encounter_presentation.get("event_title_key", "")))
+	var encounter_heading := "적군 조우"
+	if not special_event.is_empty():
+		encounter_heading = LocalizationService.tr_key("MAP_EVENT_CONTACT_SIGNAL")
+	elif str(encounter_presentation.get("transition_style", "")).to_upper() == "BOSS":
+		encounter_heading = LocalizationService.tr_key("MAP_BOSS_CONTACT_CAPTION")
+	focus.text = "%s\n%s" % [encounter_heading, encounter_title]
 	focus.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	focus.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	focus.add_theme_font_size_override("font_size", 42)
+	focus.add_theme_font_size_override("font_size", 48)
+	focus.add_theme_constant_override("outline_size", 8)
+	focus.add_theme_color_override("font_outline_color", Color("06101c"))
 	focus.modulate = Color("7cebd000")
 	focus.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	veil.add_child(focus)
+	var boss_card: PanelContainer
+	if str(encounter_presentation.get("transition_style", "")) == "BOSS":
+		# This is an original signal-readout card, not a copied reference layout.
+		# It only consumes map-authored localization keys and fades before the
+		# unchanged realtime battle scene owns input and simulation.
+		boss_card = PanelContainer.new()
+		boss_card.name = "BossEncounterTitleCard"
+		boss_card.set_anchors_preset(Control.PRESET_CENTER)
+		boss_card.position = Vector2(-330, 64)
+		boss_card.size = Vector2(660, 144)
+		boss_card.modulate = Color(1.0, 1.0, 1.0, 0.0)
+		var boss_style := StyleBoxFlat.new()
+		boss_style.bg_color = Color("17172ae8")
+		boss_style.border_color = Color("e6a85a")
+		boss_style.set_border_width_all(2)
+		boss_style.set_corner_radius_all(16)
+		boss_style.content_margin_left = 24
+		boss_style.content_margin_right = 24
+		boss_style.content_margin_top = 14
+		boss_style.content_margin_bottom = 14
+		boss_card.add_theme_stylebox_override("panel", boss_style)
+		veil.add_child(boss_card)
+		var boss_copy := VBoxContainer.new()
+		boss_copy.alignment = BoxContainer.ALIGNMENT_CENTER
+		boss_copy.add_theme_constant_override("separation", 3)
+		boss_card.add_child(boss_copy)
+		var boss_caption := _label(LocalizationService.tr_key("MAP_BOSS_CONTACT_CAPTION"), 15, Color("f3c884"))
+		boss_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		boss_copy.add_child(boss_caption)
+		var boss_name := _label(LocalizationService.tr_key(str(encounter_presentation.get("boss_name_key", "MAP_BOSS_UNKNOWN_NAME"))), 34, Color("fff0cf"))
+		boss_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		boss_copy.add_child(boss_name)
+		var boss_subtitle := _label(LocalizationService.tr_key(str(encounter_presentation.get("boss_subtitle_key", "MAP_BOSS_UNKNOWN_SUBTITLE"))), 17, Color("b9cfde"))
+		boss_subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		boss_copy.add_child(boss_subtitle)
+	if not special_event.is_empty():
+		var character := DataRegistry.character(str(special_event.get("character_id", "")))
+		var contact_character_ids: Array[String] = []
+		for character_id_value in special_event.get("character_ids", []):
+			var contact_character_id := str(character_id_value)
+			if not contact_character_id.is_empty() and not DataRegistry.character(contact_character_id).is_empty():
+				contact_character_ids.append(contact_character_id)
+		if contact_character_ids.is_empty() and not character.is_empty():
+			contact_character_ids.append(str(character.get("id", "")))
+		var event_panel := PanelContainer.new()
+		event_panel.name = "CompanionEventContactCard"
+		event_panel.set_anchors_preset(Control.PRESET_CENTER)
+		# Every authored companion encounter uses this same card frame: the
+		# recruitment outcome lives in a fixed bottom band instead of following
+		# the variable-length body copy.  This is presentation-only; the
+		# immutable outcome key is still owned by the map encounter payload.
+		# AppShell uses a 1920-wide design canvas.  A narrow desktop card
+		# became a narrow 192 physical px column in portrait Web, forcing Korean
+		# copy and the recruitment result into unreadable fragments.  Portrait uses
+		# the same card hierarchy but a deliberately wide, shallow frame so its
+		# fixed result band has a single reliable reading line.
+		var portrait_contact_layout := _is_portrait_layout()
+		var event_card_size := Vector2(1680, 690) if portrait_contact_layout else Vector2(820, 300)
+		event_panel.position = Vector2(-840, -330) if portrait_contact_layout else Vector2(-410, 60)
+		event_panel.size = event_card_size
+		event_panel.custom_minimum_size = event_card_size
+		event_panel.modulate = Color(1.0, 1.0, 1.0, 0.0)
+		var event_style := StyleBoxFlat.new()
+		event_style.bg_color = Color("102638e8")
+		event_style.border_color = Color("7cebd0")
+		event_style.set_border_width_all(2)
+		event_style.set_corner_radius_all(14)
+		event_style.content_margin_left = 14
+		event_style.content_margin_right = 18
+		event_style.content_margin_top = 10
+		event_style.content_margin_bottom = 10
+		event_panel.add_theme_stylebox_override("panel", event_style)
+		veil.add_child(event_panel)
+		var event_layout := VBoxContainer.new()
+		event_layout.add_theme_constant_override("separation", 8)
+		event_panel.add_child(event_layout)
+		var event_row := HBoxContainer.new()
+		event_row.add_theme_constant_override("separation", 12)
+		event_row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		event_layout.add_child(event_row)
+		if contact_character_ids.size() == 1 and not character.is_empty():
+			event_row.add_child(_art_rect(str(character.get("portrait_asset_id", "")), Vector2(126, 176)))
+		elif contact_character_ids.size() > 1:
+			# Duo contact keeps the established card and result-band geometry, but
+			# makes both faces and names independently readable before auto-battle.
+			# It is presentation-only: recruitment ownership remains in AppState.
+			var duo_portraits := HBoxContainer.new()
+			duo_portraits.name = "DuoContactPortraits"
+			duo_portraits.custom_minimum_size = Vector2(132, 132)
+			duo_portraits.add_theme_constant_override("separation", 5)
+			for contact_character_id in contact_character_ids.slice(0, 2):
+				var contact_definition := DataRegistry.character(str(contact_character_id))
+				var contact_column := VBoxContainer.new()
+				contact_column.name = "DuoContactPortrait_%s" % str(contact_character_id)
+				contact_column.custom_minimum_size = Vector2(63, 0)
+				contact_column.alignment = BoxContainer.ALIGNMENT_CENTER
+				contact_column.add_child(_art_rect(str(contact_definition.get("portrait_asset_id", "")), Vector2(62, 96)))
+				var contact_name := _label(_display_character_name(str(contact_character_id)), 12, Color("f6fffe"))
+				contact_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+				contact_name.add_theme_constant_override("outline_size", 1)
+				contact_name.add_theme_color_override("font_outline_color", Color("153e43"))
+				contact_column.add_child(contact_name)
+				duo_portraits.add_child(contact_column)
+			event_row.add_child(duo_portraits)
+		var event_copy := VBoxContainer.new()
+		event_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		event_row.add_child(event_copy)
+		event_copy.add_child(_label(LocalizationService.tr_key("MAP_EVENT_CONTACT_SIGNAL"), 21, Color("7cebd0")))
+		event_copy.add_child(_label(_display_character_name(str(special_event.get("character_id", ""))), 34, Color("ffe28a")))
+		var event_body := _label(LocalizationService.tr_key(str(special_event.get("body_key", "MAP_EVENT_DEFAULT_BODY"))), 22, Color("eef6ff"))
+		event_body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		event_copy.add_child(event_body)
+		var outcome_key := str(special_event.get("contact_outcome_key", ""))
+		if not outcome_key.is_empty():
+			var outcome_panel := PanelContainer.new()
+			outcome_panel.name = "CompanionOutcomePanel"
+			outcome_panel.custom_minimum_size = Vector2(0, 62)
+			var outcome_style := StyleBoxFlat.new()
+			outcome_style.bg_color = Color("082f3ee8")
+			outcome_style.border_color = Color("4fbfaa")
+			outcome_style.set_border_width_all(1)
+			outcome_style.set_corner_radius_all(8)
+			outcome_style.content_margin_left = 12
+			outcome_style.content_margin_right = 12
+			outcome_panel.add_theme_stylebox_override("panel", outcome_style)
+			event_layout.add_child(outcome_panel)
+			var outcome_row := HBoxContainer.new()
+			outcome_row.name = "CompanionOutcomeRow"
+			outcome_row.add_theme_constant_override("separation", 10)
+			outcome_panel.add_child(outcome_row)
+			var outcome_caption := _label("조우 결과", 19, Color("b8fff2"))
+			outcome_caption.custom_minimum_size = Vector2(102, 0)
+			outcome_caption.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+			outcome_row.add_child(outcome_caption)
+			# The caption stays quiet, while the actual recruitment rule is one
+			# deliberate emphasis step brighter and thicker.  This is the only
+			# readability polish suggested by the independent mobile-card review;
+			# position, payload, timing and encounter authority remain unchanged.
+			var outcome := _label(LocalizationService.tr_key(outcome_key), 24, Color("f5fffd"))
+			outcome.name = "CompanionOutcomeText"
+			outcome.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			outcome.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+			outcome.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			outcome.add_theme_constant_override("outline_size", 2)
+			outcome.add_theme_color_override("font_outline_color", Color("163f44"))
+			outcome_row.add_child(outcome)
 	var reduced := bool(SettingsService.values.get("map_reduced_transition", false))
-	var duration := 0.18 if reduced else 0.62
-	var tween := create_tween().set_parallel(true)
-	tween.tween_property(veil, "color", Color("06101cf2"), duration)
-	tween.tween_property(focus, "modulate", Color("a3fff0"), duration * 0.72)
+	# A companion contact carries player-facing context, so hold it long enough
+	# to be read before the existing battle scene takes ownership.  This remains
+	# presentation-only and does not delay or mutate the battle transaction.
+	# Event contacts are the only transitions that communicate a persistent
+	# player-facing outcome.  Keep the card on screen long enough to read its
+	# immediate/deferred recruitment result before battle begins.
+	var duration := 0.12 if reduced else (SPECIAL_EVENT_CONTACT_DURATION if not special_event.is_empty() else (BOSS_ENCOUNTER_CARD_DURATION if boss_card != null else 0.46))
+	if not special_event.is_empty() and debug_companion_card_visual_hold:
+		# Visual QA uses the exact production card, then gives the browser capture
+		# enough wall-clock time to sample it.  The flag is one-shot and can only
+		# be armed from the Development build's explicit fixture.
+		duration = 8.0
+		debug_companion_card_visual_hold = false
+	var intro_duration := minf(0.10, duration * 0.24)
+	var outro_duration := minf(0.08, duration * 0.18)
+	var hold_duration := maxf(0.02, duration - intro_duration - outro_duration)
+	var tween := create_tween()
+	tween.tween_property(veil, "color", Color("06101cf2"), intro_duration)
+	tween.parallel().tween_property(focus, "modulate", Color("fff0c8"), intro_duration)
+	if not special_event.is_empty():
+		tween.parallel().tween_property(veil.get_node_or_null("CompanionEventContactCard"), "modulate", Color.WHITE, intro_duration)
+	if boss_card != null:
+		tween.parallel().tween_property(boss_card, "modulate", Color.WHITE, intro_duration)
+	tween.tween_interval(hold_duration)
+	tween.tween_property(focus, "modulate", Color("fff0c800"), outro_duration)
+	if not special_event.is_empty():
+		tween.parallel().tween_property(veil.get_node_or_null("CompanionEventContactCard"), "modulate", Color("ffffff00"), outro_duration)
+	if boss_card != null:
+		tween.parallel().tween_property(boss_card, "modulate", Color("ffffff00"), outro_duration)
 	await tween.finished
 	veil.queue_free()
 	SceneRouter.go("BATTLE")
@@ -928,7 +2127,7 @@ func _show_battle() -> void:
 	var stage := DataRegistry.stage(AppState.selected_stage_id)
 	AudioService.play_bgm("audio_bgm_boss" if bool(stage.boss) else "audio_bgm_battle")
 	var simulation := BattleSimulation.new()
-	simulation.setup(AppState.create_party_snapshot(), stage, AppState.battle_seed, DataRegistry.data, {"invincible": AppState.debug_options.invincible, "enemy_multiplier": AppState.debug_options.enemy_multiplier})
+	simulation.setup(AppState.create_party_snapshot(), stage, AppState.battle_seed, DataRegistry.data, AppState.effective_battle_debug_options())
 	simulation.auto_enabled = bool(SettingsService.values.battle_auto)
 	battle_view = BattleViewScene.instantiate()
 	battle_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -977,23 +2176,29 @@ func _build_battle_overlay() -> void:
 		battle_actions.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	top.add_child(battle_actions)
 	battle_auto_button = _button("AUTO", _toggle_battle_auto, false, Vector2(130, 56))
+	battle_auto_button.name = "BattleAutoButton"
+	battle_auto_button.tooltip_text = "기본 공격·일반 스킬과 조건부 필살기를 자동 운용합니다."
 	battle_actions.add_child(battle_auto_button)
 	battle_speed_button = _button("×1", _cycle_battle_speed, false, Vector2(110, 56))
+	battle_speed_button.name = "BattleSpeedButton"
 	battle_actions.add_child(battle_speed_button)
 	battle_actions.add_child(_button("일시정지", _toggle_battle_pause, false, Vector2(140, 56)))
-	battle_actions.add_child(_button("나가기", _abandon_battle, false, Vector2(120, 56)))
+	battle_skip_button = _button("SKIP ▶", _skip_battle, false, Vector2(130, 56))
+	battle_skip_button.name = "BattleSkipButton"
+	battle_skip_button.tooltip_text = "현재 AUTO 설정과 전투 상태를 유지한 채 남은 전투를 즉시 계산합니다."
+	battle_actions.add_child(battle_skip_button)
 	var party_row: Container = GridContainer.new() if portrait else HBoxContainer.new()
 	party_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	if party_row is GridContainer:
-		# Two wide party readouts are more legible than three narrow columns. The
-		# old three-column layout wrapped character names into the action grid.
-		(party_row as GridContainer).columns = 2
-	party_row.add_theme_constant_override("separation", 8)
+		# Three compact readouts keep all five allies visible in two rows. Names and
+		# HP remain two-line cards while returning one full row to the battlefield.
+		(party_row as GridContainer).columns = 3
+	party_row.add_theme_constant_override("separation", roundi(6.0 * ui_scale) if portrait else 8)
 	overlay.add_child(party_row)
 	for unit in battle_view.simulation.state.party:
 		var status_label := _label("", 15, Color("cfe6ff"))
 		status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT if portrait else HORIZONTAL_ALIGNMENT_CENTER
-		status_label.custom_minimum_size = Vector2(0.0, 46.0 * ui_scale) if portrait else Vector2(0, 58)
+		status_label.custom_minimum_size = Vector2(0.0, 40.0 * ui_scale) if portrait else Vector2(0, 58)
 		party_status_labels.append(status_label)
 		if portrait:
 			# Party readouts sit over an animated battlefield. A translucent card
@@ -1010,14 +2215,18 @@ func _build_battle_overlay() -> void:
 	overlay.add_child(spacer)
 	var bottom: Container = GridContainer.new() if portrait else HBoxContainer.new()
 	if bottom is GridContainer:
-		(bottom as GridContainer).columns = 2
+		# Five ultimates remain simultaneously visible in a 3+2 arrangement instead
+		# of consuming three portrait rows. Child order (and therefore Tab order) is
+		# unchanged.
+		(bottom as GridContainer).columns = 3
 	else:
 		(bottom as HBoxContainer).alignment = BoxContainer.ALIGNMENT_CENTER
 	overlay.add_child(bottom)
 	for unit in battle_view.simulation.state.party:
 		var definition := DataRegistry.character(unit.def_id)
 		var skill := DataRegistry.skill(definition.ultimate_skill_id)
-		var button := _button("%s\nULT %d" % [LocalizationService.tr_key(definition.name_key), skill.tactical_cost], func(uid: String = str(unit.uid)): _request_ultimate(uid), false, Vector2(190 if portrait else 220, 72 if portrait else 78))
+		var button := _button("%s\nULT %d" % [LocalizationService.tr_key(definition.name_key), skill.tactical_cost], func(uid: String = str(unit.uid)): _request_ultimate(uid), false, Vector2(112 if portrait else 220, 64 if portrait else 78))
+		_apply_skill_icon(button, skill, 38 if portrait else 58)
 		ultimate_buttons.append(button)
 		bottom.add_child(button)
 	battle_pause_center = CenterContainer.new()
@@ -1044,6 +2253,7 @@ func _build_battle_overlay() -> void:
 	pause_box.add_child(_button("계속", _toggle_battle_pause, false, Vector2(300, 62)))
 	pause_box.add_child(_button("AUTO 전환", _toggle_battle_auto, false, Vector2(300, 62)))
 	pause_box.add_child(_button("배속 변경", _cycle_battle_speed, false, Vector2(300, 62)))
+	pause_box.add_child(_button("전투 SKIP", _skip_battle, false, Vector2(300, 62)))
 	var pause_actions := HBoxContainer.new()
 	pause_actions.alignment = BoxContainer.ALIGNMENT_CENTER
 	pause_box.add_child(pause_actions)
@@ -1057,7 +2267,7 @@ func _update_battle_hud() -> void:
 	var boss_text := ""
 	if simulation.has_boss():
 		var boss: Dictionary = simulation.alive_enemies().filter(func(unit): return unit.rank == "BOSS")[0]
-		boss_text = "  보스 %d/%d [위상 %s]" % [boss.hp, boss.max_hp, str(boss.get("phase", "PHASE_1")).replace("PHASE_", "")]
+		boss_text = "  보스 %d/%d [%s]" % [boss.hp, boss.max_hp, _boss_phase_hud_label(str(boss.get("phase", "PHASE_1")))]
 	battle_hud.text = "WAVE %d/%d   %.1fs   TACTICAL %.2f/10%s" % [simulation.state.wave, simulation.state.wave_count, remain, simulation.state.tactical_gauge, boss_text]
 	if battle_auto_button != null:
 		battle_auto_button.text = "AUTO ON" if simulation.auto_enabled else "AUTO OFF"
@@ -1078,6 +2288,12 @@ func _update_battle_hud() -> void:
 		var skill := DataRegistry.skill(unit.ultimate_skill_id)
 		ultimate_buttons[i].disabled = not SkillRuntime.can_use_ultimate(unit, skill, simulation.state.tactical_gauge)
 
+func _boss_phase_hud_label(phase_id: String) -> String:
+	match phase_id:
+		"PHASE_2": return LocalizationService.tr_key("BATTLE_BOSS_PHASE_2_HUD")
+		"ENRAGE": return LocalizationService.tr_key("BATTLE_BOSS_ENRAGE_HUD")
+		_: return LocalizationService.tr_key("BATTLE_BOSS_PHASE_1_HUD")
+
 func _battle_party_status_style() -> StyleBoxFlat:
 	var card := StyleBoxFlat.new()
 	card.bg_color = Color("071522d8")
@@ -1095,6 +2311,20 @@ func _toggle_battle_auto() -> void:
 	battle_view.simulation.auto_enabled = not battle_view.simulation.auto_enabled
 	SettingsService.values.battle_auto = battle_view.simulation.auto_enabled
 	_update_battle_hud()
+
+func _skip_battle() -> void:
+	if battle_view == null or battle_view.simulation == null or battle_view.emitted_finish or battle_view.skip_in_progress:
+		return
+	var skip_button := battle_skip_button
+	if skip_button != null:
+		skip_button.disabled = true
+		skip_button.text = "계산 중…"
+	var started := battle_view.skip_to_result()
+	# A successful skip emits battle_finished synchronously and replaces this
+	# screen.  Only restore the control when the simulation guard rejected it.
+	if not started and skip_button != null and is_instance_valid(skip_button):
+		skip_button.disabled = false
+		skip_button.text = "SKIP ▶"
 
 func _request_ultimate(unit_id: String) -> void:
 	if battle_view == null or battle_view.simulation == null: return
@@ -1143,18 +2373,28 @@ func _battle_finished(result: Dictionary) -> void:
 	last_rewards = {}
 	last_reward_report = {}
 	var pre_profile := AppState.profile.duplicate(true)
+	var battle_map_id := AppState.map_id_for_stage(AppState.selected_stage_id)
+	var pending_special_event := AppState.pending_map_special_event(battle_map_id)
+	var first := false
+	var story_queued := false
+	var stage_chapter_id := ""
 	if result.victory:
 		var stage := DataRegistry.stage(AppState.selected_stage_id)
+		stage_chapter_id = str(stage.get("chapter_id", ""))
 		var stars := 1 + (1 if int(result.survivors) == 5 else 0) + (1 if float(result.time) <= float(stage.target_time) else 0)
-		var first := AppState.record_stage_clear(stage.id, stars)
 		# A battle transaction receives one immutable token at entry.  Reloads,
-		# duplicate callbacks, and result-screen revisits cannot grant it twice.
-		if AppState.claim_pending_reward_once(stage.id):
+		# duplicate callbacks, and result-screen revisits cannot mutate canonical
+		# progression or grant it twice.  Claim is deliberately the commit gate:
+		# tokenless/stale victory callbacks remain presentation-only no-ops.
+		if AppState.claim_pending_reward_once(stage.id, battle_map_id):
+			first = AppState.record_stage_clear(stage.id, stars)
 			last_rewards = RewardService.resolve(stage.id, 1, AppState.battle_seed + int(result.ticks), first)
 			AccountProgression.grant_stage_xp(int(stage.stamina_cost), 20 if first else 0)
 			for character_id in AppState.get_party(): RelationshipService.grant(character_id, 10)
-	AppState.apply_battle_result_to_map(AppState.selected_stage_id, bool(result.get("victory", false)))
+			story_queued = AppState.queue_story_event("STAGE_CLEAR", str(stage.id))
+	AppState.apply_battle_result_to_map(AppState.selected_stage_id, bool(result.get("victory", false)), battle_map_id)
 	var post_profile := AppState.profile.duplicate(true)
+	var pending_story := AppState.next_pending_story_trigger() if story_queued else {}
 	last_reward_report = {
 		"source_type": "BATTLE",
 		"source_id": AppState.selected_stage_id,
@@ -1162,12 +2402,20 @@ func _battle_finished(result: Dictionary) -> void:
 		"pre_inventory": pre_profile.get("inventory", {}).duplicate(true),
 		"post_inventory": post_profile.get("inventory", {}).duplicate(true),
 		"growth": GrowthAffordabilityAnalyzerScript.analyze(pre_profile, post_profile),
+		"progress": {
+			"first_clear": first,
+			"newly_unlocked_stages": _newly_unlocked_stage_ids(pre_profile, post_profile),
+			"hard_route_unlocked": not stage_chapter_id.is_empty() and not bool(pre_profile.get("chapter_progress", {}).get(stage_chapter_id, {}).get("hard_unlocked", false)) and bool(post_profile.get("chapter_progress", {}).get(stage_chapter_id, {}).get("hard_unlocked", false)),
+			"pending_story_id": str(pending_story.get("scenario_id", "")),
+			"event_encounter": _event_encounter_result_payload(pending_special_event, bool(result.get("victory", false))),
+			"newly_recruited_characters": _newly_recruited_character_ids(pre_profile, post_profile),
+		},
 	}
 	SaveService.save_game()
 	SceneRouter.go("RESULT")
 
 func _abandon_battle() -> void:
-	AppState.abandon_pending_map_encounter()
+	AppState.abandon_pending_map_encounter(AppState.map_id_for_stage(AppState.selected_stage_id))
 	SaveService.save_game()
 	SceneRouter.go("STAGE_SELECT")
 
@@ -1179,6 +2427,32 @@ func _display_item_name(item_id: String) -> String:
 func _display_character_name(character_id: String) -> String:
 	var definition := DataRegistry.character(character_id)
 	return LocalizationService.tr_key(str(definition.get("name_key", character_id))).replace(" (DEV)", "")
+
+func _newly_recruited_character_ids(pre_profile: Dictionary, post_profile: Dictionary) -> Array[String]:
+	var recruited: Array[String] = []
+	for character_value in DataRegistry.list_of("characters"):
+		var character: Dictionary = character_value
+		var character_id := str(character.get("id", ""))
+		if character_id.is_empty():
+			continue
+		var before: Dictionary = pre_profile.get("roster", {}).get(character_id, {})
+		var after: Dictionary = post_profile.get("roster", {}).get(character_id, {})
+		if not bool(before.get("unlocked", false)) and bool(after.get("unlocked", false)):
+			recruited.append(character_id)
+	return recruited
+
+func _event_encounter_result_payload(special_event: Dictionary, victory: bool, map_id := "") -> Dictionary:
+	if special_event.is_empty() or not victory:
+		return {}
+	var character_id := str(special_event.get("character_id", ""))
+	var resolved_map_id := map_id if not map_id.is_empty() else AppState.map_id_for_stage(AppState.selected_stage_id)
+	var recruitment_state := str(AppState.chapter_map_state(resolved_map_id).get("recruitment_states", {}).get(character_id, ""))
+	return {
+		"character_id": character_id,
+		"recruitment_timing": str(special_event.get("recruitment_timing", "")),
+		"recruit_after_stage_id": str(special_event.get("recruit_after_stage_id", "")),
+		"recruitment_state": recruitment_state,
+	}
 
 func _display_runtime_name(runtime_id: String) -> String:
 	# Runtime IDs are stable save/combat keys, not player-facing text. Every
@@ -1232,6 +2506,99 @@ func _goto_growth_candidate(candidate: Dictionary) -> void:
 	if character_id.is_empty(): character_id = str(AppState.get_party()[0])
 	AppState.selected_character_id = character_id
 	SceneRouter.go("GROWTH")
+
+func _growth_plan_action_text(action: Dictionary) -> String:
+	var kind := str(action.get("kind", ""))
+	var character_id := str(action.get("character_id", ""))
+	if kind == "LEVEL":
+		return "%s · %s 사용" % [_display_character_name(character_id), _display_item_name(str(action.get("material_id", "")))]
+	if kind == "BREAKTHROUGH":
+		return "%s · 돌파" % _display_character_name(character_id)
+	if kind == "SKILL":
+		return "%s · %s 강화" % [_display_character_name(character_id), str(action.get("slot", "")).to_upper()]
+	var weapon_id := str(action.get("weapon_id", ""))
+	if kind == "WEAPON_LEVEL":
+		return "%s · %s 사용" % [_display_runtime_name(weapon_id), _display_item_name(str(action.get("material_id", "")))]
+	if kind == "WEAPON_TIER":
+		return "%s · 티어업" % _display_runtime_name(weapon_id)
+	return "권장 성장"
+
+func _apply_recommended_party_growth(max_actions := 12) -> void:
+	var before_profile := AppState.profile.duplicate(true)
+	var result: Dictionary = GrowthPlanBuilderScript.execute_recommended_batch(AppState.get_party(), max_actions)
+	last_growth_plan_actions = result.get("actions", []).duplicate(true)
+	var after_profile := AppState.profile.duplicate(true)
+	var accounting: Dictionary = result.get("accounting", {})
+	last_growth_plan_report = {
+		"requested_limit": mini(max_actions, 12),
+		"applied_count": last_growth_plan_actions.size(),
+		"planned_count": int(accounting.get("planned", 0)),
+		"successful_count": int(accounting.get("successful", last_growth_plan_actions.size())),
+		"rejected_count": int(accounting.get("rejected", 0)),
+		"preview_matches_execution": bool(result.get("preview_matches_execution", false)),
+		"planned_actions": result.get("preview_actions", []).duplicate(true),
+		"pre_inventory": before_profile.get("inventory", {}).duplicate(true),
+		"post_inventory": after_profile.get("inventory", {}).duplicate(true),
+		"pre_party": _party_growth_snapshot(before_profile),
+		"post_party": _party_growth_snapshot(after_profile),
+		"has_more": bool(result.get("has_more", not GrowthPlanBuilderScript.next_legal_action(AppState.get_party()).is_empty())),
+		"error": str(result.get("error", "")),
+	}
+	if not bool(result.get("ok", false)):
+		footer_status.text = "권장 성장 %d단계 적용 후 중단: %s" % [last_growth_plan_actions.size(), str(result.get("error", "UNKNOWN"))]
+		_show_screen("GROWTH")
+		return
+	if last_growth_plan_actions.is_empty():
+		footer_status.text = "현재 파티에 즉시 적용 가능한 권장 성장이 없습니다."
+	else:
+		SaveService.save_game()
+		footer_status.text = "권장 성장 %d단계 적용 완료%s" % [last_growth_plan_actions.size(), " · 추가 권장 성장 있음" if bool(last_growth_plan_report.get("has_more", false)) else ""]
+	_show_screen("GROWTH")
+
+func _party_growth_snapshot(profile_value: Dictionary) -> Dictionary:
+	var snapshot: Dictionary = {}
+	for character_id_value in AppState.get_party():
+		var character_id := str(character_id_value)
+		var state: Dictionary = profile_value.get("roster", {}).get(character_id, {})
+		snapshot[character_id] = {
+			"level": int(state.get("level", 1)),
+			"xp": int(state.get("xp", 0)),
+			"breakthrough": int(state.get("breakthrough", 0)),
+		}
+	return snapshot
+
+func _growth_plan_result_text(report: Dictionary) -> String:
+	if report.is_empty():
+		return ""
+	var level_changes: Array[String] = []
+	var before_party: Dictionary = report.get("pre_party", {})
+	var after_party: Dictionary = report.get("post_party", {})
+	for character_id_value in AppState.get_party():
+		var character_id := str(character_id_value)
+		var before: Dictionary = before_party.get(character_id, {})
+		var after: Dictionary = after_party.get(character_id, {})
+		if int(before.get("level", 1)) != int(after.get("level", 1)) or int(before.get("breakthrough", 0)) != int(after.get("breakthrough", 0)):
+			level_changes.append("%s Lv.%d→%d%s" % [_display_character_name(character_id), int(before.get("level", 1)), int(after.get("level", 1)), " · B%d→B%d" % [int(before.get("breakthrough", 0)), int(after.get("breakthrough", 0))] if int(before.get("breakthrough", 0)) != int(after.get("breakthrough", 0)) else ""])
+	var spent: Array[String] = []
+	var before_inventory: Dictionary = report.get("pre_inventory", {})
+	var after_inventory: Dictionary = report.get("post_inventory", {})
+	var ids: Array = before_inventory.keys()
+	ids.sort()
+	for item_id_value in ids:
+		var item_id := str(item_id_value)
+		var used := int(before_inventory.get(item_id, 0)) - int(after_inventory.get(item_id, 0))
+		if used > 0:
+			spent.append("%s %s" % [_display_item_name(item_id), MathUtil.comma(used)])
+	var message := "예정 %d · 실제 성공 %d/%d단계" % [int(report.get("planned_count", report.get("applied_count", 0))), int(report.get("successful_count", report.get("applied_count", 0))), int(report.get("requested_limit", 12))]
+	if int(report.get("rejected_count", 0)) > 0:
+		message += " · 거절 %d" % int(report.get("rejected_count", 0))
+	if not bool(report.get("preview_matches_execution", true)):
+		message += "\n경고: 예상과 실행 순서가 달라졌습니다."
+	if not level_changes.is_empty(): message += "\n파티 변화: " + " / ".join(level_changes)
+	if not spent.is_empty(): message += "\n소비: " + " · ".join(spent)
+	message += "\n" + ("추가 권장 성장 있음 — 계속 적용할 수 있습니다." if bool(report.get("has_more", false)) else "현재 권장 성장 단계가 없습니다.")
+	if not str(report.get("error", "")).is_empty(): message += "\n중단 사유: " + str(report.get("error", ""))
+	return message
 
 func _reward_item_card(parent: Node, item_name: String, amount: int, before: int, after: int, font_size: int) -> void:
 	var card := PanelContainer.new()
@@ -1314,10 +2681,100 @@ func _add_reward_clarity(parent: VBoxContainer, font_size: int) -> void:
 			parent.add_child(candidate_button)
 	var summary: Dictionary = growth.get("summary", {})
 	_reward_summary_card(parent, "현재 재료로 성장 가능한 후보\n레벨업 %d명 · 돌파 %d명 · 스킬 %d명 · 무기 강화 %d개 · 티어업 %d개" % [int(summary.get("level_characters", 0)), int(summary.get("breakthrough_characters", 0)), int(summary.get("skill_characters", 0)), int(summary.get("weapon_levels", 0)), int(summary.get("weapon_tiers", 0))], font_size)
+	_add_progress_unlock_summary(parent, font_size)
+
+func _unlocked_stage_ids_for_profile(profile_snapshot: Dictionary) -> Array[String]:
+	var unlocked: Array[String] = []
+	var stars: Dictionary = profile_snapshot.get("stage_stars", {})
+	for stage_value in DataRegistry.list_of("stages"):
+		var stage: Dictionary = stage_value
+		var stage_id := str(stage.get("id", ""))
+		var stage_number := int(stage.get("stage_number", 0))
+		var chapter_id := str(stage.get("chapter_id", ""))
+		var chapter_progress: Dictionary = profile_snapshot.get("chapter_progress", {}).get(chapter_id, {})
+		var chapter_definition: Dictionary = DataRegistry.chapter(chapter_id)
+		if not bool(chapter_progress.get("unlocked", false)):
+			continue
+		var is_unlocked := false
+		if str(stage.get("mode", "NORMAL")) == "HARD":
+			var hard_route: Array = chapter_definition.get("hard_stage_ids", [])
+			var prior_hard_id := str(hard_route[stage_number - 2]) if stage_number > 1 and stage_number - 2 < hard_route.size() else ""
+			is_unlocked = bool(chapter_progress.get("hard_unlocked", false)) and (stage_number == 1 or int(stars.get(prior_hard_id, 0)) > 0)
+		else:
+			is_unlocked = stage_number == 1 or int(chapter_progress.get("normal_highest", 0)) >= stage_number - 1
+		if is_unlocked and not stage_id.is_empty():
+			unlocked.append(stage_id)
+	unlocked.sort()
+	return unlocked
+
+func _newly_unlocked_stage_ids(pre_profile: Dictionary, post_profile: Dictionary) -> Array[String]:
+	var before := _unlocked_stage_ids_for_profile(pre_profile)
+	var newly: Array[String] = []
+	for stage_id in _unlocked_stage_ids_for_profile(post_profile):
+		if not before.has(stage_id):
+			newly.append(stage_id)
+	return newly
+
+func _add_progress_unlock_summary(parent: VBoxContainer, font_size: int) -> void:
+	var progress: Dictionary = last_reward_report.get("progress", {})
+	if progress.is_empty():
+		return
+	var lines: Array[String] = []
+	if bool(progress.get("first_clear", false)):
+		lines.append("첫 클리어 기록 완료")
+	var newly: Array = progress.get("newly_unlocked_stages", [])
+	for stage_id_value in newly:
+		var stage := DataRegistry.stage(str(stage_id_value))
+		lines.append("새 작전 해금 · %s" % LocalizationService.tr_key(str(stage.get("name_key", stage_id_value))))
+	if bool(progress.get("hard_route_unlocked", false)):
+		lines.append("HARD 탐색 경로가 열렸습니다.")
+	var event_encounter: Dictionary = progress.get("event_encounter", {})
+	if not event_encounter.is_empty():
+		var event_name := _display_character_name(str(event_encounter.get("character_id", "")))
+		if str(event_encounter.get("recruitment_state", "")) == "READY":
+			lines.append(LocalizationService.tr_key("RESULT_EVENT_RECRUITED") % event_name)
+		elif str(event_encounter.get("recruitment_state", "")) == "PENDING":
+			var later_stage := DataRegistry.stage(str(event_encounter.get("recruit_after_stage_id", "")))
+			var later_name := LocalizationService.tr_key(str(later_stage.get("name_key", "")))
+			lines.append(LocalizationService.tr_key("RESULT_EVENT_TRACKING") % [event_name, later_name])
+	for character_id_value in progress.get("newly_recruited_characters", []):
+		var recruited_name := _display_character_name(str(character_id_value))
+		var recruited_line := LocalizationService.tr_key("RESULT_EVENT_RECRUITED") % recruited_name
+		if not lines.has(recruited_line):
+			lines.append(recruited_line)
+	var scenario_id := str(progress.get("pending_story_id", ""))
+	if not scenario_id.is_empty():
+		var scenario := DataRegistry.by_id("scenarios", scenario_id)
+		var title_key := str(scenario.get("title_key", ""))
+		lines.append("이어지는 이야기 · %s" % (LocalizationService.tr_key(title_key) if not title_key.is_empty() else LocalizationService.tr_key("UI_STORY_TITLE")))
+	if not lines.is_empty():
+		_reward_summary_card(parent, "진행 변화\n" + "\n".join(lines), font_size)
+
+func _result_feature_character() -> Dictionary:
+	return result_feature_character_for_report(last_reward_report, AppState.get_party())
+
+func result_feature_character_for_report(report: Dictionary, party: Array) -> Dictionary:
+	# A companion-contact victory is a story result as well as a battle result.
+	# The eventual N09-style recruitment has no pending special-event payload, so
+	# newly committed recruits take precedence. This prevents a genuine delayed
+	# join notice from being paired with an unrelated party-lead portrait.
+	var progress: Dictionary = report.get("progress", {})
+	for recruited_id_value in progress.get("newly_recruited_characters", []):
+		var recruited_character := DataRegistry.character(str(recruited_id_value))
+		if not recruited_character.is_empty():
+			return recruited_character
+	var event_encounter: Dictionary = progress.get("event_encounter", {})
+	var event_character_id := str(event_encounter.get("character_id", ""))
+	if not event_character_id.is_empty():
+		var event_character := DataRegistry.character(event_character_id)
+		if not event_character.is_empty():
+			return event_character
+	return DataRegistry.character(str(party[0])) if not party.is_empty() else {}
 
 func _show_result() -> void:
 	AudioService.play_bgm("audio_bgm_lobby")
-	_title("탐색 보상" if str(last_reward_report.get("source_type", "")) != "BATTLE" else "전투 결과", str(last_reward_report.get("source_id", AppState.selected_stage_id)))
+	var result_header := result_header_data(last_reward_report)
+	_title(str(result_header.title), str(result_header.subtitle))
 	# A desktop-side illustration/report split spills past a 390 px portrait
 	# viewport.  Keep the complete report scrollable, but reserve a separate
 	# bottom action rail inside the device safe area so map return is never
@@ -1333,16 +2790,17 @@ func _show_result() -> void:
 	report_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	report_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(report_scroll)
+	var compact_landscape := _is_compact_landscape_layout()
 	var hero := HBoxContainer.new()
 	hero.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hero.custom_minimum_size = Vector2(0.0, 500.0)
+	hero.custom_minimum_size = Vector2(0.0, 360.0 if compact_landscape else 500.0)
 	hero.add_theme_constant_override("separation", 18)
 	report_scroll.add_child(hero)
-	var lead := DataRegistry.character(AppState.get_party()[0])
+	var lead := _result_feature_character()
 	var art_panel := PanelContainer.new()
-	art_panel.custom_minimum_size = Vector2(260, 500)
+	art_panel.custom_minimum_size = Vector2(220, 360) if compact_landscape else Vector2(260, 500)
 	hero.add_child(art_panel)
-	art_panel.add_child(_art_rect(str(lead.portrait_asset_id), Vector2(240, 470)))
+	art_panel.add_child(_art_rect(str(lead.portrait_asset_id), Vector2(200, 330) if compact_landscape else Vector2(240, 470)))
 	var box := _panel_box(hero)
 	box.add_child(_label("VICTORY" if last_battle_result.get("victory", false) else "DEFEAT", 52, Color("f1d77a") if last_battle_result.get("victory", false) else Color("ff7f8a")))
 	box.add_child(_label("시간 %.2fs  ·  생존 %d" % [last_battle_result.get("time", 0), last_battle_result.get("survivors", 0)], 26))
@@ -1350,7 +2808,7 @@ func _show_result() -> void:
 	box.add_child(_label("가한 피해\n%s\n\n회복\n%s" % [_format_counts(last_battle_result.get("damage", {})), _format_counts(last_battle_result.get("healing", {}))], 19, Color("cdd5e3")))
 	var actions := HBoxContainer.new()
 	content.add_child(actions)
-	actions.add_child(_button("캐릭터 성장", func(): AppState.selected_character_id = AppState.get_party()[0]; SceneRouter.go("GROWTH"), false, Vector2(220, 66)))
+	actions.add_child(_button("권장 파티 성장", func(): AppState.selected_character_id = str(AppState.get_party()[0]); SceneRouter.go("GROWTH"), false, Vector2(220, 66)))
 	actions.add_child(_button("챕터 맵으로", func(): SceneRouter.go("STAGE_SELECT"), false, Vector2(220, 66)))
 	actions.add_child(_button("홈", func(): SceneRouter.go("HOME"), false, Vector2(160, 66)))
 
@@ -1365,7 +2823,7 @@ func _show_result_portrait() -> void:
 	report.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	report.add_theme_constant_override("separation", roundi(10.0 * ui_scale))
 	report_scroll.add_child(report)
-	var lead := DataRegistry.character(AppState.get_party()[0])
+	var lead := _result_feature_character()
 	var art_panel := PanelContainer.new()
 	art_panel.custom_minimum_size = Vector2(0.0, 224.0 * ui_scale)
 	report.add_child(art_panel)
@@ -1376,11 +2834,12 @@ func _show_result_portrait() -> void:
 	box.add_child(_label("결정론 기록  %s" % str(last_battle_result.get("event_hash", "")).left(16), 14, Color("7e9dbd")))
 	_add_reward_clarity(box, 16)
 	box.add_child(_label("가한 피해\n%s\n\n회복\n%s" % [_format_counts(last_battle_result.get("damage", {})), _format_counts(last_battle_result.get("healing", {}))], 15, Color("cdd5e3")))
-	var actions := VBoxContainer.new()
+	var actions := GridContainer.new()
+	actions.columns = 2
 	actions.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	actions.add_theme_constant_override("separation", roundi(7.0 * ui_scale))
 	content.add_child(actions)
-	actions.add_child(_button("캐릭터 성장", func(): AppState.selected_character_id = AppState.get_party()[0]; SceneRouter.go("GROWTH"), false, Vector2(320, 52)))
+	actions.add_child(_button("권장 파티 성장", func(): AppState.selected_character_id = str(AppState.get_party()[0]); SceneRouter.go("GROWTH"), false, Vector2(320, 52)))
 	actions.add_child(_button("챕터 맵으로", func(): SceneRouter.go("STAGE_SELECT"), false, Vector2(320, 52)))
 	actions.add_child(_button("홈", func(): SceneRouter.go("HOME"), false, Vector2(320, 52)))
 
@@ -1403,14 +2862,15 @@ func _sweep(count: int) -> void:
 	else: footer_status.text = result.error
 
 func _show_roster() -> void:
-	_title("캐릭터 목록", "8명 • 역할/위치/공격/방어 계통 검증")
+	_title("캐릭터 목록", "44명 • 역할/위치/공격/방어 계통 검증")
 	var grid := GridContainer.new()
 	grid.columns = 4
 	grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(grid)
 	for character in DataRegistry.list_of("characters"):
 		var progress: Dictionary = AppState.profile.roster[character.id]
-		grid.add_child(_button("%s\n%s • %s\nLv.%d B%d • 관계 %d" % [LocalizationService.tr_key(character.name_key), character.role, character.preferred_position, progress.level, progress.breakthrough, progress.relationship_level], func(character_id: String = str(character.id)): AppState.selected_character_id = character_id; SceneRouter.go("CHARACTER_DETAIL"), not progress.unlocked, Vector2(290, 130)))
+		var lock_prefix := "잠김 · " if not bool(progress.unlocked) else ""
+		grid.add_child(_button("%s%s\n%s • %s\nLv.%d B%d • 관계 %d" % [lock_prefix, LocalizationService.tr_key(character.name_key), character.role, character.preferred_position, progress.level, progress.breakthrough, progress.relationship_level], func(character_id: String = str(character.id)): AppState.selected_character_id = character_id; SceneRouter.go("CHARACTER_DETAIL"), false, Vector2(290, 130)))
 
 func _show_growth() -> void:
 	var cid := AppState.selected_character_id
@@ -1422,27 +2882,69 @@ func _show_growth() -> void:
 	hero.add_theme_constant_override("separation", 18)
 	content.add_child(hero)
 	var portrait_panel := PanelContainer.new()
-	portrait_panel.custom_minimum_size = Vector2(270, 330)
+	portrait_panel.custom_minimum_size = Vector2(306, 372)
 	hero.add_child(portrait_panel)
-	portrait_panel.add_child(_art_rect(str(definition.portrait_asset_id), Vector2(250, 310)))
+	portrait_panel.add_child(_art_rect(str(definition.portrait_asset_id), Vector2(282, 350)))
 	var summary := _panel_box(hero)
 	summary.add_child(_label("%s / %s / %s→%s" % [definition.role, definition.preferred_position, definition.attack_type, definition.defense_type], 23, Color("91d8d0")))
 	summary.add_child(_label("Lv.%d (상한 %d)  EXP %d   B%d   관계 Lv.%d" % [progress.level, CharacterProgression.level_cap(progress), progress.xp, progress.breakthrough, progress.relationship_level], 25))
 	summary.add_child(_label("상세 능력치\n%s" % _format_stats(CharacterProgression.final_stats(cid)), 19, Color("a8bed8")))
+	if not bool(progress.unlocked):
+		summary.add_child(_label("스토리 해금 전 프로필입니다. 초상화·역할·기본 능력치는 확인할 수 있지만 성장, 장비, 편성 및 보상 적용은 해금 후에만 가능합니다.", 18, Color("f1d77a")))
+		return
 	var level_preview := CharacterProgression.preview(cid, "TRAINING_NOTE_L", 1)
 	summary.add_child(_label("레벨업 예상: Lv.%d / EXP %d • 크레딧 %s • 잉여 EXP %d" % [level_preview.level, level_preview.xp, MathUtil.comma(int(level_preview.credit_cost)), level_preview.unused_xp], 18, Color("f1d77a") if int(level_preview.unused_xp) > 0 else Color("8fe0b6")))
+	var party_selector := HBoxContainer.new()
+	party_selector.add_theme_constant_override("separation", 8)
+	content.add_child(party_selector)
+	for party_id_variant in AppState.get_party():
+		var party_id := str(party_id_variant)
+		party_selector.add_child(_button(_display_character_name(party_id), func(value: String = party_id): AppState.selected_character_id = value; _show_screen("GROWTH"), party_id == cid, Vector2(156, 52)))
+	var next_plan_action: Dictionary = GrowthPlanBuilderScript.next_legal_action(AppState.get_party())
+	var plan_preview: Dictionary = GrowthPlanBuilderScript.preview_recommended_batch(AppState.get_party(), 12) if not next_plan_action.is_empty() else {}
+	var plan_box := _panel_box(content)
+	plan_box.add_child(_label("권장 파티 성장", 22, Color("f1d77a")))
+	if next_plan_action.is_empty():
+		plan_box.add_child(_label("현재 보유 재료로 즉시 적용 가능한 파티 성장 항목이 없습니다.", 17, Color("91aac8")))
+	else:
+		var preview_texts: Array[String] = []
+		var preview_actions: Array = plan_preview.get("actions", [])
+		for preview_action_value in preview_actions.slice(0, 3):
+			preview_texts.append(_growth_plan_action_text(preview_action_value))
+		var preview_suffix := " 외 %d건" % (preview_actions.size() - preview_texts.size()) if preview_actions.size() > preview_texts.size() else ""
+		plan_box.add_child(_label("다음: %s\n예정 %d단계: %s%s\n균형 우선으로 실제 재료·크레딧을 검증해 최대 12단계만 적용합니다. 개별 성장 규칙과 재료 차감은 동일 서비스가 처리합니다." % [_growth_plan_action_text(next_plan_action), preview_actions.size(), " / ".join(preview_texts), preview_suffix], 17, Color("c7d9ed")))
+		var recommended_label := "권장 성장 계속 · 최대 12단계" if bool(last_growth_plan_report.get("has_more", false)) and not last_growth_plan_actions.is_empty() else "권장 파티 성장 적용 · 최대 12단계"
+		var recommended_button := _button(recommended_label, func(): _apply_recommended_party_growth(12), false, Vector2(360, 62))
+		_make_primary_button(recommended_button)
+		plan_box.add_child(recommended_button)
+	if not last_growth_plan_actions.is_empty():
+		var action_texts: Array[String] = []
+		for action in last_growth_plan_actions.slice(0, 4):
+			action_texts.append(_growth_plan_action_text(action))
+		var suffix := " 외 %d건" % (last_growth_plan_actions.size() - action_texts.size()) if last_growth_plan_actions.size() > action_texts.size() else ""
+		plan_box.add_child(_label("직전 적용 %d단계: %s%s" % [last_growth_plan_actions.size(), " / ".join(action_texts), suffix], 15, Color("8fe0b6")))
+		plan_box.add_child(_label(_growth_plan_result_text(last_growth_plan_report), 16, Color("c7d9ed")))
 	var grid := GridContainer.new()
 	grid.columns = 3
 	content.add_child(grid)
-	var level_disabled: bool = AppState.inventory_count("TRAINING_NOTE_L") < 1 or AppState.inventory_count("CREDIT") < int(level_preview.credit_cost) or int(level_preview.unused_xp) > 0 or int(progress.level) >= CharacterProgression.level_cap(progress)
-	grid.add_child(_button("레벨업\n%s %d개" % [_display_item_name("TRAINING_NOTE_L"), AppState.inventory_count("TRAINING_NOTE_L")], func(): _report_result(CharacterProgression.use_material(cid, "TRAINING_NOTE_L", 1)); _show_screen("GROWTH"), level_disabled, Vector2(290, 86)))
+	# Offer every authored training-note denomination.  The actual preview/service
+	# remains the authority, so an oversized note cannot silently waste EXP at a
+	# breakthrough cap and smaller legal notes remain usable in the Web UI.
+	for material_id in ["TRAINING_NOTE_S", "TRAINING_NOTE_M", "TRAINING_NOTE_L", "TRAINING_NOTE_XL"]:
+		var material_preview := CharacterProgression.preview(cid, material_id, 1)
+		var material_disabled: bool = AppState.inventory_count(material_id) < 1 or AppState.inventory_count("CREDIT") < int(material_preview.credit_cost) or int(material_preview.unused_xp) > 0 or int(progress.level) >= CharacterProgression.level_cap(progress)
+		grid.add_child(_button("레벨업\n%s %d개 · Lv.%d" % [_display_item_name(material_id), AppState.inventory_count(material_id), int(material_preview.level)], func(value: String = material_id): _report_result(CharacterProgression.use_material(cid, value, 1)); _show_screen("GROWTH"), material_disabled, Vector2(290, 86)))
 	grid.add_child(_button("돌파 B%d→B%d" % [progress.breakthrough, mini(5, int(progress.breakthrough) + 1)], func(): _report_result(BreakthroughService.upgrade(cid)); _show_screen("GROWTH"), int(progress.breakthrough) >= 5, Vector2(290, 86)))
 	grid.add_child(_button("관계 경험 +50 (DEV 선물)", func(): RelationshipService.grant(cid, 50); _show_screen("GROWTH"), int(progress.relationship_level) >= 20, Vector2(290, 86)))
 	for slot in ["normal", "passive", "ultimate"]:
 		var comparison := SkillUpgradeService.comparison(cid, slot)
 		var max_level := 5 if slot == "ultimate" else 10
 		var next_text := "MAX" if comparison.max else "%.3f→%.3f (+%.3f)" % [comparison.current, comparison.next, comparison.increase]
-		grid.add_child(_button("%s Lv.%d/%d\n%s" % [slot.to_upper(), progress.skills[slot], max_level, next_text], func(value: String = str(slot)): _report_result(SkillUpgradeService.upgrade(cid, value)); _show_screen("GROWTH"), comparison.max, Vector2(290, 98)))
+		var skill_id := str(definition.get(slot + "_skill_id", ""))
+		var skill := DataRegistry.skill(skill_id)
+		var skill_button := _button("%s Lv.%d/%d\n%s" % [LocalizationService.tr_key(str(skill.get("name_key", slot.to_upper()))).replace(" (DEV)", ""), progress.skills[slot], max_level, next_text], func(value: String = str(slot)): _report_result(SkillUpgradeService.upgrade(cid, value)); _show_screen("GROWTH"), comparison.max, Vector2(290, 98))
+		_apply_skill_icon(skill_button, skill, 64)
+		grid.add_child(skill_button)
 	var weapon_id := str(progress.equipped_weapon_id)
 	var weapon_state: Dictionary = AppState.profile.weapons[weapon_id]
 	var weapon_preview := WeaponUpgradeService.preview(weapon_id, "WEAPON_CHIP_M", 1)
@@ -1532,7 +3034,7 @@ func _show_archive() -> void:
 	content.add_child(grid)
 	for scenario in DataRegistry.list_of("scenarios"):
 		var relation_locked: bool = str(scenario.chapter_id) == "REL" and ((str(scenario.id) == "SCN_REL_MAERU" and int(AppState.profile.roster.CHR001.relationship_level) < 2) or (str(scenario.id) == "SCN_REL_IRI" and int(AppState.profile.roster.CHR008.relationship_level) < 2))
-		grid.add_child(_button("%s\n%s" % [LocalizationService.tr_key(scenario.title_key), scenario.chapter_id], func(scenario_id: String = str(scenario.id)): AppState.active_scenario_id = scenario_id; AppState.profile.last_scenario_position.erase(scenario_id); SceneRouter.go("STORY"), relation_locked, Vector2(320, 90)))
+		grid.add_child(_button("%s\n%s" % [LocalizationService.tr_key(scenario.title_key), scenario.chapter_id], func(scenario_id: String = str(scenario.id)): AppState.active_scenario_id = scenario_id; AppState.profile.last_scenario_position.erase(scenario_id); SceneRouter.go("STORY", {"after": "ARCHIVE"}), relation_locked, Vector2(320, 90)))
 
 func _show_settings() -> void:
 	_title("설정", "로컬 설정은 저장 파일에 보존")
@@ -1556,13 +3058,18 @@ func _show_license() -> void:
 	box.add_child(_label("Godot Engine\nMIT License — Copyright Godot Engine contributors. 전체 라이선스는 배포본의 LICENSES 문서를 참조하십시오.\n\n공용 Asset Share Procedural Factory\nMIT / 버전 0.1.0. 동기화된 결과는 DEV_PLACEHOLDER이며 원본 manifest SHA-256과 출처를 보존합니다.\n\n현재 신규 코드 기반 도형 UI/SD placeholder는 프로젝트 자체 제작물입니다. 외부 생성 API나 원격 에셋은 사용하지 않았습니다.", 20))
 
 func _show_debug() -> void:
+	if not SettingsService.is_developer_mode():
+		SceneRouter.go("HOME")
+		return
 	_title("개발자 디버그", "일반 저장 규칙과 분리된 로컬 개발 옵션")
 	var box := _scroll_box()
 	var grid := GridContainer.new()
-	grid.columns = 3
+	# Two portrait columns fit the 390px safe width; the creation order remains
+	# untouched so keyboard QA keeps the established Tab sequence.
+	grid.columns = 2 if _is_portrait_layout() else 3
 	box.add_child(grid)
 	grid.add_child(_button("모든 재료 999", func(): AppState.grant_all_materials(); _show_screen("DEBUG"), false, Vector2(280, 72)))
-	grid.add_child(_button("8명 모두 해금", func(): _debug_unlock_roster(); _show_screen("DEBUG"), false, Vector2(280, 72)))
+	grid.add_child(_button("전체 동료 해금", func(): _debug_unlock_roster(); _show_screen("DEBUG"), false, Vector2(280, 72)))
 	grid.add_child(_button("스테이지 전체 해금: %s" % AppState.debug_options.unlock_all, func(): AppState.debug_options.unlock_all = not AppState.debug_options.unlock_all; _show_screen("DEBUG"), false, Vector2(280, 72)))
 	grid.add_child(_button("선택 캐릭터 +10레벨", func(): _debug_level_character(10); _show_screen("DEBUG"), false, Vector2(280, 72)))
 	grid.add_child(_button("선택 캐릭터 10/10/5", func(): AppState.profile.roster[AppState.selected_character_id].skills = {"normal": 10, "passive": 10, "ultimate": 5}; _show_screen("DEBUG"), false, Vector2(280, 72)))
@@ -1572,6 +3079,14 @@ func _show_debug() -> void:
 	grid.add_child(_button("계정 Lv.100", func(): AppState.profile.account.level = 100; _show_screen("DEBUG"), int(AppState.profile.account.level) == 100, Vector2(280, 72)))
 	grid.add_child(_button("선택 무기 Lv.60/T6", func(): _debug_max_weapon(); _show_screen("DEBUG"), false, Vector2(280, 72)))
 	grid.add_child(_button("N10 즉시 선택", func(): AppState.selected_stage_id = "CH01-N10"; SceneRouter.go("STAGE_DETAIL"), false, Vector2(280, 72)))
+	grid.add_child(_button("고급 SD 전투 QA (CHR009-013 / BOSS003)", _debug_prepare_premium_sd_battle_qa, false, Vector2(280, 72)))
+	grid.add_child(_button("리뉴얼 SD 전투 QA (CHR014·027·037·040·043 / BOSS003)", _debug_prepare_renewal_sd_battle_qa, false, Vector2(280, 72)))
+	grid.add_child(_button("CH01 NORMAL 완료 / HARD QA", func(): _debug_unlock_chapter_hard(); _show_screen("DEBUG"), false, Vector2(280, 72)))
+	grid.add_child(_button("N04 특별 조우 QA", func(): _debug_prepare_companion_event("NODE_N04"); SceneRouter.go("STAGE_SELECT"), false, Vector2(280, 72)))
+	grid.add_child(_button("N04 카드 시각 QA (8초 홀드)", func(): _debug_prepare_companion_card_visual_qa("NODE_N04"); SceneRouter.go("STAGE_SELECT"), false, Vector2(280, 72)))
+	grid.add_child(_button("N04 카드 프리뷰 QA (8초 홀드)", _debug_preview_companion_card, false, Vector2(280, 72)))
+	grid.add_child(_button("N08 지연 합류 QA", func(): _debug_prepare_companion_event("NODE_N08"); SceneRouter.go("STAGE_SELECT"), false, Vector2(280, 72)))
+	grid.add_child(_button("N10 보스 조우 QA", func(): _debug_prepare_map_contact("NODE_N10"); SceneRouter.go("STAGE_SELECT"), false, Vector2(280, 72)))
 	grid.add_child(_button("저장 내보내기(user://)", _export_save, false, Vector2(280, 72)))
 	grid.add_child(_button("헤드리스 테스트 안내", func(): footer_status.text = "tools/powershell/RUN_HEADLESS_TESTS.ps1", false, Vector2(280, 72)))
 	grid.add_child(_button("저장 초기화 " + ("확정" if debug_reset_armed else "(재확인 필요)"), _debug_reset, false, Vector2(280, 72)))
@@ -1579,6 +3094,53 @@ func _show_debug() -> void:
 
 func _debug_unlock_roster() -> void:
 	for character_id in AppState.profile.roster: AppState.profile.roster[character_id].unlocked = true
+
+func _debug_prepare_premium_sd_battle_qa() -> void:
+	# Local developer-only visual QA route: the five promoted adult-SD allies face
+	# BOSS003 on a real battle timeline. This is never exposed in the release UI.
+	if not SettingsService.is_developer_mode():
+		return
+	_debug_unlock_roster()
+	var qa_party := ["CHR009", "CHR010", "CHR011", "CHR012", "CHR013"]
+	for slot in range(qa_party.size()):
+		var character_id := str(qa_party[slot])
+		AppState.set_party_slot(slot, character_id)
+		# This route exists to validate the promoted battle art through the boss
+		# wave, not to measure progression. Give only this dev squad enough
+		# authored power to reach that wave inside the normal time limit.
+		var progress: Dictionary = AppState.profile.roster[character_id]
+		progress.level = 100
+		progress.breakthrough = 5
+		progress.skills = {"normal": 10, "passive": 10, "ultimate": 5}
+	_debug_unlock_chapter_hard()
+	# H03 normally requires H01/H02 stars.  QA must enter the authored BOSS003
+	# fight directly, while keeping the bypass confined to development authority.
+	AppState.debug_options.unlock_all = true
+	AppState.debug_options.invincible = true
+	AppState.selected_stage_id = "CH01-H03"
+	SceneRouter.go("STAGE_DETAIL")
+
+func _debug_prepare_renewal_sd_battle_qa() -> void:
+	# Development-only visual proof route for the latest adult-SD authority art.
+	# The party deliberately spans assault, control, medic, and heavy silhouettes
+	# so a single Web run catches both duplicate-face regressions and incorrect
+	# runtime source fallback before any release build is considered.
+	if not SettingsService.is_developer_mode():
+		return
+	_debug_unlock_roster()
+	var qa_party := ["CHR014", "CHR027", "CHR037", "CHR040", "CHR043"]
+	for slot in range(qa_party.size()):
+		var character_id := str(qa_party[slot])
+		AppState.set_party_slot(slot, character_id)
+		var progress: Dictionary = AppState.profile.roster[character_id]
+		progress.level = 100
+		progress.breakthrough = 5
+		progress.skills = {"normal": 10, "passive": 10, "ultimate": 5}
+	_debug_unlock_chapter_hard()
+	AppState.debug_options.unlock_all = true
+	AppState.debug_options.invincible = true
+	AppState.selected_stage_id = "CH01-H03"
+	SceneRouter.go("STAGE_DETAIL")
 
 func _debug_level_character(amount: int) -> void:
 	var state: Dictionary = AppState.profile.roster[AppState.selected_character_id]
@@ -1589,6 +3151,125 @@ func _debug_max_weapon() -> void:
 	var weapon_id := str(AppState.profile.roster[AppState.selected_character_id].equipped_weapon_id)
 	AppState.profile.weapons[weapon_id].level = 60
 	AppState.profile.weapons[weapon_id].tier = 6
+
+func _debug_unlock_chapter_hard() -> void:
+	# This capability exists only in the development-authorized screen.  Keep an
+	# independent guard here as well so a synthetic callback cannot mutate a
+	# public Release save.  This creates a reward-free canonical NORMAL-complete
+	# snapshot: every route blocker is removed and the squad is anchored at N10,
+	# allowing an actual H01-H05 map/contact/battle/return browser run.
+	if not SettingsService.is_developer_mode():
+		return
+	AppState.profile.chapter_progress.CH01.normal_highest = 10
+	AppState.profile.chapter_progress.CH01.hard_unlocked = true
+	var definition := ChapterMapLoaderScript.load_map("CH01_MAP")
+	var map_state := AppState.chapter_map_state("CH01_MAP")
+	for number in range(1, 11):
+		var stage_id := "CH01-N%02d" % number
+		var node := ChapterMapLoaderScript.node_for_stage(definition, stage_id)
+		AppState.profile.stage_stars[stage_id] = 3
+		AppState.profile.first_clear[stage_id] = true
+		if not node.is_empty():
+			MapExplorationServiceScript.mark_encounter_cleared(map_state, str(node.node_id))
+			if not map_state.cleared_nodes.has(str(node.node_id)):
+				map_state.cleared_nodes.append(str(node.node_id))
+	var n10 := ChapterMapLoaderScript.node_for_stage(definition, "CH01-N10")
+	if not n10.is_empty():
+		AppState.set_chapter_map_position(Vector2i(int(n10.q), int(n10.r)), str(n10.node_id), "CH01_MAP")
+	AppState.refresh_chapter_map_reveal()
+
+func _debug_prepare_companion_event(node_id: String) -> void:
+	_debug_prepare_map_contact(node_id)
+
+func _debug_prepare_companion_card_visual_qa(node_id: String) -> void:
+	if not SettingsService.is_developer_mode():
+		return
+	debug_companion_card_visual_hold = true
+	_debug_prepare_map_contact(node_id)
+
+func _debug_preview_companion_card() -> void:
+	# A visual-only companion-card inspector.  It reuses the normal pending-map
+	# payload and the production _play_map_battle_transition() renderer, but
+	# starts at the already-authored contact transaction so a browser screenshot
+	# need not race the short real transition.  Physical-contact E2E remains
+	# covered by the neighbouring-hex fixture above.
+	if not SettingsService.is_developer_mode():
+		return
+	_debug_prepare_map_contact("NODE_N04")
+	var state := AppState.chapter_map_state("CH01_MAP")
+	var return_coord := Vector2i(int(state.get("current_q", 0)), int(state.get("current_r", 0)))
+	if not AppState.prepare_map_encounter("CH01-N04", "NODE_N04", return_coord, "CH01_MAP"):
+		return
+	debug_companion_card_visual_hold = true
+	battle_transition_active = true
+	SceneRouter.go("STAGE_SELECT")
+	await get_tree().process_frame
+	_play_map_battle_transition()
+
+func _debug_prepare_map_contact(node_id: String) -> void:
+	# Development-only visual/E2E fixture. It never exists in a Release shell and
+	# changes no battle, reward, or recruitment formula: it simply places the
+	# squad on a real neighbouring ground hex so the normal physical-contact
+	# sequence (including companion cards or boss title cards) can be tested
+	# without walking the full macro route every time.
+	if not SettingsService.is_developer_mode():
+		return
+	var definition := ChapterMapLoaderScript.load_map("CH01_MAP")
+	var node := ChapterMapLoaderScript.node_by_id(definition, node_id)
+	if node.is_empty():
+		return
+	var grid := HexGridScript.new()
+	grid.load_tiles(definition.get("tiles", []))
+	var target := Vector2i(int(node.get("q", 0)), int(node.get("r", 0)))
+	var staging := Vector2i.ZERO
+	var found_staging := false
+	for candidate in HexCoordScript.neighbors(target):
+		if grid.traversable(candidate):
+			staging = candidate
+			found_staging = true
+			break
+	if not found_staging:
+		return
+	AppState.debug_options.unlock_all = true
+	var map_state := AppState.chapter_map_state("CH01_MAP")
+	MapExplorationServiceScript.ensure_state(map_state, definition, grid)
+	var stage_id := str(node.get("stage_id", ""))
+	var stage_number := int(DataRegistry.stage(stage_id).get("stage_number", 0))
+	# Establish only the canonical NORMAL history that precedes this authored
+	# companion contact.  Without it, the map's ordinary next-node resolver
+	# understandably focuses an uncleared N01-N07 node after the QA N08 win,
+	# preventing the real deferred-recruitment N09 follow-up from being checked.
+	# This is development-only fixture state: it grants no rewards and is never
+	# callable from a Release shell.
+	for number in range(1, stage_number):
+		var prior_stage_id := "CH01-N%02d" % number
+		var prior_node := ChapterMapLoaderScript.node_for_stage(definition, prior_stage_id)
+		AppState.profile.stage_stars[prior_stage_id] = 3
+		AppState.profile.first_clear[prior_stage_id] = true
+		if not prior_node.is_empty():
+			MapExplorationServiceScript.mark_encounter_cleared(map_state, str(prior_node.node_id))
+			if not map_state.cleared_nodes.has(str(prior_node.node_id)):
+				map_state.cleared_nodes.append(str(prior_node.node_id))
+	if stage_number > 1:
+		AppState.profile.chapter_progress.CH01.normal_highest = maxi(int(AppState.profile.chapter_progress.CH01.get("normal_highest", 0)), stage_number - 1)
+	# Make the fixture idempotent without awarding, clearing, or unlocking a
+	# stage. A genuine map click and one-hex move still own the battle entry.
+	map_state.cleared_nodes.erase(node_id)
+	map_state.cleared_encounters.erase(node_id)
+	map_state.encounter_states[node_id] = "HOSTILE"
+	var special_event := MapExplorationServiceScript.event_encounter_for_node(definition, node_id)
+	var event_encounter_id := str(special_event.get("event_encounter_id", ""))
+	var companion_id := str(special_event.get("character_id", ""))
+	if not event_encounter_id.is_empty():
+		map_state.event_encounter_states[event_encounter_id] = "AVAILABLE"
+	if not companion_id.is_empty():
+		map_state.recruitment_states[companion_id] = "LOCKED"
+	AppState.profile.stage_stars[stage_id] = 0
+	AppState.profile.first_clear[stage_id] = false
+	AppState.set_chapter_map_position(staging, "", "CH01_MAP")
+	map_state.movement_points = map_state.movement_points_max
+	AppState.selected_stage_id = stage_id
+	SaveService.save_game()
 
 func _export_save() -> void:
 	var file := FileAccess.open("user://exported_save_v1.json", FileAccess.WRITE)

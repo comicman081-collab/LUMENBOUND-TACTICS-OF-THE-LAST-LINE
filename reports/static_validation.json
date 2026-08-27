@@ -1,7 +1,7 @@
 {
   "kind": "STATIC_DATA_SOURCE_AUDIT",
-  "total": 60,
-  "pass": 60,
+  "total": 70,
+  "pass": 70,
   "fail": 0,
   "checks": [
     {
@@ -55,9 +55,9 @@
       "details": ""
     },
     {
-      "name": "character count 8",
+      "name": "character count 44",
       "pass": true,
-      "details": "8"
+      "details": "44"
     },
     {
       "name": "project character policy FEMALE_ONLY",
@@ -85,9 +85,9 @@
       "details": ""
     },
     {
-      "name": "role distribution 1/1/2/1/2/1",
+      "name": "role distribution 7/7/8/7/8/7",
       "pass": true,
-      "details": "{'GUARDIAN': 1, 'VANGUARD': 1, 'ASSAULT': 2, 'ARTILLERY': 1, 'SPECIALIST': 2, 'MEDIC': 1}"
+      "details": "{'GUARDIAN': 7, 'VANGUARD': 7, 'ASSAULT': 8, 'ARTILLERY': 7, 'SPECIALIST': 8, 'MEDIC': 7}"
     },
     {
       "name": "all character skill references valid",
@@ -105,9 +105,34 @@
       "details": ""
     },
     {
-      "name": "enemy counts 6/3/2",
+      "name": "132 immutable unique SkillDef icon references",
       "pass": true,
-      "details": "{'NORMAL': 6, 'ELITE': 3, 'BOSS': 2}"
+      "details": "132"
+    },
+    {
+      "name": "skill icon manifest covers all SkillDefs",
+      "pass": true,
+      "details": "132"
+    },
+    {
+      "name": "skill icons have SHA-verified RGBA 256/128/64 variants",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "skill icon variants are all visually distinct files",
+      "pass": true,
+      "details": "{256: 132, 128: 132, 64: 132}"
+    },
+    {
+      "name": "skill icon ownership ledger complete",
+      "pass": true,
+      "details": "132"
+    },
+    {
+      "name": "enemy counts 12/3/5",
+      "pass": true,
+      "details": "{'NORMAL': 12, 'ELITE': 3, 'BOSS': 5}"
     },
     {
       "name": "boss phases/patterns data-defined",
@@ -115,17 +140,17 @@
       "details": ""
     },
     {
-      "name": "Chapter 1 NORMAL exactly 10",
+      "name": "both chapters NORMAL exactly 10",
       "pass": true,
       "details": ""
     },
     {
-      "name": "Chapter 1 HARD exactly 5",
+      "name": "both chapters HARD exactly 5",
       "pass": true,
       "details": ""
     },
     {
-      "name": "N10 and H5 are bosses",
+      "name": "each chapter N10 and H05 are bosses",
       "pass": true,
       "details": ""
     },
@@ -135,7 +160,7 @@
       "details": ""
     },
     {
-      "name": "rare rate 8% and pity 8",
+      "name": "chapter rare rates and pity thresholds match authored balance",
       "pass": true,
       "details": ""
     },
@@ -210,9 +235,24 @@
       "details": ""
     },
     {
-      "name": "scenario count 9",
+      "name": "all 64 immutable combat asset IDs map to SHA-verified RGBA runtime previews",
+      "pass": true,
+      "details": "64"
+    },
+    {
+      "name": "combat preview registry preserves honest non-production lineage without workstation paths",
       "pass": true,
       "details": ""
+    },
+    {
+      "name": "scenario count 15",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "all authored scenario CG IDs resolve to SHA-verified Web runtime story plates",
+      "pass": true,
+      "details": "['cg_ch01_pilot_teamwork']"
     },
     {
       "name": "scenario commands and jumps valid",
@@ -255,6 +295,11 @@
       "details": ""
     },
     {
+      "name": "runtime Web import metadata is valid",
+      "pass": true,
+      "details": "[]"
+    },
+    {
       "name": "license entry per synchronized file",
       "pass": true,
       "details": "109"
@@ -276,6 +321,11 @@
     },
     {
       "name": "foundation implementation files present",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "Web stable-URL cache update keeps offline fallback",
       "pass": true,
       "details": ""
     },

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "source": "data_source\\art_source\\vfx_hd_sources\\generation_mattes\\role_artillery_basic_gpt_r3_chroma_green.png",
+  "source_sha256": "c9b9b41a1600edb03b6aee8f49e66bf4957a58050e0f68704e1971159487dd13",
+  "matte": "#00ff00 intermediate only",
+  "clean_source": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\role_artillery_basic_gpt_r3_keyart_alpha.png",
+  "clean_source_sha256": "29f89fcd0e3808412aec08658cafe8bde4d25cc7e6231af7f568cf37d4f3e37c",
+  "atlas": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\role_artillery_basic_gpt_r3_atlas_448x336.png",
+  "atlas_sha256": "169b01701944a8636418d212304d552cf740b273f4c9767b29b4259d17079eb5",
+  "atlas_size": [
+    448,
+    336
+  ],
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "source_crop": [
+    154,
+    273,
+    1079,
+    1085
+  ]
+}

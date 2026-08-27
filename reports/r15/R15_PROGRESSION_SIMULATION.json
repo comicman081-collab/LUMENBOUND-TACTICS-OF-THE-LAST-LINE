@@ -1,0 +1,3163 @@
+{
+  "completed_normal_route": true,
+  "dead_ends": 0,
+  "errors": [],
+  "final_account": {
+    "level": 21.0,
+    "stamina": 120.0,
+    "stamina_updated_at": 1787663404.0,
+    "xp": 200.0
+  },
+  "final_inventory": {
+    "BLUEPRINT_T1": 1.0,
+    "BLUEPRINT_T2": 1.0,
+    "BLUEPRINT_T3": 0.0,
+    "BLUEPRINT_T4": 0.0,
+    "BREAK_CORE_T1": 15.0,
+    "BREAK_CORE_T2": 1.0,
+    "BREAK_CORE_T3": 0.0,
+    "BREAK_CORE_T4": 0.0,
+    "CREDIT": 93214.0,
+    "EXPEDITION_ROUTE_MODULE_A": 0.0,
+    "EXPEDITION_ROUTE_MODULE_B": 0.0,
+    "FACTION_SEAL_T1": 1.0,
+    "FACTION_SEAL_T2": 1.0,
+    "FACTION_SEAL_T3": 0.0,
+    "LANTERN_SHARD": 100.0,
+    "ROLE_TOKEN_T1": 6.0,
+    "ROLE_TOKEN_T2": 1.0,
+    "ROLE_TOKEN_T3": 0.0,
+    "ROLE_TOKEN_T4": 0.0,
+    "SHARD_CHR001": 0.0,
+    "SHARD_CHR002": 0.0,
+    "SHARD_CHR003": 0.0,
+    "SHARD_CHR004": 0.0,
+    "SHARD_CHR005": 0.0,
+    "SHARD_CHR006": 0.0,
+    "SHARD_CHR007": 0.0,
+    "SHARD_CHR008": 0.0,
+    "SKILL_BOOK_T1": 2.0,
+    "SKILL_BOOK_T2": 1.0,
+    "SKILL_BOOK_T3": 0.0,
+    "SKILL_BOOK_T4": 0.0,
+    "SKILL_TOKEN_T1": 3.0,
+    "SKILL_TOKEN_T2": 1.0,
+    "SKILL_TOKEN_T3": 0.0,
+    "SKILL_TOKEN_T4": 0.0,
+    "TRAINING_NOTE_L": 0.0,
+    "TRAINING_NOTE_M": 0.0,
+    "TRAINING_NOTE_S": 0.0,
+    "TRAINING_NOTE_XL": 0.0,
+    "ULT_BOOK_T1": 1.0,
+    "ULT_BOOK_T2": 1.0,
+    "ULT_BOOK_T3": 0.0,
+    "ULT_BOOK_T4": 0.0,
+    "UNIVERSAL_CATALYST": 0.0,
+    "WEAPON_CHIP_L": 1.0,
+    "WEAPON_CHIP_M": 0.0,
+    "WEAPON_CHIP_S": 0.0,
+    "WEAPON_CHIP_XL": 1.0,
+    "WEAPON_ORE_T1": 1.0,
+    "WEAPON_ORE_T2": 1.0,
+    "WEAPON_ORE_T3": 0.0,
+    "WEAPON_ORE_T4": 0.0
+  },
+  "final_party": {
+    "CHR001": {
+      "breakthrough": 0,
+      "level": 10,
+      "skills": {
+        "normal": 3.0,
+        "passive": 2.0,
+        "ultimate": 2.0
+      },
+      "weapon": {
+        "level": 8.0,
+        "owned": true,
+        "tier": 1.0,
+        "xp": 210.0
+      },
+      "xp": 400
+    },
+    "CHR002": {
+      "breakthrough": 0,
+      "level": 10,
+      "skills": {
+        "normal": 2.0,
+        "passive": 1.0,
+        "ultimate": 1.0
+      },
+      "weapon": {
+        "level": 8.0,
+        "owned": true,
+        "tier": 1.0,
+        "xp": 310.0
+      },
+      "xp": 400
+    },
+    "CHR003": {
+      "breakthrough": 0,
+      "level": 19,
+      "skills": {
+        "normal": 1.0,
+        "passive": 1.0,
+        "ultimate": 1.0
+      },
+      "weapon": {
+        "level": 8.0,
+        "owned": true,
+        "tier": 1.0,
+        "xp": 210.0
+      },
+      "xp": 580
+    },
+    "CHR004": {
+      "breakthrough": 0,
+      "level": 10,
+      "skills": {
+        "normal": 1.0,
+        "passive": 1.0,
+        "ultimate": 1.0
+      },
+      "weapon": {
+        "level": 9.0,
+        "owned": true,
+        "tier": 1.0,
+        "xp": 370.0
+      },
+      "xp": 400
+    },
+    "CHR005": {
+      "breakthrough": 0,
+      "level": 12,
+      "skills": {
+        "normal": 1.0,
+        "passive": 1.0,
+        "ultimate": 1.0
+      },
+      "weapon": {
+        "level": 8.0,
+        "owned": true,
+        "tier": 1.0,
+        "xp": 210.0
+      },
+      "xp": 80
+    }
+  },
+  "first_clear_duplicates": 0,
+  "illegal_growth_actions": 0,
+  "rows": [
+    {
+      "account": {
+        "level": 20,
+        "stamina": 120,
+        "stamina_updated_at": 1787663404,
+        "xp": 50
+      },
+      "applied_growth": [
+        {
+          "character_id": "CHR001",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_L",
+          "result": {
+            "cap": 20,
+            "credit_cost": 1300,
+            "level": 8,
+            "unused_xp": 0,
+            "xp": 510
+          }
+        },
+        {
+          "character_id": "CHR002",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_L",
+          "result": {
+            "cap": 20,
+            "credit_cost": 1300,
+            "level": 8,
+            "unused_xp": 0,
+            "xp": 510
+          }
+        },
+        {
+          "character_id": "CHR003",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_L",
+          "result": {
+            "cap": 20,
+            "credit_cost": 1300,
+            "level": 8,
+            "unused_xp": 0,
+            "xp": 510
+          }
+        },
+        {
+          "character_id": "CHR004",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 250,
+            "level": 3,
+            "unused_xp": 0,
+            "xp": 180
+          }
+        },
+        {
+          "character_id": "CHR005",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 250,
+            "level": 3,
+            "unused_xp": 0,
+            "xp": 180
+          }
+        },
+        {
+          "character_id": "CHR004",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 350,
+            "level": 5,
+            "unused_xp": 0,
+            "xp": 180
+          }
+        },
+        {
+          "character_id": "CHR005",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 350,
+            "level": 5,
+            "unused_xp": 0,
+            "xp": 180
+          }
+        },
+        {
+          "character_id": "CHR004",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 200,
+            "level": 6,
+            "unused_xp": 0,
+            "xp": 350
+          }
+        },
+        {
+          "character_id": "CHR005",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 200,
+            "level": 6,
+            "unused_xp": 0,
+            "xp": 350
+          }
+        },
+        {
+          "character_id": "CHR004",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 500,
+            "level": 8,
+            "unused_xp": 0,
+            "xp": 10
+          }
+        },
+        {
+          "character_id": "CHR005",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 500,
+            "level": 8,
+            "unused_xp": 0,
+            "xp": 10
+          }
+        },
+        {
+          "character_id": "CHR001",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 300,
+            "level": 9,
+            "unused_xp": 0,
+            "xp": 490
+          }
+        },
+        {
+          "character_id": "CHR002",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 300,
+            "level": 9,
+            "unused_xp": 0,
+            "xp": 490
+          }
+        },
+        {
+          "character_id": "CHR003",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 300,
+            "level": 9,
+            "unused_xp": 0,
+            "xp": 490
+          }
+        },
+        {
+          "character_id": "CHR004",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 0,
+            "level": 8,
+            "unused_xp": 0,
+            "xp": 510
+          }
+        },
+        {
+          "character_id": "CHR004",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 300,
+            "level": 9,
+            "unused_xp": 0,
+            "xp": 490
+          }
+        },
+        {
+          "character_id": "CHR005",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_S",
+          "result": {
+            "cap": 20,
+            "credit_cost": 0,
+            "level": 8,
+            "unused_xp": 0,
+            "xp": 110
+          }
+        },
+        {
+          "character_id": "CHR001",
+          "kind": "SKILL",
+          "result": {
+            "cost": {
+              "CREDIT": 500.0,
+              "SKILL_BOOK_T1": 3.0
+            },
+            "level": 2
+          },
+          "slot": "normal"
+        },
+        {
+          "character_id": "CHR001",
+          "kind": "SKILL",
+          "result": {
+            "cost": {
+              "CREDIT": 1000.0,
+              "SKILL_BOOK_T1": 6.0,
+              "SKILL_TOKEN_T1": 2.0
+            },
+            "level": 3
+          },
+          "slot": "normal"
+        },
+        {
+          "character_id": "CHR001",
+          "kind": "SKILL",
+          "result": {
+            "cost": {
+              "CREDIT": 500.0,
+              "SKILL_BOOK_T1": 3.0
+            },
+            "level": 2
+          },
+          "slot": "passive"
+        },
+        {
+          "character_id": "CHR001",
+          "kind": "SKILL",
+          "result": {
+            "cost": {
+              "CREDIT": 5000.0,
+              "SKILL_TOKEN_T1": 4.0,
+              "ULT_BOOK_T1": 8.0
+            },
+            "level": 2
+          },
+          "slot": "ultimate"
+        },
+        {
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "result": {
+            "level": 4,
+            "unused_xp": 0,
+            "xp": 160
+          },
+          "weapon_id": "WPN001"
+        },
+        {
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "result": {
+            "level": 4,
+            "unused_xp": 0,
+            "xp": 160
+          },
+          "weapon_id": "WPN002"
+        },
+        {
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "result": {
+            "level": 4,
+            "unused_xp": 0,
+            "xp": 160
+          },
+          "weapon_id": "WPN003"
+        },
+        {
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "result": {
+            "level": 4,
+            "unused_xp": 0,
+            "xp": 160
+          },
+          "weapon_id": "WPN004"
+        },
+        {
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "result": {
+            "level": 7,
+            "unused_xp": 0,
+            "xp": 10
+          },
+          "weapon_id": "WPN001"
+        },
+        {
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "result": {
+            "level": 7,
+            "unused_xp": 0,
+            "xp": 10
+          },
+          "weapon_id": "WPN002"
+        },
+        {
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "result": {
+            "level": 7,
+            "unused_xp": 0,
+            "xp": 10
+          },
+          "weapon_id": "WPN003"
+        },
+        {
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "result": {
+            "level": 7,
+            "unused_xp": 0,
+            "xp": 10
+          },
+          "weapon_id": "WPN004"
+        },
+        {
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "result": {
+            "level": 8,
+            "unused_xp": 0,
+            "xp": 210
+          },
+          "weapon_id": "WPN001"
+        },
+        {
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "result": {
+            "level": 8,
+            "unused_xp": 0,
+            "xp": 210
+          },
+          "weapon_id": "WPN002"
+        }
+      ],
+      "battle": {
+        "damage": {
+          "CHR001": 1349,
+          "CHR002": 1539,
+          "CHR003": 1525,
+          "CHR004": 1586,
+          "CHR005": 2164
+        },
+        "deaths": [
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR005",
+            "tick": 75,
+            "unit_id": "E:1:0:ENM001"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR004",
+            "tick": 145,
+            "unit_id": "E:1:1:ENM002"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR002",
+            "tick": 275,
+            "unit_id": "E:2:0:ENM001"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR001",
+            "tick": 490,
+            "unit_id": "E:2:1:ENM003"
+          }
+        ],
+        "event_hash": "7e811f6abf271f82376108ee67a88e6bbef63eab92b1e8c6a47bad89ca22fe7e",
+        "healing": {},
+        "reason": "ALL_WAVES_CLEARED",
+        "seed": 1515000,
+        "survivors": 5,
+        "ticks": 490,
+        "time": 16.3333333333333,
+        "ultimate_uses": 3,
+        "ultimate_uses_by_character": {
+          "CHR001": 2,
+          "CHR002": 0,
+          "CHR003": 0,
+          "CHR004": 0,
+          "CHR005": 1
+        },
+        "victory": true
+      },
+      "first_clear": true,
+      "growth_summary": {
+        "breakthrough_characters": 0,
+        "level_characters": 5,
+        "skill_characters": 5,
+        "weapon_levels": 12,
+        "weapon_tiers": 0
+      },
+      "inventory": {
+        "BLUEPRINT_T1": 0,
+        "BLUEPRINT_T2": 0,
+        "BLUEPRINT_T3": 0,
+        "BLUEPRINT_T4": 0,
+        "BREAK_CORE_T1": 11,
+        "BREAK_CORE_T2": 0,
+        "BREAK_CORE_T3": 0,
+        "BREAK_CORE_T4": 0,
+        "CREDIT": 48300,
+        "EXPEDITION_ROUTE_MODULE_A": 0,
+        "EXPEDITION_ROUTE_MODULE_B": 0,
+        "FACTION_SEAL_T1": 0,
+        "FACTION_SEAL_T2": 0,
+        "FACTION_SEAL_T3": 0,
+        "LANTERN_SHARD": 10,
+        "ROLE_TOKEN_T1": 5,
+        "ROLE_TOKEN_T2": 0,
+        "ROLE_TOKEN_T3": 0,
+        "ROLE_TOKEN_T4": 0,
+        "SHARD_CHR001": 0,
+        "SHARD_CHR002": 0,
+        "SHARD_CHR003": 0,
+        "SHARD_CHR004": 0,
+        "SHARD_CHR005": 0,
+        "SHARD_CHR006": 0,
+        "SHARD_CHR007": 0,
+        "SHARD_CHR008": 0,
+        "SKILL_BOOK_T1": 0,
+        "SKILL_BOOK_T2": 0,
+        "SKILL_BOOK_T3": 0,
+        "SKILL_BOOK_T4": 0,
+        "SKILL_TOKEN_T1": 2,
+        "SKILL_TOKEN_T2": 0,
+        "SKILL_TOKEN_T3": 0,
+        "SKILL_TOKEN_T4": 0,
+        "TRAINING_NOTE_L": 0,
+        "TRAINING_NOTE_M": 0,
+        "TRAINING_NOTE_S": 0,
+        "TRAINING_NOTE_XL": 0,
+        "ULT_BOOK_T1": 0,
+        "ULT_BOOK_T2": 0,
+        "ULT_BOOK_T3": 0,
+        "ULT_BOOK_T4": 0,
+        "UNIVERSAL_CATALYST": 0,
+        "WEAPON_CHIP_L": 0,
+        "WEAPON_CHIP_M": 0,
+        "WEAPON_CHIP_S": 0,
+        "WEAPON_CHIP_XL": 0,
+        "WEAPON_ORE_T1": 0,
+        "WEAPON_ORE_T2": 0,
+        "WEAPON_ORE_T3": 0,
+        "WEAPON_ORE_T4": 0
+      },
+      "newly_affordable": [],
+      "party": {
+        "CHR001": {
+          "breakthrough": 0,
+          "level": 9,
+          "skills": {
+            "normal": 3,
+            "passive": 2,
+            "ultimate": 2
+          },
+          "weapon": {
+            "level": 7,
+            "owned": true,
+            "tier": 1,
+            "xp": 10
+          },
+          "xp": 490
+        },
+        "CHR002": {
+          "breakthrough": 0,
+          "level": 9,
+          "skills": {
+            "normal": 1,
+            "passive": 1,
+            "ultimate": 1
+          },
+          "weapon": {
+            "level": 8,
+            "owned": true,
+            "tier": 1,
+            "xp": 210
+          },
+          "xp": 490
+        },
+        "CHR003": {
+          "breakthrough": 0,
+          "level": 9,
+          "skills": {
+            "normal": 1,
+            "passive": 1,
+            "ultimate": 1
+          },
+          "weapon": {
+            "level": 7,
+            "owned": true,
+            "tier": 1,
+            "xp": 10
+          },
+          "xp": 490
+        },
+        "CHR004": {
+          "breakthrough": 0,
+          "level": 9,
+          "skills": {
+            "normal": 1,
+            "passive": 1,
+            "ultimate": 1
+          },
+          "weapon": {
+            "level": 8,
+            "owned": true,
+            "tier": 1,
+            "xp": 210
+          },
+          "xp": 490
+        },
+        "CHR005": {
+          "breakthrough": 0,
+          "level": 8,
+          "skills": {
+            "normal": 1,
+            "passive": 1,
+            "ultimate": 1
+          },
+          "weapon": {
+            "level": 7,
+            "owned": true,
+            "tier": 1,
+            "xp": 10
+          },
+          "xp": 110
+        }
+      },
+      "rewards": {
+        "BREAK_CORE_T1": 1,
+        "CREDIT": 3000,
+        "LANTERN_SHARD": 10,
+        "TRAINING_NOTE_M": 1,
+        "TRAINING_NOTE_S": 1
+      },
+      "stage_id": "CH01-N01",
+      "stars": 3
+    },
+    {
+      "account": {
+        "level": 20,
+        "stamina": 120,
+        "stamina_updated_at": 1787663404,
+        "xp": 100
+      },
+      "applied_growth": [
+        {
+          "character_id": "CHR005",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_L",
+          "result": {
+            "cap": 20,
+            "credit_cost": 1350,
+            "level": 12,
+            "unused_xp": 0,
+            "xp": 80
+          }
+        },
+        {
+          "character_id": "CHR001",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 300,
+            "level": 10,
+            "unused_xp": 0,
+            "xp": 400
+          }
+        },
+        {
+          "character_id": "CHR002",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 300,
+            "level": 10,
+            "unused_xp": 0,
+            "xp": 400
+          }
+        }
+      ],
+      "battle": {
+        "damage": {
+          "CHR001": 1203,
+          "CHR002": 1286,
+          "CHR003": 1920,
+          "CHR004": 1706,
+          "CHR005": 3941
+        },
+        "deaths": [
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR003",
+            "tick": 68,
+            "unit_id": "E:1:0:ENM001"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR004",
+            "tick": 108,
+            "unit_id": "E:1:1:ENM002"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR004",
+            "tick": 145,
+            "unit_id": "E:1:2:ENM002"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR003",
+            "tick": 248,
+            "unit_id": "E:2:0:ENM003"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR004",
+            "tick": 293,
+            "unit_id": "E:2:1:ENM004"
+          }
+        ],
+        "event_hash": "0306df1e8abea85abe326efae7e5af067592c89fa396f29e7c5f54ced13fc8fe",
+        "healing": {},
+        "reason": "ALL_WAVES_CLEARED",
+        "seed": 1515001,
+        "survivors": 5,
+        "ticks": 293,
+        "time": 9.76666666666667,
+        "ultimate_uses": 3,
+        "ultimate_uses_by_character": {
+          "CHR001": 0,
+          "CHR002": 0,
+          "CHR003": 0,
+          "CHR004": 0,
+          "CHR005": 3
+        },
+        "victory": true
+      },
+      "first_clear": true,
+      "growth_summary": {
+        "breakthrough_characters": 0,
+        "level_characters": 5,
+        "skill_characters": 0,
+        "weapon_levels": 0,
+        "weapon_tiers": 0
+      },
+      "inventory": {
+        "BLUEPRINT_T1": 0,
+        "BLUEPRINT_T2": 0,
+        "BLUEPRINT_T3": 0,
+        "BLUEPRINT_T4": 0,
+        "BREAK_CORE_T1": 11,
+        "BREAK_CORE_T2": 0,
+        "BREAK_CORE_T3": 0,
+        "BREAK_CORE_T4": 0,
+        "CREDIT": 49850,
+        "EXPEDITION_ROUTE_MODULE_A": 0,
+        "EXPEDITION_ROUTE_MODULE_B": 0,
+        "FACTION_SEAL_T1": 0,
+        "FACTION_SEAL_T2": 0,
+        "FACTION_SEAL_T3": 0,
+        "LANTERN_SHARD": 20,
+        "ROLE_TOKEN_T1": 5,
+        "ROLE_TOKEN_T2": 0,
+        "ROLE_TOKEN_T3": 0,
+        "ROLE_TOKEN_T4": 0,
+        "SHARD_CHR001": 0,
+        "SHARD_CHR002": 0,
+        "SHARD_CHR003": 0,
+        "SHARD_CHR004": 0,
+        "SHARD_CHR005": 0,
+        "SHARD_CHR006": 0,
+        "SHARD_CHR007": 0,
+        "SHARD_CHR008": 0,
+        "SKILL_BOOK_T1": 0,
+        "SKILL_BOOK_T2": 0,
+        "SKILL_BOOK_T3": 0,
+        "SKILL_BOOK_T4": 0,
+        "SKILL_TOKEN_T1": 2,
+        "SKILL_TOKEN_T2": 0,
+        "SKILL_TOKEN_T3": 0,
+        "SKILL_TOKEN_T4": 0,
+        "TRAINING_NOTE_L": 0,
+        "TRAINING_NOTE_M": 0,
+        "TRAINING_NOTE_S": 0,
+        "TRAINING_NOTE_XL": 0,
+        "ULT_BOOK_T1": 0,
+        "ULT_BOOK_T2": 0,
+        "ULT_BOOK_T3": 0,
+        "ULT_BOOK_T4": 0,
+        "UNIVERSAL_CATALYST": 0,
+        "WEAPON_CHIP_L": 0,
+        "WEAPON_CHIP_M": 0,
+        "WEAPON_CHIP_S": 0,
+        "WEAPON_CHIP_XL": 0,
+        "WEAPON_ORE_T1": 0,
+        "WEAPON_ORE_T2": 0,
+        "WEAPON_ORE_T3": 0,
+        "WEAPON_ORE_T4": 0
+      },
+      "newly_affordable": [
+        {
+          "character_id": "CHR001",
+          "from_level": 9,
+          "key": "LEVEL:CHR001",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "to_level": 10
+        },
+        {
+          "character_id": "CHR002",
+          "from_level": 9,
+          "key": "LEVEL:CHR002",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "to_level": 10
+        },
+        {
+          "character_id": "CHR003",
+          "from_level": 9,
+          "key": "LEVEL:CHR003",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "to_level": 10
+        },
+        {
+          "character_id": "CHR004",
+          "from_level": 9,
+          "key": "LEVEL:CHR004",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "to_level": 10
+        },
+        {
+          "character_id": "CHR005",
+          "from_level": 8,
+          "key": "LEVEL:CHR005",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "to_level": 9
+        }
+      ],
+      "party": {
+        "CHR001": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 3,
+            "passive": 2,
+            "ultimate": 2
+          },
+          "weapon": {
+            "level": 7,
+            "owned": true,
+            "tier": 1,
+            "xp": 10
+          },
+          "xp": 400
+        },
+        "CHR002": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 1,
+            "passive": 1,
+            "ultimate": 1
+          },
+          "weapon": {
+            "level": 8,
+            "owned": true,
+            "tier": 1,
+            "xp": 210
+          },
+          "xp": 400
+        },
+        "CHR003": {
+          "breakthrough": 0,
+          "level": 9,
+          "skills": {
+            "normal": 1,
+            "passive": 1,
+            "ultimate": 1
+          },
+          "weapon": {
+            "level": 7,
+            "owned": true,
+            "tier": 1,
+            "xp": 10
+          },
+          "xp": 490
+        },
+        "CHR004": {
+          "breakthrough": 0,
+          "level": 9,
+          "skills": {
+            "normal": 1,
+            "passive": 1,
+            "ultimate": 1
+          },
+          "weapon": {
+            "level": 8,
+            "owned": true,
+            "tier": 1,
+            "xp": 210
+          },
+          "xp": 490
+        },
+        "CHR005": {
+          "breakthrough": 0,
+          "level": 12,
+          "skills": {
+            "normal": 1,
+            "passive": 1,
+            "ultimate": 1
+          },
+          "weapon": {
+            "level": 7,
+            "owned": true,
+            "tier": 1,
+            "xp": 10
+          },
+          "xp": 80
+        }
+      },
+      "rewards": {
+        "CREDIT": 3500,
+        "LANTERN_SHARD": 10,
+        "TRAINING_NOTE_L": 1,
+        "TRAINING_NOTE_M": 2
+      },
+      "stage_id": "CH01-N02",
+      "stars": 3
+    },
+    {
+      "account": {
+        "level": 20.0,
+        "stamina": 120.0,
+        "stamina_updated_at": 1787663404.0,
+        "xp": 150.0
+      },
+      "applied_growth": [
+        {
+          "character_id": "CHR003",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_XL",
+          "result": {
+            "cap": 20,
+            "credit_cost": 4950,
+            "level": 19,
+            "unused_xp": 0,
+            "xp": 580
+          }
+        },
+        {
+          "character_id": "CHR004",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "result": {
+            "cap": 20,
+            "credit_cost": 300,
+            "level": 10,
+            "unused_xp": 0,
+            "xp": 400
+          }
+        }
+      ],
+      "battle": {
+        "damage": {
+          "CHR001": 1169,
+          "CHR002": 1145,
+          "CHR003": 1763,
+          "CHR004": 2045,
+          "CHR005": 3842
+        },
+        "deaths": [
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR003",
+            "tick": 68,
+            "unit_id": "E:1:0:ENM005"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR005",
+            "tick": 153,
+            "unit_id": "E:1:1:ENM001"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR004",
+            "tick": 219,
+            "unit_id": "E:2:0:ENM002"
+          },
+          {
+            "source": "ULTIMATE",
+            "source_uid": "P:CHR005",
+            "tick": 301,
+            "unit_id": "E:2:1:ENM006"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR005",
+            "tick": 387,
+            "unit_id": "E:2:2:ENM001"
+          }
+        ],
+        "event_hash": "220f864b687a7fe1759835827ec8df543dba6bfcb3e74b12f6e0ff29c446b915",
+        "healing": {},
+        "reason": "ALL_WAVES_CLEARED",
+        "seed": 1515002,
+        "survivors": 5,
+        "ticks": 387,
+        "time": 12.9,
+        "ultimate_uses": 3,
+        "ultimate_uses_by_character": {
+          "CHR001": 1,
+          "CHR002": 0,
+          "CHR003": 0,
+          "CHR004": 0,
+          "CHR005": 2
+        },
+        "victory": true
+      },
+      "first_clear": true,
+      "growth_summary": {
+        "breakthrough_characters": 0,
+        "level_characters": 4,
+        "skill_characters": 0,
+        "weapon_levels": 0,
+        "weapon_tiers": 0
+      },
+      "inventory": {
+        "BLUEPRINT_T1": 0.0,
+        "BLUEPRINT_T2": 0.0,
+        "BLUEPRINT_T3": 0.0,
+        "BLUEPRINT_T4": 0.0,
+        "BREAK_CORE_T1": 11.0,
+        "BREAK_CORE_T2": 0.0,
+        "BREAK_CORE_T3": 0.0,
+        "BREAK_CORE_T4": 0.0,
+        "CREDIT": 48600.0,
+        "EXPEDITION_ROUTE_MODULE_A": 0.0,
+        "EXPEDITION_ROUTE_MODULE_B": 0.0,
+        "FACTION_SEAL_T1": 0.0,
+        "FACTION_SEAL_T2": 0.0,
+        "FACTION_SEAL_T3": 0.0,
+        "LANTERN_SHARD": 30.0,
+        "ROLE_TOKEN_T1": 5.0,
+        "ROLE_TOKEN_T2": 0.0,
+        "ROLE_TOKEN_T3": 0.0,
+        "ROLE_TOKEN_T4": 0.0,
+        "SHARD_CHR001": 0.0,
+        "SHARD_CHR002": 0.0,
+        "SHARD_CHR003": 0.0,
+        "SHARD_CHR004": 0.0,
+        "SHARD_CHR005": 0.0,
+        "SHARD_CHR006": 0.0,
+        "SHARD_CHR007": 0.0,
+        "SHARD_CHR008": 0.0,
+        "SKILL_BOOK_T1": 0.0,
+        "SKILL_BOOK_T2": 0.0,
+        "SKILL_BOOK_T3": 0.0,
+        "SKILL_BOOK_T4": 0.0,
+        "SKILL_TOKEN_T1": 2.0,
+        "SKILL_TOKEN_T2": 0.0,
+        "SKILL_TOKEN_T3": 0.0,
+        "SKILL_TOKEN_T4": 0.0,
+        "TRAINING_NOTE_L": 0.0,
+        "TRAINING_NOTE_M": 0.0,
+        "TRAINING_NOTE_S": 0.0,
+        "TRAINING_NOTE_XL": 0.0,
+        "ULT_BOOK_T1": 0.0,
+        "ULT_BOOK_T2": 0.0,
+        "ULT_BOOK_T3": 0.0,
+        "ULT_BOOK_T4": 0.0,
+        "UNIVERSAL_CATALYST": 0.0,
+        "WEAPON_CHIP_L": 0.0,
+        "WEAPON_CHIP_M": 0.0,
+        "WEAPON_CHIP_S": 0.0,
+        "WEAPON_CHIP_XL": 0.0,
+        "WEAPON_ORE_T1": 0.0,
+        "WEAPON_ORE_T2": 0.0,
+        "WEAPON_ORE_T3": 0.0,
+        "WEAPON_ORE_T4": 0.0
+      },
+      "newly_affordable": [
+        {
+          "character_id": "CHR001",
+          "from_level": 10,
+          "key": "LEVEL:CHR001",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "to_level": 11
+        },
+        {
+          "character_id": "CHR002",
+          "from_level": 10,
+          "key": "LEVEL:CHR002",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "to_level": 11
+        },
+        {
+          "character_id": "CHR003",
+          "from_level": 9,
+          "key": "LEVEL:CHR003",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "to_level": 10
+        },
+        {
+          "character_id": "CHR004",
+          "from_level": 9,
+          "key": "LEVEL:CHR004",
+          "kind": "LEVEL",
+          "material_id": "TRAINING_NOTE_M",
+          "to_level": 10
+        }
+      ],
+      "party": {
+        "CHR001": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 3.0,
+            "passive": 2.0,
+            "ultimate": 2.0
+          },
+          "weapon": {
+            "level": 7.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 10.0
+          },
+          "xp": 400
+        },
+        "CHR002": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 400
+        },
+        "CHR003": {
+          "breakthrough": 0,
+          "level": 19,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 7.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 10.0
+          },
+          "xp": 580
+        },
+        "CHR004": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 400
+        },
+        "CHR005": {
+          "breakthrough": 0,
+          "level": 12,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 7.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 10.0
+          },
+          "xp": 80
+        }
+      },
+      "rewards": {
+        "CREDIT": 4000,
+        "LANTERN_SHARD": 10,
+        "TRAINING_NOTE_M": 1,
+        "TRAINING_NOTE_XL": 1
+      },
+      "stage_id": "CH01-N03",
+      "stars": 3
+    },
+    {
+      "account": {
+        "level": 20.0,
+        "stamina": 120.0,
+        "stamina_updated_at": 1787663404.0,
+        "xp": 205
+      },
+      "applied_growth": [],
+      "battle": {
+        "damage": {
+          "CHR001": 822,
+          "CHR002": 2067,
+          "CHR003": 2028,
+          "CHR004": 1156,
+          "CHR005": 6250
+        },
+        "deaths": [
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR003",
+            "tick": 140,
+            "unit_id": "E:1:0:ENM003"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR005",
+            "tick": 231,
+            "unit_id": "E:1:1:ENM004"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR003",
+            "tick": 320,
+            "unit_id": "E:2:0:ENM001"
+          },
+          {
+            "source": "ULTIMATE",
+            "source_uid": "P:CHR005",
+            "tick": 391,
+            "unit_id": "E:2:1:ENM005"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "E:2:2:ENM006",
+            "tick": 395,
+            "unit_id": "P:CHR001"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR002",
+            "tick": 415,
+            "unit_id": "E:2:2:ENM006"
+          }
+        ],
+        "event_hash": "8b7841831249cbf2b706617244dd22177e13578f7f055a7e7ced3249f0b3df11",
+        "healing": {},
+        "reason": "ALL_WAVES_CLEARED",
+        "seed": 1515003,
+        "survivors": 4,
+        "ticks": 415,
+        "time": 13.8333333333333,
+        "ultimate_uses": 4,
+        "ultimate_uses_by_character": {
+          "CHR001": 0,
+          "CHR002": 0,
+          "CHR003": 0,
+          "CHR004": 0,
+          "CHR005": 4
+        },
+        "victory": true
+      },
+      "first_clear": true,
+      "growth_summary": {
+        "breakthrough_characters": 0,
+        "level_characters": 0,
+        "skill_characters": 0,
+        "weapon_levels": 0,
+        "weapon_tiers": 0
+      },
+      "inventory": {
+        "BLUEPRINT_T1": 0.0,
+        "BLUEPRINT_T2": 0.0,
+        "BLUEPRINT_T3": 0.0,
+        "BLUEPRINT_T4": 0.0,
+        "BREAK_CORE_T1": 13,
+        "BREAK_CORE_T2": 0.0,
+        "BREAK_CORE_T3": 0.0,
+        "BREAK_CORE_T4": 0.0,
+        "CREDIT": 54862,
+        "EXPEDITION_ROUTE_MODULE_A": 0.0,
+        "EXPEDITION_ROUTE_MODULE_B": 0.0,
+        "FACTION_SEAL_T1": 0.0,
+        "FACTION_SEAL_T2": 0.0,
+        "FACTION_SEAL_T3": 0.0,
+        "LANTERN_SHARD": 40,
+        "ROLE_TOKEN_T1": 5.0,
+        "ROLE_TOKEN_T2": 0.0,
+        "ROLE_TOKEN_T3": 0.0,
+        "ROLE_TOKEN_T4": 0.0,
+        "SHARD_CHR001": 0.0,
+        "SHARD_CHR002": 0.0,
+        "SHARD_CHR003": 0.0,
+        "SHARD_CHR004": 0.0,
+        "SHARD_CHR005": 0.0,
+        "SHARD_CHR006": 0.0,
+        "SHARD_CHR007": 0.0,
+        "SHARD_CHR008": 0.0,
+        "SKILL_BOOK_T1": 0.0,
+        "SKILL_BOOK_T2": 0.0,
+        "SKILL_BOOK_T3": 0.0,
+        "SKILL_BOOK_T4": 0.0,
+        "SKILL_TOKEN_T1": 2.0,
+        "SKILL_TOKEN_T2": 0.0,
+        "SKILL_TOKEN_T3": 0.0,
+        "SKILL_TOKEN_T4": 0.0,
+        "TRAINING_NOTE_L": 0.0,
+        "TRAINING_NOTE_M": 0.0,
+        "TRAINING_NOTE_S": 0.0,
+        "TRAINING_NOTE_XL": 0.0,
+        "ULT_BOOK_T1": 0.0,
+        "ULT_BOOK_T2": 0.0,
+        "ULT_BOOK_T3": 0.0,
+        "ULT_BOOK_T4": 0.0,
+        "UNIVERSAL_CATALYST": 0.0,
+        "WEAPON_CHIP_L": 0.0,
+        "WEAPON_CHIP_M": 0.0,
+        "WEAPON_CHIP_S": 0.0,
+        "WEAPON_CHIP_XL": 0.0,
+        "WEAPON_ORE_T1": 0.0,
+        "WEAPON_ORE_T2": 0.0,
+        "WEAPON_ORE_T3": 0.0,
+        "WEAPON_ORE_T4": 0.0
+      },
+      "newly_affordable": [],
+      "party": {
+        "CHR001": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 3.0,
+            "passive": 2.0,
+            "ultimate": 2.0
+          },
+          "weapon": {
+            "level": 7.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 10.0
+          },
+          "xp": 400
+        },
+        "CHR002": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 400
+        },
+        "CHR003": {
+          "breakthrough": 0,
+          "level": 19,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 7.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 10.0
+          },
+          "xp": 580
+        },
+        "CHR004": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 400
+        },
+        "CHR005": {
+          "breakthrough": 0,
+          "level": 12,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 7.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 10.0
+          },
+          "xp": 80
+        }
+      },
+      "rewards": {
+        "BREAK_CORE_T1": 2,
+        "CREDIT": 6262,
+        "LANTERN_SHARD": 10
+      },
+      "stage_id": "CH01-N04",
+      "stars": 2
+    },
+    {
+      "account": {
+        "level": 20.0,
+        "stamina": 120.0,
+        "stamina_updated_at": 1787663404.0,
+        "xp": 260.0
+      },
+      "applied_growth": [],
+      "battle": {
+        "damage": {
+          "CHR001": 1386,
+          "CHR002": 2036,
+          "CHR003": 2381,
+          "CHR004": 1424,
+          "CHR005": 3112
+        },
+        "deaths": [
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR002",
+            "tick": 65,
+            "unit_id": "E:1:0:ENM002"
+          },
+          {
+            "source": "NORMAL",
+            "source_uid": "P:CHR003",
+            "tick": 97,
+            "unit_id": "E:1:1:ENM006"
+          },
+          {
+            "source": "NORMAL",
+            "source_uid": "P:CHR003",
+            "tick": 398,
+            "unit_id": "E:2:0:ENM007"
+          }
+        ],
+        "event_hash": "fdf4c518bd82633c73e0f8d5ed7c70d5655079aabf8f9c6c92c413c36628a51c",
+        "healing": {},
+        "reason": "ALL_WAVES_CLEARED",
+        "seed": 1515004,
+        "survivors": 5,
+        "ticks": 398,
+        "time": 13.2666666666667,
+        "ultimate_uses": 3,
+        "ultimate_uses_by_character": {
+          "CHR001": 2,
+          "CHR002": 0,
+          "CHR003": 0,
+          "CHR004": 0,
+          "CHR005": 1
+        },
+        "victory": true
+      },
+      "first_clear": true,
+      "growth_summary": {
+        "breakthrough_characters": 0,
+        "level_characters": 0,
+        "skill_characters": 0,
+        "weapon_levels": 0,
+        "weapon_tiers": 0
+      },
+      "inventory": {
+        "BLUEPRINT_T1": 0.0,
+        "BLUEPRINT_T2": 0.0,
+        "BLUEPRINT_T3": 0.0,
+        "BLUEPRINT_T4": 0.0,
+        "BREAK_CORE_T1": 13.0,
+        "BREAK_CORE_T2": 0.0,
+        "BREAK_CORE_T3": 0.0,
+        "BREAK_CORE_T4": 0.0,
+        "CREDIT": 61214.0,
+        "EXPEDITION_ROUTE_MODULE_A": 0.0,
+        "EXPEDITION_ROUTE_MODULE_B": 0.0,
+        "FACTION_SEAL_T1": 1.0,
+        "FACTION_SEAL_T2": 0.0,
+        "FACTION_SEAL_T3": 0.0,
+        "LANTERN_SHARD": 50.0,
+        "ROLE_TOKEN_T1": 6.0,
+        "ROLE_TOKEN_T2": 0.0,
+        "ROLE_TOKEN_T3": 0.0,
+        "ROLE_TOKEN_T4": 0.0,
+        "SHARD_CHR001": 0.0,
+        "SHARD_CHR002": 0.0,
+        "SHARD_CHR003": 0.0,
+        "SHARD_CHR004": 0.0,
+        "SHARD_CHR005": 0.0,
+        "SHARD_CHR006": 0.0,
+        "SHARD_CHR007": 0.0,
+        "SHARD_CHR008": 0.0,
+        "SKILL_BOOK_T1": 0.0,
+        "SKILL_BOOK_T2": 0.0,
+        "SKILL_BOOK_T3": 0.0,
+        "SKILL_BOOK_T4": 0.0,
+        "SKILL_TOKEN_T1": 2.0,
+        "SKILL_TOKEN_T2": 0.0,
+        "SKILL_TOKEN_T3": 0.0,
+        "SKILL_TOKEN_T4": 0.0,
+        "TRAINING_NOTE_L": 0.0,
+        "TRAINING_NOTE_M": 0.0,
+        "TRAINING_NOTE_S": 0.0,
+        "TRAINING_NOTE_XL": 0.0,
+        "ULT_BOOK_T1": 0.0,
+        "ULT_BOOK_T2": 0.0,
+        "ULT_BOOK_T3": 0.0,
+        "ULT_BOOK_T4": 0.0,
+        "UNIVERSAL_CATALYST": 0.0,
+        "WEAPON_CHIP_L": 0.0,
+        "WEAPON_CHIP_M": 0.0,
+        "WEAPON_CHIP_S": 0.0,
+        "WEAPON_CHIP_XL": 0.0,
+        "WEAPON_ORE_T1": 0.0,
+        "WEAPON_ORE_T2": 0.0,
+        "WEAPON_ORE_T3": 0.0,
+        "WEAPON_ORE_T4": 0.0
+      },
+      "newly_affordable": [],
+      "party": {
+        "CHR001": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 3.0,
+            "passive": 2.0,
+            "ultimate": 2.0
+          },
+          "weapon": {
+            "level": 7.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 10.0
+          },
+          "xp": 400
+        },
+        "CHR002": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 400
+        },
+        "CHR003": {
+          "breakthrough": 0,
+          "level": 19,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 7.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 10.0
+          },
+          "xp": 580
+        },
+        "CHR004": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 400
+        },
+        "CHR005": {
+          "breakthrough": 0,
+          "level": 12,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 7.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 10.0
+          },
+          "xp": 80
+        }
+      },
+      "rewards": {
+        "CREDIT": 6352,
+        "FACTION_SEAL_T1": 1,
+        "LANTERN_SHARD": 10,
+        "ROLE_TOKEN_T1": 1
+      },
+      "stage_id": "CH01-N05",
+      "stars": 3
+    },
+    {
+      "account": {
+        "level": 20.0,
+        "stamina": 120.0,
+        "stamina_updated_at": 1787663404.0,
+        "xp": 315
+      },
+      "applied_growth": [
+        {
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "result": {
+            "level": 8,
+            "unused_xp": 0,
+            "xp": 210
+          },
+          "weapon_id": "WPN003"
+        },
+        {
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "result": {
+            "level": 8,
+            "unused_xp": 0,
+            "xp": 210
+          },
+          "weapon_id": "WPN004"
+        },
+        {
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_S",
+          "result": {
+            "level": 8.0,
+            "unused_xp": 0,
+            "xp": 310
+          },
+          "weapon_id": "WPN001"
+        }
+      ],
+      "battle": {
+        "damage": {
+          "CHR001": 2048,
+          "CHR002": 2776,
+          "CHR003": 3777,
+          "CHR004": 3020,
+          "CHR005": 3867
+        },
+        "deaths": [
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR003",
+            "tick": 68,
+            "unit_id": "E:1:0:ENM001"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR004",
+            "tick": 145,
+            "unit_id": "E:1:1:ENM003"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR003",
+            "tick": 248,
+            "unit_id": "E:2:0:ENM002"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR004",
+            "tick": 330,
+            "unit_id": "E:2:1:ENM004"
+          },
+          {
+            "source": "NORMAL",
+            "source_uid": "P:CHR003",
+            "tick": 699,
+            "unit_id": "E:3:0:ENM007"
+          }
+        ],
+        "event_hash": "cc121c5998afb097e1942cc8306c4318f3ba4c4665e7dc3a9cbea8cba8eedfd7",
+        "healing": {},
+        "reason": "ALL_WAVES_CLEARED",
+        "seed": 1515005,
+        "survivors": 5,
+        "ticks": 699,
+        "time": 23.3,
+        "ultimate_uses": 4,
+        "ultimate_uses_by_character": {
+          "CHR001": 3,
+          "CHR002": 0,
+          "CHR003": 0,
+          "CHR004": 0,
+          "CHR005": 1
+        },
+        "victory": true
+      },
+      "first_clear": true,
+      "growth_summary": {
+        "breakthrough_characters": 0,
+        "level_characters": 0,
+        "skill_characters": 0,
+        "weapon_levels": 12,
+        "weapon_tiers": 0
+      },
+      "inventory": {
+        "BLUEPRINT_T1": 0.0,
+        "BLUEPRINT_T2": 0.0,
+        "BLUEPRINT_T3": 0.0,
+        "BLUEPRINT_T4": 0.0,
+        "BREAK_CORE_T1": 13.0,
+        "BREAK_CORE_T2": 0.0,
+        "BREAK_CORE_T3": 0.0,
+        "BREAK_CORE_T4": 0.0,
+        "CREDIT": 66714,
+        "EXPEDITION_ROUTE_MODULE_A": 0.0,
+        "EXPEDITION_ROUTE_MODULE_B": 0.0,
+        "FACTION_SEAL_T1": 1.0,
+        "FACTION_SEAL_T2": 0.0,
+        "FACTION_SEAL_T3": 0.0,
+        "LANTERN_SHARD": 60,
+        "ROLE_TOKEN_T1": 6.0,
+        "ROLE_TOKEN_T2": 0.0,
+        "ROLE_TOKEN_T3": 0.0,
+        "ROLE_TOKEN_T4": 0.0,
+        "SHARD_CHR001": 0.0,
+        "SHARD_CHR002": 0.0,
+        "SHARD_CHR003": 0.0,
+        "SHARD_CHR004": 0.0,
+        "SHARD_CHR005": 0.0,
+        "SHARD_CHR006": 0.0,
+        "SHARD_CHR007": 0.0,
+        "SHARD_CHR008": 0.0,
+        "SKILL_BOOK_T1": 0.0,
+        "SKILL_BOOK_T2": 0.0,
+        "SKILL_BOOK_T3": 0.0,
+        "SKILL_BOOK_T4": 0.0,
+        "SKILL_TOKEN_T1": 2.0,
+        "SKILL_TOKEN_T2": 0.0,
+        "SKILL_TOKEN_T3": 0.0,
+        "SKILL_TOKEN_T4": 0.0,
+        "TRAINING_NOTE_L": 0.0,
+        "TRAINING_NOTE_M": 0.0,
+        "TRAINING_NOTE_S": 0.0,
+        "TRAINING_NOTE_XL": 0.0,
+        "ULT_BOOK_T1": 0.0,
+        "ULT_BOOK_T2": 0.0,
+        "ULT_BOOK_T3": 0.0,
+        "ULT_BOOK_T4": 0.0,
+        "UNIVERSAL_CATALYST": 0.0,
+        "WEAPON_CHIP_L": 0.0,
+        "WEAPON_CHIP_M": 0,
+        "WEAPON_CHIP_S": 0,
+        "WEAPON_CHIP_XL": 0.0,
+        "WEAPON_ORE_T1": 1,
+        "WEAPON_ORE_T2": 0.0,
+        "WEAPON_ORE_T3": 0.0,
+        "WEAPON_ORE_T4": 0.0
+      },
+      "newly_affordable": [
+        {
+          "from_level": 8,
+          "key": "WEAPON_LEVEL:WPN001",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "to_level": 9,
+          "weapon_id": "WPN001"
+        },
+        {
+          "from_level": 8,
+          "key": "WEAPON_LEVEL:WPN002",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "to_level": 9,
+          "weapon_id": "WPN002"
+        },
+        {
+          "from_level": 7,
+          "key": "WEAPON_LEVEL:WPN003",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "to_level": 8,
+          "weapon_id": "WPN003"
+        },
+        {
+          "from_level": 7,
+          "key": "WEAPON_LEVEL:WPN004",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "to_level": 8,
+          "weapon_id": "WPN004"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN005",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_S",
+          "to_level": 2,
+          "weapon_id": "WPN005"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN006",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_S",
+          "to_level": 2,
+          "weapon_id": "WPN006"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN007",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_S",
+          "to_level": 2,
+          "weapon_id": "WPN007"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN008",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_S",
+          "to_level": 2,
+          "weapon_id": "WPN008"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN009",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_S",
+          "to_level": 2,
+          "weapon_id": "WPN009"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN010",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_S",
+          "to_level": 2,
+          "weapon_id": "WPN010"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN011",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_S",
+          "to_level": 2,
+          "weapon_id": "WPN011"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN012",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_S",
+          "to_level": 2,
+          "weapon_id": "WPN012"
+        }
+      ],
+      "party": {
+        "CHR001": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 3.0,
+            "passive": 2.0,
+            "ultimate": 2.0
+          },
+          "weapon": {
+            "level": 8,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210
+          },
+          "xp": 400
+        },
+        "CHR002": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 310
+          },
+          "xp": 400
+        },
+        "CHR003": {
+          "breakthrough": 0,
+          "level": 19,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210
+          },
+          "xp": 580
+        },
+        "CHR004": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 400
+        },
+        "CHR005": {
+          "breakthrough": 0,
+          "level": 12,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210
+          },
+          "xp": 80
+        }
+      },
+      "rewards": {
+        "CREDIT": 5500,
+        "LANTERN_SHARD": 10,
+        "WEAPON_CHIP_M": 2,
+        "WEAPON_CHIP_S": 1,
+        "WEAPON_ORE_T1": 1
+      },
+      "stage_id": "CH01-N06",
+      "stars": 3
+    },
+    {
+      "account": {
+        "level": 21.0,
+        "stamina": 120.0,
+        "stamina_updated_at": 1787663404.0,
+        "xp": 15.0
+      },
+      "applied_growth": [
+        {
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "result": {
+            "level": 9,
+            "unused_xp": 0,
+            "xp": 370
+          },
+          "weapon_id": "WPN002"
+        }
+      ],
+      "battle": {
+        "damage": {
+          "CHR001": 602,
+          "CHR002": 1395,
+          "CHR003": 2723,
+          "CHR004": 2338,
+          "CHR005": 3673
+        },
+        "deaths": [
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR004",
+            "tick": 71,
+            "unit_id": "E:1:0:ENM005"
+          },
+          {
+            "source": "NORMAL",
+            "source_uid": "P:CHR004",
+            "tick": 115,
+            "unit_id": "E:1:1:ENM006"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "E:2:0:ENM008",
+            "tick": 360,
+            "unit_id": "P:CHR001"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR003",
+            "tick": 428,
+            "unit_id": "E:2:0:ENM008"
+          }
+        ],
+        "event_hash": "41491326f558b326aed8416b9771959732f8019adad44a9721f8e689b3e19d69",
+        "healing": {},
+        "reason": "ALL_WAVES_CLEARED",
+        "seed": 1515006,
+        "survivors": 4,
+        "ticks": 428,
+        "time": 14.2666666666667,
+        "ultimate_uses": 2,
+        "ultimate_uses_by_character": {
+          "CHR001": 1,
+          "CHR002": 0,
+          "CHR003": 0,
+          "CHR004": 0,
+          "CHR005": 1
+        },
+        "victory": true
+      },
+      "first_clear": true,
+      "growth_summary": {
+        "breakthrough_characters": 0,
+        "level_characters": 0,
+        "skill_characters": 0,
+        "weapon_levels": 11,
+        "weapon_tiers": 0
+      },
+      "inventory": {
+        "BLUEPRINT_T1": 1.0,
+        "BLUEPRINT_T2": 0.0,
+        "BLUEPRINT_T3": 0.0,
+        "BLUEPRINT_T4": 0.0,
+        "BREAK_CORE_T1": 13.0,
+        "BREAK_CORE_T2": 0.0,
+        "BREAK_CORE_T3": 0.0,
+        "BREAK_CORE_T4": 0.0,
+        "CREDIT": 72714.0,
+        "EXPEDITION_ROUTE_MODULE_A": 0.0,
+        "EXPEDITION_ROUTE_MODULE_B": 0.0,
+        "FACTION_SEAL_T1": 1.0,
+        "FACTION_SEAL_T2": 0.0,
+        "FACTION_SEAL_T3": 0.0,
+        "LANTERN_SHARD": 70.0,
+        "ROLE_TOKEN_T1": 6.0,
+        "ROLE_TOKEN_T2": 0.0,
+        "ROLE_TOKEN_T3": 0.0,
+        "ROLE_TOKEN_T4": 0.0,
+        "SHARD_CHR001": 0.0,
+        "SHARD_CHR002": 0.0,
+        "SHARD_CHR003": 0.0,
+        "SHARD_CHR004": 0.0,
+        "SHARD_CHR005": 0.0,
+        "SHARD_CHR006": 0.0,
+        "SHARD_CHR007": 0.0,
+        "SHARD_CHR008": 0.0,
+        "SKILL_BOOK_T1": 0.0,
+        "SKILL_BOOK_T2": 0.0,
+        "SKILL_BOOK_T3": 0.0,
+        "SKILL_BOOK_T4": 0.0,
+        "SKILL_TOKEN_T1": 2.0,
+        "SKILL_TOKEN_T2": 0.0,
+        "SKILL_TOKEN_T3": 0.0,
+        "SKILL_TOKEN_T4": 0.0,
+        "TRAINING_NOTE_L": 0.0,
+        "TRAINING_NOTE_M": 0.0,
+        "TRAINING_NOTE_S": 0.0,
+        "TRAINING_NOTE_XL": 0.0,
+        "ULT_BOOK_T1": 0.0,
+        "ULT_BOOK_T2": 0.0,
+        "ULT_BOOK_T3": 0.0,
+        "ULT_BOOK_T4": 0.0,
+        "UNIVERSAL_CATALYST": 0.0,
+        "WEAPON_CHIP_L": 1.0,
+        "WEAPON_CHIP_M": 0.0,
+        "WEAPON_CHIP_S": 0.0,
+        "WEAPON_CHIP_XL": 1.0,
+        "WEAPON_ORE_T1": 1.0,
+        "WEAPON_ORE_T2": 0.0,
+        "WEAPON_ORE_T3": 0.0,
+        "WEAPON_ORE_T4": 0.0
+      },
+      "newly_affordable": [
+        {
+          "from_level": 8,
+          "key": "WEAPON_LEVEL:WPN002",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "to_level": 9,
+          "weapon_id": "WPN002"
+        },
+        {
+          "from_level": 8,
+          "key": "WEAPON_LEVEL:WPN003",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "to_level": 9,
+          "weapon_id": "WPN003"
+        },
+        {
+          "from_level": 8,
+          "key": "WEAPON_LEVEL:WPN004",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "to_level": 9,
+          "weapon_id": "WPN004"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN005",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "to_level": 4,
+          "weapon_id": "WPN005"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN006",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "to_level": 4,
+          "weapon_id": "WPN006"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN007",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "to_level": 4,
+          "weapon_id": "WPN007"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN008",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "to_level": 4,
+          "weapon_id": "WPN008"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN009",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "to_level": 4,
+          "weapon_id": "WPN009"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN010",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "to_level": 4,
+          "weapon_id": "WPN010"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN011",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "to_level": 4,
+          "weapon_id": "WPN011"
+        },
+        {
+          "from_level": 1,
+          "key": "WEAPON_LEVEL:WPN012",
+          "kind": "WEAPON_LEVEL",
+          "material_id": "WEAPON_CHIP_M",
+          "to_level": 4,
+          "weapon_id": "WPN012"
+        }
+      ],
+      "party": {
+        "CHR001": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 3.0,
+            "passive": 2.0,
+            "ultimate": 2.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 400
+        },
+        "CHR002": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 310.0
+          },
+          "xp": 400
+        },
+        "CHR003": {
+          "breakthrough": 0,
+          "level": 19,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 580
+        },
+        "CHR004": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 9.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 370.0
+          },
+          "xp": 400
+        },
+        "CHR005": {
+          "breakthrough": 0,
+          "level": 12,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 80
+        }
+      },
+      "rewards": {
+        "BLUEPRINT_T1": 1,
+        "CREDIT": 6000,
+        "LANTERN_SHARD": 10,
+        "WEAPON_CHIP_L": 1,
+        "WEAPON_CHIP_M": 1,
+        "WEAPON_CHIP_XL": 1
+      },
+      "stage_id": "CH01-N07",
+      "stars": 2
+    },
+    {
+      "account": {
+        "level": 21.0,
+        "stamina": 120.0,
+        "stamina_updated_at": 1787663404.0,
+        "xp": 75
+      },
+      "applied_growth": [],
+      "battle": {
+        "damage": {
+          "CHR001": 661,
+          "CHR002": 1782,
+          "CHR003": 3653,
+          "CHR004": 1234,
+          "CHR005": 5386
+        },
+        "deaths": [
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR003",
+            "tick": 104,
+            "unit_id": "E:1:0:ENM003"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR004",
+            "tick": 145,
+            "unit_id": "E:1:1:ENM004"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "E:2:1:ENM001",
+            "tick": 349,
+            "unit_id": "P:CHR001"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR003",
+            "tick": 428,
+            "unit_id": "E:2:0:ENM008"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR005",
+            "tick": 465,
+            "unit_id": "E:2:1:ENM001"
+          }
+        ],
+        "event_hash": "2381a201d838f7b4a865ef5c1f4aa2b08a9f36624c7d2f1cab2c6f106c0fefff",
+        "healing": {},
+        "reason": "ALL_WAVES_CLEARED",
+        "seed": 1515007,
+        "survivors": 4,
+        "ticks": 465,
+        "time": 15.5,
+        "ultimate_uses": 4,
+        "ultimate_uses_by_character": {
+          "CHR001": 0,
+          "CHR002": 0,
+          "CHR003": 0,
+          "CHR004": 0,
+          "CHR005": 4
+        },
+        "victory": true
+      },
+      "first_clear": true,
+      "growth_summary": {
+        "breakthrough_characters": 0,
+        "level_characters": 0,
+        "skill_characters": 0,
+        "weapon_levels": 0,
+        "weapon_tiers": 0
+      },
+      "inventory": {
+        "BLUEPRINT_T1": 1.0,
+        "BLUEPRINT_T2": 0.0,
+        "BLUEPRINT_T3": 0.0,
+        "BLUEPRINT_T4": 0.0,
+        "BREAK_CORE_T1": 14,
+        "BREAK_CORE_T2": 0.0,
+        "BREAK_CORE_T3": 0.0,
+        "BREAK_CORE_T4": 0.0,
+        "CREDIT": 79214,
+        "EXPEDITION_ROUTE_MODULE_A": 0.0,
+        "EXPEDITION_ROUTE_MODULE_B": 0.0,
+        "FACTION_SEAL_T1": 1.0,
+        "FACTION_SEAL_T2": 0.0,
+        "FACTION_SEAL_T3": 0.0,
+        "LANTERN_SHARD": 80,
+        "ROLE_TOKEN_T1": 6.0,
+        "ROLE_TOKEN_T2": 0.0,
+        "ROLE_TOKEN_T3": 0.0,
+        "ROLE_TOKEN_T4": 0.0,
+        "SHARD_CHR001": 0.0,
+        "SHARD_CHR002": 0.0,
+        "SHARD_CHR003": 0.0,
+        "SHARD_CHR004": 0.0,
+        "SHARD_CHR005": 0.0,
+        "SHARD_CHR006": 0.0,
+        "SHARD_CHR007": 0.0,
+        "SHARD_CHR008": 0.0,
+        "SKILL_BOOK_T1": 2,
+        "SKILL_BOOK_T2": 0.0,
+        "SKILL_BOOK_T3": 0.0,
+        "SKILL_BOOK_T4": 0.0,
+        "SKILL_TOKEN_T1": 3,
+        "SKILL_TOKEN_T2": 0.0,
+        "SKILL_TOKEN_T3": 0.0,
+        "SKILL_TOKEN_T4": 0.0,
+        "TRAINING_NOTE_L": 0.0,
+        "TRAINING_NOTE_M": 0.0,
+        "TRAINING_NOTE_S": 0.0,
+        "TRAINING_NOTE_XL": 0.0,
+        "ULT_BOOK_T1": 1,
+        "ULT_BOOK_T2": 0.0,
+        "ULT_BOOK_T3": 0.0,
+        "ULT_BOOK_T4": 0.0,
+        "UNIVERSAL_CATALYST": 0.0,
+        "WEAPON_CHIP_L": 1.0,
+        "WEAPON_CHIP_M": 0.0,
+        "WEAPON_CHIP_S": 0.0,
+        "WEAPON_CHIP_XL": 1.0,
+        "WEAPON_ORE_T1": 1.0,
+        "WEAPON_ORE_T2": 0.0,
+        "WEAPON_ORE_T3": 0.0,
+        "WEAPON_ORE_T4": 0.0
+      },
+      "newly_affordable": [],
+      "party": {
+        "CHR001": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 3.0,
+            "passive": 2.0,
+            "ultimate": 2.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 400
+        },
+        "CHR002": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 310.0
+          },
+          "xp": 400
+        },
+        "CHR003": {
+          "breakthrough": 0,
+          "level": 19,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 580
+        },
+        "CHR004": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 9.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 370.0
+          },
+          "xp": 400
+        },
+        "CHR005": {
+          "breakthrough": 0,
+          "level": 12,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 80
+        }
+      },
+      "rewards": {
+        "BREAK_CORE_T1": 1,
+        "CREDIT": 6500,
+        "LANTERN_SHARD": 10,
+        "SKILL_BOOK_T1": 2,
+        "SKILL_TOKEN_T1": 1,
+        "ULT_BOOK_T1": 1
+      },
+      "stage_id": "CH01-N08",
+      "stars": 2
+    },
+    {
+      "account": {
+        "level": 21.0,
+        "stamina": 120.0,
+        "stamina_updated_at": 1787663404.0,
+        "xp": 135.0
+      },
+      "applied_growth": [
+        {
+          "character_id": "CHR002",
+          "kind": "SKILL",
+          "result": {
+            "cost": {
+              "CREDIT": 500.0,
+              "SKILL_BOOK_T1": 3.0
+            },
+            "level": 2
+          },
+          "slot": "normal"
+        }
+      ],
+      "battle": {
+        "damage": {
+          "CHR001": 2402,
+          "CHR002": 4270,
+          "CHR003": 5970,
+          "CHR004": 3625,
+          "CHR005": 2820
+        },
+        "deaths": [
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR002",
+            "tick": 345,
+            "unit_id": "E:1:0:ENM007"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR005",
+            "tick": 582,
+            "unit_id": "E:2:0:ENM008"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "E:3:0:ENM009",
+            "tick": 871,
+            "unit_id": "P:CHR001"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR004",
+            "tick": 997,
+            "unit_id": "E:3:0:ENM009"
+          }
+        ],
+        "event_hash": "83032163422d0cc95c6521e5aaf10b1f2e076087a4cc3c31ba894aaa7d5c0e12",
+        "healing": {},
+        "reason": "ALL_WAVES_CLEARED",
+        "seed": 1515008,
+        "survivors": 4,
+        "ticks": 997,
+        "time": 33.2333333333333,
+        "ultimate_uses": 5,
+        "ultimate_uses_by_character": {
+          "CHR001": 4,
+          "CHR002": 1,
+          "CHR003": 0,
+          "CHR004": 0,
+          "CHR005": 0
+        },
+        "victory": true
+      },
+      "first_clear": true,
+      "growth_summary": {
+        "breakthrough_characters": 0,
+        "level_characters": 0,
+        "skill_characters": 6,
+        "weapon_levels": 0,
+        "weapon_tiers": 0
+      },
+      "inventory": {
+        "BLUEPRINT_T1": 1.0,
+        "BLUEPRINT_T2": 0.0,
+        "BLUEPRINT_T3": 0.0,
+        "BLUEPRINT_T4": 0.0,
+        "BREAK_CORE_T1": 14.0,
+        "BREAK_CORE_T2": 0.0,
+        "BREAK_CORE_T3": 0.0,
+        "BREAK_CORE_T4": 0.0,
+        "CREDIT": 85714.0,
+        "EXPEDITION_ROUTE_MODULE_A": 0.0,
+        "EXPEDITION_ROUTE_MODULE_B": 0.0,
+        "FACTION_SEAL_T1": 1.0,
+        "FACTION_SEAL_T2": 0.0,
+        "FACTION_SEAL_T3": 0.0,
+        "LANTERN_SHARD": 90.0,
+        "ROLE_TOKEN_T1": 6.0,
+        "ROLE_TOKEN_T2": 0.0,
+        "ROLE_TOKEN_T3": 0.0,
+        "ROLE_TOKEN_T4": 0.0,
+        "SHARD_CHR001": 0.0,
+        "SHARD_CHR002": 0.0,
+        "SHARD_CHR003": 0.0,
+        "SHARD_CHR004": 0.0,
+        "SHARD_CHR005": 0.0,
+        "SHARD_CHR006": 0.0,
+        "SHARD_CHR007": 0.0,
+        "SHARD_CHR008": 0.0,
+        "SKILL_BOOK_T1": 0.0,
+        "SKILL_BOOK_T2": 1.0,
+        "SKILL_BOOK_T3": 0.0,
+        "SKILL_BOOK_T4": 0.0,
+        "SKILL_TOKEN_T1": 3.0,
+        "SKILL_TOKEN_T2": 1.0,
+        "SKILL_TOKEN_T3": 0.0,
+        "SKILL_TOKEN_T4": 0.0,
+        "TRAINING_NOTE_L": 0.0,
+        "TRAINING_NOTE_M": 0.0,
+        "TRAINING_NOTE_S": 0.0,
+        "TRAINING_NOTE_XL": 0.0,
+        "ULT_BOOK_T1": 1.0,
+        "ULT_BOOK_T2": 1.0,
+        "ULT_BOOK_T3": 0.0,
+        "ULT_BOOK_T4": 0.0,
+        "UNIVERSAL_CATALYST": 0.0,
+        "WEAPON_CHIP_L": 1.0,
+        "WEAPON_CHIP_M": 0.0,
+        "WEAPON_CHIP_S": 0.0,
+        "WEAPON_CHIP_XL": 1.0,
+        "WEAPON_ORE_T1": 1.0,
+        "WEAPON_ORE_T2": 0.0,
+        "WEAPON_ORE_T3": 0.0,
+        "WEAPON_ORE_T4": 0.0
+      },
+      "newly_affordable": [
+        {
+          "character_id": "CHR002",
+          "from_level": 1,
+          "key": "SKILL:CHR002:normal",
+          "kind": "SKILL",
+          "slot": "normal",
+          "to_level": 2
+        },
+        {
+          "character_id": "CHR002",
+          "from_level": 1,
+          "key": "SKILL:CHR002:passive",
+          "kind": "SKILL",
+          "slot": "passive",
+          "to_level": 2
+        },
+        {
+          "character_id": "CHR003",
+          "from_level": 1,
+          "key": "SKILL:CHR003:normal",
+          "kind": "SKILL",
+          "slot": "normal",
+          "to_level": 2
+        },
+        {
+          "character_id": "CHR003",
+          "from_level": 1,
+          "key": "SKILL:CHR003:passive",
+          "kind": "SKILL",
+          "slot": "passive",
+          "to_level": 2
+        },
+        {
+          "character_id": "CHR004",
+          "from_level": 1,
+          "key": "SKILL:CHR004:normal",
+          "kind": "SKILL",
+          "slot": "normal",
+          "to_level": 2
+        },
+        {
+          "character_id": "CHR004",
+          "from_level": 1,
+          "key": "SKILL:CHR004:passive",
+          "kind": "SKILL",
+          "slot": "passive",
+          "to_level": 2
+        },
+        {
+          "character_id": "CHR005",
+          "from_level": 1,
+          "key": "SKILL:CHR005:normal",
+          "kind": "SKILL",
+          "slot": "normal",
+          "to_level": 2
+        },
+        {
+          "character_id": "CHR005",
+          "from_level": 1,
+          "key": "SKILL:CHR005:passive",
+          "kind": "SKILL",
+          "slot": "passive",
+          "to_level": 2
+        },
+        {
+          "character_id": "CHR006",
+          "from_level": 1,
+          "key": "SKILL:CHR006:normal",
+          "kind": "SKILL",
+          "slot": "normal",
+          "to_level": 2
+        },
+        {
+          "character_id": "CHR006",
+          "from_level": 1,
+          "key": "SKILL:CHR006:passive",
+          "kind": "SKILL",
+          "slot": "passive",
+          "to_level": 2
+        },
+        {
+          "character_id": "CHR007",
+          "from_level": 1,
+          "key": "SKILL:CHR007:normal",
+          "kind": "SKILL",
+          "slot": "normal",
+          "to_level": 2
+        },
+        {
+          "character_id": "CHR007",
+          "from_level": 1,
+          "key": "SKILL:CHR007:passive",
+          "kind": "SKILL",
+          "slot": "passive",
+          "to_level": 2
+        }
+      ],
+      "party": {
+        "CHR001": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 3.0,
+            "passive": 2.0,
+            "ultimate": 2.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 400
+        },
+        "CHR002": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 2.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 310.0
+          },
+          "xp": 400
+        },
+        "CHR003": {
+          "breakthrough": 0,
+          "level": 19,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 580
+        },
+        "CHR004": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 9.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 370.0
+          },
+          "xp": 400
+        },
+        "CHR005": {
+          "breakthrough": 0,
+          "level": 12,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 80
+        }
+      },
+      "rewards": {
+        "CREDIT": 7000,
+        "LANTERN_SHARD": 10,
+        "SKILL_BOOK_T1": 1,
+        "SKILL_BOOK_T2": 1,
+        "SKILL_TOKEN_T2": 1,
+        "ULT_BOOK_T2": 1
+      },
+      "stage_id": "CH01-N09",
+      "stars": 2
+    },
+    {
+      "account": {
+        "level": 21.0,
+        "stamina": 120.0,
+        "stamina_updated_at": 1787663404.0,
+        "xp": 200.0
+      },
+      "applied_growth": [],
+      "battle": {
+        "damage": {
+          "CHR001": 3218,
+          "CHR002": 5187,
+          "CHR003": 7549,
+          "CHR004": 5856,
+          "CHR005": 7740
+        },
+        "deaths": [
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR003",
+            "tick": 68,
+            "unit_id": "E:1:0:ENM003"
+          },
+          {
+            "source": "NORMAL",
+            "source_uid": "P:CHR002",
+            "tick": 78,
+            "unit_id": "E:1:1:ENM006"
+          },
+          {
+            "source": "ULTIMATE",
+            "source_uid": "P:CHR005",
+            "tick": 241,
+            "unit_id": "E:2:0:ENM007"
+          },
+          {
+            "source": "NORMAL",
+            "source_uid": "P:CHR005",
+            "tick": 374,
+            "unit_id": "E:2:1:ENM008"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR005",
+            "tick": 1128,
+            "unit_id": "E:3:0:BOSS001"
+          }
+        ],
+        "event_hash": "52d6f7c824f3f29ca7ebb919ef0b2ef24e7f5bea23289f7d14f4a2c8927dcb47",
+        "healing": {},
+        "reason": "ALL_WAVES_CLEARED",
+        "seed": 1515009,
+        "survivors": 5,
+        "ticks": 1128,
+        "time": 37.6,
+        "ultimate_uses": 6,
+        "ultimate_uses_by_character": {
+          "CHR001": 3,
+          "CHR002": 0,
+          "CHR003": 0,
+          "CHR004": 0,
+          "CHR005": 3
+        },
+        "victory": true
+      },
+      "first_clear": true,
+      "growth_summary": {
+        "breakthrough_characters": 0,
+        "level_characters": 0,
+        "skill_characters": 0,
+        "weapon_levels": 0,
+        "weapon_tiers": 0
+      },
+      "inventory": {
+        "BLUEPRINT_T1": 1.0,
+        "BLUEPRINT_T2": 1.0,
+        "BLUEPRINT_T3": 0.0,
+        "BLUEPRINT_T4": 0.0,
+        "BREAK_CORE_T1": 15.0,
+        "BREAK_CORE_T2": 1.0,
+        "BREAK_CORE_T3": 0.0,
+        "BREAK_CORE_T4": 0.0,
+        "CREDIT": 93214.0,
+        "EXPEDITION_ROUTE_MODULE_A": 0.0,
+        "EXPEDITION_ROUTE_MODULE_B": 0.0,
+        "FACTION_SEAL_T1": 1.0,
+        "FACTION_SEAL_T2": 1.0,
+        "FACTION_SEAL_T3": 0.0,
+        "LANTERN_SHARD": 100.0,
+        "ROLE_TOKEN_T1": 6.0,
+        "ROLE_TOKEN_T2": 1.0,
+        "ROLE_TOKEN_T3": 0.0,
+        "ROLE_TOKEN_T4": 0.0,
+        "SHARD_CHR001": 0.0,
+        "SHARD_CHR002": 0.0,
+        "SHARD_CHR003": 0.0,
+        "SHARD_CHR004": 0.0,
+        "SHARD_CHR005": 0.0,
+        "SHARD_CHR006": 0.0,
+        "SHARD_CHR007": 0.0,
+        "SHARD_CHR008": 0.0,
+        "SKILL_BOOK_T1": 2.0,
+        "SKILL_BOOK_T2": 1.0,
+        "SKILL_BOOK_T3": 0.0,
+        "SKILL_BOOK_T4": 0.0,
+        "SKILL_TOKEN_T1": 3.0,
+        "SKILL_TOKEN_T2": 1.0,
+        "SKILL_TOKEN_T3": 0.0,
+        "SKILL_TOKEN_T4": 0.0,
+        "TRAINING_NOTE_L": 0.0,
+        "TRAINING_NOTE_M": 0.0,
+        "TRAINING_NOTE_S": 0.0,
+        "TRAINING_NOTE_XL": 0.0,
+        "ULT_BOOK_T1": 1.0,
+        "ULT_BOOK_T2": 1.0,
+        "ULT_BOOK_T3": 0.0,
+        "ULT_BOOK_T4": 0.0,
+        "UNIVERSAL_CATALYST": 0.0,
+        "WEAPON_CHIP_L": 1.0,
+        "WEAPON_CHIP_M": 0.0,
+        "WEAPON_CHIP_S": 0.0,
+        "WEAPON_CHIP_XL": 1.0,
+        "WEAPON_ORE_T1": 1.0,
+        "WEAPON_ORE_T2": 1.0,
+        "WEAPON_ORE_T3": 0.0,
+        "WEAPON_ORE_T4": 0.0
+      },
+      "newly_affordable": [],
+      "party": {
+        "CHR001": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 3.0,
+            "passive": 2.0,
+            "ultimate": 2.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 400
+        },
+        "CHR002": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 2.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 310.0
+          },
+          "xp": 400
+        },
+        "CHR003": {
+          "breakthrough": 0,
+          "level": 19,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 580
+        },
+        "CHR004": {
+          "breakthrough": 0,
+          "level": 10,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 9.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 370.0
+          },
+          "xp": 400
+        },
+        "CHR005": {
+          "breakthrough": 0,
+          "level": 12,
+          "skills": {
+            "normal": 1.0,
+            "passive": 1.0,
+            "ultimate": 1.0
+          },
+          "weapon": {
+            "level": 8.0,
+            "owned": true,
+            "tier": 1.0,
+            "xp": 210.0
+          },
+          "xp": 80
+        }
+      },
+      "rewards": {
+        "BLUEPRINT_T2": 1,
+        "BREAK_CORE_T1": 1,
+        "BREAK_CORE_T2": 1,
+        "CREDIT": 7500,
+        "FACTION_SEAL_T2": 1,
+        "LANTERN_SHARD": 10,
+        "ROLE_TOKEN_T2": 1,
+        "SKILL_BOOK_T1": 2,
+        "WEAPON_ORE_T2": 1
+      },
+      "stage_id": "CH01-N10",
+      "stars": 3
+    }
+  ],
+  "save_reload_differences": [],
+  "save_reload_mismatches": 0,
+  "schema_version": 2,
+  "simulation": "fresh profile; actual stage transaction + BattleSimulation + RewardService + Growth services + SaveService",
+  "stages_completed": 10
+}

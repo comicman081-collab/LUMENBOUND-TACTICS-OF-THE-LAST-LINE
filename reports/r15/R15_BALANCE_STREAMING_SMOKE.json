@@ -1,0 +1,101 @@
+{
+  "cells": [
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 291,
+        "CHR002": 2159,
+        "CHR003": 2677,
+        "CHR005": 2490,
+        "CHR008": 444
+      },
+      "death_causes": {
+        "BASIC": 5
+      },
+      "healing_totals": {
+        "CHR008": 1147
+      },
+      "mean_lowest_hp_ratio": 0.0,
+      "mean_survivors": 4.0,
+      "mean_time": 20.2666666666667,
+      "p10_time": 20.2666666666667,
+      "p50_time": 20.2666666666667,
+      "p90_time": 20.2666666666667,
+      "profile": "LOW",
+      "profile_spec": {
+        "level": 1,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "lowest_hp_ratio": 0.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1500000,
+          "survivors": 4,
+          "time": 20.2666666666667,
+          "victory": true
+        }
+      ],
+      "runs": 1,
+      "stage_id": "CH01-N01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 0,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 3,
+        "CHR008": 1
+      },
+      "win_rate": 1.0,
+      "wins": 1
+    }
+  ],
+  "controls": [
+    "AUTO",
+    "SCRIPTED_MANUAL_ULTIMATE"
+  ],
+  "elapsed_wall_seconds": 0.038,
+  "engine": "4.7.1-stable (official)",
+  "manual_policy": {
+    "decision_ticks": 30,
+    "id": "HEALTH_GATED_AOE2_CADENCE30"
+  },
+  "max_cells": 1,
+  "party_ids": [
+    "CHR001",
+    "CHR002",
+    "CHR003",
+    "CHR005",
+    "CHR008"
+  ],
+  "profiles": {
+    "HIGH": {
+      "normal": 3,
+      "passive": 3,
+      "ratio": 1.15,
+      "ultimate": 2,
+      "weapon_bonus": 5
+    },
+    "LOW": {
+      "normal": 1,
+      "passive": 1,
+      "ratio": 0.875,
+      "ultimate": 1,
+      "weapon_bonus": 0
+    },
+    "RECOMMENDED": {
+      "normal": 2,
+      "passive": 2,
+      "ratio": 1.0,
+      "ultimate": 1,
+      "weapon_bonus": 0
+    }
+  },
+  "runs_per_cell": 1,
+  "schema_version": 1,
+  "simulation": "BattleSimulation fixed 30 Hz",
+  "total_runs": 1
+}

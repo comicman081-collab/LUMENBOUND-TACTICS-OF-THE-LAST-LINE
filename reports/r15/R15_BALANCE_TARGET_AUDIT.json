@@ -1,0 +1,223 @@
+{
+  "matrix_runs_per_cell": 200,
+  "rows": [
+    {
+      "stage_id": "CH01-N01",
+      "control": "AUTO",
+      "runs": 200.0,
+      "win_rate": 1.0,
+      "mean_time": 17.0726666666667,
+      "targets": {
+        "win": [
+          0.95,
+          1.0
+        ],
+        "time": [
+          15.0,
+          30.0
+        ]
+      },
+      "verdict": "PASS",
+      "reasons": []
+    },
+    {
+      "stage_id": "CH01-N03",
+      "control": "AUTO",
+      "runs": 200.0,
+      "win_rate": 0.98,
+      "mean_time": 18.3195,
+      "targets": {
+        "win": [
+          0.9,
+          0.98
+        ]
+      },
+      "verdict": "PASS",
+      "reasons": []
+    },
+    {
+      "stage_id": "CH01-N05",
+      "control": "AUTO",
+      "runs": 200.0,
+      "win_rate": 0.885,
+      "mean_time": 25.1398333333333,
+      "targets": {
+        "win": [
+          0.85,
+          0.95
+        ],
+        "time": [
+          25.0,
+          50.0
+        ]
+      },
+      "verdict": "PASS",
+      "reasons": []
+    },
+    {
+      "stage_id": "CH01-N07",
+      "control": "AUTO",
+      "runs": 200.0,
+      "win_rate": 0.875,
+      "mean_time": 24.2256666666667,
+      "targets": {
+        "win": [
+          0.78,
+          0.92
+        ]
+      },
+      "verdict": "PASS",
+      "reasons": []
+    },
+    {
+      "stage_id": "CH01-N09",
+      "control": "AUTO",
+      "runs": 200.0,
+      "win_rate": 0.85,
+      "mean_time": 43.7415,
+      "targets": {
+        "win": [
+          0.72,
+          0.88
+        ]
+      },
+      "verdict": "PASS",
+      "reasons": []
+    },
+    {
+      "stage_id": "CH01-N10",
+      "control": "AUTO",
+      "runs": 200.0,
+      "win_rate": 0.835,
+      "mean_time": 47.4343333333333,
+      "targets": {
+        "win": [
+          0.7,
+          0.88
+        ],
+        "time": [
+          45.0,
+          75.0
+        ]
+      },
+      "verdict": "PASS",
+      "reasons": []
+    },
+    {
+      "stage_id": "CH01-N10",
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "runs": 200,
+      "win_rate": 0.92,
+      "mean_time": 51.5008333333333,
+      "targets": {
+        "win": [
+          0.85,
+          0.97
+        ]
+      },
+      "verdict": "PASS",
+      "reasons": []
+    },
+    {
+      "stage_id": "CH01-H01",
+      "control": "AUTO",
+      "runs": 200.0,
+      "win_rate": 0.775,
+      "mean_time": 30.0135,
+      "targets": {
+        "win": [
+          0.6,
+          0.8
+        ]
+      },
+      "verdict": "PASS",
+      "reasons": []
+    },
+    {
+      "stage_id": "CH01-H02",
+      "control": "AUTO",
+      "runs": 200.0,
+      "win_rate": 0.6,
+      "mean_time": 26.5811666666667,
+      "targets": {
+        "win": [
+          0.55,
+          0.75
+        ]
+      },
+      "verdict": "PASS",
+      "reasons": []
+    },
+    {
+      "stage_id": "CH01-H03",
+      "control": "AUTO",
+      "runs": 200.0,
+      "win_rate": 0.61,
+      "mean_time": 57.9811666666667,
+      "targets": {
+        "win": [
+          0.45,
+          0.7
+        ]
+      },
+      "verdict": "PASS",
+      "reasons": []
+    },
+    {
+      "stage_id": "CH01-H04",
+      "control": "AUTO",
+      "runs": 200.0,
+      "win_rate": 0.595,
+      "mean_time": 42.5886666666667,
+      "targets": {
+        "win": [
+          0.35,
+          0.6
+        ]
+      },
+      "verdict": "PASS",
+      "reasons": []
+    },
+    {
+      "stage_id": "CH01-H05",
+      "control": "AUTO",
+      "runs": 200.0,
+      "win_rate": 0.505,
+      "mean_time": 69.7153333333333,
+      "targets": {
+        "win": [
+          0.25,
+          0.55
+        ],
+        "time": [
+          60.0,
+          88.0
+        ]
+      },
+      "verdict": "PASS",
+      "reasons": []
+    },
+    {
+      "stage_id": "CH01-H05",
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "runs": 200,
+      "win_rate": 0.46,
+      "mean_time": 73.073,
+      "targets": {
+        "win": [
+          0.45,
+          0.75
+        ],
+        "time": [
+          60.0,
+          88.0
+        ]
+      },
+      "verdict": "PASS",
+      "reasons": []
+    }
+  ],
+  "pass": 13,
+  "fail": 0,
+  "unverified": 0
+}

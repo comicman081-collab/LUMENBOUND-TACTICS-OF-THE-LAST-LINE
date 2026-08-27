@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "source": "data_source\\art_source\\vfx_hd_sources\\generation_mattes\\role_medic_ultimate_gpt_r3_chroma_green.png",
+  "source_sha256": "4e355c7997537c3364dc692544112469b2beacc7fb5d9b5a53e5b4b080d0a73b",
+  "matte": "#00ff00 intermediate only",
+  "clean_source": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\role_medic_ultimate_gpt_r3_keyart_alpha.png",
+  "clean_source_sha256": "20591c07bf9f53c045fbdddbaa511c638b3f12c7e600775bace7fddc02fd9ba6",
+  "atlas": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\role_medic_ultimate_gpt_r3_atlas_448x336.png",
+  "atlas_sha256": "687bd562db7d2a7fc6d863f5f78e5c799acb7210b66617b3a6e00fe0ecb851da",
+  "atlas_size": [
+    448,
+    336
+  ],
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "source_crop": [
+    0,
+    0,
+    1024,
+    1536
+  ]
+}

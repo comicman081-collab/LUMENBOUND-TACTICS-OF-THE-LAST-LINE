@@ -1,0 +1,58 @@
+{
+  "asset_id": "CH01_MAP_KIT_R10",
+  "category": "chapter_map",
+  "subtype": "hex_terrain_prop_marker_library",
+  "biome": "LANTERN_FOREST_COAST",
+  "source_blend": "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\blender_sources\\chapter_map\\CH01_MAP_KIT_R10\\CH01_MAP_KIT_R10.blend",
+  "source_script": "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\tools\\asset_bridge\\premium_chapter_map\\chapter_map_pipeline.py",
+  "blender_version": "4.5.11 LTS",
+  "generator_version": "lanternline-chapter-map-1.4.0-r10",
+  "seed": 20260818,
+  "mesh_path": "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\exports\\premium\\chapter_map\\R10\\CH01_MAP_KIT_R10.glb",
+  "runtime_path": "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\godot\\assets\\art\\chapter_map\\R10\\CH01_MAP_KIT_R10.glb",
+  "material_count": 16,
+  "object_count": 385,
+  "triangle_count": 6177,
+  "bounds": {
+    "contact_sheet": [
+      1920,
+      1080
+    ]
+  },
+  "contact_sheets": [
+    "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\reports\\r7_srpg_map\\contact_sheets\\revisions\\R10\\CH01_TILE_LIBRARY.png",
+    "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\reports\\r7_srpg_map\\contact_sheets\\revisions\\R10\\CH01_FULL_MAP.png"
+  ],
+  "pivot": "hex_center_ground",
+  "license": "Original internal project asset",
+  "commercial_use": true,
+  "ownership_status": "ORIGINAL_INTERNAL",
+  "sha256": "fb00cc1c45ac6d88a4ba36aff98b0234ed5a242362a258f4d372cda7785cf0b7",
+  "qa_status": "ART_QA_CANDIDATE",
+  "production_approved": false,
+  "revision": "R10",
+  "runtime_components": [
+    "PROP_TREE_A",
+    "PROP_TREE_B",
+    "PROP_RUIN_RELAY",
+    "PROP_RELAY_LAMP",
+    "PROP_CRYSTAL",
+    "PROP_ROUTE_PLINTH",
+    "PROP_CLIFF_FACET_A",
+    "PROP_CLIFF_FACET_B",
+    "PROP_COAST_FOAM",
+    "PROP_SIGNAL_SPINE",
+    "PROP_STRATA_RING",
+    "PROP_TERRAIN_FOREST",
+    "PROP_TERRAIN_RUIN",
+    "PROP_DORMANT_RAIL",
+    "PROP_SIGNAL_TOWER",
+    "PROP_SIGNAL_BEACON",
+    "MARKER_NORMAL",
+    "MARKER_ELITE",
+    "MARKER_BOSS",
+    "MARKER_HARD_GATE",
+    "SQUAD_STANDARD_RELAY_CREST",
+    "SQUAD_STANDARD_SIGNAL_RING"
+  ]
+}

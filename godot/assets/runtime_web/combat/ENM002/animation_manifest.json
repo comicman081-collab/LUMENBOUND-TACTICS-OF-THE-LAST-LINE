@@ -6,11 +6,10 @@
   "source_status": "DEV_CUTOUT_RIG_ANIMATION",
   "source_root": "assets/generated_import/enemies/sd_enm002_arc_mote_combat_r28_dev",
   "source_asset_id": "sd_enm002_arc_mote_combat_r28_dev",
-  "source_blend": "",
   "ownership_status": "PROJECT_DEV_GENERATED",
   "frame_size": [
-    104,
-    104
+    128,
+    128
   ],
   "foot_anchor": [
     0.5,
@@ -23,6 +22,8 @@
   "view": "THREE_QUARTER_LEFT_DOWN_30",
   "facing_policy": "SEPARATE_LEFT_RIGHT",
   "atlas_path": "atlas.png",
+  "preview_path": "preview.png",
+  "preview_sha256": "7cc0f2eab011e2a4aea40857d0cc92772f6f89c0d5d4e6e02079fd00d6989380",
   "atlas_columns": 10,
   "total_frames": 80,
   "animations": {
@@ -195,5 +196,5 @@
       ]
     }
   },
-  "sha256": "fb9f16f207fe3880841bcfcb7e3bb986341033674e88c3dd17dfc848a93dce69"
+  "sha256": "111e1689cdf88f0de551547ee776636c9e72fc800d93ac2da222f903cf75635c"
 }

@@ -1,4 +1,4 @@
-# Project LANTERNLINE (DEV)
+# LUMENBOUND: TACTICS OF THE LAST LINE
 
 프로젝트 전역 불변 조건: 모든 인간 및 인간형 캐릭터는 명확한 성인 여성이고 남성 캐릭터 생성은 금지한다. 일러스트·SD·인게임 의상은 친밀 신체 부위를 가리는 `MAXIMUM_NON_EXPLICIT` 노출도를 공통 목표로 한다. 정본은 `docs/PROJECT_CONTENT_POLICY.md`와 `tools/policy/project_content_policy.json`이다.
 

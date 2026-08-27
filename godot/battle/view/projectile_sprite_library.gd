@@ -7,8 +7,20 @@ const PACK_ROOTS := {
 	"CHR003": "res://assets/runtime_web/projectiles/CHR003",
 	"CHR004": "res://assets/runtime_web/projectiles/CHR004",
 	"CHR005": "res://assets/runtime_web/projectiles/CHR005",
+	"CHR006": "res://assets/runtime_web/projectiles/CHR006",
+	"CHR007": "res://assets/runtime_web/projectiles/CHR007",
+	"CHR008": "res://assets/runtime_web/projectiles/CHR008",
 	"ENM001": "res://assets/runtime_web/projectiles/ENM001",
 	"ENM002": "res://assets/runtime_web/projectiles/ENM002",
+	"ENM003": "res://assets/runtime_web/projectiles/ENM003",
+	"ENM004": "res://assets/runtime_web/projectiles/ENM004",
+	"ENM005": "res://assets/runtime_web/projectiles/ENM005",
+	"ENM006": "res://assets/runtime_web/projectiles/ENM006",
+	"ENM007": "res://assets/runtime_web/projectiles/ENM007",
+	"ENM008": "res://assets/runtime_web/projectiles/ENM008",
+	"ENM009": "res://assets/runtime_web/projectiles/ENM009",
+	"BOSS001": "res://assets/runtime_web/projectiles/BOSS001",
+	"BOSS002": "res://assets/runtime_web/projectiles/BOSS002",
 }
 
 var manifests: Dictionary = {}
@@ -19,8 +31,14 @@ func load_pack() -> bool:
 	manifests.clear()
 	frames.clear()
 	var errors: Array[String] = []
-	for source_id in PACK_ROOTS:
-		var error := _load_projectile(str(source_id), str(PACK_ROOTS[source_id]))
+	var pack_roots: Dictionary = PACK_ROOTS.duplicate(true)
+	for definition_value in DataRegistry.list_of("characters") + DataRegistry.list_of("enemies"):
+		var definition: Dictionary = definition_value
+		var entity_id := str(definition.get("id", ""))
+		if not entity_id.is_empty() and not pack_roots.has(entity_id):
+			pack_roots[entity_id] = "res://assets/runtime_web/projectiles/%s" % entity_id
+	for source_id in pack_roots:
+		var error := _load_projectile(str(source_id), str(pack_roots[source_id]))
 		if not error.is_empty(): errors.append(error)
 	load_error = ";".join(errors)
 	return not manifests.is_empty()
@@ -37,7 +55,7 @@ func _load_projectile(source_id: String, pack_root: String) -> String:
 	if int(manifest.get("frames", 0)) != 8: return "%s:FRAME_COUNT_MISMATCH" % source_id
 	var textures: Array[Texture2D] = []
 	if not str(manifest.get("atlas_path", "")).is_empty():
-		var atlas_resource = load(pack_root + "/" + str(manifest.atlas_path))
+		var atlas_resource := _load_runtime_texture(pack_root + "/" + str(manifest.atlas_path))
 		if not atlas_resource is Texture2D: return "%s:ATLAS_LOAD_FAILED" % source_id
 		var frame_size: Array = manifest.get("frame_size", [96, 96])
 		var cell_size := Vector2(float(frame_size[0]), float(frame_size[1]))
@@ -58,6 +76,16 @@ func _load_projectile(source_id: String, pack_root: String) -> String:
 	manifests[source_id] = manifest
 	frames[source_id] = textures
 	return ""
+
+func _load_runtime_texture(path: String) -> Texture2D:
+	## See BattleSpriteLibrary: retain Web/runtime resilience immediately after
+	## incremental asset sync without substituting another source's projectile.
+	if ResourceLoader.exists(path):
+		var imported = load(path)
+		if imported is Texture2D: return imported
+	var image := Image.load_from_file(path)
+	if image == null or image.is_empty(): return null
+	return ImageTexture.create_from_image(image)
 
 func supports_source(source_id: String) -> bool:
 	return manifests.has(source_id) and frames.has(source_id)

@@ -43,3 +43,9 @@ func skill(skill_id: String) -> Dictionary:
 func enemy(enemy_id: String) -> Dictionary:
 	return by_id("enemies", enemy_id)
 
+func chapter(chapter_id: String) -> Dictionary:
+	return by_id("chapters", chapter_id)
+
+func chapter_for_stage(stage_id: String) -> Dictionary:
+	var definition := stage(stage_id)
+	return chapter(str(definition.get("chapter_id", "")))

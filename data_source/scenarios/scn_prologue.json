@@ -10,28 +10,44 @@
     },
     {
       "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr002_dev",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "show_portrait",
       "slot": "RIGHT",
       "asset_id": "portrait_chr001_dev",
-      "expression": "DEFAULT"
+      "expression": "SERIOUS"
     },
     {
       "command": "fade_in",
       "duration": 0.35
     },
     {
-      "command": "dialogue",
+      "command": "narration",
       "speaker_key": "SPEAKER_ROUTEKEEPER",
       "text_key": "STORY_PRO_01"
     },
     {
       "command": "narration",
-      "speaker_key": "SPEAKER_MAERU",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
       "text_key": "STORY_PRO_02"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "BATTLE_FOCUS"
     },
     {
       "command": "dialogue",
       "speaker_key": "SPEAKER_MAERU",
       "text_key": "STORY_PRO_03"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_PRO_04"
     },
     {
       "command": "choice",

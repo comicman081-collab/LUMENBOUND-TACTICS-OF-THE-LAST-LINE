@@ -33,13 +33,26 @@ def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def png_contract(path: Path) -> tuple[int, int, bool]:
+    """Return width, height and alpha support from the PNG IHDR only."""
+    if not path.is_file():
+        return 0, 0, False
+    header = path.read_bytes()[:26]
+    if len(header) < 26 or header[:8] != b"\x89PNG\r\n\x1a\n" or header[12:16] != b"IHDR":
+        return 0, 0, False
+    width = int.from_bytes(header[16:20], "big")
+    height = int.from_bytes(header[20:24], "big")
+    color_type = header[25]
+    return width, height, color_type in (4, 6)
+
+
 def main() -> int:
     check("engine lock 4.7.1", 'required_engine_version="4.7.1-stable"' in (ROOT / "godot/project.godot").read_text(encoding="utf-8"))
     check("Compatibility renderer", 'rendering_method="gl_compatibility"' in (ROOT / "godot/project.godot").read_text(encoding="utf-8"))
     for collection in ("characters", "skills", "weapons", "enemies", "stages", "rewards", "items", "scenarios"):
         check(f"{collection} IDs unique", unique(collection))
     skills = {row["id"]: row for row in DATA["skills"]}
-    check("character count 8", len(DATA["characters"]) == 8, len(DATA["characters"]))
+    check("character count 44", len(DATA["characters"]) == 44, len(DATA["characters"]))
     policy = json.loads((ROOT / "tools/policy/project_content_policy.json").read_text(encoding="utf-8"))
     check("project character policy FEMALE_ONLY", policy["character_policy"]["human_and_humanoid_characters"] == "FEMALE_ONLY" and policy["character_policy"]["male_character_creation"] == "PROHIBITED")
     check("all playable characters FEMALE", all(c.get("gender") == "FEMALE" for c in DATA["characters"]))
@@ -47,22 +60,56 @@ def main() -> int:
     check("all playable attire policy maximum non-explicit", all(c.get("attire_policy") == "MAXIMUM_NON_EXPLICIT" for c in DATA["characters"]))
     check("all enemies genderless nonhuman", all(e.get("gender") == "GENDERLESS_NONHUMAN" for e in DATA["enemies"]))
     roles = {role: sum(c["role"] == role for c in DATA["characters"]) for role in ("GUARDIAN", "VANGUARD", "ASSAULT", "ARTILLERY", "SPECIALIST", "MEDIC")}
-    check("role distribution 1/1/2/1/2/1", roles == {"GUARDIAN": 1, "VANGUARD": 1, "ASSAULT": 2, "ARTILLERY": 1, "SPECIALIST": 2, "MEDIC": 1}, roles)
+    check("role distribution 7/7/8/7/8/7", roles == {"GUARDIAN": 7, "VANGUARD": 7, "ASSAULT": 8, "ARTILLERY": 7, "SPECIALIST": 8, "MEDIC": 7}, roles)
     refs = all(c[key] in skills for c in DATA["characters"] for key in ("normal_skill_id", "passive_skill_id", "ultimate_skill_id"))
     check("all character skill references valid", refs)
     check("skill arrays 10/10/5", all(len(s["values"]) == (5 if s["type"] == "ULTIMATE_SKILL" else 10) for s in DATA["skills"]))
     check("exactly three skills per character", all(sum(s["owner_id"] == c["id"] for s in DATA["skills"]) == 3 for c in DATA["characters"]))
+    skill_icon_ids = [str(s.get("icon_asset_id", "")) for s in DATA["skills"]]
+    check("132 immutable unique SkillDef icon references", len(skill_icon_ids) == 132 and "" not in skill_icon_ids and len(set(skill_icon_ids)) == 132, len(set(skill_icon_ids)))
+    skill_icon_manifest = json.loads((ROOT / "godot/assets/art/icons/skills/skill_icon_manifest.json").read_text(encoding="utf-8"))
+    skill_icon_assets = {str(row.get("asset_id", "")): row for row in skill_icon_manifest.get("assets", [])}
+    check("skill icon manifest covers all SkillDefs", set(skill_icon_ids) == set(skill_icon_assets), len(skill_icon_assets))
+    icon_variants_valid = True
+    unique_variant_hashes = {256: set(), 128: set(), 64: set()}
+    for asset_id in skill_icon_ids:
+        entry = skill_icon_assets.get(asset_id, {})
+        for resolution in (256, 128, 64):
+            variant = str(entry.get("variants", {}).get(str(resolution), ""))
+            local = ROOT / "godot" / variant.removeprefix("res://")
+            width, height, alpha = png_contract(local)
+            actual_hash = sha(local) if local.is_file() else ""
+            icon_variants_valid &= width == resolution and height == resolution and alpha and actual_hash == str(entry.get("variant_sha256", {}).get(str(resolution), ""))
+            if actual_hash:
+                unique_variant_hashes[resolution].add(actual_hash)
+    check("skill icons have SHA-verified RGBA 256/128/64 variants", icon_variants_valid)
+    check("skill icon variants are all visually distinct files", all(len(unique_variant_hashes[size]) == 132 for size in unique_variant_hashes), {size: len(values) for size, values in unique_variant_hashes.items()})
+    skill_icon_licenses = json.loads((ROOT / "godot/assets/art/icons/skills/skill_icon_licenses.json").read_text(encoding="utf-8")).get("assets", [])
+    skill_icon_license_ids = {str(row.get("asset_id", "")) for row in skill_icon_licenses}
+    check("skill icon ownership ledger complete", len(skill_icon_licenses) == 132 and skill_icon_license_ids == set(skill_icon_ids) and all(row.get("ownership_status") == "ORIGINAL_INTERNAL" and row.get("commercial_use") is True and len(str(row.get("file_sha256", ""))) == 64 for row in skill_icon_licenses), len(skill_icon_licenses))
     enemy_counts = {rank: sum(e["rank"] == rank for e in DATA["enemies"]) for rank in ("NORMAL", "ELITE", "BOSS")}
-    check("enemy counts 6/3/2", enemy_counts == {"NORMAL": 6, "ELITE": 3, "BOSS": 2}, enemy_counts)
+    check("enemy counts 12/3/5", enemy_counts == {"NORMAL": 12, "ELITE": 3, "BOSS": 5}, enemy_counts)
     check("boss phases/patterns data-defined", all(e.get("phases") == ["PHASE_1", "PHASE_2", "ENRAGE", "DOWN"] and e.get("patterns") for e in DATA["enemies"] if e["rank"] == "BOSS"))
-    normal = [s for s in DATA["stages"] if s["mode"] == "NORMAL"]
-    hard = [s for s in DATA["stages"] if s["mode"] == "HARD"]
-    check("Chapter 1 NORMAL exactly 10", len(normal) == 10)
-    check("Chapter 1 HARD exactly 5", len(hard) == 5)
-    check("N10 and H5 are bosses", normal[-1]["boss"] and hard[-1]["boss"] and normal[-1]["id"] == "CH01-N10" and hard[-1]["id"] == "CH01-H05")
+    chapter_ids = ("CH01", "CH02")
+    normal_by_chapter = {chapter_id: [s for s in DATA["stages"] if s["chapter_id"] == chapter_id and s["mode"] == "NORMAL"] for chapter_id in chapter_ids}
+    hard_by_chapter = {chapter_id: [s for s in DATA["stages"] if s["chapter_id"] == chapter_id and s["mode"] == "HARD"] for chapter_id in chapter_ids}
+    check("both chapters NORMAL exactly 10", all(len(normal_by_chapter[chapter_id]) == 10 for chapter_id in chapter_ids))
+    check("both chapters HARD exactly 5", all(len(hard_by_chapter[chapter_id]) == 5 for chapter_id in chapter_ids))
+    stages_by_id = {str(stage["id"]): stage for stage in DATA["stages"]}
+    check("each chapter N10 and H05 are bosses", all(bool(stages_by_id.get(f"{chapter_id}-N10", {}).get("boss", False)) and bool(stages_by_id.get(f"{chapter_id}-H05", {}).get("boss", False)) for chapter_id in chapter_ids))
     rewards = {r["id"]: r for r in DATA["rewards"]}
     check("all stages have rewards", all(s["reward_table_id"] in rewards and rewards[s["reward_table_id"]]["guaranteed"] for s in DATA["stages"]))
-    check("rare rate 8% and pity 8", all(any(b.get("chance") == .08 and b.get("pity_after_failures") == 8 for b in rewards[s["reward_table_id"]]["bonus"]) for s in DATA["stages"]))
+    rare_profiles = {"CH01": (.08, 8), "CH02": (.12, 7)}
+    rare_profile_valid = all(
+        stage["chapter_id"] in rare_profiles
+        and any(
+            math.isclose(float(bucket.get("chance", -1.0)), rare_profiles[stage["chapter_id"]][0])
+            and int(bucket.get("pity_after_failures", -1)) == rare_profiles[stage["chapter_id"]][1]
+            for bucket in rewards[stage["reward_table_id"]]["bonus"]
+        )
+        for stage in DATA["stages"]
+    )
+    check("chapter rare rates and pity thresholds match authored balance", rare_profile_valid)
     repeatable_items = {
         entry["item_id"]
         for reward in DATA["rewards"]
@@ -90,7 +137,56 @@ def main() -> int:
     check("weapon T1-T6 caps", DATA["weapon_tier_caps"] == {str(i): i * 10 for i in range(1, 7)})
     check("no exclusive weapons", all(not w["exclusive_owner_id"] for w in DATA["weapons"]))
     check("all thirteen status IDs", len(DATA["status_effects"]) == 13)
-    check("scenario count 9", len(DATA["scenarios"]) == 9)
+    runtime_asset_manifest = json.loads((ROOT / "godot/assets/runtime_web/runtime_asset_manifest.json").read_text(encoding="utf-8"))
+    runtime_asset_by_id = {str(row.get("asset_id", "")): row for row in runtime_asset_manifest.get("assets", [])}
+    combat_data_rows = list(DATA["characters"]) + list(DATA["enemies"])
+    combat_preview_contract = True
+    combat_preview_lineage_honest = True
+    for row in combat_data_rows:
+        entry = runtime_asset_by_id.get(str(row.get("asset_id", "")), {})
+        relative = str(entry.get("godot_path", "")).removeprefix("res://")
+        local = ROOT / "godot" / relative
+        width, height, alpha = png_contract(local)
+        combat_preview_contract &= (
+            str(entry.get("status", "")) == "RUNTIME_WEB_COMBAT_PREVIEW"
+            and str(entry.get("category", "")) == "combat_preview"
+            and str(entry.get("entity_id", "")) == str(row.get("id", ""))
+            and width == 256 and height == 256 and alpha
+            and local.is_file() and sha(local) == str(entry.get("sha256", ""))
+        )
+        logical_lineage = "|".join(str(entry.get(key, "")) for key in (
+            "source", "source_asset_id", "source_status", "ownership_status", "license"
+        ))
+        combat_preview_lineage_honest &= (
+            str(entry.get("source_status", "")) != ""
+            and str(entry.get("qa_status", "")) == "RUNTIME_CONNECTED_NOT_PRODUCTION_APPROVED"
+            and entry.get("production_approved") is False
+            and re.search(r"[A-Za-z]:[\\/]", logical_lineage) is None
+        )
+    check("all 64 immutable combat asset IDs map to SHA-verified RGBA runtime previews", len(combat_data_rows) == 64 and combat_preview_contract, len(combat_data_rows))
+    check("combat preview registry preserves honest non-production lineage without workstation paths", combat_preview_lineage_honest)
+    check("scenario count 15", len(DATA["scenarios"]) == 15)
+    scenario_cg_ids = {
+        str(command.get("asset_id", ""))
+        for scenario in DATA["scenarios"]
+        for command in scenario.get("commands", [])
+        if str(command.get("command", "")) == "set_cg" and str(command.get("asset_id", "")) != ""
+    }
+    story_runtime_contract = True
+    for asset_id in scenario_cg_ids:
+        entry = runtime_asset_by_id.get(asset_id, {})
+        relative = str(entry.get("godot_path", "")).removeprefix("res://")
+        local = ROOT / "godot" / relative
+        width, height, alpha = png_contract(local)
+        story_runtime_contract &= (
+            str(entry.get("status", "")) == "RUNTIME_WEB_STORY_PLATE"
+            and str(entry.get("category", "")) == "story_plate"
+            and str(entry.get("source_asset_id", "")) == asset_id
+            and relative.startswith("assets/runtime_web/story/")
+            and local.is_file() and sha(local) == str(entry.get("sha256", ""))
+            and width == 1280 and height == 720 and alpha
+        )
+    check("all authored scenario CG IDs resolve to SHA-verified Web runtime story plates", bool(scenario_cg_ids) and story_runtime_contract, sorted(scenario_cg_ids))
     supported = {"set_background", "set_cg", "show_portrait", "hide_portrait", "set_expression", "dialogue", "narration", "choice", "set_flag", "check_flag", "jump", "play_bgm", "stop_bgm", "play_sfx", "play_voice", "fade_in", "fade_out", "wait", "start_battle", "grant_reward", "end_scenario"}
     scenario_ok = True
     used_commands = set()
@@ -131,6 +227,13 @@ def main() -> int:
     check("legacy asset bridge 93 files resolve", len(manifest["assets"]) == 93 and asset_files_ok, len(manifest["assets"]))
     check("all legacy SHA-256 values match", hashes_ok)
     check("all legacy assets DEV_PLACEHOLDER", all(a["status"] == "DEV_PLACEHOLDER" for a in manifest["assets"]))
+    runtime_import_files = list((ROOT / "godot/assets/runtime_web").rglob("*.import"))
+    invalid_runtime_imports = [
+        str(path.relative_to(ROOT))
+        for path in runtime_import_files
+        if "valid=false" in path.read_text(encoding="utf-8", errors="ignore").replace(" ", "").lower()
+    ]
+    check("runtime Web import metadata is valid", not invalid_runtime_imports, invalid_runtime_imports)
     licenses = json.loads((ROOT / "godot/assets/generated_import/licenses.json").read_text(encoding="utf-8"))["assets"]
     license_by_id = {row["asset_id"]: row for row in licenses}
     bridge_license_ids = {row["asset_id"] for row in manifest["assets"]}
@@ -146,6 +249,15 @@ def main() -> int:
         "godot/tests/test_runner.gd", "tools/asset_bridge/sync_assets.py", "data_source/characters.csv",
     ]
     check("foundation implementation files present", all((ROOT / p).is_file() for p in required_paths))
+    web_build_script = (ROOT / "tools/powershell/BUILD_WEB_RELEASE.ps1").read_text(encoding="utf-8")
+    stable_url_cache_policy = all(token in web_build_script for token in (
+        "index.pck', 'index.wasm', 'index.js', 'index.html",
+        "Navigation network error; using cached LUMENBOUND shell.",
+        "self.skipWaiting()",
+        "self.clients.claim()",
+        "Unexpected Godot service-worker navigation block",
+    ))
+    check("Web stable-URL cache update keeps offline fallback", stable_url_cache_policy)
     all_text = "\n".join(p.read_text(encoding="utf-8", errors="ignore") for p in (ROOT / "godot").rglob("*.gd"))
     check("GDScript only / no C#", not list(ROOT.rglob("*.cs")) and not list(ROOT.rglob("*.csproj")))
     check("no HTTP runtime code", not re.search(r"HTTPRequest|https?://", all_text))

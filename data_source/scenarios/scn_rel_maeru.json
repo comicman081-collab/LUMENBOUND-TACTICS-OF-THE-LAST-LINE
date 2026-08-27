@@ -12,7 +12,7 @@
       "command": "show_portrait",
       "slot": "RIGHT",
       "asset_id": "portrait_chr001_dev",
-      "expression": "DEFAULT"
+      "expression": "NEUTRAL"
     },
     {
       "command": "fade_in",
@@ -20,13 +20,23 @@
     },
     {
       "command": "dialogue",
-      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "speaker_key": "SPEAKER_MAERU",
       "text_key": "STORY_REL_M_01"
     },
     {
-      "command": "narration",
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "SAD"
+    },
+    {
+      "command": "dialogue",
       "speaker_key": "SPEAKER_MAERU",
       "text_key": "STORY_REL_M_02"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "SMILE"
     },
     {
       "command": "dialogue",

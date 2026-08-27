@@ -6,11 +6,10 @@
   "source_status": "ART_QA_CANDIDATE",
   "source_root": "assets/art/enemies/ENM001",
   "source_asset_id": "sd_enm001_premium_r6p2",
-  "source_blend": "D:\\AI 종합 폴더\\Games\\asset_share\\blender_sources\\enemies\\ENM001\\ENM001_SD_R6P2.blend",
   "ownership_status": "ORIGINAL_INTERNAL",
   "frame_size": [
-    104,
-    104
+    128,
+    128
   ],
   "foot_anchor": [
     0.5,
@@ -23,6 +22,8 @@
   "view": "THREE_QUARTER_LEFT_DOWN_30",
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
+  "preview_path": "preview.png",
+  "preview_sha256": "a4422994f35cf53f7de689eff5ada5f1d51edc3303c0a4ef50da02e745c4671e",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -174,5 +175,5 @@
       "events": []
     }
   },
-  "sha256": "db1ccd95121aa7c46300219f3aea3e80d66eb19ec07fd88492776d2a5f7cdaf2"
+  "sha256": "213e90ead30851076a81b58af815300cb73c66a5c57522d10c9eabae5e619d05"
 }

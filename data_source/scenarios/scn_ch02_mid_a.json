@@ -1,0 +1,55 @@
+{
+  "id": "SCN_CH02_MID_A",
+  "title_key": "SCENARIO_CH02_MID_A_TITLE",
+  "chapter_id": "CH02",
+  "commands": [
+    {
+      "id": "start",
+      "command": "set_background",
+      "asset_id": "bg_ch01_glass_rail_story"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr002_dev",
+      "expression": "ALERT"
+    },
+    {
+      "command": "fade_in",
+      "duration": 0.35
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_C2A_01"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_C2A_02"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "CONFIDENT"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_C2A_03"
+    },
+    {
+      "command": "grant_reward",
+      "item_id": "LANTERN_SHARD",
+      "quantity": 5
+    },
+    {
+      "command": "end_scenario"
+    }
+  ]
+}

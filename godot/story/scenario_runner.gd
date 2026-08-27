@@ -22,6 +22,8 @@ func load_scenario(scenario_id: String, resume := true) -> GameResult:
 			state.background_asset_id = str(saved.get("background_asset_id", ""))
 			state.cg_asset_id = str(saved.get("cg_asset_id", ""))
 			state.portraits = saved.get("portraits", {}).duplicate(true)
+			state.current_line = saved.get("current_line", {}).duplicate(true)
+			state.waiting_for_choice = bool(saved.get("waiting_for_choice", false))
 	return GameResult.success()
 
 func advance() -> Dictionary:
@@ -48,6 +50,7 @@ func advance() -> Dictionary:
 		elif type == "choice":
 			state.waiting_for_choice = true
 			state.current_line = command.duplicate(true)
+			_save_checkpoint()
 			return state.current_line
 		elif type == "set_flag": AppState.profile.story_flags[command.flag] = command.get("value", true)
 		elif type == "check_flag":
@@ -69,6 +72,7 @@ func advance() -> Dictionary:
 			return state.current_line
 		elif type == "grant_reward": AppState.add_item(command.item_id, int(command.get("quantity", 1)))
 		elif type == "end_scenario":
+			AppState.complete_story_trigger_for_scenario(state.scenario_id)
 			if state.scenario_id == "SCN_CH01_MID_B": AppState.profile.roster.CHR006.unlocked = true
 			if state.scenario_id == "SCN_CH01_OUTRO": AppState.profile.roster.CHR007.unlocked = true
 			state.finished = true

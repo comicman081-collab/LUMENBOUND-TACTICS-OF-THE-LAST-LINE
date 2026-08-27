@@ -6,31 +6,36 @@
     {
       "id": "start",
       "command": "set_background",
-      "asset_id": "bg_lantern_tunnel_dev"
+      "asset_id": "bg_ch01_glass_rail_story"
     },
     {
       "command": "show_portrait",
       "slot": "RIGHT",
-      "asset_id": "portrait_chr001_dev",
-      "expression": "DEFAULT"
+      "asset_id": "portrait_chr003_dev",
+      "expression": "SERIOUS"
     },
     {
       "command": "fade_in",
       "duration": 0.35
     },
     {
-      "command": "dialogue",
+      "command": "narration",
       "speaker_key": "SPEAKER_ROUTEKEEPER",
       "text_key": "STORY_C1B_01"
     },
     {
       "command": "narration",
-      "speaker_key": "SPEAKER_MAERU",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
       "text_key": "STORY_C1B_02"
     },
     {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "CONFIDENT"
+    },
+    {
       "command": "dialogue",
-      "speaker_key": "SPEAKER_MAERU",
+      "speaker_key": "SPEAKER_NARIN",
       "text_key": "STORY_C1B_03"
     },
     {

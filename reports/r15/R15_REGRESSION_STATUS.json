@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "executed_at": "2026-08-19T23:47:00+09:00",
+  "engine": "Godot 4.7.1 Stable Standard (Compatibility)",
+  "suites": [
+    {
+      "id": "HEADLESS_BASELINE",
+      "command": "tools/powershell/RUN_HEADLESS_TESTS.ps1",
+      "planned": 105,
+      "executed": 105,
+      "passed": 105,
+      "failed": 0
+    },
+    {
+      "id": "R15_CONTENT",
+      "command": "tools/powershell/RUN_R15_TESTS.ps1",
+      "planned": 31,
+      "executed": 31,
+      "passed": 31,
+      "failed": 0
+    },
+    {
+      "id": "R14_MAP_REGRESSION",
+      "command": "Godot --headless --path godot res://chapter_map/tests/map_test_runner.tscn",
+      "planned": 139,
+      "executed": 139,
+      "passed": 139,
+      "failed": 0
+    }
+  ],
+  "total": {
+    "planned": 275,
+    "executed": 275,
+    "passed": 275,
+    "failed": 0
+  },
+  "verdict": "PASS"
+}

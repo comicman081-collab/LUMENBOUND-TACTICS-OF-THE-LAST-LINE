@@ -1,0 +1,2339 @@
+{
+  "schemaVersion": 2,
+  "rejectedCostumeCandidates": {
+    "CHR009": {
+      "costumeId": "CHR009_COSTUME_B",
+      "authorityImage": "../../combat_hd_sources/chr009_costume_b_authority.png",
+      "authoritySha256": "6da7dd652a42f5860e22a484c518e4b9d5203e4503678205c4b30007b154833f",
+      "status": "REJECTED_VISUAL_AGE_READ_FAIL",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "identity_preserved",
+          "costume_only_deliberate_version",
+          "transparent_cutout",
+          "battle_scale_readability",
+          "separated_weapon_grip"
+        ],
+        "followups": [
+          "avoid over-dense waist details at battle scale",
+          "treat banner cloth and rear cloth as separate motion parts when bespoke animation is authored"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "red-orange bob, centered magenta diamond ornament, coral/magenta placement, vanguard read, spear/banner weapon",
+        "upper": "cropped coral armor jacket with dark underlayer and detached sleeves",
+        "lower": "magenta high-waisted short armor panels with asymmetric hip armor",
+        "boots": "magenta armored thigh-high boots",
+        "coverage": "ADULT_NON_EXPLICIT_HIGH_EXPOSURE",
+        "weaponGrip": "RIGHT_HAND_SEPARATED_READABLE_GRIP_ZONE"
+      }
+    }
+  },
+  "developmentCostumeOverrides": {
+    "BOSS003": {
+      "costumeId": "BOSS003_SILHOUETTE_B",
+      "authorityImage": "../../combat_hd_sources/boss003_silhouette_b_authority.png",
+      "authoritySha256": "1d6155e5ada551bf358ec1d4460016eafe363a14a87f62952949533f72e7a73b",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "unique_nonreused_boss_silhouette",
+          "olive_gold_twin_green_observer_identity",
+          "energy_barrier_boss_setting",
+          "phase_separated_core_antennae_rings",
+          "boss_scale_readability",
+          "transparent_cutout"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "genderless nonhuman White Dawn Observer; olive-gold faceted core; twin neon-green lenses; radial antennae; concentric barrier rings",
+        "silhouette": "massive floating polygonal observer core with six articulated antenna pylons and dual segmented barrier rings",
+        "phaseRig": "SEPARATED_CORE_ANTENNAE_INNER_RING_OUTER_RING",
+        "palette": "OLIVE_GOLD_NEON_GREEN_NEAR_BLACK",
+        "reusePolicy": "BOSS_UNIQUE_NO_REUSE",
+        "weaponGrip": "NOT_APPLICABLE_NONHUMAN"
+      }
+    },
+    "CHR009": {
+      "costumeId": "CHR009_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/chr009_costume_c_authority.png",
+      "authoritySha256": "7ee1bffa9a060d3028649e2131f2eecc8085a3c71959f903569197092646a619",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "blade_vanguard_setting",
+          "identity_color_hair_ornament",
+          "transparent_cutout",
+          "battle_scale_readability",
+          "separated_weapon_grip"
+        ],
+        "followups": [
+          "preserve major silhouette blocks when reducing to the battle atlas",
+          "do not add micro-detail to the saber guard or waistline in later frames"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female Lamplighter vanguard; red-orange bob; centered magenta diamond; coral/magenta palette; BLADE class",
+        "upper": "cropped coral expedition armor jacket with black structured underlayer and lantern shoulder module",
+        "lower": "magenta high-waisted armored shorts with field belt and asymmetric hip modules",
+        "boots": "black-and-gold thigh-high expedition armor boots",
+        "coverage": "ADULT_NON_EXPLICIT_HIGH_EXPOSURE",
+        "weaponGrip": "RIGHT_HAND_SEPARATED_READABLE_BLADE_GRIP_ZONE"
+      }
+    },
+    "CHR010": {
+      "costumeId": "CHR010_COSTUME_B",
+      "authorityImage": "../../combat_hd_sources/chr010_costume_b_authority.png",
+      "authoritySha256": "f462fbf50595c26d5196fd7a6867affd1524c0822ecc3b362ab6350963fded31",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "medic_backline_setting",
+          "support_device_energy_barrier",
+          "identity_color_hair_ornament",
+          "transparent_cutout",
+          "battle_scale_readability"
+        ],
+        "followups": [
+          "keep the support device on a separate runtime node",
+          "preserve major gold-white-magenta silhouette blocks at 112px"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female Lamplighter medic; golden bob; right magenta square ornament; gold/white/magenta palette; SUPPORT_DEVICE class",
+        "upper": "cropped white-and-gold medic jacket over a structured magenta-and-black top",
+        "lower": "opaque magenta high-waisted shorts with asymmetric medic pouches",
+        "boots": "black-and-gold thigh-high armored medic boots",
+        "coverage": "ADULT_NON_EXPLICIT_HIGH_EXPOSURE",
+        "weaponGrip": "LEFT_HAND_GESTURE_WITH_SEPARATED_FLOATING_SUPPORT_DEVICE"
+      }
+    },
+    "CHR011": {
+      "costumeId": "CHR011_COSTUME_B",
+      "authorityImage": "../../combat_hd_sources/chr011_costume_b_authority_r2.png",
+      "authoritySha256": "fb3bce3271009272b8dc530e73ff1028d3389669680a842543a5da2498b1e409",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "artillery_backline_anomaly_ward_setting",
+          "heavy_weapon_identity",
+          "two_continuous_arms_two_hands",
+          "support_and_trigger_grips",
+          "transparent_cutout"
+        ],
+        "supersedesFailedCandidate": "chr011_costume_b_authority.png"
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female Lamplighter artillery; orange short hair; left salmon square ornament; orange/salmon/black palette; HEAVY class",
+        "upper": "cropped orange-and-salmon artillery jacket over black structured armor",
+        "lower": "opaque salmon tactical shorts with cartridge and asymmetric hip modules",
+        "boots": "black armored thigh-high artillery boots",
+        "coverage": "ADULT_NON_EXPLICIT_HIGH_EXPOSURE",
+        "weaponGrip": "LEFT_UNDERSIDE_SUPPORT_GRIP_RIGHT_VERTICAL_TRIGGER_GRIP"
+      }
+    },
+    "CHR012": {
+      "costumeId": "CHR012_COSTUME_B",
+      "authorityImage": "../../combat_hd_sources/chr012_costume_b_authority.png",
+      "authoritySha256": "75a35503b92255cd14ca8285c9a9601e150ea9ef7f0a16e15eb34435418c7d41",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "specialist_midline_anomaly_ward_setting",
+          "focus_device_identity",
+          "two_continuous_casting_hands",
+          "separated_focus_rig_node",
+          "transparent_cutout"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female Lamplighter specialist; hot-pink asymmetric bob; left gold square ornament; pink/gold/burgundy palette; FOCUS class",
+        "upper": "cropped hot-pink ward jacket over structured burgundy specialist top",
+        "lower": "opaque gold-and-pink high-waisted shorts with geometric hip talismans",
+        "boots": "burgundy-and-gold thigh-high ward boots",
+        "coverage": "ADULT_NON_EXPLICIT_HIGH_EXPOSURE",
+        "weaponGrip": "DUAL_CASTING_GESTURES_WITH_SEPARATED_FLOATING_FOCUS_DEVICE"
+      }
+    },
+    "CHR013": {
+      "costumeId": "CHR013_COSTUME_B",
+      "authorityImage": "../../combat_hd_sources/chr013_costume_b_authority.png",
+      "authoritySha256": "6bc5817bf00befc17d8981f60afb519412435219abc3827f3d871f7de8c7d87c",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "guardian_frontline_energy_armor_setting",
+          "heavy_barrier_maul_identity",
+          "two_continuous_arms_two_hands",
+          "separated_upper_and_lower_grips",
+          "transparent_cutout"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female Lamplighter guardian; purple asymmetric bob; left mint square ornament; purple/mint/deep-violet palette; HEAVY class",
+        "upper": "cropped purple guardian armor over structured deep-violet combat top",
+        "lower": "opaque mint-and-purple high-waisted armored shorts with broad hip guards",
+        "boots": "violet-and-mint thigh-high guardian armor boots",
+        "coverage": "ADULT_NON_EXPLICIT_HIGH_EXPOSURE",
+        "weaponGrip": "LOWER_PRIMARY_GRIP_AND_UPPER_SUPPORT_GRIP_ON_HEAVY_BARRIER_MAUL"
+      }
+    },
+    "CHR014": {
+      "costumeId": "CHR014_COSTUME_D",
+      "authorityImage": "../../combat_hd_sources/renewed/chr014_costume_d_authority.png",
+      "authoritySha256": "c994d99182330aa2f626797ff71f86aa131eb77755e317198bdcede0cc6188b4",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female assault; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct assault combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "RIFLE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "CHR015": {
+      "costumeId": "CHR015_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr015_costume_c_authority.png",
+      "authoritySha256": "3e6dbf9a0b36f26fdd5d9775371a543f136ba4ce9ed28c6068e7a1c58dc91261",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female artillery; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct artillery combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "HEAVY_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "CHR016": {
+      "costumeId": "CHR016_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr016_costume_c_sd_r1_greenkey_authority.png",
+      "authoritySha256": "43ca4bb407a669e31f2c52bfc067ba126aa4bc79768e3bd22422b51e4ed41f33",
+      "status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "SD_IDENTITY_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_and_silhouette_preserved",
+          "player_screen_right_combat_intent",
+          "green_matte_keyed_to_transparent_rgba",
+          "complete_body_and_readable_hands_weapon_or_device"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female guardian; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct guardian combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "HEAVY_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      },
+      "artRevision": "SD_UNIFICATION_R1",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      }
+    },
+    "CHR017": {
+      "costumeId": "CHR017_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr017_costume_c_sd_r1_greenkey_authority.png",
+      "authoritySha256": "3af4881a402f91b3d9af4721aae8eabcc6615ce58f43c2650d68127ebc755704",
+      "status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "SD_IDENTITY_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_and_silhouette_preserved",
+          "player_screen_right_combat_intent",
+          "green_matte_keyed_to_transparent_rgba",
+          "complete_body_and_readable_hands_weapon_or_device"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female medic; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct medic combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "SUPPORT_DEVICE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      },
+      "artRevision": "SD_UNIFICATION_R1",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      }
+    },
+    "CHR018": {
+      "costumeId": "CHR018_COSTUME_D",
+      "authorityImage": "../../combat_hd_sources/renewed/chr018_costume_d_sd_r1_greenkey_authority.png",
+      "authoritySha256": "c959e7b43552a587b860f8f5fa358832928e68dbbf9415f9df434de86b4e5ee3",
+      "status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "SD_IDENTITY_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_and_silhouette_preserved",
+          "player_screen_right_combat_intent",
+          "green_matte_keyed_to_transparent_rgba",
+          "complete_body_and_readable_hands_weapon_or_device"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female assault; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct assault combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "RIFLE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      },
+      "artRevision": "SD_UNIFICATION_R1",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      }
+    },
+    "CHR019": {
+      "costumeId": "CHR019_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr019_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "7e4e3eab6db1616bc4a7f06a4c41272d8f849c61919b5f3414107f2ce6113e28",
+      "status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "SD_IDENTITY_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_and_silhouette_preserved",
+          "player_screen_right_combat_intent",
+          "green_matte_keyed_to_transparent_rgba",
+          "complete_body_and_readable_hands_weapon_or_device"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female specialist; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct specialist combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "FOCUS_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      },
+      "artRevision": "SD_UNIFICATION_R1",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      }
+    },
+    "CHR020": {
+      "costumeId": "CHR020_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr020_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "ae18e79d21fe6767b4c90daad5fab24d0726e55a06e7c736d6f73eaee3f62323",
+      "status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "SD_IDENTITY_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_and_silhouette_preserved",
+          "player_screen_right_combat_intent",
+          "green_matte_keyed_to_transparent_rgba",
+          "complete_body_and_readable_hands_weapon_or_device"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female vanguard; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct vanguard combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "BLADE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      },
+      "artRevision": "SD_UNIFICATION_R1",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      }
+    },
+    "CHR021": {
+      "costumeId": "CHR021_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr021_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "2dc4a06f7bdfc2cb3246f2c55e2d3e16b61eef176d55bac61d5f85a0f870783b",
+      "status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "SD_IDENTITY_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_and_silhouette_preserved",
+          "player_screen_right_combat_intent",
+          "green_matte_keyed_to_transparent_rgba",
+          "complete_body_and_readable_hands_weapon_or_device"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female medic; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct medic combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "SUPPORT_DEVICE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      },
+      "artRevision": "SD_UNIFICATION_R1",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      }
+    },
+    "CHR022": {
+      "costumeId": "CHR022_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr022_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "c35a7e74bc26ec34c26b3d7603630a81869f781ec225206c1649ab8461f2b0f9",
+      "status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "SD_IDENTITY_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_and_silhouette_preserved",
+          "player_screen_right_combat_intent",
+          "green_matte_keyed_to_transparent_rgba",
+          "complete_body_and_readable_hands_weapon_or_device"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female vanguard; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct vanguard combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "BLADE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      },
+      "artRevision": "SD_UNIFICATION_R1",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      }
+    },
+    "CHR023": {
+      "costumeId": "CHR023_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr023_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "ecc46527f20399867934ede4847d2468338fbe4ff226f6729f75fdc61a4ce49d",
+      "status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "SD_IDENTITY_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_and_silhouette_preserved",
+          "player_screen_right_combat_intent",
+          "green_matte_keyed_to_transparent_rgba",
+          "complete_body_and_readable_hands_weapon_or_device"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female artillery; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct artillery combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "HEAVY_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      },
+      "artRevision": "SD_UNIFICATION_R1",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      }
+    },
+    "CHR024": {
+      "costumeId": "CHR024_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr024_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "e11dc2c526422872124ecb94e4cdf21540c4633439451cf551b35ab3bf46b298",
+      "status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "SD_IDENTITY_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_and_silhouette_preserved",
+          "player_screen_right_combat_intent",
+          "green_matte_keyed_to_transparent_rgba",
+          "complete_body_and_readable_hands_weapon_or_device"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female specialist; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct specialist combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "FOCUS_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      },
+      "artRevision": "SD_UNIFICATION_R1",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      }
+    },
+    "CHR025": {
+      "costumeId": "CHR025_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr025_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "8a6213825b28bc520fc11794951dc4a757ea449e879ddeec1293634021d61159",
+      "status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "SD_IDENTITY_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_and_silhouette_preserved",
+          "player_screen_right_combat_intent",
+          "green_matte_keyed_to_transparent_rgba",
+          "complete_body_and_readable_hands_weapon_or_device"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female guardian; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct guardian combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "HEAVY_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      },
+      "artRevision": "SD_UNIFICATION_R1",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      }
+    },
+    "CHR026": {
+      "costumeId": "CHR026_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr026_costume_c_authority.png",
+      "authoritySha256": "c8f86b265f4b81371e5274f6f245c62c14e03b74a73182a6caa7cad66e2a343c",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female assault; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct assault combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "RIFLE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "CHR027": {
+      "costumeId": "CHR027_COSTUME_D",
+      "authorityImage": "../../combat_hd_sources/renewed/chr027_costume_d_sd_r1_rgba_authority.png",
+      "authoritySha256": "258e4b2a60c8c3a101d8cbf6d727ec44dc6de58ee603a8938282a551284d3da4",
+      "status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "SD_IDENTITY_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_and_silhouette_preserved",
+          "player_screen_right_combat_intent",
+          "green_matte_keyed_to_transparent_rgba",
+          "complete_body_and_readable_hands_weapon_or_device"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female specialist; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct specialist combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "FOCUS_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      },
+      "artRevision": "SD_UNIFICATION_R1",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      }
+    },
+    "CHR028": {
+      "costumeId": "CHR028_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr028_costume_c_authority.png",
+      "authoritySha256": "40c7fd4d97de862effb8313a5e3812e3abdb2f2da4a732cf734c9f9ae5c6b7bc",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female vanguard; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct vanguard combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "BLADE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "CHR029": {
+      "costumeId": "CHR029_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr029_costume_c_authority.png",
+      "authoritySha256": "b974cc4b2b3b40084a5043292d71e61d71d052316698b9504a0b3ea1691ebcb0",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female medic; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct medic combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "SUPPORT_DEVICE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "CHR030": {
+      "costumeId": "CHR030_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr030_costume_c_authority.png",
+      "authoritySha256": "7b6b3e5278ef8fc535a1ad855efae082cd281ecd8e0ac97485f231b98fffba4c",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female artillery; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct artillery combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "HEAVY_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "CHR031": {
+      "costumeId": "CHR031_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr031_costume_c_authority.png",
+      "authoritySha256": "bfc1f639fbbcea8c8876cc9a5b5a9933bd1c977015d990ab15391b665862729c",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female guardian; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct guardian combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "HEAVY_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "CHR032": {
+      "costumeId": "CHR032_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr032_costume_c_authority.png",
+      "authoritySha256": "fa6d618cb9bae926033a5c728dcb669d09f0bfa59358697bd61dbb1dd952ee6f",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female assault; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct assault combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "RIFLE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "CHR033": {
+      "costumeId": "CHR033_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr033_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "841a1e14c29b56e9a4d9135ce5ee8c6e08c7eb97e477c171d8c4d3794671fb87",
+      "status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "SD_IDENTITY_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_and_silhouette_preserved",
+          "player_screen_right_combat_intent",
+          "green_matte_keyed_to_transparent_rgba",
+          "complete_body_and_readable_hands_weapon_or_device"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female specialist; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct specialist combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "FOCUS_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      },
+      "artRevision": "SD_UNIFICATION_R1",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      }
+    },
+    "CHR034": {
+      "costumeId": "CHR034_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr034_costume_c_authority.png",
+      "authoritySha256": "dd9e9790d9a039674b06c5474c5ce0262bd982674575de6336237494f9b5959a",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female guardian; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct guardian combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "HEAVY_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "CHR035": {
+      "costumeId": "CHR035_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr035_costume_c_authority.png",
+      "authoritySha256": "4df2af917c90dde64c5dc6aa9b4ebc8653f53d11e2d819e4a8cf4a4b4242998f",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female artillery; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct artillery combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "HEAVY_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "CHR036": {
+      "costumeId": "CHR036_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr036_costume_c_authority.png",
+      "authoritySha256": "a118ff844d7d9f9b04e7f895fd0afea90528b2ff39e74144fb09e858afad10d9",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female medic; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct medic combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "SUPPORT_DEVICE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "CHR037": {
+      "costumeId": "CHR037_COSTUME_D",
+      "authorityImage": "../../combat_hd_sources/renewed/chr037_costume_d_authority.png",
+      "authoritySha256": "ff3a749d63fa5c530ba3c3cebe66863bb261d27748c7a9f984a9da3faebfe723",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female vanguard; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct vanguard combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "BLADE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "CHR038": {
+      "costumeId": "CHR038_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr038_costume_c_authority.png",
+      "authoritySha256": "e95fb733bc4499c9ac2059d97f4814c77be887f1d3b5063cd8caca8d57edf835",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female assault; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct assault combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "RIFLE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "CHR039": {
+      "costumeId": "CHR039_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr039_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "b21ff832c1c6bb583773ca44f8f5af516b87fa36ff499691a5745ae69bc7bff7",
+      "status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "SD_IDENTITY_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_and_silhouette_preserved",
+          "player_screen_right_combat_intent",
+          "green_matte_keyed_to_transparent_rgba",
+          "complete_body_and_readable_hands_weapon_or_device"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female specialist; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct specialist combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "FOCUS_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      },
+      "artRevision": "SD_UNIFICATION_R1",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      }
+    },
+    "CHR040": {
+      "costumeId": "CHR040_COSTUME_D",
+      "authorityImage": "../../combat_hd_sources/renewed/chr040_costume_d_sd_r1_rgba_authority.png",
+      "authoritySha256": "abba3e8a70ef3f29b168e148e8c42d6593f1a8675de2e81303a8fe6f29fc7396",
+      "status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "SD_IDENTITY_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_and_silhouette_preserved",
+          "player_screen_right_combat_intent",
+          "green_matte_keyed_to_transparent_rgba",
+          "complete_body_and_readable_hands_weapon_or_device"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female medic; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct medic combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "SUPPORT_DEVICE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      },
+      "artRevision": "SD_UNIFICATION_R1",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      }
+    },
+    "CHR041": {
+      "costumeId": "CHR041_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr041_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "b1295402e97ea8856ced2ec3367b86871decb77220d5637d4550dacac09c3462",
+      "status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "SD_IDENTITY_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_and_silhouette_preserved",
+          "player_screen_right_combat_intent",
+          "green_matte_keyed_to_transparent_rgba",
+          "complete_body_and_readable_hands_weapon_or_device"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female vanguard; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct vanguard combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "BLADE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      },
+      "artRevision": "SD_UNIFICATION_R1",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      }
+    },
+    "CHR042": {
+      "costumeId": "CHR042_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr042_costume_c_authority.png",
+      "authoritySha256": "b225b369adfd6b4459a538310f14309a05add11064e9d795aed18d1a65c41108",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female artillery; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct artillery combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "HEAVY_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "CHR043": {
+      "costumeId": "CHR043_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr043_costume_c_authority.png",
+      "authoritySha256": "1c5600f6975100438b3760d9188bcfe6a01be544735326b56059ba013b622e98",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female guardian; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct guardian combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "HEAVY_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "CHR044": {
+      "costumeId": "CHR044_COSTUME_C",
+      "authorityImage": "../../combat_hd_sources/renewed/chr044_costume_c_authority.png",
+      "authoritySha256": "af648ab79650a463f593e7bd9220c53af4637dcd97d13560d7c963c76cfa770d",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "adult_15_plus_sd_read",
+          "source_identity_hair_ornament_palette_role_weapon_preserved",
+          "distinct_face_body_pose_reviewed",
+          "transparent_cutout",
+          "complete_body_and_readable_hands_or_weapon"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female assault; original hair, screen-relative ornament, palette placement, role and weapon class retained",
+        "silhouette": "distinct assault combat read reviewed against the active roster",
+        "garmentModules": "premium high-resolution SD costume revision derived from the approved authority source",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "source hair and screen-relative ornament placement locked",
+        "weaponGrip": "RIFLE_READABLE_GRIP_OR_SEPARATED_SUPPORT_DEVICE"
+      }
+    },
+    "ENM010": {
+      "costumeId": "ENM010_SILHOUETTE_B",
+      "authorityImage": "../../combat_hd_sources/enm010_silhouette_b_authority.png",
+      "authoritySha256": "b4451844e93434669e533cd023e510afa00326c9f05c472e5c09bc850d47ca4c",
+      "status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "existing_gpt_web_session",
+        "checks": [
+          "normal_enemy_hierarchy",
+          "melee_rush_physical_armor_setting",
+          "cyan_twin_sensor_three_antenna_identity",
+          "separated_core_legs_claws_antennae",
+          "battle_scale_readability",
+          "transparent_cutout"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "genderless nonhuman Brokenline Tracker; cyan polygonal core; twin blue sensors; dark navy chassis; three antennae",
+        "silhouette": "low-slung four-legged tracker drone with two forward hooked ramming claws",
+        "motionRig": "SEPARATED_CORE_FOUR_LEGS_TWO_CLAWS_THREE_ANTENNAE",
+        "palette": "CYAN_ELECTRIC_BLUE_DARK_NAVY",
+        "reusePolicy": "NORMAL_ARCHETYPE_CONTROLLED_REUSE_ALLOWED",
+        "weaponGrip": "NOT_APPLICABLE_NONHUMAN"
+      }
+    }
+  },
+  "candidates": {
+    "CHR009": {
+      "costumeId": "CHR009_COSTUME_A",
+      "authorityImage": "chr009_authority.png",
+      "authoritySha256": "96c9c40fb9a4c10ed2381c09465ebe9670cad536776dce8a3dcdac826d1affe8",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "VANGUARD",
+        "palette": {
+          "primary": [
+            234,
+            112,
+            91
+          ],
+          "secondary": [
+            209,
+            79,
+            176
+          ],
+          "trim": [
+            243,
+            177,
+            166
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR010": {
+      "costumeId": "CHR010_COSTUME_A",
+      "authorityImage": "chr010_authority.png",
+      "authoritySha256": "0c68bc1ae536e1e97f53e2083cabe89a8b807315be4a1c6cfadd69bc6f3ec7b9",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "MEDIC",
+        "palette": {
+          "primary": [
+            234,
+            185,
+            49
+          ],
+          "secondary": [
+            209,
+            75,
+            122
+          ],
+          "trim": [
+            243,
+            217,
+            143
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR011": {
+      "costumeId": "CHR011_COSTUME_A",
+      "authorityImage": "chr011_authority.png",
+      "authoritySha256": "fe83cb635e1197deec5ec94dc63760932f5990cb892c76b6c8687d3028134ea3",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "ARTILLERY",
+        "palette": {
+          "primary": [
+            234,
+            161,
+            77
+          ],
+          "secondary": [
+            209,
+            120,
+            102
+          ],
+          "trim": [
+            243,
+            204,
+            158
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR012": {
+      "costumeId": "CHR012_COSTUME_A",
+      "authorityImage": "chr012_authority.png",
+      "authoritySha256": "81ce30addae118de4a997d9192e09254e1e87ed712f65ef989be746b4782c486",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "SPECIALIST",
+        "palette": {
+          "primary": [
+            234,
+            46,
+            112
+          ],
+          "secondary": [
+            209,
+            172,
+            79
+          ],
+          "trim": [
+            243,
+            142,
+            177
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR013": {
+      "costumeId": "CHR013_COSTUME_A",
+      "authorityImage": "chr013_authority.png",
+      "authoritySha256": "eed1325a35b1852fcff81fbe2ae67d0be395d86638713aaa74b2213d6b769afa",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "GUARDIAN",
+        "palette": {
+          "primary": [
+            158,
+            82,
+            234
+          ],
+          "secondary": [
+            79,
+            209,
+            152
+          ],
+          "trim": [
+            202,
+            161,
+            243
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR014": {
+      "costumeId": "CHR014_COSTUME_A",
+      "authorityImage": "chr014_authority.png",
+      "authoritySha256": "e8e1343f8c6cefd5f520c0350f63a9bee08da9a875aacc84b6861cd1c5cbbca3",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "ASSAULT",
+        "palette": {
+          "primary": [
+            65,
+            234,
+            91
+          ],
+          "secondary": [
+            209,
+            153,
+            58
+          ],
+          "trim": [
+            152,
+            243,
+            166
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR015": {
+      "costumeId": "CHR015_COSTUME_A",
+      "authorityImage": "chr015_authority.png",
+      "authoritySha256": "3b6e8ba5c880958090deaff613eb9c4b6215cccf1bc453f77ab538d64f3c76d4",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "ARTILLERY",
+        "palette": {
+          "primary": [
+            234,
+            77,
+            221
+          ],
+          "secondary": [
+            89,
+            209,
+            209
+          ],
+          "trim": [
+            243,
+            158,
+            236
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR016": {
+      "costumeId": "CHR016_COSTUME_A",
+      "authorityImage": "chr016_authority.png",
+      "authoritySha256": "7c8800248c02b0eb687842a6fb64b5922dc92e44556fe4acb23788993284cf11",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "GUARDIAN",
+        "palette": {
+          "primary": [
+            234,
+            75,
+            231
+          ],
+          "secondary": [
+            148,
+            98,
+            209
+          ],
+          "trim": [
+            243,
+            157,
+            242
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR017": {
+      "costumeId": "CHR017_COSTUME_A",
+      "authorityImage": "chr017_authority.png",
+      "authoritySha256": "e062ba967118b9a24b7e87013fa494d32db78ba268c8ee43f9ea8acf1baef119",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "MEDIC",
+        "palette": {
+          "primary": [
+            169,
+            72,
+            234
+          ],
+          "secondary": [
+            194,
+            81,
+            209
+          ],
+          "trim": [
+            208,
+            156,
+            243
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR018": {
+      "costumeId": "CHR018_COSTUME_A",
+      "authorityImage": "chr018_authority.png",
+      "authoritySha256": "3f860d7f14cbecda3c58f5a61a21e60d2c6b9d5da7c274d93263eb2a02702343",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "ASSAULT",
+        "palette": {
+          "primary": [
+            89,
+            234,
+            157
+          ],
+          "secondary": [
+            75,
+            197,
+            209
+          ],
+          "trim": [
+            165,
+            243,
+            202
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR019": {
+      "costumeId": "CHR019_COSTUME_A",
+      "authorityImage": "chr019_authority.png",
+      "authoritySha256": "87eeb9efc3189216b8b9d2866f77c71081a1eabfbc425fb0e039cfbb2b3d600a",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "SPECIALIST",
+        "palette": {
+          "primary": [
+            234,
+            53,
+            135
+          ],
+          "secondary": [
+            104,
+            153,
+            209
+          ],
+          "trim": [
+            243,
+            145,
+            190
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR020": {
+      "costumeId": "CHR020_COSTUME_A",
+      "authorityImage": "chr020_authority.png",
+      "authoritySha256": "5b63e09f9f4f840d09f6ad8657a5edcd4038d3a370e532824b6b121695b86e7e",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "VANGUARD",
+        "palette": {
+          "primary": [
+            137,
+            63,
+            234
+          ],
+          "secondary": [
+            209,
+            153,
+            69
+          ],
+          "trim": [
+            191,
+            151,
+            243
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR021": {
+      "costumeId": "CHR021_COSTUME_A",
+      "authorityImage": "chr021_authority.png",
+      "authoritySha256": "af9e79a12086651311f740ce1c1924baf0482f4f4c8d24146b13c55dc33517e0",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "MEDIC",
+        "palette": {
+          "primary": [
+            234,
+            65,
+            110
+          ],
+          "secondary": [
+            209,
+            66,
+            92
+          ],
+          "trim": [
+            243,
+            152,
+            176
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR022": {
+      "costumeId": "CHR022_COSTUME_A",
+      "authorityImage": "chr022_authority.png",
+      "authoritySha256": "77c9929948a23cadb2b56a7b0a8982879262157af2ed391a4d43f2489ebff43e",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "VANGUARD",
+        "palette": {
+          "primary": [
+            190,
+            234,
+            114
+          ],
+          "secondary": [
+            209,
+            124,
+            46
+          ],
+          "trim": [
+            219,
+            243,
+            178
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR023": {
+      "costumeId": "CHR023_COSTUME_A",
+      "authorityImage": "chr023_authority.png",
+      "authoritySha256": "8832e478784f274f3d4943a8e983ae3a113e3e90aa647d903f8d5f3075608295",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "ARTILLERY",
+        "palette": {
+          "primary": [
+            213,
+            234,
+            93
+          ],
+          "secondary": [
+            209,
+            118,
+            54
+          ],
+          "trim": [
+            232,
+            243,
+            167
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR024": {
+      "costumeId": "CHR024_COSTUME_A",
+      "authorityImage": "chr024_authority.png",
+      "authoritySha256": "e93cb41aaa0fac8823f29284343cbb3fd05b8fce5a5155c7c2593e7dae094cda",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "SPECIALIST",
+        "palette": {
+          "primary": [
+            72,
+            234,
+            121
+          ],
+          "secondary": [
+            54,
+            121,
+            209
+          ],
+          "trim": [
+            156,
+            243,
+            182
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR025": {
+      "costumeId": "CHR025_COSTUME_A",
+      "authorityImage": "chr025_authority.png",
+      "authoritySha256": "bc9d8ca985170d51f59e87d2197151b9e2d66d4c3628f2e070f4b073b36e578c",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "GUARDIAN",
+        "palette": {
+          "primary": [
+            107,
+            234,
+            116
+          ],
+          "secondary": [
+            60,
+            132,
+            209
+          ],
+          "trim": [
+            175,
+            243,
+            179
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR026": {
+      "costumeId": "CHR026_COSTUME_A",
+      "authorityImage": "chr026_authority.png",
+      "authoritySha256": "ad8ab310e151be338fdc4958a7b48ce5a9d0c35f586ac1f7958a41edbdaa372f",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "ASSAULT",
+        "palette": {
+          "primary": [
+            121,
+            140,
+            234
+          ],
+          "secondary": [
+            209,
+            70,
+            60
+          ],
+          "trim": [
+            182,
+            192,
+            243
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR027": {
+      "costumeId": "CHR027_COSTUME_A",
+      "authorityImage": "chr027_authority.png",
+      "authoritySha256": "003fc3543e654ed4a977e61fb04789b94a0bea876553d8f40b4e18f2a65dc444",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "SPECIALIST",
+        "palette": {
+          "primary": [
+            75,
+            234,
+            197
+          ],
+          "secondary": [
+            83,
+            179,
+            209
+          ],
+          "trim": [
+            157,
+            243,
+            223
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR028": {
+      "costumeId": "CHR028_COSTUME_A",
+      "authorityImage": "chr028_authority.png",
+      "authoritySha256": "a8b0718bd9a01b33a79a2fcdabc0c717e8ea7f4230f8e20b6ff59c33246e1b44",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "VANGUARD",
+        "palette": {
+          "primary": [
+            102,
+            79,
+            234
+          ],
+          "secondary": [
+            151,
+            209,
+            94
+          ],
+          "trim": [
+            172,
+            159,
+            243
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR029": {
+      "costumeId": "CHR029_COSTUME_A",
+      "authorityImage": "chr029_authority.png",
+      "authoritySha256": "7cf9ba3fae40ca598186556ceebdb51e6489e790add6374e1af6651b517acd52",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "MEDIC",
+        "palette": {
+          "primary": [
+            234,
+            107,
+            215
+          ],
+          "secondary": [
+            195,
+            209,
+            41
+          ],
+          "trim": [
+            243,
+            175,
+            233
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR030": {
+      "costumeId": "CHR030_COSTUME_A",
+      "authorityImage": "chr030_authority.png",
+      "authoritySha256": "ad0663a269174300ea21a2750cc70b10d47ae41bf6c714cc6ad6ae1237be7176",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "ARTILLERY",
+        "palette": {
+          "primary": [
+            196,
+            91,
+            234
+          ],
+          "secondary": [
+            188,
+            209,
+            69
+          ],
+          "trim": [
+            223,
+            166,
+            243
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR031": {
+      "costumeId": "CHR031_COSTUME_A",
+      "authorityImage": "chr031_authority.png",
+      "authoritySha256": "a4dc4196524fa102d56a1505a623d4cfef8b91497b23282f0258d9a80f80f40a",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "GUARDIAN",
+        "palette": {
+          "primary": [
+            234,
+            70,
+            119
+          ],
+          "secondary": [
+            209,
+            87,
+            138
+          ],
+          "trim": [
+            243,
+            155,
+            181
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR032": {
+      "costumeId": "CHR032_COSTUME_A",
+      "authorityImage": "chr032_authority.png",
+      "authoritySha256": "b9d946e482c25a31c9a01eebf69b9435d22809bbbb1b4771557503723a2f29ec",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "ASSAULT",
+        "palette": {
+          "primary": [
+            154,
+            234,
+            119
+          ],
+          "secondary": [
+            106,
+            169,
+            209
+          ],
+          "trim": [
+            200,
+            243,
+            181
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR033": {
+      "costumeId": "CHR033_COSTUME_A",
+      "authorityImage": "chr033_authority.png",
+      "authoritySha256": "b49792edda4b1344d96c59fb632b540dd385875c0e02dac401e117ef0c0fe449",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "SPECIALIST",
+        "palette": {
+          "primary": [
+            234,
+            209,
+            117
+          ],
+          "secondary": [
+            39,
+            76,
+            209
+          ],
+          "trim": [
+            243,
+            230,
+            180
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR034": {
+      "costumeId": "CHR034_COSTUME_A",
+      "authorityImage": "chr034_authority.png",
+      "authoritySha256": "8dabec147ca619cd30cab37359fe04fe423f1fb6d83b4ac85e93648de5e5d804",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "GUARDIAN",
+        "palette": {
+          "primary": [
+            234,
+            160,
+            49
+          ],
+          "secondary": [
+            58,
+            209,
+            108
+          ],
+          "trim": [
+            243,
+            203,
+            143
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR035": {
+      "costumeId": "CHR035_COSTUME_A",
+      "authorityImage": "chr035_authority.png",
+      "authoritySha256": "7f82a35d0031e2378e7e121ff9936abd3543407bafd9ed30d3615efef4ff1163",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "ARTILLERY",
+        "palette": {
+          "primary": [
+            234,
+            51,
+            118
+          ],
+          "secondary": [
+            95,
+            73,
+            209
+          ],
+          "trim": [
+            243,
+            144,
+            181
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR036": {
+      "costumeId": "CHR036_COSTUME_A",
+      "authorityImage": "chr036_authority.png",
+      "authoritySha256": "072351d145754ed884c16941ec89235bdb792901517dae8d877948c4cc897c6d",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "MEDIC",
+        "palette": {
+          "primary": [
+            128,
+            234,
+            63
+          ],
+          "secondary": [
+            209,
+            71,
+            100
+          ],
+          "trim": [
+            186,
+            243,
+            151
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR037": {
+      "costumeId": "CHR037_COSTUME_A",
+      "authorityImage": "chr037_authority.png",
+      "authoritySha256": "360c858936e520812431122a8d0853a5363201dda65c96450347a22c46611bb6",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "VANGUARD",
+        "palette": {
+          "primary": [
+            77,
+            111,
+            234
+          ],
+          "secondary": [
+            132,
+            209,
+            64
+          ],
+          "trim": [
+            158,
+            177,
+            243
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR038": {
+      "costumeId": "CHR038_COSTUME_A",
+      "authorityImage": "chr038_authority.png",
+      "authoritySha256": "63e2b0c839af004ab4f67dcd6f518eb28ff8bf4f1d45b8abcddb01f20f04f29f",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "ASSAULT",
+        "palette": {
+          "primary": [
+            56,
+            207,
+            234
+          ],
+          "secondary": [
+            161,
+            209,
+            39
+          ],
+          "trim": [
+            147,
+            229,
+            243
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR039": {
+      "costumeId": "CHR039_COSTUME_A",
+      "authorityImage": "chr039_authority.png",
+      "authoritySha256": "a0a2337ec5368c649778be7aab88bae60f2407c1b7138f22c6f54bc6f718cc6e",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "SPECIALIST",
+        "palette": {
+          "primary": [
+            66,
+            60,
+            234
+          ],
+          "secondary": [
+            154,
+            83,
+            209
+          ],
+          "trim": [
+            152,
+            149,
+            243
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR040": {
+      "costumeId": "CHR040_COSTUME_A",
+      "authorityImage": "chr040_authority.png",
+      "authoritySha256": "10f1e15c3bf563ae7994899e159d4f60b21bd5d5f1b82bce4d8a2b40bde30b68",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "MEDIC",
+        "palette": {
+          "primary": [
+            125,
+            70,
+            234
+          ],
+          "secondary": [
+            102,
+            155,
+            209
+          ],
+          "trim": [
+            184,
+            155,
+            243
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR041": {
+      "costumeId": "CHR041_COSTUME_A",
+      "authorityImage": "chr041_authority.png",
+      "authoritySha256": "eb34e88454590b2481ed79cdf7ab64210f9820b6435a7aedef79def2b69ad0dc",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "VANGUARD",
+        "palette": {
+          "primary": [
+            46,
+            50,
+            234
+          ],
+          "secondary": [
+            131,
+            79,
+            209
+          ],
+          "trim": [
+            142,
+            144,
+            243
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR042": {
+      "costumeId": "CHR042_COSTUME_A",
+      "authorityImage": "chr042_authority.png",
+      "authoritySha256": "0b5278e33ae2d7e3d571fc80e3bdf045457bf22c3fee611ff8f000cea8e5ef27",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "ARTILLERY",
+        "palette": {
+          "primary": [
+            112,
+            234,
+            169
+          ],
+          "secondary": [
+            209,
+            58,
+            76
+          ],
+          "trim": [
+            177,
+            243,
+            208
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR043": {
+      "costumeId": "CHR043_COSTUME_A",
+      "authorityImage": "chr043_authority.png",
+      "authoritySha256": "e8bdfb78df31d6dd61a71457dd2e2229e747692910e7843362d37ef14c11d0b8",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "GUARDIAN",
+        "palette": {
+          "primary": [
+            231,
+            234,
+            60
+          ],
+          "secondary": [
+            64,
+            79,
+            209
+          ],
+          "trim": [
+            242,
+            243,
+            149
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "CHR044": {
+      "costumeId": "CHR044_COSTUME_A",
+      "authorityImage": "chr044_authority.png",
+      "authoritySha256": "1dba193977c5d9658444d12cf62af836fe5dda321b9f0aaa2098d3d33c34926d",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "ASSAULT",
+        "palette": {
+          "primary": [
+            220,
+            234,
+            117
+          ],
+          "secondary": [
+            209,
+            54,
+            149
+          ],
+          "trim": [
+            236,
+            243,
+            180
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "ENM010": {
+      "costumeId": "ENM010_SILHOUETTE_A",
+      "authorityImage": "enm010_authority.png",
+      "authoritySha256": "8dc946b00980d5e57d9f35d80320a61cadbf6cb365d1fabde86adbbdc8413a99",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "MELEE_RUSH",
+        "palette": {
+          "primary": [
+            51,
+            176,
+            198
+          ],
+          "secondary": [
+            51,
+            157,
+            244
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "ENM011": {
+      "costumeId": "ENM011_SILHOUETTE_A",
+      "authorityImage": "enm011_authority.png",
+      "authoritySha256": "f430385f4a1db4680b6211c160c76e7e7ea554330ce4ed5054ec4ecf243d0ad8",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "RANGED",
+        "palette": {
+          "primary": [
+            70,
+            55,
+            198
+          ],
+          "secondary": [
+            244,
+            57,
+            51
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "ENM012": {
+      "costumeId": "ENM012_SILHOUETTE_A",
+      "authorityImage": "enm012_authority.png",
+      "authoritySha256": "46de47d313178e44888cb1e86e185f94750e64991cbbed9a89219094274661d6",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "DEFENDER",
+        "palette": {
+          "primary": [
+            177,
+            79,
+            198
+          ],
+          "secondary": [
+            244,
+            58,
+            117
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "BOSS003": {
+      "costumeId": "BOSS003_SILHOUETTE_A",
+      "authorityImage": "boss003_authority.png",
+      "authoritySha256": "6f2d10eb7a6ac812ed5eb6612a45796cd3c64c82bdf0bbed991ce3f79cb16a3b",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "BOSS_PATTERN",
+        "palette": {
+          "primary": [
+            197,
+            198,
+            89
+          ],
+          "secondary": [
+            98,
+            244,
+            93
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "ENM013": {
+      "costumeId": "ENM013_SILHOUETTE_A",
+      "authorityImage": "enm013_authority.png",
+      "authoritySha256": "110818141de91cdddeb2cefbc6f8ba493f6821e3e015774583ece385544175c7",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "RANGED",
+        "palette": {
+          "primary": [
+            198,
+            197,
+            91
+          ],
+          "secondary": [
+            244,
+            133,
+            58
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "ENM014": {
+      "costumeId": "ENM014_SILHOUETTE_A",
+      "authorityImage": "enm014_authority.png",
+      "authoritySha256": "55c59e843e212ae1705a092252224b55ef0caa10511c73b37bf102a97a3aecf1",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "ARTILLERY",
+        "palette": {
+          "primary": [
+            198,
+            163,
+            81
+          ],
+          "secondary": [
+            244,
+            124,
+            119
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "ENM015": {
+      "costumeId": "ENM015_SILHOUETTE_A",
+      "authorityImage": "enm015_authority.png",
+      "authoritySha256": "0a6ace76ccab4de8df23080d84eaa3399bc0d6fa9de79a2f780f28bc537bf9ee",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "BUFFER",
+        "palette": {
+          "primary": [
+            89,
+            180,
+            198
+          ],
+          "secondary": [
+            93,
+            201,
+            244
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "BOSS004": {
+      "costumeId": "BOSS004_SILHOUETTE_A",
+      "authorityImage": "boss004_authority.png",
+      "authoritySha256": "e494dac7ad4b353bd60c56f85b08616d3f61cd54e70cb780229747481773f051",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "BOSS_PATTERN",
+        "palette": {
+          "primary": [
+            37,
+            193,
+            198
+          ],
+          "secondary": [
+            174,
+            68,
+            244
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    },
+    "BOSS005": {
+      "costumeId": "BOSS005_SILHOUETTE_A",
+      "authorityImage": "boss005_authority.png",
+      "authoritySha256": "fce4e5cfa926a3c6bc8d8900c2d6627942dc29e5de786131f13263b0fdf692b2",
+      "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
+      "fingerprint": {
+        "role": "BOSS_PATTERN",
+        "palette": {
+          "primary": [
+            164,
+            59,
+            198
+          ],
+          "secondary": [
+            56,
+            75,
+            244
+          ]
+        },
+        "coverage": "NON_EXPLICIT_FULL_BODY",
+        "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"
+      }
+    }
+  }
+}

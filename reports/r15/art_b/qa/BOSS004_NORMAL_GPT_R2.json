@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "source": "data_source\\art_source\\vfx_hd_sources\\boss004_normal_gpt_r1.png",
+  "source_sha256": "b593acd0f6a10cb312ff2872ef69e4f97501c608208d8e230dd3c7f9fd1b000c",
+  "source_size": [
+    1448,
+    1086
+  ],
+  "source_cell": 362,
+  "runtime_atlas": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\boss004_normal_gpt_r2_atlas_448x336.png",
+  "runtime_sha256": "6536f4dd2432fda4ea4c97bebea8661c1ad40a4dff228c3dcf4df253dbea965e",
+  "runtime_cell": 112,
+  "center_clearance_applied": true,
+  "masked_source": "data_source\\art_source\\vfx_hd_sources\\boss004_normal_gpt_r2_authority.png",
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "frames": [
+    {
+      "frame": 0,
+      "source_center_alpha_occupancy": 0.396,
+      "runtime_center_alpha_occupancy": 0.1694
+    },
+    {
+      "frame": 1,
+      "source_center_alpha_occupancy": 0.4374,
+      "runtime_center_alpha_occupancy": 0.1703
+    },
+    {
+      "frame": 2,
+      "source_center_alpha_occupancy": 0.4288,
+      "runtime_center_alpha_occupancy": 0.1778
+    },
+    {
+      "frame": 3,
+      "source_center_alpha_occupancy": 0.4348,
+      "runtime_center_alpha_occupancy": 0.1305
+    },
+    {
+      "frame": 4,
+      "source_center_alpha_occupancy": 0.3475,
+      "runtime_center_alpha_occupancy": 0.1252
+    },
+    {
+      "frame": 5,
+      "source_center_alpha_occupancy": 0.8349,
+      "runtime_center_alpha_occupancy": 0.1847
+    },
+    {
+      "frame": 6,
+      "source_center_alpha_occupancy": 0.77,
+      "runtime_center_alpha_occupancy": 0.1703
+    },
+    {
+      "frame": 7,
+      "source_center_alpha_occupancy": 0.5492,
+      "runtime_center_alpha_occupancy": 0.1758
+    },
+    {
+      "frame": 8,
+      "source_center_alpha_occupancy": 0.4675,
+      "runtime_center_alpha_occupancy": 0.148
+    },
+    {
+      "frame": 9,
+      "source_center_alpha_occupancy": 0.3103,
+      "runtime_center_alpha_occupancy": 0.089
+    },
+    {
+      "frame": 10,
+      "source_center_alpha_occupancy": 0.2143,
+      "runtime_center_alpha_occupancy": 0.074
+    },
+    {
+      "frame": 11,
+      "source_center_alpha_occupancy": 0.222,
+      "runtime_center_alpha_occupancy": 0.0557
+    }
+  ],
+  "central_clearance_policy": "visual review required; occupancy is diagnostic, not automatic acceptance"
+}

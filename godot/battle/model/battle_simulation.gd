@@ -107,6 +107,21 @@ func tick() -> void:
 		_tick_unit(unit)
 	_check_flow()
 
+func advance_to_terminal(max_additional_ticks := -1) -> bool:
+	## Resolve the remaining live battle through the exact same deterministic
+	## 30 Hz simulation used by normal play.  This is presentation skip, not a
+	## fabricated victory: current HP, RNG, queued commands and AUTO policy stay
+	## authoritative, so defeat and timeout remain possible.
+	if state.ended:
+		return true
+	var remaining_limit_ticks := ceili(maxf(0.0, state.time_limit - state.time_elapsed) / TICK_DELTA) + 2
+	var budget := remaining_limit_ticks if max_additional_ticks < 0 else maxi(0, max_additional_ticks)
+	for _index in range(budget):
+		if state.ended:
+			break
+		tick()
+	return state.ended
+
 func _tick_unit(unit: Dictionary) -> void:
 	if not UnitState.alive(unit) or UnitState.has_status(unit, "STUN"):
 		return
@@ -297,16 +312,37 @@ func _tick_boss_patterns(boss: Dictionary) -> void:
 		elif pattern.condition == "TIME_LEFT_BELOW": triggered = state.time_limit - state.time_elapsed <= float(pattern.value)
 		if not triggered: continue
 		boss.pattern_triggers[key] = true
-		if pattern.action == "AOE":
-			for target in state.party:
-				if UnitState.alive(target): _deal_damage(boss, target, .72, "BOSS_PATTERN")
-		elif pattern.action == "PHASE_2":
+		var action := str(pattern.get("action", ""))
+		if action == "PHASE_2":
 			boss.phase = "PHASE_2"
 			_emit(BattleEvent.make(state.tick, BattleEvent.STATUS, boss.uid, boss.uid, 0, {"phase": "PHASE_2"}))
-		elif pattern.action == "ENRAGE":
+		elif action == "ENRAGE":
 			boss.phase = "ENRAGE"
-			boss.outgoing_modifier = 1.35
+			boss.outgoing_modifier = float(pattern.get("outgoing_multiplier", 1.35))
 			_emit(BattleEvent.make(state.tick, BattleEvent.STATUS, boss.uid, boss.uid, 0, {"phase": "ENRAGE"}))
+		elif action == "GATE_CLOSE":
+			_emit_boss_pattern_cast(boss, boss, action)
+			_apply_shield(boss, boss, float(pattern.get("shield_multiplier", .5)))
+		elif action == "NETWORK_FORM":
+			_emit_boss_pattern_cast(boss, boss, action)
+			_heal(boss, boss, float(pattern.get("heal_multiplier", .15)))
+		elif action == "LOCK_ON":
+			var locked_target := TargetResolver.choose(boss, state.party)
+			if not locked_target.is_empty():
+				_emit_boss_pattern_cast(boss, locked_target, action)
+				_deal_damage(boss, locked_target, float(pattern.get("damage_multiplier", 1.0)), "ULTIMATE")
+		else:
+			var affected_targets: Array = state.party.filter(func(target): return UnitState.alive(target))
+			if affected_targets.is_empty(): continue
+			_emit_boss_pattern_cast(boss, affected_targets[0], action)
+			for target in affected_targets:
+				_deal_damage(boss, target, float(pattern.get("damage_multiplier", .72)), "ULTIMATE")
+
+func _emit_boss_pattern_cast(boss: Dictionary, target: Dictionary, action: String) -> void:
+	# A boss pattern is a real battle event, so it exercises the same runtime
+	# ultimate VFX pathway as a player cast instead of being an invisible stat
+	# mutation. The payload preserves the unique gameplay grammar for replays.
+	_emit(BattleEvent.make(state.tick, BattleEvent.ULTIMATE, str(boss.uid), str(target.get("uid", "")), 0, {"boss_pattern": action}))
 
 func _update_statuses() -> void:
 	for unit in state.party + state.enemies:
@@ -384,7 +420,11 @@ func _enemy(enemy_id: String) -> Dictionary:
 	return {}
 
 func _emit(event: Dictionary) -> void:
-	event_hasher.update((JSON.stringify(event) + "\n").to_utf8_buffer())
+	# Long-running economy/progression simulations need the real battle rules but
+	# do not consume an event hash.  Keep hashing on by default so gameplay and
+	# deterministic regression tests preserve their existing contract.
+	if bool(options.get("retain_event_hash", true)):
+		event_hasher.update((JSON.stringify(event) + "\n").to_utf8_buffer())
 	if bool(options.get("retain_event_log", true)):
 		event_log.append(event)
 

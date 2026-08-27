@@ -39,6 +39,54 @@ static func validate(definition: Dictionary) -> Array[String]:
 		if node.get("node_type", "") in ["HARD_BATTLE", "HARD_ELITE", "HARD_BOSS"]: hard += 1
 	if normal != 10: errors.append("NORMAL node count %d" % normal)
 	if hard != 5: errors.append("HARD node count %d" % hard)
+	var exploration_rules: Dictionary = definition.get("exploration_rules", {})
+	var base_move_points := int(exploration_rules.get("base_move_points", 0))
+	var max_move_points := int(exploration_rules.get("max_move_points", 0))
+	if base_move_points < 3 or base_move_points > 4: errors.append("base move points must be 3 or 4")
+	if max_move_points != 8: errors.append("max move points must be 8")
+	if base_move_points > max_move_points: errors.append("base move points exceed max")
+	for milestone_value in exploration_rules.get("account_level_milestones", []):
+		var milestone: Dictionary = milestone_value
+		if int(milestone.get("level", 0)) <= 0 or int(milestone.get("bonus", -1)) < 0:
+			errors.append("invalid movement milestone")
+	var route_module_ids: Dictionary = {}
+	for mobility_value in exploration_rules.get("mobility_items", []):
+		var mobility: Dictionary = mobility_value
+		var item_id := str(mobility.get("item_id", ""))
+		if item_id.is_empty() or DataRegistry.by_id("items", item_id).is_empty(): errors.append("unknown mobility item " + item_id)
+		if int(mobility.get("bonus", -1)) < 0: errors.append("invalid mobility item bonus " + item_id)
+		if route_module_ids.has(item_id): errors.append("duplicate mobility item " + item_id)
+		route_module_ids[item_id] = true
+	var event_encounter_ids: Dictionary = {}
+	for event_encounter_value in definition.get("event_encounters", []):
+		var event_encounter: Dictionary = event_encounter_value
+		var event_encounter_id := str(event_encounter.get("event_encounter_id", ""))
+		var node_id := str(event_encounter.get("node_id", ""))
+		if event_encounter_id.is_empty() or event_encounter_ids.has(event_encounter_id): errors.append("invalid or duplicate event encounter " + event_encounter_id)
+		event_encounter_ids[event_encounter_id] = true
+		if not node_ids.has(node_id): errors.append("event encounter unknown node " + node_id)
+		if str(event_encounter.get("marker", "")) != "BANG": errors.append("event encounter marker invalid " + event_encounter_id)
+		if str(event_encounter.get("entry_type", "")) != "EVENT_CONTACT": errors.append("event encounter entry invalid " + event_encounter_id)
+		if str(event_encounter.get("title_key", "")).is_empty() or str(event_encounter.get("body_key", "")).is_empty() or str(event_encounter.get("contact_outcome_key", "")).is_empty(): errors.append("event encounter localization missing " + event_encounter_id)
+		var recruitments: Array = event_encounter.get("recruitments", [])
+		if recruitments.is_empty() and not str(event_encounter.get("character_id", "")).is_empty():
+			recruitments = [{
+				"character_id": str(event_encounter.get("character_id", "")),
+				"recruitment_timing": str(event_encounter.get("recruitment_timing", "")),
+				"recruit_after_stage_id": str(event_encounter.get("recruit_after_stage_id", "")),
+			}]
+		if recruitments.is_empty() or recruitments.size() > 2:
+			errors.append("event encounter recruitment count invalid " + event_encounter_id)
+		for recruitment_value in recruitments:
+			if not recruitment_value is Dictionary:
+				errors.append("event encounter recruitment invalid " + event_encounter_id)
+				continue
+			var recruitment: Dictionary = recruitment_value
+			var character_id := str(recruitment.get("character_id", ""))
+			var recruitment_timing := str(recruitment.get("recruitment_timing", ""))
+			if DataRegistry.character(character_id).is_empty(): errors.append("event encounter unknown character " + character_id)
+			if recruitment_timing not in ["IMMEDIATE_ON_VICTORY", "AFTER_STAGE_CLEAR"]: errors.append("event encounter recruitment timing invalid " + event_encounter_id)
+			if recruitment_timing == "AFTER_STAGE_CLEAR" and DataRegistry.stage(str(recruitment.get("recruit_after_stage_id", ""))).is_empty(): errors.append("event encounter recruit stage invalid " + event_encounter_id)
 	var treasure_ids: Dictionary = {}
 	for treasure in definition.get("treasures", []):
 		var treasure_id := str(treasure.get("treasure_id", ""))
@@ -48,6 +96,7 @@ static func validate(definition: Dictionary) -> Array[String]:
 		if not tile_keys.has(treasure_key): errors.append("treasure outside map " + treasure_id)
 		elif bool(tile_keys[treasure_key].get("movement_blocked", false)): errors.append("treasure on blocked tile " + treasure_id)
 		if str(treasure.get("visibility", "")) not in ["VISIBLE", "HIDDEN"]: errors.append("invalid treasure visibility " + treasure_id)
+		if str(treasure.get("landmark_key", "")).is_empty() or treasure.has("landmark"): errors.append("treasure localization contract invalid " + treasure_id)
 		if treasure.get("rewards", {}).is_empty(): errors.append("treasure without reward " + treasure_id)
 	var patrol_ids: Dictionary = {}
 	for patrol in definition.get("patrols", []):
@@ -75,7 +124,13 @@ static func validate(definition: Dictionary) -> Array[String]:
 		if event_id == "" or event_ids.has(event_id): errors.append("invalid or duplicate map event " + event_id)
 		event_ids[event_id] = true
 		if not tile_keys.has(event_key) or bool(tile_keys.get(event_key, {}).get("movement_blocked", false)): errors.append("event outside map " + event_id)
-		if event.get("choices", []).size() < 1 or event.get("choices", []).size() > 2: errors.append("event choice count " + event_id)
+		if str(event.get("title_key", "")).is_empty() or str(event.get("body_key", "")).is_empty(): errors.append("event localization keys missing " + event_id)
+		if event.has("title") or event.has("body"): errors.append("event contains raw localized text " + event_id)
+		var choices: Array = event.get("choices", [])
+		if choices.size() < 1 or choices.size() > 2: errors.append("event choice count " + event_id)
+		for choice in choices:
+			if str(choice.get("choice_id", "")).is_empty() or str(choice.get("label_key", "")).is_empty(): errors.append("event choice localization missing " + event_id)
+			if choice.has("label"): errors.append("event choice contains raw localized text " + event_id)
 	return errors
 
 static func node_for_stage(definition: Dictionary, stage_id: String) -> Dictionary:

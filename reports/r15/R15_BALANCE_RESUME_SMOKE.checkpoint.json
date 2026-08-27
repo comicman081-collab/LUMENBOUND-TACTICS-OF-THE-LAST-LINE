@@ -1,0 +1,166 @@
+{
+  "cells": [
+    {
+      "control": "AUTO",
+      "damage_totals": {
+        "CHR001": 1737.0,
+        "CHR002": 3755.0,
+        "CHR003": 4455.0,
+        "CHR005": 4913.0,
+        "CHR008": 1237.0
+      },
+      "death_causes": {
+        "BASIC": 9.0
+      },
+      "healing_totals": {
+        "CHR008": 1630.0
+      },
+      "mean_lowest_hp_ratio": 0.0156599552572707,
+      "mean_survivors": 4.5,
+      "mean_time": 18.85,
+      "p10_time": 17.4333333333333,
+      "p50_time": 17.4333333333333,
+      "p90_time": 17.4333333333333,
+      "profile": "LOW",
+      "profile_spec": {
+        "level": 1.0,
+        "normal": 1.0,
+        "passive": 1.0,
+        "ultimate": 1.0,
+        "weapon_level": 1.0
+      },
+      "run_results": [
+        {
+          "lowest_hp_ratio": 0.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1500000.0,
+          "survivors": 4.0,
+          "time": 20.2666666666667,
+          "victory": true
+        },
+        {
+          "lowest_hp_ratio": 0.0313199105145414,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1500001.0,
+          "survivors": 5.0,
+          "time": 17.4333333333333,
+          "victory": true
+        }
+      ],
+      "runs": 2.0,
+      "stage_id": "CH01-N01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 1.0,
+        "CHR002": 0.0,
+        "CHR003": 0.0,
+        "CHR005": 6.0,
+        "CHR008": 1.0
+      },
+      "win_rate": 1.0,
+      "wins": 2.0
+    },
+    {
+      "control": "SCRIPTED_MANUAL_ULTIMATE",
+      "damage_totals": {
+        "CHR001": 1712,
+        "CHR002": 4739,
+        "CHR003": 5496,
+        "CHR005": 3192,
+        "CHR008": 1283
+      },
+      "death_causes": {
+        "BASIC": 7,
+        "NORMAL": 2
+      },
+      "healing_totals": {
+        "CHR008": 1832
+      },
+      "mean_lowest_hp_ratio": 0.339671886651752,
+      "mean_survivors": 4.5,
+      "mean_time": 20.9,
+      "p10_time": 18.5,
+      "p50_time": 18.5,
+      "p90_time": 18.5,
+      "profile": "LOW",
+      "profile_spec": {
+        "level": 1,
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1,
+        "weapon_level": 1
+      },
+      "run_results": [
+        {
+          "lowest_hp_ratio": 0.0,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1500000,
+          "survivors": 4,
+          "time": 23.3,
+          "victory": true
+        },
+        {
+          "lowest_hp_ratio": 0.679343773303505,
+          "reason": "ALL_WAVES_CLEARED",
+          "seed": 1500001,
+          "survivors": 5,
+          "time": 18.5,
+          "victory": true
+        }
+      ],
+      "runs": 2,
+      "stage_id": "CH01-N01",
+      "timeout_rate": 0.0,
+      "ultimate_totals": {
+        "CHR001": 5,
+        "CHR002": 0,
+        "CHR003": 0,
+        "CHR005": 0,
+        "CHR008": 1
+      },
+      "win_rate": 1.0,
+      "wins": 2
+    }
+  ],
+  "controls": [
+    "AUTO",
+    "SCRIPTED_MANUAL_ULTIMATE"
+  ],
+  "elapsed_wall_seconds": 0.092,
+  "engine": "4.7.1-stable (official)",
+  "max_cells": 2,
+  "party_ids": [
+    "CHR001",
+    "CHR002",
+    "CHR003",
+    "CHR005",
+    "CHR008"
+  ],
+  "profiles": {
+    "HIGH": {
+      "normal": 3,
+      "passive": 3,
+      "ratio": 1.15,
+      "ultimate": 2,
+      "weapon_bonus": 5
+    },
+    "LOW": {
+      "normal": 1,
+      "passive": 1,
+      "ratio": 0.875,
+      "ultimate": 1,
+      "weapon_bonus": 0
+    },
+    "RECOMMENDED": {
+      "normal": 2,
+      "passive": 2,
+      "ratio": 1.0,
+      "ultimate": 1,
+      "weapon_bonus": 0
+    }
+  },
+  "runs_per_cell": 2,
+  "schema_version": 1,
+  "simulation": "BattleSimulation fixed 30 Hz",
+  "total_runs": 4
+}

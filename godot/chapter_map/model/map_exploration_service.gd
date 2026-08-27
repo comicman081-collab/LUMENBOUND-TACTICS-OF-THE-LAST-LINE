@@ -5,48 +5,241 @@ const HexCoordScript := preload("res://chapter_map/model/hex_coord.gd")
 const GrowthAnalyzerScript := preload("res://progression/growth_affordability_analyzer.gd")
 const MapSimulationScript := preload("res://chapter_map/model/map_simulation.gd")
 
-static func ensure_state(state: Dictionary, definition: Dictionary) -> void:
+static func ensure_state(state: Dictionary, definition: Dictionary, grid = null) -> bool:
+	var changed := false
 	if not state.has("current_party_hex"):
 		state.current_party_hex = [int(state.get("current_q", 0)), int(state.get("current_r", 0))]
+		changed = true
+	if not state.has("last_pre_contact_hex"):
+		state.last_pre_contact_hex = state.current_party_hex.duplicate()
+		changed = true
+	if not state.has("pending_reveal"):
+		state.pending_reveal = {}
+		changed = true
+	if not state.has("reveal_consumed"):
+		state.reveal_consumed = []
+		changed = true
 	if not state.has("cleared_encounters"):
 		state.cleared_encounters = state.get("cleared_nodes", []).duplicate()
+		changed = true
 	if not state.has("encounter_states"):
 		state.encounter_states = {}
+		changed = true
 	if not state.has("treasure_states"):
 		state.treasure_states = {}
+		changed = true
 	if not state.has("revealed_treasures"):
 		state.revealed_treasures = []
+		changed = true
 	if not state.has("claimed_treasures"):
 		state.claimed_treasures = []
+		changed = true
 	if not state.has("pending_encounter"):
 		state.pending_encounter = {}
+		changed = true
 	if not state.has("last_map_camera_hex"):
 		state.last_map_camera_hex = state.current_party_hex.duplicate()
+		changed = true
 	if not state.has("discovered_tiles"):
 		state.discovered_tiles = []
+		changed = true
 	if not state.has("relay_states"):
 		state.relay_states = {}
+		changed = true
 	if not state.has("map_event_states"):
 		state.map_event_states = {}
+		changed = true
 	if not state.has("intel_states"):
 		state.intel_states = {}
+		changed = true
+	if not state.has("movement_points"):
+		state.movement_points = 0
+		changed = true
+	if not state.has("movement_points_max"):
+		state.movement_points_max = 0
+		changed = true
+	if not state.has("exploration_pulse"):
+		state.exploration_pulse = 0
+		changed = true
+	if not state.has("event_encounter_states"):
+		state.event_encounter_states = {}
+		changed = true
+	if not state.has("recruitment_states"):
+		state.recruitment_states = {}
+		changed = true
 	if not state.has("exploration_completion"):
 		state.exploration_completion = {}
+		changed = true
 	for treasure in definition.get("treasures", []):
 		var treasure_id := str(treasure.get("treasure_id", ""))
 		if treasure_id == "":
 			continue
 		if not state.treasure_states.has(treasure_id):
 			state.treasure_states[treasure_id] = "UNDISCOVERED" if str(treasure.get("visibility", "VISIBLE")) == "HIDDEN" else "REVEALED"
+			changed = true
 	for relay in definition.get("relays", []):
 		var relay_id := str(relay.get("relay_id", ""))
 		if relay_id != "" and not state.relay_states.has(relay_id):
 			state.relay_states[relay_id] = "OFFLINE"
+			changed = true
 	for event in definition.get("map_events", []):
 		var event_id := str(event.get("event_id", ""))
 		if event_id != "" and not state.map_event_states.has(event_id):
 			state.map_event_states[event_id] = "UNDISCOVERED"
-	MapSimulationScript.ensure_state(state, definition)
+			changed = true
+	for encounter in definition.get("event_encounters", []):
+		var encounter_id := str(encounter.get("event_encounter_id", ""))
+		if encounter_id != "" and not state.event_encounter_states.has(encounter_id):
+			state.event_encounter_states[encounter_id] = "AVAILABLE"
+			changed = true
+		for recruitment_value in recruitment_specs(encounter):
+			var recruitment: Dictionary = recruitment_value
+			var recruit_id := str(recruitment.get("character_id", ""))
+			if recruit_id != "" and not state.recruitment_states.has(recruit_id):
+				state.recruitment_states[recruit_id] = "UNMET"
+				changed = true
+	var movement_max := movement_capacity(AppState.profile, definition)
+	var prior_movement_max := int(state.get("movement_points_max", 0))
+	if prior_movement_max != movement_max:
+		state.movement_points_max = movement_max
+		# Existing saves receive a full first pulse rather than an empty movement
+		# bar after migration. Capacity is always clamped to its data-driven max.
+		state.movement_points = clampi(int(state.get("movement_points", movement_max)), 0, movement_max)
+		if prior_movement_max <= 0 or (int(state.get("exploration_pulse", 0)) == 0 and int(state.movement_points) >= prior_movement_max):
+			state.movement_points = movement_max
+		changed = true
+	if MapSimulationScript.ensure_state(state, definition, grid):
+		changed = true
+	return changed
+
+static func movement_capacity(profile: Dictionary, definition: Dictionary) -> int:
+	var rules: Dictionary = definition.get("exploration_rules", {})
+	var capacity := maxi(1, int(rules.get("base_move_points", 3)))
+	var level := int(profile.get("account", {}).get("level", 1))
+	for milestone_value in rules.get("account_level_milestones", []):
+		var milestone: Dictionary = milestone_value
+		if level >= int(milestone.get("level", 9999)):
+			capacity += maxi(0, int(milestone.get("bonus", 0)))
+	var inventory: Dictionary = profile.get("inventory", {})
+	for module_value in rules.get("mobility_items", []):
+		var module: Dictionary = module_value
+		if int(inventory.get(str(module.get("item_id", "")), 0)) > 0:
+			capacity += maxi(0, int(module.get("bonus", 0)))
+	return clampi(capacity, 1, maxi(1, int(rules.get("max_move_points", 8))))
+
+static func refill_movement(state: Dictionary, definition: Dictionary) -> void:
+	ensure_state(state, definition)
+	state.exploration_pulse = int(state.get("exploration_pulse", 0)) + 1
+	state.movement_points_max = movement_capacity(AppState.profile, definition)
+	state.movement_points = int(state.movement_points_max)
+
+static func complete_player_move_turn(state: Dictionary, definition: Dictionary, grid, party_coord: Vector2i) -> Dictionary:
+	## One player action owns exactly one enemy phase and one movement refill.
+	## Keeping this transaction in the model prevents idle frames, pawn tween
+	## steps, and the WAIT button from advancing patrol time independently.
+	ensure_state(state, definition, grid)
+	var tick_before := int(state.get("map_simulation_state", {}).get("tick", 0))
+	var pulse_before := int(state.get("exploration_pulse", 0))
+	var update: Dictionary = MapSimulationScript.advance_wait(state, definition, grid, party_coord)
+	refill_movement(state, definition)
+	update.tick_before = tick_before
+	update.tick_after = int(state.get("map_simulation_state", {}).get("tick", 0))
+	update.pulse_before = pulse_before
+	update.pulse_after = int(state.get("exploration_pulse", 0))
+	update.movement_points = int(state.get("movement_points", 0))
+	return update
+
+static func spend_movement(state: Dictionary, definition: Dictionary, steps: int) -> bool:
+	ensure_state(state, definition)
+	if steps <= 0 or int(state.get("movement_points", 0)) < steps:
+		return false
+	state.movement_points = int(state.movement_points) - steps
+	return true
+
+static func movement_remaining(state: Dictionary, definition: Dictionary) -> int:
+	ensure_state(state, definition)
+	return int(state.get("movement_points", 0))
+
+static func event_encounter_for_node(definition: Dictionary, node_id: String) -> Dictionary:
+	for encounter_value in definition.get("event_encounters", []):
+		var encounter: Dictionary = encounter_value
+		if str(encounter.get("node_id", "")) == node_id:
+			return encounter
+	return {}
+
+static func recruitment_specs(encounter: Dictionary) -> Array:
+	# One contact may introduce a duo while still owning exactly one map/battle
+	# transaction. Legacy single-character events remain byte-for-byte valid.
+	var specs: Array = []
+	for value in encounter.get("recruitments", []):
+		if value is Dictionary and not str(value.get("character_id", "")).is_empty():
+			specs.append(value)
+	if not specs.is_empty():
+		return specs
+	var character_id := str(encounter.get("character_id", ""))
+	if not character_id.is_empty():
+		specs.append({
+			"character_id": character_id,
+			"recruitment_timing": str(encounter.get("recruitment_timing", "IMMEDIATE_ON_VICTORY")),
+			"recruit_after_stage_id": str(encounter.get("recruit_after_stage_id", "")),
+		})
+	return specs
+
+static func event_encounter_state(state: Dictionary, encounter_id: String) -> String:
+	return str(state.get("event_encounter_states", {}).get(encounter_id, "AVAILABLE"))
+
+static func resolve_event_encounter_victory(state: Dictionary, definition: Dictionary, node_id: String, cleared_stage_id: String, event_encounter_id := "") -> Dictionary:
+	ensure_state(state, definition)
+	var encounter := event_encounter_for_node(definition, node_id)
+	if not event_encounter_id.is_empty():
+		for candidate_value in definition.get("event_encounters", []):
+			var candidate: Dictionary = candidate_value
+			if str(candidate.get("event_encounter_id", "")) == event_encounter_id:
+				encounter = candidate
+				break
+	if encounter.is_empty():
+		return {}
+	var encounter_id := str(encounter.get("event_encounter_id", ""))
+	if encounter_id.is_empty() or event_encounter_state(state, encounter_id) == "RESOLVED":
+		return {}
+	state.event_encounter_states[encounter_id] = "RESOLVED"
+	var recruit_now_ids: Array[String] = []
+	var delayed: Array[Dictionary] = []
+	var recruitments := recruitment_specs(encounter)
+	for recruitment_value in recruitments:
+		var recruitment: Dictionary = recruitment_value
+		var character_id := str(recruitment.get("character_id", ""))
+		if character_id.is_empty(): continue
+		var timing := str(recruitment.get("recruitment_timing", "IMMEDIATE_ON_VICTORY"))
+		if timing == "IMMEDIATE_ON_VICTORY":
+			state.recruitment_states[character_id] = "READY"
+			recruit_now_ids.append(character_id)
+		else:
+			var after_stage_id := str(recruitment.get("recruit_after_stage_id", cleared_stage_id))
+			state.recruitment_states[character_id] = "PENDING"
+			delayed.append({"character_id": character_id, "recruit_after_stage_id": after_stage_id})
+	return {
+		"event_encounter_id": encounter_id,
+		"character_id": str(recruitments[0].get("character_id", "")) if not recruitments.is_empty() else "",
+		"recruit_now": not recruit_now_ids.is_empty(),
+		"recruit_now_ids": recruit_now_ids,
+		"delayed_recruitments": delayed,
+	}
+
+static func resolve_deferred_recruitments(state: Dictionary, definition: Dictionary, cleared_stage_id: String) -> Array[String]:
+	ensure_state(state, definition)
+	var ready: Array[String] = []
+	for encounter_value in definition.get("event_encounters", []):
+		var encounter: Dictionary = encounter_value
+		for recruitment_value in recruitment_specs(encounter):
+			var recruitment: Dictionary = recruitment_value
+			var character_id := str(recruitment.get("character_id", ""))
+			if str(recruitment.get("recruitment_timing", "")) != "AFTER_STAGE_CLEAR": continue
+			if character_id.is_empty() or str(state.get("recruitment_states", {}).get(character_id, "UNMET")) != "PENDING": continue
+			if str(recruitment.get("recruit_after_stage_id", "")) != cleared_stage_id: continue
+			state.recruitment_states[character_id] = "READY"
+			ready.append(character_id)
+	return ready
 
 static func encounter_cleared(state: Dictionary, node_id: String) -> bool:
 	return state.get("cleared_encounters", []).has(node_id) or state.get("cleared_nodes", []).has(node_id)

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "source": "data_source\\art_source\\vfx_hd_sources\\generation_mattes\\role_vanguard_normal_gpt_r3_chroma_green.png",
+  "source_sha256": "2b3657b4c85ea5df6f59cf9214fcc02e823b221aa0ea0528f6c94fac9f49b1aa",
+  "matte": "#00ff00 intermediate only",
+  "clean_source": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\role_vanguard_normal_gpt_r3_keyart_alpha.png",
+  "clean_source_sha256": "abddcdfede48253099eeba35c6a73f5ab97d2b8aff855689594d9084cca08968",
+  "atlas": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\role_vanguard_normal_gpt_r3_atlas_448x336.png",
+  "atlas_sha256": "e8b498c7ad9922200cc632207907472333e44ce46c880c1ff146e8250bac77e8",
+  "atlas_size": [
+    448,
+    336
+  ],
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "source_crop": [
+    0,
+    0,
+    1402,
+    1122
+  ]
+}

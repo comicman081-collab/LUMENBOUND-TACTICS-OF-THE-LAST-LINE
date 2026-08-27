@@ -6,11 +6,10 @@
   "source_status": "ART_QA_CANDIDATE",
   "source_root": "assets/art/sd/CHR001",
   "source_asset_id": "sd_chr001_premium_r6p2",
-  "source_blend": "D:\\AI 종합 폴더\\Games\\asset_share\\blender_sources\\characters\\CHR001\\CHR001_SD_R6P2.blend",
   "ownership_status": "ORIGINAL_INTERNAL",
   "frame_size": [
-    104,
-    104
+    128,
+    128
   ],
   "foot_anchor": [
     0.5,
@@ -23,6 +22,8 @@
   "view": "THREE_QUARTER_RIGHT_DOWN_30",
   "facing_policy": "SEPARATE_LEFT_RIGHT",
   "atlas_path": "atlas.png",
+  "preview_path": "preview.png",
+  "preview_sha256": "c08ed82bfc50378932fbd1a41047070d9b731c8badef34bc0e3f47925fbf977c",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -174,5 +175,5 @@
       "events": []
     }
   },
-  "sha256": "5bb869a35cf610f34a5af225ccc2990953a26bc3f9fdefc950fa929bd6948737"
+  "sha256": "52daaf72529c3e954eeab3bff44a2443e62d1538c54c40901e7689c050cdc2b1"
 }

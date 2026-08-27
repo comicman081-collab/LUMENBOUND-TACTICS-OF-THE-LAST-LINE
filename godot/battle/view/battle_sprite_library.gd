@@ -7,6 +7,9 @@ const PACK_ROOTS := {
 	"CHR003": {"root": "res://assets/runtime_web/combat/CHR003", "view": "THREE_QUARTER_RIGHT_DOWN_30"},
 	"CHR004": {"root": "res://assets/runtime_web/combat/CHR004", "view": "THREE_QUARTER_RIGHT_DOWN_30"},
 	"CHR005": {"root": "res://assets/runtime_web/combat/CHR005", "view": "THREE_QUARTER_RIGHT_DOWN_30"},
+	"CHR006": {"root": "res://assets/runtime_web/combat/CHR006", "view": "THREE_QUARTER_RIGHT_DOWN_30", "facing": "SEPARATE_LEFT_RIGHT"},
+	"CHR007": {"root": "res://assets/runtime_web/combat/CHR007", "view": "THREE_QUARTER_RIGHT_DOWN_30", "facing": "SEPARATE_LEFT_RIGHT"},
+	"CHR008": {"root": "res://assets/runtime_web/combat/CHR008", "view": "THREE_QUARTER_RIGHT_DOWN_30", "facing": "SEPARATE_LEFT_RIGHT"},
 	"ENM001": {"root": "res://assets/runtime_web/combat/ENM001", "view": "THREE_QUARTER_LEFT_DOWN_30", "facing": "MIRROR_SAFE"},
 	"ENM002": {"root": "res://assets/runtime_web/combat/ENM002", "view": "THREE_QUARTER_LEFT_DOWN_30"},
 	"ENM003": {"root": "res://assets/runtime_web/combat/ENM003", "view": "THREE_QUARTER_LEFT_DOWN_30", "facing": "MIRROR_SAFE"},
@@ -20,18 +23,6 @@ const PACK_ROOTS := {
 	"BOSS002": {"root": "res://assets/runtime_web/combat/BOSS002", "view": "THREE_QUARTER_LEFT_DOWN_30", "facing": "MIRROR_SAFE"},
 }
 
-# CHR006–008 do not yet have preserved multi-frame combat source packs. Their
-# project-owned transparent roster cards are still packaged for formation and
-# roster screens, so turn those cards into stable battle canvases at runtime
-# instead of ever falling back to code-drawn people. The renderer keeps these
-# explicitly marked as card-source presentation until authored SD packs replace
-# them; no image is duplicated into the Web PCK.
-const RUNTIME_CARD_PACKS := {
-	"CHR006": {"path": "res://assets/runtime_web/characters/CHR006_card_384x576.png", "view": "THREE_QUARTER_RIGHT_DOWN_30", "facing": "SEPARATE_LEFT_RIGHT"},
-	"CHR007": {"path": "res://assets/runtime_web/characters/CHR007_card_384x576.png", "view": "THREE_QUARTER_RIGHT_DOWN_30", "facing": "SEPARATE_LEFT_RIGHT"},
-	"CHR008": {"path": "res://assets/runtime_web/characters/CHR008_card_384x576.png", "view": "THREE_QUARTER_RIGHT_DOWN_30", "facing": "SEPARATE_LEFT_RIGHT"},
-}
-
 var manifests: Dictionary = {}
 var frames: Dictionary = {}
 var load_error := ""
@@ -41,14 +32,22 @@ func load_pack() -> bool:
 	frames.clear()
 	load_error = ""
 	var errors: Array[String] = []
-	for character_id in PACK_ROOTS:
-		var config: Dictionary = PACK_ROOTS[character_id]
+	var pack_roots: Dictionary = PACK_ROOTS.duplicate(true)
+	for definition_value in DataRegistry.list_of("characters") + DataRegistry.list_of("enemies"):
+		var definition: Dictionary = definition_value
+		var entity_id := str(definition.get("id", ""))
+		if entity_id.is_empty() or pack_roots.has(entity_id):
+			continue
+		var is_player := entity_id.begins_with("CHR")
+		pack_roots[entity_id] = {
+			"root": "res://assets/runtime_web/combat/%s" % entity_id,
+			"view": "THREE_QUARTER_RIGHT_DOWN_30" if is_player else "THREE_QUARTER_LEFT_DOWN_30",
+			"facing": "SEPARATE_LEFT_RIGHT" if is_player else "MIRROR_SAFE",
+		}
+	for character_id in pack_roots:
+		var config: Dictionary = pack_roots[character_id]
 		var error := _load_character(str(character_id), str(config.root), str(config.view), str(config.get("facing", "SEPARATE_LEFT_RIGHT")))
 		if not error.is_empty(): errors.append(error)
-	for character_id in RUNTIME_CARD_PACKS:
-		var card_config: Dictionary = RUNTIME_CARD_PACKS[character_id]
-		var card_error := _load_runtime_card(str(character_id), str(card_config.path), str(card_config.view), str(card_config.facing))
-		if not card_error.is_empty(): errors.append(card_error)
 	load_error = ";".join(errors)
 	return not manifests.is_empty()
 
@@ -68,7 +67,7 @@ func _load_character(character_id: String, pack_root: String, expected_view: Str
 	var atlas_frame_size := Vector2(512, 512)
 	var atlas_columns := int(manifest.get("atlas_columns", 0))
 	if not str(manifest.get("atlas_path", "")).is_empty():
-		var atlas_resource = load(pack_root + "/" + str(manifest.atlas_path))
+		var atlas_resource := _load_runtime_texture(pack_root + "/" + str(manifest.atlas_path))
 		if not atlas_resource is Texture2D: return "%s:ATLAS_LOAD_FAILED" % character_id
 		atlas_texture = atlas_resource
 		var frame_size: Array = manifest.get("frame_size", [512, 512])
@@ -95,40 +94,28 @@ func _load_character(character_id: String, pack_root: String, expected_view: Str
 	frames[character_id] = character_frames
 	return ""
 
-func _load_runtime_card(character_id: String, path: String, expected_view: String, expected_facing: String) -> String:
-	var source = load(path)
-	if not source is Texture2D: return "%s:CARD_SOURCE_LOAD_FAILED" % character_id
-	var source_texture: Texture2D = source
-	var source_image: Image = source_texture.get_image()
-	if source_image == null or source_image.is_empty(): return "%s:CARD_SOURCE_IMAGE_FAILED" % character_id
-	# Preserve the portrait's original proportions in a common 512px battle
-	# canvas; doing this at runtime reuses the already packaged source card.
-	source_image.resize(288, 432, Image.INTERPOLATE_LANCZOS)
-	var canvas := Image.create(512, 512, false, Image.FORMAT_RGBA8)
-	canvas.fill(Color(0, 0, 0, 0))
-	canvas.blend_rect(source_image, Rect2i(0, 0, source_image.get_width(), source_image.get_height()), Vector2i(112, 19))
-	var texture := ImageTexture.create_from_image(canvas)
-	if texture == null: return "%s:CARD_CANVAS_CREATE_FAILED" % character_id
-	var animation_defs := {}
-	for animation_name in ["idle", "move", "basic_attack", "normal_skill", "ultimate", "hit", "down", "victory", "stun"]:
-		animation_defs[animation_name] = {"fps": 12, "loop": animation_name in ["idle", "move", "stun"], "card_source": true}
-	var character_frames := {}
-	for animation_name in animation_defs:
-		character_frames[animation_name] = [texture]
-	manifests[character_id] = {
-		"asset_id": "runtime_card_battle_%s" % character_id.to_lower(),
-		"character_id": character_id,
-		"status": "RUNTIME_CARD_STATIC_PRESENTATION",
-		"source_path": path,
-		"frame_size": [512, 512],
-		"head_anchor": [0.5, 0.12],
-		"foot_anchor": [0.5, 0.88],
-		"view": expected_view,
-		"facing_policy": expected_facing,
-		"animations": animation_defs,
-	}
-	frames[character_id] = character_frames
-	return ""
+func _load_runtime_texture(path: String) -> Texture2D:
+	## A freshly synchronized PNG may not have a local editor import cache yet.
+	## A stale Godot .import descriptor reports valid=false while the immutable
+	## runtime PNG itself is still valid. Decode that exact PNG buffer first so
+	## headless QA does not emit a failed ResourceLoader error before applying
+	## the normal imported-resource path. This is an import-cache recovery only:
+	## it never replaces entity artwork with a card, silhouette, or placeholder.
+	var import_descriptor_path := path + ".import"
+	if FileAccess.file_exists(import_descriptor_path):
+		var import_descriptor := FileAccess.get_file_as_string(import_descriptor_path)
+		if import_descriptor.contains("valid=false"):
+			var raw_png := FileAccess.get_file_as_bytes(path)
+			var raw_image := Image.new()
+			var decode_error := raw_image.load_png_from_buffer(raw_png)
+			if decode_error == OK and not raw_image.is_empty():
+				return ImageTexture.create_from_image(raw_image)
+	if ResourceLoader.exists(path):
+		var imported = load(path)
+		if imported is Texture2D: return imported
+	var image := Image.load_from_file(path)
+	if image == null or image.is_empty(): return null
+	return ImageTexture.create_from_image(image)
 
 func has_animation(character_id: String, animation_name: String) -> bool:
 	return frames.has(character_id) and frames[character_id].has(animation_name) and not frames[character_id][animation_name].is_empty()
@@ -154,6 +141,14 @@ func is_looping(character_id: String, animation_name: String) -> bool:
 func head_anchor(character_id: String) -> Vector2:
 	var value: Array = manifests.get(character_id, {}).get("head_anchor", [0.5, 0.08])
 	return Vector2(float(value[0]), float(value[1]))
+
+func source_faces_right(character_id: String) -> bool:
+	# The authored view is the single runtime orientation authority. BattleView
+	# compares it with the unit team and mirrors only when the source and desired
+	# enemy-facing direction differ. This keeps source packs reusable without
+	# allowing a left-facing player or right-facing enemy into combat.
+	var view := str(manifests.get(character_id, {}).get("view", "THREE_QUARTER_RIGHT_DOWN_30"))
+	return view.contains("RIGHT")
 
 func frame_canvas_size(character_id: String) -> Vector2:
 	var value: Array = manifests.get(character_id, {}).get("frame_size", [512, 512])

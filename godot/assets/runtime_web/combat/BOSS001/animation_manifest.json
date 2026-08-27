@@ -6,11 +6,10 @@
   "source_status": "ART_QA_CANDIDATE",
   "source_root": "assets/art/bosses/BOSS001",
   "source_asset_id": "sd_boss001_premium_r6p2",
-  "source_blend": "D:\\AI 종합 폴더\\Games\\asset_share\\blender_sources\\bosses\\BOSS001\\BOSS001_SD_R6P2.blend",
   "ownership_status": "ORIGINAL_INTERNAL",
   "frame_size": [
-    104,
-    104
+    128,
+    128
   ],
   "foot_anchor": [
     0.5,
@@ -23,6 +22,8 @@
   "view": "THREE_QUARTER_LEFT_DOWN_30",
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
+  "preview_path": "preview.png",
+  "preview_sha256": "2f7df70eb283f237eff6455e9bdd736be46735395e2f2bc5f1c5105edfd19d40",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -174,5 +175,5 @@
       "events": []
     }
   },
-  "sha256": "2d21647b8428ad1819616602fb46b4f893447e8b0c39c518aaaaf666adcd3017"
+  "sha256": "41c8543ee232992864e4815141c1dd9a8953852602b1a3e4395823374a0979b0"
 }

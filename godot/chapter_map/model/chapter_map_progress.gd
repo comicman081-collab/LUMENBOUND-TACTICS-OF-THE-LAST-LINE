@@ -10,14 +10,23 @@ static func create_default(definition: Dictionary) -> Dictionary:
 	var state := {
 		"current_q": int(start.get("q", 0)), "current_r": int(start.get("r", 0)),
 		"visited_tiles": [], "revealed_tiles": [], "cleared_nodes": [],
+		"pending_reveal": {}, "reveal_consumed": [],
 		"last_selected_node": "", "camera_zoom": 1.0, "camera_center": [0.0, 0.0],
 		"processed_battle_tokens": [], "processed_reward_tokens": [],
 		"current_party_hex": [int(start.get("q", 0)), int(start.get("r", 0))],
+		# The discrete hex occupied immediately before a hostile-contact step.
+		# This is a recovery guard, not a second party-position authority.
+		"last_pre_contact_hex": [int(start.get("q", 0)), int(start.get("r", 0))],
 		"cleared_encounters": [], "encounter_states": {},
 		"treasure_states": {}, "revealed_treasures": [], "claimed_treasures": [],
 		"pending_encounter": {}, "last_map_camera_hex": [int(start.get("q", 0)), int(start.get("r", 0))],
 		"discovered_tiles": [], "patrol_states": {}, "patrol_positions": {},
 		"relay_states": {}, "map_event_states": {}, "intel_states": {},
+		# Exploration pulses are a map-only pacing contract.  They are never
+		# stamina, never enter BattleSimulation, and use axial steps as their
+		# only authority so the same save/input follows the same route.
+		"movement_points": 0, "movement_points_max": 0, "exploration_pulse": 0,
+		"event_encounter_states": {}, "recruitment_states": {},
 		"exploration_completion": {},
 		"map_simulation_state": {"tick": 0, "seed": int(definition.get("map_simulation", {}).get("seed", 140701)), "paused": false}
 	}
@@ -27,11 +36,15 @@ static func create_default(definition: Dictionary) -> Dictionary:
 
 static func migrate_from_profile(profile: Dictionary, definition: Dictionary) -> Dictionary:
 	var state := create_default(definition)
-	var highest_normal := int(profile.get("chapter_progress", {}).get("CH01", {}).get("normal_highest", 0))
+	var chapter_id := str(definition.get("chapter_id", "CH01"))
+	var chapter_progress: Dictionary = profile.get("chapter_progress", {}).get(chapter_id, {})
+	var highest_normal := int(chapter_progress.get("normal_highest", 0))
 	var highest_hard := 0
-	for number in range(1, 6):
-		if int(profile.get("stage_stars", {}).get("CH01-H%02d" % number, 0)) > 0: highest_hard = number
-	var current_stage := "CH01-H%02d" % highest_hard if highest_hard > 0 else ("CH01-N%02d" % highest_normal if highest_normal > 0 else "")
+	var hard_route: Array = definition.get("hard_route", [])
+	for index in range(hard_route.size()):
+		if int(profile.get("stage_stars", {}).get(str(hard_route[index]), 0)) > 0: highest_hard = index + 1
+	var normal_route: Array = definition.get("normal_route", [])
+	var current_stage := str(hard_route[highest_hard - 1]) if highest_hard > 0 else (str(normal_route[highest_normal - 1]) if highest_normal > 0 and highest_normal <= normal_route.size() else "")
 	if current_stage != "":
 		var current_node := ChapterMapLoaderScript.node_for_stage(definition, current_stage)
 		if not current_node.is_empty():
@@ -42,7 +55,7 @@ static func migrate_from_profile(profile: Dictionary, definition: Dictionary) ->
 		var stage_id := str(node.get("stage_id", ""))
 		if stage_id != "" and int(profile.get("stage_stars", {}).get(stage_id, 0)) > 0:
 			state.cleared_nodes.append(str(node.node_id))
-	refresh_reveal(state, definition, highest_normal, highest_hard, highest_normal >= 10)
+	refresh_reveal(state, definition, highest_normal, highest_hard, bool(chapter_progress.get("hard_unlocked", false)))
 	return state
 
 static func reanchor_macro_state(state: Dictionary, definition: Dictionary) -> Dictionary:
@@ -74,9 +87,9 @@ static func refresh_reveal(state: Dictionary, definition: Dictionary, highest_no
 		var stage_id := str(node.get("stage_id", ""))
 		if stage_id == "":
 			visible_nodes.append(node)
-		elif stage_id.contains("-N") and int(stage_id.right(2)) <= mini(10, highest_normal + 1):
+		elif definition.get("normal_route", []).find(stage_id) >= 0 and definition.get("normal_route", []).find(stage_id) <= highest_normal:
 			visible_nodes.append(node)
-		elif stage_id.contains("-H") and hard_unlocked and int(stage_id.right(2)) <= mini(5, highest_hard + 1):
+		elif hard_unlocked and definition.get("hard_route", []).find(stage_id) >= 0 and definition.get("hard_route", []).find(stage_id) <= highest_hard:
 			visible_nodes.append(node)
 	for node in visible_nodes:
 		var center := Vector2i(int(node.q), int(node.r))
@@ -120,3 +133,33 @@ static func record_clear_once(state: Dictionary, node_id: String, battle_token: 
 	state.processed_battle_tokens.append(battle_token)
 	if not state.cleared_nodes.has(node_id): state.cleared_nodes.append(node_id)
 	return true
+
+static func queue_reveal_once(state: Dictionary, reveal_id: String, source_stage_id: String, tile_keys: Array[String], unlocked_stage_ids: Array[String]) -> bool:
+	if reveal_id.is_empty() or (tile_keys.is_empty() and unlocked_stage_ids.is_empty()):
+		return false
+	if state.get("reveal_consumed", []).has(reveal_id):
+		return false
+	var pending: Dictionary = state.get("pending_reveal", {})
+	if not pending.is_empty():
+		return str(pending.get("reveal_id", "")) == reveal_id
+	tile_keys.sort()
+	unlocked_stage_ids.sort()
+	state.pending_reveal = {
+		"reveal_id": reveal_id,
+		"source_stage_id": source_stage_id,
+		"tile_keys": tile_keys,
+		"unlocked_stage_ids": unlocked_stage_ids,
+	}
+	return true
+
+static func consume_pending_reveal(state: Dictionary) -> Dictionary:
+	var pending: Dictionary = state.get("pending_reveal", {})
+	if pending.is_empty():
+		return {}
+	var reveal_id := str(pending.get("reveal_id", ""))
+	if reveal_id.is_empty() or state.get("reveal_consumed", []).has(reveal_id):
+		state.pending_reveal = {}
+		return {}
+	state.reveal_consumed.append(reveal_id)
+	state.pending_reveal = {}
+	return pending.duplicate(true)

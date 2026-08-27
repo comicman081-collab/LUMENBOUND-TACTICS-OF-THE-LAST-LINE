@@ -1,0 +1,55 @@
+{
+  "id": "SCN_CH02_INTRO",
+  "title_key": "SCENARIO_CH02_INTRO_TITLE",
+  "chapter_id": "CH02",
+  "commands": [
+    {
+      "id": "start",
+      "command": "set_background",
+      "asset_id": "bg_lantern_tunnel_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "fade_in",
+      "duration": 0.35
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_C2I_01"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "ALERT"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_C2I_02"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "BATTLE_FOCUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_C2I_03"
+    },
+    {
+      "command": "grant_reward",
+      "item_id": "LANTERN_SHARD",
+      "quantity": 5
+    },
+    {
+      "command": "end_scenario"
+    }
+  ]
+}

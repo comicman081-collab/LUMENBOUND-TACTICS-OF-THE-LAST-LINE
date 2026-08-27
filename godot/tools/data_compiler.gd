@@ -5,7 +5,7 @@ func _init() -> void:
 
 func run() -> void:
 	var project_root := ProjectSettings.globalize_path("res://").path_join("..").simplify_path()
-	var required := ["characters.csv", "character_level_curve.csv", "account_level_curve.csv", "skills.json", "weapons.csv", "weapon_level_curve.csv", "enemies.csv", "stages.csv", "stage_rewards.json", "chapters.json", "affinity_matrix.json", "status_effects.json"]
+	var required := ["characters.csv", "character_level_curve.csv", "account_level_curve.csv", "skills.json", "weapons.csv", "weapon_level_curve.csv", "enemies.csv", "stages.csv", "stage_rewards.json", "chapters.json", "affinity_matrix.json", "status_effects.json", "chapter_story_triggers.json"]
 	var hashes: Dictionary = {}
 	for name in required:
 		var path := project_root.path_join("data_source").path_join(name)

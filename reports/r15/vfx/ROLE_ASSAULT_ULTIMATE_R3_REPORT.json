@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "source": "data_source\\art_source\\vfx_hd_sources\\generation_mattes\\role_assault_ultimate_gpt_r3_chroma_green.png",
+  "source_sha256": "c54d446b99c15ddfa35155a5e9b4abebaa19a3ee4d3513f9caf43f691b1a97a3",
+  "matte": "#00ff00 intermediate only",
+  "clean_source": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\role_assault_ultimate_gpt_r3_keyart_alpha.png",
+  "clean_source_sha256": "868282ccb4055e36e39ab2f2817833d9417290a19c10f475b0a6aea609f4e831",
+  "atlas": "data_source\\art_source\\vfx_hd_sources\\runtime_candidates\\role_assault_ultimate_gpt_r3_atlas_448x336.png",
+  "atlas_sha256": "9d7f0f73da43a07bffd49738ba385627688bd2cc25c5607c2eb5a3fc56b63517",
+  "atlas_size": [
+    448,
+    336
+  ],
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "source_crop": [
+    0,
+    0,
+    1536,
+    1024
+  ]
+}

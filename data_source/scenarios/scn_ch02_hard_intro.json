@@ -1,0 +1,55 @@
+{
+  "id": "SCN_CH02_HARD_INTRO",
+  "title_key": "SCENARIO_CH02_HARD_INTRO_TITLE",
+  "chapter_id": "CH02",
+  "commands": [
+    {
+      "id": "start",
+      "command": "set_background",
+      "asset_id": "bg_ch01_signal_cathedral_story"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr008_dev",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "fade_in",
+      "duration": 0.35
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_C2H_01"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "CONCERNED"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_IRI",
+      "text_key": "STORY_C2H_02"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "BATTLE_FOCUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_IRI",
+      "text_key": "STORY_C2H_03"
+    },
+    {
+      "command": "grant_reward",
+      "item_id": "LANTERN_SHARD",
+      "quantity": 5
+    },
+    {
+      "command": "end_scenario"
+    }
+  ]
+}

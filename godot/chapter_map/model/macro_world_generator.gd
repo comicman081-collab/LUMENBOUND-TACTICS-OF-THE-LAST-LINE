@@ -24,6 +24,7 @@ static func generate_tiles(definition: Dictionary, macro: Dictionary) -> Array:
 	var corridor_radius := maxi(2, int(macro.get("corridor_radius", 4)))
 	var routes: Array[Array] = _route_segments(definition)
 	var road: Dictionary = {}
+	var patrol_corridor: Dictionary = {}
 	var land: Dictionary = {}
 	for route in routes:
 		for coord in route:
@@ -33,31 +34,28 @@ static func generate_tiles(definition: Dictionary, macro: Dictionary) -> Array:
 	# real local exploration spaces while retaining the same stage count.
 	for node in definition.get("nodes", []):
 		_mark_disc(land, Vector2i(int(node.get("q", 0)), int(node.get("r", 0))), corridor_radius + 3)
+	for patrol in definition.get("patrols", []):
+		for patrol_hex in patrol.get("patrol_route_hexes", []):
+			var patrol_coord := Vector2i(int(patrol_hex.get("q", 0)), int(patrol_hex.get("r", 0)))
+			patrol_corridor[HexCoordScript.key(patrol_coord)] = true
 	var rows: Array = []
 	var keys: Array = land.keys()
-	keys.sort_custom(func(left, right):
-		var a := HexCoordScript.from_key(str(left))
-		var b := HexCoordScript.from_key(str(right))
-		return a.x < b.x or (a.x == b.x and a.y < b.y)
-	)
+	# The key string is stable ("q,r"), and Godot's built-in sort avoids a
+	# costly GDScript comparator for the large macro map at every cold start.
+	# Tile order is not gameplay state; key-sorted output remains deterministic.
+	keys.sort()
 	for key in keys:
 		var coord := HexCoordScript.from_key(str(key))
 		var is_road := road.has(str(key))
+		var is_mobility_corridor := is_road or patrol_corridor.has(str(key))
 		var value := _coord_hash(coord, seed)
 		var terrain := "ROAD" if is_road else ("RUINS" if value % 17 == 0 else "FOREST")
 		# Elevation is visual-only in the chapter traversal layer, but it must
-		# produce more than a nearly-flat forest.  The seeded tiers give each
-		# streamed neighbourhood readable ridges, terraces and ruin overlooks while
-		# preserving the exact same traversable graph and deterministic route.
-		var elevation := 0
-		if is_road:
-			elevation = 1 if value % 29 in [0, 1] else 0
-		elif value % 19 == 0:
-			elevation = 3
-		elif value % 9 in [0, 1]:
-			elevation = 2
-		elif value % 5 == 0:
-			elevation = 1
+		# form broad, legible terraces—not isolated dice-roll columns.  The two
+		# low-frequency waves create plateau-sized bands while the seeded hash only
+		# chooses small ridge accents.  Road and patrol corridors remain 0/1 so the
+		# authored movement graph and live patrol routes retain legal step topology.
+		var elevation := _terrain_elevation(coord, seed, is_mobility_corridor, value)
 		rows.append({
 			"q": coord.x, "r": coord.y,
 			"elevation": elevation,
@@ -89,6 +87,26 @@ static func generate_tiles(definition: Dictionary, macro: Dictionary) -> Array:
 		})
 	return rows
 
+static func _terrain_elevation(coord: Vector2i, seed: int, is_road: bool, hash_value: int) -> int:
+	if is_road:
+		return 1 if hash_value % 23 in [0, 1, 2] else 0
+	var phase := float(seed % 97) * 0.037
+	var terrace_wave := sin(float(coord.x) * 0.32 + float(coord.y) * 0.18 + phase)
+	var ridge_wave := sin(float(coord.x) * 0.11 - float(coord.y) * 0.39 - phase * 0.73)
+	var relief := terrace_wave * 0.72 + ridge_wave * 0.48
+	var elevation := 0
+	if relief > 0.76:
+		elevation = 3
+	elif relief > 0.24:
+		elevation = 2
+	elif relief > -0.42:
+		elevation = 1
+	# Keep a few deterministic local breaks so broad contours retain a faceted,
+	# hand-authored character without turning back into random one-cell pillars.
+	if elevation > 0 and hash_value % 17 == 0:
+		elevation -= 1
+	return elevation
+
 static func route_line(from: Vector2i, to: Vector2i) -> Array[Vector2i]:
 	var path: Array[Vector2i] = [from]
 	var current := from
@@ -107,7 +125,9 @@ static func route_to_stage(definition: Dictionary, stage_id: String) -> Array[Ve
 	var route_ids: Array = definition.get("hard_route", []) if stage_id.contains("-H") else definition.get("normal_route", [])
 	var previous: Dictionary = {"q": int(definition.get("start_hex", {}).get("q", 0)), "r": int(definition.get("start_hex", {}).get("r", 0))}
 	if stage_id.contains("-H"):
-		previous = _node_for_stage(definition, "CH01-N10")
+		var normal_route: Array = definition.get("normal_route", [])
+		if not normal_route.is_empty():
+			previous = _node_for_stage(definition, str(normal_route.back()))
 	for candidate_id in route_ids:
 		var node := _node_for_stage(definition, str(candidate_id))
 		if node.is_empty(): continue
@@ -124,7 +144,9 @@ static func _route_segments(definition: Dictionary) -> Array[Array]:
 		if node.is_empty(): continue
 		segments.append(route_line(Vector2i(int(previous.q), int(previous.r)), Vector2i(int(node.q), int(node.r))))
 		previous = node
-	previous = _node_for_stage(definition, "CH01-N10")
+	var normal_route: Array = definition.get("normal_route", [])
+	if not normal_route.is_empty():
+		previous = _node_for_stage(definition, str(normal_route.back()))
 	for stage_id in definition.get("hard_route", []):
 		var hard_node := _node_for_stage(definition, str(stage_id))
 		if hard_node.is_empty(): continue

@@ -3,6 +3,7 @@
     "id": "CH01",
     "number": 1,
     "name_key": "CHAPTER_01",
+    "map_id": "CH01_MAP",
     "normal_stage_ids": [
       "CH01-N01",
       "CH01-N02",
@@ -21,6 +22,31 @@
       "CH01-H03",
       "CH01-H04",
       "CH01-H05"
+    ]
+  },
+  {
+    "id": "CH02",
+    "number": 2,
+    "name_key": "CHAPTER_02",
+    "map_id": "CH02_MAP",
+    "normal_stage_ids": [
+      "CH02-N01",
+      "CH02-N02",
+      "CH02-N03",
+      "CH02-N04",
+      "CH02-N05",
+      "CH02-N06",
+      "CH02-N07",
+      "CH02-N08",
+      "CH02-N09",
+      "CH02-N10"
+    ],
+    "hard_stage_ids": [
+      "CH02-H01",
+      "CH02-H02",
+      "CH02-H03",
+      "CH02-H04",
+      "CH02-H05"
     ]
   }
 ]

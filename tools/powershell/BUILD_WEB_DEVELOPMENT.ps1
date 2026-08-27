@@ -1,10 +1,122 @@
 . "$PSScriptRoot\COMMON.ps1"
 $root = Get-ProjectRoot
 $godot = Find-Godot471
-Copy-GodotWebTemplatesToProjectProfile $root
+$python = Find-LocalPython
+$audioBuilder = Join-Path $root 'tools\audio\build_audio_pack.py'
+if (-not (Test-Path -LiteralPath $audioBuilder -PathType Leaf)) { throw "Audio builder missing: $audioBuilder" }
 Set-ProjectGodotUserPaths $root
+Copy-GodotWebTemplatesToProjectProfile $root
+Invoke-Checked $python @($audioBuilder)
 $output = Join-Path $root 'builds\web_development'
+$resolvedRoot = [IO.Path]::GetFullPath($root).TrimEnd('\')
+$resolvedOutput = [IO.Path]::GetFullPath($output).TrimEnd('\')
+$expectedOutput = [IO.Path]::GetFullPath((Join-Path $resolvedRoot 'builds\web_development')).TrimEnd('\')
+if ($resolvedOutput -ne $expectedOutput -or -not $resolvedOutput.StartsWith((Join-Path $resolvedRoot 'builds'), [StringComparison]::OrdinalIgnoreCase)) {
+    throw "Refusing to clean unexpected Web Development output: $resolvedOutput"
+}
+if (Test-Path -LiteralPath $resolvedOutput -PathType Container) {
+    Remove-Item -LiteralPath $resolvedOutput -Recurse -Force
+}
 New-Item -ItemType Directory -Path $output -Force | Out-Null
-Invoke-Checked $godot @('--headless', '--path', (Join-Path $root 'godot'), '--export-debug', 'Web Development', (Join-Path $output 'index.html'))
+# The official 4.7.1 debug Web template is not required for QA authority.  Use
+# the stable release template with the preset's compile-time
+# `lanternline_dev_tools` feature so browser QA exercises the production engine
+# path while the public Release preset remains locked down.
+Invoke-Checked $godot @('--headless', '--path', (Join-Path $root 'godot'), '--export-release', 'Web Development', (Join-Path $output 'index.html'))
 if (-not (Test-Path -LiteralPath (Join-Path $output 'index.html') -PathType Leaf)) { throw 'Web Development index.html missing after export.' }
+
+# A public PWA service worker may still control a reused local QA origin even
+# when the Development preset itself has PWA disabled.  Content-address every
+# executable runtime member as one coherent set so an old cached Release
+# loader can never be combined with a new raw Development WASM/PCK.
+$runtimeNames = @(
+    'index.js',
+    'index.wasm',
+    'index.pck',
+    'index.audio.worklet.js',
+    'index.audio.position.worklet.js'
+)
+foreach ($name in $runtimeNames) {
+    $path = Join-Path $output $name
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+        throw "Web Development runtime member missing: $path"
+    }
+}
+$runtimeHashes = foreach ($name in $runtimeNames) {
+    # Reuse the portable .NET SHA-256 implementation from COMMON.ps1.  Some
+    # isolated Godot QA shells intentionally do not expose Get-FileHash.
+    Get-FileSha256 (Join-Path $output $name)
+}
+$runtimeBytes = [Text.Encoding]::UTF8.GetBytes(($runtimeHashes -join '|'))
+$runtimeHasher = [Security.Cryptography.SHA256]::Create()
+try {
+    $runtimeSetHash = (($runtimeHasher.ComputeHash($runtimeBytes) | ForEach-Object { $_.ToString('x2') }) -join '')
+} finally {
+    $runtimeHasher.Dispose()
+}
+$runtimeBase = "index_dev_$($runtimeSetHash.Substring(0, 16))"
+$renameMap = [ordered]@{
+    'index.js' = "$runtimeBase.js"
+    'index.wasm' = "$runtimeBase.wasm"
+    'index.pck' = "$runtimeBase.pck"
+    'index.audio.worklet.js' = "$runtimeBase.audio.worklet.js"
+    'index.audio.position.worklet.js' = "$runtimeBase.audio.position.worklet.js"
+}
+foreach ($entry in $renameMap.GetEnumerator()) {
+    Move-Item -LiteralPath (Join-Path $output $entry.Key) -Destination (Join-Path $output $entry.Value)
+}
+
+$htmlPath = Join-Path $output 'index.html'
+$html = Get-Content -LiteralPath $htmlPath -Raw
+$expectedTokens = @(
+    '<script src="index.js"></script>',
+    '"executable":"index"',
+    '"index.pck":',
+    '"index.wasm":'
+)
+foreach ($token in $expectedTokens) {
+    if ($html.IndexOf($token, [StringComparison]::Ordinal) -lt 0) {
+        throw "Web Development HTML contract changed; token missing: $token"
+    }
+}
+$html = $html.Replace('<script src="index.js"></script>', "<script src=`"$runtimeBase.js`"></script>")
+$html = $html.Replace('"executable":"index"', "`"executable`":`"$runtimeBase`"")
+$html = $html.Replace('"index.pck":', "`"$runtimeBase.pck`":")
+$html = $html.Replace('"index.wasm":', "`"$runtimeBase.wasm`":")
+Set-Content -LiteralPath $htmlPath -Value $html -Encoding UTF8
+
+# Development is intentionally not a PWA release.  A local QA browser can
+# still be controlled by the previous Release worker because both builds use
+# the same loopback origin.  Ship a tiny, development-only hand-off worker at
+# the canonical Godot worker URL: it becomes the next update, removes only
+# LANTERNLINE caches, and unregisters itself.  This avoids a stale
+# release worker requesting a missing `index.service.worker.js` on every
+# Development verification without touching user save data or any runtime PCK.
+$developmentWorkerPath = Join-Path $output 'index.service.worker.js'
+$developmentWorker = @'
+/* LANTERNLINE development cache hand-off: generated by BUILD_WEB_DEVELOPMENT.ps1 */
+self.addEventListener('install', function () { self.skipWaiting(); });
+self.addEventListener('activate', function (event) {
+  event.waitUntil((async function () {
+    const names = await caches.keys();
+    await Promise.all(names.filter(function (name) {
+      return String(name).startsWith('LANTERNLINE-sw-cache-');
+    }).map(function (name) { return caches.delete(name); }));
+    await self.registration.unregister();
+  })());
+});
+'@
+Set-Content -LiteralPath $developmentWorkerPath -Value $developmentWorker -Encoding UTF8
+if (-not (Test-Path -LiteralPath $developmentWorkerPath -PathType Leaf)) {
+    throw 'Web Development cache hand-off worker missing after generation.'
+}
+
+if (@(Get-ChildItem -LiteralPath $output -Filter 'index_dev_*.js' -File).Count -ne 3) {
+    throw 'Web Development content-addressed JavaScript member count is invalid.'
+}
+if (@(Get-ChildItem -LiteralPath $output -Filter 'index_dev_*.wasm' -File).Count -ne 1 -or
+    @(Get-ChildItem -LiteralPath $output -Filter 'index_dev_*.pck' -File).Count -ne 1) {
+    throw 'Web Development content-addressed WASM/PCK member count is invalid.'
+}
+Write-Host "WEB_DEVELOPMENT_RUNTIME_BASE=$runtimeBase"
 Write-Host "Web Development export: $output"

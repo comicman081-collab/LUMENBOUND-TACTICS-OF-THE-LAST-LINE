@@ -2,95 +2,103 @@
   "capture_mode": "OFFSCREEN_WINDOW_NO_FOREGROUND_AUTOMATION",
   "captures": [
     {
-      "bytes": 41618,
+      "bytes": 673218,
       "file": "title.png",
       "height": 1080,
       "screen": "TITLE",
-      "sha256": "f68e5ad344b86a6503ebf3f93d842ee247c6a1c32042b9d044015ad9de7f7461",
+      "sha256": "680ad347c6bb233ef8d1f48acf0933b06895a9c72a3a094e0730ba9fcb50f063",
       "width": 1920
     },
     {
-      "bytes": 51585,
+      "bytes": 742428,
       "file": "home.png",
       "height": 1080,
       "screen": "HOME",
-      "sha256": "679239c202a8f36212c308d48d0894a6046aff03ceeed2eeda134331fb862c42",
+      "sha256": "c36fd3505ce5dbb2029b450e4af4db50f30d6ac10a9a771b29260ac653e6bd12",
       "width": 1920
     },
     {
-      "bytes": 247209,
+      "bytes": 1205271,
       "file": "story.png",
       "height": 1080,
       "screen": "STORY",
-      "sha256": "9cd6d38b7807eb7f8fe31e518d1139884ab2c02ed57423016a20534e9d8045ec",
+      "sha256": "4beb4a41092e39340578058f2df3153d9c82b55b7f5704888bf76576eabb9a82",
       "width": 1920
     },
     {
-      "bytes": 71167,
+      "bytes": 892881,
       "file": "formation.png",
       "height": 1080,
       "screen": "FORMATION",
-      "sha256": "04ac22b0957d9417c7dfeb8110080d7007fed42b85d173d02292bc405870f411",
+      "sha256": "64386e8d388ce5e4a6d91418a6dda5843a8fc758e7521e73009bcb9ecd432a53",
       "width": 1920
     },
     {
-      "bytes": 183269,
+      "bytes": 538500,
       "file": "character_detail.png",
       "height": 1080,
       "screen": "CHARACTER_DETAIL",
-      "sha256": "2f508a7458cc6c72534f5f351f57b725eceb2a6f78e7278a02d741b614b18c4c",
+      "sha256": "2614847ee654bdbb78f33e5e095e56b30a14b79164bdcfb3f780d17ed0831439",
       "width": 1920
     },
     {
-      "bytes": 183269,
+      "bytes": 538500,
       "file": "skill_upgrade.png",
       "height": 1080,
       "screen": "GROWTH",
-      "sha256": "2f508a7458cc6c72534f5f351f57b725eceb2a6f78e7278a02d741b614b18c4c",
+      "sha256": "2614847ee654bdbb78f33e5e095e56b30a14b79164bdcfb3f780d17ed0831439",
       "width": 1920
     },
     {
-      "bytes": 183269,
+      "bytes": 538500,
       "file": "weapon_upgrade.png",
       "height": 1080,
       "screen": "GROWTH",
-      "sha256": "2f508a7458cc6c72534f5f351f57b725eceb2a6f78e7278a02d741b614b18c4c",
+      "sha256": "2614847ee654bdbb78f33e5e095e56b30a14b79164bdcfb3f780d17ed0831439",
       "width": 1920
     },
     {
-      "bytes": 51605,
-      "file": "stage_select.png",
+      "bytes": 789238,
+      "file": "chapter_map.png",
       "height": 1080,
       "screen": "STAGE_SELECT",
-      "sha256": "32e052f21de86e430a5757e835abcf3b5da8c4eb4335c2d3636fde9a4e7af3aa",
+      "sha256": "a0026da863642c4a223ac8fe430c28c71b05b22208903f65b32f6c506719fd0b",
       "width": 1920
     },
     {
-      "bytes": 340279,
+      "bytes": 774407,
+      "file": "chapter_map_n01_selected.png",
+      "height": 1080,
+      "screen": "STAGE_SELECT_N01_SELECTED",
+      "sha256": "1c8f61d6adaa766fce7bcc20911afb8e4b036d572da8559691c3257ec64f852c",
+      "width": 1920
+    },
+    {
+      "bytes": 2391986,
       "file": "battle.png",
       "height": 1080,
       "screen": "BATTLE",
-      "sha256": "b20dfc2e10dcdf00f8b86da77987948e96b81dffdf68c35553d47e46b0fefe17",
+      "sha256": "855757fab2def5a2308a0d2969332043702a6097e1fbc636dc9c74ddfcab3ce2",
       "width": 1920
     },
     {
-      "bytes": 272450,
+      "bytes": 2085897,
       "file": "battle_pause.png",
       "height": 1080,
       "screen": "BATTLE_PAUSE",
-      "sha256": "06248743310919f9fa41b0bde7f86e3af9d2e76e59db93b09ef4b73c970b58e3",
+      "sha256": "21d327423bf71fb6e2e5a175a691e7a2a4bc69040a97f0b0f595991d66471274",
       "width": 1920
     },
     {
-      "bytes": 59872,
+      "bytes": 474858,
       "file": "result.png",
       "height": 1080,
       "screen": "RESULT",
-      "sha256": "9d4394d5e405a1437d4711e5b3f85003e685b7e33642865ec637f91d410df577",
+      "sha256": "d0f036101f399e7f06826a00fe294780c5c21bfbc24ece155cb6584f2862e57d",
       "width": 1920
     }
   ],
-  "created": "2026-08-17T13:50:20",
+  "created": "2026-08-25T13:24:08",
   "engine": "4.7.1-stable (official)",
   "kind": "WINDOWS_BACKGROUND_VISUAL_QA_CAPTURE",
   "logical_size": [

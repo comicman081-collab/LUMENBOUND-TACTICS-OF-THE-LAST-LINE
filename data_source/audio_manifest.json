@@ -1,10 +1,10 @@
 {
-  "schema_version": 1,
-  "audio_policy": "LOCAL_SOUND_FOLDER_ONLY",
+  "schema_version": 2,
+  "audio_policy": "LOCAL_USER_BGM_AND_AUDITED_PUBLIC_CC0_SFX",
   "title_language": "en",
   "ownership_declaration": {
     "declarant": "project user",
-    "creation_method": "Manus-generated original audio supplied by the user",
+    "creation_method": "Manus-generated original BGM supplied by the user",
     "ownership_status": "USER_OWNED",
     "commercial_use": true,
     "attribution_required": false,
@@ -16,131 +16,182 @@
       "category": "BGM",
       "event": "TITLE",
       "source_path": "Title,ending/01_wake_the_black_star.wav",
-      "runtime_path": "res://assets/audio/bgm/title_theme.mp3",
+      "runtime_path": "res://assets/audio/bgm/title_theme_full.mp3",
       "format": "MP3_SOURCE_RELABELED",
       "loop": true,
-      "max_seconds": 30,
-      "notes": "English-titled local track; source is an ID3 MP3 stored with a .wav suffix."
+      "max_seconds": 0,
+      "loop_crossfade_seconds": 1.8,
+      "notes": "Full playable English title stream retained without an excerpt cap; source is an ID3 MP3 stored with a .wav suffix."
     },
     {
       "asset_id": "audio_bgm_lobby",
       "category": "BGM",
       "event": "LOBBY",
       "source_path": "BGM/final_wav/073_lobby_menu_1.wav",
-      "runtime_path": "res://assets/audio/bgm/lobby_menu.wav",
+      "runtime_path": "res://assets/audio/bgm/lobby_menu_full.wav",
       "format": "PCM_WAV_COMPACT",
       "loop": true,
-      "max_seconds": 5
+      "max_seconds": 0,
+      "loop_smoothing_ms": 30,
+      "loop_crossfade_seconds": 1.8,
+      "target_sample_rate": 14000
     },
     {
       "asset_id": "audio_bgm_story",
       "category": "BGM",
       "event": "STORY",
       "source_path": "BGM/final_wav/019_scenario_emotional_1.wav",
-      "runtime_path": "res://assets/audio/bgm/story_emotional.wav",
+      "runtime_path": "res://assets/audio/bgm/story_emotional_full.wav",
       "format": "PCM_WAV_COMPACT",
       "loop": true,
-      "max_seconds": 5
+      "max_seconds": 0,
+      "loop_smoothing_ms": 30,
+      "loop_crossfade_seconds": 1.8,
+      "target_sample_rate": 14000
     },
     {
       "asset_id": "audio_bgm_battle",
       "category": "BGM",
       "event": "BATTLE",
       "source_path": "BGM/final_wav/037_battle_tactical_1.wav",
-      "runtime_path": "res://assets/audio/bgm/battle_tactical.wav",
+      "runtime_path": "res://assets/audio/bgm/battle_tactical_full.wav",
       "format": "PCM_WAV_COMPACT",
       "loop": true,
-      "max_seconds": 5
+      "max_seconds": 0,
+      "loop_smoothing_ms": 30,
+      "loop_crossfade_seconds": 1.8,
+      "target_sample_rate": 14000
     },
     {
       "asset_id": "audio_bgm_boss",
       "category": "BGM",
       "event": "BOSS",
       "source_path": "BGM/final_wav/055_boss_battle_1.wav",
-      "runtime_path": "res://assets/audio/bgm/boss_battle.wav",
+      "runtime_path": "res://assets/audio/bgm/boss_battle_full.wav",
       "format": "PCM_WAV_COMPACT",
       "loop": true,
-      "max_seconds": 5
-    },
-    {
-      "asset_id": "audio_sfx_player_gun",
-      "category": "SFX",
-      "event": "PLAYER_BASIC_ATTACK",
-      "source_path": "Characters/01_GUN/BLUE_ARCHIVE_INSPIRED_총_001.wav",
-      "runtime_path": "res://assets/audio/sfx/player_gun.wav",
-      "format": "PCM_WAV_SOURCE"
-    },
-    {
-      "asset_id": "audio_sfx_player_skill",
-      "category": "SFX",
-      "event": "PLAYER_NORMAL_SKILL",
-      "source_path": "Characters/02_ATTACK/BLUE_ARCHIVE_INSPIRED_공_001.wav",
-      "runtime_path": "res://assets/audio/sfx/player_skill.wav",
-      "format": "PCM_WAV_SOURCE"
-    },
-    {
-      "asset_id": "audio_sfx_player_ultimate",
-      "category": "SFX",
-      "event": "PLAYER_ULTIMATE",
-      "source_path": "Characters/03_ULTIMATE_IMPACT/BLUE_ARCHIVE_INSPIRED_타_001.wav",
-      "runtime_path": "res://assets/audio/sfx/player_ultimate.wav",
-      "format": "PCM_WAV_SOURCE"
-    },
-    {
-      "asset_id": "audio_sfx_player_hit",
-      "category": "SFX",
-      "event": "PLAYER_HIT",
-      "source_path": "Characters/04_HIT_RECEIVED/BLUE_ARCHIVE_INSPIRED_피_001.wav",
-      "runtime_path": "res://assets/audio/sfx/player_hit.wav",
-      "format": "PCM_WAV_SOURCE"
-    },
-    {
-      "asset_id": "audio_sfx_enemy_attack",
-      "category": "SFX",
-      "event": "ENEMY_BASIC_ATTACK",
-      "source_path": "Mobs/01_NORMAL_MOBS/01_ATTACK_HIT/BLUE_ARCHIVE_INSPIRED_일반 몹_타격_001.wav",
-      "runtime_path": "res://assets/audio/sfx/enemy_attack.wav",
-      "format": "PCM_WAV_SOURCE"
-    },
-    {
-      "asset_id": "audio_sfx_enemy_hit",
-      "category": "SFX",
-      "event": "ENEMY_HIT",
-      "source_path": "Mobs/01_NORMAL_MOBS/02_DAMAGE_HIT/BLUE_ARCHIVE_INSPIRED_일반 몹_피격_001.wav",
-      "runtime_path": "res://assets/audio/sfx/enemy_hit.wav",
-      "format": "PCM_WAV_SOURCE"
-    },
-    {
-      "asset_id": "audio_sfx_enemy_skill",
-      "category": "SFX",
-      "event": "ENEMY_SKILL",
-      "source_path": "Mobs/01_NORMAL_MOBS/03_SKILL_USE/BLUE_ARCHIVE_INSPIRED_일반 몹_스킬_사용_001.wav",
-      "runtime_path": "res://assets/audio/sfx/enemy_skill.wav",
-      "format": "PCM_WAV_SOURCE"
-    },
-    {
-      "asset_id": "audio_sfx_boss_attack",
-      "category": "SFX",
-      "event": "BOSS_BASIC_ATTACK",
-      "source_path": "Mobs/03_BOSSES/01_ATTACK_HIT/BLUE_ARCHIVE_INSPIRED_보스_타격_001.wav",
-      "runtime_path": "res://assets/audio/sfx/boss_attack.wav",
-      "format": "PCM_WAV_SOURCE"
-    },
-    {
-      "asset_id": "audio_sfx_boss_hit",
-      "category": "SFX",
-      "event": "BOSS_HIT",
-      "source_path": "Mobs/03_BOSSES/02_DAMAGE_HIT/BLUE_ARCHIVE_INSPIRED_보스_피격_001.wav",
-      "runtime_path": "res://assets/audio/sfx/boss_hit.wav",
-      "format": "PCM_WAV_SOURCE"
-    },
-    {
-      "asset_id": "audio_sfx_boss_skill",
-      "category": "SFX",
-      "event": "BOSS_SKILL",
-      "source_path": "Mobs/03_BOSSES/03_SKILL_USE/BLUE_ARCHIVE_INSPIRED_보스_스킬_사용_001.wav",
-      "runtime_path": "res://assets/audio/sfx/boss_skill.wav",
-      "format": "PCM_WAV_SOURCE"
+      "max_seconds": 0,
+      "loop_smoothing_ms": 30,
+      "loop_crossfade_seconds": 1.8,
+      "target_sample_rate": 14000
     }
-  ]
+  ],
+  "public_sfx_collections": [
+    {
+      "asset_id_prefix": "audio_sfx_firearm",
+      "source_root": "data_source/audio_source/public_cc0/free_firearm_sfx",
+      "glob": "*.wav",
+      "runtime_root": "res://assets/audio/sfx/public/firearm",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 2.4,
+      "target_sample_rate": 48000,
+      "target_peak_db": -2.0,
+      "gain_db": -5.5,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "rights_basis": "CC0_NO_RIGHTS_RESERVED_DECLARATION_ON_SOURCE_PAGE",
+      "license_name": "Creative Commons CC0 1.0 Universal",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+      "source_url": "https://opengameart.org/content/the-free-firearm-sound-library",
+      "creator": "Ben Jaszczak; Brian Nelson; Kevin Heras; Matthew Nanney",
+      "file_overrides": {
+        "ak47_burst_C_29P.wav": {"max_seconds": 2.8, "gain_db": -6.5},
+        "m45_burst_G_33P.wav": {"max_seconds": 2.8, "gain_db": -6.5},
+        "ppsh_burst_P_32P.wav": {"max_seconds": 2.8, "gain_db": -6.5}
+      }
+    },
+    {
+      "asset_id_prefix": "audio_sfx_bang",
+      "source_root": "data_source/audio_source/public_cc0/bang_firework",
+      "glob": "*.ogg",
+      "runtime_root": "res://assets/audio/sfx/public/bang",
+      "format": "OGG_VORBIS_SOURCE",
+      "gain_db": -5.0,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "rights_basis": "CC0_LICENSE_DECLARED_ON_SOURCE_PAGE",
+      "license_name": "Creative Commons CC0 1.0 Universal",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+      "source_url": "https://opengameart.org/content/25-cc0-bang-firework-sfx",
+      "creator": "rubberduck"
+    },
+    {
+      "asset_id_prefix": "audio_sfx_impact",
+      "source_root": "data_source/audio_source/public_cc0/wood_metal",
+      "glob": "*.ogg",
+      "runtime_root": "res://assets/audio/sfx/public/impact",
+      "format": "OGG_VORBIS_SOURCE",
+      "gain_db": -3.5,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "rights_basis": "CC0_LICENSE_DECLARED_ON_SOURCE_PAGE",
+      "license_name": "Creative Commons CC0 1.0 Universal",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+      "source_url": "https://opengameart.org/content/100-cc0-metal-and-wood-sfx",
+      "creator": "rubberduck"
+    },
+    {
+      "asset_id_prefix": "audio_sfx_misc",
+      "source_root": "data_source/audio_source/public_cc0/various_impacts",
+      "glob": "*.wav",
+      "runtime_root": "res://assets/audio/sfx/public/misc",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 3.2,
+      "target_sample_rate": 48000,
+      "target_peak_db": -2.0,
+      "gain_db": -4.0,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "rights_basis": "CC0_LICENSE_DECLARED_ON_SOURCE_PAGE",
+      "license_name": "Creative Commons CC0 1.0 Universal",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+      "source_url": "https://opengameart.org/content/various-sound-effects-0",
+      "creator": "Julie Damsgaard / Spring Spring / Spring Enterprises",
+      "file_overrides": {
+        "player_hit.wav": {"max_seconds": 0.656, "gain_db": -2.5},
+        "snd_bullethit.wav": {"max_seconds": 0.168, "gain_db": -1.5},
+        "dull_explosion.wav": {"max_seconds": 3.2, "gain_db": -6.0}
+      }
+    }
+  ],
+  "event_assignments": {
+    "PLAYER_BASIC_ATTACK": ["audio_sfx_firearm_1911_a_42p", "audio_sfx_firearm_walther_ppq_x_31p", "audio_sfx_firearm_ar15_d_32p"],
+    "ENEMY_BASIC_ATTACK": ["audio_sfx_firearm_ak47_c_28p", "audio_sfx_firearm_tikka_w_24p", "audio_sfx_firearm_sks_u_14p"],
+    "BOSS_BASIC_ATTACK": ["audio_sfx_firearm_nova_o_21p", "audio_sfx_firearm_model12_k_17p", "audio_sfx_firearm_ak47_burst_c_29p", "audio_sfx_firearm_m45_burst_g_33p"],
+    "PLAYER_HIT": ["audio_sfx_misc_player_hit", "audio_sfx_impact_metal_hit_02", "audio_sfx_impact_metal_hit_04"],
+    "ENEMY_HIT": ["audio_sfx_misc_snd_bullethit", "audio_sfx_impact_wood_hit_02", "audio_sfx_impact_wood_hit_06", "audio_sfx_impact_metal_hit_01"],
+    "BOSS_HIT": ["audio_sfx_impact_metal_slam_01", "audio_sfx_impact_metal_sheet_04", "audio_sfx_impact_metal_sheet_06", "audio_sfx_impact_hammer_04"],
+    "PLAYER_NORMAL_SKILL": ["audio_sfx_bang_bang_01", "audio_sfx_bang_bang_02"],
+    "PLAYER_ULTIMATE": ["audio_sfx_bang_cannon_01", "audio_sfx_bang_cannon_02"],
+    "ENEMY_SKILL": ["audio_sfx_bang_bang_03", "audio_sfx_bang_bang_04"],
+    "BOSS_SKILL": ["audio_sfx_bang_cannon_03", "audio_sfx_bang_cannon_04", "audio_sfx_bang_cannon_05", "audio_sfx_misc_dull_explosion"]
+  },
+  "card_start_profile_config": {
+    "damage_base_asset_ids": [
+      "audio_sfx_firearm_1911_a_42p", "audio_sfx_firearm_walther_ppq_x_31p", "audio_sfx_firearm_ar15_d_32p",
+      "audio_sfx_firearm_ak47_c_28p", "audio_sfx_firearm_tikka_w_24p", "audio_sfx_firearm_sks_u_14p",
+      "audio_sfx_firearm_nova_o_21p", "audio_sfx_firearm_model12_k_17p", "audio_sfx_firearm_ak47_burst_c_29p",
+      "audio_sfx_firearm_m45_burst_g_33p", "audio_sfx_firearm_ppsh_burst_p_32p", "audio_sfx_firearm_savage300_t_27p",
+      "audio_sfx_bang_cannon_01", "audio_sfx_bang_cannon_02", "audio_sfx_bang_cannon_03", "audio_sfx_bang_cannon_04", "audio_sfx_bang_cannon_05"
+    ],
+    "support_base_asset_ids": [
+      "audio_sfx_bang_fw_01", "audio_sfx_bang_fw_02", "audio_sfx_bang_fw_03", "audio_sfx_bang_fw_04", "audio_sfx_bang_fw_05", "audio_sfx_bang_fw_06",
+      "audio_sfx_bang_shot_01", "audio_sfx_bang_shot_02", "audio_sfx_bang_shot_03", "audio_sfx_impact_metal_hit_03", "audio_sfx_impact_metal_hit_05"
+    ],
+    "accent_asset_ids": [
+      "audio_sfx_bang_bang_05", "audio_sfx_bang_bang_06", "audio_sfx_bang_bang_07", "audio_sfx_bang_bang_08", "audio_sfx_bang_bang_09", "audio_sfx_bang_bang_10",
+      "audio_sfx_impact_metal_hit_01", "audio_sfx_impact_metal_hit_02", "audio_sfx_impact_metal_hit_03", "audio_sfx_impact_metal_hit_04", "audio_sfx_impact_metal_hit_05",
+      "audio_sfx_impact_hammer_02", "audio_sfx_impact_hammer_04", "audio_sfx_impact_wood_hit_04", "audio_sfx_impact_wood_hit_08",
+      "audio_sfx_bang_fw_loop", "audio_sfx_misc_snd_bullethit", "audio_sfx_misc_player_hit"
+    ],
+    "extra_damage_card_ids": [
+      "BOSS_PATTERN:BOSS001:IMPLODE", "BOSS_PATTERN:BOSS001:RUPTURE", "BOSS_PATTERN:BOSS002:RESONANCE",
+      "BOSS_PATTERN:BOSS003:LOCK_ON", "BOSS_PATTERN:BOSS003:OVERLOAD", "BOSS_PATTERN:BOSS004:GATE_REVERSE", "BOSS_PATTERN:BOSS005:NETWORK_COLLAPSE"
+    ],
+    "extra_support_card_ids": ["BOSS_PATTERN:BOSS004:GATE_CLOSE", "BOSS_PATTERN:BOSS005:NETWORK_FORM"]
+  }
 }

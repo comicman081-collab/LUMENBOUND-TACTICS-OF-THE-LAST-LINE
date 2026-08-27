@@ -8,6 +8,7 @@ var accumulator := 0.0
 var speed := 1
 var paused := false
 var emitted_finish := false
+var skip_in_progress := false
 var consumed_events := 0
 var floating_texts: Array = []
 var projectiles: Array = []
@@ -24,10 +25,83 @@ var vfx_presentations: Array = []
 var free_vfx_presentations: Array = []
 var skill_callouts: Array = []
 var free_skill_callouts: Array = []
+var boss_phase_presentations: Array = []
+var free_boss_phase_presentations: Array = []
 var vfx_frames: Dictionary = {}
 var normal_background: Texture2D
 var boss_background: Texture2D
+var battle_font: Font
 const MAX_PRESENTATION_SPEED := 1.35
+const BOSS_PATTERN_CARD_PREFIX := "BOSS_PATTERN"
+const BOSS_PHASE_PRESENTATION := {
+	"PHASE_2": {
+		"title_key": "BATTLE_BOSS_PHASE_2_TITLE",
+		"subtitle_key": "BATTLE_BOSS_PHASE_2_SUBTITLE",
+		"color": "71e7ff",
+		"duration": 2.35,
+	},
+	"ENRAGE": {
+		"title_key": "BATTLE_BOSS_ENRAGE_TITLE",
+		"subtitle_key": "BATTLE_BOSS_ENRAGE_SUBTITLE",
+		"color": "ff6178",
+		"duration": 2.60,
+	},
+}
+
+static func card_start_id_for_event(event: Dictionary, source: Dictionary) -> String:
+	var extra: Dictionary = event.get("extra", {})
+	var boss_pattern := str(extra.get("boss_pattern", "")).strip_edges()
+	if not boss_pattern.is_empty():
+		var source_id := str(source.get("def_id", "")).strip_edges()
+		if source_id.is_empty():
+			source_id = str(event.get("source", "")).trim_prefix("E:").trim_prefix("P:")
+		return "%s:%s:%s" % [BOSS_PATTERN_CARD_PREFIX, source_id, boss_pattern]
+	return str(extra.get("skill_id", "")).strip_edges()
+
+static func damage_event_has_hit_sfx(event: Dictionary) -> bool:
+	var extra: Dictionary = event.get("extra", {})
+	if bool(extra.get("miss", false)) or bool(extra.get("invulnerable", false)):
+		return false
+	return int(event.get("value", 0)) > 0 or int(extra.get("hp_damage", 0)) > 0 or int(extra.get("shield_damage", 0)) > 0
+# In-app GPT review approved this Base + Signature + Accent profile split for
+# the actual Chapter 1 roster.  A profile expresses motion language as well as
+# colour, so an ally heal, an enemy curse and a boss void cast do not collapse
+# into the same generic radial burst.  The atlas builder owns the signature
+# pixels; this table chooses the lightweight shared base and draw-time accent.
+const VFX_UNIT_PROFILES := {
+	"CHR001": {"primary": "79e7ff", "secondary": "ffd36a", "normal": "shield", "ultimate": "shield"},
+	"CHR002": {"primary": "b8c7d9", "secondary": "ff9b54", "normal": "rush", "ultimate": "rush"},
+	"CHR003": {"primary": "7fd8ff", "secondary": "ff6ea8", "normal": "tracer", "ultimate": "artillery"},
+	"CHR004": {"primary": "43d7ff", "secondary": "fff16a", "normal": "lightning", "ultimate": "lightning"},
+	"CHR005": {"primary": "a58cff", "secondary": "ffd36a", "normal": "artillery", "ultimate": "artillery"},
+	"CHR006": {"primary": "d6f4ff", "secondary": "6d7bff", "normal": "distort", "ultimate": "distort"},
+	"CHR007": {"primary": "8cfff0", "secondary": "7bb3ff", "normal": "shield", "ultimate": "shield"},
+	"CHR008": {"primary": "b9ffcf", "secondary": "ffd98a", "normal": "heal", "ultimate": "heal"},
+	"ENM001": {"primary": "ff6a2a", "secondary": "ffd05a", "normal": "flame", "ultimate": "flame_split"},
+	"ENM002": {"primary": "5be5ff", "secondary": "8c79ff", "normal": "tracer", "ultimate": "lightning"},
+	"ENM003": {"primary": "7e8a98", "secondary": "ffd36a", "normal": "heavy", "ultimate": "plate_rupture"},
+	"ENM004": {"primary": "83ffc7", "secondary": "72c7ff", "normal": "heal", "ultimate": "barrier_mend"},
+	"ENM005": {"primary": "ffd36a", "secondary": "ff8fd2", "normal": "chorus", "ultimate": "harmonic_bars"},
+	"ENM006": {"primary": "b9a47a", "secondary": "7c8c5a", "normal": "dust", "ultimate": "dust_shear"},
+	"ENM007": {"primary": "e5e0d6", "secondary": "8a6cff", "normal": "summon", "ultimate": "ward_gate"},
+	"ENM008": {"primary": "ff57d1", "secondary": "48e7ff", "normal": "broadcast_glitch", "ultimate": "broadcast_tear"},
+	"ENM009": {"primary": "aab7c8", "secondary": "ffd36a", "normal": "iron_vibration", "ultimate": "slab_resonance"},
+	# Bosses deliberately use motion grammars which no character or regular enemy
+	# shares.  A boss must remain identifiable by its ultimate silhouette even
+	# with palette information removed in a busy 5v5 Web battle.
+	"BOSS001": {"primary": "35e0ff", "secondary": "7a2bff", "normal": "void", "ultimate": "implode"},
+	"BOSS002": {"primary": "a7b8ff", "secondary": "ffd36a", "normal": "chorus", "ultimate": "resonance"},
+	"ENM010": {"primary": "38e5ff", "secondary": "447cff", "normal": "rush_cut", "ultimate": "rush_cut"},
+	"ENM011": {"primary": "a9f7ff", "secondary": "6e91ff", "normal": "glass_tracer", "ultimate": "glass_tracer"},
+	"ENM012": {"primary": "ffa46e", "secondary": "ba6eff", "normal": "barrier_fracture", "ultimate": "barrier_fracture"},
+	"BOSS003": {"primary": "e9fbff", "secondary": "79dfff", "normal": "orbital_scan", "ultimate": "lockon"},
+	"ENM013": {"primary": "ff59cf", "secondary": "5be7ff", "normal": "reverse_arc", "ultimate": "reverse_arc"},
+	"ENM014": {"primary": "ffb543", "secondary": "54e2ff", "normal": "artillery", "ultimate": "battery_barrage"},
+	"ENM015": {"primary": "ce7cff", "secondary": "65f5dd", "normal": "chorus", "ultimate": "chorus_collapse"},
+	"BOSS004": {"primary": "72e7ff", "secondary": "ffbb63", "normal": "heavy", "ultimate": "gate_reverse"},
+	"BOSS005": {"primary": "62f1dd", "secondary": "f6c65d", "normal": "summon", "ultimate": "network"},
+}
+const SIGNAL_BREAKER_ULTIMATE_BASE_KEY := "base_signal_breaker_ultimate"
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -39,28 +113,49 @@ func _ready() -> void:
 		push_warning("Projectile sprite pack unavailable: %s" % projectile_library.load_error)
 	normal_background = load("res://assets/art/backgrounds/BG_BATTLE_GLASS_RAIL/bg_battle_glass_rail_1920x1080.png")
 	boss_background = load("res://assets/art/backgrounds/BG_BOSS_SIGNAL_CATHEDRAL/bg_boss_signal_cathedral_1920x1080.png")
-	_load_pilot_vfx()
+	battle_font = load("res://assets/fonts/NotoSansKR-VF.ttf") as Font
+	_load_runtime_vfx()
 	set_process(true)
 
 func setup(value: BattleSimulation) -> void:
 	simulation = value
 	accumulator = 0.0
 	emitted_finish = false
+	skip_in_progress = false
 	consumed_events = 0
 	free_floating_texts.append_array(floating_texts)
 	free_projectiles.append_array(projectiles)
 	free_vfx_presentations.append_array(vfx_presentations)
 	free_skill_callouts.append_array(skill_callouts)
+	free_boss_phase_presentations.append_array(boss_phase_presentations)
 	floating_texts.clear()
 	projectiles.clear()
 	vfx_presentations.clear()
 	skill_callouts.clear()
+	boss_phase_presentations.clear()
 	animation_tracks.clear()
 	entry_tracks.clear()
 	for unit in simulation.state.party + simulation.state.enemies:
 		animation_tracks[unit.uid] = {"name": "move", "elapsed": 0.0}
 		entry_tracks[unit.uid] = 0.0
 	queue_redraw()
+
+func skip_to_result() -> bool:
+	## Skip only presentation time.  The live simulation advances to its real
+	## terminal result, then emits the ordinary finish signal exactly once so the
+	## existing reward/map/save transaction remains the sole authority.
+	if simulation == null or emitted_finish or skip_in_progress:
+		return false
+	skip_in_progress = true
+	if not simulation.advance_to_terminal():
+		skip_in_progress = false
+		return false
+	# Thousands of fast-forwarded events must not be replayed as a one-frame VFX
+	# storm if the result screen transition is delayed by a frame.
+	consumed_events = simulation.event_log.size()
+	emitted_finish = true
+	battle_finished.emit(simulation.result_snapshot())
+	return true
 
 func _process(delta: float) -> void:
 	if simulation == null: return
@@ -88,6 +183,8 @@ func _process(delta: float) -> void:
 			presentation.age = float(presentation.age) + delta * minf(float(speed), MAX_PRESENTATION_SPEED)
 		for callout in skill_callouts:
 			callout.age = float(callout.age) + delta * minf(float(speed), MAX_PRESENTATION_SPEED)
+		for presentation in boss_phase_presentations:
+			presentation.age = float(presentation.age) + delta * minf(float(speed), MAX_PRESENTATION_SPEED)
 	_recycle_expired_presentations()
 	for uid in unit_flash.keys():
 		unit_flash[uid] = float(unit_flash[uid]) - delta
@@ -104,11 +201,12 @@ func _consume_events() -> void:
 		if event.type == BattleEvent.DAMAGE:
 			_spawn_floating_text({"target": event.target, "text": "MISS" if int(event.value) == 0 else ("CRIT %d" % event.value if event.extra.get("crit", false) else str(event.value)), "color": Color("ffd166") if event.extra.get("crit", false) else Color.WHITE, "age": 0.0})
 			unit_flash[event.target] = .14
-			var hit_unit := simulation.find_unit(str(event.target))
-			if not hit_unit.is_empty():
-				if str(hit_unit.team) == "PLAYER": AudioService.play_event("PLAYER_HIT", .06)
-				elif str(hit_unit.get("rank", "NORMAL")) == "BOSS": AudioService.play_event("BOSS_HIT", .06)
-				else: AudioService.play_event("ENEMY_HIT", .06)
+			if damage_event_has_hit_sfx(event):
+				var hit_unit := simulation.find_unit(str(event.target))
+				if not hit_unit.is_empty():
+					if str(hit_unit.team) == "PLAYER": AudioService.play_event("PLAYER_HIT", .06)
+					elif str(hit_unit.get("rank", "NORMAL")) == "BOSS": AudioService.play_event("BOSS_HIT", .06)
+					else: AudioService.play_event("ENEMY_HIT", .06)
 			if int(event.value) > 0:
 				var damage_source := str(event.extra.get("source", ""))
 				if damage_source in ["NORMAL", "ULTIMATE"]:
@@ -132,17 +230,15 @@ func _consume_events() -> void:
 			_play_animation(str(event.source), "basic_attack")
 		elif event.type == BattleEvent.NORMAL_SKILL:
 			var skill_source := simulation.find_unit(str(event.source))
-			if str(skill_source.team) == "PLAYER": AudioService.play_event("PLAYER_NORMAL_SKILL", .10)
-			elif str(skill_source.get("rank", "NORMAL")) == "BOSS": AudioService.play_event("BOSS_SKILL", .10)
-			else: AudioService.play_event("ENEMY_SKILL", .10)
+			var skill_fallback_event := "PLAYER_NORMAL_SKILL" if str(skill_source.team) == "PLAYER" else ("BOSS_SKILL" if str(skill_source.get("rank", "NORMAL")) == "BOSS" else "ENEMY_SKILL")
+			AudioService.play_card_start(card_start_id_for_event(event, skill_source), skill_fallback_event, .10)
 			_spawn_skill_callout(str(event.source), "SKILL", Color("79e8ff"))
 			_spawn_vfx(str(event.source), str(event.target), "normal")
 			_play_animation(str(event.source), "normal_skill")
 		elif event.type == BattleEvent.ULTIMATE:
 			var ultimate_source := simulation.find_unit(str(event.source))
-			if str(ultimate_source.team) == "PLAYER": AudioService.play_event("PLAYER_ULTIMATE", .12)
-			elif str(ultimate_source.get("rank", "NORMAL")) == "BOSS": AudioService.play_event("BOSS_SKILL", .12)
-			else: AudioService.play_event("ENEMY_SKILL", .12)
+			var ultimate_fallback_event := "PLAYER_ULTIMATE" if str(ultimate_source.team) == "PLAYER" else ("BOSS_SKILL" if str(ultimate_source.get("rank", "NORMAL")) == "BOSS" else "ENEMY_SKILL")
+			AudioService.play_card_start(card_start_id_for_event(event, ultimate_source), ultimate_fallback_event, .12)
 			_spawn_skill_callout(str(event.source), "ULT", Color("ffd36f"))
 			_spawn_vfx(str(event.source), str(event.target), "ultimate")
 			_play_animation(str(event.source), "ultimate")
@@ -151,6 +247,10 @@ func _consume_events() -> void:
 		elif event.type == BattleEvent.SPAWN:
 			animation_tracks[event.source] = {"name": "move", "elapsed": 0.0}
 			entry_tracks[event.source] = 0.0
+		elif event.type == BattleEvent.STATUS:
+			var phase_id := str(event.extra.get("phase", ""))
+			if BOSS_PHASE_PRESENTATION.has(phase_id):
+				_spawn_boss_phase_presentation(str(event.source), phase_id)
 		elif event.type == BattleEvent.BATTLE_END and int(event.value) == 1:
 			for unit in simulation.state.party:
 				if UnitState.alive(unit): _play_animation(str(unit.uid), "victory")
@@ -185,23 +285,69 @@ func _spawn_floating_text(data: Dictionary) -> void:
 func _spawn_vfx(source_uid: String, target_uid: String, kind: String, delay := 0.0) -> void:
 	var source := simulation.find_unit(source_uid)
 	if source.is_empty(): return
+	var profile := _vfx_profile_for(source)
+	# The Signal Breaker sheet belongs to the player-side visual language.  Using
+	# it below every enemy/boss ultimate made their supposedly unique signatures
+	# read as the same oversized ring and obscured the enemy silhouette.
+	if kind == "ultimate" and str(source.get("team", "")) == "PLAYER" and vfx_frames.has(SIGNAL_BREAKER_ULTIMATE_BASE_KEY):
+		var primary := Color(str(profile.get("primary", "70e7ff")))
+		var base_tint := primary.lerp(Color.WHITE, .46)
+		base_tint.a = .82
+		_append_vfx_presentation(source_uid, target_uid, "ultimate_base", SIGNAL_BREAKER_ULTIMATE_BASE_KEY, delay, profile, base_tint, false)
 	var key := "%s_%s" % [str(source.get("def_id", "")).to_lower(), kind]
+	_append_vfx_presentation(source_uid, target_uid, kind, key, delay, profile, Color.WHITE, kind in ["normal", "ultimate"])
+
+func _append_vfx_presentation(source_uid: String, target_uid: String, kind: String, key: String, delay: float, profile: Dictionary, tint: Color, draw_accent: bool) -> void:
 	var presentation: Dictionary = free_vfx_presentations.pop_back() if not free_vfx_presentations.is_empty() else {}
 	presentation.clear()
 	var duration := 0.40
 	if kind == "normal": duration = 0.72
-	elif kind == "ultimate": duration = 1.00
+	elif kind in ["ultimate", "ultimate_base"]: duration = 1.00
 	elif kind == "impact_normal": duration = .46
 	elif kind == "impact_ultimate": duration = .68
 	elif kind in ["heal", "shield"]: duration = .56
-	presentation.merge({"source": source_uid, "target": target_uid, "kind": kind, "key": key, "textured": vfx_frames.has(key), "age": 0.0, "delay": delay, "duration": duration})
+	presentation.merge({"source": source_uid, "target": target_uid, "kind": kind, "key": key, "textured": vfx_frames.has(key), "age": 0.0, "delay": delay, "duration": duration, "profile": profile, "tint": tint, "draw_accent": draw_accent})
 	vfx_presentations.append(presentation)
+
+func _vfx_profile_for(source: Dictionary) -> Dictionary:
+	var def_id := str(source.get("def_id", ""))
+	if VFX_UNIT_PROFILES.has(def_id):
+		return VFX_UNIT_PROFILES[def_id]
+	var definition := DataRegistry.character(def_id)
+	if definition.is_empty():
+		definition = DataRegistry.enemy(def_id)
+	var role := str(definition.get("role", ""))
+	var normal_shapes := {"GUARDIAN": "shield", "VANGUARD": "rush", "ASSAULT": "tracer", "ARTILLERY": "artillery", "SPECIALIST": "distort", "MEDIC": "heal", "MELEE_RUSH": "flame", "RANGED": "tracer", "DEFENDER": "heavy", "HEALER": "heal", "BUFFER": "chorus", "DEBUFFER": "dust", "SUMMONER": "summon", "AREA": "lightning"}
+	var seed := absi(def_id.hash())
+	var primary := Color.from_hsv(float(seed % 360) / 360.0, 0.70, 0.96).to_html(false)
+	var secondary := Color.from_hsv(float((int(seed / 11)) % 360) / 360.0, 0.54, 1.0).to_html(false)
+	var normal := str(normal_shapes.get(role, "tracer"))
+	var ultimate: String = "void" if str(definition.get("rank", "")) == "BOSS" else str(["shield", "rush", "lightning", "artillery", "distort", "heal", "chorus", "summon"][seed % 8])
+	return {"primary": primary, "secondary": secondary, "normal": normal, "ultimate": ultimate}
 
 func _spawn_skill_callout(source_uid: String, label: String, color: Color) -> void:
 	var item: Dictionary = free_skill_callouts.pop_back() if not free_skill_callouts.is_empty() else {}
 	item.clear()
 	item.merge({"source": source_uid, "label": label, "color": color, "age": 0.0, "duration": 0.78})
 	skill_callouts.append(item)
+
+func _spawn_boss_phase_presentation(source_uid: String, phase_id: String) -> void:
+	if not BOSS_PHASE_PRESENTATION.has(phase_id): return
+	var definition: Dictionary = BOSS_PHASE_PRESENTATION[phase_id]
+	var item: Dictionary = free_boss_phase_presentations.pop_back() if not free_boss_phase_presentations.is_empty() else {}
+	item.clear()
+	item.merge({
+		"source": source_uid,
+		"phase_id": phase_id,
+		"title_key": str(definition.title_key),
+		"subtitle_key": str(definition.subtitle_key),
+		"color": Color(str(definition.color)),
+		"age": 0.0,
+		"duration": float(definition.duration),
+	})
+	boss_phase_presentations.append(item)
+	unit_flash[source_uid] = .24
+	_play_animation(source_uid, "ultimate" if phase_id == "ENRAGE" else "normal_skill")
 
 func _recycle_expired_presentations() -> void:
 	for index in range(floating_texts.size() - 1, -1, -1):
@@ -220,24 +366,54 @@ func _recycle_expired_presentations() -> void:
 		if float(skill_callouts[index].age) >= float(skill_callouts[index].duration):
 			free_skill_callouts.append(skill_callouts[index])
 			skill_callouts.remove_at(index)
+	for index in range(boss_phase_presentations.size() - 1, -1, -1):
+		if float(boss_phase_presentations[index].age) >= float(boss_phase_presentations[index].duration):
+			free_boss_phase_presentations.append(boss_phase_presentations[index])
+			boss_phase_presentations.remove_at(index)
 
 func pool_diagnostics() -> Dictionary:
-	return {"active_projectiles": projectiles.size(), "free_projectiles": free_projectiles.size(), "active_floating_texts": floating_texts.size(), "free_floating_texts": free_floating_texts.size(), "active_vfx": vfx_presentations.size(), "free_vfx": free_vfx_presentations.size(), "active_skill_callouts": skill_callouts.size(), "free_skill_callouts": free_skill_callouts.size()}
+	return {"active_projectiles": projectiles.size(), "free_projectiles": free_projectiles.size(), "active_floating_texts": floating_texts.size(), "free_floating_texts": free_floating_texts.size(), "active_vfx": vfx_presentations.size(), "free_vfx": free_vfx_presentations.size(), "active_skill_callouts": skill_callouts.size(), "free_skill_callouts": free_skill_callouts.size(), "active_boss_phase_presentations": boss_phase_presentations.size(), "free_boss_phase_presentations": free_boss_phase_presentations.size()}
 
-func _load_pilot_vfx() -> void:
-	for character_id in ["chr001", "chr008"]:
-		for kind in ["basic", "normal", "ultimate"]:
-			var key := "%s_%s" % [character_id, kind]
-			var folder := "vfx_%s" % key
-			var textures: Array[Texture2D] = []
-			var atlas = load("res://assets/runtime_web/vfx/%s/atlas.png" % folder)
-			if atlas is Texture2D:
-				for frame in range(12):
-					var texture := AtlasTexture.new()
-					texture.atlas = atlas
-					texture.region = Rect2(float(frame % 4) * 128.0, float(frame / 4) * 128.0, 128.0, 128.0)
-					textures.append(texture)
-			if textures.size() == 12: vfx_frames[key] = textures
+func boss_phase_presentation_snapshot() -> Array:
+	var result: Array = []
+	for presentation in boss_phase_presentations:
+		result.append({
+			"source": str(presentation.source),
+			"phase_id": str(presentation.phase_id),
+			"title_key": str(presentation.title_key),
+			"subtitle_key": str(presentation.subtitle_key),
+			"title": LocalizationService.tr_key(str(presentation.title_key)),
+			"subtitle": LocalizationService.tr_key(str(presentation.subtitle_key)),
+		})
+	return result
+
+func _load_runtime_vfx() -> void:
+	vfx_frames.clear()
+	var manifest_path := "res://assets/runtime_web/runtime_combat_manifest.json"
+	if not FileAccess.file_exists(manifest_path): return
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
+	if not parsed is Dictionary: return
+	for entry in parsed.get("vfx", []):
+		var folder := str(entry.get("folder", ""))
+		if not folder.begins_with("vfx_"): continue
+		var key := folder.trim_prefix("vfx_")
+		var textures: Array[Texture2D] = []
+		var atlas := _load_runtime_texture("res://assets/runtime_web/vfx/%s/atlas.png" % folder)
+		if atlas is Texture2D:
+			for frame in range(12):
+				var texture := AtlasTexture.new()
+				texture.atlas = atlas
+				texture.region = Rect2(float(frame % 4) * 112.0, float(frame / 4) * 112.0, 112.0, 112.0)
+				textures.append(texture)
+		if textures.size() == 12: vfx_frames[key] = textures
+
+func _load_runtime_texture(path: String) -> Texture2D:
+	if ResourceLoader.exists(path):
+		var imported = load(path)
+		if imported is Texture2D: return imported
+	var image := Image.load_from_file(path)
+	if image == null or image.is_empty(): return null
+	return ImageTexture.create_from_image(image)
 
 func _play_animation(uid: String, animation_name: String) -> void:
 	animation_tracks[uid] = {"name": animation_name, "elapsed": 0.0}
@@ -311,9 +487,16 @@ func _draw() -> void:
 		if not textures.is_empty():
 			var frame := mini(textures.size() - 1, int(floor(progress * textures.size())))
 			var vfx_size := Vector2(150, 150)
-			if kind == "normal": vfx_size = Vector2(190, 190)
-			elif kind == "ultimate": vfx_size = Vector2(270, 270)
-			draw_texture_rect(textures[frame], Rect2(position - vfx_size * 0.5, vfx_size), false)
+			# Premium signatures put their energy in the outer third of the atlas.
+			# Keep enough scale for bloom and directional streaks while preserving at
+			# least half of the actor/weapon or boss core at the peak frame.
+			if kind == "normal": vfx_size = Vector2(226, 226)
+			elif kind == "ultimate": vfx_size = Vector2(324, 324)
+			elif kind == "ultimate_base": vfx_size = Vector2(356, 356)
+			var tint: Color = presentation.get("tint", Color.WHITE)
+			draw_texture_rect(textures[frame], Rect2(position - vfx_size * 0.5, vfx_size), false, tint)
+			if bool(presentation.get("draw_accent", false)):
+				_draw_vfx_signature_accent(position, kind, progress, presentation.get("profile", {}))
 		else:
 			# Explicit visual fallback for characters whose authored PNG VFX packs
 			# are still pending.  It preserves a legible multi-stage skill read; it
@@ -329,11 +512,49 @@ func _draw() -> void:
 		draw_rect(Rect2(callout_position, Vector2(62, 24)), Color(0.03, 0.08, 0.15, alpha * .88), true)
 		draw_rect(Rect2(callout_position, Vector2(62, 24)), callout_color, false, 1.5)
 		draw_string(ThemeDB.fallback_font, callout_position + Vector2(8, 18), str(callout.label), HORIZONTAL_ALIGNMENT_CENTER, 46, 16, callout_color)
+	for presentation in boss_phase_presentations:
+		_draw_boss_phase_presentation(presentation)
 	for text in floating_texts:
 		var target := simulation.find_unit(text.target)
 		if target.is_empty(): continue
 		var position := _unit_pos(target) + Vector2(-34, -125 - float(text.age) * 40)
 		draw_string(ThemeDB.fallback_font, position, text.text, HORIZONTAL_ALIGNMENT_CENTER, 72, 24, text.color)
+
+func _draw_boss_phase_presentation(presentation: Dictionary) -> void:
+	var duration := maxf(.01, float(presentation.duration))
+	var progress := clampf(float(presentation.age) / duration, 0.0, 1.0)
+	var enter := clampf(progress / .18, 0.0, 1.0)
+	var exit := clampf((1.0 - progress) / .20, 0.0, 1.0)
+	var visibility := sin(enter * PI * .5) * sin(exit * PI * .5)
+	var accent: Color = presentation.color
+	var font := battle_font if battle_font != null else ThemeDB.fallback_font
+	var center := Vector2(size.x * .5, size.y * .245)
+	var band_width := minf(size.x * .62, 880.0)
+	var band_height := clampf(size.y * .115, 96.0, 132.0)
+	var slide := (1.0 - enter) * 42.0
+	var band_rect := Rect2(center - Vector2(band_width * .5, band_height * .5 + slide), Vector2(band_width, band_height))
+	# Low-cost screen response: dark focus wash, luminous edge rails and a boss-
+	# anchored pulse. It is view-only and never feeds back into simulation state.
+	draw_rect(Rect2(Vector2.ZERO, size), Color(accent.r * .10, accent.g * .08, accent.b * .12, .18 * visibility), true)
+	draw_rect(band_rect.grow(8.0), Color(accent.r, accent.g, accent.b, .09 * visibility), true)
+	draw_rect(band_rect, Color(.018, .035, .075, .91 * visibility), true)
+	draw_line(band_rect.position, band_rect.position + Vector2(band_width, 0), Color(accent.r, accent.g, accent.b, .94 * visibility), 3.0, true)
+	draw_line(band_rect.end - Vector2(band_width, 0), band_rect.end, Color(accent.r, accent.g, accent.b, .72 * visibility), 2.0, true)
+	var rail_length := band_width * (.32 + .20 * sin(progress * PI))
+	draw_line(center + Vector2(-rail_length, -band_height * .32 - slide), center + Vector2(-band_width * .12, -band_height * .32 - slide), Color(1.0, 1.0, 1.0, .55 * visibility), 1.5, true)
+	draw_line(center + Vector2(band_width * .12, band_height * .32 - slide), center + Vector2(rail_length, band_height * .32 - slide), Color(1.0, 1.0, 1.0, .42 * visibility), 1.5, true)
+	var title := LocalizationService.tr_key(str(presentation.title_key))
+	var subtitle := LocalizationService.tr_key(str(presentation.subtitle_key))
+	var title_size := clampi(roundi(size.y * .040), 30, 46)
+	var subtitle_size := clampi(roundi(size.y * .020), 17, 24)
+	draw_string(font, center + Vector2(-band_width * .43, -2.0 - slide), title, HORIZONTAL_ALIGNMENT_CENTER, band_width * .86, title_size, Color(1.0, 1.0, 1.0, visibility))
+	draw_string(font, center + Vector2(-band_width * .43, 31.0 - slide), subtitle, HORIZONTAL_ALIGNMENT_CENTER, band_width * .86, subtitle_size, Color(accent.r, accent.g, accent.b, .92 * visibility))
+	var boss := simulation.find_unit(str(presentation.source)) if simulation != null else {}
+	if not boss.is_empty():
+		var boss_position := _unit_pos(boss) + _entry_offset(boss) + Vector2(0, -92)
+		var pulse := 56.0 + 34.0 * sin(clampf(progress / .44, 0.0, 1.0) * PI)
+		draw_circle(boss_position, pulse, Color(accent.r, accent.g, accent.b, .10 * visibility))
+		draw_arc(boss_position, pulse, -progress * TAU, TAU - progress * TAU, 36, Color(accent.r, accent.g, accent.b, .82 * visibility), 4.0, true)
 
 func _draw_runtime_skill_vfx(position: Vector2, source: Dictionary, kind: String, progress: float) -> void:
 	var color := _skill_color(source, kind)
@@ -389,6 +610,184 @@ func _draw_runtime_skill_vfx(position: Vector2, source: Dictionary, kind: String
 		position + Vector2(0, radius * .24), position + Vector2(-radius * .24, 0),
 	])
 	draw_colored_polygon(diamond, Color(1.0, 1.0, 1.0, .82 * fade))
+
+func _draw_vfx_signature_accent(position: Vector2, kind: String, progress: float, profile: Dictionary) -> void:
+	# The signature sheet provides the dense pixels; this one pooled draw-time
+	# accent supplies a crisp silhouette that remains readable against any battle
+	# backdrop.  It is intentionally bounded to one small accent, never another
+	# particle system or full-screen overlay.
+	if kind not in ["normal", "ultimate"]:
+		return
+	var shape := str(profile.get(kind, profile.get("normal", "tracer")))
+	var primary := Color(str(profile.get("primary", "70e7ff")))
+	var secondary := Color(str(profile.get("secondary", "f1d77a")))
+	var fade := maxf(.12, 1.0 - progress * .48)
+	var peak := sin(progress * PI)
+	var radius := (82.0 if kind == "ultimate" else 54.0) * (.58 + peak * .54)
+	primary.a = .72 * fade
+	secondary.a = .84 * fade
+	# Keep the shared readability stack in the outer band.  An opaque center made
+	# every hostile cast look like the same radial burst and hid the defining
+	# actor/weapon silhouette at the exact moment it should be most readable.
+	var bloom_radius := radius * (1.12 + .16 * peak)
+	draw_arc(position, bloom_radius, -progress * TAU * 1.3, PI * .28 - progress * TAU * 1.3, 12, Color(secondary.r, secondary.g, secondary.b, .58 * fade), 2.4 if kind == "ultimate" else 1.7, true)
+	draw_arc(position, bloom_radius, PI * 1.05 + progress * TAU * 1.1, PI * 1.33 + progress * TAU * 1.1, 12, Color(primary.r, primary.g, primary.b, .52 * fade), 2.0, true)
+	if kind == "ultimate":
+		for burst_index in range(10):
+			var burst_angle := TAU * float(burst_index) / 10.0 - progress * 1.7
+			var burst_inner := position + Vector2(cos(burst_angle), sin(burst_angle)) * radius * .62
+			var burst_outer := position + Vector2(cos(burst_angle), sin(burst_angle)) * radius * (1.20 + .20 * peak)
+			draw_line(burst_inner, burst_outer, Color(primary.r, primary.g, primary.b, .58 * fade), 2.6, true)
+	match shape:
+		"shield", "barrier_fracture", "plate_rupture":
+			var outer := PackedVector2Array()
+			for index in range(6):
+				var angle := TAU * float(index) / 6.0 - PI * .5 + progress * .75
+				outer.append(position + Vector2(cos(angle), sin(angle)) * radius)
+			outer.append(outer[0])
+			draw_polyline(outer, primary, 2.8, true)
+			draw_arc(position, radius * .58, -progress * TAU, TAU - progress * TAU, 20, secondary, 1.8, true)
+		"rush", "flame", "rush_cut", "flame_split", "dust_shear":
+			for index in range(4):
+				var offset := Vector2(-9.0, float(index - 1) * 9.0)
+				draw_line(position + Vector2(-radius * 1.16, radius * .64) + offset, position + Vector2(radius * 1.20, -radius * .68) + offset, primary if index < 3 else secondary, 3.0 - index * .42, true)
+			if shape == "flame":
+				for index in range(6):
+					var ember_angle := float(index) * TAU / 6.0 + progress * 3.0
+					var ember := position + Vector2(cos(ember_angle), sin(ember_angle)) * radius * (.72 + .16 * sin(progress * 9.0 + index))
+					draw_circle(ember, 3.2, secondary)
+		"tracer", "lightning", "glass_tracer", "reverse_arc", "orbital_scan", "broadcast_glitch", "broadcast_tear":
+			if shape != "lightning":
+				draw_arc(position, radius * .48, 0.0, TAU, 24, secondary, 1.8, true)
+				for offset in [-.22, 0.0, .22]:
+					draw_line(position + Vector2(-radius * 1.18, radius * offset), position + Vector2(radius * 1.30, radius * (offset - .14)), primary, 2.0, true)
+			else:
+				for branch in range(4 if kind == "ultimate" else 2):
+					var points := PackedVector2Array([position])
+					for step in range(1, 6):
+						var branch_angle := -PI * .5 + (branch - 1.5) * .34 + sin(float(step * 3 + branch) + progress * 8.0) * .16
+						points.append(position + Vector2(cos(branch_angle), sin(branch_angle)) * radius * float(step) / 5.0)
+					draw_polyline(points, primary, 3.0, true)
+					draw_polyline(points, secondary, 1.0, true)
+		"artillery", "chorus", "battery_barrage", "chorus_collapse", "harmonic_bars", "iron_vibration", "slab_resonance":
+			var rings := 4 if shape in ["chorus", "chorus_collapse"] else 2
+			for index in range(rings):
+				var local_radius := radius * (.35 + float(index) * .19)
+				draw_arc(position, local_radius, progress * TAU + index * .72, progress * TAU + index * .72 + PI * 1.35, 24, primary if index % 2 == 0 else secondary, 2.4, true)
+			if shape in ["artillery", "battery_barrage"]:
+				for index in range(5):
+					var impact_angle := -2.3 + float(index) * 1.15
+					var impact := position + Vector2(cos(impact_angle), sin(impact_angle)) * radius * .92
+					draw_line(position + Vector2(0, radius * .22), impact, primary, 1.7, true)
+					draw_circle(impact, 3.0, secondary)
+		"distort", "dust", "void":
+			for index in range(3):
+				var local_radius := radius * (.42 + float(index) * .22)
+				var angle := progress * TAU * (1.6 if shape != "void" else -2.3) + index * 1.2
+				draw_arc(position, local_radius, angle, angle + PI * 1.45, 22, primary if index != 1 else secondary, 2.6, true)
+			if shape == "void":
+				draw_circle(position, radius * .24, Color(.04, .06, .14, .44 * fade))
+		"implode":
+			# BOSS001, Void Engine: particles are drawn inward until the peak,
+			# then the same rays reverse into a compact rupture.  This is visibly
+			# different from the generic radial burst used by ordinary attacks.
+			var implode_phase := clampf(progress / .56, 0.0, 1.0)
+			var rupture_phase := clampf((progress - .56) / .44, 0.0, 1.0)
+			for index in range(12):
+				var implode_angle := TAU * float(index) / 12.0 - progress * 2.4
+				var outer_radius := radius * (1.30 - implode_phase * .88 + rupture_phase * .54)
+				var inner_radius := radius * (.18 + implode_phase * .10 + rupture_phase * .25)
+				var outer_point := position + Vector2(cos(implode_angle), sin(implode_angle)) * outer_radius
+				var inner_point := position + Vector2(cos(implode_angle + .20), sin(implode_angle + .20)) * inner_radius
+				draw_line(outer_point, inner_point, primary if index % 2 == 0 else secondary, 3.2, true)
+			draw_arc(position, radius * (1.08 - implode_phase * .72 + rupture_phase * .44), -progress * 7.0, TAU - progress * 7.0, 32, secondary, 3.4, true)
+			draw_circle(position, radius * (.12 + rupture_phase * .20), Color(.025, .04, .11, .78 * fade))
+			if rupture_phase > .12:
+				draw_circle(position, radius * (.10 + rupture_phase * .18), Color(1.0, 1.0, 1.0, .68 * fade))
+		"resonance":
+			# BOSS002, Midnight Bell: the impact is three delayed ring pulses,
+			# intentionally leaving a brief readable gap before the largest ring.
+			for index in range(3):
+				var ring_start := float(index) * .18
+				var ring_progress := clampf((progress - ring_start) / .64, 0.0, 1.0)
+				if ring_progress <= .0:
+					continue
+				var ring_radius := radius * (.24 + ring_progress * (.55 + float(index) * .22))
+				var ring_alpha := (1.0 - ring_progress) * (.38 + float(index) * .16) * fade
+				draw_arc(position, ring_radius, PI * .12 + index * .28, TAU + PI * .12 + index * .28, 40, Color(primary.r, primary.g, primary.b, ring_alpha), 2.2 + index * 1.15, true)
+				draw_arc(position, ring_radius * .72, -ring_progress * TAU, TAU - ring_progress * TAU, 26, Color(secondary.r, secondary.g, secondary.b, ring_alpha * .82), 1.2, true)
+			draw_circle(position, radius * (.07 + peak * .12), Color(1.0, 1.0, 1.0, .68 * fade))
+		"lockon":
+			# BOSS003, White Night Observer: narrow targeting axis, reticle lock,
+			# then a snapped wide beam.  Its linear grammar avoids ring reuse.
+			var lock_phase := clampf(progress / .52, 0.0, 1.0)
+			var overload_phase := clampf((progress - .52) / .48, 0.0, 1.0)
+			var reticle := radius * (.72 - lock_phase * .38 + overload_phase * .44)
+			draw_rect(Rect2(position - Vector2(reticle, reticle) * .5, Vector2(reticle, reticle)), secondary, false, 2.6, true)
+			draw_line(position + Vector2(-radius * 1.42, 0), position + Vector2(radius * 1.42, 0), Color(primary.r, primary.g, primary.b, .52 * fade), 2.0 + overload_phase * 8.0, true)
+			draw_line(position + Vector2(0, -radius * 1.20), position + Vector2(0, radius * 1.20), Color(secondary.r, secondary.g, secondary.b, .34 * fade), 1.5, true)
+			for corner in [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)]:
+				var corner_origin: Vector2 = position + corner * reticle * .50
+				draw_line(corner_origin, corner_origin - corner * reticle * (.24 + overload_phase * .14), primary, 3.0, true)
+			if overload_phase > .10:
+				draw_circle(position, radius * (.10 + overload_phase * .15), Color(1.0, 1.0, 1.0, .74 * fade))
+		"gate_reverse":
+			# BOSS004, Reverse Gatekeeper: paired plates close, counter-rotate and
+			# snap apart.  The panel geometry is unique to this boss.
+			var close_phase := clampf(progress / .46, 0.0, 1.0)
+			var reopen_phase := clampf((progress - .46) / .54, 0.0, 1.0)
+			var panel_gap := radius * (.98 - close_phase * .75 + reopen_phase * 1.10)
+			var panel_size := Vector2(radius * .46, radius * 1.04)
+			for side in [-1.0, 1.0]:
+				var panel_center := position + Vector2(side * panel_gap, 0)
+				var panel_rotation: float = side * (progress * 1.9 - reopen_phase * 4.2)
+				var panel_points := PackedVector2Array()
+				for base_point in [Vector2(-.5, -.5), Vector2(.5, -.5), Vector2(.5, .5), Vector2(-.5, .5)]:
+					panel_points.append(panel_center + (base_point * panel_size).rotated(panel_rotation))
+				panel_points.append(panel_points[0])
+				draw_polyline(panel_points, primary if side < 0.0 else secondary, 3.4, true)
+				draw_line(panel_center + Vector2(0, -panel_size.y * .36).rotated(panel_rotation), panel_center + Vector2(0, panel_size.y * .36).rotated(panel_rotation), Color(1.0, 1.0, 1.0, .62 * fade), 1.5, true)
+			if reopen_phase > .08:
+				draw_line(position + Vector2(-radius * 1.38, 0), position + Vector2(radius * 1.38, 0), Color(1.0, 1.0, 1.0, .62 * fade), 3.2, true)
+		"network":
+			# BOSS005, Return Formation Core: empty slots link to a central core,
+			# form a network, then collapse.  It must never read as a recoloured ring.
+			var form_phase := clampf(progress / .62, 0.0, 1.0)
+			var collapse_phase := clampf((progress - .62) / .38, 0.0, 1.0)
+			var nodes := PackedVector2Array()
+			for index in range(6):
+				var node_angle := TAU * float(index) / 6.0 - PI * .5 + progress * .54
+				var node_radius := radius * (1.04 - form_phase * .46 + collapse_phase * .26)
+				nodes.append(position + Vector2(cos(node_angle), sin(node_angle)) * node_radius)
+			for index in range(nodes.size()):
+				var node := nodes[index]
+				var next_node := nodes[(index + 1) % nodes.size()]
+				var link_alpha := (.18 + form_phase * .58) * (1.0 - collapse_phase * .34) * fade
+				draw_line(node, next_node, Color(primary.r, primary.g, primary.b, link_alpha), 2.4, true)
+				draw_line(node, position, Color(secondary.r, secondary.g, secondary.b, link_alpha * .72), 1.7, true)
+				draw_circle(node, 4.0 + form_phase * 3.4, Color(secondary.r, secondary.g, secondary.b, .76 * fade))
+			draw_circle(position, radius * (.10 + form_phase * .18 - collapse_phase * .08), Color(primary.r, primary.g, primary.b, .34 * fade))
+			draw_circle(position, radius * (.05 + form_phase * .08), Color(1.0, 1.0, 1.0, .72 * fade))
+		"heal", "barrier_mend":
+			for index in range(3):
+				var heal_y := position.y + radius * .32 - float(index) * radius * .25 - progress * radius * .24
+				draw_arc(Vector2(position.x, heal_y), radius * (.42 + index * .16), PI * .08, PI * .92, 20, primary, 2.7, true)
+			draw_circle(position, radius * .18, secondary)
+		"heavy", "summon", "ward_gate":
+			var vertices := 5 if shape == "summon" else 4
+			var polygon := PackedVector2Array()
+			for index in range(vertices):
+				var angle := TAU * float(index) / float(vertices) - PI * .5 + progress * .46
+				polygon.append(position + Vector2(cos(angle), sin(angle)) * radius * .84)
+			polygon.append(polygon[0])
+			draw_polyline(polygon, secondary, 3.0, true)
+			for index in range(vertices):
+				var tip := position + Vector2(cos(TAU * float(index) / float(vertices)), sin(TAU * float(index) / float(vertices))) * radius * 1.15
+				draw_line(position, tip, primary, 2.0, true)
+		_:
+			for index in range(8):
+				var spoke_angle := TAU * float(index) / 8.0 + progress * .8
+				draw_line(position + Vector2(cos(spoke_angle), sin(spoke_angle)) * radius * .18, position + Vector2(cos(spoke_angle), sin(spoke_angle)) * radius, primary, 2.0, true)
 
 func _skill_color(source: Dictionary, kind: String) -> Color:
 	var role := str(source.get("role", ""))
@@ -469,7 +868,16 @@ func _draw_combat_sprite(unit: Dictionary, p: Vector2, alive: bool) -> bool:
 	var destination_size := Vector2(512.0, 512.0) * scale
 	var top_left := p - Vector2(256.0 * scale, 512.0 * .88 * scale)
 	var modulate := Color(1.0, .72, .72, 1.0) if unit_flash.has(unit.uid) else Color.WHITE
-	draw_texture_rect(texture, Rect2(top_left, destination_size), false, modulate)
+	var desired_faces_right := str(unit.team) == "PLAYER"
+	var source_faces_right := sprite_library.source_faces_right(character_id)
+	if desired_faces_right != source_faces_right:
+		# Mirror around the immutable foot anchor, then immediately restore the
+		# canvas transform so HP bars, labels and later units are never reversed.
+		draw_set_transform(p, 0.0, Vector2(-1.0, 1.0))
+		draw_texture_rect(texture, Rect2(Vector2(-256.0 * scale, -512.0 * .88 * scale), destination_size), false, modulate)
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	else:
+		draw_texture_rect(texture, Rect2(top_left, destination_size), false, modulate)
 	return true
 
 func _draw_player_sd(p: Vector2, color: Color, role: String, alive: bool) -> void:

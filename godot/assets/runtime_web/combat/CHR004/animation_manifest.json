@@ -6,11 +6,10 @@
   "source_status": "DEV_CUTOUT_RIG_ANIMATION",
   "source_root": "assets/generated_import/characters/sd_chr004_eda_combat_r27_dev",
   "source_asset_id": "sd_chr004_eda_combat_r27_dev",
-  "source_blend": "",
   "ownership_status": "PROJECT_DEV_GENERATED",
   "frame_size": [
-    104,
-    104
+    128,
+    128
   ],
   "foot_anchor": [
     0.5,
@@ -23,6 +22,8 @@
   "view": "THREE_QUARTER_RIGHT_DOWN_30",
   "facing_policy": "SEPARATE_LEFT_RIGHT",
   "atlas_path": "atlas.png",
+  "preview_path": "preview.png",
+  "preview_sha256": "766fb47444c435b811b30c70b6dcbe68307415fec151d9c90b0727143ae8f658",
   "atlas_columns": 10,
   "total_frames": 80,
   "animations": {
@@ -195,5 +196,5 @@
       ]
     }
   },
-  "sha256": "b920b4750ebced5de0cf2c7813fe0ec257043c80aa1a95bb2c9b934183293d60"
+  "sha256": "579f2a503f12ad2460b51f7d95cc88115d19fb658ebc92639e1163151f13bb90"
 }

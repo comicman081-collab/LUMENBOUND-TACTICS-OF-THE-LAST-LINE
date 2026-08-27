@@ -1,0 +1,648 @@
+{
+  "map_id": "CH02_MAP",
+  "chapter_id": "CH02",
+  "visual_set_id": "CH02_RETURN_TERMINUS_R1",
+  "start_hex": {
+    "q": 0,
+    "r": 0
+  },
+  "macro_world": {
+    "seed": 7022602,
+    "linear_scale_viewports": 12,
+    "corridor_radius": 4,
+    "direction_policy": "REVERSE_TERMINUS_ROUTE",
+    "bounds": {
+      "min_q": -18,
+      "max_q": 120,
+      "min_r": -35,
+      "max_r": 24
+    }
+  },
+  "normal_route": [
+    "CH02-N01",
+    "CH02-N02",
+    "CH02-N03",
+    "CH02-N04",
+    "CH02-N05",
+    "CH02-N06",
+    "CH02-N07",
+    "CH02-N08",
+    "CH02-N09",
+    "CH02-N10"
+  ],
+  "hard_route": [
+    "CH02-H01",
+    "CH02-H02",
+    "CH02-H03",
+    "CH02-H04",
+    "CH02-H05"
+  ],
+  "map_simulation": {
+    "seed": 140702,
+    "tick_seconds": 0.25,
+    "wait_pulse_ticks": 4
+  },
+  "exploration_rules": {
+    "base_move_points": 4,
+    "max_move_points": 8,
+    "account_level_milestones": [
+      {
+        "level": 35,
+        "bonus": 1
+      },
+      {
+        "level": 60,
+        "bonus": 1
+      },
+      {
+        "level": 85,
+        "bonus": 1
+      }
+    ],
+    "mobility_items": [
+      {
+        "item_id": "EXPEDITION_ROUTE_MODULE_A",
+        "bonus": 1
+      },
+      {
+        "item_id": "EXPEDITION_ROUTE_MODULE_B",
+        "bonus": 1
+      }
+    ]
+  },
+  "patrols": [],
+  "relays": [],
+  "map_events": [],
+  "event_encounters": [
+    {
+      "event_encounter_id": "EVENT_CH02_N01",
+      "node_id": "NODE_N01",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "character_id": "CHR027",
+      "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+      "recruit_after_stage_id": "",
+      "title_key": "MAP_CONTACT_CH02_N01_TITLE",
+      "body_key": "MAP_CONTACT_CH02_N01_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH02_N01_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR027",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": ""
+        }
+      ],
+      "stage_id": "CH02-N01"
+    },
+    {
+      "event_encounter_id": "EVENT_CH02_N02",
+      "node_id": "NODE_N02",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "character_id": "CHR028",
+      "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+      "recruit_after_stage_id": "",
+      "title_key": "MAP_CONTACT_CH02_N02_TITLE",
+      "body_key": "MAP_CONTACT_CH02_N02_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH02_N02_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR028",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": ""
+        }
+      ],
+      "stage_id": "CH02-N02"
+    },
+    {
+      "event_encounter_id": "EVENT_CH02_N03",
+      "node_id": "NODE_N03",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "character_id": "CHR029",
+      "recruitment_timing": "AFTER_STAGE_CLEAR",
+      "recruit_after_stage_id": "CH02-N04",
+      "title_key": "MAP_CONTACT_CH02_N03_TITLE",
+      "body_key": "MAP_CONTACT_CH02_N03_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH02_N03_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR029",
+          "recruitment_timing": "AFTER_STAGE_CLEAR",
+          "recruit_after_stage_id": "CH02-N04"
+        }
+      ],
+      "stage_id": "CH02-N03"
+    },
+    {
+      "event_encounter_id": "EVENT_CH02_N04",
+      "node_id": "NODE_N04",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "character_id": "CHR030",
+      "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+      "recruit_after_stage_id": "",
+      "title_key": "MAP_CONTACT_CH02_N04_TITLE",
+      "body_key": "MAP_CONTACT_CH02_N04_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH02_N04_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR030",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": ""
+        }
+      ],
+      "stage_id": "CH02-N04"
+    },
+    {
+      "event_encounter_id": "EVENT_CH02_N05",
+      "node_id": "NODE_N05",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "character_id": "CHR031",
+      "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+      "recruit_after_stage_id": "",
+      "title_key": "MAP_CONTACT_CH02_N05_TITLE",
+      "body_key": "MAP_CONTACT_CH02_N05_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH02_N05_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR031",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": ""
+        },
+        {
+          "character_id": "CHR032",
+          "recruitment_timing": "AFTER_STAGE_CLEAR",
+          "recruit_after_stage_id": "CH02-N06"
+        }
+      ],
+      "stage_id": "CH02-N05"
+    },
+    {
+      "event_encounter_id": "EVENT_CH02_N06",
+      "node_id": "NODE_N06",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "character_id": "CHR033",
+      "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+      "recruit_after_stage_id": "",
+      "title_key": "MAP_CONTACT_CH02_N06_TITLE",
+      "body_key": "MAP_CONTACT_CH02_N06_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH02_N06_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR033",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": ""
+        }
+      ],
+      "stage_id": "CH02-N06"
+    },
+    {
+      "event_encounter_id": "EVENT_CH02_N07",
+      "node_id": "NODE_N07",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "character_id": "CHR034",
+      "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+      "recruit_after_stage_id": "",
+      "title_key": "MAP_CONTACT_CH02_N07_TITLE",
+      "body_key": "MAP_CONTACT_CH02_N07_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH02_N07_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR034",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": ""
+        }
+      ],
+      "stage_id": "CH02-N07"
+    },
+    {
+      "event_encounter_id": "EVENT_CH02_N08",
+      "node_id": "NODE_N08",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "character_id": "CHR035",
+      "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+      "recruit_after_stage_id": "",
+      "title_key": "MAP_CONTACT_CH02_N08_TITLE",
+      "body_key": "MAP_CONTACT_CH02_N08_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH02_N08_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR035",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": ""
+        }
+      ],
+      "stage_id": "CH02-N08"
+    },
+    {
+      "event_encounter_id": "EVENT_CH02_N09",
+      "node_id": "NODE_N09",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "character_id": "CHR036",
+      "recruitment_timing": "AFTER_STAGE_CLEAR",
+      "recruit_after_stage_id": "CH02-N10",
+      "title_key": "MAP_CONTACT_CH02_N09_TITLE",
+      "body_key": "MAP_CONTACT_CH02_N09_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH02_N09_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR036",
+          "recruitment_timing": "AFTER_STAGE_CLEAR",
+          "recruit_after_stage_id": "CH02-N10"
+        }
+      ],
+      "stage_id": "CH02-N09"
+    },
+    {
+      "event_encounter_id": "EVENT_CH02_N10",
+      "node_id": "NODE_N10",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "character_id": "CHR037",
+      "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+      "recruit_after_stage_id": "",
+      "title_key": "MAP_CONTACT_CH02_N10_TITLE",
+      "body_key": "MAP_CONTACT_CH02_N10_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH02_N10_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR037",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": ""
+        },
+        {
+          "character_id": "CHR038",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": ""
+        }
+      ],
+      "stage_id": "CH02-N10"
+    },
+    {
+      "event_encounter_id": "EVENT_CH02_H01",
+      "node_id": "NODE_H01",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "character_id": "CHR039",
+      "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+      "recruit_after_stage_id": "",
+      "title_key": "MAP_CONTACT_CH02_H01_TITLE",
+      "body_key": "MAP_CONTACT_CH02_H01_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH02_H01_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR039",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": ""
+        }
+      ],
+      "stage_id": "CH02-H01"
+    },
+    {
+      "event_encounter_id": "EVENT_CH02_H02",
+      "node_id": "NODE_H02",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "character_id": "CHR040",
+      "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+      "recruit_after_stage_id": "",
+      "title_key": "MAP_CONTACT_CH02_H02_TITLE",
+      "body_key": "MAP_CONTACT_CH02_H02_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH02_H02_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR040",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": ""
+        }
+      ],
+      "stage_id": "CH02-H02"
+    },
+    {
+      "event_encounter_id": "EVENT_CH02_H03",
+      "node_id": "NODE_H03",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "character_id": "CHR041",
+      "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+      "recruit_after_stage_id": "",
+      "title_key": "MAP_CONTACT_CH02_H03_TITLE",
+      "body_key": "MAP_CONTACT_CH02_H03_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH02_H03_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR041",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": ""
+        }
+      ],
+      "stage_id": "CH02-H03"
+    },
+    {
+      "event_encounter_id": "EVENT_CH02_H04",
+      "node_id": "NODE_H04",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "character_id": "CHR042",
+      "recruitment_timing": "AFTER_STAGE_CLEAR",
+      "recruit_after_stage_id": "CH02-H05",
+      "title_key": "MAP_CONTACT_CH02_H04_TITLE",
+      "body_key": "MAP_CONTACT_CH02_H04_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH02_H04_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR042",
+          "recruitment_timing": "AFTER_STAGE_CLEAR",
+          "recruit_after_stage_id": "CH02-H05"
+        },
+        {
+          "character_id": "CHR043",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": ""
+        }
+      ],
+      "stage_id": "CH02-H04"
+    },
+    {
+      "event_encounter_id": "EVENT_CH02_H05",
+      "node_id": "NODE_H05",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "character_id": "CHR044",
+      "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+      "recruit_after_stage_id": "",
+      "title_key": "MAP_CONTACT_CH02_H05_TITLE",
+      "body_key": "MAP_CONTACT_CH02_H05_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH02_H05_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR044",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": ""
+        }
+      ],
+      "stage_id": "CH02-H05"
+    }
+  ],
+  "landmarks": [
+    {
+      "landmark_id": "CH02_START",
+      "kind": "MAJOR",
+      "q": 4,
+      "r": 0,
+      "name": "역점등 선로",
+      "prop": "PROP_SIGNAL_TOWER"
+    },
+    {
+      "landmark_id": "CH02_GATE",
+      "kind": "MAJOR",
+      "q": 98,
+      "r": -15,
+      "name": "중앙 역행 개찰",
+      "prop": "PROP_SIGNAL_BEACON"
+    }
+  ],
+  "los_blockers": [
+    {
+      "q": 30,
+      "r": -3
+    },
+    {
+      "q": 64,
+      "r": -9
+    },
+    {
+      "q": 98,
+      "r": -15
+    }
+  ],
+  "treasures": [],
+  "nodes": [
+    {
+      "node_id": "CH02_START",
+      "node_type": "START",
+      "q": 0,
+      "r": 0,
+      "stage_id": "",
+      "scenario_id": "SCN_CH02_INTRO",
+      "unlock_condition": "ALWAYS",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_start_r7",
+      "repeatable": false,
+      "fast_travel_allowed": false
+    },
+    {
+      "node_id": "NODE_N01",
+      "node_type": "NORMAL_BATTLE",
+      "q": 9,
+      "r": 1,
+      "stage_id": "CH02-N01",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "node_id": "NODE_N02",
+      "node_type": "NORMAL_BATTLE",
+      "q": 20,
+      "r": -2,
+      "stage_id": "CH02-N02",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "node_id": "NODE_N03",
+      "node_type": "NORMAL_BATTLE",
+      "q": 31,
+      "r": -1,
+      "stage_id": "CH02-N03",
+      "scenario_id": "SCN_CH02_MID_A",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "node_id": "NODE_N04",
+      "node_type": "NORMAL_BATTLE",
+      "q": 41,
+      "r": -5,
+      "stage_id": "CH02-N04",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "node_id": "NODE_N05",
+      "node_type": "NORMAL_ELITE",
+      "q": 53,
+      "r": -6,
+      "stage_id": "CH02-N05",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_elite_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "node_id": "NODE_N06",
+      "node_type": "NORMAL_BATTLE",
+      "q": 63,
+      "r": -10,
+      "stage_id": "CH02-N06",
+      "scenario_id": "SCN_CH02_MID_B",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "node_id": "NODE_N07",
+      "node_type": "NORMAL_ELITE",
+      "q": 74,
+      "r": -9,
+      "stage_id": "CH02-N07",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_elite_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "node_id": "NODE_N08",
+      "node_type": "NORMAL_BATTLE",
+      "q": 84,
+      "r": -14,
+      "stage_id": "CH02-N08",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "node_id": "NODE_N09",
+      "node_type": "NORMAL_BATTLE",
+      "q": 93,
+      "r": -12,
+      "stage_id": "CH02-N09",
+      "scenario_id": "SCN_CH02_PREBOSS",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "node_id": "NODE_N10",
+      "node_type": "NORMAL_BOSS",
+      "q": 104,
+      "r": -17,
+      "stage_id": "CH02-N10",
+      "scenario_id": "SCN_CH02_HARD_INTRO",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_boss_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true,
+      "presentation": {
+        "transition_style": "BOSS",
+        "event_title_key": "MAP_BOSS_CH02_N10_TITLE",
+        "boss_name_key": "ENEMY_REVERSE_GATEKEEPER",
+        "boss_subtitle_key": "MAP_BOSS_CH02_N10_SUBTITLE"
+      }
+    },
+    {
+      "node_id": "NODE_H01",
+      "node_type": "HARD_BATTLE",
+      "q": 99,
+      "r": -9,
+      "stage_id": "CH02-H01",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_hard_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "node_id": "NODE_H02",
+      "node_type": "HARD_BATTLE",
+      "q": 90,
+      "r": -5,
+      "stage_id": "CH02-H02",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_hard_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "node_id": "NODE_H03",
+      "node_type": "HARD_ELITE",
+      "q": 79,
+      "r": -2,
+      "stage_id": "CH02-H03",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_elite_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "node_id": "NODE_H04",
+      "node_type": "HARD_ELITE",
+      "q": 69,
+      "r": -7,
+      "stage_id": "CH02-H04",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_elite_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "node_id": "NODE_H05",
+      "node_type": "HARD_BOSS",
+      "q": 58,
+      "r": -4,
+      "stage_id": "CH02-H05",
+      "scenario_id": "SCN_CH02_OUTRO",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_boss_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true,
+      "presentation": {
+        "transition_style": "BOSS",
+        "event_title_key": "MAP_BOSS_CH02_H05_TITLE",
+        "boss_name_key": "ENEMY_RETURN_FORMATION_CORE",
+        "boss_subtitle_key": "MAP_BOSS_CH02_H05_SUBTITLE"
+      }
+    }
+  ]
+}

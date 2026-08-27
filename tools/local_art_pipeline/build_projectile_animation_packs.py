@@ -27,8 +27,20 @@ PACKS = {
     "CHR003": {"asset_id": "proj_chr003_ice_rifle_tracer_r28", "kind": "tracer", "colors": ((106, 228, 255), (177, 132, 255)), "orientation": "RIGHT", "size": [84, 48], "flight_duration": 0.06},
     "CHR004": {"asset_id": "proj_chr004_magenta_energy_bolt_r28", "kind": "energy_bolt", "colors": ((255, 66, 224), (102, 55, 255)), "orientation": "RIGHT", "size": [86, 64], "flight_duration": 0.09},
     "CHR005": {"asset_id": "proj_chr005_emerald_cannon_orb_r28", "kind": "cannon_orb", "colors": ((60, 255, 168), (255, 208, 64)), "orientation": "RIGHT", "size": [116, 108], "flight_duration": 0.12},
+    "CHR006": {"asset_id": "proj_chr006_sapphire_focus_lance_r15", "kind": "energy_bolt", "colors": ((110, 194, 255), (211, 238, 255)), "orientation": "RIGHT", "size": [92, 68], "flight_duration": 0.10},
+    "CHR007": {"asset_id": "proj_chr007_violet_signal_orb_r15", "kind": "cannon_orb", "colors": ((181, 112, 255), (255, 218, 247)), "orientation": "RIGHT", "size": [108, 100], "flight_duration": 0.13},
+    "CHR008": {"asset_id": "proj_chr008_mint_medic_orb_r15", "kind": "cannon_orb", "colors": ((100, 255, 202), (231, 255, 237)), "orientation": "RIGHT", "size": [100, 94], "flight_duration": 0.12},
     "ENM001": {"asset_id": "proj_enm001_crystal_claw_r28", "kind": "enemy_claw", "colors": ((255, 80, 38), (255, 191, 37)), "orientation": "LEFT", "size": [118, 106], "flight_duration": 0.08},
     "ENM002": {"asset_id": "proj_enm002_arc_mote_r28", "kind": "enemy_bolt", "colors": ((255, 44, 121), (45, 224, 255)), "orientation": "LEFT", "size": [82, 64], "flight_duration": 0.09},
+    "ENM003": {"asset_id": "proj_enm003_shell_pulse_r15", "kind": "cannon_orb", "colors": ((241, 169, 74), (255, 234, 173)), "orientation": "LEFT", "size": [98, 90], "flight_duration": 0.14},
+    "ENM004": {"asset_id": "proj_enm004_mend_ray_r15", "kind": "enemy_bolt", "colors": ((112, 255, 178), (216, 255, 237)), "orientation": "LEFT", "size": [88, 68], "flight_duration": 0.11},
+    "ENM005": {"asset_id": "proj_enm005_jammer_arc_r15", "kind": "enemy_bolt", "colors": ((250, 107, 194), (255, 210, 124)), "orientation": "LEFT", "size": [90, 70], "flight_duration": 0.10},
+    "ENM006": {"asset_id": "proj_enm006_dust_lance_r15", "kind": "tracer", "colors": ((202, 152, 99), (255, 225, 172)), "orientation": "LEFT", "size": [94, 56], "flight_duration": 0.08},
+    "ENM007": {"asset_id": "proj_enm007_warden_burst_r15", "kind": "cannon_orb", "colors": ((255, 116, 95), (255, 221, 161)), "orientation": "LEFT", "size": [120, 108], "flight_duration": 0.15},
+    "ENM008": {"asset_id": "proj_enm008_broadcast_wave_r15", "kind": "enemy_bolt", "colors": ((230, 95, 255), (119, 220, 255)), "orientation": "LEFT", "size": [104, 76], "flight_duration": 0.12},
+    "ENM009": {"asset_id": "proj_enm009_fortress_arc_r15", "kind": "enemy_claw", "colors": ((218, 184, 91), (255, 244, 190)), "orientation": "LEFT", "size": [122, 108], "flight_duration": 0.12},
+    "BOSS001": {"asset_id": "proj_boss001_hollow_sun_r15", "kind": "cannon_orb", "colors": ((255, 104, 64), (255, 234, 132)), "orientation": "LEFT", "size": [144, 132], "flight_duration": 0.18},
+    "BOSS002": {"asset_id": "proj_boss002_bell_void_r15", "kind": "cannon_orb", "colors": ((174, 86, 255), (218, 239, 255)), "orientation": "LEFT", "size": [150, 138], "flight_duration": 0.20},
 }
 
 

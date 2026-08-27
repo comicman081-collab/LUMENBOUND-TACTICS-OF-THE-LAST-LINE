@@ -3,6 +3,7 @@ extends Node
 const PREMIUM_MANIFEST_PATH := "res://assets/art/asset_manifest.json"
 const LEGACY_MANIFEST_PATH := "res://assets/generated_import/import_manifest.json"
 const RUNTIME_WEB_MANIFEST_PATH := "res://assets/runtime_web/runtime_asset_manifest.json"
+const SKILL_ICON_MANIFEST_PATH := "res://assets/art/icons/skills/skill_icon_manifest.json"
 var assets: Dictionary = {}
 
 func _ready() -> void:
@@ -13,6 +14,10 @@ func _ready() -> void:
 	# Compact Web cards are loaded last.  They preserve every immutable asset ID
 	# while keeping roster, formation and map-pawn visuals inside the Web PCK.
 	_load_manifest(RUNTIME_WEB_MANIFEST_PATH)
+	# Immutable SkillDef icon IDs resolve through their own generated manifest.
+	# This layer is offline-authored and loads last so no legacy sample card can
+	# silently replace a character's actual NORMAL/PASSIVE/ULTIMATE icon.
+	_load_manifest(SKILL_ICON_MANIFEST_PATH)
 
 func _load_manifest(path: String) -> void:
 	var file := FileAccess.open(path, FileAccess.READ)

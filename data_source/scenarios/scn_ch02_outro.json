@@ -1,0 +1,50 @@
+{
+  "id": "SCN_CH02_OUTRO",
+  "title_key": "SCENARIO_CH02_OUTRO_TITLE",
+  "chapter_id": "CH02",
+  "commands": [
+    {
+      "id": "start",
+      "command": "set_background",
+      "asset_id": "bg_lantern_tunnel_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "RELIEVED"
+    },
+    {
+      "command": "fade_in",
+      "duration": 0.35
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_C2O_01"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_C2O_02"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "SMILE"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_C2O_03"
+    },
+    {
+      "command": "grant_reward",
+      "item_id": "LANTERN_SHARD",
+      "quantity": 5
+    },
+    {
+      "command": "end_scenario"
+    }
+  ]
+}

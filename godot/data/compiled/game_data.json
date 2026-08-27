@@ -465,7 +465,2095 @@
         "LANTERNLINE",
         "MEDIC"
       ],
-      "acquisition_source": "HARD_SHARD"
+      "acquisition_source": "STORY"
+    },
+    {
+      "id": "CHR009",
+      "name_key": "CHAR_LIV_NAME",
+      "description_key": "CHAR_LIV_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "VANGUARD",
+      "preferred_position": "FRONT",
+      "attack_type": "PHYSICAL",
+      "defense_type": "ARMOR",
+      "weapon_class": "BLADE",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR009_NORMAL",
+      "passive_skill_id": "SK_CHR009_PASSIVE",
+      "ultimate_skill_id": "SK_CHR009_ULTIMATE",
+      "asset_id": "sd_chr009_dev",
+      "portrait_asset_id": "portrait_chr009_dev",
+      "icon_asset_id": "icon_chr009_dev",
+      "attack_interval": 1.455,
+      "attack_range": 1.8,
+      "move_speed": 2.8,
+      "threat_modifier": 1.25,
+      "stats_l1": {
+        "HP": 1024,
+        "ATK": 141,
+        "DEF": 65,
+        "ACC": 116,
+        "EVA": 506,
+        "CRIT": 107,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 81,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 8512,
+        "ATK": 1077,
+        "DEF": 426,
+        "ACC": 306,
+        "EVA": 596,
+        "CRIT": 287,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 647,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "VANGUARD"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR010",
+      "name_key": "CHAR_SEON_NAME",
+      "description_key": "CHAR_SEON_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "MEDIC",
+      "preferred_position": "BACK",
+      "attack_type": "ENERGY",
+      "defense_type": "BARRIER",
+      "weapon_class": "SUPPORT_DEVICE",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR010_NORMAL",
+      "passive_skill_id": "SK_CHR010_PASSIVE",
+      "ultimate_skill_id": "SK_CHR010_ULTIMATE",
+      "asset_id": "sd_chr010_dev",
+      "portrait_asset_id": "portrait_chr010_dev",
+      "icon_asset_id": "icon_chr010_dev",
+      "attack_interval": 1.5,
+      "attack_range": 7.0,
+      "move_speed": 3.0,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 887,
+        "ATK": 96,
+        "DEF": 56,
+        "ACC": 120,
+        "EVA": 498,
+        "CRIT": 82,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 158,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 7416,
+        "ATK": 762,
+        "DEF": 372,
+        "ACC": 310,
+        "EVA": 588,
+        "CRIT": 262,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 1186,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "MEDIC"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR011",
+      "name_key": "CHAR_ADELINE_NAME",
+      "description_key": "CHAR_ADELINE_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "ARTILLERY",
+      "preferred_position": "BACK",
+      "attack_type": "ANOMALY",
+      "defense_type": "WARD",
+      "weapon_class": "HEAVY",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR011_NORMAL",
+      "passive_skill_id": "SK_CHR011_PASSIVE",
+      "ultimate_skill_id": "SK_CHR011_ULTIMATE",
+      "asset_id": "sd_chr011_dev",
+      "portrait_asset_id": "portrait_chr011_dev",
+      "icon_asset_id": "icon_chr011_dev",
+      "attack_interval": 1.545,
+      "attack_range": 7.0,
+      "move_speed": 3.2,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 785,
+        "ATK": 177,
+        "DEF": 42,
+        "ACC": 123,
+        "EVA": 486,
+        "CRIT": 89,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 101,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6600,
+        "ATK": 1329,
+        "DEF": 288,
+        "ACC": 313,
+        "EVA": 576,
+        "CRIT": 269,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 787,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "ARTILLERY"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR012",
+      "name_key": "CHAR_KIR_NAME",
+      "description_key": "CHAR_KIR_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "SPECIALIST",
+      "preferred_position": "MIDDLE",
+      "attack_type": "ANOMALY",
+      "defense_type": "WARD",
+      "weapon_class": "FOCUS",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR012_NORMAL",
+      "passive_skill_id": "SK_CHR012_PASSIVE",
+      "ultimate_skill_id": "SK_CHR012_ULTIMATE",
+      "asset_id": "sd_chr012_dev",
+      "portrait_asset_id": "portrait_chr012_dev",
+      "icon_asset_id": "icon_chr012_dev",
+      "attack_interval": 1.59,
+      "attack_range": 5.2,
+      "move_speed": 2.8,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 745,
+        "ATK": 116,
+        "DEF": 47,
+        "ACC": 123,
+        "EVA": 505,
+        "CRIT": 96,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 90,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6280,
+        "ATK": 902,
+        "DEF": 318,
+        "ACC": 313,
+        "EVA": 595,
+        "CRIT": 276,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 710,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "SPECIALIST"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR013",
+      "name_key": "CHAR_REMA_NAME",
+      "description_key": "CHAR_REMA_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "GUARDIAN",
+      "preferred_position": "FRONT",
+      "attack_type": "ENERGY",
+      "defense_type": "ARMOR",
+      "weapon_class": "HEAVY",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR013_NORMAL",
+      "passive_skill_id": "SK_CHR013_PASSIVE",
+      "ultimate_skill_id": "SK_CHR013_ULTIMATE",
+      "asset_id": "sd_chr013_dev",
+      "portrait_asset_id": "portrait_chr013_dev",
+      "icon_asset_id": "icon_chr013_dev",
+      "attack_interval": 1.635,
+      "attack_range": 1.8,
+      "move_speed": 3.0,
+      "threat_modifier": 1.8,
+      "stats_l1": {
+        "HP": 1258,
+        "ATK": 109,
+        "DEF": 87,
+        "ACC": 105,
+        "EVA": 474,
+        "CRIT": 103,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 91,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 10384,
+        "ATK": 853,
+        "DEF": 558,
+        "ACC": 295,
+        "EVA": 564,
+        "CRIT": 283,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 717,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 6,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "GUARDIAN"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR014",
+      "name_key": "CHAR_VEON_NAME",
+      "description_key": "CHAR_VEON_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "ASSAULT",
+      "preferred_position": "MIDDLE",
+      "attack_type": "PHYSICAL",
+      "defense_type": "BARRIER",
+      "weapon_class": "RIFLE",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR014_NORMAL",
+      "passive_skill_id": "SK_CHR014_PASSIVE",
+      "ultimate_skill_id": "SK_CHR014_ULTIMATE",
+      "asset_id": "sd_chr014_dev",
+      "portrait_asset_id": "portrait_chr014_dev",
+      "icon_asset_id": "icon_chr014_dev",
+      "attack_interval": 1.68,
+      "attack_range": 5.2,
+      "move_speed": 3.2,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 791,
+        "ATK": 156,
+        "DEF": 45,
+        "ACC": 129,
+        "EVA": 539,
+        "CRIT": 78,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 86,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6648,
+        "ATK": 1182,
+        "DEF": 306,
+        "ACC": 319,
+        "EVA": 629,
+        "CRIT": 258,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 682,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "ASSAULT"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR015",
+      "name_key": "CHAR_HART_NAME",
+      "description_key": "CHAR_HART_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "ARTILLERY",
+      "preferred_position": "BACK",
+      "attack_type": "ANOMALY",
+      "defense_type": "WARD",
+      "weapon_class": "HEAVY",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR015_NORMAL",
+      "passive_skill_id": "SK_CHR015_PASSIVE",
+      "ultimate_skill_id": "SK_CHR015_ULTIMATE",
+      "asset_id": "sd_chr015_dev",
+      "portrait_asset_id": "portrait_chr015_dev",
+      "icon_asset_id": "icon_chr015_dev",
+      "attack_interval": 1.725,
+      "attack_range": 7.0,
+      "move_speed": 2.8,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 749,
+        "ATK": 171,
+        "DEF": 40,
+        "ACC": 121,
+        "EVA": 482,
+        "CRIT": 85,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 95,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6312,
+        "ATK": 1287,
+        "DEF": 276,
+        "ACC": 311,
+        "EVA": 572,
+        "CRIT": 265,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 745,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "ARTILLERY"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR016",
+      "name_key": "CHAR_ORSA_NAME",
+      "description_key": "CHAR_ORSA_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "GUARDIAN",
+      "preferred_position": "FRONT",
+      "attack_type": "ENERGY",
+      "defense_type": "ARMOR",
+      "weapon_class": "HEAVY",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR016_NORMAL",
+      "passive_skill_id": "SK_CHR016_PASSIVE",
+      "ultimate_skill_id": "SK_CHR016_ULTIMATE",
+      "asset_id": "sd_chr016_dev",
+      "portrait_asset_id": "portrait_chr016_dev",
+      "icon_asset_id": "icon_chr016_dev",
+      "attack_interval": 1.77,
+      "attack_range": 1.8,
+      "move_speed": 3.0,
+      "threat_modifier": 1.8,
+      "stats_l1": {
+        "HP": 1312,
+        "ATK": 118,
+        "DEF": 90,
+        "ACC": 108,
+        "EVA": 480,
+        "CRIT": 92,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 100,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 10816,
+        "ATK": 916,
+        "DEF": 576,
+        "ACC": 298,
+        "EVA": 570,
+        "CRIT": 272,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 780,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 6,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "GUARDIAN"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR017",
+      "name_key": "CHAR_TIEL_NAME",
+      "description_key": "CHAR_TIEL_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "MEDIC",
+      "preferred_position": "BACK",
+      "attack_type": "ENERGY",
+      "defense_type": "BARRIER",
+      "weapon_class": "SUPPORT_DEVICE",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR017_NORMAL",
+      "passive_skill_id": "SK_CHR017_PASSIVE",
+      "ultimate_skill_id": "SK_CHR017_ULTIMATE",
+      "asset_id": "sd_chr017_dev",
+      "portrait_asset_id": "portrait_chr017_dev",
+      "icon_asset_id": "icon_chr017_dev",
+      "attack_interval": 1.815,
+      "attack_range": 7.0,
+      "move_speed": 3.2,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 905,
+        "ATK": 99,
+        "DEF": 57,
+        "ACC": 121,
+        "EVA": 500,
+        "CRIT": 99,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 161,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 7560,
+        "ATK": 783,
+        "DEF": 378,
+        "ACC": 311,
+        "EVA": 590,
+        "CRIT": 279,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 1207,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "MEDIC"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR018",
+      "name_key": "CHAR_RIAS_NAME",
+      "description_key": "CHAR_RIAS_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "ASSAULT",
+      "preferred_position": "MIDDLE",
+      "attack_type": "PHYSICAL",
+      "defense_type": "BARRIER",
+      "weapon_class": "RIFLE",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR018_NORMAL",
+      "passive_skill_id": "SK_CHR018_PASSIVE",
+      "ultimate_skill_id": "SK_CHR018_ULTIMATE",
+      "asset_id": "sd_chr018_dev",
+      "portrait_asset_id": "portrait_chr018_dev",
+      "icon_asset_id": "icon_chr018_dev",
+      "attack_interval": 1.86,
+      "attack_range": 5.2,
+      "move_speed": 2.8,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 755,
+        "ATK": 150,
+        "DEF": 43,
+        "ACC": 127,
+        "EVA": 535,
+        "CRIT": 106,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 80,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6360,
+        "ATK": 1140,
+        "DEF": 294,
+        "ACC": 317,
+        "EVA": 625,
+        "CRIT": 286,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 640,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "ASSAULT"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR019",
+      "name_key": "CHAR_PERIN_NAME",
+      "description_key": "CHAR_PERIN_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "SPECIALIST",
+      "preferred_position": "MIDDLE",
+      "attack_type": "ANOMALY",
+      "defense_type": "WARD",
+      "weapon_class": "FOCUS",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR019_NORMAL",
+      "passive_skill_id": "SK_CHR019_PASSIVE",
+      "ultimate_skill_id": "SK_CHR019_ULTIMATE",
+      "asset_id": "sd_chr019_dev",
+      "portrait_asset_id": "portrait_chr019_dev",
+      "icon_asset_id": "icon_chr019_dev",
+      "attack_interval": 1.905,
+      "attack_range": 5.2,
+      "move_speed": 3.0,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 763,
+        "ATK": 119,
+        "DEF": 48,
+        "ACC": 124,
+        "EVA": 507,
+        "CRIT": 81,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 93,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6424,
+        "ATK": 923,
+        "DEF": 324,
+        "ACC": 314,
+        "EVA": 597,
+        "CRIT": 261,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 731,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "SPECIALIST"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR020",
+      "name_key": "CHAR_KARN_NAME",
+      "description_key": "CHAR_KARN_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "VANGUARD",
+      "preferred_position": "FRONT",
+      "attack_type": "PHYSICAL",
+      "defense_type": "ARMOR",
+      "weapon_class": "BLADE",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR020_NORMAL",
+      "passive_skill_id": "SK_CHR020_PASSIVE",
+      "ultimate_skill_id": "SK_CHR020_ULTIMATE",
+      "asset_id": "sd_chr020_dev",
+      "portrait_asset_id": "portrait_chr020_dev",
+      "icon_asset_id": "icon_chr020_dev",
+      "attack_interval": 1.95,
+      "attack_range": 1.8,
+      "move_speed": 3.2,
+      "threat_modifier": 1.25,
+      "stats_l1": {
+        "HP": 1006,
+        "ATK": 138,
+        "DEF": 64,
+        "ACC": 115,
+        "EVA": 504,
+        "CRIT": 88,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 78,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 8368,
+        "ATK": 1056,
+        "DEF": 420,
+        "ACC": 305,
+        "EVA": 594,
+        "CRIT": 268,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 626,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "VANGUARD"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR021",
+      "name_key": "CHAR_NOAR_NAME",
+      "description_key": "CHAR_NOAR_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "MEDIC",
+      "preferred_position": "BACK",
+      "attack_type": "ENERGY",
+      "defense_type": "BARRIER",
+      "weapon_class": "SUPPORT_DEVICE",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR021_NORMAL",
+      "passive_skill_id": "SK_CHR021_PASSIVE",
+      "ultimate_skill_id": "SK_CHR021_ULTIMATE",
+      "asset_id": "sd_chr021_dev",
+      "portrait_asset_id": "portrait_chr021_dev",
+      "icon_asset_id": "icon_chr021_dev",
+      "attack_interval": 1.995,
+      "attack_range": 7.0,
+      "move_speed": 2.8,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 869,
+        "ATK": 93,
+        "DEF": 55,
+        "ACC": 119,
+        "EVA": 496,
+        "CRIT": 95,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 155,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 7272,
+        "ATK": 741,
+        "DEF": 366,
+        "ACC": 309,
+        "EVA": 586,
+        "CRIT": 275,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 1165,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "MEDIC"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR022",
+      "name_key": "CHAR_SEB_NAME",
+      "description_key": "CHAR_SEB_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "VANGUARD",
+      "preferred_position": "FRONT",
+      "attack_type": "PHYSICAL",
+      "defense_type": "ARMOR",
+      "weapon_class": "BLADE",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR022_NORMAL",
+      "passive_skill_id": "SK_CHR022_PASSIVE",
+      "ultimate_skill_id": "SK_CHR022_ULTIMATE",
+      "asset_id": "sd_chr022_dev",
+      "portrait_asset_id": "portrait_chr022_dev",
+      "icon_asset_id": "icon_chr022_dev",
+      "attack_interval": 2.04,
+      "attack_range": 1.8,
+      "move_speed": 3.0,
+      "threat_modifier": 1.25,
+      "stats_l1": {
+        "HP": 1042,
+        "ATK": 144,
+        "DEF": 66,
+        "ACC": 117,
+        "EVA": 508,
+        "CRIT": 102,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 84,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 8656,
+        "ATK": 1098,
+        "DEF": 432,
+        "ACC": 307,
+        "EVA": 598,
+        "CRIT": 282,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 668,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "VANGUARD"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR023",
+      "name_key": "CHAR_YURIEN_NAME",
+      "description_key": "CHAR_YURIEN_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "ARTILLERY",
+      "preferred_position": "BACK",
+      "attack_type": "ANOMALY",
+      "defense_type": "WARD",
+      "weapon_class": "HEAVY",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR023_NORMAL",
+      "passive_skill_id": "SK_CHR023_PASSIVE",
+      "ultimate_skill_id": "SK_CHR023_ULTIMATE",
+      "asset_id": "sd_chr023_dev",
+      "portrait_asset_id": "portrait_chr023_dev",
+      "icon_asset_id": "icon_chr023_dev",
+      "attack_interval": 2.085,
+      "attack_range": 7.0,
+      "move_speed": 3.2,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 785,
+        "ATK": 177,
+        "DEF": 42,
+        "ACC": 123,
+        "EVA": 486,
+        "CRIT": 77,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 101,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6600,
+        "ATK": 1329,
+        "DEF": 288,
+        "ACC": 313,
+        "EVA": 576,
+        "CRIT": 257,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 787,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "ARTILLERY"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR024",
+      "name_key": "CHAR_MOEN_NAME",
+      "description_key": "CHAR_MOEN_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "SPECIALIST",
+      "preferred_position": "MIDDLE",
+      "attack_type": "ANOMALY",
+      "defense_type": "WARD",
+      "weapon_class": "FOCUS",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR024_NORMAL",
+      "passive_skill_id": "SK_CHR024_PASSIVE",
+      "ultimate_skill_id": "SK_CHR024_ULTIMATE",
+      "asset_id": "sd_chr024_dev",
+      "portrait_asset_id": "portrait_chr024_dev",
+      "icon_asset_id": "icon_chr024_dev",
+      "attack_interval": 2.13,
+      "attack_range": 5.2,
+      "move_speed": 2.8,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 745,
+        "ATK": 116,
+        "DEF": 47,
+        "ACC": 123,
+        "EVA": 505,
+        "CRIT": 84,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 90,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6280,
+        "ATK": 902,
+        "DEF": 318,
+        "ACC": 313,
+        "EVA": 595,
+        "CRIT": 264,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 710,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "SPECIALIST"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR025",
+      "name_key": "CHAR_LAVENT_NAME",
+      "description_key": "CHAR_LAVENT_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "GUARDIAN",
+      "preferred_position": "FRONT",
+      "attack_type": "ENERGY",
+      "defense_type": "ARMOR",
+      "weapon_class": "HEAVY",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR025_NORMAL",
+      "passive_skill_id": "SK_CHR025_PASSIVE",
+      "ultimate_skill_id": "SK_CHR025_ULTIMATE",
+      "asset_id": "sd_chr025_dev",
+      "portrait_asset_id": "portrait_chr025_dev",
+      "icon_asset_id": "icon_chr025_dev",
+      "attack_interval": 2.175,
+      "attack_range": 1.8,
+      "move_speed": 3.0,
+      "threat_modifier": 1.8,
+      "stats_l1": {
+        "HP": 1258,
+        "ATK": 109,
+        "DEF": 87,
+        "ACC": 105,
+        "EVA": 474,
+        "CRIT": 91,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 91,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 10384,
+        "ATK": 853,
+        "DEF": 558,
+        "ACC": 295,
+        "EVA": 564,
+        "CRIT": 271,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 717,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 6,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "GUARDIAN"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR026",
+      "name_key": "CHAR_KAIREN_NAME",
+      "description_key": "CHAR_KAIREN_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "ASSAULT",
+      "preferred_position": "MIDDLE",
+      "attack_type": "PHYSICAL",
+      "defense_type": "BARRIER",
+      "weapon_class": "RIFLE",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR026_NORMAL",
+      "passive_skill_id": "SK_CHR026_PASSIVE",
+      "ultimate_skill_id": "SK_CHR026_ULTIMATE",
+      "asset_id": "sd_chr026_dev",
+      "portrait_asset_id": "portrait_chr026_dev",
+      "icon_asset_id": "icon_chr026_dev",
+      "attack_interval": 2.22,
+      "attack_range": 5.2,
+      "move_speed": 3.2,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 791,
+        "ATK": 156,
+        "DEF": 45,
+        "ACC": 129,
+        "EVA": 539,
+        "CRIT": 98,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 86,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6648,
+        "ATK": 1182,
+        "DEF": 306,
+        "ACC": 319,
+        "EVA": 629,
+        "CRIT": 278,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 682,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "ASSAULT"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR027",
+      "name_key": "CHAR_INOA_NAME",
+      "description_key": "CHAR_INOA_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "SPECIALIST",
+      "preferred_position": "MIDDLE",
+      "attack_type": "ANOMALY",
+      "defense_type": "WARD",
+      "weapon_class": "FOCUS",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR027_NORMAL",
+      "passive_skill_id": "SK_CHR027_PASSIVE",
+      "ultimate_skill_id": "SK_CHR027_ULTIMATE",
+      "asset_id": "sd_chr027_dev",
+      "portrait_asset_id": "portrait_chr027_dev",
+      "icon_asset_id": "icon_chr027_dev",
+      "attack_interval": 2.265,
+      "attack_range": 5.2,
+      "move_speed": 2.8,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 799,
+        "ATK": 125,
+        "DEF": 50,
+        "ACC": 126,
+        "EVA": 511,
+        "CRIT": 105,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 99,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6712,
+        "ATK": 965,
+        "DEF": 336,
+        "ACC": 316,
+        "EVA": 601,
+        "CRIT": 285,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 773,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "SPECIALIST"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR028",
+      "name_key": "CHAR_DRAN_NAME",
+      "description_key": "CHAR_DRAN_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "VANGUARD",
+      "preferred_position": "FRONT",
+      "attack_type": "PHYSICAL",
+      "defense_type": "ARMOR",
+      "weapon_class": "BLADE",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR028_NORMAL",
+      "passive_skill_id": "SK_CHR028_PASSIVE",
+      "ultimate_skill_id": "SK_CHR028_ULTIMATE",
+      "asset_id": "sd_chr028_dev",
+      "portrait_asset_id": "portrait_chr028_dev",
+      "icon_asset_id": "icon_chr028_dev",
+      "attack_interval": 2.31,
+      "attack_range": 1.8,
+      "move_speed": 3.0,
+      "threat_modifier": 1.25,
+      "stats_l1": {
+        "HP": 1042,
+        "ATK": 144,
+        "DEF": 66,
+        "ACC": 117,
+        "EVA": 508,
+        "CRIT": 80,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 84,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 8656,
+        "ATK": 1098,
+        "DEF": 432,
+        "ACC": 307,
+        "EVA": 598,
+        "CRIT": 260,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 668,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "VANGUARD"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR029",
+      "name_key": "CHAR_MERIN_NAME",
+      "description_key": "CHAR_MERIN_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "MEDIC",
+      "preferred_position": "BACK",
+      "attack_type": "ENERGY",
+      "defense_type": "BARRIER",
+      "weapon_class": "SUPPORT_DEVICE",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR029_NORMAL",
+      "passive_skill_id": "SK_CHR029_PASSIVE",
+      "ultimate_skill_id": "SK_CHR029_ULTIMATE",
+      "asset_id": "sd_chr029_dev",
+      "portrait_asset_id": "portrait_chr029_dev",
+      "icon_asset_id": "icon_chr029_dev",
+      "attack_interval": 2.355,
+      "attack_range": 7.0,
+      "move_speed": 3.2,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 905,
+        "ATK": 99,
+        "DEF": 57,
+        "ACC": 121,
+        "EVA": 500,
+        "CRIT": 87,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 161,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 7560,
+        "ATK": 783,
+        "DEF": 378,
+        "ACC": 311,
+        "EVA": 590,
+        "CRIT": 267,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 1207,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "MEDIC"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR030",
+      "name_key": "CHAR_CIEL_NAME",
+      "description_key": "CHAR_CIEL_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "ARTILLERY",
+      "preferred_position": "BACK",
+      "attack_type": "ANOMALY",
+      "defense_type": "WARD",
+      "weapon_class": "HEAVY",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR030_NORMAL",
+      "passive_skill_id": "SK_CHR030_PASSIVE",
+      "ultimate_skill_id": "SK_CHR030_ULTIMATE",
+      "asset_id": "sd_chr030_dev",
+      "portrait_asset_id": "portrait_chr030_dev",
+      "icon_asset_id": "icon_chr030_dev",
+      "attack_interval": 2.4,
+      "attack_range": 7.0,
+      "move_speed": 2.8,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 695,
+        "ATK": 162,
+        "DEF": 37,
+        "ACC": 118,
+        "EVA": 476,
+        "CRIT": 94,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 86,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 5880,
+        "ATK": 1224,
+        "DEF": 258,
+        "ACC": 308,
+        "EVA": 566,
+        "CRIT": 274,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 682,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "ARTILLERY"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR031",
+      "name_key": "CHAR_ROME_NAME",
+      "description_key": "CHAR_ROME_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "GUARDIAN",
+      "preferred_position": "FRONT",
+      "attack_type": "ENERGY",
+      "defense_type": "ARMOR",
+      "weapon_class": "HEAVY",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR031_NORMAL",
+      "passive_skill_id": "SK_CHR031_PASSIVE",
+      "ultimate_skill_id": "SK_CHR031_ULTIMATE",
+      "asset_id": "sd_chr031_dev",
+      "portrait_asset_id": "portrait_chr031_dev",
+      "icon_asset_id": "icon_chr031_dev",
+      "attack_interval": 2.445,
+      "attack_range": 1.8,
+      "move_speed": 3.0,
+      "threat_modifier": 1.8,
+      "stats_l1": {
+        "HP": 1258,
+        "ATK": 109,
+        "DEF": 87,
+        "ACC": 105,
+        "EVA": 474,
+        "CRIT": 101,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 91,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 10384,
+        "ATK": 853,
+        "DEF": 558,
+        "ACC": 295,
+        "EVA": 564,
+        "CRIT": 281,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 717,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 6,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "GUARDIAN"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR032",
+      "name_key": "CHAR_KIAN_NAME",
+      "description_key": "CHAR_KIAN_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "ASSAULT",
+      "preferred_position": "MIDDLE",
+      "attack_type": "PHYSICAL",
+      "defense_type": "BARRIER",
+      "weapon_class": "RIFLE",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR032_NORMAL",
+      "passive_skill_id": "SK_CHR032_PASSIVE",
+      "ultimate_skill_id": "SK_CHR032_ULTIMATE",
+      "asset_id": "sd_chr032_dev",
+      "portrait_asset_id": "portrait_chr032_dev",
+      "icon_asset_id": "icon_chr032_dev",
+      "attack_interval": 2.49,
+      "attack_range": 5.2,
+      "move_speed": 3.2,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 791,
+        "ATK": 156,
+        "DEF": 45,
+        "ACC": 129,
+        "EVA": 539,
+        "CRIT": 76,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 86,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6648,
+        "ATK": 1182,
+        "DEF": 306,
+        "ACC": 319,
+        "EVA": 629,
+        "CRIT": 256,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 682,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "ASSAULT"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR033",
+      "name_key": "CHAR_DAEL_NAME",
+      "description_key": "CHAR_DAEL_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "SPECIALIST",
+      "preferred_position": "MIDDLE",
+      "attack_type": "ANOMALY",
+      "defense_type": "WARD",
+      "weapon_class": "FOCUS",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR033_NORMAL",
+      "passive_skill_id": "SK_CHR033_PASSIVE",
+      "ultimate_skill_id": "SK_CHR033_ULTIMATE",
+      "asset_id": "sd_chr033_dev",
+      "portrait_asset_id": "portrait_chr033_dev",
+      "icon_asset_id": "icon_chr033_dev",
+      "attack_interval": 2.535,
+      "attack_range": 5.2,
+      "move_speed": 2.8,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 799,
+        "ATK": 125,
+        "DEF": 50,
+        "ACC": 126,
+        "EVA": 511,
+        "CRIT": 83,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 99,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6712,
+        "ATK": 965,
+        "DEF": 336,
+        "ACC": 316,
+        "EVA": 601,
+        "CRIT": 263,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 773,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "SPECIALIST"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR034",
+      "name_key": "CHAR_ORBIN_NAME",
+      "description_key": "CHAR_ORBIN_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "GUARDIAN",
+      "preferred_position": "FRONT",
+      "attack_type": "ENERGY",
+      "defense_type": "ARMOR",
+      "weapon_class": "HEAVY",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR034_NORMAL",
+      "passive_skill_id": "SK_CHR034_PASSIVE",
+      "ultimate_skill_id": "SK_CHR034_ULTIMATE",
+      "asset_id": "sd_chr034_dev",
+      "portrait_asset_id": "portrait_chr034_dev",
+      "icon_asset_id": "icon_chr034_dev",
+      "attack_interval": 2.58,
+      "attack_range": 1.8,
+      "move_speed": 3.0,
+      "threat_modifier": 1.8,
+      "stats_l1": {
+        "HP": 1312,
+        "ATK": 118,
+        "DEF": 90,
+        "ACC": 108,
+        "EVA": 480,
+        "CRIT": 90,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 100,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 10816,
+        "ATK": 916,
+        "DEF": 576,
+        "ACC": 298,
+        "EVA": 570,
+        "CRIT": 270,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 780,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 6,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "GUARDIAN"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR035",
+      "name_key": "CHAR_HERAON_NAME",
+      "description_key": "CHAR_HERAON_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "ARTILLERY",
+      "preferred_position": "BACK",
+      "attack_type": "ANOMALY",
+      "defense_type": "WARD",
+      "weapon_class": "HEAVY",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR035_NORMAL",
+      "passive_skill_id": "SK_CHR035_PASSIVE",
+      "ultimate_skill_id": "SK_CHR035_ULTIMATE",
+      "asset_id": "sd_chr035_dev",
+      "portrait_asset_id": "portrait_chr035_dev",
+      "icon_asset_id": "icon_chr035_dev",
+      "attack_interval": 2.625,
+      "attack_range": 7.0,
+      "move_speed": 3.2,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 785,
+        "ATK": 177,
+        "DEF": 42,
+        "ACC": 123,
+        "EVA": 486,
+        "CRIT": 97,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 101,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6600,
+        "ATK": 1329,
+        "DEF": 288,
+        "ACC": 313,
+        "EVA": 576,
+        "CRIT": 277,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 787,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "ARTILLERY"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR036",
+      "name_key": "CHAR_MIRE_NAME",
+      "description_key": "CHAR_MIRE_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "MEDIC",
+      "preferred_position": "BACK",
+      "attack_type": "ENERGY",
+      "defense_type": "BARRIER",
+      "weapon_class": "SUPPORT_DEVICE",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR036_NORMAL",
+      "passive_skill_id": "SK_CHR036_PASSIVE",
+      "ultimate_skill_id": "SK_CHR036_ULTIMATE",
+      "asset_id": "sd_chr036_dev",
+      "portrait_asset_id": "portrait_chr036_dev",
+      "icon_asset_id": "icon_chr036_dev",
+      "attack_interval": 2.67,
+      "attack_range": 7.0,
+      "move_speed": 2.8,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 815,
+        "ATK": 84,
+        "DEF": 52,
+        "ACC": 116,
+        "EVA": 490,
+        "CRIT": 104,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 146,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6840,
+        "ATK": 678,
+        "DEF": 348,
+        "ACC": 306,
+        "EVA": 580,
+        "CRIT": 284,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 1102,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "MEDIC"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR037",
+      "name_key": "CHAR_RAEN_NAME",
+      "description_key": "CHAR_RAEN_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "VANGUARD",
+      "preferred_position": "FRONT",
+      "attack_type": "PHYSICAL",
+      "defense_type": "ARMOR",
+      "weapon_class": "BLADE",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR037_NORMAL",
+      "passive_skill_id": "SK_CHR037_PASSIVE",
+      "ultimate_skill_id": "SK_CHR037_ULTIMATE",
+      "asset_id": "sd_chr037_dev",
+      "portrait_asset_id": "portrait_chr037_dev",
+      "icon_asset_id": "icon_chr037_dev",
+      "attack_interval": 2.715,
+      "attack_range": 1.8,
+      "move_speed": 3.0,
+      "threat_modifier": 1.25,
+      "stats_l1": {
+        "HP": 988,
+        "ATK": 135,
+        "DEF": 63,
+        "ACC": 114,
+        "EVA": 502,
+        "CRIT": 79,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 75,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 8224,
+        "ATK": 1035,
+        "DEF": 414,
+        "ACC": 304,
+        "EVA": 592,
+        "CRIT": 259,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 605,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "VANGUARD"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR038",
+      "name_key": "CHAR_ZERN_NAME",
+      "description_key": "CHAR_ZERN_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "ASSAULT",
+      "preferred_position": "MIDDLE",
+      "attack_type": "PHYSICAL",
+      "defense_type": "BARRIER",
+      "weapon_class": "RIFLE",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR038_NORMAL",
+      "passive_skill_id": "SK_CHR038_PASSIVE",
+      "ultimate_skill_id": "SK_CHR038_ULTIMATE",
+      "asset_id": "sd_chr038_dev",
+      "portrait_asset_id": "portrait_chr038_dev",
+      "icon_asset_id": "icon_chr038_dev",
+      "attack_interval": 2.76,
+      "attack_range": 5.2,
+      "move_speed": 3.2,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 791,
+        "ATK": 156,
+        "DEF": 45,
+        "ACC": 129,
+        "EVA": 539,
+        "CRIT": 86,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 86,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6648,
+        "ATK": 1182,
+        "DEF": 306,
+        "ACC": 319,
+        "EVA": 629,
+        "CRIT": 266,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 682,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "ASSAULT"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR039",
+      "name_key": "CHAR_SOA_NAME",
+      "description_key": "CHAR_SOA_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "SPECIALIST",
+      "preferred_position": "MIDDLE",
+      "attack_type": "ANOMALY",
+      "defense_type": "WARD",
+      "weapon_class": "FOCUS",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR039_NORMAL",
+      "passive_skill_id": "SK_CHR039_PASSIVE",
+      "ultimate_skill_id": "SK_CHR039_ULTIMATE",
+      "asset_id": "sd_chr039_dev",
+      "portrait_asset_id": "portrait_chr039_dev",
+      "icon_asset_id": "icon_chr039_dev",
+      "attack_interval": 2.805,
+      "attack_range": 5.2,
+      "move_speed": 2.8,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 799,
+        "ATK": 125,
+        "DEF": 50,
+        "ACC": 126,
+        "EVA": 511,
+        "CRIT": 93,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 99,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6712,
+        "ATK": 965,
+        "DEF": 336,
+        "ACC": 316,
+        "EVA": 601,
+        "CRIT": 273,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 773,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "SPECIALIST"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR040",
+      "name_key": "CHAR_BAEL_NAME",
+      "description_key": "CHAR_BAEL_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "MEDIC",
+      "preferred_position": "BACK",
+      "attack_type": "ENERGY",
+      "defense_type": "BARRIER",
+      "weapon_class": "SUPPORT_DEVICE",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR040_NORMAL",
+      "passive_skill_id": "SK_CHR040_PASSIVE",
+      "ultimate_skill_id": "SK_CHR040_ULTIMATE",
+      "asset_id": "sd_chr040_dev",
+      "portrait_asset_id": "portrait_chr040_dev",
+      "icon_asset_id": "icon_chr040_dev",
+      "attack_interval": 2.85,
+      "attack_range": 7.0,
+      "move_speed": 3.0,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 887,
+        "ATK": 96,
+        "DEF": 56,
+        "ACC": 120,
+        "EVA": 498,
+        "CRIT": 100,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 158,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 7416,
+        "ATK": 762,
+        "DEF": 372,
+        "ACC": 310,
+        "EVA": 588,
+        "CRIT": 280,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 1186,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "MEDIC"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR041",
+      "name_key": "CHAR_TERAN_NAME",
+      "description_key": "CHAR_TERAN_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "VANGUARD",
+      "preferred_position": "FRONT",
+      "attack_type": "PHYSICAL",
+      "defense_type": "ARMOR",
+      "weapon_class": "BLADE",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR041_NORMAL",
+      "passive_skill_id": "SK_CHR041_PASSIVE",
+      "ultimate_skill_id": "SK_CHR041_ULTIMATE",
+      "asset_id": "sd_chr041_dev",
+      "portrait_asset_id": "portrait_chr041_dev",
+      "icon_asset_id": "icon_chr041_dev",
+      "attack_interval": 2.895,
+      "attack_range": 1.8,
+      "move_speed": 3.2,
+      "threat_modifier": 1.25,
+      "stats_l1": {
+        "HP": 1060,
+        "ATK": 147,
+        "DEF": 67,
+        "ACC": 118,
+        "EVA": 510,
+        "CRIT": 107,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 87,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 8800,
+        "ATK": 1119,
+        "DEF": 438,
+        "ACC": 308,
+        "EVA": 600,
+        "CRIT": 287,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 689,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "VANGUARD"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR042",
+      "name_key": "CHAR_YUNAK_NAME",
+      "description_key": "CHAR_YUNAK_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "ARTILLERY",
+      "preferred_position": "BACK",
+      "attack_type": "ANOMALY",
+      "defense_type": "WARD",
+      "weapon_class": "HEAVY",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR042_NORMAL",
+      "passive_skill_id": "SK_CHR042_PASSIVE",
+      "ultimate_skill_id": "SK_CHR042_ULTIMATE",
+      "asset_id": "sd_chr042_dev",
+      "portrait_asset_id": "portrait_chr042_dev",
+      "icon_asset_id": "icon_chr042_dev",
+      "attack_interval": 2.94,
+      "attack_range": 7.0,
+      "move_speed": 2.8,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 695,
+        "ATK": 162,
+        "DEF": 37,
+        "ACC": 118,
+        "EVA": 476,
+        "CRIT": 82,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 86,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 5880,
+        "ATK": 1224,
+        "DEF": 258,
+        "ACC": 308,
+        "EVA": 566,
+        "CRIT": 262,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 682,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "ARTILLERY"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR043",
+      "name_key": "CHAR_ARINT_NAME",
+      "description_key": "CHAR_ARINT_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "GUARDIAN",
+      "preferred_position": "FRONT",
+      "attack_type": "ENERGY",
+      "defense_type": "ARMOR",
+      "weapon_class": "HEAVY",
+      "initial_rarity": 3,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR043_NORMAL",
+      "passive_skill_id": "SK_CHR043_PASSIVE",
+      "ultimate_skill_id": "SK_CHR043_ULTIMATE",
+      "asset_id": "sd_chr043_dev",
+      "portrait_asset_id": "portrait_chr043_dev",
+      "icon_asset_id": "icon_chr043_dev",
+      "attack_interval": 2.985,
+      "attack_range": 1.8,
+      "move_speed": 3.0,
+      "threat_modifier": 1.8,
+      "stats_l1": {
+        "HP": 1258,
+        "ATK": 109,
+        "DEF": 87,
+        "ACC": 105,
+        "EVA": 474,
+        "CRIT": 89,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 91,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 10384,
+        "ATK": 853,
+        "DEF": 558,
+        "ACC": 295,
+        "EVA": 564,
+        "CRIT": 269,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 717,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 6,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "GUARDIAN"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
+    },
+    {
+      "id": "CHR044",
+      "name_key": "CHAR_VELK_NAME",
+      "description_key": "CHAR_VELK_DESC",
+      "gender": "FEMALE",
+      "age_category": "ADULT",
+      "attire_policy": "MAXIMUM_NON_EXPLICIT",
+      "role": "ASSAULT",
+      "preferred_position": "MIDDLE",
+      "attack_type": "PHYSICAL",
+      "defense_type": "BARRIER",
+      "weapon_class": "RIFLE",
+      "initial_rarity": 2,
+      "level": 1,
+      "breakthrough": 0,
+      "normal_skill_id": "SK_CHR044_NORMAL",
+      "passive_skill_id": "SK_CHR044_PASSIVE",
+      "ultimate_skill_id": "SK_CHR044_ULTIMATE",
+      "asset_id": "sd_chr044_dev",
+      "portrait_asset_id": "portrait_chr044_dev",
+      "icon_asset_id": "icon_chr044_dev",
+      "attack_interval": 3.03,
+      "attack_range": 5.2,
+      "move_speed": 3.2,
+      "threat_modifier": 1.0,
+      "stats_l1": {
+        "HP": 791,
+        "ATK": 156,
+        "DEF": 45,
+        "ACC": 129,
+        "EVA": 539,
+        "CRIT": 96,
+        "CRIT_RES": 50,
+        "HEAL_POWER": 86,
+        "HASTE": 0,
+        "DAMAGE_REDUCTION": 0,
+        "STATUS_RESIST": 0
+      },
+      "stats_l100": {
+        "HP": 6648,
+        "ATK": 1182,
+        "DEF": 306,
+        "ACC": 319,
+        "EVA": 629,
+        "CRIT": 276,
+        "CRIT_RES": 180,
+        "HEAL_POWER": 682,
+        "HASTE": 12,
+        "DAMAGE_REDUCTION": 2,
+        "STATUS_RESIST": 15
+      },
+      "tags": [
+        "DEV_NAME",
+        "LANTERNLINE",
+        "ASSAULT"
+      ],
+      "acquisition_source": "EVENT_CONTACT"
     }
   ],
   "skills": [
@@ -474,6 +2562,7 @@
       "owner_id": "CHR001",
       "type": "NORMAL_SKILL",
       "name_key": "SKILL_MAERU_NORMAL",
+      "icon_asset_id": "skill_icon_chr001_normal",
       "max_level": 10,
       "values": [
         1.035,
@@ -497,6 +2586,7 @@
       "owner_id": "CHR001",
       "type": "PASSIVE_SKILL",
       "name_key": "SKILL_MAERU_PASSIVE",
+      "icon_asset_id": "skill_icon_chr001_passive",
       "max_level": 10,
       "values": [
         0.048,
@@ -520,6 +2610,7 @@
       "owner_id": "CHR001",
       "type": "ULTIMATE_SKILL",
       "name_key": "SKILL_MAERU_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr001_ultimate",
       "max_level": 5,
       "values": [
         2.22,
@@ -538,6 +2629,7 @@
       "owner_id": "CHR002",
       "type": "NORMAL_SKILL",
       "name_key": "SKILL_ROAN_NORMAL",
+      "icon_asset_id": "skill_icon_chr002_normal",
       "max_level": 10,
       "values": [
         1.07,
@@ -561,6 +2653,7 @@
       "owner_id": "CHR002",
       "type": "PASSIVE_SKILL",
       "name_key": "SKILL_ROAN_PASSIVE",
+      "icon_asset_id": "skill_icon_chr002_passive",
       "max_level": 10,
       "values": [
         0.051,
@@ -584,6 +2677,7 @@
       "owner_id": "CHR002",
       "type": "ULTIMATE_SKILL",
       "name_key": "SKILL_ROAN_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr002_ultimate",
       "max_level": 5,
       "values": [
         2.29,
@@ -602,6 +2696,7 @@
       "owner_id": "CHR003",
       "type": "NORMAL_SKILL",
       "name_key": "SKILL_NARIN_NORMAL",
+      "icon_asset_id": "skill_icon_chr003_normal",
       "max_level": 10,
       "values": [
         1.105,
@@ -625,6 +2720,7 @@
       "owner_id": "CHR003",
       "type": "PASSIVE_SKILL",
       "name_key": "SKILL_NARIN_PASSIVE",
+      "icon_asset_id": "skill_icon_chr003_passive",
       "max_level": 10,
       "values": [
         0.054,
@@ -648,6 +2744,7 @@
       "owner_id": "CHR003",
       "type": "ULTIMATE_SKILL",
       "name_key": "SKILL_NARIN_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr003_ultimate",
       "max_level": 5,
       "values": [
         2.36,
@@ -666,6 +2763,7 @@
       "owner_id": "CHR004",
       "type": "NORMAL_SKILL",
       "name_key": "SKILL_EDA_NORMAL",
+      "icon_asset_id": "skill_icon_chr004_normal",
       "max_level": 10,
       "values": [
         1.14,
@@ -689,6 +2787,7 @@
       "owner_id": "CHR004",
       "type": "PASSIVE_SKILL",
       "name_key": "SKILL_EDA_PASSIVE",
+      "icon_asset_id": "skill_icon_chr004_passive",
       "max_level": 10,
       "values": [
         0.057,
@@ -712,6 +2811,7 @@
       "owner_id": "CHR004",
       "type": "ULTIMATE_SKILL",
       "name_key": "SKILL_EDA_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr004_ultimate",
       "max_level": 5,
       "values": [
         2.43,
@@ -730,6 +2830,7 @@
       "owner_id": "CHR005",
       "type": "NORMAL_SKILL",
       "name_key": "SKILL_SOREN_NORMAL",
+      "icon_asset_id": "skill_icon_chr005_normal",
       "max_level": 10,
       "values": [
         1.175,
@@ -753,6 +2854,7 @@
       "owner_id": "CHR005",
       "type": "PASSIVE_SKILL",
       "name_key": "SKILL_SOREN_PASSIVE",
+      "icon_asset_id": "skill_icon_chr005_passive",
       "max_level": 10,
       "values": [
         0.06,
@@ -776,6 +2878,7 @@
       "owner_id": "CHR005",
       "type": "ULTIMATE_SKILL",
       "name_key": "SKILL_SOREN_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr005_ultimate",
       "max_level": 5,
       "values": [
         2.5,
@@ -794,6 +2897,7 @@
       "owner_id": "CHR006",
       "type": "NORMAL_SKILL",
       "name_key": "SKILL_VERA_NORMAL",
+      "icon_asset_id": "skill_icon_chr006_normal",
       "max_level": 10,
       "values": [
         1.21,
@@ -817,6 +2921,7 @@
       "owner_id": "CHR006",
       "type": "PASSIVE_SKILL",
       "name_key": "SKILL_VERA_PASSIVE",
+      "icon_asset_id": "skill_icon_chr006_passive",
       "max_level": 10,
       "values": [
         0.063,
@@ -840,6 +2945,7 @@
       "owner_id": "CHR006",
       "type": "ULTIMATE_SKILL",
       "name_key": "SKILL_VERA_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr006_ultimate",
       "max_level": 5,
       "values": [
         2.57,
@@ -858,6 +2964,7 @@
       "owner_id": "CHR007",
       "type": "NORMAL_SKILL",
       "name_key": "SKILL_TOA_NORMAL",
+      "icon_asset_id": "skill_icon_chr007_normal",
       "max_level": 10,
       "values": [
         1.245,
@@ -881,6 +2988,7 @@
       "owner_id": "CHR007",
       "type": "PASSIVE_SKILL",
       "name_key": "SKILL_TOA_PASSIVE",
+      "icon_asset_id": "skill_icon_chr007_passive",
       "max_level": 10,
       "values": [
         0.066,
@@ -904,6 +3012,7 @@
       "owner_id": "CHR007",
       "type": "ULTIMATE_SKILL",
       "name_key": "SKILL_TOA_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr007_ultimate",
       "max_level": 5,
       "values": [
         2.64,
@@ -922,6 +3031,7 @@
       "owner_id": "CHR008",
       "type": "NORMAL_SKILL",
       "name_key": "SKILL_IRI_NORMAL",
+      "icon_asset_id": "skill_icon_chr008_normal",
       "max_level": 10,
       "values": [
         1.28,
@@ -945,6 +3055,7 @@
       "owner_id": "CHR008",
       "type": "PASSIVE_SKILL",
       "name_key": "SKILL_IRI_PASSIVE",
+      "icon_asset_id": "skill_icon_chr008_passive",
       "max_level": 10,
       "values": [
         0.069,
@@ -968,6 +3079,7 @@
       "owner_id": "CHR008",
       "type": "ULTIMATE_SKILL",
       "name_key": "SKILL_IRI_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr008_ultimate",
       "max_level": 5,
       "values": [
         2.71,
@@ -980,6 +3092,2418 @@
       "effect": "HEAL",
       "target": "LOWEST_ALLY",
       "tactical_cost": 5
+    },
+    {
+      "id": "SK_CHR009_NORMAL",
+      "owner_id": "CHR009",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_LIV_NORMAL",
+      "icon_asset_id": "skill_icon_chr009_normal",
+      "max_level": 10,
+      "values": [
+        1.315,
+        1.414,
+        1.525,
+        1.64,
+        1.759,
+        1.879,
+        2.002,
+        2.127,
+        2.253,
+        2.38
+      ],
+      "cooldown": 8.0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR009_PASSIVE",
+      "owner_id": "CHR009",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_LIV_PASSIVE",
+      "icon_asset_id": "skill_icon_chr009_passive",
+      "max_level": 10,
+      "values": [
+        0.072,
+        0.091,
+        0.11,
+        0.128,
+        0.147,
+        0.166,
+        0.185,
+        0.203,
+        0.222,
+        0.241
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR009_ULTIMATE",
+      "owner_id": "CHR009",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_LIV_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr009_ultimate",
+      "max_level": 5,
+      "values": [
+        2.78,
+        3.314,
+        3.886,
+        4.473,
+        5.07
+      ],
+      "cooldown": 0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 6
+    },
+    {
+      "id": "SK_CHR010_NORMAL",
+      "owner_id": "CHR010",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_SEON_NORMAL",
+      "icon_asset_id": "skill_icon_chr010_normal",
+      "max_level": 10,
+      "values": [
+        1.35,
+        1.45,
+        1.561,
+        1.677,
+        1.796,
+        1.917,
+        2.041,
+        2.166,
+        2.292,
+        2.42
+      ],
+      "cooldown": 9.0,
+      "effect": "HEAL",
+      "target": "LOWEST_ALLY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR010_PASSIVE",
+      "owner_id": "CHR010",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_SEON_PASSIVE",
+      "icon_asset_id": "skill_icon_chr010_passive",
+      "max_level": 10,
+      "values": [
+        0.075,
+        0.094,
+        0.113,
+        0.132,
+        0.151,
+        0.169,
+        0.188,
+        0.207,
+        0.226,
+        0.245
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR010_ULTIMATE",
+      "owner_id": "CHR010",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_SEON_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr010_ultimate",
+      "max_level": 5,
+      "values": [
+        2.85,
+        3.386,
+        3.961,
+        4.55,
+        5.15
+      ],
+      "cooldown": 0,
+      "effect": "HEAL",
+      "target": "LOWEST_ALLY",
+      "tactical_cost": 2
+    },
+    {
+      "id": "SK_CHR011_NORMAL",
+      "owner_id": "CHR011",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_ADELINE_NORMAL",
+      "icon_asset_id": "skill_icon_chr011_normal",
+      "max_level": 10,
+      "values": [
+        1.385,
+        1.485,
+        1.597,
+        1.713,
+        1.833,
+        1.955,
+        2.079,
+        2.204,
+        2.332,
+        2.46
+      ],
+      "cooldown": 10.0,
+      "effect": "AOE_DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR011_PASSIVE",
+      "owner_id": "CHR011",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_ADELINE_PASSIVE",
+      "icon_asset_id": "skill_icon_chr011_passive",
+      "max_level": 10,
+      "values": [
+        0.078,
+        0.097,
+        0.116,
+        0.135,
+        0.154,
+        0.173,
+        0.192,
+        0.211,
+        0.23,
+        0.249
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR011_ULTIMATE",
+      "owner_id": "CHR011",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_ADELINE_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr011_ultimate",
+      "max_level": 5,
+      "values": [
+        2.92,
+        3.459,
+        4.036,
+        4.628,
+        5.23
+      ],
+      "cooldown": 0,
+      "effect": "AOE_DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 3
+    },
+    {
+      "id": "SK_CHR012_NORMAL",
+      "owner_id": "CHR012",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_KIR_NORMAL",
+      "icon_asset_id": "skill_icon_chr012_normal",
+      "max_level": 10,
+      "values": [
+        1.42,
+        1.521,
+        1.633,
+        1.75,
+        1.87,
+        1.992,
+        2.117,
+        2.243,
+        2.371,
+        2.5
+      ],
+      "cooldown": 7.0,
+      "effect": "DEBUFF",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR012_PASSIVE",
+      "owner_id": "CHR012",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_KIR_PASSIVE",
+      "icon_asset_id": "skill_icon_chr012_passive",
+      "max_level": 10,
+      "values": [
+        0.081,
+        0.1,
+        0.119,
+        0.138,
+        0.157,
+        0.177,
+        0.196,
+        0.215,
+        0.234,
+        0.253
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR012_ULTIMATE",
+      "owner_id": "CHR012",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_KIR_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr012_ultimate",
+      "max_level": 5,
+      "values": [
+        2.99,
+        3.531,
+        4.11,
+        4.705,
+        5.31
+      ],
+      "cooldown": 0,
+      "effect": "BUFF",
+      "target": "ENEMY",
+      "tactical_cost": 4
+    },
+    {
+      "id": "SK_CHR013_NORMAL",
+      "owner_id": "CHR013",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_REMA_NORMAL",
+      "icon_asset_id": "skill_icon_chr013_normal",
+      "max_level": 10,
+      "values": [
+        1.455,
+        1.556,
+        1.669,
+        1.786,
+        1.907,
+        2.03,
+        2.155,
+        2.282,
+        2.41,
+        2.54
+      ],
+      "cooldown": 8.0,
+      "effect": "TAUNT",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR013_PASSIVE",
+      "owner_id": "CHR013",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_REMA_PASSIVE",
+      "icon_asset_id": "skill_icon_chr013_passive",
+      "max_level": 10,
+      "values": [
+        0.084,
+        0.103,
+        0.122,
+        0.142,
+        0.161,
+        0.18,
+        0.199,
+        0.219,
+        0.238,
+        0.257
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR013_ULTIMATE",
+      "owner_id": "CHR013",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_REMA_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr013_ultimate",
+      "max_level": 5,
+      "values": [
+        3.06,
+        3.603,
+        4.185,
+        4.783,
+        5.39
+      ],
+      "cooldown": 0,
+      "effect": "SHIELD",
+      "target": "SELF",
+      "tactical_cost": 5
+    },
+    {
+      "id": "SK_CHR014_NORMAL",
+      "owner_id": "CHR014",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_VEON_NORMAL",
+      "icon_asset_id": "skill_icon_chr014_normal",
+      "max_level": 10,
+      "values": [
+        1.49,
+        1.592,
+        1.705,
+        1.823,
+        1.944,
+        2.068,
+        2.193,
+        2.321,
+        2.45,
+        2.58
+      ],
+      "cooldown": 9.0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR014_PASSIVE",
+      "owner_id": "CHR014",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_VEON_PASSIVE",
+      "icon_asset_id": "skill_icon_chr014_passive",
+      "max_level": 10,
+      "values": [
+        0.087,
+        0.106,
+        0.126,
+        0.145,
+        0.164,
+        0.184,
+        0.203,
+        0.222,
+        0.242,
+        0.261
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR014_ULTIMATE",
+      "owner_id": "CHR014",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_VEON_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr014_ultimate",
+      "max_level": 5,
+      "values": [
+        3.13,
+        3.676,
+        4.26,
+        4.86,
+        5.47
+      ],
+      "cooldown": 0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 6
+    },
+    {
+      "id": "SK_CHR015_NORMAL",
+      "owner_id": "CHR015",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_HART_NORMAL",
+      "icon_asset_id": "skill_icon_chr015_normal",
+      "max_level": 10,
+      "values": [
+        1.525,
+        1.627,
+        1.741,
+        1.859,
+        1.981,
+        2.105,
+        2.232,
+        2.36,
+        2.489,
+        2.62
+      ],
+      "cooldown": 10.0,
+      "effect": "AOE_DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR015_PASSIVE",
+      "owner_id": "CHR015",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_HART_PASSIVE",
+      "icon_asset_id": "skill_icon_chr015_passive",
+      "max_level": 10,
+      "values": [
+        0.09,
+        0.109,
+        0.129,
+        0.148,
+        0.168,
+        0.187,
+        0.207,
+        0.226,
+        0.246,
+        0.265
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR015_ULTIMATE",
+      "owner_id": "CHR015",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_HART_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr015_ultimate",
+      "max_level": 5,
+      "values": [
+        3.2,
+        3.748,
+        4.335,
+        4.937,
+        5.55
+      ],
+      "cooldown": 0,
+      "effect": "AOE_DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 2
+    },
+    {
+      "id": "SK_CHR016_NORMAL",
+      "owner_id": "CHR016",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_ORSA_NORMAL",
+      "icon_asset_id": "skill_icon_chr016_normal",
+      "max_level": 10,
+      "values": [
+        1.56,
+        1.663,
+        1.777,
+        1.896,
+        2.018,
+        2.143,
+        2.27,
+        2.399,
+        2.529,
+        2.66
+      ],
+      "cooldown": 7.0,
+      "effect": "TAUNT",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR016_PASSIVE",
+      "owner_id": "CHR016",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_ORSA_PASSIVE",
+      "icon_asset_id": "skill_icon_chr016_passive",
+      "max_level": 10,
+      "values": [
+        0.093,
+        0.113,
+        0.132,
+        0.152,
+        0.171,
+        0.191,
+        0.21,
+        0.23,
+        0.249,
+        0.269
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR016_ULTIMATE",
+      "owner_id": "CHR016",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_ORSA_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr016_ultimate",
+      "max_level": 5,
+      "values": [
+        3.27,
+        3.82,
+        4.41,
+        5.015,
+        5.63
+      ],
+      "cooldown": 0,
+      "effect": "SHIELD",
+      "target": "SELF",
+      "tactical_cost": 3
+    },
+    {
+      "id": "SK_CHR017_NORMAL",
+      "owner_id": "CHR017",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_TIEL_NORMAL",
+      "icon_asset_id": "skill_icon_chr017_normal",
+      "max_level": 10,
+      "values": [
+        1.595,
+        1.698,
+        1.813,
+        1.932,
+        2.055,
+        2.181,
+        2.308,
+        2.437,
+        2.568,
+        2.7
+      ],
+      "cooldown": 8.0,
+      "effect": "HEAL",
+      "target": "LOWEST_ALLY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR017_PASSIVE",
+      "owner_id": "CHR017",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_TIEL_PASSIVE",
+      "icon_asset_id": "skill_icon_chr017_passive",
+      "max_level": 10,
+      "values": [
+        0.096,
+        0.116,
+        0.135,
+        0.155,
+        0.175,
+        0.194,
+        0.214,
+        0.234,
+        0.253,
+        0.273
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR017_ULTIMATE",
+      "owner_id": "CHR017",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_TIEL_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr017_ultimate",
+      "max_level": 5,
+      "values": [
+        3.34,
+        3.893,
+        4.485,
+        5.092,
+        5.71
+      ],
+      "cooldown": 0,
+      "effect": "HEAL",
+      "target": "LOWEST_ALLY",
+      "tactical_cost": 4
+    },
+    {
+      "id": "SK_CHR018_NORMAL",
+      "owner_id": "CHR018",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_RIAS_NORMAL",
+      "icon_asset_id": "skill_icon_chr018_normal",
+      "max_level": 10,
+      "values": [
+        1.63,
+        1.733,
+        1.849,
+        1.969,
+        2.092,
+        2.218,
+        2.346,
+        2.476,
+        2.607,
+        2.74
+      ],
+      "cooldown": 9.0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR018_PASSIVE",
+      "owner_id": "CHR018",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_RIAS_PASSIVE",
+      "icon_asset_id": "skill_icon_chr018_passive",
+      "max_level": 10,
+      "values": [
+        0.099,
+        0.119,
+        0.139,
+        0.158,
+        0.178,
+        0.198,
+        0.218,
+        0.237,
+        0.257,
+        0.277
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR018_ULTIMATE",
+      "owner_id": "CHR018",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_RIAS_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr018_ultimate",
+      "max_level": 5,
+      "values": [
+        3.41,
+        3.965,
+        4.559,
+        5.17,
+        5.79
+      ],
+      "cooldown": 0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 5
+    },
+    {
+      "id": "SK_CHR019_NORMAL",
+      "owner_id": "CHR019",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_PERIN_NORMAL",
+      "icon_asset_id": "skill_icon_chr019_normal",
+      "max_level": 10,
+      "values": [
+        1.665,
+        1.769,
+        1.885,
+        2.005,
+        2.129,
+        2.256,
+        2.385,
+        2.515,
+        2.647,
+        2.78
+      ],
+      "cooldown": 10.0,
+      "effect": "DEBUFF",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR019_PASSIVE",
+      "owner_id": "CHR019",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_PERIN_PASSIVE",
+      "icon_asset_id": "skill_icon_chr019_passive",
+      "max_level": 10,
+      "values": [
+        0.102,
+        0.122,
+        0.142,
+        0.162,
+        0.182,
+        0.201,
+        0.221,
+        0.241,
+        0.261,
+        0.281
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR019_ULTIMATE",
+      "owner_id": "CHR019",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_PERIN_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr019_ultimate",
+      "max_level": 5,
+      "values": [
+        3.48,
+        4.037,
+        4.634,
+        5.247,
+        5.87
+      ],
+      "cooldown": 0,
+      "effect": "BUFF",
+      "target": "ENEMY",
+      "tactical_cost": 6
+    },
+    {
+      "id": "SK_CHR020_NORMAL",
+      "owner_id": "CHR020",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_KARN_NORMAL",
+      "icon_asset_id": "skill_icon_chr020_normal",
+      "max_level": 10,
+      "values": [
+        1.7,
+        1.804,
+        1.921,
+        2.042,
+        2.167,
+        2.294,
+        2.423,
+        2.554,
+        2.686,
+        2.82
+      ],
+      "cooldown": 7.0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR020_PASSIVE",
+      "owner_id": "CHR020",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_KARN_PASSIVE",
+      "icon_asset_id": "skill_icon_chr020_passive",
+      "max_level": 10,
+      "values": [
+        0.105,
+        0.125,
+        0.145,
+        0.165,
+        0.185,
+        0.205,
+        0.225,
+        0.245,
+        0.265,
+        0.285
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR020_ULTIMATE",
+      "owner_id": "CHR020",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_KARN_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr020_ultimate",
+      "max_level": 5,
+      "values": [
+        3.55,
+        4.11,
+        4.709,
+        5.324,
+        5.95
+      ],
+      "cooldown": 0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 2
+    },
+    {
+      "id": "SK_CHR021_NORMAL",
+      "owner_id": "CHR021",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_NOAR_NORMAL",
+      "icon_asset_id": "skill_icon_chr021_normal",
+      "max_level": 10,
+      "values": [
+        1.735,
+        1.84,
+        1.957,
+        2.078,
+        2.204,
+        2.331,
+        2.461,
+        2.593,
+        2.726,
+        2.86
+      ],
+      "cooldown": 8.0,
+      "effect": "HEAL",
+      "target": "LOWEST_ALLY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR021_PASSIVE",
+      "owner_id": "CHR021",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_NOAR_PASSIVE",
+      "icon_asset_id": "skill_icon_chr021_passive",
+      "max_level": 10,
+      "values": [
+        0.108,
+        0.128,
+        0.148,
+        0.168,
+        0.188,
+        0.209,
+        0.229,
+        0.249,
+        0.269,
+        0.289
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR021_ULTIMATE",
+      "owner_id": "CHR021",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_NOAR_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr021_ultimate",
+      "max_level": 5,
+      "values": [
+        3.62,
+        4.182,
+        4.784,
+        5.402,
+        6.03
+      ],
+      "cooldown": 0,
+      "effect": "HEAL",
+      "target": "LOWEST_ALLY",
+      "tactical_cost": 3
+    },
+    {
+      "id": "SK_CHR022_NORMAL",
+      "owner_id": "CHR022",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_SEB_NORMAL",
+      "icon_asset_id": "skill_icon_chr022_normal",
+      "max_level": 10,
+      "values": [
+        1.77,
+        1.875,
+        1.993,
+        2.115,
+        2.241,
+        2.369,
+        2.499,
+        2.631,
+        2.765,
+        2.9
+      ],
+      "cooldown": 9.0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR022_PASSIVE",
+      "owner_id": "CHR022",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_SEB_PASSIVE",
+      "icon_asset_id": "skill_icon_chr022_passive",
+      "max_level": 10,
+      "values": [
+        0.111,
+        0.131,
+        0.151,
+        0.172,
+        0.192,
+        0.212,
+        0.232,
+        0.253,
+        0.273,
+        0.293
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR022_ULTIMATE",
+      "owner_id": "CHR022",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_SEB_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr022_ultimate",
+      "max_level": 5,
+      "values": [
+        3.69,
+        4.254,
+        4.859,
+        5.479,
+        6.11
+      ],
+      "cooldown": 0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 4
+    },
+    {
+      "id": "SK_CHR023_NORMAL",
+      "owner_id": "CHR023",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_YURIEN_NORMAL",
+      "icon_asset_id": "skill_icon_chr023_normal",
+      "max_level": 10,
+      "values": [
+        1.805,
+        1.911,
+        2.029,
+        2.152,
+        2.278,
+        2.407,
+        2.538,
+        2.67,
+        2.804,
+        2.94
+      ],
+      "cooldown": 10.0,
+      "effect": "AOE_DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR023_PASSIVE",
+      "owner_id": "CHR023",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_YURIEN_PASSIVE",
+      "icon_asset_id": "skill_icon_chr023_passive",
+      "max_level": 10,
+      "values": [
+        0.114,
+        0.134,
+        0.155,
+        0.175,
+        0.195,
+        0.216,
+        0.236,
+        0.256,
+        0.277,
+        0.297
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR023_ULTIMATE",
+      "owner_id": "CHR023",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_YURIEN_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr023_ultimate",
+      "max_level": 5,
+      "values": [
+        3.76,
+        4.327,
+        4.934,
+        5.556,
+        6.19
+      ],
+      "cooldown": 0,
+      "effect": "AOE_DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 5
+    },
+    {
+      "id": "SK_CHR024_NORMAL",
+      "owner_id": "CHR024",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_MOEN_NORMAL",
+      "icon_asset_id": "skill_icon_chr024_normal",
+      "max_level": 10,
+      "values": [
+        1.84,
+        1.946,
+        2.065,
+        2.188,
+        2.315,
+        2.444,
+        2.576,
+        2.709,
+        2.844,
+        2.98
+      ],
+      "cooldown": 7.0,
+      "effect": "DEBUFF",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR024_PASSIVE",
+      "owner_id": "CHR024",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_MOEN_PASSIVE",
+      "icon_asset_id": "skill_icon_chr024_passive",
+      "max_level": 10,
+      "values": [
+        0.117,
+        0.137,
+        0.158,
+        0.178,
+        0.199,
+        0.219,
+        0.24,
+        0.26,
+        0.281,
+        0.301
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR024_ULTIMATE",
+      "owner_id": "CHR024",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_MOEN_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr024_ultimate",
+      "max_level": 5,
+      "values": [
+        3.83,
+        4.399,
+        5.008,
+        5.634,
+        6.27
+      ],
+      "cooldown": 0,
+      "effect": "BUFF",
+      "target": "ENEMY",
+      "tactical_cost": 6
+    },
+    {
+      "id": "SK_CHR025_NORMAL",
+      "owner_id": "CHR025",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_LAVENT_NORMAL",
+      "icon_asset_id": "skill_icon_chr025_normal",
+      "max_level": 10,
+      "values": [
+        1.875,
+        1.982,
+        2.101,
+        2.225,
+        2.352,
+        2.482,
+        2.614,
+        2.748,
+        2.883,
+        3.02
+      ],
+      "cooldown": 8.0,
+      "effect": "TAUNT",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR025_PASSIVE",
+      "owner_id": "CHR025",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_LAVENT_PASSIVE",
+      "icon_asset_id": "skill_icon_chr025_passive",
+      "max_level": 10,
+      "values": [
+        0.12,
+        0.141,
+        0.161,
+        0.182,
+        0.202,
+        0.223,
+        0.243,
+        0.264,
+        0.284,
+        0.305
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR025_ULTIMATE",
+      "owner_id": "CHR025",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_LAVENT_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr025_ultimate",
+      "max_level": 5,
+      "values": [
+        3.9,
+        4.471,
+        5.083,
+        5.711,
+        6.35
+      ],
+      "cooldown": 0,
+      "effect": "SHIELD",
+      "target": "SELF",
+      "tactical_cost": 2
+    },
+    {
+      "id": "SK_CHR026_NORMAL",
+      "owner_id": "CHR026",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_KAIREN_NORMAL",
+      "icon_asset_id": "skill_icon_chr026_normal",
+      "max_level": 10,
+      "values": [
+        1.91,
+        2.017,
+        2.137,
+        2.261,
+        2.389,
+        2.52,
+        2.652,
+        2.787,
+        2.923,
+        3.06
+      ],
+      "cooldown": 9.0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR026_PASSIVE",
+      "owner_id": "CHR026",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_KAIREN_PASSIVE",
+      "icon_asset_id": "skill_icon_chr026_passive",
+      "max_level": 10,
+      "values": [
+        0.123,
+        0.144,
+        0.164,
+        0.185,
+        0.206,
+        0.226,
+        0.247,
+        0.268,
+        0.288,
+        0.309
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR026_ULTIMATE",
+      "owner_id": "CHR026",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_KAIREN_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr026_ultimate",
+      "max_level": 5,
+      "values": [
+        3.97,
+        4.544,
+        5.158,
+        5.789,
+        6.43
+      ],
+      "cooldown": 0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 3
+    },
+    {
+      "id": "SK_CHR027_NORMAL",
+      "owner_id": "CHR027",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_INOA_NORMAL",
+      "icon_asset_id": "skill_icon_chr027_normal",
+      "max_level": 10,
+      "values": [
+        1.945,
+        2.053,
+        2.173,
+        2.298,
+        2.426,
+        2.557,
+        2.69,
+        2.825,
+        2.962,
+        3.1
+      ],
+      "cooldown": 10.0,
+      "effect": "DEBUFF",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR027_PASSIVE",
+      "owner_id": "CHR027",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_INOA_PASSIVE",
+      "icon_asset_id": "skill_icon_chr027_passive",
+      "max_level": 10,
+      "values": [
+        0.126,
+        0.147,
+        0.168,
+        0.188,
+        0.209,
+        0.23,
+        0.251,
+        0.271,
+        0.292,
+        0.313
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR027_ULTIMATE",
+      "owner_id": "CHR027",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_INOA_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr027_ultimate",
+      "max_level": 5,
+      "values": [
+        4.04,
+        4.616,
+        5.233,
+        5.866,
+        6.51
+      ],
+      "cooldown": 0,
+      "effect": "BUFF",
+      "target": "ENEMY",
+      "tactical_cost": 4
+    },
+    {
+      "id": "SK_CHR028_NORMAL",
+      "owner_id": "CHR028",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_DRAN_NORMAL",
+      "icon_asset_id": "skill_icon_chr028_normal",
+      "max_level": 10,
+      "values": [
+        1.98,
+        2.088,
+        2.209,
+        2.334,
+        2.463,
+        2.595,
+        2.729,
+        2.864,
+        3.001,
+        3.14
+      ],
+      "cooldown": 7.0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR028_PASSIVE",
+      "owner_id": "CHR028",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_DRAN_PASSIVE",
+      "icon_asset_id": "skill_icon_chr028_passive",
+      "max_level": 10,
+      "values": [
+        0.129,
+        0.15,
+        0.171,
+        0.192,
+        0.213,
+        0.233,
+        0.254,
+        0.275,
+        0.296,
+        0.317
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR028_ULTIMATE",
+      "owner_id": "CHR028",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_DRAN_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr028_ultimate",
+      "max_level": 5,
+      "values": [
+        4.11,
+        4.688,
+        5.308,
+        5.943,
+        6.59
+      ],
+      "cooldown": 0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 5
+    },
+    {
+      "id": "SK_CHR029_NORMAL",
+      "owner_id": "CHR029",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_MERIN_NORMAL",
+      "icon_asset_id": "skill_icon_chr029_normal",
+      "max_level": 10,
+      "values": [
+        2.015,
+        2.124,
+        2.245,
+        2.371,
+        2.5,
+        2.632,
+        2.767,
+        2.903,
+        3.041,
+        3.18
+      ],
+      "cooldown": 8.0,
+      "effect": "HEAL",
+      "target": "LOWEST_ALLY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR029_PASSIVE",
+      "owner_id": "CHR029",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_MERIN_PASSIVE",
+      "icon_asset_id": "skill_icon_chr029_passive",
+      "max_level": 10,
+      "values": [
+        0.132,
+        0.153,
+        0.174,
+        0.195,
+        0.216,
+        0.237,
+        0.258,
+        0.279,
+        0.3,
+        0.321
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR029_ULTIMATE",
+      "owner_id": "CHR029",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_MERIN_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr029_ultimate",
+      "max_level": 5,
+      "values": [
+        4.18,
+        4.761,
+        5.383,
+        6.021,
+        6.67
+      ],
+      "cooldown": 0,
+      "effect": "HEAL",
+      "target": "LOWEST_ALLY",
+      "tactical_cost": 6
+    },
+    {
+      "id": "SK_CHR030_NORMAL",
+      "owner_id": "CHR030",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_CIEL_NORMAL",
+      "icon_asset_id": "skill_icon_chr030_normal",
+      "max_level": 10,
+      "values": [
+        2.05,
+        2.159,
+        2.281,
+        2.407,
+        2.537,
+        2.67,
+        2.805,
+        2.942,
+        3.08,
+        3.22
+      ],
+      "cooldown": 9.0,
+      "effect": "AOE_DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR030_PASSIVE",
+      "owner_id": "CHR030",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_CIEL_PASSIVE",
+      "icon_asset_id": "skill_icon_chr030_passive",
+      "max_level": 10,
+      "values": [
+        0.135,
+        0.156,
+        0.177,
+        0.198,
+        0.219,
+        0.241,
+        0.262,
+        0.283,
+        0.304,
+        0.325
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR030_ULTIMATE",
+      "owner_id": "CHR030",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_CIEL_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr030_ultimate",
+      "max_level": 5,
+      "values": [
+        4.25,
+        4.833,
+        5.457,
+        6.098,
+        6.75
+      ],
+      "cooldown": 0,
+      "effect": "AOE_DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 2
+    },
+    {
+      "id": "SK_CHR031_NORMAL",
+      "owner_id": "CHR031",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_ROME_NORMAL",
+      "icon_asset_id": "skill_icon_chr031_normal",
+      "max_level": 10,
+      "values": [
+        2.085,
+        2.195,
+        2.317,
+        2.444,
+        2.574,
+        2.708,
+        2.843,
+        2.981,
+        3.12,
+        3.26
+      ],
+      "cooldown": 10.0,
+      "effect": "TAUNT",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR031_PASSIVE",
+      "owner_id": "CHR031",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_ROME_PASSIVE",
+      "icon_asset_id": "skill_icon_chr031_passive",
+      "max_level": 10,
+      "values": [
+        0.138,
+        0.159,
+        0.18,
+        0.202,
+        0.223,
+        0.244,
+        0.265,
+        0.287,
+        0.308,
+        0.329
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR031_ULTIMATE",
+      "owner_id": "CHR031",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_ROME_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr031_ultimate",
+      "max_level": 5,
+      "values": [
+        4.32,
+        4.905,
+        5.532,
+        6.176,
+        6.83
+      ],
+      "cooldown": 0,
+      "effect": "SHIELD",
+      "target": "SELF",
+      "tactical_cost": 3
+    },
+    {
+      "id": "SK_CHR032_NORMAL",
+      "owner_id": "CHR032",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_KIAN_NORMAL",
+      "icon_asset_id": "skill_icon_chr032_normal",
+      "max_level": 10,
+      "values": [
+        2.12,
+        2.23,
+        2.352,
+        2.48,
+        2.612,
+        2.745,
+        2.882,
+        3.02,
+        3.159,
+        3.3
+      ],
+      "cooldown": 7.0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR032_PASSIVE",
+      "owner_id": "CHR032",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_KIAN_PASSIVE",
+      "icon_asset_id": "skill_icon_chr032_passive",
+      "max_level": 10,
+      "values": [
+        0.141,
+        0.162,
+        0.184,
+        0.205,
+        0.226,
+        0.248,
+        0.269,
+        0.29,
+        0.312,
+        0.333
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR032_ULTIMATE",
+      "owner_id": "CHR032",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_KIAN_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr032_ultimate",
+      "max_level": 5,
+      "values": [
+        4.39,
+        4.978,
+        5.607,
+        6.253,
+        6.91
+      ],
+      "cooldown": 0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 4
+    },
+    {
+      "id": "SK_CHR033_NORMAL",
+      "owner_id": "CHR033",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_DAEL_NORMAL",
+      "icon_asset_id": "skill_icon_chr033_normal",
+      "max_level": 10,
+      "values": [
+        2.155,
+        2.265,
+        2.388,
+        2.517,
+        2.649,
+        2.783,
+        2.92,
+        3.058,
+        3.198,
+        3.34
+      ],
+      "cooldown": 8.0,
+      "effect": "DEBUFF",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR033_PASSIVE",
+      "owner_id": "CHR033",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_DAEL_PASSIVE",
+      "icon_asset_id": "skill_icon_chr033_passive",
+      "max_level": 10,
+      "values": [
+        0.144,
+        0.165,
+        0.187,
+        0.208,
+        0.23,
+        0.251,
+        0.273,
+        0.294,
+        0.316,
+        0.337
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR033_ULTIMATE",
+      "owner_id": "CHR033",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_DAEL_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr033_ultimate",
+      "max_level": 5,
+      "values": [
+        4.46,
+        5.05,
+        5.682,
+        6.33,
+        6.99
+      ],
+      "cooldown": 0,
+      "effect": "BUFF",
+      "target": "ENEMY",
+      "tactical_cost": 5
+    },
+    {
+      "id": "SK_CHR034_NORMAL",
+      "owner_id": "CHR034",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_ORBIN_NORMAL",
+      "icon_asset_id": "skill_icon_chr034_normal",
+      "max_level": 10,
+      "values": [
+        2.19,
+        2.301,
+        2.424,
+        2.553,
+        2.686,
+        2.821,
+        2.958,
+        3.097,
+        3.238,
+        3.38
+      ],
+      "cooldown": 9.0,
+      "effect": "TAUNT",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR034_PASSIVE",
+      "owner_id": "CHR034",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_ORBIN_PASSIVE",
+      "icon_asset_id": "skill_icon_chr034_passive",
+      "max_level": 10,
+      "values": [
+        0.147,
+        0.169,
+        0.19,
+        0.212,
+        0.233,
+        0.255,
+        0.276,
+        0.298,
+        0.319,
+        0.341
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR034_ULTIMATE",
+      "owner_id": "CHR034",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_ORBIN_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr034_ultimate",
+      "max_level": 5,
+      "values": [
+        4.53,
+        5.122,
+        5.757,
+        6.408,
+        7.07
+      ],
+      "cooldown": 0,
+      "effect": "SHIELD",
+      "target": "SELF",
+      "tactical_cost": 6
+    },
+    {
+      "id": "SK_CHR035_NORMAL",
+      "owner_id": "CHR035",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_HERAON_NORMAL",
+      "icon_asset_id": "skill_icon_chr035_normal",
+      "max_level": 10,
+      "values": [
+        2.225,
+        2.336,
+        2.46,
+        2.59,
+        2.723,
+        2.858,
+        2.996,
+        3.136,
+        3.277,
+        3.42
+      ],
+      "cooldown": 10.0,
+      "effect": "AOE_DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR035_PASSIVE",
+      "owner_id": "CHR035",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_HERAON_PASSIVE",
+      "icon_asset_id": "skill_icon_chr035_passive",
+      "max_level": 10,
+      "values": [
+        0.15,
+        0.172,
+        0.193,
+        0.215,
+        0.237,
+        0.258,
+        0.28,
+        0.302,
+        0.323,
+        0.345
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR035_ULTIMATE",
+      "owner_id": "CHR035",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_HERAON_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr035_ultimate",
+      "max_level": 5,
+      "values": [
+        4.6,
+        5.195,
+        5.832,
+        6.485,
+        7.15
+      ],
+      "cooldown": 0,
+      "effect": "AOE_DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 2
+    },
+    {
+      "id": "SK_CHR036_NORMAL",
+      "owner_id": "CHR036",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_MIRE_NORMAL",
+      "icon_asset_id": "skill_icon_chr036_normal",
+      "max_level": 10,
+      "values": [
+        2.26,
+        2.372,
+        2.496,
+        2.626,
+        2.76,
+        2.896,
+        3.034,
+        3.175,
+        3.317,
+        3.46
+      ],
+      "cooldown": 7.0,
+      "effect": "HEAL",
+      "target": "LOWEST_ALLY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR036_PASSIVE",
+      "owner_id": "CHR036",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_MIRE_PASSIVE",
+      "icon_asset_id": "skill_icon_chr036_passive",
+      "max_level": 10,
+      "values": [
+        0.153,
+        0.175,
+        0.197,
+        0.218,
+        0.24,
+        0.262,
+        0.284,
+        0.305,
+        0.327,
+        0.349
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR036_ULTIMATE",
+      "owner_id": "CHR036",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_MIRE_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr036_ultimate",
+      "max_level": 5,
+      "values": [
+        4.67,
+        5.267,
+        5.906,
+        6.563,
+        7.23
+      ],
+      "cooldown": 0,
+      "effect": "HEAL",
+      "target": "LOWEST_ALLY",
+      "tactical_cost": 3
+    },
+    {
+      "id": "SK_CHR037_NORMAL",
+      "owner_id": "CHR037",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_RAEN_NORMAL",
+      "icon_asset_id": "skill_icon_chr037_normal",
+      "max_level": 10,
+      "values": [
+        2.295,
+        2.407,
+        2.532,
+        2.663,
+        2.797,
+        2.934,
+        3.073,
+        3.214,
+        3.356,
+        3.5
+      ],
+      "cooldown": 8.0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR037_PASSIVE",
+      "owner_id": "CHR037",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_RAEN_PASSIVE",
+      "icon_asset_id": "skill_icon_chr037_passive",
+      "max_level": 10,
+      "values": [
+        0.156,
+        0.178,
+        0.2,
+        0.222,
+        0.244,
+        0.265,
+        0.287,
+        0.309,
+        0.331,
+        0.353
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR037_ULTIMATE",
+      "owner_id": "CHR037",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_RAEN_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr037_ultimate",
+      "max_level": 5,
+      "values": [
+        4.74,
+        5.339,
+        5.981,
+        6.64,
+        7.31
+      ],
+      "cooldown": 0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 4
+    },
+    {
+      "id": "SK_CHR038_NORMAL",
+      "owner_id": "CHR038",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_ZERN_NORMAL",
+      "icon_asset_id": "skill_icon_chr038_normal",
+      "max_level": 10,
+      "values": [
+        2.33,
+        2.443,
+        2.568,
+        2.699,
+        2.834,
+        2.971,
+        3.111,
+        3.252,
+        3.395,
+        3.54
+      ],
+      "cooldown": 9.0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR038_PASSIVE",
+      "owner_id": "CHR038",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_ZERN_PASSIVE",
+      "icon_asset_id": "skill_icon_chr038_passive",
+      "max_level": 10,
+      "values": [
+        0.159,
+        0.181,
+        0.203,
+        0.225,
+        0.247,
+        0.269,
+        0.291,
+        0.313,
+        0.335,
+        0.357
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR038_ULTIMATE",
+      "owner_id": "CHR038",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_ZERN_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr038_ultimate",
+      "max_level": 5,
+      "values": [
+        4.81,
+        5.412,
+        6.056,
+        6.717,
+        7.39
+      ],
+      "cooldown": 0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 5
+    },
+    {
+      "id": "SK_CHR039_NORMAL",
+      "owner_id": "CHR039",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_SOA_NORMAL",
+      "icon_asset_id": "skill_icon_chr039_normal",
+      "max_level": 10,
+      "values": [
+        2.365,
+        2.478,
+        2.604,
+        2.736,
+        2.871,
+        3.009,
+        3.149,
+        3.291,
+        3.435,
+        3.58
+      ],
+      "cooldown": 10.0,
+      "effect": "DEBUFF",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR039_PASSIVE",
+      "owner_id": "CHR039",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_SOA_PASSIVE",
+      "icon_asset_id": "skill_icon_chr039_passive",
+      "max_level": 10,
+      "values": [
+        0.162,
+        0.184,
+        0.206,
+        0.228,
+        0.25,
+        0.273,
+        0.295,
+        0.317,
+        0.339,
+        0.361
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR039_ULTIMATE",
+      "owner_id": "CHR039",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_SOA_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr039_ultimate",
+      "max_level": 5,
+      "values": [
+        4.88,
+        5.484,
+        6.131,
+        6.795,
+        7.47
+      ],
+      "cooldown": 0,
+      "effect": "BUFF",
+      "target": "ENEMY",
+      "tactical_cost": 6
+    },
+    {
+      "id": "SK_CHR040_NORMAL",
+      "owner_id": "CHR040",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_BAEL_NORMAL",
+      "icon_asset_id": "skill_icon_chr040_normal",
+      "max_level": 10,
+      "values": [
+        2.4,
+        2.514,
+        2.64,
+        2.772,
+        2.908,
+        3.047,
+        3.187,
+        3.33,
+        3.474,
+        3.62
+      ],
+      "cooldown": 7.0,
+      "effect": "HEAL",
+      "target": "LOWEST_ALLY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR040_PASSIVE",
+      "owner_id": "CHR040",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_BAEL_PASSIVE",
+      "icon_asset_id": "skill_icon_chr040_passive",
+      "max_level": 10,
+      "values": [
+        0.165,
+        0.187,
+        0.209,
+        0.232,
+        0.254,
+        0.276,
+        0.298,
+        0.321,
+        0.343,
+        0.365
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR040_ULTIMATE",
+      "owner_id": "CHR040",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_BAEL_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr040_ultimate",
+      "max_level": 5,
+      "values": [
+        4.95,
+        5.556,
+        6.206,
+        6.872,
+        7.55
+      ],
+      "cooldown": 0,
+      "effect": "HEAL",
+      "target": "LOWEST_ALLY",
+      "tactical_cost": 2
+    },
+    {
+      "id": "SK_CHR041_NORMAL",
+      "owner_id": "CHR041",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_TERAN_NORMAL",
+      "icon_asset_id": "skill_icon_chr041_normal",
+      "max_level": 10,
+      "values": [
+        2.435,
+        2.549,
+        2.676,
+        2.809,
+        2.945,
+        3.084,
+        3.226,
+        3.369,
+        3.514,
+        3.66
+      ],
+      "cooldown": 8.0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR041_PASSIVE",
+      "owner_id": "CHR041",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_TERAN_PASSIVE",
+      "icon_asset_id": "skill_icon_chr041_passive",
+      "max_level": 10,
+      "values": [
+        0.168,
+        0.19,
+        0.213,
+        0.235,
+        0.257,
+        0.28,
+        0.302,
+        0.324,
+        0.347,
+        0.369
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR041_ULTIMATE",
+      "owner_id": "CHR041",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_TERAN_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr041_ultimate",
+      "max_level": 5,
+      "values": [
+        5.02,
+        5.629,
+        6.281,
+        6.95,
+        7.63
+      ],
+      "cooldown": 0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 3
+    },
+    {
+      "id": "SK_CHR042_NORMAL",
+      "owner_id": "CHR042",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_YUNAK_NORMAL",
+      "icon_asset_id": "skill_icon_chr042_normal",
+      "max_level": 10,
+      "values": [
+        2.47,
+        2.585,
+        2.712,
+        2.846,
+        2.982,
+        3.122,
+        3.264,
+        3.408,
+        3.553,
+        3.7
+      ],
+      "cooldown": 9.0,
+      "effect": "AOE_DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR042_PASSIVE",
+      "owner_id": "CHR042",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_YUNAK_PASSIVE",
+      "icon_asset_id": "skill_icon_chr042_passive",
+      "max_level": 10,
+      "values": [
+        0.171,
+        0.193,
+        0.216,
+        0.238,
+        0.261,
+        0.283,
+        0.306,
+        0.328,
+        0.351,
+        0.373
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR042_ULTIMATE",
+      "owner_id": "CHR042",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_YUNAK_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr042_ultimate",
+      "max_level": 5,
+      "values": [
+        5.09,
+        5.701,
+        6.355,
+        7.027,
+        7.71
+      ],
+      "cooldown": 0,
+      "effect": "AOE_DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 4
+    },
+    {
+      "id": "SK_CHR043_NORMAL",
+      "owner_id": "CHR043",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_ARINT_NORMAL",
+      "icon_asset_id": "skill_icon_chr043_normal",
+      "max_level": 10,
+      "values": [
+        2.505,
+        2.62,
+        2.748,
+        2.882,
+        3.019,
+        3.16,
+        3.302,
+        3.446,
+        3.592,
+        3.74
+      ],
+      "cooldown": 10.0,
+      "effect": "TAUNT",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR043_PASSIVE",
+      "owner_id": "CHR043",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_ARINT_PASSIVE",
+      "icon_asset_id": "skill_icon_chr043_passive",
+      "max_level": 10,
+      "values": [
+        0.174,
+        0.197,
+        0.219,
+        0.242,
+        0.264,
+        0.287,
+        0.309,
+        0.332,
+        0.354,
+        0.377
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR043_ULTIMATE",
+      "owner_id": "CHR043",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_ARINT_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr043_ultimate",
+      "max_level": 5,
+      "values": [
+        5.16,
+        5.773,
+        6.43,
+        7.104,
+        7.79
+      ],
+      "cooldown": 0,
+      "effect": "SHIELD",
+      "target": "SELF",
+      "tactical_cost": 5
+    },
+    {
+      "id": "SK_CHR044_NORMAL",
+      "owner_id": "CHR044",
+      "type": "NORMAL_SKILL",
+      "name_key": "SKILL_VELK_NORMAL",
+      "icon_asset_id": "skill_icon_chr044_normal",
+      "max_level": 10,
+      "values": [
+        2.54,
+        2.656,
+        2.784,
+        2.919,
+        3.056,
+        3.197,
+        3.34,
+        3.485,
+        3.632,
+        3.78
+      ],
+      "cooldown": 7.0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR044_PASSIVE",
+      "owner_id": "CHR044",
+      "type": "PASSIVE_SKILL",
+      "name_key": "SKILL_VELK_PASSIVE",
+      "icon_asset_id": "skill_icon_chr044_passive",
+      "max_level": 10,
+      "values": [
+        0.177,
+        0.2,
+        0.222,
+        0.245,
+        0.268,
+        0.29,
+        0.313,
+        0.336,
+        0.358,
+        0.381
+      ],
+      "cooldown": 0,
+      "effect": "STAT_UP",
+      "target": "SELF",
+      "tactical_cost": 0
+    },
+    {
+      "id": "SK_CHR044_ULTIMATE",
+      "owner_id": "CHR044",
+      "type": "ULTIMATE_SKILL",
+      "name_key": "SKILL_VELK_ULTIMATE",
+      "icon_asset_id": "skill_icon_chr044_ultimate",
+      "max_level": 5,
+      "values": [
+        5.23,
+        5.846,
+        6.505,
+        7.182,
+        7.87
+      ],
+      "cooldown": 0,
+      "effect": "DAMAGE",
+      "target": "ENEMY",
+      "tactical_cost": 6
     }
   ],
   "enemies": [
@@ -1211,18 +5735,20 @@
       "patterns": [
         {
           "condition": "TIME",
-          "value": 20,
-          "action": "AOE"
+          "value": 18,
+          "action": "IMPLODE",
+          "damage_multiplier": 0.78
         },
         {
           "condition": "HP_BELOW",
-          "value": 0.5,
+          "value": 0.62,
           "action": "PHASE_2"
         },
         {
           "condition": "TIME_LEFT_BELOW",
           "value": 20,
-          "action": "ENRAGE"
+          "action": "RUPTURE",
+          "damage_multiplier": 1.04
         }
       ]
     },
@@ -1256,18 +5782,294 @@
       "patterns": [
         {
           "condition": "TIME",
-          "value": 20,
-          "action": "AOE"
+          "value": 14,
+          "action": "RESONANCE",
+          "damage_multiplier": 0.52
+        },
+        {
+          "condition": "TIME",
+          "value": 28,
+          "action": "RESONANCE",
+          "damage_multiplier": 0.88
         },
         {
           "condition": "HP_BELOW",
-          "value": 0.5,
+          "value": 0.48,
+          "action": "ENRAGE",
+          "outgoing_multiplier": 1.42
+        }
+      ]
+    },
+    {
+      "id": "ENM010",
+      "name_key": "ENEMY_BROKENLINE_TRACKER",
+      "gender": "GENDERLESS_NONHUMAN",
+      "rank": "NORMAL",
+      "role": "MELEE_RUSH",
+      "attack_type": "PHYSICAL",
+      "defense_type": "ARMOR",
+      "level": 1,
+      "stats": {
+        "HP": 590,
+        "ATK": 86,
+        "DEF": 34,
+        "ACC": 105,
+        "EVA": 70,
+        "CRIT": 65,
+        "CRIT_RES": 45,
+        "HEAL_POWER": 80
+      },
+      "attack_interval": 1.45,
+      "asset_id": "enemy_enm010_dev"
+    },
+    {
+      "id": "ENM011",
+      "name_key": "ENEMY_GLASS_TRANSMITTER",
+      "gender": "GENDERLESS_NONHUMAN",
+      "rank": "NORMAL",
+      "role": "RANGED",
+      "attack_type": "ENERGY",
+      "defense_type": "BARRIER",
+      "level": 1,
+      "stats": {
+        "HP": 510,
+        "ATK": 96,
+        "DEF": 28,
+        "ACC": 105,
+        "EVA": 70,
+        "CRIT": 65,
+        "CRIT_RES": 45,
+        "HEAL_POWER": 80
+      },
+      "attack_interval": 1.45,
+      "asset_id": "enemy_enm011_dev"
+    },
+    {
+      "id": "ENM012",
+      "name_key": "ENEMY_AFTERGLOW_SCREEN",
+      "gender": "GENDERLESS_NONHUMAN",
+      "rank": "NORMAL",
+      "role": "DEFENDER",
+      "attack_type": "ANOMALY",
+      "defense_type": "WARD",
+      "level": 1,
+      "stats": {
+        "HP": 820,
+        "ATK": 66,
+        "DEF": 74,
+        "ACC": 105,
+        "EVA": 70,
+        "CRIT": 65,
+        "CRIT_RES": 45,
+        "HEAL_POWER": 80
+      },
+      "attack_interval": 1.45,
+      "asset_id": "enemy_enm012_dev"
+    },
+    {
+      "id": "BOSS003",
+      "name_key": "ENEMY_WHITE_DAWN_OBSERVER",
+      "gender": "GENDERLESS_NONHUMAN",
+      "rank": "BOSS",
+      "role": "BOSS_PATTERN",
+      "attack_type": "ENERGY",
+      "defense_type": "BARRIER",
+      "level": 1,
+      "stats": {
+        "HP": 9200,
+        "ATK": 212,
+        "DEF": 146,
+        "ACC": 105,
+        "EVA": 70,
+        "CRIT": 65,
+        "CRIT_RES": 45,
+        "HEAL_POWER": 80
+      },
+      "attack_interval": 1.45,
+      "asset_id": "enemy_boss003_dev",
+      "phases": [
+        "PHASE_1",
+        "PHASE_2",
+        "ENRAGE",
+        "DOWN"
+      ],
+      "patterns": [
+        {
+          "condition": "TIME",
+          "value": 12,
+          "action": "LOCK_ON",
+          "damage_multiplier": 1.18
+        },
+        {
+          "condition": "HP_BELOW",
+          "value": 0.6,
           "action": "PHASE_2"
         },
         {
           "condition": "TIME_LEFT_BELOW",
-          "value": 20,
-          "action": "ENRAGE"
+          "value": 32,
+          "action": "OVERLOAD",
+          "damage_multiplier": 0.92
+        }
+      ]
+    },
+    {
+      "id": "ENM013",
+      "name_key": "ENEMY_REVERSE_ELECTRODE",
+      "gender": "GENDERLESS_NONHUMAN",
+      "rank": "NORMAL",
+      "role": "RANGED",
+      "attack_type": "ANOMALY",
+      "defense_type": "BARRIER",
+      "level": 1,
+      "stats": {
+        "HP": 640,
+        "ATK": 108,
+        "DEF": 35,
+        "ACC": 105,
+        "EVA": 70,
+        "CRIT": 65,
+        "CRIT_RES": 45,
+        "HEAL_POWER": 80
+      },
+      "attack_interval": 1.45,
+      "asset_id": "enemy_enm013_dev"
+    },
+    {
+      "id": "ENM014",
+      "name_key": "ENEMY_FALLEN_BATTERY",
+      "gender": "GENDERLESS_NONHUMAN",
+      "rank": "NORMAL",
+      "role": "ARTILLERY",
+      "attack_type": "ENERGY",
+      "defense_type": "WARD",
+      "level": 1,
+      "stats": {
+        "HP": 600,
+        "ATK": 122,
+        "DEF": 31,
+        "ACC": 105,
+        "EVA": 70,
+        "CRIT": 65,
+        "CRIT_RES": 45,
+        "HEAL_POWER": 80
+      },
+      "attack_interval": 1.45,
+      "asset_id": "enemy_enm014_dev"
+    },
+    {
+      "id": "ENM015",
+      "name_key": "ENEMY_VACANT_CHORUS",
+      "gender": "GENDERLESS_NONHUMAN",
+      "rank": "NORMAL",
+      "role": "BUFFER",
+      "attack_type": "ANOMALY",
+      "defense_type": "WARD",
+      "level": 1,
+      "stats": {
+        "HP": 690,
+        "ATK": 78,
+        "DEF": 48,
+        "ACC": 105,
+        "EVA": 70,
+        "CRIT": 65,
+        "CRIT_RES": 45,
+        "HEAL_POWER": 80
+      },
+      "attack_interval": 1.45,
+      "asset_id": "enemy_enm015_dev"
+    },
+    {
+      "id": "BOSS004",
+      "name_key": "ENEMY_REVERSE_GATEKEEPER",
+      "gender": "GENDERLESS_NONHUMAN",
+      "rank": "BOSS",
+      "role": "BOSS_PATTERN",
+      "attack_type": "ENERGY",
+      "defense_type": "ARMOR",
+      "level": 1,
+      "stats": {
+        "HP": 10800,
+        "ATK": 232,
+        "DEF": 162,
+        "ACC": 105,
+        "EVA": 70,
+        "CRIT": 65,
+        "CRIT_RES": 45,
+        "HEAL_POWER": 80
+      },
+      "attack_interval": 1.45,
+      "asset_id": "enemy_boss004_dev",
+      "phases": [
+        "PHASE_1",
+        "PHASE_2",
+        "ENRAGE",
+        "DOWN"
+      ],
+      "patterns": [
+        {
+          "condition": "TIME",
+          "value": 16,
+          "action": "GATE_CLOSE",
+          "shield_multiplier": 0.64
+        },
+        {
+          "condition": "HP_BELOW",
+          "value": 0.55,
+          "action": "PHASE_2"
+        },
+        {
+          "condition": "TIME_LEFT_BELOW",
+          "value": 24,
+          "action": "GATE_REVERSE",
+          "damage_multiplier": 0.86
+        }
+      ]
+    },
+    {
+      "id": "BOSS005",
+      "name_key": "ENEMY_RETURN_FORMATION_CORE",
+      "gender": "GENDERLESS_NONHUMAN",
+      "rank": "BOSS",
+      "role": "BOSS_PATTERN",
+      "attack_type": "ANOMALY",
+      "defense_type": "BARRIER",
+      "level": 1,
+      "stats": {
+        "HP": 12400,
+        "ATK": 254,
+        "DEF": 176,
+        "ACC": 105,
+        "EVA": 70,
+        "CRIT": 65,
+        "CRIT_RES": 45,
+        "HEAL_POWER": 80
+      },
+      "attack_interval": 1.45,
+      "asset_id": "enemy_boss005_dev",
+      "phases": [
+        "PHASE_1",
+        "PHASE_2",
+        "ENRAGE",
+        "DOWN"
+      ],
+      "patterns": [
+        {
+          "condition": "TIME",
+          "value": 10,
+          "action": "NETWORK_FORM",
+          "heal_multiplier": 0.18
+        },
+        {
+          "condition": "HP_BELOW",
+          "value": 0.58,
+          "action": "PHASE_2"
+        },
+        {
+          "condition": "TIME_LEFT_BELOW",
+          "value": 18,
+          "action": "NETWORK_COLLAPSE",
+          "damage_multiplier": 1.1
         }
       ]
     }
@@ -1305,7 +6107,7 @@
       "stage_number": 2,
       "name_key": "STAGE_CH01_N02",
       "recommended_level": 2,
-      "post_cap_scale": 1.0,
+      "post_cap_scale": 3.3,
       "stamina_cost": 6,
       "time_limit": 90,
       "target_time": 70,
@@ -1331,14 +6133,14 @@
       "stage_number": 3,
       "name_key": "STAGE_CH01_N03",
       "recommended_level": 3,
-      "post_cap_scale": 1.0,
+      "post_cap_scale": 3.4,
       "stamina_cost": 6,
       "time_limit": 90,
       "target_time": 70,
       "waves": [
         [
           "ENM005",
-          "ENM001"
+          "ENM010"
         ],
         [
           "ENM002",
@@ -1357,7 +6159,7 @@
       "stage_number": 4,
       "name_key": "STAGE_CH01_N04",
       "recommended_level": 4,
-      "post_cap_scale": 1.0,
+      "post_cap_scale": 3.4,
       "stamina_cost": 7,
       "time_limit": 90,
       "target_time": 70,
@@ -1383,14 +6185,14 @@
       "stage_number": 5,
       "name_key": "STAGE_CH01_N05",
       "recommended_level": 5,
-      "post_cap_scale": 3.0,
+      "post_cap_scale": 2.97,
       "stamina_cost": 7,
       "time_limit": 90,
       "target_time": 70,
       "waves": [
         [
           "ENM002",
-          "ENM006"
+          "ENM011"
         ],
         [
           "ENM007"
@@ -1407,7 +6209,7 @@
       "stage_number": 6,
       "name_key": "STAGE_CH01_N06",
       "recommended_level": 6,
-      "post_cap_scale": 1.0,
+      "post_cap_scale": 2.8,
       "stamina_cost": 7,
       "time_limit": 90,
       "target_time": 70,
@@ -1435,13 +6237,13 @@
       "stage_number": 7,
       "name_key": "STAGE_CH01_N07",
       "recommended_level": 7,
-      "post_cap_scale": 1.0,
+      "post_cap_scale": 2.95,
       "stamina_cost": 8,
       "time_limit": 90,
       "target_time": 70,
       "waves": [
         [
-          "ENM005",
+          "ENM012",
           "ENM006"
         ],
         [
@@ -1459,7 +6261,7 @@
       "stage_number": 8,
       "name_key": "STAGE_CH01_N08",
       "recommended_level": 8,
-      "post_cap_scale": 1.0,
+      "post_cap_scale": 2.5,
       "stamina_cost": 8,
       "time_limit": 90,
       "target_time": 70,
@@ -1484,7 +6286,7 @@
       "stage_number": 9,
       "name_key": "STAGE_CH01_N09",
       "recommended_level": 9,
-      "post_cap_scale": 1.0,
+      "post_cap_scale": 2.2,
       "stamina_cost": 8,
       "time_limit": 90,
       "target_time": 70,
@@ -1510,7 +6312,7 @@
       "stage_number": 10,
       "name_key": "STAGE_CH01_N10",
       "recommended_level": 10,
-      "post_cap_scale": 1.57,
+      "post_cap_scale": 1.55,
       "stamina_cost": 9,
       "time_limit": 90,
       "target_time": 70,
@@ -1562,7 +6364,7 @@
       "stage_number": 2,
       "name_key": "STAGE_CH01_H02",
       "recommended_level": 14,
-      "post_cap_scale": 1.0,
+      "post_cap_scale": 1.85,
       "stamina_cost": 12,
       "time_limit": 90,
       "target_time": 70,
@@ -1587,7 +6389,7 @@
       "stage_number": 3,
       "name_key": "STAGE_CH01_H03",
       "recommended_level": 16,
-      "post_cap_scale": 1.0,
+      "post_cap_scale": 1.5,
       "stamina_cost": 12,
       "time_limit": 90,
       "target_time": 70,
@@ -1600,11 +6402,11 @@
           "ENM008"
         ],
         [
-          "BOSS001"
+          "BOSS003"
         ]
       ],
       "reward_table_id": "REWARD_CH01-H03",
-      "boss": false,
+      "boss": true,
       "daily_attempts": 3
     },
     {
@@ -1614,7 +6416,7 @@
       "stage_number": 4,
       "name_key": "STAGE_CH01_H04",
       "recommended_level": 18,
-      "post_cap_scale": 1.0,
+      "post_cap_scale": 1.7,
       "stamina_cost": 13,
       "time_limit": 90,
       "target_time": 70,
@@ -1657,6 +6459,388 @@
         ]
       ],
       "reward_table_id": "REWARD_CH01-H05",
+      "boss": true,
+      "daily_attempts": 3
+    },
+    {
+      "id": "CH02-N01",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 1,
+      "name_key": "STAGE_CH02_N01",
+      "recommended_level": 22,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 10,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM013",
+          "ENM001"
+        ],
+        [
+          "ENM014",
+          "ENM002"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N01",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N02",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 2,
+      "name_key": "STAGE_CH02_N02",
+      "recommended_level": 24,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 10,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM013",
+          "ENM003"
+        ],
+        [
+          "ENM015",
+          "ENM007"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N02",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N03",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 3,
+      "name_key": "STAGE_CH02_N03",
+      "recommended_level": 26,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 11,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM014",
+          "ENM015"
+        ],
+        [
+          "ENM013",
+          "ENM006"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N03",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N04",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 4,
+      "name_key": "STAGE_CH02_N04",
+      "recommended_level": 28,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 11,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM014",
+          "ENM002"
+        ],
+        [
+          "ENM013",
+          "ENM008"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N04",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N05",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 5,
+      "name_key": "STAGE_CH02_N05",
+      "recommended_level": 30,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 12,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM015",
+          "ENM003"
+        ],
+        [
+          "ENM014",
+          "ENM007"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N05",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N06",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 6,
+      "name_key": "STAGE_CH02_N06",
+      "recommended_level": 32,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 12,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM013",
+          "ENM015"
+        ],
+        [
+          "ENM014",
+          "ENM009"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N06",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N07",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 7,
+      "name_key": "STAGE_CH02_N07",
+      "recommended_level": 34,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 13,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM014",
+          "ENM003"
+        ],
+        [
+          "ENM013",
+          "ENM007"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N07",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N08",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 8,
+      "name_key": "STAGE_CH02_N08",
+      "recommended_level": 36,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 13,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM015",
+          "ENM006"
+        ],
+        [
+          "ENM014",
+          "ENM008"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N08",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N09",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 9,
+      "name_key": "STAGE_CH02_N09",
+      "recommended_level": 38,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 14,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM013",
+          "ENM014"
+        ],
+        [
+          "ENM015",
+          "ENM007",
+          "ENM009"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N09",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N10",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 10,
+      "name_key": "STAGE_CH02_N10",
+      "recommended_level": 40,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 14,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM013",
+          "ENM015"
+        ],
+        [
+          "ENM014",
+          "ENM008"
+        ],
+        [
+          "BOSS004"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N10",
+      "boss": true,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-H01",
+      "chapter_id": "CH02",
+      "mode": "HARD",
+      "stage_number": 1,
+      "name_key": "STAGE_CH02_H01",
+      "recommended_level": 32,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 16,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM013",
+          "ENM007"
+        ],
+        [
+          "ENM015",
+          "ENM009"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-H01",
+      "boss": false,
+      "daily_attempts": 3
+    },
+    {
+      "id": "CH02-H02",
+      "chapter_id": "CH02",
+      "mode": "HARD",
+      "stage_number": 2,
+      "name_key": "STAGE_CH02_H02",
+      "recommended_level": 34,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 16,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM014",
+          "ENM008"
+        ],
+        [
+          "ENM013",
+          "ENM009"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-H02",
+      "boss": false,
+      "daily_attempts": 3
+    },
+    {
+      "id": "CH02-H03",
+      "chapter_id": "CH02",
+      "mode": "HARD",
+      "stage_number": 3,
+      "name_key": "STAGE_CH02_H03",
+      "recommended_level": 36,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 17,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM015",
+          "ENM007"
+        ],
+        [
+          "ENM014",
+          "ENM008"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-H03",
+      "boss": false,
+      "daily_attempts": 3
+    },
+    {
+      "id": "CH02-H04",
+      "chapter_id": "CH02",
+      "mode": "HARD",
+      "stage_number": 4,
+      "name_key": "STAGE_CH02_H04",
+      "recommended_level": 38,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 17,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM013",
+          "ENM014"
+        ],
+        [
+          "ENM007",
+          "ENM009"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-H04",
+      "boss": false,
+      "daily_attempts": 3
+    },
+    {
+      "id": "CH02-H05",
+      "chapter_id": "CH02",
+      "mode": "HARD",
+      "stage_number": 5,
+      "name_key": "STAGE_CH02_H05",
+      "recommended_level": 40,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 18,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM015",
+          "ENM008"
+        ],
+        [
+          "ENM013",
+          "ENM014"
+        ],
+        [
+          "BOSS005"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-H05",
       "boss": true,
       "daily_attempts": 3
     }
@@ -2356,6 +7540,541 @@
           "quantity": 10
         }
       ]
+    },
+    {
+      "id": "REWARD_CH02-N01",
+      "stage_id": "CH02-N01",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 2050,
+          "max": 2550
+        },
+        {
+          "item_id": "BREAK_CORE_T2",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 6600
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N02",
+      "stage_id": "CH02-N02",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 2300,
+          "max": 2900
+        },
+        {
+          "item_id": "BREAK_CORE_T2",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 7200
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N03",
+      "stage_id": "CH02-N03",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 2550,
+          "max": 3250
+        },
+        {
+          "item_id": "BREAK_CORE_T2",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 7800
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N04",
+      "stage_id": "CH02-N04",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 2800,
+          "max": 3600
+        },
+        {
+          "item_id": "BREAK_CORE_T2",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 8400
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N05",
+      "stage_id": "CH02-N05",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 3050,
+          "max": 3950
+        },
+        {
+          "item_id": "BREAK_CORE_T2",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 9000
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N06",
+      "stage_id": "CH02-N06",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 3300,
+          "max": 4300
+        },
+        {
+          "item_id": "BREAK_CORE_T3",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 9600
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N07",
+      "stage_id": "CH02-N07",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 3550,
+          "max": 4650
+        },
+        {
+          "item_id": "BREAK_CORE_T3",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 10200
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N08",
+      "stage_id": "CH02-N08",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 3800,
+          "max": 5000
+        },
+        {
+          "item_id": "BREAK_CORE_T3",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 10800
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N09",
+      "stage_id": "CH02-N09",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 4050,
+          "max": 5350
+        },
+        {
+          "item_id": "BREAK_CORE_T3",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 11400
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N10",
+      "stage_id": "CH02-N10",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 4300,
+          "max": 5700
+        },
+        {
+          "item_id": "BREAK_CORE_T3",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 12000
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-H01",
+      "stage_id": "CH02-H01",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 2050,
+          "max": 2550
+        },
+        {
+          "item_id": "BREAK_CORE_T2",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "SHARD_CHR027",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 6600
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-H02",
+      "stage_id": "CH02-H02",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 2300,
+          "max": 2900
+        },
+        {
+          "item_id": "BREAK_CORE_T2",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "SHARD_CHR028",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 7200
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-H03",
+      "stage_id": "CH02-H03",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 2550,
+          "max": 3250
+        },
+        {
+          "item_id": "BREAK_CORE_T2",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "SHARD_CHR029",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 7800
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-H04",
+      "stage_id": "CH02-H04",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 2800,
+          "max": 3600
+        },
+        {
+          "item_id": "BREAK_CORE_T2",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "SHARD_CHR030",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 8400
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-H05",
+      "stage_id": "CH02-H05",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 3050,
+          "max": 3950
+        },
+        {
+          "item_id": "BREAK_CORE_T2",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "SHARD_CHR031",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 9000
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
     }
   ],
   "items": [
@@ -2370,6 +8089,20 @@
       "id": "LANTERN_SHARD",
       "name_key": "ITEM_LANTERN_SHARD",
       "category": "LANTERN",
+      "xp_value": 0,
+      "icon_asset_id": "item_lantern_shard_dev"
+    },
+    {
+      "id": "EXPEDITION_ROUTE_MODULE_A",
+      "name_key": "ITEM_EXPEDITION_ROUTE_MODULE_A",
+      "category": "EXPEDITION",
+      "xp_value": 0,
+      "icon_asset_id": "item_lantern_shard_dev"
+    },
+    {
+      "id": "EXPEDITION_ROUTE_MODULE_B",
+      "name_key": "ITEM_EXPEDITION_ROUTE_MODULE_B",
+      "category": "EXPEDITION",
       "xp_value": 0,
       "icon_asset_id": "item_lantern_shard_dev"
     },
@@ -2708,6 +8441,258 @@
       "category": "SHARD",
       "xp_value": 0,
       "icon_asset_id": "item_shard_chr008_dev"
+    },
+    {
+      "id": "SHARD_CHR009",
+      "name_key": "ITEM_SHARD_CHR009",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr009_dev"
+    },
+    {
+      "id": "SHARD_CHR010",
+      "name_key": "ITEM_SHARD_CHR010",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr010_dev"
+    },
+    {
+      "id": "SHARD_CHR011",
+      "name_key": "ITEM_SHARD_CHR011",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr011_dev"
+    },
+    {
+      "id": "SHARD_CHR012",
+      "name_key": "ITEM_SHARD_CHR012",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr012_dev"
+    },
+    {
+      "id": "SHARD_CHR013",
+      "name_key": "ITEM_SHARD_CHR013",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr013_dev"
+    },
+    {
+      "id": "SHARD_CHR014",
+      "name_key": "ITEM_SHARD_CHR014",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr014_dev"
+    },
+    {
+      "id": "SHARD_CHR015",
+      "name_key": "ITEM_SHARD_CHR015",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr015_dev"
+    },
+    {
+      "id": "SHARD_CHR016",
+      "name_key": "ITEM_SHARD_CHR016",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr016_dev"
+    },
+    {
+      "id": "SHARD_CHR017",
+      "name_key": "ITEM_SHARD_CHR017",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr017_dev"
+    },
+    {
+      "id": "SHARD_CHR018",
+      "name_key": "ITEM_SHARD_CHR018",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr018_dev"
+    },
+    {
+      "id": "SHARD_CHR019",
+      "name_key": "ITEM_SHARD_CHR019",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr019_dev"
+    },
+    {
+      "id": "SHARD_CHR020",
+      "name_key": "ITEM_SHARD_CHR020",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr020_dev"
+    },
+    {
+      "id": "SHARD_CHR021",
+      "name_key": "ITEM_SHARD_CHR021",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr021_dev"
+    },
+    {
+      "id": "SHARD_CHR022",
+      "name_key": "ITEM_SHARD_CHR022",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr022_dev"
+    },
+    {
+      "id": "SHARD_CHR023",
+      "name_key": "ITEM_SHARD_CHR023",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr023_dev"
+    },
+    {
+      "id": "SHARD_CHR024",
+      "name_key": "ITEM_SHARD_CHR024",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr024_dev"
+    },
+    {
+      "id": "SHARD_CHR025",
+      "name_key": "ITEM_SHARD_CHR025",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr025_dev"
+    },
+    {
+      "id": "SHARD_CHR026",
+      "name_key": "ITEM_SHARD_CHR026",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr026_dev"
+    },
+    {
+      "id": "SHARD_CHR027",
+      "name_key": "ITEM_SHARD_CHR027",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr027_dev"
+    },
+    {
+      "id": "SHARD_CHR028",
+      "name_key": "ITEM_SHARD_CHR028",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr028_dev"
+    },
+    {
+      "id": "SHARD_CHR029",
+      "name_key": "ITEM_SHARD_CHR029",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr029_dev"
+    },
+    {
+      "id": "SHARD_CHR030",
+      "name_key": "ITEM_SHARD_CHR030",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr030_dev"
+    },
+    {
+      "id": "SHARD_CHR031",
+      "name_key": "ITEM_SHARD_CHR031",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr031_dev"
+    },
+    {
+      "id": "SHARD_CHR032",
+      "name_key": "ITEM_SHARD_CHR032",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr032_dev"
+    },
+    {
+      "id": "SHARD_CHR033",
+      "name_key": "ITEM_SHARD_CHR033",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr033_dev"
+    },
+    {
+      "id": "SHARD_CHR034",
+      "name_key": "ITEM_SHARD_CHR034",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr034_dev"
+    },
+    {
+      "id": "SHARD_CHR035",
+      "name_key": "ITEM_SHARD_CHR035",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr035_dev"
+    },
+    {
+      "id": "SHARD_CHR036",
+      "name_key": "ITEM_SHARD_CHR036",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr036_dev"
+    },
+    {
+      "id": "SHARD_CHR037",
+      "name_key": "ITEM_SHARD_CHR037",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr037_dev"
+    },
+    {
+      "id": "SHARD_CHR038",
+      "name_key": "ITEM_SHARD_CHR038",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr038_dev"
+    },
+    {
+      "id": "SHARD_CHR039",
+      "name_key": "ITEM_SHARD_CHR039",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr039_dev"
+    },
+    {
+      "id": "SHARD_CHR040",
+      "name_key": "ITEM_SHARD_CHR040",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr040_dev"
+    },
+    {
+      "id": "SHARD_CHR041",
+      "name_key": "ITEM_SHARD_CHR041",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr041_dev"
+    },
+    {
+      "id": "SHARD_CHR042",
+      "name_key": "ITEM_SHARD_CHR042",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr042_dev"
+    },
+    {
+      "id": "SHARD_CHR043",
+      "name_key": "ITEM_SHARD_CHR043",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr043_dev"
+    },
+    {
+      "id": "SHARD_CHR044",
+      "name_key": "ITEM_SHARD_CHR044",
+      "category": "SHARD",
+      "xp_value": 0,
+      "icon_asset_id": "item_shard_chr044_dev"
     }
   ],
   "weapons": [
@@ -2896,7 +8881,52 @@
     {
       "id": "CH01",
       "number": 1,
-      "name_key": "CHAPTER_01"
+      "name_key": "CHAPTER_01",
+      "map_id": "CH01_MAP",
+      "normal_stage_ids": [
+        "CH01-N01",
+        "CH01-N02",
+        "CH01-N03",
+        "CH01-N04",
+        "CH01-N05",
+        "CH01-N06",
+        "CH01-N07",
+        "CH01-N08",
+        "CH01-N09",
+        "CH01-N10"
+      ],
+      "hard_stage_ids": [
+        "CH01-H01",
+        "CH01-H02",
+        "CH01-H03",
+        "CH01-H04",
+        "CH01-H05"
+      ]
+    },
+    {
+      "id": "CH02",
+      "number": 2,
+      "name_key": "CHAPTER_02",
+      "map_id": "CH02_MAP",
+      "normal_stage_ids": [
+        "CH02-N01",
+        "CH02-N02",
+        "CH02-N03",
+        "CH02-N04",
+        "CH02-N05",
+        "CH02-N06",
+        "CH02-N07",
+        "CH02-N08",
+        "CH02-N09",
+        "CH02-N10"
+      ],
+      "hard_stage_ids": [
+        "CH02-H01",
+        "CH02-H02",
+        "CH02-H03",
+        "CH02-H04",
+        "CH02-H05"
+      ]
     }
   ],
   "scenarios": [
@@ -2912,28 +8942,44 @@
         },
         {
           "command": "show_portrait",
+          "slot": "LEFT",
+          "asset_id": "portrait_chr002_dev",
+          "expression": "SERIOUS"
+        },
+        {
+          "command": "show_portrait",
           "slot": "RIGHT",
           "asset_id": "portrait_chr001_dev",
-          "expression": "DEFAULT"
+          "expression": "SERIOUS"
         },
         {
           "command": "fade_in",
           "duration": 0.35
         },
         {
-          "command": "dialogue",
+          "command": "narration",
           "speaker_key": "SPEAKER_ROUTEKEEPER",
           "text_key": "STORY_PRO_01"
         },
         {
           "command": "narration",
-          "speaker_key": "SPEAKER_MAERU",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
           "text_key": "STORY_PRO_02"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "BATTLE_FOCUS"
         },
         {
           "command": "dialogue",
           "speaker_key": "SPEAKER_MAERU",
           "text_key": "STORY_PRO_03"
+        },
+        {
+          "command": "dialogue",
+          "speaker_key": "SPEAKER_ROAN",
+          "text_key": "STORY_PRO_04"
         },
         {
           "command": "choice",
@@ -2977,21 +9023,31 @@
           "command": "show_portrait",
           "slot": "RIGHT",
           "asset_id": "portrait_chr001_dev",
-          "expression": "DEFAULT"
+          "expression": "NEUTRAL"
         },
         {
           "command": "fade_in",
           "duration": 0.35
         },
         {
-          "command": "dialogue",
+          "command": "narration",
           "speaker_key": "SPEAKER_ROUTEKEEPER",
           "text_key": "STORY_C1I_01"
         },
         {
-          "command": "narration",
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "SERIOUS"
+        },
+        {
+          "command": "dialogue",
           "speaker_key": "SPEAKER_MAERU",
           "text_key": "STORY_C1I_02"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "BATTLE_FOCUS"
         },
         {
           "command": "dialogue",
@@ -3016,31 +9072,36 @@
         {
           "id": "start",
           "command": "set_background",
-          "asset_id": "bg_lantern_tunnel_dev"
+          "asset_id": "bg_ch01_glass_rail_story"
         },
         {
           "command": "show_portrait",
           "slot": "RIGHT",
-          "asset_id": "portrait_chr001_dev",
-          "expression": "DEFAULT"
+          "asset_id": "portrait_chr002_dev",
+          "expression": "ALERT"
         },
         {
           "command": "fade_in",
           "duration": 0.35
         },
         {
-          "command": "dialogue",
+          "command": "narration",
           "speaker_key": "SPEAKER_ROUTEKEEPER",
           "text_key": "STORY_C1A_01"
         },
         {
           "command": "narration",
-          "speaker_key": "SPEAKER_MAERU",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
           "text_key": "STORY_C1A_02"
         },
         {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "RELIEVED"
+        },
+        {
           "command": "dialogue",
-          "speaker_key": "SPEAKER_MAERU",
+          "speaker_key": "SPEAKER_ROAN",
           "text_key": "STORY_C1A_03"
         },
         {
@@ -3061,31 +9122,36 @@
         {
           "id": "start",
           "command": "set_background",
-          "asset_id": "bg_lantern_tunnel_dev"
+          "asset_id": "bg_ch01_glass_rail_story"
         },
         {
           "command": "show_portrait",
           "slot": "RIGHT",
-          "asset_id": "portrait_chr001_dev",
-          "expression": "DEFAULT"
+          "asset_id": "portrait_chr003_dev",
+          "expression": "SERIOUS"
         },
         {
           "command": "fade_in",
           "duration": 0.35
         },
         {
-          "command": "dialogue",
+          "command": "narration",
           "speaker_key": "SPEAKER_ROUTEKEEPER",
           "text_key": "STORY_C1B_01"
         },
         {
           "command": "narration",
-          "speaker_key": "SPEAKER_MAERU",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
           "text_key": "STORY_C1B_02"
         },
         {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "CONFIDENT"
+        },
+        {
           "command": "dialogue",
-          "speaker_key": "SPEAKER_MAERU",
+          "speaker_key": "SPEAKER_NARIN",
           "text_key": "STORY_C1B_03"
         },
         {
@@ -3106,31 +9172,41 @@
         {
           "id": "start",
           "command": "set_background",
-          "asset_id": "bg_lantern_tunnel_dev"
+          "asset_id": "bg_ch01_signal_cathedral_story"
         },
         {
           "command": "show_portrait",
           "slot": "RIGHT",
-          "asset_id": "portrait_chr001_dev",
-          "expression": "DEFAULT"
+          "asset_id": "portrait_chr008_dev",
+          "expression": "SERIOUS"
         },
         {
           "command": "fade_in",
           "duration": 0.35
         },
         {
-          "command": "dialogue",
+          "command": "narration",
           "speaker_key": "SPEAKER_ROUTEKEEPER",
           "text_key": "STORY_C1C_01"
         },
         {
-          "command": "narration",
-          "speaker_key": "SPEAKER_MAERU",
-          "text_key": "STORY_C1C_02"
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "CONCERNED"
         },
         {
           "command": "dialogue",
-          "speaker_key": "SPEAKER_MAERU",
+          "speaker_key": "SPEAKER_IRI",
+          "text_key": "STORY_C1C_02"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "BATTLE_FOCUS"
+        },
+        {
+          "command": "dialogue",
+          "speaker_key": "SPEAKER_IRI",
           "text_key": "STORY_C1C_03"
         },
         {
@@ -3151,36 +9227,42 @@
         {
           "id": "start",
           "command": "set_background",
-          "asset_id": "bg_lantern_tunnel_dev"
+          "asset_id": "bg_ch01_signal_cathedral_story"
         },
         {
           "command": "show_portrait",
           "slot": "RIGHT",
           "asset_id": "portrait_chr001_dev",
-          "expression": "DEFAULT"
+          "expression": "ALERT"
         },
         {
           "command": "fade_in",
           "duration": 0.35
         },
         {
-          "command": "dialogue",
+          "command": "narration",
           "speaker_key": "SPEAKER_ROUTEKEEPER",
           "text_key": "STORY_PRE_01"
         },
         {
-          "command": "narration",
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "SERIOUS"
+        },
+        {
+          "command": "dialogue",
           "speaker_key": "SPEAKER_MAERU",
           "text_key": "STORY_PRE_02"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "BATTLE_FOCUS"
         },
         {
           "command": "dialogue",
           "speaker_key": "SPEAKER_MAERU",
           "text_key": "STORY_PRE_03"
-        },
-        {
-          "command": "start_battle",
-          "stage_id": "CH01-N10"
         },
         {
           "command": "grant_reward",
@@ -3203,29 +9285,363 @@
           "asset_id": "bg_lantern_tunnel_dev"
         },
         {
+          "command": "set_cg",
+          "asset_id": "cg_ch01_pilot_teamwork"
+        },
+        {
           "command": "show_portrait",
           "slot": "RIGHT",
           "asset_id": "portrait_chr001_dev",
-          "expression": "DEFAULT"
+          "expression": "RELIEVED"
         },
         {
           "command": "fade_in",
           "duration": 0.35
         },
         {
-          "command": "dialogue",
+          "command": "narration",
           "speaker_key": "SPEAKER_ROUTEKEEPER",
           "text_key": "STORY_OUT_01"
         },
         {
           "command": "narration",
-          "speaker_key": "SPEAKER_MAERU",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
           "text_key": "STORY_OUT_02"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "SMILE"
         },
         {
           "command": "dialogue",
           "speaker_key": "SPEAKER_MAERU",
           "text_key": "STORY_OUT_03"
+        },
+        {
+          "command": "grant_reward",
+          "item_id": "LANTERN_SHARD",
+          "quantity": 5
+        },
+        {
+          "command": "end_scenario"
+        }
+      ]
+    },
+    {
+      "id": "SCN_CH02_INTRO",
+      "title_key": "SCENARIO_CH02_INTRO_TITLE",
+      "chapter_id": "CH02",
+      "commands": [
+        {
+          "id": "start",
+          "command": "set_background",
+          "asset_id": "bg_lantern_tunnel_dev"
+        },
+        {
+          "command": "show_portrait",
+          "slot": "RIGHT",
+          "asset_id": "portrait_chr001_dev",
+          "expression": "SERIOUS"
+        },
+        {
+          "command": "fade_in",
+          "duration": 0.35
+        },
+        {
+          "command": "narration",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
+          "text_key": "STORY_C2I_01"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "ALERT"
+        },
+        {
+          "command": "dialogue",
+          "speaker_key": "SPEAKER_MAERU",
+          "text_key": "STORY_C2I_02"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "BATTLE_FOCUS"
+        },
+        {
+          "command": "dialogue",
+          "speaker_key": "SPEAKER_MAERU",
+          "text_key": "STORY_C2I_03"
+        },
+        {
+          "command": "grant_reward",
+          "item_id": "LANTERN_SHARD",
+          "quantity": 5
+        },
+        {
+          "command": "end_scenario"
+        }
+      ]
+    },
+    {
+      "id": "SCN_CH02_MID_A",
+      "title_key": "SCENARIO_CH02_MID_A_TITLE",
+      "chapter_id": "CH02",
+      "commands": [
+        {
+          "id": "start",
+          "command": "set_background",
+          "asset_id": "bg_ch01_glass_rail_story"
+        },
+        {
+          "command": "show_portrait",
+          "slot": "RIGHT",
+          "asset_id": "portrait_chr002_dev",
+          "expression": "ALERT"
+        },
+        {
+          "command": "fade_in",
+          "duration": 0.35
+        },
+        {
+          "command": "narration",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
+          "text_key": "STORY_C2A_01"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "SERIOUS"
+        },
+        {
+          "command": "dialogue",
+          "speaker_key": "SPEAKER_ROAN",
+          "text_key": "STORY_C2A_02"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "CONFIDENT"
+        },
+        {
+          "command": "dialogue",
+          "speaker_key": "SPEAKER_ROAN",
+          "text_key": "STORY_C2A_03"
+        },
+        {
+          "command": "grant_reward",
+          "item_id": "LANTERN_SHARD",
+          "quantity": 5
+        },
+        {
+          "command": "end_scenario"
+        }
+      ]
+    },
+    {
+      "id": "SCN_CH02_MID_B",
+      "title_key": "SCENARIO_CH02_MID_B_TITLE",
+      "chapter_id": "CH02",
+      "commands": [
+        {
+          "id": "start",
+          "command": "set_background",
+          "asset_id": "bg_ch01_glass_rail_story"
+        },
+        {
+          "command": "show_portrait",
+          "slot": "RIGHT",
+          "asset_id": "portrait_chr003_dev",
+          "expression": "SERIOUS"
+        },
+        {
+          "command": "fade_in",
+          "duration": 0.35
+        },
+        {
+          "command": "narration",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
+          "text_key": "STORY_C2B_01"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "CONCERNED"
+        },
+        {
+          "command": "dialogue",
+          "speaker_key": "SPEAKER_NARIN",
+          "text_key": "STORY_C2B_02"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "BATTLE_FOCUS"
+        },
+        {
+          "command": "dialogue",
+          "speaker_key": "SPEAKER_NARIN",
+          "text_key": "STORY_C2B_03"
+        },
+        {
+          "command": "grant_reward",
+          "item_id": "LANTERN_SHARD",
+          "quantity": 5
+        },
+        {
+          "command": "end_scenario"
+        }
+      ]
+    },
+    {
+      "id": "SCN_CH02_PREBOSS",
+      "title_key": "SCENARIO_CH02_PREBOSS_TITLE",
+      "chapter_id": "CH02",
+      "commands": [
+        {
+          "id": "start",
+          "command": "set_background",
+          "asset_id": "bg_ch01_signal_cathedral_story"
+        },
+        {
+          "command": "show_portrait",
+          "slot": "RIGHT",
+          "asset_id": "portrait_chr005_dev",
+          "expression": "ALERT"
+        },
+        {
+          "command": "fade_in",
+          "duration": 0.35
+        },
+        {
+          "command": "narration",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
+          "text_key": "STORY_C2P_01"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "SERIOUS"
+        },
+        {
+          "command": "dialogue",
+          "speaker_key": "SPEAKER_SOREN",
+          "text_key": "STORY_C2P_02"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "BATTLE_FOCUS"
+        },
+        {
+          "command": "dialogue",
+          "speaker_key": "SPEAKER_SOREN",
+          "text_key": "STORY_C2P_03"
+        },
+        {
+          "command": "grant_reward",
+          "item_id": "LANTERN_SHARD",
+          "quantity": 5
+        },
+        {
+          "command": "end_scenario"
+        }
+      ]
+    },
+    {
+      "id": "SCN_CH02_HARD_INTRO",
+      "title_key": "SCENARIO_CH02_HARD_INTRO_TITLE",
+      "chapter_id": "CH02",
+      "commands": [
+        {
+          "id": "start",
+          "command": "set_background",
+          "asset_id": "bg_ch01_signal_cathedral_story"
+        },
+        {
+          "command": "show_portrait",
+          "slot": "RIGHT",
+          "asset_id": "portrait_chr008_dev",
+          "expression": "SERIOUS"
+        },
+        {
+          "command": "fade_in",
+          "duration": 0.35
+        },
+        {
+          "command": "narration",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
+          "text_key": "STORY_C2H_01"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "CONCERNED"
+        },
+        {
+          "command": "dialogue",
+          "speaker_key": "SPEAKER_IRI",
+          "text_key": "STORY_C2H_02"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "BATTLE_FOCUS"
+        },
+        {
+          "command": "dialogue",
+          "speaker_key": "SPEAKER_IRI",
+          "text_key": "STORY_C2H_03"
+        },
+        {
+          "command": "grant_reward",
+          "item_id": "LANTERN_SHARD",
+          "quantity": 5
+        },
+        {
+          "command": "end_scenario"
+        }
+      ]
+    },
+    {
+      "id": "SCN_CH02_OUTRO",
+      "title_key": "SCENARIO_CH02_OUTRO_TITLE",
+      "chapter_id": "CH02",
+      "commands": [
+        {
+          "id": "start",
+          "command": "set_background",
+          "asset_id": "bg_lantern_tunnel_dev"
+        },
+        {
+          "command": "show_portrait",
+          "slot": "RIGHT",
+          "asset_id": "portrait_chr001_dev",
+          "expression": "RELIEVED"
+        },
+        {
+          "command": "fade_in",
+          "duration": 0.35
+        },
+        {
+          "command": "narration",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
+          "text_key": "STORY_C2O_01"
+        },
+        {
+          "command": "narration",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
+          "text_key": "STORY_C2O_02"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "SMILE"
+        },
+        {
+          "command": "dialogue",
+          "speaker_key": "SPEAKER_MAERU",
+          "text_key": "STORY_C2O_03"
         },
         {
           "command": "grant_reward",
@@ -3251,7 +9667,7 @@
           "command": "show_portrait",
           "slot": "RIGHT",
           "asset_id": "portrait_chr001_dev",
-          "expression": "DEFAULT"
+          "expression": "NEUTRAL"
         },
         {
           "command": "fade_in",
@@ -3259,13 +9675,23 @@
         },
         {
           "command": "dialogue",
-          "speaker_key": "SPEAKER_ROUTEKEEPER",
+          "speaker_key": "SPEAKER_MAERU",
           "text_key": "STORY_REL_M_01"
         },
         {
-          "command": "narration",
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "SAD"
+        },
+        {
+          "command": "dialogue",
           "speaker_key": "SPEAKER_MAERU",
           "text_key": "STORY_REL_M_02"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "SMILE"
         },
         {
           "command": "dialogue",
@@ -3295,8 +9721,8 @@
         {
           "command": "show_portrait",
           "slot": "RIGHT",
-          "asset_id": "portrait_chr001_dev",
-          "expression": "DEFAULT"
+          "asset_id": "portrait_chr008_dev",
+          "expression": "SMILE"
         },
         {
           "command": "fade_in",
@@ -3304,17 +9730,27 @@
         },
         {
           "command": "dialogue",
-          "speaker_key": "SPEAKER_ROUTEKEEPER",
+          "speaker_key": "SPEAKER_IRI",
           "text_key": "STORY_REL_I_01"
         },
         {
-          "command": "narration",
-          "speaker_key": "SPEAKER_MAERU",
-          "text_key": "STORY_REL_I_02"
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "SERIOUS"
         },
         {
           "command": "dialogue",
-          "speaker_key": "SPEAKER_MAERU",
+          "speaker_key": "SPEAKER_IRI",
+          "text_key": "STORY_REL_I_02"
+        },
+        {
+          "command": "set_expression",
+          "slot": "RIGHT",
+          "expression": "SMILE"
+        },
+        {
+          "command": "dialogue",
+          "speaker_key": "SPEAKER_IRI",
           "text_key": "STORY_REL_I_03"
         },
         {
@@ -3326,6 +9762,104 @@
           "command": "end_scenario"
         }
       ]
+    }
+  ],
+  "chapter_story_triggers": [
+    {
+      "id": "TRIG_CH01_INTRO",
+      "event": "MAP_ENTER",
+      "stage_id": "",
+      "scenario_id": "SCN_CH01_INTRO",
+      "completion_flag": "story.trigger.TRIG_CH01_INTRO",
+      "priority": 10
+    },
+    {
+      "id": "TRIG_CH01_MID_A",
+      "event": "STAGE_CLEAR",
+      "stage_id": "CH01-N03",
+      "scenario_id": "SCN_CH01_MID_A",
+      "completion_flag": "story.trigger.TRIG_CH01_MID_A",
+      "priority": 20
+    },
+    {
+      "id": "TRIG_CH01_MID_B",
+      "event": "STAGE_CLEAR",
+      "stage_id": "CH01-N05",
+      "scenario_id": "SCN_CH01_MID_B",
+      "completion_flag": "story.trigger.TRIG_CH01_MID_B",
+      "priority": 30
+    },
+    {
+      "id": "TRIG_CH01_MID_C",
+      "event": "STAGE_CLEAR",
+      "stage_id": "CH01-N07",
+      "scenario_id": "SCN_CH01_MID_C",
+      "completion_flag": "story.trigger.TRIG_CH01_MID_C",
+      "priority": 40
+    },
+    {
+      "id": "TRIG_CH01_PREBOSS",
+      "event": "STAGE_CLEAR",
+      "stage_id": "CH01-N09",
+      "scenario_id": "SCN_CH01_PREBOSS",
+      "completion_flag": "story.trigger.TRIG_CH01_PREBOSS",
+      "priority": 50
+    },
+    {
+      "id": "TRIG_CH01_OUTRO",
+      "event": "STAGE_CLEAR",
+      "stage_id": "CH01-N10",
+      "scenario_id": "SCN_CH01_OUTRO",
+      "completion_flag": "story.trigger.TRIG_CH01_OUTRO",
+      "priority": 60
+    },
+    {
+      "id": "TRIG_CH02_INTRO",
+      "event": "MAP_ENTER",
+      "stage_id": "",
+      "scenario_id": "SCN_CH02_INTRO",
+      "completion_flag": "story.trigger.TRIG_CH02_INTRO",
+      "priority": 70
+    },
+    {
+      "id": "TRIG_CH02_MID_A",
+      "event": "STAGE_CLEAR",
+      "stage_id": "CH02-N03",
+      "scenario_id": "SCN_CH02_MID_A",
+      "completion_flag": "story.trigger.TRIG_CH02_MID_A",
+      "priority": 80
+    },
+    {
+      "id": "TRIG_CH02_MID_B",
+      "event": "STAGE_CLEAR",
+      "stage_id": "CH02-N06",
+      "scenario_id": "SCN_CH02_MID_B",
+      "completion_flag": "story.trigger.TRIG_CH02_MID_B",
+      "priority": 90
+    },
+    {
+      "id": "TRIG_CH02_PREBOSS",
+      "event": "STAGE_CLEAR",
+      "stage_id": "CH02-N09",
+      "scenario_id": "SCN_CH02_PREBOSS",
+      "completion_flag": "story.trigger.TRIG_CH02_PREBOSS",
+      "priority": 100
+    },
+    {
+      "id": "TRIG_CH02_HARD_INTRO",
+      "event": "STAGE_CLEAR",
+      "stage_id": "CH02-N10",
+      "scenario_id": "SCN_CH02_HARD_INTRO",
+      "completion_flag": "story.trigger.TRIG_CH02_HARD_INTRO",
+      "priority": 110
+    },
+    {
+      "id": "TRIG_CH02_OUTRO",
+      "event": "STAGE_CLEAR",
+      "stage_id": "CH02-H05",
+      "scenario_id": "SCN_CH02_OUTRO",
+      "completion_flag": "story.trigger.TRIG_CH02_OUTRO",
+      "priority": 120
     }
   ],
   "character_level_curve": [

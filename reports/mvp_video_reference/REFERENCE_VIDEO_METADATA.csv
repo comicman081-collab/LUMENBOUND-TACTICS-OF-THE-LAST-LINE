@@ -1,0 +1,4 @@
+video_id,source_filename,source_path,size_bytes,sha256,width,height,fps,frame_count,container_duration_sec,decoded_video_duration_sec,analysis_notes
+V1,"2026_08_19 23_45.mp4","C:\Users\AAA\Downloads\2026_08_19 23_45.mp4",10499772,90D7F81B2B7765FADEE810154186C230EA3BFFC06C3A453C60A0C259A955A7D8,1280,600,23.988500,2086,86.960,86.958,"Container and decoded-video durations agree within one frame."
+V2,"2026_08_21 06_47.mp4","C:\Users\AAA\Downloads\2026_08_21 06_47.mp4",28614196,D09460017A5414D4227BB9644C4AAEB0AFD728F71186A5215E3841D6BF227471,1562,720,24.000000,1560,69.310,65.000,"Container duration exceeds the last decoded video PTS (64.958 s); interaction analysis ends at the last video frame."
+V3,"2026_08_21 00_12.mp4","C:\Users\AAA\Downloads\2026_08_21 00_12.mp4",2365515,CA448891FE16F3C9B03608603FAAFF6CD33CC195E5D3DCDD586655CCBB30597D,1920,888,30.000000,520,17.330,17.333,"Short clip ends during the boss-introduction presentation before active battle."

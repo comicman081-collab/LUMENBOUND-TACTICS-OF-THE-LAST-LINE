@@ -14,4 +14,15 @@
 
 Web Development와 Web HTML Release는 스레드 및 GDExtension을 사용하지 않는다. Release는 PWA 파일을 포함한다. `builds/web_release/`를 HTTP 서버로 제공해야 하며 로컬 파일 URL로 직접 열지 않는다.
 
+## 개발자 QA에서 HARD 일일 제한을 만났을 때
+
+같은 날짜에 HARD 스테이지를 반복 검증해야 하면 `BUILD_WEB_DEVELOPMENT.ps1`로 만든
+`builds/web_development/` 패키지를 사용한다. 개발 권한 빌드에서는 HARD 입장 횟수와
+작전력을 차감하지 않으며 스테이지 상세에 `무제한 (DEV)`가 표시된다. 따라서 저장의
+`hard_attempts` 값을 조작하거나 시스템 날짜를 바꿀 필요가 없다.
+
+`Web HTML Release`에서는 이 우회가 존재하지 않는다. Release는 실제 날짜별 HARD
+입장 횟수와 작전력 규칙을 그대로 적용한다. 개발 패키지의 QA 우회 코드는 Release
+PCK에 포함되지 않으며, 배포 전에 반드시 Release 경로를 별도로 검증한다.
+
 Windows EXE, Windows 앱 ZIP, APK, AAB, Electron, Tauri, NW.js, WebView 래퍼는 이 프로젝트의 빌드 대상이 아니다.

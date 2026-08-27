@@ -6,11 +6,10 @@
   "source_status": "ART_QA_CANDIDATE",
   "source_root": "assets/art/enemies/ENM007",
   "source_asset_id": "sd_enm007_premium_r6p2",
-  "source_blend": "D:\\AI 종합 폴더\\Games\\asset_share\\blender_sources\\enemies\\ENM007\\ENM007_SD_R6P2.blend",
   "ownership_status": "ORIGINAL_INTERNAL",
   "frame_size": [
-    104,
-    104
+    128,
+    128
   ],
   "foot_anchor": [
     0.5,
@@ -23,6 +22,8 @@
   "view": "THREE_QUARTER_LEFT_DOWN_30",
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
+  "preview_path": "preview.png",
+  "preview_sha256": "745ce9bed15240d81a9b743c1f962ebb1053d72d6247161fe4fb8fdccd163346",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -174,5 +175,5 @@
       "events": []
     }
   },
-  "sha256": "e1714df21221ff3d26be147701175a3cac0283c96a8b853f3a593bbe7d08b54e"
+  "sha256": "da8190f18539220f7ff8795a016ce75d9b59f98104d06a8253f4de42a24ea301"
 }

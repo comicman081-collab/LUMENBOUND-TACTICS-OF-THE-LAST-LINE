@@ -29,6 +29,30 @@ LOADER_PATCH = """return fetch(file).then(async function (response) {
 \t\t\t}
 """
 
+# Godot's progress loader and Emscripten's WebAssembly bootstrap fetch the
+# executable independently.  Patching only `loadFetch()` leaves the bootstrap
+# feeding gzip bytes directly to `instantiateStreaming()`, which fails with a
+# WASM magic-word error on an ordinary static HTTP server.  Keep this exact
+# generated-loader contract guarded so an engine template change fails the
+# build instead of producing a non-starting package.
+EMSCRIPTEN_INSTANTIATE_NEEDLE = (
+    'var response=fetch(binaryFile,{credentials:"same-origin"});'
+    'var instantiationResult=await WebAssembly.instantiateStreaming(response,imports);'
+)
+EMSCRIPTEN_INSTANTIATE_PATCH = (
+    'var response=await fetch(binaryFile,{credentials:"same-origin"});'
+    'if(/\\.wasm(?:[?#]|$)/.test(binaryFile)&&response.ok){'
+    'if(typeof DecompressionStream!=="undefined"){'
+    'const decoded=response.body.pipeThrough(new DecompressionStream("gzip"));'
+    'response=new Response(decoded,{status:response.status,headers:{"content-type":"application/wasm"}});'
+    '}else if(globalThis.pako?.ungzip){'
+    'const decoded=globalThis.pako.ungzip(new Uint8Array(await response.arrayBuffer()));'
+    'response=new Response(decoded,{status:response.status,headers:{"content-type":"application/wasm"}});'
+    '}else{throw new Error("WASM gzip decompression is unavailable in this browser")}'
+    '}'
+    'var instantiationResult=await WebAssembly.instantiateStreaming(response,imports);'
+)
+
 
 def main() -> int:
     if len(sys.argv) != 2:
@@ -53,6 +77,16 @@ def main() -> int:
     if LOADER_NEEDLE not in loader:
         raise SystemExit("Godot loader fetch hook not found; refusing an unverified WASM package")
     loader = loader.replace(LOADER_NEEDLE, LOADER_PATCH, 1)
+    if loader.count(EMSCRIPTEN_INSTANTIATE_NEEDLE) != 1:
+        raise SystemExit(
+            "Godot Emscripten instantiate hook not found exactly once; "
+            "refusing a gzip package that cannot bootstrap"
+        )
+    loader = loader.replace(
+        EMSCRIPTEN_INSTANTIATE_NEEDLE,
+        EMSCRIPTEN_INSTANTIATE_PATCH,
+        1,
+    )
 
     html_path = root / "index.html"
     html = html_path.read_text(encoding="utf-8")
@@ -71,16 +105,11 @@ def main() -> int:
     html, count = re.subn(rf'("{wasm_key}":)\d+', rf'\g<1>{len(compressed)}', html, count=1)
     if count != 1:
         raise SystemExit(f"WASM file size entry not found in {html_path}")
-    # Force a fresh loader when a browser service worker has cached a prior R7
-    # build.  The fixed R7 output directory is intentionally reused, so the
-    # query string is the cache-busting revision rather than a new build path.
-    html, script_count = re.subn(
-        r'<script\s+src="index\.js(?:\?[^\"]*)?"\s*></script>',
-        f'<script src="index.js?build={wasm.stem}"></script>',
-        html,
-        count=1,
-    )
-    if script_count != 1:
+    # Keep the loader URL identical to Godot's service-worker cache key. The
+    # outer build script rotates CACHE_VERSION from the final PCK/WASM/JS/HTML
+    # hashes after every post-export transform, so a query-string cache buster
+    # here would break offline PWA loading.
+    if len(re.findall(r'<script\s+src="index\.js"\s*></script>', html)) != 1:
         raise SystemExit(f"index.js script tag not found in {html_path}")
     html_path.write_text(html, encoding="utf-8", newline="\n")
     print(f"WEB_WASM_RAW_BYTES={len(raw)}")

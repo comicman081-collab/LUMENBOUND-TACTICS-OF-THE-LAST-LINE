@@ -6,11 +6,10 @@
   "source_status": "DEV_CUTOUT_RIG_ANIMATION",
   "source_root": "assets/generated_import/characters/sd_chr002_roan_combat_r27_dev",
   "source_asset_id": "sd_chr002_roan_combat_r27_dev",
-  "source_blend": "",
   "ownership_status": "PROJECT_DEV_GENERATED",
   "frame_size": [
-    104,
-    104
+    128,
+    128
   ],
   "foot_anchor": [
     0.5,
@@ -23,6 +22,8 @@
   "view": "THREE_QUARTER_RIGHT_DOWN_30",
   "facing_policy": "SEPARATE_LEFT_RIGHT",
   "atlas_path": "atlas.png",
+  "preview_path": "preview.png",
+  "preview_sha256": "d1ebd3f4bac61614b6e7ecfdf22fb641377ed5007494b678a28f0210e39baab7",
   "atlas_columns": 10,
   "total_frames": 80,
   "animations": {
@@ -195,5 +196,5 @@
       ]
     }
   },
-  "sha256": "8b3cdaaa814ad9a39250020f94d30c107de060d818aaa1a51d30ddf8a4d6185a"
+  "sha256": "e653289b8517bf25388175c4a17e27f151244b148e4a5c0425c664d68b6c3a59"
 }

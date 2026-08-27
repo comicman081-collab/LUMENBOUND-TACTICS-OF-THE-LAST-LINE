@@ -1,0 +1,195 @@
+{
+  "kind": "LUMENBOUND_PROLOGUE_CONTROLS_WEB_QA",
+  "browserPath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "sourceUrl": "http://127.0.0.1:8079/index.html",
+  "runToken": "1787833896678-13832",
+  "freshSessionIsolation": {
+    "distinctSandboxSessions": true,
+    "distinctProfiles": true,
+    "distinctPorts": true
+  },
+  "scenarios": {
+    "auto": {
+      "name": "auto",
+      "browserPath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "url": "http://127.0.0.1:8079/index.html?r15-save-sandbox=1&r15-save-sandbox-session=prologue-controls-auto-1787833896678-13832",
+      "sandboxSession": "prologue-controls-auto-1787833896678-13832",
+      "profilePath": "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\reports\\title_prologue_qa\\profiles\\final_controls\\auto-1787833896678-13832",
+      "port": 9256,
+      "ready": true,
+      "canvas": {
+        "ready": true,
+        "left": 0,
+        "top": 0,
+        "width": 1902,
+        "height": 984
+      },
+      "evidence": {
+        "pass": true,
+        "assertion": "AUTO click visibly changes the prologue control to AUTO ON before automatic advance",
+        "autoPoint": {
+          "x": 1603.386,
+          "y": 81.67200000000001
+        },
+        "controlsClip": {
+          "x": 1512.0900000000001,
+          "y": 14.76,
+          "width": 342.36,
+          "height": 137.76000000000002,
+          "scale": 1
+        },
+        "controlDelta": {
+          "sameGeometry": true,
+          "changedPixelRatio": 0.011653220642847996,
+          "meanAbsoluteDelta": 0.6414037933438625,
+          "before": {
+            "width": 342,
+            "height": 137,
+            "channels": 3
+          },
+          "after": {
+            "width": 342,
+            "height": 137,
+            "channels": 3
+          }
+        },
+        "screenshots": [
+          "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\reports\\title_prologue_qa\\final_controls\\auto\\02_prologue_before_auto.png",
+          "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\reports\\title_prologue_qa\\final_controls\\auto\\02_prologue_before_auto_control.png",
+          "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\reports\\title_prologue_qa\\final_controls\\auto\\03_auto_on.png",
+          "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\reports\\title_prologue_qa\\final_controls\\auto\\03_auto_on_control.png"
+        ],
+        "hashes": {
+          "beforeControl": "f4b12954af2e5b3322d847c9cb90b9cf6e4d368b7bfbc287348ef5cd402376db",
+          "autoOnControl": "752f60b3390fa316468cd97d3d3fcfa2c5d17075c99e1d6b308d58d77489be4a"
+        }
+      },
+      "cleanRuntime": true,
+      "pass": true,
+      "error": null,
+      "consoleErrors": [],
+      "exceptions": [],
+      "networkErrors": [],
+      "browserStderrTail": "\r\nDevTools listening on ws://127.0.0.1:9256/devtools/browser/2106a27b-8753-4c50-92c9-39a750d0523f\r\n[6176:15532:0827/213139.648:ERROR:google_apis\\gcm\\engine\\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT\r\n"
+    },
+    "skip": {
+      "name": "skip",
+      "browserPath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "url": "http://127.0.0.1:8079/index.html?r15-save-sandbox=1&r15-save-sandbox-session=prologue-controls-skip-1787833896678-13832",
+      "sandboxSession": "prologue-controls-skip-1787833896678-13832",
+      "profilePath": "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\reports\\title_prologue_qa\\profiles\\final_controls\\skip-1787833896678-13832",
+      "port": 9257,
+      "ready": true,
+      "canvas": {
+        "ready": true,
+        "left": 0,
+        "top": 0,
+        "width": 1902,
+        "height": 984
+      },
+      "evidence": {
+        "pass": true,
+        "assertion": "SKIP removes prologue controls/dialogue and renders the HOME scene",
+        "skipPoint": {
+          "x": 1740.3300000000002,
+          "y": 81.67200000000001
+        },
+        "controlsClip": {
+          "x": 1512.0900000000001,
+          "y": 14.76,
+          "width": 342.36,
+          "height": 137.76000000000002,
+          "scale": 1
+        },
+        "dialogueClip": {
+          "x": 114.11999999999999,
+          "y": 610.08,
+          "width": 1635.72,
+          "height": 334.56,
+          "scale": 1
+        },
+        "transitionMs": 348,
+        "probeDelta": {
+          "sameGeometry": true,
+          "changedPixelRatio": 0.1773381141418022,
+          "meanAbsoluteDelta": 11.699378210327115,
+          "before": {
+            "width": 342,
+            "height": 137,
+            "channels": 3
+          },
+          "after": {
+            "width": 342,
+            "height": 137,
+            "channels": 3
+          }
+        },
+        "controlDelta": {
+          "sameGeometry": true,
+          "changedPixelRatio": 0.1773381141418022,
+          "meanAbsoluteDelta": 11.699378210327115,
+          "before": {
+            "width": 342,
+            "height": 137,
+            "channels": 3
+          },
+          "after": {
+            "width": 342,
+            "height": 137,
+            "channels": 3
+          }
+        },
+        "dialogueDelta": {
+          "sameGeometry": true,
+          "changedPixelRatio": 0.30302697357578423,
+          "meanAbsoluteDelta": 10.569303594645572,
+          "before": {
+            "width": 1635,
+            "height": 334,
+            "channels": 3
+          },
+          "after": {
+            "width": 1635,
+            "height": 334,
+            "channels": 3
+          }
+        },
+        "fullDelta": {
+          "sameGeometry": true,
+          "changedPixelRatio": 0.3802950253477298,
+          "meanAbsoluteDelta": 13.043715038228195,
+          "before": {
+            "width": 1902,
+            "height": 984,
+            "channels": 3
+          },
+          "after": {
+            "width": 1902,
+            "height": 984,
+            "channels": 3
+          }
+        },
+        "screenshots": [
+          "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\reports\\title_prologue_qa\\final_controls\\skip\\02_prologue_before_skip.png",
+          "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\reports\\title_prologue_qa\\final_controls\\skip\\02_prologue_before_skip_control.png",
+          "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\reports\\title_prologue_qa\\final_controls\\skip\\02_prologue_before_skip_dialogue.png",
+          "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\reports\\title_prologue_qa\\final_controls\\skip\\03_home_after_skip.png",
+          "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\reports\\title_prologue_qa\\final_controls\\skip\\03_home_after_skip_control.png",
+          "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\reports\\title_prologue_qa\\final_controls\\skip\\03_home_after_skip_dialogue_region.png"
+        ],
+        "hashes": {
+          "prologue": "5943dc54d4b06139067f568376cc250bb5ac25fe507c456d51372ea41d13225d",
+          "home": "f3076bb69b34472579d188b87dfebf544817df9c6f3f43fa279df9322cd2db9d"
+        }
+      },
+      "cleanRuntime": true,
+      "pass": true,
+      "error": null,
+      "consoleErrors": [],
+      "exceptions": [],
+      "networkErrors": [],
+      "browserStderrTail": "\r\nDevTools listening on ws://127.0.0.1:9257/devtools/browser/3483f4f3-039c-4a5b-af66-b214587210ca\r\n[22496:7384:0827/213150.384:ERROR:google_apis\\gcm\\engine\\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT\r\n"
+    }
+  },
+  "pass": true
+}

@@ -8,6 +8,7 @@ if (!browserPath || !url || !screenshotPath || !reportPath || !profilePath) {
   throw new Error('usage: run_headless_web_qa.mjs <browser> <url> <screenshot> <report> <profile> [port]');
 }
 const port = Number(portText);
+const pagePrefix = new URL(url).origin;
 await mkdir(path.dirname(screenshotPath), { recursive: true });
 await mkdir(path.dirname(reportPath), { recursive: true });
 await mkdir(profilePath, { recursive: true });
@@ -37,7 +38,7 @@ async function waitForTargets(timeoutMs = 30000) {
   while (Date.now() - start < timeoutMs) {
     try {
       const targets = await (await fetch(`http://127.0.0.1:${port}/json`)).json();
-      const page = targets.find(item => item.type === 'page' && item.url.startsWith('http://127.0.0.1:8060'));
+      const page = targets.find(item => item.type === 'page' && item.url.startsWith(pagePrefix));
       if (page?.webSocketDebuggerUrl) return page;
     } catch {}
     await new Promise(resolve => setTimeout(resolve, 250));
@@ -45,7 +46,14 @@ async function waitForTargets(timeoutMs = 30000) {
   throw new Error('Chrome DevTools endpoint did not expose the game page');
 }
 
-const target = await waitForTargets();
+let target;
+try {
+  target = await waitForTargets();
+} catch (error) {
+  console.error(browserStderr.slice(-12000));
+  if (!browser.killed) browser.kill();
+  throw error;
+}
 const socket = new WebSocket(target.webSocketDebuggerUrl);
 await new Promise((resolve, reject) => {
   socket.addEventListener('open', resolve, { once: true });

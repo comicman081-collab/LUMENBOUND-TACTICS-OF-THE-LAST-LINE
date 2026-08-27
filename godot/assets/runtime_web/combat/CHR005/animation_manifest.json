@@ -6,11 +6,10 @@
   "source_status": "DEV_CUTOUT_RIG_ANIMATION",
   "source_root": "assets/generated_import/characters/sd_chr005_soren_combat_r27_dev",
   "source_asset_id": "sd_chr005_soren_combat_r27_dev",
-  "source_blend": "",
   "ownership_status": "PROJECT_DEV_GENERATED",
   "frame_size": [
-    104,
-    104
+    128,
+    128
   ],
   "foot_anchor": [
     0.5,
@@ -23,6 +22,8 @@
   "view": "THREE_QUARTER_RIGHT_DOWN_30",
   "facing_policy": "SEPARATE_LEFT_RIGHT",
   "atlas_path": "atlas.png",
+  "preview_path": "preview.png",
+  "preview_sha256": "3fa862045912e8839782f8c2d55f2fd4e8ce02c6945844c6ca9747f725155ded",
   "atlas_columns": 10,
   "total_frames": 80,
   "animations": {
@@ -195,5 +196,5 @@
       ]
     }
   },
-  "sha256": "0ab64bfdcc2766585fe58b9f0081c06803fb90056f0b7478fbc60a4c747d3bc5"
+  "sha256": "af50b7d7f51865091698ec02f461a34a55343aad6b281a4d4de57243d582bf3f"
 }

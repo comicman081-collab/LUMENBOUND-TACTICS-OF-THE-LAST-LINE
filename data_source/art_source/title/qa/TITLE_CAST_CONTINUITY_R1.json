@@ -1,0 +1,69 @@
+{
+  "artifact": "godot/assets/art/title/title_cast_plate_r1.png",
+  "portraitArtifact": "godot/assets/art/title/title_cast_plate_portrait_r1.png",
+  "logoArtifact": "godot/assets/art/title/title_logo_r1.png",
+  "revision": "TITLE_CAST_R3_LUMENBOUND",
+  "sources": [
+    {
+      "characterId": "CHR002",
+      "authorityPath": "godot/assets/art/characters/CHR002/CHR002_ILLUSTRATION_MASTER_R1.png",
+      "authoritySha256": "ee37a4c06df5d99ac53d13a3b2876e6ad992171cb23a0fe34222257dac828daa",
+      "transformation": {
+        "scaleToHeight": 1010,
+        "position": [
+          -170,
+          86
+        ],
+        "opacity": 0.78
+      },
+      "costumeContinuity": "COSTUME_CONTINUITY_PASS",
+      "identityMutation": false
+    },
+    {
+      "characterId": "CHR003",
+      "authorityPath": "godot/assets/art/characters/CHR003/CHR003_ILLUSTRATION_MASTER_R1.png",
+      "authoritySha256": "bb1e14551ae05227bfeb511b54e813f6d0f2a3ef5cdaec15b00cdde50f8e3f74",
+      "transformation": {
+        "scaleToHeight": 900,
+        "position": [
+          155,
+          155
+        ],
+        "opacity": 0.91
+      },
+      "costumeContinuity": "COSTUME_CONTINUITY_PASS",
+      "identityMutation": false
+    },
+    {
+      "characterId": "CHR008",
+      "authorityPath": "godot/assets/art/characters/CHR008/CHR008_ILLUSTRATION_MASTER_R1.png",
+      "authoritySha256": "e2b4e281830bf6142495e28720008b6a7847c4fc4e448c61fda25d0a30599a16",
+      "transformation": {
+        "scaleToHeight": 905,
+        "position": [
+          1265,
+          150
+        ],
+        "opacity": 0.92
+      },
+      "costumeContinuity": "COSTUME_CONTINUITY_PASS",
+      "identityMutation": false
+    },
+    {
+      "characterId": "CHR001",
+      "authorityPath": "godot/assets/art/characters/CHR001/fullbody_2048x3072.png",
+      "authoritySha256": "74fe4646aae4e8d5fcb6ca1e23c78af330341fff9f66403657c39371e52b18e5",
+      "transformation": {
+        "scaleToHeight": 1070,
+        "position": [
+          1540,
+          28
+        ],
+        "opacity": 0.82
+      },
+      "costumeContinuity": "COSTUME_CONTINUITY_PASS",
+      "identityMutation": false
+    }
+  ],
+  "review": "deterministic LUMENBOUND tactical title composition of immutable authority art; no regeneration or costume edits"
+}

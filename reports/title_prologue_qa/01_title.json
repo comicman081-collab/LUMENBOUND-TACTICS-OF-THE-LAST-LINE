@@ -1,0 +1,23 @@
+{
+  "kind": "GODOT_WEB_HEADLESS_BROWSER_QA",
+  "browserPath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "url": "http://127.0.0.1:8079/index.html?r15-save-sandbox=1&r15-save-sandbox-session=lumenbound-prologue-20260827b",
+  "ready": true,
+  "lastState": {
+    "elapsedMs": 6012,
+    "readyState": "complete",
+    "statusPresent": false,
+    "statusVisibility": "removed",
+    "notice": "",
+    "canvasWidth": 1902,
+    "canvasHeight": 984,
+    "canvasCssWidth": 1902,
+    "canvasCssHeight": 984
+  },
+  "polls": 2,
+  "consoleErrors": [],
+  "exceptions": [],
+  "networkErrors": [],
+  "screenshotPath": "reports\\title_prologue_qa\\01_title.png",
+  "browserStderrTail": "\r\nDevTools listening on ws://127.0.0.1:9239/devtools/browser/1fe40314-c01b-4d4b-8e71-a81ad48c4961\r\n[7552:26080:0827/211915.605:ERROR:google_apis\\gcm\\engine\\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT\r\n"
+}

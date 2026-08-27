@@ -1,266 +1,1285 @@
 {
   "schema_version": 1,
-  "source_root": "D:\\AI 종합 폴더\\Games\\블아 like\\Sound",
   "generated_by": "tools/audio/build_audio_pack.py",
   "ownership_declaration": {
-    "declarant": "project user",
-    "creation_method": "Manus-generated original audio supplied by the user",
-    "ownership_status": "USER_OWNED",
+    "ownership_status": "PER_ENTRY_DECLARED",
     "commercial_use": true,
-    "attribution_required": false,
-    "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
+    "attribution_required": false
   },
   "entries": [
     {
       "asset_id": "audio_bgm_title_en",
       "category": "BGM",
       "event": "TITLE",
-      "source_path": "Title,ending/01_wake_the_black_star.wav",
-      "runtime_path": "res://assets/audio/bgm/title_theme.mp3",
+      "runtime_path": "res://assets/audio/bgm/title_theme_full.mp3",
       "format": "MP3_SOURCE_RELABELED",
       "loop": true,
-      "max_seconds": 30,
-      "notes": "English-titled local track; source is an ID3 MP3 stored with a .wav suffix.",
-      "source_sha256": "3b8e941f264c2a20976055cfcabc9aefc9930cabbe105a2e57c3a6042f6bece3",
-      "source_bytes": 4097476,
-      "runtime_sha256": "2b2ec5ee084c3a946f279a5e8acacbe246a48352a99781672186f2cbab2288f9",
-      "runtime_bytes": 633013,
+      "max_seconds": 0,
+      "runtime_sha256": "3b8e941f264c2a20976055cfcabc9aefc9930cabbe105a2e57c3a6042f6bece3",
+      "runtime_bytes": 4097476,
       "ownership_status": "USER_OWNED",
       "commercial_use": true,
-      "attribution_required": false,
-      "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
+      "attribution_required": false
     },
     {
       "asset_id": "audio_bgm_lobby",
       "category": "BGM",
       "event": "LOBBY",
-      "source_path": "BGM/final_wav/073_lobby_menu_1.wav",
-      "runtime_path": "res://assets/audio/bgm/lobby_menu.wav",
+      "runtime_path": "res://assets/audio/bgm/lobby_menu_full.wav",
       "format": "PCM_WAV_COMPACT",
       "loop": true,
-      "max_seconds": 5,
-      "source_sha256": "bb908ccf10dbfc2590ab202c5761ac2e649fd4206111003e665bbbab7dd2c200",
-      "source_bytes": 25901538,
-      "runtime_sha256": "00b5f615b073d32754c95eb8bede46980f63b33648734d93e800994ca23d918f",
-      "runtime_bytes": 220544,
+      "max_seconds": 0,
+      "loop_smoothing_ms": 30,
+      "runtime_sha256": "cc713e0aad36d40a82c89973029f9d80ef5b4766791ee37295c5d91982c797b9",
+      "runtime_bytes": 2518240,
       "ownership_status": "USER_OWNED",
       "commercial_use": true,
-      "attribution_required": false,
-      "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
+      "attribution_required": false
     },
     {
       "asset_id": "audio_bgm_story",
       "category": "BGM",
       "event": "STORY",
-      "source_path": "BGM/final_wav/019_scenario_emotional_1.wav",
-      "runtime_path": "res://assets/audio/bgm/story_emotional.wav",
+      "runtime_path": "res://assets/audio/bgm/story_emotional_full.wav",
       "format": "PCM_WAV_COMPACT",
       "loop": true,
-      "max_seconds": 5,
-      "source_sha256": "23ef458c4782d1094158fc844be3ffd23a8bd48ee8740419ba5327deb51e7877",
-      "source_bytes": 25911276,
-      "runtime_sha256": "9a7dd554eaba6662d05809b507747ad476f841efdae4dd6ec9a919a78d367e05",
-      "runtime_bytes": 220544,
+      "max_seconds": 0,
+      "loop_smoothing_ms": 30,
+      "runtime_sha256": "43fc8da1f1e002cf8370ce9999e0bdf7114f19f645c49876c1de79e6706e231f",
+      "runtime_bytes": 2519186,
       "ownership_status": "USER_OWNED",
       "commercial_use": true,
-      "attribution_required": false,
-      "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
+      "attribution_required": false
     },
     {
       "asset_id": "audio_bgm_battle",
       "category": "BGM",
       "event": "BATTLE",
-      "source_path": "BGM/final_wav/037_battle_tactical_1.wav",
-      "runtime_path": "res://assets/audio/bgm/battle_tactical.wav",
+      "runtime_path": "res://assets/audio/bgm/battle_tactical_full.wav",
       "format": "PCM_WAV_COMPACT",
       "loop": true,
-      "max_seconds": 5,
-      "source_sha256": "17631d654a877baeabbc612f95504dfa9eee263b9adf10ff22b44d4a0c2a8077",
-      "source_bytes": 25901682,
-      "runtime_sha256": "a26c24213fda3b8c37fb1b07b15100549c1d7e8084aa06c9195d8a52be46bab2",
-      "runtime_bytes": 220544,
+      "max_seconds": 0,
+      "loop_smoothing_ms": 30,
+      "runtime_sha256": "eddbfd137e489cd2725dd7fc47000c07031313b68bb3e3aed5c68091f4641f7c",
+      "runtime_bytes": 2518254,
       "ownership_status": "USER_OWNED",
       "commercial_use": true,
-      "attribution_required": false,
-      "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
+      "attribution_required": false
     },
     {
       "asset_id": "audio_bgm_boss",
       "category": "BGM",
       "event": "BOSS",
-      "source_path": "BGM/final_wav/055_boss_battle_1.wav",
-      "runtime_path": "res://assets/audio/bgm/boss_battle.wav",
+      "runtime_path": "res://assets/audio/bgm/boss_battle_full.wav",
       "format": "PCM_WAV_COMPACT",
       "loop": true,
-      "max_seconds": 5,
-      "source_sha256": "0eed64094fb7eca6c39b320c08e598dbdd72ee808ea83d3c1b172bde1389b775",
-      "source_bytes": 25910478,
-      "runtime_sha256": "29c032f4ad9d845af84159ae4f801c26b1b77d6d479503de59a042066fd53ab0",
-      "runtime_bytes": 220544,
+      "max_seconds": 0,
+      "loop_smoothing_ms": 30,
+      "runtime_sha256": "0f1e6a6aee1ebd956e3f74327522ef52c38782cc708eaa6b57b7a9c18353954e",
+      "runtime_bytes": 2519108,
       "ownership_status": "USER_OWNED",
       "commercial_use": true,
-      "attribution_required": false,
-      "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
+      "attribution_required": false
     },
     {
-      "asset_id": "audio_sfx_player_gun",
+      "asset_id": "audio_sfx_firearm_1911_a_42p",
       "category": "SFX",
       "event": "PLAYER_BASIC_ATTACK",
-      "source_path": "Characters/01_GUN/BLUE_ARCHIVE_INSPIRED_총_001.wav",
-      "runtime_path": "res://assets/audio/sfx/player_gun.wav",
-      "format": "PCM_WAV_SOURCE",
-      "source_sha256": "ca8c6da6e0a887b75377c9da5f25e48d71e732061e51ab7ae705714eac2995a4",
-      "source_bytes": 183626,
-      "runtime_sha256": "ca8c6da6e0a887b75377c9da5f25e48d71e732061e51ab7ae705714eac2995a4",
-      "runtime_bytes": 183626,
-      "ownership_status": "USER_OWNED",
+      "runtime_path": "res://assets/audio/sfx/public/firearm/1911_A_42P.wav",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 2.4,
+      "runtime_sha256": "20b4e165d66d7760d88ef106b99dd11c691dc83ef65b35554cfa47a0f8449bf1",
+      "runtime_bytes": 460844,
+      "ownership_status": "CC0-1.0",
       "commercial_use": true,
       "attribution_required": false,
-      "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
+      "gain_db": -5.5,
+      "pitch_scale": 1.0
     },
     {
-      "asset_id": "audio_sfx_player_skill",
-      "category": "SFX",
-      "event": "PLAYER_NORMAL_SKILL",
-      "source_path": "Characters/02_ATTACK/BLUE_ARCHIVE_INSPIRED_공_001.wav",
-      "runtime_path": "res://assets/audio/sfx/player_skill.wav",
-      "format": "PCM_WAV_SOURCE",
-      "source_sha256": "c10ad4bfeaf09c44e83b65f166a9386f3f19b86c306125b8c649a8f92d8fdf88",
-      "source_bytes": 172352,
-      "runtime_sha256": "c10ad4bfeaf09c44e83b65f166a9386f3f19b86c306125b8c649a8f92d8fdf88",
-      "runtime_bytes": 172352,
-      "ownership_status": "USER_OWNED",
-      "commercial_use": true,
-      "attribution_required": false,
-      "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
-    },
-    {
-      "asset_id": "audio_sfx_player_ultimate",
-      "category": "SFX",
-      "event": "PLAYER_ULTIMATE",
-      "source_path": "Characters/03_ULTIMATE_IMPACT/BLUE_ARCHIVE_INSPIRED_타_001.wav",
-      "runtime_path": "res://assets/audio/sfx/player_ultimate.wav",
-      "format": "PCM_WAV_SOURCE",
-      "source_sha256": "4f771cd7553a4ea46a7be3f8ad1a7f011ed863849d421a6f8f4f539c3ef4cb8b",
-      "source_bytes": 414200,
-      "runtime_sha256": "4f771cd7553a4ea46a7be3f8ad1a7f011ed863849d421a6f8f4f539c3ef4cb8b",
-      "runtime_bytes": 414200,
-      "ownership_status": "USER_OWNED",
-      "commercial_use": true,
-      "attribution_required": false,
-      "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
-    },
-    {
-      "asset_id": "audio_sfx_player_hit",
-      "category": "SFX",
-      "event": "PLAYER_HIT",
-      "source_path": "Characters/04_HIT_RECEIVED/BLUE_ARCHIVE_INSPIRED_피_001.wav",
-      "runtime_path": "res://assets/audio/sfx/player_hit.wav",
-      "format": "PCM_WAV_SOURCE",
-      "source_sha256": "65985e5b70f523b206f9f91abeb4f93f749129095618e4c84fa844b9451eb36d",
-      "source_bytes": 129386,
-      "runtime_sha256": "65985e5b70f523b206f9f91abeb4f93f749129095618e4c84fa844b9451eb36d",
-      "runtime_bytes": 129386,
-      "ownership_status": "USER_OWNED",
-      "commercial_use": true,
-      "attribution_required": false,
-      "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
-    },
-    {
-      "asset_id": "audio_sfx_enemy_attack",
-      "category": "SFX",
-      "event": "ENEMY_BASIC_ATTACK",
-      "source_path": "Mobs/01_NORMAL_MOBS/01_ATTACK_HIT/BLUE_ARCHIVE_INSPIRED_일반 몹_타격_001.wav",
-      "runtime_path": "res://assets/audio/sfx/enemy_attack.wav",
-      "format": "PCM_WAV_SOURCE",
-      "source_sha256": "bd65a24d19082b6a319ba672a12ccf4cc7d3c32c19604d7d4407ac004c4f444e",
-      "source_bytes": 219452,
-      "runtime_sha256": "bd65a24d19082b6a319ba672a12ccf4cc7d3c32c19604d7d4407ac004c4f444e",
-      "runtime_bytes": 219452,
-      "ownership_status": "USER_OWNED",
-      "commercial_use": true,
-      "attribution_required": false,
-      "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
-    },
-    {
-      "asset_id": "audio_sfx_enemy_hit",
-      "category": "SFX",
-      "event": "ENEMY_HIT",
-      "source_path": "Mobs/01_NORMAL_MOBS/02_DAMAGE_HIT/BLUE_ARCHIVE_INSPIRED_일반 몹_피격_001.wav",
-      "runtime_path": "res://assets/audio/sfx/enemy_hit.wav",
-      "format": "PCM_WAV_SOURCE",
-      "source_sha256": "e6ab7034b4811ce36cd2dafa5f5f4b74ed31ae12f94f2dcb22a1f6fb36e27b84",
-      "source_bytes": 117128,
-      "runtime_sha256": "e6ab7034b4811ce36cd2dafa5f5f4b74ed31ae12f94f2dcb22a1f6fb36e27b84",
-      "runtime_bytes": 117128,
-      "ownership_status": "USER_OWNED",
-      "commercial_use": true,
-      "attribution_required": false,
-      "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
-    },
-    {
-      "asset_id": "audio_sfx_enemy_skill",
-      "category": "SFX",
-      "event": "ENEMY_SKILL",
-      "source_path": "Mobs/01_NORMAL_MOBS/03_SKILL_USE/BLUE_ARCHIVE_INSPIRED_일반 몹_스킬_사용_001.wav",
-      "runtime_path": "res://assets/audio/sfx/enemy_skill.wav",
-      "format": "PCM_WAV_SOURCE",
-      "source_sha256": "d140dd24c871a08f3616e8c9d1f0c5da5ef63176cbccb78750224e8ed0c58317",
-      "source_bytes": 206528,
-      "runtime_sha256": "d140dd24c871a08f3616e8c9d1f0c5da5ef63176cbccb78750224e8ed0c58317",
-      "runtime_bytes": 206528,
-      "ownership_status": "USER_OWNED",
-      "commercial_use": true,
-      "attribution_required": false,
-      "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
-    },
-    {
-      "asset_id": "audio_sfx_boss_attack",
+      "asset_id": "audio_sfx_firearm_ak47_burst_c_29p",
       "category": "SFX",
       "event": "BOSS_BASIC_ATTACK",
-      "source_path": "Mobs/03_BOSSES/01_ATTACK_HIT/BLUE_ARCHIVE_INSPIRED_보스_타격_001.wav",
-      "runtime_path": "res://assets/audio/sfx/boss_attack.wav",
-      "format": "PCM_WAV_SOURCE",
-      "source_sha256": "e5e3ea44d9706ef678733d708737dea4269d15632ed8c6bf4b6f6ffc48157d06",
-      "source_bytes": 573470,
-      "runtime_sha256": "e5e3ea44d9706ef678733d708737dea4269d15632ed8c6bf4b6f6ffc48157d06",
-      "runtime_bytes": 573470,
-      "ownership_status": "USER_OWNED",
+      "runtime_path": "res://assets/audio/sfx/public/firearm/ak47_burst_C_29P.wav",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 2.8,
+      "runtime_sha256": "a19b43ba0b41ed74dd9d0250a10a8be87ef283fb7b99cc41a96621f5ed9eb258",
+      "runtime_bytes": 537644,
+      "ownership_status": "CC0-1.0",
       "commercial_use": true,
       "attribution_required": false,
-      "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
+      "gain_db": -6.5,
+      "pitch_scale": 1.0
     },
     {
-      "asset_id": "audio_sfx_boss_hit",
+      "asset_id": "audio_sfx_firearm_ak47_c_28p",
       "category": "SFX",
-      "event": "BOSS_HIT",
-      "source_path": "Mobs/03_BOSSES/02_DAMAGE_HIT/BLUE_ARCHIVE_INSPIRED_보스_피격_001.wav",
-      "runtime_path": "res://assets/audio/sfx/boss_hit.wav",
-      "format": "PCM_WAV_SOURCE",
-      "source_sha256": "91fba84755ccd29139196c91527682611376895c485dccc9fc37937cfee9d80a",
-      "source_bytes": 587144,
-      "runtime_sha256": "91fba84755ccd29139196c91527682611376895c485dccc9fc37937cfee9d80a",
-      "runtime_bytes": 587144,
-      "ownership_status": "USER_OWNED",
+      "event": "ENEMY_BASIC_ATTACK",
+      "runtime_path": "res://assets/audio/sfx/public/firearm/ak47_C_28P.wav",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 2.4,
+      "runtime_sha256": "a49047c6eb6a21ec86f9a19a9811e6c2792defdaee799dd502b8fa0f791bc4e1",
+      "runtime_bytes": 460844,
+      "ownership_status": "CC0-1.0",
       "commercial_use": true,
       "attribution_required": false,
-      "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
+      "gain_db": -5.5,
+      "pitch_scale": 1.0
     },
     {
-      "asset_id": "audio_sfx_boss_skill",
+      "asset_id": "audio_sfx_firearm_ar15_d_32p",
+      "category": "SFX",
+      "event": "PLAYER_BASIC_ATTACK",
+      "runtime_path": "res://assets/audio/sfx/public/firearm/ar15_D_32P.wav",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 2.4,
+      "runtime_sha256": "0a29346e30dcfd7590932e9d922f545462cb3731f040e8fe2090cb8c6e17813d",
+      "runtime_bytes": 460844,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_firearm_m45_burst_g_33p",
+      "category": "SFX",
+      "event": "BOSS_BASIC_ATTACK",
+      "runtime_path": "res://assets/audio/sfx/public/firearm/m45_burst_G_33P.wav",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 2.8,
+      "runtime_sha256": "cb81dbda3ff5841997d55f4189e9aefcdebf895f5995fd7af9b3524eb0320537",
+      "runtime_bytes": 537644,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -6.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_firearm_model12_k_17p",
+      "category": "SFX",
+      "event": "BOSS_BASIC_ATTACK",
+      "runtime_path": "res://assets/audio/sfx/public/firearm/model12_K_17P.wav",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 2.4,
+      "runtime_sha256": "ba3ed1fb71601befae36c9525496df8fb9c32e03bee440fe1240bb1dce7f80bc",
+      "runtime_bytes": 460844,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_firearm_nova_o_21p",
+      "category": "SFX",
+      "event": "BOSS_BASIC_ATTACK",
+      "runtime_path": "res://assets/audio/sfx/public/firearm/nova_O_21P.wav",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 2.4,
+      "runtime_sha256": "991439af20c29153f32edf744bdd06b0f6939ab189afdd1f9307de8628eabf69",
+      "runtime_bytes": 460844,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_firearm_ppsh_burst_p_32p",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/firearm/ppsh_burst_P_32P.wav",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 2.8,
+      "runtime_sha256": "c67d97620b03ff422f983e56b712dc8d82c3ec69095ce44ce1fc76c1a29bdecc",
+      "runtime_bytes": 537644,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -6.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_firearm_savage300_t_27p",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/firearm/savage300_T_27P.wav",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 2.4,
+      "runtime_sha256": "878b61272bf19c99d4d72b5407da0b7344608871e1fc5a944157a4c2e7bea84d",
+      "runtime_bytes": 460844,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_firearm_sks_u_14p",
+      "category": "SFX",
+      "event": "ENEMY_BASIC_ATTACK",
+      "runtime_path": "res://assets/audio/sfx/public/firearm/sks_U_14P.wav",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 2.4,
+      "runtime_sha256": "99dcd768b0c76fbe6dfc4b807e48a35272d41d5efb3f235970ef14b14a845f6a",
+      "runtime_bytes": 460844,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_firearm_tikka_w_24p",
+      "category": "SFX",
+      "event": "ENEMY_BASIC_ATTACK",
+      "runtime_path": "res://assets/audio/sfx/public/firearm/tikka_W_24P.wav",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 2.4,
+      "runtime_sha256": "f97cadbedbb7c50e442ab2e34c0ba445c27b1afe337da614559a90670da1d693",
+      "runtime_bytes": 460844,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_firearm_walther_ppq_x_31p",
+      "category": "SFX",
+      "event": "PLAYER_BASIC_ATTACK",
+      "runtime_path": "res://assets/audio/sfx/public/firearm/walther_ppq_X_31P.wav",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 2.4,
+      "runtime_sha256": "503f9c8cf2ef2d279fa9fc9e5fc1abe5389b67d6e9ad565a2d19431ce71d120a",
+      "runtime_bytes": 460844,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_bang_01",
+      "category": "SFX",
+      "event": "PLAYER_NORMAL_SKILL",
+      "runtime_path": "res://assets/audio/sfx/public/bang/bang_01.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "5f4c32527a74b73c1ba9f5914bb7881f96068f29435be241c4de7c9020e3e638",
+      "runtime_bytes": 37156,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_bang_02",
+      "category": "SFX",
+      "event": "PLAYER_NORMAL_SKILL",
+      "runtime_path": "res://assets/audio/sfx/public/bang/bang_02.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "0f0c960888e6ebcb1bc68fa77fa0e52a26b8693b7a420a95ed0d669c486bc4f5",
+      "runtime_bytes": 36302,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_bang_03",
+      "category": "SFX",
+      "event": "ENEMY_SKILL",
+      "runtime_path": "res://assets/audio/sfx/public/bang/bang_03.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "b823f53557ca9702f57b3f9e997fc92d5b87da99d464309d14199aabf2d620c4",
+      "runtime_bytes": 25714,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_bang_04",
+      "category": "SFX",
+      "event": "ENEMY_SKILL",
+      "runtime_path": "res://assets/audio/sfx/public/bang/bang_04.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "fb3b76187c36e185a331d2250268132dbf2eb490a6c0414d69e3570c72b4f2e6",
+      "runtime_bytes": 43454,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_bang_05",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/bang_05.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "6881ae4a9ca936916322162cbc13dfcf180a35b99e9b84048988161234bfa83c",
+      "runtime_bytes": 45926,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_bang_06",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/bang_06.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "1209d7d44cd333abe089bb0ed8ac684381abfde8e4baad20bd5a0005168fd9ea",
+      "runtime_bytes": 22734,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_bang_07",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/bang_07.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "a16c416e8715aa937d9009c7337a35a21d85bb087ba866e9eed89c1c7862b4f3",
+      "runtime_bytes": 26825,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_bang_08",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/bang_08.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "aaaba1cdaeb9e5e61abf3ebdff09c967b5d451c42b45259e3b00f62575baafea",
+      "runtime_bytes": 19546,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_bang_09",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/bang_09.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "ca0c121adbcbf3d0af366d03ace49a4e018e7157c7f35348c63918fa34afbc46",
+      "runtime_bytes": 19195,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_bang_10",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/bang_10.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "c012d643e9cac159729a1026f6a8f70a6f84be7bdddc18fc8051243f814a17ec",
+      "runtime_bytes": 37353,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_cannon_01",
+      "category": "SFX",
+      "event": "PLAYER_ULTIMATE",
+      "runtime_path": "res://assets/audio/sfx/public/bang/cannon_01.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "e87ca0ee6b53da1f21cd9086cb75f456495871618fdfed63388bd2208a872596",
+      "runtime_bytes": 54484,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_cannon_02",
+      "category": "SFX",
+      "event": "PLAYER_ULTIMATE",
+      "runtime_path": "res://assets/audio/sfx/public/bang/cannon_02.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "716392af61b29dabe637c2616091207f390d25357aae3d4c625df5dfea7e961d",
+      "runtime_bytes": 69097,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_cannon_03",
       "category": "SFX",
       "event": "BOSS_SKILL",
-      "source_path": "Mobs/03_BOSSES/03_SKILL_USE/BLUE_ARCHIVE_INSPIRED_보스_스킬_사용_001.wav",
-      "runtime_path": "res://assets/audio/sfx/boss_skill.wav",
-      "format": "PCM_WAV_SOURCE",
-      "source_sha256": "d5b67286278f6403fd5cfc65f43799b62adb65e2c4ead21d6b46cefb6f0b3e86",
-      "source_bytes": 380312,
-      "runtime_sha256": "d5b67286278f6403fd5cfc65f43799b62adb65e2c4ead21d6b46cefb6f0b3e86",
-      "runtime_bytes": 380312,
-      "ownership_status": "USER_OWNED",
+      "runtime_path": "res://assets/audio/sfx/public/bang/cannon_03.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "c3690a013befc16be1432e6fe62422db71c7b606980ddfe62429e864c5caf1d2",
+      "runtime_bytes": 38818,
+      "ownership_status": "CC0-1.0",
       "commercial_use": true,
       "attribution_required": false,
-      "rights_basis": "USER_ASSERTED_MANUS_ORIGINALS_2026-08-19"
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_cannon_04",
+      "category": "SFX",
+      "event": "BOSS_SKILL",
+      "runtime_path": "res://assets/audio/sfx/public/bang/cannon_04.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "58714ef1d8c73a52cd9358c783de4b961ee96259de112c6493a1028bc60410e8",
+      "runtime_bytes": 39071,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_cannon_05",
+      "category": "SFX",
+      "event": "BOSS_SKILL",
+      "runtime_path": "res://assets/audio/sfx/public/bang/cannon_05.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "d0ab7de664533fa115a65dcc877c443fe02e8e6cc96e8051c34fe9ec66474c7b",
+      "runtime_bytes": 40160,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_fw_01",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/fw_01.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "1c8a6053433cd682a65665780ead9dfadc14c9442337e6d54469100bcb743694",
+      "runtime_bytes": 49313,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_fw_02",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/fw_02.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "3f0e772c7608937de3e0d39167e1c7037c047f1891bbcf7f7ab6af21fe87177c",
+      "runtime_bytes": 55648,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_fw_03",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/fw_03.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "2f2c7e9d44d61a5ddcdf7982383229e9b3fa6e0d37651c07030ab7d21baca49c",
+      "runtime_bytes": 51269,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_fw_04",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/fw_04.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "48c5f564ebba962c3f54cd6bc6d4d958c47e9a795aabe8a91643afaa9fdf4c11",
+      "runtime_bytes": 74460,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_fw_05",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/fw_05.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "d513015c404049f5332ea4c3b0d19a764e7c26639949c7d18894635b691f4787",
+      "runtime_bytes": 32455,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_fw_06",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/fw_06.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "3957eaa6bb83b63ee73de9a5d3a17df201dfddedf705eb29cd25a9548a8f02c2",
+      "runtime_bytes": 39089,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_fw_loop",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/fw_loop.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "f584e533bbbf236efe49506ab1caaad9269375ce260ee773bbd8f1448c05ea34",
+      "runtime_bytes": 600425,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_shot_01",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/shot_01.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "a846eefebbb08b6f6d31a7728318b8de349ea2971cea148d7afdb41d797fdcfc",
+      "runtime_bytes": 21380,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_shot_02",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/shot_02.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "4b9b62ff7f430d9d257a07efc54be8192c2e01668fe5e2461f217b2f8fe33a77",
+      "runtime_bytes": 19919,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_bang_shot_03",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/bang/shot_03.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "f3cfbf0af36a717ff9c8f58640f181db7b73266e8263591014d453c4e77c6418",
+      "runtime_bytes": 17081,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -5.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_impact_hammer_02",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/impact/hammer_02.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "0e4a3eac2ffd7bd7f3d7dea84df761bd2ef1dbe754199d16f11aa8dd5a668781",
+      "runtime_bytes": 12076,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -3.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_impact_hammer_04",
+      "category": "SFX",
+      "event": "BOSS_HIT",
+      "runtime_path": "res://assets/audio/sfx/public/impact/hammer_04.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "7fd6d4ab5a7fe6e0993b99fe91010271548bd319a50237f16120a431040ae169",
+      "runtime_bytes": 12845,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -3.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_impact_metal_hit_01",
+      "category": "SFX",
+      "event": "ENEMY_HIT",
+      "runtime_path": "res://assets/audio/sfx/public/impact/metal_hit_01.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "f5fd185fce454947c1d91ce6757e219c4d7c6c139d4aa9d419cd7a79c7f6df3b",
+      "runtime_bytes": 12422,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -3.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_impact_metal_hit_02",
+      "category": "SFX",
+      "event": "PLAYER_HIT",
+      "runtime_path": "res://assets/audio/sfx/public/impact/metal_hit_02.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "9074c0828727bd00834cabcaaf5b8cbff2cfad7b45676b95d86c0919e444f8b1",
+      "runtime_bytes": 17378,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -3.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_impact_metal_hit_03",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/impact/metal_hit_03.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "9daf6e7e1fc1871acfb063cb25ce050faab559ee6c42fed84bf18a4067f26a4d",
+      "runtime_bytes": 17431,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -3.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_impact_metal_hit_04",
+      "category": "SFX",
+      "event": "PLAYER_HIT",
+      "runtime_path": "res://assets/audio/sfx/public/impact/metal_hit_04.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "dfc5ebc2cafcf2670f3937882c5040abe5c8855885c886023592d9a0779dde48",
+      "runtime_bytes": 15532,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -3.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_impact_metal_hit_05",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/impact/metal_hit_05.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "04e4d0926afd4bcd7d451884e0a74cea7c9661f56e211aeb8a4ee07bbccf4715",
+      "runtime_bytes": 13937,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -3.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_impact_metal_sheet_04",
+      "category": "SFX",
+      "event": "BOSS_HIT",
+      "runtime_path": "res://assets/audio/sfx/public/impact/metal_sheet_04.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "4c3a2db2940ce846d745fea57407dd8644e60dc15ecc203dee2d02713ebb2fd4",
+      "runtime_bytes": 18350,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -3.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_impact_metal_sheet_06",
+      "category": "SFX",
+      "event": "BOSS_HIT",
+      "runtime_path": "res://assets/audio/sfx/public/impact/metal_sheet_06.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "d420000a04be527a1cbd6ddf9f9d4a77e7929c8941364b2dc575c1254204a8c2",
+      "runtime_bytes": 26995,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -3.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_impact_metal_slam_01",
+      "category": "SFX",
+      "event": "BOSS_HIT",
+      "runtime_path": "res://assets/audio/sfx/public/impact/metal_slam_01.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "a335ccf202578bd740f930f0648a4dcbbbce3ebb2519335be023532578f56176",
+      "runtime_bytes": 24256,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -3.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_impact_wood_hit_02",
+      "category": "SFX",
+      "event": "ENEMY_HIT",
+      "runtime_path": "res://assets/audio/sfx/public/impact/wood_hit_02.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "533144d0633e756d91a7ee6d3a1f00bed81ad85d221232c5e4812e4fd7b14177",
+      "runtime_bytes": 16082,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -3.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_impact_wood_hit_04",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/impact/wood_hit_04.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "c7723f3c577cc6f46b091233fcb735016c6e15d462b371393baa4d265aef52b6",
+      "runtime_bytes": 16065,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -3.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_impact_wood_hit_06",
+      "category": "SFX",
+      "event": "ENEMY_HIT",
+      "runtime_path": "res://assets/audio/sfx/public/impact/wood_hit_06.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "6224beb74c930ac6b88358ced7c024b23a50d71acfe565e83cc29ffbe383676e",
+      "runtime_bytes": 13185,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -3.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_impact_wood_hit_08",
+      "category": "SFX",
+      "event": "",
+      "runtime_path": "res://assets/audio/sfx/public/impact/wood_hit_08.ogg",
+      "format": "OGG_VORBIS_SOURCE",
+      "max_seconds": 0.0,
+      "runtime_sha256": "b91720c949e065eabf8980beefe95bc1ede281224d834838c32a6753f2ad93a1",
+      "runtime_bytes": 17512,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -3.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_misc_dull_explosion",
+      "category": "SFX",
+      "event": "BOSS_SKILL",
+      "runtime_path": "res://assets/audio/sfx/public/misc/dull_explosion.wav",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 3.2,
+      "runtime_sha256": "b18821c80a9555ec8dc225ea427bd7daa1da0b2c5eb44ad4a234a758df933246",
+      "runtime_bytes": 614444,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -6.0,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_misc_player_hit",
+      "category": "SFX",
+      "event": "PLAYER_HIT",
+      "runtime_path": "res://assets/audio/sfx/public/misc/player_hit.wav",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 0.656,
+      "runtime_sha256": "0474de0f1fb9911d2f1ae14a9275ddaac3dd37241cef03e859015c5142beea0c",
+      "runtime_bytes": 125996,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -2.5,
+      "pitch_scale": 1.0
+    },
+    {
+      "asset_id": "audio_sfx_misc_snd_bullethit",
+      "category": "SFX",
+      "event": "ENEMY_HIT",
+      "runtime_path": "res://assets/audio/sfx/public/misc/snd_bullethit.wav",
+      "format": "PCM_WAV_SFX_TRIMMED",
+      "max_seconds": 0.168,
+      "runtime_sha256": "d7bf2033e1039a1bf45e0d4e6e8e2b606625f99399e2c6675fb795b7f5c4da70",
+      "runtime_bytes": 32220,
+      "ownership_status": "CC0-1.0",
+      "commercial_use": true,
+      "attribution_required": false,
+      "gain_db": -1.5,
+      "pitch_scale": 1.0
     }
-  ]
+  ],
+  "card_start_profiles": {
+    "SK_CHR002_NORMAL": [
+      "audio_sfx_firearm_1911_a_42p",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR002_ULTIMATE": [
+      "audio_sfx_firearm_walther_ppq_x_31p",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR003_NORMAL": [
+      "audio_sfx_firearm_ar15_d_32p",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR003_ULTIMATE": [
+      "audio_sfx_firearm_ak47_c_28p",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR004_NORMAL": [
+      "audio_sfx_firearm_tikka_w_24p",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR004_ULTIMATE": [
+      "audio_sfx_firearm_sks_u_14p",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR005_NORMAL": [
+      "audio_sfx_firearm_nova_o_21p",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR005_ULTIMATE": [
+      "audio_sfx_firearm_model12_k_17p",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR006_NORMAL": [
+      "audio_sfx_firearm_ak47_burst_c_29p",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR006_ULTIMATE": [
+      "audio_sfx_firearm_m45_burst_g_33p",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR009_NORMAL": [
+      "audio_sfx_firearm_ppsh_burst_p_32p",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR009_ULTIMATE": [
+      "audio_sfx_firearm_savage300_t_27p",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR011_NORMAL": [
+      "audio_sfx_bang_cannon_01",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR011_ULTIMATE": [
+      "audio_sfx_bang_cannon_02",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR012_NORMAL": [
+      "audio_sfx_bang_cannon_03",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR014_NORMAL": [
+      "audio_sfx_bang_cannon_04",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR014_ULTIMATE": [
+      "audio_sfx_bang_cannon_05",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR015_NORMAL": [
+      "audio_sfx_firearm_1911_a_42p",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR015_ULTIMATE": [
+      "audio_sfx_firearm_walther_ppq_x_31p",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR018_NORMAL": [
+      "audio_sfx_firearm_ar15_d_32p",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR018_ULTIMATE": [
+      "audio_sfx_firearm_ak47_c_28p",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR019_NORMAL": [
+      "audio_sfx_firearm_tikka_w_24p",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR020_NORMAL": [
+      "audio_sfx_firearm_sks_u_14p",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR020_ULTIMATE": [
+      "audio_sfx_firearm_nova_o_21p",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR022_NORMAL": [
+      "audio_sfx_firearm_model12_k_17p",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR022_ULTIMATE": [
+      "audio_sfx_firearm_ak47_burst_c_29p",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR023_NORMAL": [
+      "audio_sfx_firearm_m45_burst_g_33p",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR023_ULTIMATE": [
+      "audio_sfx_firearm_ppsh_burst_p_32p",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR024_NORMAL": [
+      "audio_sfx_firearm_savage300_t_27p",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR026_NORMAL": [
+      "audio_sfx_bang_cannon_01",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR026_ULTIMATE": [
+      "audio_sfx_bang_cannon_02",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR027_NORMAL": [
+      "audio_sfx_bang_cannon_03",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR028_NORMAL": [
+      "audio_sfx_bang_cannon_04",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR028_ULTIMATE": [
+      "audio_sfx_bang_cannon_05",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR030_NORMAL": [
+      "audio_sfx_firearm_1911_a_42p",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR030_ULTIMATE": [
+      "audio_sfx_firearm_walther_ppq_x_31p",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR032_NORMAL": [
+      "audio_sfx_firearm_ar15_d_32p",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR032_ULTIMATE": [
+      "audio_sfx_firearm_ak47_c_28p",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR033_NORMAL": [
+      "audio_sfx_firearm_tikka_w_24p",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR035_NORMAL": [
+      "audio_sfx_firearm_sks_u_14p",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR035_ULTIMATE": [
+      "audio_sfx_firearm_nova_o_21p",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR037_NORMAL": [
+      "audio_sfx_firearm_model12_k_17p",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR037_ULTIMATE": [
+      "audio_sfx_firearm_ak47_burst_c_29p",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR038_NORMAL": [
+      "audio_sfx_firearm_m45_burst_g_33p",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR038_ULTIMATE": [
+      "audio_sfx_firearm_ppsh_burst_p_32p",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR039_NORMAL": [
+      "audio_sfx_firearm_savage300_t_27p",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR041_NORMAL": [
+      "audio_sfx_bang_cannon_01",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR041_ULTIMATE": [
+      "audio_sfx_bang_cannon_02",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR042_NORMAL": [
+      "audio_sfx_bang_cannon_03",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR042_ULTIMATE": [
+      "audio_sfx_bang_cannon_04",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR044_NORMAL": [
+      "audio_sfx_bang_cannon_05",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR044_ULTIMATE": [
+      "audio_sfx_firearm_1911_a_42p",
+      "audio_sfx_bang_bang_08"
+    ],
+    "BOSS_PATTERN:BOSS001:IMPLODE": [
+      "audio_sfx_firearm_walther_ppq_x_31p",
+      "audio_sfx_bang_bang_08"
+    ],
+    "BOSS_PATTERN:BOSS001:RUPTURE": [
+      "audio_sfx_firearm_ar15_d_32p",
+      "audio_sfx_bang_bang_08"
+    ],
+    "BOSS_PATTERN:BOSS002:RESONANCE": [
+      "audio_sfx_firearm_ak47_c_28p",
+      "audio_sfx_bang_bang_08"
+    ],
+    "BOSS_PATTERN:BOSS003:LOCK_ON": [
+      "audio_sfx_firearm_tikka_w_24p",
+      "audio_sfx_bang_bang_08"
+    ],
+    "BOSS_PATTERN:BOSS003:OVERLOAD": [
+      "audio_sfx_firearm_sks_u_14p",
+      "audio_sfx_bang_bang_08"
+    ],
+    "BOSS_PATTERN:BOSS004:GATE_REVERSE": [
+      "audio_sfx_firearm_nova_o_21p",
+      "audio_sfx_bang_bang_08"
+    ],
+    "BOSS_PATTERN:BOSS005:NETWORK_COLLAPSE": [
+      "audio_sfx_firearm_model12_k_17p",
+      "audio_sfx_bang_bang_08"
+    ],
+    "SK_CHR001_NORMAL": [
+      "audio_sfx_bang_fw_01",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR001_ULTIMATE": [
+      "audio_sfx_bang_fw_02",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR007_NORMAL": [
+      "audio_sfx_bang_fw_03",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR007_ULTIMATE": [
+      "audio_sfx_bang_fw_04",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR008_NORMAL": [
+      "audio_sfx_bang_fw_05",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR008_ULTIMATE": [
+      "audio_sfx_bang_fw_06",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR010_NORMAL": [
+      "audio_sfx_bang_shot_01",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR010_ULTIMATE": [
+      "audio_sfx_bang_shot_02",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR012_ULTIMATE": [
+      "audio_sfx_bang_shot_03",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR013_NORMAL": [
+      "audio_sfx_impact_metal_hit_03",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR013_ULTIMATE": [
+      "audio_sfx_impact_metal_hit_05",
+      "audio_sfx_bang_bang_05"
+    ],
+    "SK_CHR016_NORMAL": [
+      "audio_sfx_bang_fw_01",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR016_ULTIMATE": [
+      "audio_sfx_bang_fw_02",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR017_NORMAL": [
+      "audio_sfx_bang_fw_03",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR017_ULTIMATE": [
+      "audio_sfx_bang_fw_04",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR019_ULTIMATE": [
+      "audio_sfx_bang_fw_05",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR021_NORMAL": [
+      "audio_sfx_bang_fw_06",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR021_ULTIMATE": [
+      "audio_sfx_bang_shot_01",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR024_ULTIMATE": [
+      "audio_sfx_bang_shot_02",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR025_NORMAL": [
+      "audio_sfx_bang_shot_03",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR025_ULTIMATE": [
+      "audio_sfx_impact_metal_hit_03",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR027_ULTIMATE": [
+      "audio_sfx_impact_metal_hit_05",
+      "audio_sfx_bang_bang_06"
+    ],
+    "SK_CHR029_NORMAL": [
+      "audio_sfx_bang_fw_01",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR029_ULTIMATE": [
+      "audio_sfx_bang_fw_02",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR031_NORMAL": [
+      "audio_sfx_bang_fw_03",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR031_ULTIMATE": [
+      "audio_sfx_bang_fw_04",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR033_ULTIMATE": [
+      "audio_sfx_bang_fw_05",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR034_NORMAL": [
+      "audio_sfx_bang_fw_06",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR034_ULTIMATE": [
+      "audio_sfx_bang_shot_01",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR036_NORMAL": [
+      "audio_sfx_bang_shot_02",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR036_ULTIMATE": [
+      "audio_sfx_bang_shot_03",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR039_ULTIMATE": [
+      "audio_sfx_impact_metal_hit_03",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR040_NORMAL": [
+      "audio_sfx_impact_metal_hit_05",
+      "audio_sfx_bang_bang_07"
+    ],
+    "SK_CHR040_ULTIMATE": [
+      "audio_sfx_bang_fw_01",
+      "audio_sfx_bang_bang_08"
+    ],
+    "SK_CHR043_NORMAL": [
+      "audio_sfx_bang_fw_02",
+      "audio_sfx_bang_bang_08"
+    ],
+    "SK_CHR043_ULTIMATE": [
+      "audio_sfx_bang_fw_03",
+      "audio_sfx_bang_bang_08"
+    ],
+    "BOSS_PATTERN:BOSS004:GATE_CLOSE": [
+      "audio_sfx_bang_fw_04",
+      "audio_sfx_bang_bang_08"
+    ],
+    "BOSS_PATTERN:BOSS005:NETWORK_FORM": [
+      "audio_sfx_bang_fw_05",
+      "audio_sfx_bang_bang_08"
+    ]
+  }
 }

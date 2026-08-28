@@ -27,6 +27,15 @@ jobs:
         with:
           lfs: true
 
+      - name: Verify production art donor PCK
+        shell: bash
+        run: |
+          set -euo pipefail
+          PCK="$GITHUB_WORKSPACE/builds/web_release/index.pck"
+          test -s "$PCK"
+          echo "86712a609755ca2365b865ba1a21083228c6daa366f6ffb65a6d0fc25fecce83  $PCK" | sha256sum --check --strict
+          test "$(stat -c%s "$PCK")" -eq 158157244
+
       - name: Install Godot 4.7.1
         shell: bash
         run: |
@@ -42,16 +51,46 @@ jobs:
           chmod +x "$GODOT_DIR/Godot_v4.7.1-stable_linux.x86_64"
           echo "GODOT_BIN=$GODOT_DIR/Godot_v4.7.1-stable_linux.x86_64" >> "$GITHUB_ENV"
 
-      - name: Repack release resources from current source
+      - name: Install Godot PCK Tool 2.3
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p "$GITHUB_WORKSPACE/builds/web_release"
+          PCK_TOOL="$RUNNER_TEMP/godotpcktool"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            --output "$PCK_TOOL" \
+            "https://github.com/hhyyrylainen/GodotPckTool/releases/download/v2.3/godotpcktool"
+          echo "1add2c22aeacdd7a8372288c885ed0ff4d2f673787aed924c54522a0f000d655  $PCK_TOOL" | sha256sum --check --strict
+          chmod +x "$PCK_TOOL"
+          echo "PCK_TOOL=$PCK_TOOL" >> "$GITHUB_ENV"
+
+      - name: Build portrait-only patch pack
+        shell: bash
+        run: |
+          set -euo pipefail
+          PATCH_PCK="$RUNNER_TEMP/current_source_patch.pck"
+          PATCH_DIR="$RUNNER_TEMP/current_source_patch"
           "$GODOT_BIN" --headless \
             --path "$GITHUB_WORKSPACE/godot" \
             --export-pack "Web HTML Release" \
-            "$GITHUB_WORKSPACE/builds/web_release/index.pck"
-          test -s "$GITHUB_WORKSPACE/builds/web_release/index.pck"
+            "$PATCH_PCK"
+          test -s "$PATCH_PCK"
+          mkdir -p "$PATCH_DIR"
+          "$PCK_TOOL" "$PATCH_PCK" -a e -o "$PATCH_DIR" -i 'project\.binary$|mobile_portrait_hotfix'
+          find "$PATCH_DIR" -type f -print | sort
+          test -n "$(find "$PATCH_DIR" -type f -name 'project.binary' -print -quit)"
+          test -n "$(find "$PATCH_DIR" -type f -iname '*mobile_portrait_hotfix*' -print -quit)"
+
+      - name: Layer portrait patch onto production art PCK
+        shell: bash
+        run: |
+          set -euo pipefail
+          PCK="$GITHUB_WORKSPACE/builds/web_release/index.pck"
+          PATCH_DIR="$RUNNER_TEMP/current_source_patch"
+          "$PCK_TOOL" "$PCK" -a a "$PATCH_DIR" --remove-prefix "$PATCH_DIR"
+          test "$(stat -c%s "$PCK")" -gt 150000000
+          "$PCK_TOOL" "$PCK" > "$RUNNER_TEMP/final_pck_contents.txt"
+          grep -E 'mobile_portrait_hotfix' "$RUNNER_TEMP/final_pck_contents.txt"
+          grep -Ei 'asset_manifest|bg_story_relay|runtime_asset_manifest' "$RUNNER_TEMP/final_pck_contents.txt" | head -20 || true
 
       - name: Rotate PWA cache and stamp deployment
         shell: bash
@@ -72,7 +111,7 @@ jobs:
 
           worker_path = root / "index.service.worker.js"
           worker = worker_path.read_text(encoding="utf-8")
-          replacement = f"const CACHE_VERSION = 'mobile_{sha[:16]}';"
+          replacement = f"const CACHE_VERSION = 'portrait_art_{sha[:16]}';"
           updated, count = re.subn(r"const CACHE_VERSION = '[^']+';", replacement, worker, count=1)
           if count != 1:
               raise SystemExit("Could not rotate Godot PWA CACHE_VERSION")
@@ -85,13 +124,16 @@ jobs:
           version["pck_sha256"] = pck_hash
           version["source_commit"] = sha
           version["mobile_portrait_fix"] = True
+          version["release_pack_mode"] = "production_art_pck_plus_mobile_overlay"
+          version["production_art_donor_sha256"] = "86712a609755ca2365b865ba1a21083228c6daa366f6ffb65a6d0fc25fecce83"
           version["created_utc"] = datetime.now(timezone.utc).isoformat()
           version_path.write_text(json.dumps(version, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
           (root / "DEPLOY_SHA.txt").write_text(
               f"source_commit={sha}\n"
               f"pck_sha256={pck_hash}\n"
-              "mobile_portrait_fix=story_label_scale,map_header,map_detail_sheet\n",
+              "release_pack_mode=production_art_pck_plus_mobile_overlay\n"
+              "mobile_portrait_fix=story_art,story_dialogue,map_header,map_toolbar,map_overlay,map_detail\n",
               encoding="utf-8",
           )
           PY

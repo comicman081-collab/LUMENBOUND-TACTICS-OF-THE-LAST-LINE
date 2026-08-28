@@ -63,36 +63,81 @@ jobs:
           chmod +x "$PCK_TOOL"
           echo "PCK_TOOL=$PCK_TOOL" >> "$GITHUB_ENV"
 
-      - name: Build portrait-only patch pack
+      - name: Export complete current source pack
         shell: bash
         run: |
           set -euo pipefail
-          PATCH_PCK="$RUNNER_TEMP/current_source_patch.pck"
-          PATCH_DIR="$RUNNER_TEMP/current_source_patch"
+          CURRENT_PCK="$RUNNER_TEMP/current_source_full.pck"
           "$GODOT_BIN" --headless \
             --path "$GITHUB_WORKSPACE/godot" \
             --export-pack "Web HTML Release" \
-            "$PATCH_PCK"
-          test -s "$PATCH_PCK"
-          mkdir -p "$PATCH_DIR"
-          "$PCK_TOOL" "$PATCH_PCK" -a e -o "$PATCH_DIR" -i 'project\.binary$|mobile_portrait_hotfix'
-          find "$PATCH_DIR" -type f -print | sort
-          test -n "$(find "$PATCH_DIR" -type f -name 'project.binary' -print -quit)"
-          test -n "$(find "$PATCH_DIR" -type f -iname '*mobile_portrait_hotfix*' -print -quit)"
+            "$CURRENT_PCK"
+          test -s "$CURRENT_PCK"
+          echo "CURRENT_PCK=$CURRENT_PCK" >> "$GITHUB_ENV"
 
-      - name: Layer portrait patch onto production art PCK
+      - name: Merge current runtime into production art and repack cleanly
+        shell: bash
+        run: |
+          set -euo pipefail
+          DONOR_PCK="$GITHUB_WORKSPACE/builds/web_release/index.pck"
+          DONOR_DIR="$RUNNER_TEMP/production_donor"
+          CURRENT_DIR="$RUNNER_TEMP/current_source"
+          MERGED_DIR="$RUNNER_TEMP/merged_release"
+          MERGED_PCK="$RUNNER_TEMP/index.merged.pck"
+
+          mkdir -p "$DONOR_DIR" "$CURRENT_DIR" "$MERGED_DIR"
+          "$PCK_TOOL" "$DONOR_PCK" -a e -o "$DONOR_DIR"
+          "$PCK_TOOL" "$CURRENT_PCK" -a e -o "$CURRENT_DIR"
+
+          # Start with every production-only asset from the known-good donor.
+          cp -a "$DONOR_DIR"/. "$MERGED_DIR"/
+          # Then overwrite every path that exists in the current project export.
+          # This updates app_shell, chapter-map runtime, scenes, project.binary,
+          # remaps and the portrait v2 autoload while retaining donor-only art.
+          cp -a "$CURRENT_DIR"/. "$MERGED_DIR"/
+
+          test -s "$MERGED_DIR/project.binary"
+          test -s "$MERGED_DIR/autoload/mobile_portrait_hotfix_v2.gdc"
+          test -s "$MERGED_DIR/autoload/mobile_portrait_hotfix_v2.gd.remap"
+          test -s "$MERGED_DIR/screens/app_shell.gdc"
+          test -s "$MERGED_DIR/chapter_map/runtime/chapter_map_screen.gdc"
+          test -s "$MERGED_DIR/assets/art/asset_manifest.json"
+          test -s "$MERGED_DIR/assets/art/backgrounds/BG_STORY_RELAY/bg_story_relay_1920x1080.png.import"
+          test -s "$MERGED_DIR/assets/runtime_web/runtime_asset_manifest.json"
+          strings "$MERGED_DIR/project.binary" | grep -F 'mobile_portrait_hotfix_v2' >/dev/null
+
+          rm -f "$MERGED_PCK"
+          "$PCK_TOOL" "$MERGED_PCK" -a a "$MERGED_DIR" \
+            --remove-prefix "$MERGED_DIR" \
+            --set-godot-version 4.7.1
+          test -s "$MERGED_PCK"
+          test "$(stat -c%s "$MERGED_PCK")" -gt 150000000
+          mv "$MERGED_PCK" "$DONOR_PCK"
+
+          "$PCK_TOOL" "$DONOR_PCK" > "$RUNNER_TEMP/final_pck_contents.txt"
+          grep -F 'res://autoload/mobile_portrait_hotfix_v2.gdc' "$RUNNER_TEMP/final_pck_contents.txt"
+          grep -F 'res://screens/app_shell.gdc' "$RUNNER_TEMP/final_pck_contents.txt"
+          grep -F 'res://chapter_map/runtime/chapter_map_screen.gdc' "$RUNNER_TEMP/final_pck_contents.txt"
+          grep -F 'assets/art/backgrounds/BG_STORY_RELAY' "$RUNNER_TEMP/final_pck_contents.txt" | head -5
+          grep -F 'assets/runtime_web/runtime_asset_manifest.json' "$RUNNER_TEMP/final_pck_contents.txt"
+
+      - name: Smoke final PCK with portrait layout active
         shell: bash
         run: |
           set -euo pipefail
           PCK="$GITHUB_WORKSPACE/builds/web_release/index.pck"
-          PATCH_DIR="$RUNNER_TEMP/current_source_patch"
-          "$PCK_TOOL" "$PCK" -a a "$PATCH_DIR" --remove-prefix "$PATCH_DIR"
-          test "$(stat -c%s "$PCK")" -gt 150000000
-          "$PCK_TOOL" "$PCK" > "$RUNNER_TEMP/final_pck_contents.txt"
-          grep -E 'mobile_portrait_hotfix' "$RUNNER_TEMP/final_pck_contents.txt"
-          grep -Ei 'asset_manifest|bg_story_relay|runtime_asset_manifest' "$RUNNER_TEMP/final_pck_contents.txt" | head -20 || true
+          LOG="$RUNNER_TEMP/final_pck_smoke.log"
+          set +e
+          timeout 30s env LUMENBOUND_FORCE_PORTRAIT_QA=1 \
+            "$GODOT_BIN" --headless --main-pack "$PCK" --quit-after 120 >"$LOG" 2>&1
+          STATUS=$?
+          set -e
+          tail -120 "$LOG" || true
+          test "$STATUS" -ne 124
+          grep -F 'LUMENBOUND_MOBILE_PORTRAIT_V2_READY' "$LOG"
+          grep -F 'LUMENBOUND_MOBILE_PORTRAIT_V2_ACTIVE screen=TITLE size=390x844' "$LOG"
 
-      - name: Rotate PWA cache and stamp deployment
+      - name: Rotate caches, stamp build and sync PCK size
         shell: bash
         run: |
           set -euo pipefail
@@ -108,23 +153,75 @@ jobs:
           sha = os.environ["GITHUB_SHA"]
           pck = root / "index.pck"
           pck_hash = hashlib.sha256(pck.read_bytes()).hexdigest()
+          pck_size = pck.stat().st_size
 
           worker_path = root / "index.service.worker.js"
           worker = worker_path.read_text(encoding="utf-8")
-          replacement = f"const CACHE_VERSION = 'portrait_art_{sha[:16]}';"
-          updated, count = re.subn(r"const CACHE_VERSION = '[^']+';", replacement, worker, count=1)
+          replacement = f"const CACHE_VERSION = 'portrait_v2_{sha[:16]}';"
+          worker, count = re.subn(r"const CACHE_VERSION = '[^']+';", replacement, worker, count=1)
           if count != 1:
               raise SystemExit("Could not rotate Godot PWA CACHE_VERSION")
-          if "self.skipWaiting()" not in updated or "self.clients.claim()" not in updated:
+          if "self.skipWaiting()" not in worker or "self.clients.claim()" not in worker:
               raise SystemExit("Release service worker lost immediate-update policy")
-          worker_path.write_text(updated, encoding="utf-8")
+          worker_path.write_text(worker, encoding="utf-8")
+
+          html_path = root / "index.html"
+          html = html_path.read_text(encoding="utf-8")
+          html, size_count = re.subn(
+              r'("index\.pck"\s*:\s*)\d+',
+              lambda m: m.group(1) + str(pck_size),
+              html,
+              count=1,
+          )
+          if size_count != 1:
+              raise SystemExit("Could not synchronize index.pck file size in index.html")
+
+          # An older PWA worker can keep returning a stale 158 MB PCK even after
+          # Pages itself has deployed correctly. Before Engine starts, clear the
+          # old LUMENBOUND worker/cache once per source commit. The current page
+          # remains usable, but its PCK request is then forced back to the network.
+          marker = "const engine = new Engine(GODOT_CONFIG);"
+          if marker not in html:
+              raise SystemExit("Godot engine bootstrap marker missing")
+          fresh_boot = f'''{marker}
+const LUMENBOUND_BUILD_ID = '{sha}';
+const LUMENBOUND_ORIGINAL_START_GAME = engine.startGame.bind(engine);
+async function lumenboundFreshBoot() {{
+  if (!('serviceWorker' in navigator) || !('caches' in window)) return;
+  const key = 'lumenbound-active-build';
+  let previous = null;
+  try {{ previous = localStorage.getItem(key); }} catch (_) {{}}
+  if (previous === LUMENBOUND_BUILD_ID) {{
+    try {{
+      const registration = await navigator.serviceWorker.getRegistration();
+      if (registration) registration.update().catch(() => {{}});
+    }} catch (_) {{}}
+    return;
+  }}
+  try {{
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    await Promise.all(registrations.map((registration) => registration.unregister()));
+    const cacheKeys = await caches.keys();
+    await Promise.all(cacheKeys
+      .filter((name) => name.startsWith('LUMENBOUND-TACTICS-sw-cache-'))
+      .map((name) => caches.delete(name)));
+  }} catch (err) {{
+    console.warn('LUMENBOUND fresh-build cache reset warning', err);
+  }}
+  try {{ localStorage.setItem(key, LUMENBOUND_BUILD_ID); }} catch (_) {{}}
+}}
+engine.startGame = (options) => lumenboundFreshBoot().then(() => LUMENBOUND_ORIGINAL_START_GAME(options));'''
+          html = html.replace(marker, fresh_boot, 1)
+          html_path.write_text(html, encoding="utf-8")
 
           version_path = root / "VERSION.json"
           version = json.loads(version_path.read_text(encoding="utf-8"))
           version["pck_sha256"] = pck_hash
+          version["pck_size"] = pck_size
           version["source_commit"] = sha
           version["mobile_portrait_fix"] = True
-          version["release_pack_mode"] = "production_art_pck_plus_mobile_overlay"
+          version["mobile_portrait_revision"] = 2
+          version["release_pack_mode"] = "clean_repack_production_art_plus_current_runtime"
           version["production_art_donor_sha256"] = "86712a609755ca2365b865ba1a21083228c6daa366f6ffb65a6d0fc25fecce83"
           version["created_utc"] = datetime.now(timezone.utc).isoformat()
           version_path.write_text(json.dumps(version, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -132,8 +229,10 @@ jobs:
           (root / "DEPLOY_SHA.txt").write_text(
               f"source_commit={sha}\n"
               f"pck_sha256={pck_hash}\n"
-              "release_pack_mode=production_art_pck_plus_mobile_overlay\n"
-              "mobile_portrait_fix=story_art,story_dialogue,map_header,map_toolbar,map_overlay,map_detail\n",
+              f"pck_size={pck_size}\n"
+              "release_pack_mode=clean_repack_production_art_plus_current_runtime\n"
+              "mobile_portrait_revision=2\n"
+              "mobile_portrait_fix=story_header,story_controls,story_art,story_dialogue,map_header,map_toolbar,map_overlay,map_detail,map_tutorial\n",
               encoding="utf-8",
           )
           PY

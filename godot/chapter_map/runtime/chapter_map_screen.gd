@@ -711,13 +711,16 @@ func _apply_tutorial_layout(size: Vector2, portrait: bool, compact: bool, ui_sca
 		return
 	if tutorial_dimmer != null:
 		tutorial_dimmer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	# The supplied 1280x720 reference uses a broad 80%-wide briefing plate and
-	# deliberately leaves the copy room to breathe.  Preserve that footprint in
-	# landscape; portrait uses a slightly taller sheet while the body remains a
-	# real ScrollContainer.
+		# Keep the tutorial's focus, but let the player read the real map beneath
+		# it on a phone instead of turning the first interaction into a dark wall.
+		tutorial_dimmer.color = Color("01050b96") if portrait else Color("01050bcc")
+	# Landscape keeps the broad briefing card.  On portrait phones this becomes a
+	# compact lower instruction sheet: the map, reachable yellow cells and the
+	# highlighted encounter must remain visible while the tutorial explains them.
+	# Long copy stays scrollable instead of claiming the entire viewport.
 	tutorial_panel.anchor_left = 0.10
 	tutorial_panel.anchor_right = 0.90
-	tutorial_panel.anchor_top = 0.055 if portrait else 0.105
+	tutorial_panel.anchor_top = 0.48 if portrait else 0.105
 	tutorial_panel.anchor_bottom = 0.955 if portrait else 0.96
 	tutorial_panel.offset_left = 0.0
 	tutorial_panel.offset_right = 0.0
@@ -725,6 +728,8 @@ func _apply_tutorial_layout(size: Vector2, portrait: bool, compact: bool, ui_sca
 	tutorial_panel.offset_bottom = 0.0
 	tutorial_panel.custom_minimum_size = Vector2.ZERO
 	var padding := roundi((36.0 if compact else 42.0) * ui_scale)
+	if portrait:
+		padding = roundi(20.0 * ui_scale)
 	var content_margin := tutorial_inner_frame.get_child(0) as MarginContainer
 	content_margin.add_theme_constant_override("margin_left", padding)
 	content_margin.add_theme_constant_override("margin_right", padding)
@@ -733,9 +738,9 @@ func _apply_tutorial_layout(size: Vector2, portrait: bool, compact: bool, ui_sca
 	# Font targets are specified in rendered CSS pixels, not logical 1920x1080
 	# pixels.  Without this conversion a nominal 25 px body becomes only 16-17 px
 	# in the standard 1280x720 Web view and loses the reference's authority.
-	tutorial_eyebrow.add_theme_font_size_override("font_size", _tutorial_logical_px(18.0 if compact else 20.0, size))
-	tutorial_title.add_theme_font_size_override("font_size", _tutorial_logical_px(29.0 if compact else 32.0, size))
-	var tutorial_body_size := _tutorial_logical_px(23.0 if compact else 24.0, size)
+	tutorial_eyebrow.add_theme_font_size_override("font_size", _tutorial_logical_px(16.0 if portrait else (18.0 if compact else 20.0), size))
+	tutorial_title.add_theme_font_size_override("font_size", _tutorial_logical_px(25.0 if portrait else (29.0 if compact else 32.0), size))
+	var tutorial_body_size := _tutorial_logical_px(20.0 if portrait else (23.0 if compact else 24.0), size)
 	tutorial_body.add_theme_font_size_override("normal_font_size", tutorial_body_size)
 	tutorial_body.add_theme_font_size_override("bold_font_size", tutorial_body_size)
 	tutorial_body.add_theme_constant_override("line_separation", _tutorial_logical_px(7.0, size))
@@ -746,8 +751,8 @@ func _apply_tutorial_layout(size: Vector2, portrait: bool, compact: bool, ui_sca
 	# 80%-wide modal after its 36 px safety margins are applied.
 	var continue_width := (228.0 if portrait else 420.0) * ui_scale
 	tutorial_continue_button.custom_minimum_size = Vector2(continue_width, 46.0 * ui_scale)
-	tutorial_continue_button.add_theme_font_size_override("font_size", _tutorial_logical_px(18.0 if compact else 20.0, size))
-	tutorial_progress_label.add_theme_font_size_override("font_size", _tutorial_logical_px(15.0 if compact else 17.0, size))
+	tutorial_continue_button.add_theme_font_size_override("font_size", _tutorial_logical_px(17.0 if portrait else (18.0 if compact else 20.0), size))
+	tutorial_progress_label.add_theme_font_size_override("font_size", _tutorial_logical_px(14.0 if portrait else (15.0 if compact else 17.0), size))
 	tutorial_dismiss_button.custom_minimum_size = Vector2(132.0 * ui_scale, 44.0 * ui_scale)
 	tutorial_dismiss_button.add_theme_font_size_override("font_size", roundi(18.0 * ui_scale))
 	# The portrait modal has roughly 240 physical pixels after its specified side
@@ -781,21 +786,24 @@ func _apply_responsive_layout() -> void:
 	# a 21 CSS-pixel target.  Compact landscape needs the same physical touch
 	# compensation as portrait instead of inheriting the desktop dimensions.
 	var ui_scale := _compact_ui_scale(size) if compact else 1.0
-	toolbar.add_theme_constant_override("h_separation", roundi((8.0 if portrait else 10.0) * ui_scale))
+	# Six core tactical actions fit in one 56px portrait rail.  This replaces the
+	# previous two/three-row toolbar, which obscured too much of the actual map
+	# before the player could see their move range or target.
+	toolbar.add_theme_constant_override("h_separation", roundi((2.0 if portrait else 10.0) * ui_scale))
 	toolbar.add_theme_constant_override("v_separation", roundi(6.0 * ui_scale) if portrait else 0)
 	for index in range(map_toolbar_buttons.size()):
 		var action_button := map_toolbar_buttons[index]
 		if compact:
-			action_button.custom_minimum_size = Vector2(112.0 * ui_scale, 56.0 * ui_scale)
-			action_button.add_theme_font_size_override("font_size", roundi(18.0 * ui_scale))
+			action_button.custom_minimum_size = Vector2((56.0 if portrait else 112.0) * ui_scale, 56.0 * ui_scale)
+			action_button.add_theme_font_size_override("font_size", roundi((17.0 if portrait else 18.0) * ui_scale))
 			action_button.text = ["일반", "위험", "부대", "개요", "스킵"][index]
 		else:
 			action_button.custom_minimum_size = [Vector2(128, 56), Vector2(128, 56), Vector2(116, 56), Vector2(116, 56), Vector2(132, 56)][index]
 			action_button.add_theme_font_size_override("font_size", 24)
 			action_button.text = ["일반 작전", "위험 작전", "현재 부대", "구역 개요", "이동 건너뛰기"][index]
 	if wait_button != null:
-		wait_button.custom_minimum_size = Vector2(112.0 * ui_scale, 56.0 * ui_scale) if compact else Vector2(86, 56)
-		wait_button.add_theme_font_size_override("font_size", roundi(18.0 * ui_scale) if compact else 24)
+		wait_button.custom_minimum_size = Vector2((56.0 if portrait else 112.0) * ui_scale, 56.0 * ui_scale) if compact else Vector2(86, 56)
+		wait_button.add_theme_font_size_override("font_size", roundi((17.0 if portrait else 18.0) * ui_scale) if compact else 24)
 		wait_button.text = "대기"
 	if toolbar_spacer != null:
 		toolbar_spacer.visible = not compact
@@ -814,7 +822,7 @@ func _apply_responsive_layout() -> void:
 		next_encounter_button.offset_right = -(12.0 * ui_scale if compact else 18.0)
 		# Portrait uses a second status row.  Keeping both controls on the same row
 		# made the operation title and `next encounter` button overlap by ~180 px.
-		next_encounter_button.offset_top = (52.0 if portrait else 14.0) * ui_scale if compact else 18.0
+		next_encounter_button.offset_top = (10.0 if portrait else 14.0) * ui_scale if compact else 18.0
 		next_encounter_button.offset_bottom = next_encounter_button.offset_top + next_height
 		next_encounter_button.add_theme_font_size_override("font_size", roundi(20.0 * ui_scale) if compact else 23)
 	if legend_card != null:
@@ -861,13 +869,16 @@ func _apply_responsive_layout() -> void:
 		detail_panel.offset_left = (8.0 if portrait else 16.0) * ui_scale
 		detail_panel.offset_right = -(8.0 if portrait else 16.0) * ui_scale
 		var bottom_safe_margin := 20.0 if portrait else 26.0
-		var sheet_height := 322.0 if portrait else 230.0
+		# The contextual card remains scrollable; it does not need to reserve a
+		# desktop inspector's height on a phone.  This returns roughly 42px of
+		# vertical map visibility on the common 390×844 portrait viewport.
+		var sheet_height := 280.0 if portrait else 230.0
 		detail_panel.offset_top = -(sheet_height + bottom_safe_margin) * ui_scale
 		detail_panel.offset_bottom = -bottom_safe_margin * ui_scale
 		detail_panel.visible = has_selection
 		detail_title.add_theme_font_size_override("font_size", roundi(28.0 * ui_scale))
-		detail_body.custom_minimum_size = Vector2(0.0, (84.0 if portrait else 102.0) * ui_scale)
-		detail_body.add_theme_font_size_override("normal_font_size", roundi(23.0 * ui_scale))
+		detail_body.custom_minimum_size = Vector2(0.0, (70.0 if portrait else 102.0) * ui_scale)
+		detail_body.add_theme_font_size_override("normal_font_size", roundi((21.0 if portrait else 23.0) * ui_scale))
 		# Every contextual action remains finger-sized after canvas_items scales the
 		# 1920x1080 surface down to a compact browser viewport.
 		for child in detail_scroll.find_children("*", "Button", true, false):

@@ -839,11 +839,19 @@ func _scroll_box() -> VBoxContainer:
 func _show_title() -> void:
 	AudioService.play_bgm("audio_bgm_title_en")
 	var portrait := _is_portrait_layout()
+	# Portrait is a composed title canvas, not a desktop title squeezed into a
+	# handset.  The canvas itself still uses the project-wide 1920×1080 logical
+	# surface, so every authored title metric below is converted back to the
+	# intended CSS-like physical size before it is presented on a phone.
+	var portrait_scale := _portrait_ui_scale() if portrait else 1.0
 	var stage := Control.new()
 	stage.name = "CommercialTitleStage"
 	stage.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	stage.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	stage.custom_minimum_size.y = 720.0 * _portrait_ui_scale()
+	# Leave a deliberate lower breathing zone on a 390×844 class display rather
+	# than forcing the title to consume every safe pixel and create a scrollable
+	# first impression.
+	stage.custom_minimum_size.y = (680.0 if portrait else 720.0) * portrait_scale
 	stage.clip_contents = true
 	content.add_child(stage)
 	var cast_plate := TextureRect.new()
@@ -865,19 +873,26 @@ func _show_title() -> void:
 	logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	logo.set_anchors_preset(Control.PRESET_CENTER)
-	logo.size = Vector2(780, 208) if portrait else Vector2(1120, 300)
-	logo.position = -logo.size * 0.5 + Vector2(0, -190 if portrait else -165)
+	# The prior portrait logo used desktop logical pixels and therefore rendered
+	# as a small, low-contrast stamp.  Target a 300px-wide title mark that still
+	# leaves the center clear of the full-body cast plate.
+	logo.size = Vector2(300.0, 84.0) * portrait_scale if portrait else Vector2(1120, 300)
+	logo.position = -logo.size * 0.5 + (Vector2(0.0, -134.0) * portrait_scale if portrait else Vector2(0, -165))
 	logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stage.add_child(logo)
 	var cta := VBoxContainer.new()
 	cta.name = "TitleCallToAction"
 	cta.alignment = BoxContainer.ALIGNMENT_CENTER
-	cta.add_theme_constant_override("separation", 14)
+	cta.add_theme_constant_override("separation", roundi(14.0 * portrait_scale) if portrait else 14)
 	cta.set_anchors_preset(Control.PRESET_CENTER)
-	cta.size = Vector2(620, 230)
-	cta.position = -cta.size * 0.5 + Vector2(0, 176 if portrait else 192)
+	cta.size = Vector2(330.0, 208.0) * portrait_scale if portrait else Vector2(620, 230)
+	cta.position = -cta.size * 0.5 + (Vector2(0.0, 138.0) * portrait_scale if portrait else Vector2(0, 192))
 	stage.add_child(cta)
-	var notice := _label("프롤로그 · 제1장 · 제2장 탐색 / 실시간 SD 전투", 22, Color("d8e9e7"))
+	var notice_copy := "턴제 탐험 · 실시간 SD 전투" if portrait else "프롤로그 · 제1장 · 제2장 탐색 / 실시간 SD 전투"
+	# `_label` already converts physical target type to the authored 1920px
+	# canvas. Passing the portrait scale here a second time turns this quiet
+	# support line into the largest object on a phone title screen.
+	var notice := _label(notice_copy, 20 if portrait else 22, Color("d8e9e7"))
 	notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	notice.add_theme_constant_override("outline_size", 4)
 	notice.add_theme_color_override("font_outline_color", Color("06101c"))
@@ -885,9 +900,9 @@ func _show_title() -> void:
 	var start := _button("START GAME  ·  기록 시작", _start_title_flow, false, Vector2(430, 88))
 	_make_title_start_button(start)
 	start.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	start.add_theme_font_size_override("font_size", 25)
+	start.add_theme_font_size_override("font_size", roundi(23.0 * portrait_scale) if portrait else 25)
 	cta.add_child(start)
-	var guide := _label("CLICK / TOUCH TO BEGIN", 16, Color("d3ad63"))
+	var guide := _label("TAP TO BEGIN" if portrait else "CLICK / TOUCH TO BEGIN", 15 if portrait else 16, Color("d3ad63"))
 	guide.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	cta.add_child(guide)
 

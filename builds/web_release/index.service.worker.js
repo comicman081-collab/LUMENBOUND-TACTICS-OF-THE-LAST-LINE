@@ -1,10 +1,10 @@
-// This service worker is required to expose an exported Godot project as a
+﻿// This service worker is required to expose an exported Godot project as a
 // Progressive Web App. It provides an offline fallback page telling the user
 // that they need an Internet connection to run the project if desired.
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = 'r7_3ee8b6065b829217';
+const CACHE_VERSION = 'r7_b7e7ca216a6a6deb';
 /** @type {string} */
 const CACHE_PREFIX = 'LUMENBOUND-TACTICS-sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;

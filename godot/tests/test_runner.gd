@@ -182,7 +182,7 @@ func _test_responsive_ui_contracts() -> void:
 		{"command": "choice"},
 	]
 	check(shell.story_page_progress(sample_story_commands, 3) == Vector2i(2, 3), "story page counter excludes internal art and audio commands")
-	check(shell_source.contains("title_cast_plate_r1.png") and shell_source.contains("title_cast_plate_portrait_r1.png") and shell_source.contains("title_logo_r1.png") and shell_source.contains("START GAME  ·  기록 시작") and FileAccess.file_exists("res://assets/art/title/title_cast_plate_r1.png"), "title uses immutable full-body cast art, an original fantasy logo and a clear START action")
+	check(shell_source.contains("title_cast_plate_r1.png") and shell_source.contains("title_cast_plate_portrait_r1.png") and shell_source.contains("title_logo_r1.png") and shell_source.contains("var portrait_scale := _portrait_ui_scale() if portrait else 1.0") and shell_source.contains("Vector2(300.0, 84.0) * portrait_scale") and shell_source.contains("_label(notice_copy, 20 if portrait else 22") and shell_source.contains("TAP TO BEGIN") and shell_source.contains("START GAME  ·  기록 시작") and FileAccess.file_exists("res://assets/art/title/title_cast_plate_r1.png"), "title uses immutable full-body cast art, a single-scale portrait LUMENBOUND lockup and a clear START action")
 	var title_builder_source := FileAccess.get_file_as_string("res://../tools/art/build_title_cast_plate.py")
 	check(title_builder_source.contains("LUMENBOUND") and title_builder_source.contains("TACTICS OF THE LAST LINE") and not title_builder_source.contains("AFTER SIGNAL") and not title_builder_source.contains("잔광기록"), "title logo source uses the tactical LUMENBOUND lockup without either rejected title")
 	var canonical_game_title := "LUMENBOUND: TACTICS OF THE LAST LINE"

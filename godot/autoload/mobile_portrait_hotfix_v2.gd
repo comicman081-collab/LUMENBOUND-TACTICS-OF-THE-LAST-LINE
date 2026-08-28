@@ -337,18 +337,28 @@ func _fix_map_toolbar(map_screen: Control, size: Vector2) -> void:
 	var toolbar_value = map_screen.get("toolbar")
 	if toolbar_value is HFlowContainer:
 		var toolbar := toolbar_value as HFlowContainer
-		toolbar.add_theme_constant_override("h_separation", roundi(_px(4.0, size)))
-		toolbar.add_theme_constant_override("v_separation", roundi(_px(4.0, size)))
-	var width_css := clampf((size.x - 28.0) / 3.0, 94.0, 122.0)
+		# The six core controls are compact *named* actions, rather than a
+		# multi-row desktop toolbar.  This reserves a single 48–56px rail and
+		# gives the tactical map its height back on common 360–390px phones.
+		toolbar.add_theme_constant_override("h_separation", roundi(_px(2.0, size)))
+		toolbar.add_theme_constant_override("v_separation", 0)
+	var width_css := clampf((size.x - 22.0) / 6.0, 48.0, 56.0)
+	var compact_labels := ["일반", "위험", "부대", "개요", "스킵"]
 	var buttons_value = map_screen.get("map_toolbar_buttons")
 	if buttons_value is Array:
 		var buttons := buttons_value as Array
-		for button_value in buttons:
+		for index in range(buttons.size()):
+			var button_value = buttons[index]
 			if button_value is Button:
-				_set_button(button_value as Button, width_css, 40.0, 14.0, size)
+				var button := button_value as Button
+				_set_button(button, width_css, 48.0, 14.0, size)
+				if index < compact_labels.size():
+					button.text = str(compact_labels[index])
 	var wait_value = map_screen.get("wait_button")
 	if wait_value is Button:
-		_set_button(wait_value as Button, width_css, 40.0, 14.0, size)
+		var wait_button := wait_value as Button
+		_set_button(wait_button, width_css, 48.0, 14.0, size)
+		wait_button.text = "대기"
 
 func _fix_map_overlay(map_screen: Control, size: Vector2) -> void:
 	var status_value = map_screen.get("status_label")
@@ -382,7 +392,9 @@ func _fix_map_sheet(map_screen: Control, size: Vector2) -> void:
 	if not panel_value is PanelContainer:
 		return
 	var panel := panel_value as PanelContainer
-	var sheet_css := clampf(size.y * 0.33, 238.0, 286.0)
+	# A selection is contextual, not an inspector.  Keep the card scrollable,
+	# but cap it below a third of a portrait viewport.
+	var sheet_css := clampf(size.y * 0.29, 222.0, 258.0)
 	panel.anchor_left = 0.0
 	panel.anchor_top = 1.0
 	panel.anchor_right = 1.0
@@ -400,21 +412,21 @@ func _fix_map_sheet(map_screen: Control, size: Vector2) -> void:
 	var title_value = map_screen.get("detail_title")
 	if title_value is Label:
 		var title := title_value as Label
-		_set_label(title, 17.0, size)
+		_set_label(title, 18.0, size)
 		title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	var body_value = map_screen.get("detail_body")
 	if body_value is RichTextLabel:
 		var body := body_value as RichTextLabel
-		body.custom_minimum_size.y = _px(54.0, size)
-		body.add_theme_font_size_override("normal_font_size", _font(14.0, size))
-		body.add_theme_font_size_override("bold_font_size", _font(14.0, size))
-		body.add_theme_constant_override("line_separation", roundi(_px(2.0, size)))
+		body.custom_minimum_size.y = _px(58.0, size)
+		body.add_theme_font_size_override("normal_font_size", _font(16.0, size))
+		body.add_theme_font_size_override("bold_font_size", _font(16.0, size))
+		body.add_theme_constant_override("line_separation", roundi(_px(3.0, size)))
 	if scroll_value is ScrollContainer:
 		for child in (scroll_value as ScrollContainer).find_children("*", "Button", true, false):
 			if child is Button:
 				var action := child as Button
-				action.custom_minimum_size.y = _px(44.0, size)
-				action.add_theme_font_size_override("font_size", _font(14.0, size))
+				action.custom_minimum_size.y = _px(46.0, size)
+				action.add_theme_font_size_override("font_size", _font(15.0, size))
 
 func _fix_map_nodes(map_screen: Control, size: Vector2) -> void:
 	var nodes_value = map_screen.get("node_buttons")
@@ -430,13 +442,20 @@ func _fix_map_nodes(map_screen: Control, size: Vector2) -> void:
 			button.add_theme_font_size_override("font_size", _font(12.0, size))
 
 func _fix_map_tutorial(map_screen: Control, size: Vector2) -> void:
+	var dimmer_value = map_screen.get("tutorial_dimmer")
+	if dimmer_value is ColorRect:
+		# Preserve context: the player must be able to see the highlighted range
+		# and target while reading the first-turn instructions.
+		(dimmer_value as ColorRect).color = Color("01050b96")
 	var panel_value = map_screen.get("tutorial_panel")
 	if panel_value is PanelContainer:
 		var panel := panel_value as PanelContainer
-		panel.anchor_left = 0.04
-		panel.anchor_top = 0.10
-		panel.anchor_right = 0.96
-		panel.anchor_bottom = 0.90
+		# A lower sheet exposes more than half the map, unlike the earlier
+		# 80%-height briefing modal that concealed the exact controls it named.
+		panel.anchor_left = 0.06
+		panel.anchor_top = 0.49
+		panel.anchor_right = 0.94
+		panel.anchor_bottom = 0.95
 		panel.offset_left = 0.0
 		panel.offset_top = 0.0
 		panel.offset_right = 0.0
@@ -446,15 +465,16 @@ func _fix_map_tutorial(map_screen: Control, size: Vector2) -> void:
 		(scroll_value as ScrollContainer).vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	var title_value = map_screen.get("tutorial_title")
 	if title_value is Label:
-		_set_label(title_value as Label, 19.0, size)
+		_set_label(title_value as Label, 22.0, size)
 	var body_value = map_screen.get("tutorial_body")
 	if body_value is RichTextLabel:
 		var body := body_value as RichTextLabel
-		body.add_theme_font_size_override("normal_font_size", _font(15.0, size))
-		body.add_theme_font_size_override("bold_font_size", _font(15.0, size))
+		body.add_theme_font_size_override("normal_font_size", _font(17.0, size))
+		body.add_theme_font_size_override("bold_font_size", _font(17.0, size))
+		body.add_theme_constant_override("line_separation", roundi(_px(3.0, size)))
 	var continue_value = map_screen.get("tutorial_continue_button")
 	if continue_value is Button:
-		_set_button(continue_value as Button, 0.0, 46.0, 15.0, size)
+		_set_button(continue_value as Button, 0.0, 46.0, 16.0, size)
 	var dismiss_value = map_screen.get("tutorial_dismiss_button")
 	if dismiss_value is Button:
 		_set_button(dismiss_value as Button, 0.0, 42.0, 13.0, size)

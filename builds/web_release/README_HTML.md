@@ -1,4 +1,4 @@
-# LUMENBOUND R7 Web MVP
+﻿# LUMENBOUND R7 Web MVP
 
 Godot 4.7.1 Compatibility Web export. Serve this directory over HTTP.
 The SRPG hex world is Chapter traversal; combat remains the deterministic

@@ -3,11 +3,16 @@ import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-const [browserPath, url, screenshotPath, reportPath, profilePath, portText = '9227'] = process.argv.slice(2);
+const [browserPath, url, screenshotPath, reportPath, profilePath, portText = '9227', widthText = '1920', heightText = '1080'] = process.argv.slice(2);
 if (!browserPath || !url || !screenshotPath || !reportPath || !profilePath) {
-  throw new Error('usage: run_headless_web_qa.mjs <browser> <url> <screenshot> <report> <profile> [port]');
+  throw new Error('usage: run_headless_web_qa.mjs <browser> <url> <screenshot> <report> <profile> [port] [width] [height]');
 }
 const port = Number(portText);
+const viewportWidth = Number(widthText);
+const viewportHeight = Number(heightText);
+if (!Number.isInteger(viewportWidth) || !Number.isInteger(viewportHeight) || viewportWidth < 320 || viewportHeight < 320) {
+  throw new Error(`invalid viewport ${widthText}x${heightText}`);
+}
 const pagePrefix = new URL(url).origin;
 await mkdir(path.dirname(screenshotPath), { recursive: true });
 await mkdir(path.dirname(reportPath), { recursive: true });
@@ -16,7 +21,7 @@ await mkdir(profilePath, { recursive: true });
 const browser = spawn(browserPath, [
   '--headless=new',
   '--hide-scrollbars',
-  '--window-size=1920,1080',
+  `--window-size=${viewportWidth},${viewportHeight}`,
   '--force-device-scale-factor=1',
   '--ignore-gpu-blocklist',
   '--enable-webgl',
@@ -136,6 +141,7 @@ const report = {
   kind: 'GODOT_WEB_HEADLESS_BROWSER_QA',
   browserPath,
   url,
+  viewport: { width: viewportWidth, height: viewportHeight },
   ready,
   lastState: states.at(-1) ?? null,
   polls: states.length,

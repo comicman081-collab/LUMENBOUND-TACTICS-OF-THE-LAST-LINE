@@ -89,11 +89,7 @@ jobs:
           "$PCK_TOOL" "$DONOR_PCK" -a e -o "$DONOR_DIR"
           "$PCK_TOOL" "$CURRENT_PCK" -a e -o "$CURRENT_DIR"
 
-          # Start with every production-only asset from the known-good donor.
           cp -a "$DONOR_DIR"/. "$MERGED_DIR"/
-          # Then overwrite every path that exists in the current project export.
-          # This updates app_shell, chapter-map runtime, scenes, project.binary,
-          # remaps and the portrait v2 autoload while retaining donor-only art.
           cp -a "$CURRENT_DIR"/. "$MERGED_DIR"/
 
           test -s "$MERGED_DIR/project.binary"
@@ -176,42 +172,40 @@ jobs:
           if size_count != 1:
               raise SystemExit("Could not synchronize index.pck file size in index.html")
 
-          # An older PWA worker can keep returning a stale 158 MB PCK even after
-          # Pages itself has deployed correctly. Before Engine starts, clear the
-          # old LUMENBOUND worker/cache once per source commit. The current page
-          # remains usable, but its PCK request is then forced back to the network.
           marker = "const engine = new Engine(GODOT_CONFIG);"
           if marker not in html:
               raise SystemExit("Godot engine bootstrap marker missing")
-          fresh_boot = f'''{marker}
-const LUMENBOUND_BUILD_ID = '{sha}';
-const LUMENBOUND_ORIGINAL_START_GAME = engine.startGame.bind(engine);
-async function lumenboundFreshBoot() {{
-  if (!('serviceWorker' in navigator) || !('caches' in window)) return;
-  const key = 'lumenbound-active-build';
-  let previous = null;
-  try {{ previous = localStorage.getItem(key); }} catch (_) {{}}
-  if (previous === LUMENBOUND_BUILD_ID) {{
-    try {{
-      const registration = await navigator.serviceWorker.getRegistration();
-      if (registration) registration.update().catch(() => {{}});
-    }} catch (_) {{}}
-    return;
-  }}
-  try {{
-    const registrations = await navigator.serviceWorker.getRegistrations();
-    await Promise.all(registrations.map((registration) => registration.unregister()));
-    const cacheKeys = await caches.keys();
-    await Promise.all(cacheKeys
-      .filter((name) => name.startsWith('LUMENBOUND-TACTICS-sw-cache-'))
-      .map((name) => caches.delete(name)));
-  }} catch (err) {{
-    console.warn('LUMENBOUND fresh-build cache reset warning', err);
-  }}
-  try {{ localStorage.setItem(key, LUMENBOUND_BUILD_ID); }} catch (_) {{}}
-}}
-engine.startGame = (options) => lumenboundFreshBoot().then(() => LUMENBOUND_ORIGINAL_START_GAME(options));'''
-          html = html.replace(marker, fresh_boot, 1)
+          boot_lines = [
+              marker,
+              f"const LUMENBOUND_BUILD_ID = '{sha}';",
+              "const LUMENBOUND_ORIGINAL_START_GAME = engine.startGame.bind(engine);",
+              "async function lumenboundFreshBoot() {",
+              "  if (!('serviceWorker' in navigator) || !('caches' in window)) return;",
+              "  const key = 'lumenbound-active-build';",
+              "  let previous = null;",
+              "  try { previous = localStorage.getItem(key); } catch (_) {}",
+              "  if (previous === LUMENBOUND_BUILD_ID) {",
+              "    try {",
+              "      const registration = await navigator.serviceWorker.getRegistration();",
+              "      if (registration) registration.update().catch(() => {});",
+              "    } catch (_) {}",
+              "    return;",
+              "  }",
+              "  try {",
+              "    const registrations = await navigator.serviceWorker.getRegistrations();",
+              "    await Promise.all(registrations.map((registration) => registration.unregister()));",
+              "    const cacheKeys = await caches.keys();",
+              "    await Promise.all(cacheKeys",
+              "      .filter((name) => name.startsWith('LUMENBOUND-TACTICS-sw-cache-'))",
+              "      .map((name) => caches.delete(name)));",
+              "  } catch (err) {",
+              "    console.warn('LUMENBOUND fresh-build cache reset warning', err);",
+              "  }",
+              "  try { localStorage.setItem(key, LUMENBOUND_BUILD_ID); } catch (_) {}",
+              "}",
+              "engine.startGame = (options) => lumenboundFreshBoot().then(() => LUMENBOUND_ORIGINAL_START_GAME(options));",
+          ]
+          html = html.replace(marker, "\n".join(boot_lines), 1)
           html_path.write_text(html, encoding="utf-8")
 
           version_path = root / "VERSION.json"

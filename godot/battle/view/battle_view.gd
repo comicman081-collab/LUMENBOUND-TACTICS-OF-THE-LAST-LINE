@@ -105,17 +105,31 @@ const SIGNAL_BREAKER_ULTIMATE_BASE_KEY := "base_signal_breaker_ultimate"
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	sprite_pack_ready = sprite_library.load_pack()
+	var active_entity_ids := _active_battle_entity_ids()
+	# A battle owns only its deployed units. Loading every runtime atlas here used
+	# to synchronously decode 109 combat packs and hundreds of VFX atlases on Web.
+	sprite_pack_ready = sprite_library.load_pack(active_entity_ids)
 	if not sprite_pack_ready and sprite_library.load_error != "MANIFEST_MISSING":
 		push_warning("Battle sprite pack unavailable: %s" % sprite_library.load_error)
-	projectile_pack_ready = projectile_library.load_pack()
+	projectile_pack_ready = projectile_library.load_pack(active_entity_ids)
 	if not projectile_pack_ready:
 		push_warning("Projectile sprite pack unavailable: %s" % projectile_library.load_error)
 	normal_background = load("res://assets/art/backgrounds/BG_BATTLE_GLASS_RAIL/bg_battle_glass_rail_1920x1080.png")
 	boss_background = load("res://assets/art/backgrounds/BG_BOSS_SIGNAL_CATHEDRAL/bg_boss_signal_cathedral_1920x1080.png")
 	battle_font = load("res://assets/fonts/NotoSansKR-VF.ttf") as Font
-	_load_runtime_vfx()
+	_load_runtime_vfx(active_entity_ids)
 	set_process(true)
+
+func _active_battle_entity_ids() -> Array[String]:
+	var result: Array[String] = []
+	if simulation == null:
+		return result
+	for unit_value in simulation.state.party + simulation.state.enemies:
+		var unit: Dictionary = unit_value
+		var entity_id := str(unit.get("def_id", ""))
+		if not entity_id.is_empty() and not result.has(entity_id):
+			result.append(entity_id)
+	return result
 
 func setup(value: BattleSimulation) -> void:
 	simulation = value
@@ -397,7 +411,7 @@ func boss_phase_presentation_snapshot() -> Array:
 		})
 	return result
 
-func _load_runtime_vfx() -> void:
+func _load_runtime_vfx(active_entity_ids: Array[String] = []) -> void:
 	vfx_frames.clear()
 	var manifest_path := "res://assets/runtime_web/runtime_combat_manifest.json"
 	if not FileAccess.file_exists(manifest_path): return
@@ -407,6 +421,14 @@ func _load_runtime_vfx() -> void:
 		var folder := str(entry.get("folder", ""))
 		if not folder.begins_with("vfx_"): continue
 		var key := folder.trim_prefix("vfx_")
+		if not active_entity_ids.is_empty() and not key.begins_with("base_"):
+			var belongs_to_active_unit := false
+			for entity_id in active_entity_ids:
+				if key.begins_with(entity_id.to_lower() + "_"):
+					belongs_to_active_unit = true
+					break
+			if not belongs_to_active_unit:
+				continue
 		var textures: Array[Texture2D] = []
 		var atlas := _load_runtime_texture("res://assets/runtime_web/vfx/%s/atlas.png" % folder)
 		if atlas is Texture2D:

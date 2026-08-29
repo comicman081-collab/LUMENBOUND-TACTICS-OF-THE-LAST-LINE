@@ -143,7 +143,9 @@ static func complete_player_move_turn(state: Dictionary, definition: Dictionary,
 	ensure_state(state, definition, grid)
 	var tick_before := int(state.get("map_simulation_state", {}).get("tick", 0))
 	var pulse_before := int(state.get("exploration_pulse", 0))
-	var update: Dictionary = MapSimulationScript.advance_wait(state, definition, grid, party_coord)
+	# One player action owns one enemy action. The former WAIT helper expanded one
+	# turn into several ticks and let enemies move repeatedly behind one caption.
+	var update: Dictionary = MapSimulationScript.advance_ticks(state, definition, grid, party_coord, 1)
 	refill_movement(state, definition)
 	update.tick_before = tick_before
 	update.tick_after = int(state.get("map_simulation_state", {}).get("tick", 0))

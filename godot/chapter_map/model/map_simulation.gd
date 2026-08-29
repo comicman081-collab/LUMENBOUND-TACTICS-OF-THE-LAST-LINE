@@ -361,7 +361,7 @@ static func disengage_after_battle(state: Dictionary, definition: Dictionary, en
 
 static func advance_ticks(state: Dictionary, definition: Dictionary, grid, party_coord: Vector2i, tick_count := 1) -> Dictionary:
 	ensure_state(state, definition, grid)
-	var result := {"changed": [], "contacts": [], "awareness": {}}
+	var result := {"changed": [], "moves": [], "contacts": [], "awareness": {}}
 	if bool(state.get("map_simulation_state", {}).get("paused", false)):
 		return result
 	for _step in range(maxi(0, tick_count)):
@@ -381,6 +381,13 @@ static func advance_ticks(state: Dictionary, definition: Dictionary, grid, party
 				state.patrol_states[encounter_id] = runtime
 				continue
 			var previous := Vector2i(int(runtime.get("q", 0)), int(runtime.get("r", 0)))
+			if patrol_is_stationary(definition, patrol):
+				runtime.awareness = UNAWARE
+				runtime.patrol_state = PATROL_IDLE
+				state.patrol_states[encounter_id] = runtime
+				state.patrol_positions[encounter_id] = [previous.x, previous.y]
+				result.awareness[encounter_id] = UNAWARE
+				continue
 			var contact_suppressed := bool(runtime.get("contact_suppressed", false))
 			if contact_suppressed:
 				var disengage_party := Vector2i(int(runtime.get("disengage_party_q", party_coord.x)), int(runtime.get("disengage_party_r", party_coord.y)))
@@ -391,20 +398,20 @@ static func advance_ticks(state: Dictionary, definition: Dictionary, grid, party
 					contact_suppressed = false
 			var awareness := UNAWARE if contact_suppressed else awareness_for(patrol, runtime, party_coord, grid, definition)
 			runtime.awareness = awareness
-			if awareness == ALERT:
+			if awareness != UNAWARE:
 				runtime.patrol_state = PATROL_ALERT
-				if bool(patrol.get("chase_short", false)):
-					runtime = _advance_chase(runtime, patrol, party_coord, grid)
+				runtime = _advance_chase(runtime, patrol, party_coord, grid)
 			else:
-				runtime = _advance_patrol(runtime, patrol, grid, tick)
-				if str(runtime.get("patrol_state", "")) != PATROL_WAIT:
-					runtime.patrol_state = PATROL_MOVING if bool(patrol.get("patrol_enabled", false)) else PATROL_IDLE
+				# Unaware enemies hold position. Once the party is recognized, every
+				# mobile enemy action advances toward the party instead of wandering.
+				runtime.patrol_state = PATROL_IDLE
 			var current := Vector2i(int(runtime.get("q", 0)), int(runtime.get("r", 0)))
 			state.patrol_states[encounter_id] = runtime
 			state.patrol_positions[encounter_id] = [current.x, current.y]
 			result.awareness[encounter_id] = awareness
 			if current != previous:
 				result.changed.append(encounter_id)
+				result.moves.append({"encounter_id": encounter_id, "from": [previous.x, previous.y], "to": [current.x, current.y]})
 			var contact_radius := maxi(0, int(patrol.get("engagement_radius", 0)))
 			if not contact_suppressed and HexCoordScript.distance(current, party_coord) <= contact_radius and (awareness == ALERT or current == party_coord):
 				contacts.append(encounter_id)
@@ -446,7 +453,7 @@ static func contacts_at_party_coord(state: Dictionary, definition: Dictionary, g
 
 static func awareness_for(patrol: Dictionary, runtime: Dictionary, party_coord: Vector2i, grid, definition: Dictionary) -> String:
 	var enemy_coord := Vector2i(int(runtime.get("q", 0)), int(runtime.get("r", 0)))
-	var radius := maxi(1, int(patrol.get("awareness_radius", 3)))
+	var radius := maxi(10, int(patrol.get("awareness_radius", 10)))
 	var alert_radius := maxi(0, int(patrol.get("alert_radius", 1)))
 	var enemy_tile: Dictionary = grid.tile(enemy_coord)
 	var party_tile: Dictionary = grid.tile(party_coord)
@@ -533,7 +540,7 @@ static func _advance_chase(runtime: Dictionary, patrol: Dictionary, party_coord:
 		return runtime
 	var home: Dictionary = patrol.get("return_hex", {"q": current.x, "r": current.y})
 	var home_coord := Vector2i(int(home.get("q", current.x)), int(home.get("r", current.y)))
-	var leash := maxi(1, int(patrol.get("guard_radius", 3)))
+	var leash := maxi(10, int(patrol.get("guard_radius", 10)))
 	var choices := HexCoordScript.neighbors(current)
 	choices.sort_custom(func(left: Vector2i, right: Vector2i) -> bool:
 		var ld := HexCoordScript.distance(left, party_coord)
@@ -546,3 +553,23 @@ static func _advance_chase(runtime: Dictionary, patrol: Dictionary, party_coord:
 			runtime.patrol_state = PATROL_CHASE
 			return runtime
 	return runtime
+
+static func patrol_is_stationary(definition: Dictionary, patrol: Dictionary) -> bool:
+	## Bosses, special-event contacts and recruitable companions are fixed story
+	## anchors. Only normal enemies may chase the party during an enemy phase.
+	var encounter_id := str(patrol.get("encounter_id", ""))
+	if bool(patrol.get("stationary", false)):
+		return true
+	for node_value in definition.get("nodes", []):
+		var node: Dictionary = node_value
+		if str(node.get("node_id", "")) != encounter_id:
+			continue
+		var stage := DataRegistry.stage(str(node.get("stage_id", "")))
+		if bool(stage.get("boss", false)):
+			return true
+		break
+	for event_value in definition.get("event_encounters", []):
+		var event: Dictionary = event_value
+		if str(event.get("node_id", "")) == encounter_id:
+			return true
+	return false

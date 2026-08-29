@@ -27,7 +27,7 @@ var manifests: Dictionary = {}
 var frames: Dictionary = {}
 var load_error := ""
 
-func load_pack() -> bool:
+func load_pack(required_ids: Array[String] = []) -> bool:
 	manifests.clear()
 	frames.clear()
 	var errors: Array[String] = []
@@ -37,7 +37,15 @@ func load_pack() -> bool:
 		var entity_id := str(definition.get("id", ""))
 		if not entity_id.is_empty() and not pack_roots.has(entity_id):
 			pack_roots[entity_id] = "res://assets/runtime_web/projectiles/%s" % entity_id
-	for source_id in pack_roots:
+	var ids_to_load: Array[String] = []
+	if required_ids.is_empty():
+		for source_id in pack_roots:
+			ids_to_load.append(str(source_id))
+	else:
+		for source_id in required_ids:
+			if pack_roots.has(source_id) and not ids_to_load.has(source_id):
+				ids_to_load.append(source_id)
+	for source_id in ids_to_load:
 		var error := _load_projectile(str(source_id), str(pack_roots[source_id]))
 		if not error.is_empty(): errors.append(error)
 	load_error = ";".join(errors)

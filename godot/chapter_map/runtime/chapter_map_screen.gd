@@ -6,6 +6,7 @@ signal formation_requested
 signal fallback_requested
 signal sweep_requested(stage_id: String, count: int)
 signal treasure_reward_requested(report: Dictionary)
+signal map_ready
 
 const DEFAULT_MAP_ID := "CH01_MAP"
 const TILE_SIZE := 1.08
@@ -167,6 +168,7 @@ var tutorial_pointer_origin := Vector2.ZERO
 var tutorial_pointer_started_msec := -100000
 
 func _ready() -> void:
+	map_simulation_paused = true
 	if map_id.is_empty():
 		map_id = AppState.map_id_for_stage(AppState.selected_stage_id)
 	if ChapterMapLoaderScript.load_map(map_id).is_empty():
@@ -187,9 +189,15 @@ func _ready() -> void:
 		SaveService.save_game()
 	camera_zoom = clampf(float(map_state.get("camera_zoom", 1.0)), 0.72, 1.55)
 	_build_interface()
-	_build_world()
+	# Web must be allowed to present the shell before any terrain work begins.
+	# This also turns map construction into a cooperative coroutine instead of a
+	# single long main-thread task that browsers report as a frozen/crashed tab.
+	await get_tree().process_frame
+	await _build_world()
 	_refresh_state_visuals()
 	_focus_current(true)
+	map_simulation_paused = false
+	map_ready.emit()
 	if _first_map_tutorial_active():
 		call_deferred("_start_first_map_tutorial")
 	call_deferred("_present_pending_reveal_once")
@@ -1034,11 +1042,16 @@ func _build_world() -> void:
 	world_root.add_child(world_environment)
 	_load_blender_kit()
 	_load_terrain_relief()
+	await get_tree().process_frame
 	_create_world_backdrop()
 	_create_world_island_shelf()
+	await get_tree().process_frame
 	_create_connected_terrain_surface()
+	await get_tree().process_frame
 	_create_boundary_coastline()
+	await get_tree().process_frame
 	_create_signal_causeways()
+	await get_tree().process_frame
 	map_sun = DirectionalLight3D.new()
 	map_sun.rotation_degrees = Vector3(-42, -38, 0)
 	map_sun.light_color = Color("ffeac4")
@@ -1056,7 +1069,7 @@ func _build_world() -> void:
 	map_fill.light_energy = 0.48
 	map_fill.shadow_enabled = false
 	world_root.add_child(map_fill)
-	_stream_visible_tiles(Vector2i(int(map_state.current_q), int(map_state.current_r)), true)
+	await _stream_visible_tiles(Vector2i(int(map_state.current_q), int(map_state.current_r)), true, true)
 	movement_range_fill = MeshInstance3D.new()
 	movement_range_fill.name = "MovementRangeYellowFill"
 	movement_range_fill.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -1081,11 +1094,15 @@ func _build_world() -> void:
 	selected_ring.material_override = _material(Color("6ff6dd"), Color("28d7bd"))
 	selected_ring.visible = false
 	world_root.add_child(selected_ring)
+	var node_build_index := 0
 	for node in definition.get("nodes", []):
 		_create_node_marker(node)
 		_create_node_button(node)
 		if str(node.get("stage_id", "")) != "":
 			_create_enemy_pawn(node)
+		node_build_index += 1
+		if node_build_index % 4 == 0:
+			await get_tree().process_frame
 	for treasure in definition.get("treasures", []):
 		_create_treasure_visual(treasure)
 	for relay in definition.get("relays", []):
@@ -1094,6 +1111,7 @@ func _build_world() -> void:
 		_create_event_visual(event)
 	for landmark in definition.get("landmarks", []):
 		_create_landmark_visual(landmark)
+	await get_tree().process_frame
 	# Nodes are created after the initial interface reflow. Apply the active
 	# viewport profile once more so first-load portrait controls are touch-sized.
 	_apply_responsive_layout()
@@ -1733,7 +1751,7 @@ func _create_tile(tile: Dictionary) -> void:
 	_create_terrain_dressing(tile, HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y), coord)
 	active_dressing_root = null
 
-func _stream_visible_tiles(center: Vector2i, force := false) -> void:
+func _stream_visible_tiles(center: Vector2i, force := false, incremental := false) -> void:
 	if not force and HexCoordScript.distance(stream_anchor, center) < 3:
 		return
 	stream_anchor = center
@@ -1753,9 +1771,13 @@ func _stream_visible_tiles(center: Vector2i, force := false) -> void:
 			dressing.queue_free()
 		tile_meshes.erase(key)
 		tile_dressing_roots.erase(key)
+	var created_count := 0
 	for key in wanted:
 		if not tile_meshes.has(key):
 			_create_tile(wanted[key])
+			created_count += 1
+			if incremental and created_count % 18 == 0:
+				await get_tree().process_frame
 
 func _kit_component(prefix: String) -> Dictionary:
 	for key in blender_mesh_library:
@@ -2581,7 +2603,17 @@ func _movement_range_allowlist() -> Dictionary:
 	# A revealed treasure explicitly authorizes its short exploratory detour;
 	# mirror that existing path rule so the yellow range never understates where
 	# the confirmed treasure route can actually travel.
-	return {} if not selected_treasure.is_empty() else _path_reveal_allowlist()
+	if not selected_treasure.is_empty():
+		return {}
+	var allowed := _path_reveal_allowlist()
+	# A visible patrol may have stepped one or more cells outside the original
+	# campaign reveal snapshot. Its live route is still actionable world state.
+	# Add only the selected route cells so the yellow overlay reaches the pawn
+	# without turning selection into a global fog-of-war bypass.
+	if not selected_node.is_empty():
+		for coord in preview_path:
+			allowed[HexCoordScript.key(coord)] = true
+	return allowed
 
 func _append_range_triangle(vertices: Array[Vector3], a: Vector3, b: Vector3, c: Vector3) -> void:
 	# ImmediateMesh reports an engine error when surface_end closes a surface that
@@ -2894,6 +2926,11 @@ func _select_node(node: Dictionary) -> void:
 	map_state.last_selected_node = str(node.node_id)
 	var allowed := _path_reveal_allowlist()
 	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), _encounter_coord(node), allowed)
+	# Patrol simulation owns the live pawn coordinate. A pawn that entered an
+	# adjacent unrevealed cell must not become visible-but-untargetable merely
+	# because authored fog data still points at its spawn marker.
+	if preview_path.is_empty() and enemy_pawns.has(str(node.get("node_id", ""))):
+		preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), _encounter_coord(node))
 	preview_path = _truncate_at_first_unresolved_encounter(preview_path)
 	if not preview_path.is_empty() and preview_path[-1] != _encounter_coord(node):
 		selected_node = _node_at_coord(preview_path[-1])
@@ -2979,7 +3016,9 @@ func _truncate_at_first_unresolved_encounter(path: Array[Vector2i]) -> Array[Vec
 			if str(node.get("stage_id", "")).is_empty(): continue
 			if _encounter_coord(node) != coord: continue
 			if not MapExplorationServiceScript.encounter_cleared(map_state, str(node.get("node_id", ""))) and int(AppState.profile.stage_stars.get(str(node.get("stage_id", "")), 0)) <= 0:
-				return path.slice(0, index + 1)
+				var truncated: Array[Vector2i] = []
+				truncated.assign(path.slice(0, index + 1))
+				return truncated
 	return path
 
 func _node_at_coord(coord: Vector2i) -> Dictionary:
@@ -3090,14 +3129,26 @@ func _complete_player_turn(action_label: String) -> void:
 	if next_encounter_button != null: next_encounter_button.disabled = true
 	var party_coord := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
 	var update := MapExplorationServiceScript.complete_player_move_turn(map_state, definition, grid, party_coord)
-	for node_id in update.get("changed", []):
-		_update_enemy_pawn_from_simulation(str(node_id), true)
+	# Present the enemy phase as an actual turn. Follow each mobile enemy to its
+	# destination in deterministic order, then return the camera to the squad.
+	for move_value in update.get("moves", []):
+		var move: Dictionary = move_value
+		var node_id := str(move.get("encounter_id", ""))
+		var destination_value: Array = move.get("to", [])
+		if destination_value.size() == 2:
+			var destination := Vector2i(int(destination_value[0]), int(destination_value[1]))
+			var node := ChapterMapLoaderScript.node_by_id(definition, node_id)
+			_show_map_notice("적 턴 · %s가 아군 방향으로 이동" % stage_display_text(str(node.get("stage_id", "")), true, false))
+			_focus_coord(destination, false)
+		_update_enemy_pawn_from_simulation(node_id, true)
+		await get_tree().create_timer(0.34).timeout
+		if not is_inside_tree():
+			return
 	for node_id in update.get("awareness", {}).keys():
 		_update_enemy_pawn_from_simulation(str(node_id))
-	if not update.get("changed", []).is_empty():
-		await get_tree().create_timer(0.30).timeout
 	if not is_inside_tree():
 		return
+	_focus_current(false)
 	SaveService.save_game()
 	pending_turn_completion = false
 	pending_turn_label = ""
@@ -3218,9 +3269,10 @@ func _update_panel() -> void:
 	detail_title.text = title_override if not title_override.is_empty() else "%s%s" % [LocalizationService.tr_key(stage.name_key), " · 대형 조우" if stage.boss else ""]
 	var event_brief := "\n\n[color=#7ee7d5][b]! 특별 조우[/b][/color]\n%s" % LocalizationService.tr_key(str(special_event.get("body_key", ""))) if not special_event.is_empty() and stars <= 0 else ""
 	detail_body.text = "[color=#7cf1dc][b]%s[/b][/color]\n[color=#f1d77a]권장 Lv.%d[/color]     작전력 [b]%d[/b]     제한 %d초\n완료 등급  %s\n입장 횟수  %s\n예상 이동  [color=#85e8ff]%d 구간[/color]  ·  %s\n%s%s\n\n[color=#9cc5dc][b]3성 조건[/b][/color]\n클리어 · 전투불능 0 · %d초 내\n\n[color=#9cc5dc][b]획득 가능 보상[/b][/color]\n%s%s" % [operation_type, int(stage.recommended_level), int(stage.stamina_cost), int(stage.time_limit), "★".repeat(stars) + "☆".repeat(3-stars), attempts, maxi(0, preview_path.size()-1), _risk_text(), _movement_summary(), event_brief, int(stage.target_time), _reward_text(reward), "\n\n[color=#ffbd7a][b]잠금[/b]  " + lock_reason + "[/color]" if not unlocked else ""]
-	# Do not leave a disabled first-contact action unexplained.  This is only
-	# presentation copy: the immutable AppState transaction remains the sole
-	# authority for stamina, HARD entries and stage unlocks.
+	# Reaching an encounter and paying its battle-entry cost are separate actions.
+	# Never strand the party on the map just because the later battle transaction
+	# is currently unavailable; explain the entry condition without disabling
+	# traversal toward the pawn.
 	if unlocked and not at_node and not AppState.can_enter_stage(stage_id):
 		var entry_reason := ""
 		if int(AppState.profile.account.get("stamina", 0)) < int(stage.stamina_cost):
@@ -3229,22 +3281,12 @@ func _update_panel() -> void:
 			entry_reason = "오늘의 HARD 입장 횟수를 모두 사용했습니다"
 		else:
 			entry_reason = "현재 입장 조건을 다시 확인 중입니다 · 이동과 전투는 차감되지 않았습니다"
-		detail_body.text += "\n\n[color=#ffbd7a][b]이동 불가[/b]  %s[/color]" % entry_reason
+		detail_body.text += "\n\n[color=#ffbd7a][b]전투 진입 조건[/b]  %s[/color]" % entry_reason
 	# Keep the primary map actions above the portrait bottom edge. Remote farming
 	# tools appear only after their real unlock condition, rather than occupying
 	# the first-visit encounter sheet as disabled controls.
 	move_button.visible = not at_node
 	move_button.text = _movement_action_text("! 구조 신호 방향" if not special_event.is_empty() and stars <= 0 else "조우 방향")
-	# Put the blocked-entry reason on the action itself as well.  The explanatory
-	# copy above can fall below a narrow landscape sheet, whereas the disabled
-	# primary action must remain immediately understandable.
-	if unlocked and not AppState.can_enter_stage(stage_id):
-		if int(AppState.profile.account.get("stamina", 0)) < int(stage.stamina_cost):
-			move_button.text = "작전력 부족"
-		elif stage.mode == "HARD" and int(AppState.profile.hard_attempts.counts.get(stage_id, 0)) >= int(stage.daily_attempts):
-			move_button.text = "오늘 HARD 입장 횟수 소진"
-		else:
-			move_button.text = "입장 조건 확인 필요"
 	fast_travel_button.visible = stars > 0
 	var uncleared_encounter := not MapExplorationServiceScript.encounter_cleared(map_state, str(selected_node.get("node_id", ""))) and stars <= 0
 	# An uncleared hostile starts combat by physical contact only.  Cleared
@@ -3252,7 +3294,7 @@ func _update_panel() -> void:
 	battle_button.visible = not uncleared_encounter
 	battle_button.text = "기존 실시간 전투 재도전"
 	for button in sweep_buttons: button.visible = stars >= 3
-	move_button.disabled = not unlocked or preview_path.size() <= 1 or MapExplorationServiceScript.movement_remaining(map_state, definition) <= 0 or (uncleared_encounter and not AppState.can_enter_stage(stage_id))
+	move_button.disabled = not unlocked or preview_path.size() <= 1 or MapExplorationServiceScript.movement_remaining(map_state, definition) <= 0
 	fast_travel_button.disabled = stars <= 0 or at_node or not bool(selected_node.get("fast_travel_allowed", false))
 	battle_button.disabled = not at_node or not AppState.can_enter_stage(stage_id)
 	for index in range(sweep_buttons.size()):
@@ -3328,9 +3370,19 @@ static func direct_move_gesture_policy(event: InputEvent, repeated_pointer_click
 func _can_begin_selected_route() -> bool:
 	if moving or turn_transitioning or map_simulation_paused or preview_path.size() <= 1:
 		return false
-	if selected_node.is_empty() and selected_treasure.is_empty() and selected_relay.is_empty() and selected_event.is_empty():
-		return movement_range_reachable.has(HexCoordScript.key(preview_path[-1]))
-	return move_button != null and move_button.visible and not move_button.disabled
+	var pulse_path := _path_for_current_pulse(preview_path)
+	if pulse_path.size() <= 1 or not movement_range_reachable.has(HexCoordScript.key(pulse_path[-1])):
+		return false
+	# Direct map input must use gameplay authority, never whether a responsive
+	# details drawer happens to expose its Move button. The old UI dependency made
+	# all double-click/touch movement inert in compact landscape layouts.
+	if not selected_node.is_empty():
+		var stage_id := str(selected_node.get("stage_id", ""))
+		if not stage_id.is_empty():
+			return AppState.is_stage_unlocked(stage_id)
+	if not selected_treasure.is_empty():
+		return MapExplorationServiceScript.treasure_state(map_state, str(selected_treasure.get("treasure_id", ""))) == "REVEALED"
+	return true
 
 func _activate_selected_route_from_pointer() -> void:
 	if _can_begin_selected_route():
@@ -3388,8 +3440,13 @@ func _set_direct_hex_route(coord: Vector2i) -> bool:
 func _path_for_current_pulse(path: Array[Vector2i]) -> Array[Vector2i]:
 	var steps := maxi(0, MapExplorationServiceScript.movement_remaining(map_state, definition))
 	if path.size() <= 1 or steps <= 0:
-		return [path[0]] if not path.is_empty() else []
-	return path.slice(0, mini(path.size(), steps + 1))
+		var stationary_path: Array[Vector2i] = []
+		if not path.is_empty():
+			stationary_path.append(path[0])
+		return stationary_path
+	var bounded_path: Array[Vector2i] = []
+	bounded_path.assign(path.slice(0, mini(path.size(), steps + 1)))
+	return bounded_path
 
 func _selected_target_coord() -> Vector2i:
 	if not selected_node.is_empty(): return _encounter_coord(selected_node)

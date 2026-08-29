@@ -360,6 +360,9 @@ func _test_combat_art_contracts() -> void:
 		for animation_name in expected:
 			runtime_sprite_frames_valid = runtime_sprite_frames_valid and runtime_sprites.texture_at(entity_id, animation_name, 0.0) != null
 	check(runtime_sprite_frames_valid and runtime_entities.size() == 109, "Web battle presentation resolves all 44 players and 65 enemies")
+	var active_runtime_sprites := BattleSpriteLibrary.new()
+	var active_sprite_ids: Array[String] = ["CHR001", "CHR002", "ENM001"]
+	check(active_runtime_sprites.load_pack(active_sprite_ids) and active_runtime_sprites.manifests.size() == active_sprite_ids.size() and active_runtime_sprites.supports_character("CHR001") and not active_runtime_sprites.supports_character("CHR044"), "Web battle startup loads only active combatant sprite atlases")
 	var runtime_projectiles := ProjectileSpriteLibrary.new()
 	var runtime_projectile_loaded := runtime_projectiles.load_pack()
 	var runtime_projectile_frames_valid := runtime_projectile_loaded
@@ -367,6 +370,9 @@ func _test_combat_art_contracts() -> void:
 		var source_id := str(entity.get("id", ""))
 		runtime_projectile_frames_valid = runtime_projectile_frames_valid and runtime_projectiles.supports_source(source_id) and runtime_projectiles.texture_at(source_id, 0.0) != null
 	check(runtime_projectile_frames_valid, "Web animated projectile atlases load for all runtime combat sources")
+	var active_runtime_projectiles := ProjectileSpriteLibrary.new()
+	var active_projectile_ids: Array[String] = ["CHR001", "CHR002", "ENM001"]
+	check(active_runtime_projectiles.load_pack(active_projectile_ids) and active_runtime_projectiles.manifests.size() == active_projectile_ids.size() and active_runtime_projectiles.supports_source("ENM001") and not active_runtime_projectiles.supports_source("CHR044"), "Web battle startup loads only active combatant projectile atlases")
 	var runtime_vfx_valid := true
 	for folder in ["vfx_chr001_basic", "vfx_chr001_normal", "vfx_chr001_ultimate", "vfx_chr008_basic", "vfx_chr008_normal", "vfx_chr008_ultimate"]:
 		runtime_vfx_valid = runtime_vfx_valid and ResourceLoader.exists("res://assets/runtime_web/vfx/%s/atlas.png" % folder)

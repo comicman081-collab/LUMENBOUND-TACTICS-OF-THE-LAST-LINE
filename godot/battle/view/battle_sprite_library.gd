@@ -27,7 +27,7 @@ var manifests: Dictionary = {}
 var frames: Dictionary = {}
 var load_error := ""
 
-func load_pack() -> bool:
+func load_pack(required_ids: Array[String] = []) -> bool:
 	manifests.clear()
 	frames.clear()
 	load_error = ""
@@ -44,7 +44,15 @@ func load_pack() -> bool:
 			"view": "THREE_QUARTER_RIGHT_DOWN_30" if is_player else "THREE_QUARTER_LEFT_DOWN_30",
 			"facing": "SEPARATE_LEFT_RIGHT" if is_player else "MIRROR_SAFE",
 		}
-	for character_id in pack_roots:
+	var ids_to_load: Array[String] = []
+	if required_ids.is_empty():
+		for character_id in pack_roots:
+			ids_to_load.append(str(character_id))
+	else:
+		for character_id in required_ids:
+			if pack_roots.has(character_id) and not ids_to_load.has(character_id):
+				ids_to_load.append(character_id)
+	for character_id in ids_to_load:
 		var config: Dictionary = pack_roots[character_id]
 		var error := _load_character(str(character_id), str(config.root), str(config.view), str(config.get("facing", "SEPARATE_LEFT_RIGHT")))
 		if not error.is_empty(): errors.append(error)

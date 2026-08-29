@@ -2309,6 +2309,15 @@ func _show_chapter_map() -> void:
 	var chapter: Dictionary = DataRegistry.chapter(chapter_id)
 	var map_id := AppState.map_id_for_chapter(chapter_id)
 	_title(LocalizationService.tr_key(str(chapter.get("name_key", ""))), "탐색 경로를 따라 조우를 선택하고, 기존 실시간 전투에 진입합니다.")
+	var loading_label := _label("전술 지도를 전개하는 중…", 24, Color("8de7d1"))
+	loading_label.name = "ChapterMapLoadingFeedback"
+	content.add_child(loading_label)
+	# Let Web paint immediate feedback before terrain meshes and map pawns are
+	# constructed. Without this yield, a valid build looked like a crashed tab.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if current_screen != "STAGE_SELECT":
+		return
 	var definition: Dictionary = ChapterMapLoaderScript.load_map(map_id)
 	var errors: Array[String] = ChapterMapLoaderScript.validate(definition)
 	if not errors.is_empty():
@@ -2325,6 +2334,14 @@ func _show_chapter_map() -> void:
 	map_screen.treasure_reward_requested.connect(_map_treasure_reward_requested)
 	content.add_child(map_screen)
 	active_chapter_map_screen = map_screen
+	_apply_chapter_map_shell_overrides()
+	# Keep explicit feedback visible until the cooperatively-built world confirms
+	# that terrain, pawns and input authority are all ready. The map now yields
+	# between build batches so this label and the interface remain paintable.
+	await map_screen.map_ready
+	if current_screen != "STAGE_SELECT" or not is_instance_valid(map_screen):
+		return
+	loading_label.queue_free()
 	_apply_chapter_map_shell_overrides()
 
 func _map_battle_requested(stage_id: String) -> void:

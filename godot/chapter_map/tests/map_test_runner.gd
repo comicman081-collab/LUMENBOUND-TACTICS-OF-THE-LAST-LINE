@@ -755,7 +755,7 @@ func _test_dynamic_exploration() -> void:
 	var normalized_n03: Dictionary = index_state.patrol_states.NODE_N03
 	var normalized_coord := Vector2i(int(normalized_n03.q), int(normalized_n03.r))
 	MapSimulationScript.advance_ticks(index_state, definition, grid, Vector2i(-50, 40), 1)
-	check(int(normalized_n03.current_patrol_index) == 4 and int(normalized_n03.direction) == 1 and HexCoordScript.distance(normalized_coord, MapSimulationScript.coord_for(index_state, "NODE_N03")) == 1, "PATROL_SAVE_REPAIR_04 coordinate, index and direction canonicalize without teleport")
+	check(int(normalized_n03.current_patrol_index) == 4 and int(normalized_n03.direction) == 1 and normalized_coord == MapSimulationScript.coord_for(index_state, "NODE_N03"), "PATROL_SAVE_REPAIR_04 coordinate, index and direction canonicalize while an unaware enemy holds position")
 	var idempotent_state := non_walkable_state.duplicate(true)
 	var first_repaired_hash := JSON.stringify(idempotent_state.patrol_states)
 	for _iteration in range(10):
@@ -806,18 +806,31 @@ func _test_dynamic_exploration() -> void:
 	var synthetic := HexGridScript.new()
 	synthetic.load_tiles([{"q":0,"r":0,"elevation":0},{"q":1,"r":0,"elevation":0},{"q":2,"r":0,"elevation":0}])
 	check(not MapSimulationScript.has_line_of_sight(synthetic, {"los_blockers":[{"q":1,"r":0}]}, Vector2i.ZERO, Vector2i(2, 0)), "AWARENESS_02 cliff/rock blocker stops line of sight")
+	var ten_hex_grid := HexGridScript.new()
+	var ten_hex_tiles: Array = []
+	for q in range(11):
+		ten_hex_tiles.append({"q":q,"r":0,"elevation":0})
+	ten_hex_grid.load_tiles(ten_hex_tiles)
+	check(MapSimulationScript.awareness_for({"awareness_radius":3,"alert_radius":1}, {"q":0,"r":0}, Vector2i(9, 0), ten_hex_grid, {}) != MapSimulationScript.UNAWARE, "AWARENESS_03 normal enemies recognize the party within the ten-hex baseline")
+	var event_node: Dictionary = definition.get("event_encounters", [])[0]
+	var event_patrol := MapSimulationScript.patrol_definition(definition, str(event_node.get("node_id", "")))
+	var boss_node := LoaderScript.node_for_stage(definition, "CH01-N20")
+	var boss_patrol := MapSimulationScript.patrol_definition(definition, str(boss_node.get("node_id", "")))
+	var boss_is_fixed := boss_patrol.is_empty() or MapSimulationScript.patrol_is_stationary(definition, boss_patrol)
+	var event_is_fixed := event_patrol.is_empty() or MapSimulationScript.patrol_is_stationary(definition, event_patrol)
+	check(not MapSimulationScript.patrol_is_stationary(definition, n01_def) and event_is_fixed and boss_is_fixed, "ENEMY_TURN_01 normal mobs are mobile while companion/special contacts and bosses are stationary")
 	var no_contact := MapSimulationScript.advance_ticks(first, definition, grid, Vector2i(-30, 30), 1)
-	check(no_contact.get("contacts", []).is_empty(), "AWARENESS_03 player not touching creates no battle contact")
+	check(no_contact.get("contacts", []).is_empty(), "AWARENESS_04 player not touching creates no battle contact")
 	var contact_state := ProgressScript.create_default(definition)
 	ExplorationScript.ensure_state(contact_state, definition)
 	contact_state.patrol_states.NODE_N01.next_move_tick = 999
 	var contact := MapSimulationScript.advance_ticks(contact_state, definition, grid, Vector2i(8, 1), 1)
-	check(contact.get("contacts", []).size() == 1 and str(contact.contacts[0]) == "NODE_N01", "AWARENESS_04 actual contact produces one owner")
+	check(contact.get("contacts", []).size() == 1 and str(contact.contacts[0]) == "NODE_N01", "AWARENESS_05 actual contact produces one owner")
 	contact_state.patrol_states.NODE_N03.q = 8
 	contact_state.patrol_states.NODE_N03.r = 1
 	contact_state.patrol_states.NODE_N03.next_move_tick = 999
 	var concurrent := MapSimulationScript.advance_ticks(contact_state, definition, grid, Vector2i(8, 1), 1)
-	check(concurrent.get("contacts", []).size() >= 1 and str(concurrent.contacts[0]) == "NODE_N01", "AWARENESS_05 simultaneous contact has stable owner")
+	check(concurrent.get("contacts", []).size() >= 1 and str(concurrent.contacts[0]) == "NODE_N01", "AWARENESS_06 simultaneous contact has stable owner")
 	var pursuit_state := ProgressScript.create_default(definition)
 	ExplorationScript.ensure_state(pursuit_state, definition)
 	# Keep unrelated patrols away so this exercises a selected moving N07 target,
@@ -889,18 +902,17 @@ func _test_direct_move_turn_contracts() -> void:
 	var turn_state := ProgressScript.create_default(definition)
 	ExplorationScript.ensure_state(turn_state, definition, grid)
 	# Begin from a partially spent player turn. The model helper must be exactly
-	# equivalent to one authored enemy wait phase followed by one refill.
+	# equivalent to one enemy action tick followed by one refill.
 	check(ExplorationScript.spend_movement(turn_state, definition, 2), "TURN_HANDOFF_FIXTURE_01 movement can be partially spent before automatic handoff")
 	var expected_turn_state := turn_state.duplicate(true)
 	var far_party := Vector2i(-50, 40)
-	var expected_update := MapSimulationScript.advance_wait(expected_turn_state, definition, grid, far_party)
+	var expected_update := MapSimulationScript.advance_ticks(expected_turn_state, definition, grid, far_party, 1)
 	ExplorationScript.refill_movement(expected_turn_state, definition)
 	var tick_before := int(turn_state.get("map_simulation_state", {}).get("tick", 0))
 	var pulse_before := int(turn_state.get("exploration_pulse", 0))
 	var turn_update := ExplorationScript.complete_player_move_turn(turn_state, definition, grid, far_party)
-	var expected_wait_ticks := maxi(1, int(definition.get("map_simulation", {}).get("wait_pulse_ticks", 4)))
-	var update_matches: bool = turn_update.get("changed", []) == expected_update.get("changed", []) and turn_update.get("contacts", []) == expected_update.get("contacts", []) and turn_update.get("awareness", {}) == expected_update.get("awareness", {})
-	var handoff_metadata_matches: bool = int(turn_update.get("tick_before", -1)) == tick_before and int(turn_update.get("tick_after", -1)) == tick_before + expected_wait_ticks and int(turn_update.get("pulse_before", -1)) == pulse_before and int(turn_update.get("pulse_after", -1)) == pulse_before + 1 and int(turn_update.get("movement_points", -1)) == int(turn_state.get("movement_points_max", 0))
+	var update_matches: bool = turn_update.get("changed", []) == expected_update.get("changed", []) and turn_update.get("moves", []) == expected_update.get("moves", []) and turn_update.get("contacts", []) == expected_update.get("contacts", []) and turn_update.get("awareness", {}) == expected_update.get("awareness", {})
+	var handoff_metadata_matches: bool = int(turn_update.get("tick_before", -1)) == tick_before and int(turn_update.get("tick_after", -1)) == tick_before + 1 and int(turn_update.get("pulse_before", -1)) == pulse_before and int(turn_update.get("pulse_after", -1)) == pulse_before + 1 and int(turn_update.get("movement_points", -1)) == int(turn_state.get("movement_points_max", 0))
 	check(JSON.stringify(turn_state) == JSON.stringify(expected_turn_state) and update_matches and handoff_metadata_matches, "TURN_HANDOFF_01 player move completion advances one enemy phase and refills movement exactly once", JSON.stringify(turn_update))
 
 	var contact_state := ProgressScript.create_default(definition)
@@ -948,6 +960,17 @@ func _test_direct_move_turn_contracts() -> void:
 	route_screen.preview_path = [Vector2i(int(route_screen.map_state.current_q), int(route_screen.map_state.current_r)), blocking_coord]
 	route_screen.selected_event = {"event_id": "TEST_DISTANT_EVENT", "q": blocking_coord.x + 4, "r": blocking_coord.y}
 	check(route_screen._retarget_truncated_path_to_encounter(blocking_coord + Vector2i(4, 0)) and str(route_screen.selected_node.get("node_id", "")) == "NODE_N01" and route_screen.selected_event.is_empty() and route_screen.selected_relay.is_empty(), "DIRECT_MOVE_PATH_01 a side-target route truncated by an unresolved encounter selects the actual blocking encounter")
+	var direct_path: Array[Vector2i] = []
+	# A patrol may have advanced outside the authored reveal snapshot while still
+	# remaining visibly actionable. Mirror the live-pawn fallback used by the
+	# screen and verify its bounded endpoint is authorized independently of UI.
+	direct_path.assign(HexPathfinderScript.find_path(grid, Vector2i(int(route_screen.map_state.current_q), int(route_screen.map_state.current_r)), blocking_coord))
+	route_screen.preview_path = direct_path
+	route_screen.selected_node = blocking_node
+	var direct_pulse := route_screen._path_for_current_pulse(direct_path)
+	if direct_pulse.size() > 1:
+		route_screen.movement_range_reachable[HexCoordScript.key(direct_pulse[-1])] = direct_pulse.size() - 1
+	check(route_screen.move_button == null and route_screen._can_begin_selected_route(), "DIRECT_MOVE_PATH_02 compact-layout direct movement uses reachable gameplay authority without requiring a visible detail-panel button")
 	route_screen.free()
 
 	var tutorial_screen := ChapterMapScreenScript.new()
@@ -970,8 +993,12 @@ func _test_direct_move_turn_contracts() -> void:
 	var move_body := _source_function_body(map_screen_source, "_move_along")
 	var skip_body := _source_function_body(map_screen_source, "skip_movement")
 	var confirm_body := _source_function_body(map_screen_source, "_confirm_move")
+	var enemy_turn_body := _source_function_body(map_screen_source, "_complete_player_turn")
+	var app_shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
 	check(not process_body.is_empty() and not process_body.contains("_advance_map_simulation("), "TURN_SOURCE_01 idle frame processing never advances enemy simulation")
 	check(not move_body.is_empty() and not move_body.contains("MapSimulationScript.advance_ticks(") and not skip_body.is_empty() and not skip_body.contains("MapSimulationScript.advance_ticks("), "TURN_SOURCE_02 animated and skipped player movement never advance enemy time per step")
+	check(enemy_turn_body.contains("update.get(\"moves\", [])") and enemy_turn_body.contains("_focus_coord(destination, false)") and enemy_turn_body.contains("_focus_current(false)"), "TURN_SOURCE_03 enemy phase follows every moving mob and returns the camera to the party")
+	check(map_screen_source.contains("signal map_ready") and map_screen_source.contains("await _build_world()") and map_screen_source.contains("await _stream_visible_tiles(Vector2i(int(map_state.current_q), int(map_state.current_r)), true, true)") and map_screen_source.contains("created_count % 18") and app_shell_source.contains("await map_screen.map_ready"), "MAP_LOAD_COOPERATIVE_01 initial map construction yields between streamed batches and the shell keeps loading authority until the map is ready")
 	check(confirm_body.find("_set_tutorial_step(3)") >= 0 and confirm_body.find("_move_along(pulse_path)") > confirm_body.find("_set_tutorial_step(3)"), "TUTORIAL_FLOW_01 direct movement starts in the same confirmation call after step-three guidance is displayed")
 	AppState.profile = backup
 

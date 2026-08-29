@@ -38,9 +38,9 @@ static func validate(definition: Dictionary) -> Array[String]:
 		if node.get("node_type", "") in ["NORMAL_BATTLE", "NORMAL_ELITE", "NORMAL_BOSS"]: normal += 1
 		if node.get("node_type", "") in ["HARD_BATTLE", "HARD_ELITE", "HARD_BOSS"]: hard += 1
 	if normal != 20: errors.append("NORMAL node count %d" % normal)
-	if hard != 10: errors.append("HARD node count %d" % hard)
+	if hard != 5: errors.append("HARD node count %d" % hard)
 	if definition.get("normal_route", []).size() != 20: errors.append("NORMAL route count %d" % definition.get("normal_route", []).size())
-	if definition.get("hard_route", []).size() != 10: errors.append("HARD route count %d" % definition.get("hard_route", []).size())
+	if definition.get("hard_route", []).size() != 5: errors.append("HARD route count %d" % definition.get("hard_route", []).size())
 	var exploration_rules: Dictionary = definition.get("exploration_rules", {})
 	var base_move_points := int(exploration_rules.get("base_move_points", 0))
 	var max_move_points := int(exploration_rules.get("max_move_points", 0))
@@ -108,6 +108,8 @@ static func validate(definition: Dictionary) -> Array[String]:
 			if DataRegistry.character(character_id).is_empty(): errors.append("event encounter unknown character " + character_id)
 			if recruitment_timing not in ["IMMEDIATE_ON_VICTORY", "AFTER_STAGE_CLEAR"]: errors.append("event encounter recruitment timing invalid " + event_encounter_id)
 			if recruitment_timing == "AFTER_STAGE_CLEAR" and DataRegistry.stage(str(recruitment.get("recruit_after_stage_id", ""))).is_empty(): errors.append("event encounter recruit stage invalid " + event_encounter_id)
+			var route_battles := int(recruitment.get("battle_victories_required", 1))
+			if recruitment.has("battle_victories_required") and (route_battles < 1 or route_battles > 5): errors.append("event encounter battle route invalid " + event_encounter_id)
 	var treasure_ids: Dictionary = {}
 	for treasure in definition.get("treasures", []):
 		var treasure_id := str(treasure.get("treasure_id", ""))

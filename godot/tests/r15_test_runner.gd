@@ -1,7 +1,7 @@
 extends Node
 
 ## R15 keeps its assertions separate from the historical baseline suite.  These
-## checks assert the Chapter 1-2 content-completion contract against the
+## checks assert the Campaign-20 content-completion contract against the
 ## runtime assets actually packaged for Web rather than editor-only sources.
 
 const ANIMATIONS := ["idle", "move", "basic_attack", "normal_skill", "ultimate", "hit", "down", "victory"]
@@ -53,22 +53,29 @@ func _test_content_counts() -> void:
 	var normals := enemies.filter(func(value): return str(value.get("rank", "")) == "NORMAL")
 	var elites := enemies.filter(func(value): return str(value.get("rank", "")) == "ELITE")
 	var bosses := enemies.filter(func(value): return str(value.get("rank", "")) == "BOSS")
-	check(normals.size() == 12 and elites.size() == 3 and bosses.size() == 5, "CONTENT_02 12 normal, three elite, five non-reused boss definitions")
+	check(normals.size() == 30 and elites.size() == 12 and bosses.size() == 23, "CONTENT_02 Campaign 20 has 30 normal, 12 elite, and 23 non-reused boss definitions")
 	var contact_recruits: Dictionary = {}
+	var battle_route_counts: Dictionary = {}
 	for chapter_value in DataRegistry.list_of("chapters"):
 		var chapter: Dictionary = chapter_value
 		var definition := ChapterMapLoader.load_map(str(chapter.get("map_id", "")))
 		for event_value in definition.get("event_encounters", []):
 			var event: Dictionary = event_value
 			for recruitment_value in event.get("recruitments", []):
-				contact_recruits[str((recruitment_value as Dictionary).get("character_id", ""))] = true
+				var recruitment: Dictionary = recruitment_value
+				contact_recruits[str(recruitment.get("character_id", ""))] = true
+				battle_route_counts[int(recruitment.get("battle_victories_required", 0))] = true
 	var acquisition_valid := true
+	var reserved_valid := true
 	for character_value in DataRegistry.list_of("characters"):
 		var character: Dictionary = character_value
 		var character_id := str(character.get("id", ""))
-		if int(character_id.trim_prefix("CHR")) >= 9:
+		var number := int(character_id.trim_prefix("CHR"))
+		if number >= 6 and number <= 25:
 			acquisition_valid = acquisition_valid and str(character.get("acquisition_source", "")) == "EVENT_CONTACT" and contact_recruits.has(character_id)
-	check(acquisition_valid, "CONTENT_02A every expansion companion declares the same EVENT_CONTACT acquisition authority as its map recruitment")
+		elif number >= 26:
+			reserved_valid = reserved_valid and str(character.get("acquisition_source", "")) == "RESERVED" and not contact_recruits.has(character_id)
+	check(acquisition_valid and reserved_valid and contact_recruits.size() == 20 and battle_route_counts.keys().all(func(value): return int(value) in range(1, 6)) and battle_route_counts.size() == 5, "CONTENT_02A 20 story companions span Chapters 1-20 and CHR026-044 remain reserved without auto-grant")
 
 func _entity_ids() -> Array:
 	var ids: Array[String] = []
@@ -88,7 +95,7 @@ func _test_runtime_combat_assets() -> void:
 			var manifest: Dictionary = library.manifests.get(entity_id, {})
 			var indices: Array = manifest.get("animations", {}).get(animation_name, {}).get("frame_indices", [])
 			all_entities_valid = all_entities_valid and indices.size() == int(EXPECTED_FRAMES[animation_name])
-	check(all_entities_valid and _entity_ids().size() == 64, "CONTENT_04 all 44 players and 20 enemies resolve 80-frame combat packs")
+	check(all_entities_valid and _entity_ids().size() == 109, "CONTENT_04 all 44 players and 65 enemies resolve complete combat packs")
 	var runtime_manifest := _json("res://assets/runtime_web/runtime_combat_manifest.json")
 	var static_fallback := false
 	for entry_value in runtime_manifest.get("combat", []):
@@ -104,7 +111,7 @@ func _test_runtime_projectiles_and_vfx() -> void:
 		projectiles_valid = projectiles_valid and projectile_library.supports_source(entity_id)
 		projectiles_valid = projectiles_valid and projectile_library.texture_at(entity_id, 0.0) != null
 		projectiles_valid = projectiles_valid and int(projectile_library.manifests.get(entity_id, {}).get("frames", 0)) == 8
-	check(projectiles_valid, "CONTENT_07 64 entity-specific animated projectile packs resolve")
+	check(projectiles_valid, "CONTENT_07 109 entity-specific animated projectile packs resolve")
 	var manifest := _json("res://assets/runtime_web/runtime_combat_manifest.json")
 	var vfx_by_source: Dictionary = {}
 	var vfx_files_valid := true
@@ -129,7 +136,7 @@ func _test_runtime_projectiles_and_vfx() -> void:
 	check(vfx_coverage and vfx_files_valid, "CONTENT_08 every player and enemy has basic, normal, and ultimate runtime VFX")
 	var battle_source := FileAccess.get_file_as_string("res://battle/view/battle_view.gd")
 	var shared_base_valid := FileAccess.file_exists("res://assets/runtime_web/vfx/vfx_base_signal_breaker_ultimate/atlas.png") and battle_source.contains("VFX_UNIT_PROFILES") and battle_source.contains("SIGNAL_BREAKER_ULTIMATE_BASE_KEY") and battle_source.contains("_draw_vfx_signature_accent")
-	check(signature_metadata_valid and shared_base_valid, "CONTENT_09 all 64 VFX signatures have profiled colour/motion metadata over the shared original ultimate base")
+	check(signature_metadata_valid and shared_base_valid, "CONTENT_09 all 109 VFX signatures have profiled colour/motion metadata over the shared original ultimate base")
 	var boss_motion_grammar_valid := true
 	for grammar in ["implode", "resonance", "lockon", "gate_reverse", "network"]:
 		boss_motion_grammar_valid = boss_motion_grammar_valid and battle_source.contains("\"ultimate\": \"%s\"" % grammar) and battle_source.contains("\t\t\"%s\":" % grammar)
@@ -138,12 +145,12 @@ func _test_runtime_projectiles_and_vfx() -> void:
 func _test_stage_content() -> void:
 	var normal_stages := DataRegistry.list_of("stages").filter(func(stage): return str(stage.get("mode", "")) == "NORMAL")
 	var hard_stages := DataRegistry.list_of("stages").filter(func(stage): return str(stage.get("mode", "")) == "HARD")
-	var chapter_stage_counts_valid := normal_stages.size() == 40 and hard_stages.size() == 20
+	var chapter_stage_counts_valid := DataRegistry.list_of("chapters").size() == 20 and normal_stages.size() == 400 and hard_stages.size() == 100
 	for chapter_value in DataRegistry.list_of("chapters"):
 		var chapter: Dictionary = chapter_value
 		var chapter_id := str(chapter.get("id", ""))
-		chapter_stage_counts_valid = chapter_stage_counts_valid and normal_stages.filter(func(stage): return str(stage.get("chapter_id", "")) == chapter_id).size() == 20 and hard_stages.filter(func(stage): return str(stage.get("chapter_id", "")) == chapter_id).size() == 10
-	check(chapter_stage_counts_valid, "STAGE_01 both chapters have exact NORMAL 20 / HARD 10 (30 battles each)")
+		chapter_stage_counts_valid = chapter_stage_counts_valid and normal_stages.filter(func(stage): return str(stage.get("chapter_id", "")) == chapter_id).size() == 20 and hard_stages.filter(func(stage): return str(stage.get("chapter_id", "")) == chapter_id).size() == 5
+	check(chapter_stage_counts_valid, "STAGE_01 all 20 chapters have exact NORMAL 20 / HARD 5 (25 battles each)")
 	var rosters_valid := true
 	var every_stage_has_waves := true
 	for stage in DataRegistry.list_of("stages"):
@@ -153,8 +160,9 @@ func _test_stage_content() -> void:
 			var wave: Array = wave_value
 			for enemy_id in wave:
 				rosters_valid = rosters_valid and not DataRegistry.enemy(str(enemy_id)).is_empty()
-	check(every_stage_has_waves and rosters_valid, "STAGE_02 all sixty stages reference valid populated enemy rosters")
-	var expected_boss_stages := {"BOSS001": "CH01-N20", "BOSS002": "CH01-H10", "BOSS003": "CH01-H03", "BOSS004": "CH02-N20", "BOSS005": "CH02-H10"}
+	check(every_stage_has_waves and rosters_valid, "STAGE_02 all 500 stages reference valid populated enemy rosters")
+	var expected_boss_stages := {"BOSS001": "CH01-N20", "BOSS002": "CH01-H05", "BOSS004": "CH02-N20", "BOSS005": "CH02-H05", "BOSS006": "CH03-N20", "BOSS003": "CH03-H05"}
+	for number in range(4, 21): expected_boss_stages["BOSS%03d" % (number + 3)] = "CH%02d-N20" % number
 	var boss_placement_valid := true
 	var boss_counts: Dictionary = {}
 	for stage_value in DataRegistry.list_of("stages"):
@@ -167,7 +175,7 @@ func _test_stage_content() -> void:
 					boss_placement_valid = boss_placement_valid and str(boss_stage.get("id", "")) == str(expected_boss_stages[enemy_id])
 	for boss_id in expected_boss_stages:
 		boss_placement_valid = boss_placement_valid and int(boss_counts.get(boss_id, 0)) == 1
-	check(boss_placement_valid, "STAGE_03 five bosses are each placed once at their unique expanded finale operation")
+	check(boss_placement_valid, "STAGE_03 all 23 bosses are each placed once at their unique campaign finale operation")
 	var ch01_new_normals_integrated := true
 	for enemy_id in ["ENM010", "ENM011", "ENM012"]:
 		var found := false
@@ -179,12 +187,11 @@ func _test_stage_content() -> void:
 		ch01_new_normals_integrated = ch01_new_normals_integrated and found
 	var boss_pattern_signatures: Dictionary = {}
 	var boss_patterns_unique := true
-	for boss_id in ["BOSS001", "BOSS002", "BOSS003", "BOSS004", "BOSS005"]:
+	for boss_id in expected_boss_stages:
 		var signature := JSON.stringify(DataRegistry.enemy(boss_id).get("patterns", []))
 		boss_patterns_unique = boss_patterns_unique and not signature.is_empty() and not boss_pattern_signatures.has(signature)
 		boss_pattern_signatures[signature] = true
-	var h03 := DataRegistry.stage("CH01-H03")
-	check(ch01_new_normals_integrated and boss_patterns_unique and bool(h03.get("boss", false)), "STAGE_04 CH01 new normal archetypes are playable and every boss has unique patterns with H03 boss metadata")
+	check(ch01_new_normals_integrated and boss_patterns_unique and DataRegistry.stage("CH01-H06").is_empty(), "STAGE_04 CH01 archetypes are playable, boss patterns are unique, and retired Hard IDs stay inactive")
 
 func _test_map_bindings() -> void:
 	var maps_valid := true
@@ -221,11 +228,11 @@ func _test_map_bindings() -> void:
 				event_dialogue_valid = event_dialogue_valid and str(page.get("speaker_kind", "")) in ["COMMAND", "COMPANION", "ENEMY"] and not str(page.get("text_key", "")).is_empty()
 			if event_kind == "SPECIAL_ENEMY":
 				event_dialogue_valid = event_dialogue_valid and not DataRegistry.enemy(str(event.get("enemy_id", ""))).is_empty() and event.get("recruitments", []).is_empty()
-		maps_valid = maps_valid and normal_nodes == 20 and hard_nodes == 10 and companion_events == 15 and special_enemy_events == 4 and event_dialogue_valid
-	check(maps_valid, "MAP_01 both maps validate with 30 battle nodes and 15 companion / 4 special-enemy pre-battle events")
+		maps_valid = maps_valid and normal_nodes == 20 and hard_nodes == 5 and companion_events == 1 and special_enemy_events == 3 and event_dialogue_valid
+	check(maps_valid, "MAP_01 all maps validate with 25 battle nodes, one companion contact, and three special-enemy pre-battle events")
 	var all_stage_bindings := true
 	for stage in DataRegistry.list_of("stages"): all_stage_bindings = all_stage_bindings and map_stage_ids.has(str(stage.id))
-	check(all_stage_bindings and map_stage_ids.size() == 60, "MAP_02 all sixty stage IDs bind once to chapter map encounter nodes")
+	check(all_stage_bindings and map_stage_ids.size() == 500, "MAP_02 all 500 stage IDs bind once to chapter map encounter nodes")
 	var expected_node_scenarios: Dictionary = {}
 	var expected_start_scenarios: Dictionary = {}
 	for trigger_value in DataRegistry.list_of("chapter_story_triggers"):
@@ -247,7 +254,7 @@ func _test_map_bindings() -> void:
 
 func _test_scenario_content() -> void:
 	var scenarios := DataRegistry.list_of("scenarios")
-	var commands_valid := scenarios.size() == 15
+	var commands_valid := scenarios.size() == 105
 	var visual_contract_valid := true
 	var portrait_ids: Dictionary = {}
 	var background_ids: Dictionary = {}
@@ -274,8 +281,8 @@ func _test_scenario_content() -> void:
 			elif type == "set_expression":
 				has_expression_change = has_expression_change or not str(command.get("expression", "")).is_empty()
 		visual_contract_valid = visual_contract_valid and has_background and has_portrait and has_expression_change
-	check(commands_valid, "STORY_01 all 15 compiled scenarios have executable command lists")
-	check(visual_contract_valid and portrait_ids.size() >= 4 and background_ids.size() >= 4, "STORY_04 all 15 scenarios resolve authored portrait, expression-state and background/CG presentation")
+	check(commands_valid, "STORY_01 all 105 compiled scenarios have executable command lists")
+	check(visual_contract_valid and portrait_ids.size() >= 4 and background_ids.size() >= 4, "STORY_04 all 105 scenarios resolve authored portrait, expression-state and background/CG presentation")
 	var iri_story: Dictionary = DataRegistry.by_id("scenarios", "SCN_REL_IRI")
 	var iri_portraits: Array = iri_story.get("commands", []).filter(func(command): return str(command.get("command", "")) == "show_portrait")
 	var iri_speakers: Array = iri_story.get("commands", []).filter(func(command): return str(command.get("speaker_key", "")) == "SPEAKER_IRI")
@@ -287,22 +294,23 @@ func _test_scenario_content() -> void:
 func _test_story_progression_triggers() -> void:
 	var triggers: Array = DataRegistry.list_of("chapter_story_triggers")
 	var ids: Dictionary = {}
-	var valid := triggers.size() == 12
+	var valid := triggers.size() == 102
 	for trigger_value in triggers:
 		var trigger: Dictionary = trigger_value
 		var trigger_id := str(trigger.get("id", ""))
 		valid = valid and not trigger_id.is_empty() and not ids.has(trigger_id)
 		valid = valid and not DataRegistry.by_id("scenarios", str(trigger.get("scenario_id", ""))).is_empty()
 		ids[trigger_id] = true
-	check(valid, "STORY_02 twelve unique data-driven Chapter 1-2 map/stage story triggers resolve")
+	check(valid, "STORY_02 102 unique data-driven Campaign-20 map/stage story triggers resolve")
 	AppState.new_game()
-	var intro_queued := AppState.queue_story_event("MAP_ENTER")
-	var intro := AppState.next_pending_story_trigger()
+	var intro_queued := AppState.queue_story_event("MAP_ENTER", "", "CH01")
+	var intro := AppState.next_pending_story_trigger("CH01")
+	var chapter2_intro_not_queued := AppState.next_pending_story_trigger("CH02").is_empty()
 	AppState.complete_story_trigger_for_scenario(str(intro.get("scenario_id", "")))
-	var intro_not_requeued := not AppState.queue_story_event("MAP_ENTER")
+	var intro_not_requeued := not AppState.queue_story_event("MAP_ENTER", "", "CH01")
 	var mid_queued := AppState.queue_story_event("STAGE_CLEAR", "CH01-N03")
 	var mid := AppState.next_pending_story_trigger()
-	check(intro_queued and str(intro.get("scenario_id", "")) == "SCN_CH01_INTRO" and intro_not_requeued and mid_queued and str(mid.get("scenario_id", "")) == "SCN_CH01_MID_A", "STORY_03 trigger completion persists and stage-clear queues next unread story once")
+	check(intro_queued and str(intro.get("scenario_id", "")) == "SCN_CH01_INTRO" and chapter2_intro_not_queued and intro_not_requeued and mid_queued and str(mid.get("scenario_id", "")) == "SCN_CH01_MID_A", "STORY_03 chapter-scoped trigger completion persists and stage-clear queues next unread story once")
 	AppState.new_game()
 	var pre_clear := AppState.profile.duplicate(true)
 	AppState.record_stage_clear("CH01-N01", 3)
@@ -433,7 +441,7 @@ func _test_result_refresh_boundaries() -> void:
 
 func _test_full_chapter_transaction_route() -> void:
 	# This is the data-authoritative counterpart to the browser route evidence:
-	# every Chapter 1-2 operation must be able to own one normal-player map
+	# every Campaign-20 operation must be able to own one normal-player map
 	# transaction, commit exactly once, unlock its successor, and survive an
 	# atomic load without relying on development authority. It deliberately does
 	# not impersonate physical camera movement or BattleSimulation visuals.
@@ -450,11 +458,13 @@ func _test_full_chapter_transaction_route() -> void:
 	AppState.new_game()
 	# This fixture is about the one-shot transaction and unlock authority, not
 	# about stamina economy. The live player-facing E2E uses ordinary stamina.
-	AppState.profile.account.stamina = 999
+	AppState.profile.account.stamina = 99999
 	AppState.refresh_chapter_map_reveal("CH01_MAP")
 	var shell := AppShellScript.new()
 	var committed := true
 	var duplicated := true
+	var transaction_failures: Array[Dictionary] = []
+	var duplicate_failures: Array[String] = []
 	var expected_cleared_by_map: Dictionary = {}
 	for chapter_value in DataRegistry.list_of("chapters"):
 		var chapter: Dictionary = chapter_value
@@ -482,11 +492,27 @@ func _test_full_chapter_transaction_route() -> void:
 			var did_clear := bool(AppState.profile.first_clear.get(stage_id, false)) and int(AppState.profile.stage_stars.get(stage_id, 0)) == 3
 			did_clear = did_clear and map_state.get("cleared_encounters", []).has(node_id) and map_state.get("pending_encounter", {}).is_empty() and AppState.pending_battle_token.is_empty()
 			did_clear = did_clear and JSON.stringify(_canonical(inventory_before)) != JSON.stringify(_canonical(AppState.profile.inventory))
-			committed = committed and unlocked and prepared and began and did_clear
+			var stage_committed := unlocked and prepared and began and did_clear
+			committed = committed and stage_committed
+			if not stage_committed and transaction_failures.size() < 12:
+				transaction_failures.append({
+					"stage_id": stage_id,
+					"unlocked": unlocked,
+					"prepared": prepared,
+					"began": began,
+					"first_clear": bool(AppState.profile.first_clear.get(stage_id, false)),
+					"stars": int(AppState.profile.stage_stars.get(stage_id, 0)),
+					"map_cleared": map_state.get("cleared_encounters", []).has(node_id),
+					"pending_empty": map_state.get("pending_encounter", {}).is_empty(),
+					"token_empty": AppState.pending_battle_token.is_empty(),
+					"inventory_changed": JSON.stringify(_canonical(inventory_before)) != JSON.stringify(_canonical(AppState.profile.inventory)),
+				})
 			expected_cleared.append(node_id)
 			# A second view callback has no live entry token and must be persistent no-op.
 			shell.call("_battle_finished", {"victory": true, "survivors": 5, "time": 30.0, "ticks": 900, "damage": {}, "healing": {}})
-			duplicated = duplicated and JSON.stringify(_canonical(after_commit)) == JSON.stringify(_canonical(_persistent_profile(AppState.profile)))
+			var duplicate_noop := JSON.stringify(_canonical(after_commit)) == JSON.stringify(_canonical(_persistent_profile(AppState.profile)))
+			duplicated = duplicated and duplicate_noop
+			if not duplicate_noop and duplicate_failures.size() < 12: duplicate_failures.append(stage_id)
 		expected_cleared_by_map[map_id] = expected_cleared
 	var all_cleared := true
 	var hard_routes_complete := true
@@ -499,8 +525,17 @@ func _test_full_chapter_transaction_route() -> void:
 		var hard_final := str((chapter.get("hard_stage_ids", []) as Array).back())
 		hard_routes_complete = hard_routes_complete and bool(AppState.profile.chapter_progress.get(str(chapter.get("id", "")), {}).get("hard_unlocked", false)) and int(AppState.profile.stage_stars.get(hard_final, 0)) == 3
 	var expansion_recruits_complete := true
-	for number in range(9, 45): expansion_recruits_complete = expansion_recruits_complete and bool(AppState.profile.roster.get("CHR%03d" % number, {}).get("unlocked", false))
-	check(committed and duplicated and all_cleared and hard_routes_complete and expansion_recruits_complete, "FULL_ROUTE_01 all Chapter 1-2 NORMAL/HARD transactions commit once with companion outcomes", JSON.stringify({"committed": committed, "duplicated": duplicated, "maps": expected_cleared_by_map, "hard": hard_routes_complete, "expansion_recruited": expansion_recruits_complete}))
+	var unrecruited: Array[String] = []
+	for number in range(6, 26):
+		var character_id := "CHR%03d" % number
+		var recruited := bool(AppState.profile.roster.get(character_id, {}).get("unlocked", false))
+		expansion_recruits_complete = expansion_recruits_complete and recruited
+		if not recruited: unrecruited.append(character_id)
+	var reserved_recruits_stay_locked := true
+	for number in range(26, 45): reserved_recruits_stay_locked = reserved_recruits_stay_locked and not bool(AppState.profile.roster.get("CHR%03d" % number, {}).get("unlocked", false))
+	var iri_catchup: Dictionary = AppState.profile.roster.get("CHR008", {})
+	var iri_join_valid := bool(iri_catchup.get("unlocked", false)) and int(iri_catchup.get("level", 0)) >= 54 and int(iri_catchup.get("breakthrough", 0)) >= 2
+	check(committed and duplicated and all_cleared and hard_routes_complete and expansion_recruits_complete and reserved_recruits_stay_locked and iri_join_valid, "FULL_ROUTE_01 all Campaign-20 transactions commit once; 20 story recruits resolve, reserved IDs stay locked, and late Iri arrives battle-ready", JSON.stringify({"committed": committed, "duplicated": duplicated, "transaction_failures": transaction_failures, "duplicate_failures": duplicate_failures, "hard": hard_routes_complete, "unrecruited": unrecruited, "reserved_locked": reserved_recruits_stay_locked, "iri": iri_catchup}))
 	var saved_profile := _persistent_profile(AppState.profile)
 	var saved := SaveService.save_game()
 	AppState.new_game()
@@ -511,7 +546,7 @@ func _test_full_chapter_transaction_route() -> void:
 		var restored_state := AppState.chapter_map_state(map_id)
 		var expected_cleared: Array = expected_cleared_by_map[map_id]
 		restored = restored and expected_cleared.all(func(node_id): return restored_state.get("cleared_encounters", []).has(node_id)) and restored_state.get("pending_encounter", {}).is_empty()
-	check(restored, "FULL_ROUTE_02 completed Chapter 1-2 normal/hard transaction state survives reload", JSON.stringify({"save": saved.ok, "load": loaded.ok, "maps": expected_cleared_by_map}))
+	check(restored, "FULL_ROUTE_02 completed Campaign-20 normal/hard transaction state survives reload", JSON.stringify({"save": saved.ok, "load": loaded.ok, "maps": expected_cleared_by_map}))
 	shell.free()
 	SaveService.reset_save_files()
 	SaveService.soak_sandbox_enabled = backup_sandbox

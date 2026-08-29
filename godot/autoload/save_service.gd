@@ -271,6 +271,28 @@ func _migrate(data: Dictionary) -> GameResult:
 			RelayServiceScript.ensure_profile(data)
 			data["save_schema_version"] = 8
 			version = 8
+		elif version == 8:
+			# Campaign 20 deliberately reserves CHR026-044 for later routes.  A
+			# player who already owned one of those IDs must keep it; new/locked
+			# entries remain visibly reserved instead of being silently granted.
+			var roster: Dictionary = data.get("roster", {})
+			for character_id_value in roster.keys():
+				var character_id := str(character_id_value)
+				var entry: Dictionary = roster[character_id]
+				var character := DataRegistry.character(character_id)
+				var source := str(character.get("acquisition_source", "RESERVED"))
+				if bool(entry.get("unlocked", false)):
+					entry["acquisition_status"] = "LEGACY_OWNED" if source == "RESERVED" else "OWNED"
+				else:
+					entry["acquisition_status"] = "LOCKED_ACQUIRABLE" if source == "EVENT_CONTACT" else "RESERVED_FUTURE"
+				roster[character_id] = entry
+			data["roster"] = roster
+			data["legacy_retired_stage_ids"] = [
+				"CH01-H06", "CH01-H07", "CH01-H08", "CH01-H09", "CH01-H10",
+				"CH02-H06", "CH02-H07", "CH02-H08", "CH02-H09", "CH02-H10",
+			]
+			data["save_schema_version"] = 9
+			version = 9
 		else:
 			return GameResult.failure("missing migration from %d" % version)
 	return GameResult.success(data)

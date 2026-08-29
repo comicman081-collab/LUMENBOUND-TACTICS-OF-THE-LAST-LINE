@@ -4,7 +4,7 @@
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = 'r7_26682ca90bbd1a93';
+const CACHE_VERSION = 'r7_2e1ada972af99e03';
 /** @type {string} */
 const CACHE_PREFIX = 'LUMENBOUND-TACTICS-sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;

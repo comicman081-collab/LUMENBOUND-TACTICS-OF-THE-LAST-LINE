@@ -7,7 +7,7 @@ const MapExplorationServiceScript := preload("res://chapter_map/model/map_explor
 const MapSimulationScript := preload("res://chapter_map/model/map_simulation.gd")
 const RelayServiceScript := preload("res://relay/relay_service.gd")
 
-const SAVE_SCHEMA_VERSION := 8
+const SAVE_SCHEMA_VERSION := 9
 var profile: Dictionary = {}
 var route_payload: Dictionary = {}
 var selected_stage_id := "CH01-N01"
@@ -80,7 +80,7 @@ func new_game() -> void:
 		"hard_attempts": {"date": Time.get_date_string_from_system(), "counts": {}},
 		"reward_pity_counters": {},
 		"settings": SettingsService.persisted_values(),
-		"tutorial_progress": {"title_seen": false, "map_basics_complete": false},
+		"tutorial_progress": {"title_seen": false, "home_basics_complete": false, "map_basics_complete": false},
 		"last_scenario_position": {},
 		"claimed_rewards": [],
 		"relay": RelayServiceScript.default_profile()
@@ -93,6 +93,8 @@ func apply_loaded(loaded: Dictionary) -> void:
 		profile["tutorial_progress"] = {}
 	if not profile.tutorial_progress.has("title_seen"):
 		profile.tutorial_progress["title_seen"] = false
+	if not profile.tutorial_progress.has("home_basics_complete"):
+		profile.tutorial_progress["home_basics_complete"] = false
 	if not profile.tutorial_progress.has("map_basics_complete"):
 		profile.tutorial_progress["map_basics_complete"] = false
 	RelayServiceScript.ensure_profile(profile)
@@ -159,12 +161,29 @@ func add_item(item_id: String, amount: int) -> void:
 	profile.inventory[item_id] = inventory_count(item_id) + amount
 	EventBus.inventory_changed.emit()
 
-func unlock_character(character_id: String) -> bool:
+func unlock_character(character_id: String, join_stage_id := "") -> bool:
 	if not profile.get("roster", {}).has(character_id):
 		return false
 	if bool(profile.roster[character_id].get("unlocked", false)):
 		return false
+	# Event recruits join at the level of the operation that finally completed
+	# their 1-5 battle route.  This preserves the value of training the starting
+	# cast while preventing a late Chapter 2 ally from arriving unusably at Lv.1.
+	# Four levels below the operation recommendation leaves a small, visible
+	# growth window for the player instead of granting a fully finished unit.
+	var join_stage := DataRegistry.stage(join_stage_id)
+	if not join_stage.is_empty():
+		var join_level := maxi(1, int(join_stage.get("recommended_level", 1)) - 4)
+		profile.roster[character_id].level = maxi(int(profile.roster[character_id].get("level", 1)), join_level)
+		var breakthrough_floor := 0
+		if join_level > 90: breakthrough_floor = 5
+		elif join_level > 80: breakthrough_floor = 4
+		elif join_level > 60: breakthrough_floor = 3
+		elif join_level > 40: breakthrough_floor = 2
+		elif join_level > 20: breakthrough_floor = 1
+		profile.roster[character_id].breakthrough = maxi(int(profile.roster[character_id].get("breakthrough", 0)), breakthrough_floor)
 	profile.roster[character_id].unlocked = true
+	profile.roster[character_id].acquisition_status = "OWNED"
 	EventBus.inventory_changed.emit()
 	return true
 
@@ -326,6 +345,7 @@ func prepare_map_encounter(stage_id: String, node_id: String, return_coord: Vect
 		var character_ids: Array[String] = []
 		for recruitment_value in recruitments:
 			character_ids.append(str(recruitment_value.get("character_id", "")))
+		var primary_recruitment: Dictionary = recruitments[0] if not recruitments.is_empty() else {}
 		special_payload = {
 			"event_encounter_id": str(special_event.get("event_encounter_id", "")),
 			"event_kind": str(special_event.get("event_kind", "COMPANION")),
@@ -336,8 +356,9 @@ func prepare_map_encounter(stage_id: String, node_id: String, return_coord: Vect
 			"body_key": str(special_event.get("body_key", "")),
 			"contact_outcome_key": str(special_event.get("contact_outcome_key", "")),
 			"pre_battle_dialogue": special_event.get("pre_battle_dialogue", []).duplicate(true),
-			"recruitment_timing": str(special_event.get("recruitment_timing", "")),
-			"recruit_after_stage_id": str(special_event.get("recruit_after_stage_id", "")),
+			"recruitment_timing": str(primary_recruitment.get("recruitment_timing", special_event.get("recruitment_timing", ""))),
+			"recruit_after_stage_id": str(primary_recruitment.get("recruit_after_stage_id", special_event.get("recruit_after_stage_id", ""))),
+			"battle_victories_required": int(primary_recruitment.get("battle_victories_required", special_event.get("battle_victories_required", 1))),
 		}
 	state.pending_encounter = {
 		"stage_id": stage_id,
@@ -437,7 +458,7 @@ func record_stage_clear(stage_id: String, stars: int) -> bool:
 		_unlock_next_chapter(chapter_id)
 	refresh_chapter_map_reveal(map_id)
 	for character_id in MapExplorationServiceScript.resolve_deferred_recruitments(map_state, ChapterMapLoaderScript.load_map(map_id), stage_id):
-		unlock_character(character_id)
+		unlock_character(character_id, stage_id)
 	# Canonical stage/reveal state is authoritative immediately.  The small
 	# presentation payload is a persisted one-shot derived from that transition;
 	# refresh/load can recompute the former without replaying the latter.
@@ -460,13 +481,20 @@ func _canonical_unlocked_stage_ids() -> Array[String]:
 	unlocked.sort()
 	return unlocked
 
-func queue_story_event(event_type: String, stage_id := "") -> bool:
+func queue_story_event(event_type: String, stage_id := "", chapter_id := "") -> bool:
 	if not profile.has("pending_story_triggers"): profile["pending_story_triggers"] = []
 	var queued := false
 	for trigger_value in DataRegistry.list_of("chapter_story_triggers"):
 		var trigger: Dictionary = trigger_value
 		if str(trigger.get("event", "")) != event_type: continue
 		if not stage_id.is_empty() and str(trigger.get("stage_id", "")) != stage_id: continue
+		# MAP_ENTER is shared by every chapter.  Without this chapter gate a CH01
+		# entry queued both CH01 and CH02 introductions, so finishing the first
+		# scene immediately opened the next chapter before it was unlocked.
+		if not chapter_id.is_empty():
+			var scenario: Dictionary = DataRegistry.by_id("scenarios", str(trigger.get("scenario_id", "")))
+			if str(scenario.get("chapter_id", "")) != chapter_id:
+				continue
 		var trigger_id := str(trigger.get("id", ""))
 		var completion_flag := str(trigger.get("completion_flag", ""))
 		if trigger_id.is_empty() or (not completion_flag.is_empty() and bool(profile.story_flags.get(completion_flag, false))): continue
@@ -476,12 +504,16 @@ func queue_story_event(event_type: String, stage_id := "") -> bool:
 	profile.pending_story_triggers.sort_custom(func(a, b): return _story_trigger_priority(str(a)) < _story_trigger_priority(str(b)))
 	return queued
 
-func next_pending_story_trigger() -> Dictionary:
+func next_pending_story_trigger(chapter_id := "") -> Dictionary:
 	for trigger_id_value in profile.get("pending_story_triggers", []):
 		var trigger_id := str(trigger_id_value)
 		for trigger_value in DataRegistry.list_of("chapter_story_triggers"):
 			var trigger: Dictionary = trigger_value
 			if str(trigger.get("id", "")) == trigger_id:
+				if not chapter_id.is_empty():
+					var scenario: Dictionary = DataRegistry.by_id("scenarios", str(trigger.get("scenario_id", "")))
+					if str(scenario.get("chapter_id", "")) != chapter_id:
+						continue
 				var completion_flag := str(trigger.get("completion_flag", ""))
 				if completion_flag.is_empty() or not bool(profile.story_flags.get(completion_flag, false)):
 					return trigger
@@ -533,8 +565,11 @@ func _default_roster_entry(character: Dictionary, unlocked := false) -> Dictiona
 		if str(weapon.get("weapon_class", "")) == str(character.get("weapon_class", "")):
 			default_weapon = str(weapon.get("id", ""))
 			break
+	var source := str(character.get("acquisition_source", "RESERVED"))
+	var acquisition_status := "OWNED" if unlocked else ("LOCKED_ACQUIRABLE" if source == "EVENT_CONTACT" else "RESERVED_FUTURE")
 	return {
 		"unlocked": unlocked,
+		"acquisition_status": acquisition_status,
 		"level": 1,
 		"xp": 0,
 		"breakthrough": 0,
@@ -550,9 +585,20 @@ func _ensure_roster_entries() -> void:
 	for character_value in DataRegistry.list_of("characters"):
 		var character: Dictionary = character_value
 		var character_id := str(character.get("id", ""))
-		if character_id.is_empty() or profile.roster.has(character_id): continue
-		# Additive content migration never grants new recruitment rewards.
-		profile.roster[character_id] = _default_roster_entry(character, false)
+		if character_id.is_empty(): continue
+		if not profile.roster.has(character_id):
+			# Additive content migration never grants new recruitment rewards.
+			profile.roster[character_id] = _default_roster_entry(character, false)
+			continue
+		var entry: Dictionary = profile.roster[character_id]
+		var unlocked := bool(entry.get("unlocked", false))
+		var source := str(character.get("acquisition_source", "RESERVED"))
+		# Never revoke a character from an older save.  Reserved characters already
+		# owned before the campaign split remain explicit LEGACY_OWNED entries.
+		if unlocked:
+			entry["acquisition_status"] = "LEGACY_OWNED" if source == "RESERVED" else "OWNED"
+		else:
+			entry["acquisition_status"] = "LOCKED_ACQUIRABLE" if source == "EVENT_CONTACT" else "RESERVED_FUTURE"
 
 func _ensure_chapter_progress_entries() -> void:
 	if not profile.has("chapter_progress"): profile["chapter_progress"] = {}
@@ -663,13 +709,13 @@ func apply_battle_result_to_map(stage_id: String, victory: bool, map_id := "CH01
 			str(event_payload.get("event_encounter_id", ""))
 		)
 		for character_id_value in recruitment.get("recruit_now_ids", []):
-			unlock_character(str(character_id_value))
+			unlock_character(str(character_id_value), stage_id)
 		# A contact may deliberately mark its second companion as "after this
 		# stage" (for a boss aftermath). record_stage_clear ran before the
 		# contact resolution, so consume that already-satisfied gate once here.
 		# The recruitment state map keeps this idempotent across result callbacks.
 		for character_id_value in MapExplorationServiceScript.resolve_deferred_recruitments(state, definition, stage_id):
-			unlock_character(str(character_id_value))
+			unlock_character(str(character_id_value), stage_id)
 	state.pending_encounter = {}
 	pending_battle_token = ""
 	refresh_chapter_map_reveal(map_id)

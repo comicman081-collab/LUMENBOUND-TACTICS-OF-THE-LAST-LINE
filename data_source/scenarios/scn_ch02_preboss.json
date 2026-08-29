@@ -10,8 +10,14 @@
     },
     {
       "command": "show_portrait",
-      "slot": "RIGHT",
+      "slot": "LEFT",
       "asset_id": "portrait_chr005_dev",
+      "expression": "ALERT"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr008_dev",
       "expression": "ALERT"
     },
     {
@@ -30,8 +36,13 @@
     },
     {
       "command": "dialogue",
-      "speaker_key": "SPEAKER_SOREN",
+      "speaker_key": "SPEAKER_IRI",
       "text_key": "STORY_C2P_02"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_SOREN",
+      "text_key": "STORY_C2P_03"
     },
     {
       "command": "set_expression",
@@ -40,8 +51,8 @@
     },
     {
       "command": "dialogue",
-      "speaker_key": "SPEAKER_SOREN",
-      "text_key": "STORY_C2P_03"
+      "speaker_key": "SPEAKER_IRI",
+      "text_key": "STORY_C2P_04"
     },
     {
       "command": "grant_reward",

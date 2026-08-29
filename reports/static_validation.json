@@ -1,7 +1,7 @@
 {
   "kind": "STATIC_DATA_SOURCE_AUDIT",
-  "total": 70,
-  "pass": 70,
+  "total": 71,
+  "pass": 71,
   "fail": 0,
   "checks": [
     {
@@ -130,9 +130,9 @@
       "details": "132"
     },
     {
-      "name": "enemy counts 12/3/5",
+      "name": "enemy counts 30/12/23",
       "pass": true,
-      "details": "{'NORMAL': 12, 'ELITE': 3, 'BOSS': 5}"
+      "details": "{'NORMAL': 30, 'ELITE': 12, 'BOSS': 23}"
     },
     {
       "name": "boss phases/patterns data-defined",
@@ -140,17 +140,22 @@
       "details": ""
     },
     {
-      "name": "both chapters NORMAL exactly 20",
+      "name": "all 20 chapters have exactly 20 NORMAL operations",
       "pass": true,
       "details": ""
     },
     {
-      "name": "both chapters HARD exactly 10",
+      "name": "all 20 chapters have exactly 5 HARD operations",
       "pass": true,
       "details": ""
     },
     {
-      "name": "each chapter N20 and H10 are bosses",
+      "name": "each chapter N20 is a non-reused boss",
+      "pass": true,
+      "details": ""
+    },
+    {
+      "name": "legacy H06-H10 IDs are retired from active stage data",
       "pass": true,
       "details": ""
     },
@@ -235,9 +240,9 @@
       "details": ""
     },
     {
-      "name": "all 64 immutable combat asset IDs map to SHA-verified RGBA runtime previews",
+      "name": "all 109 immutable combat asset IDs map to SHA-verified RGBA runtime previews",
       "pass": true,
-      "details": "64"
+      "details": "109"
     },
     {
       "name": "combat preview registry preserves honest non-production lineage without workstation paths",
@@ -245,7 +250,7 @@
       "details": ""
     },
     {
-      "name": "scenario count 15",
+      "name": "scenario count 105",
       "pass": true,
       "details": ""
     },

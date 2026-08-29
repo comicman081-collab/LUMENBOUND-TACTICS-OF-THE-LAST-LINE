@@ -70,7 +70,7 @@ func _test_data() -> void:
 	var normal: Array = definition.nodes.filter(func(node): return str(node.node_type).begins_with("NORMAL_"))
 	var hard: Array = definition.nodes.filter(func(node): return str(node.node_type).begins_with("HARD_"))
 	check(normal.size() == 20, "map has exactly 20 NORMAL battle nodes")
-	check(hard.size() == 10, "map has exactly 10 HARD battle nodes")
+	check(hard.size() == 5, "map has exactly 5 HARD battle nodes")
 	check(definition.nodes.filter(func(node): return str(node.get("stage_id", "")) != "").all(func(node): return not DataRegistry.stage(str(node.stage_id)).is_empty()), "all battle nodes reference valid stages")
 	check(definition.nodes.all(func(node): return grid.has(Vector2i(int(node.q), int(node.r)))), "all nodes occupy valid tiles")
 	check(definition.nodes.all(func(node): return grid.traversable(Vector2i(int(node.q), int(node.r)))), "no node collides with blocked terrain")
@@ -125,7 +125,7 @@ func _test_data() -> void:
 	check(event_contract_valid, "MAP_EVENT_LOCALIZATION_01 map events use localization keys without raw runtime text")
 	check(event_localization_valid, "MAP_EVENT_LOCALIZATION_02 all map event title, body and choice keys resolve in ko/en")
 	var companion_localization_valid: bool = true
-	var companion_data_valid: bool = definition.get("event_encounters", []).size() == 19
+	var companion_data_valid: bool = definition.get("event_encounters", []).size() == 4
 	var companion_count := 0
 	var special_enemy_count := 0
 	for encounter_value in definition.get("event_encounters", []):
@@ -149,8 +149,10 @@ func _test_data() -> void:
 			companion_data_valid = false
 		companion_data_valid = companion_data_valid and str(encounter.get("marker", "")) == "BANG" and not str(encounter.get("contact_outcome_key", "")).is_empty() and dialogue_pages.size() >= 2 and dialogue_pages.size() <= 4
 		for recruitment_value in recruitments:
-			companion_data_valid = companion_data_valid and not DataRegistry.character(str((recruitment_value as Dictionary).get("character_id", ""))).is_empty()
-	check(companion_data_valid and companion_count == 15 and special_enemy_count == 4, "EVENT_PAWN_DATA_01 15 companion and 4 special-enemy contacts own validated pre-battle dialogue data")
+			var recruitment: Dictionary = recruitment_value
+			companion_data_valid = companion_data_valid and not DataRegistry.character(str(recruitment.get("character_id", ""))).is_empty()
+			companion_data_valid = companion_data_valid and int(recruitment.get("battle_victories_required", 0)) in range(1, 6)
+	check(companion_data_valid and companion_count == 1 and special_enemy_count == 3, "EVENT_PAWN_DATA_01 one chapter companion and three special-enemy contacts own validated pre-battle dialogue data")
 	check(companion_localization_valid, "EVENT_PAWN_DATA_02 every event and dialogue page resolves in ko/en")
 
 func _test_user_facing_labels() -> void:
@@ -418,7 +420,8 @@ func _test_unlock_and_progress() -> void:
 	var fresh := ProgressScript.create_default(definition)
 	var before: int = fresh.revealed_tiles.size()
 	ProgressScript.refresh_reveal(fresh, definition, 1, 0, false)
-	check(fresh.revealed_tiles.size() >= before and fresh.revealed_tiles.has("2,0"), "victory reveals next NORMAL region")
+	var n02 := LoaderScript.node_for_stage(definition, "CH01-N02")
+	check(fresh.revealed_tiles.size() >= before and fresh.revealed_tiles.has("%d,%d" % [int(n02.q), int(n02.r)]), "victory reveals next NORMAL region")
 	AppState.profile = backup
 
 func _test_save_and_migration() -> void:
@@ -956,7 +959,7 @@ func _test_direct_move_turn_contracts() -> void:
 	check(modal_geometry_ok, "TUTORIAL_MODAL_01 first-map guidance uses one full-screen dimmed 80x85.5 briefing modal with a double gold frame and scrolling body")
 	var portrait_scale := tutorial_screen._compact_ui_scale(Vector2(390, 844))
 	tutorial_screen._apply_tutorial_layout(Vector2(390, 844), true, true, portrait_scale)
-	check(not tutorial_screen.tutorial_dismiss_button.visible and is_equal_approx(tutorial_screen.tutorial_panel.anchor_top, 0.48) and is_equal_approx(tutorial_screen.tutorial_panel.anchor_bottom, 0.955) and tutorial_screen.tutorial_continue_button.custom_minimum_size.x <= 228.1 * portrait_scale and tutorial_screen.tutorial_body.get_theme_font_size("normal_font_size") >= roundi(20.0 * portrait_scale) and tutorial_screen.tutorial_body.get_theme_font_size("bold_font_size") == tutorial_screen.tutorial_body.get_theme_font_size("normal_font_size") and tutorial_screen.tutorial_dimmer.color.a < 0.60, "TUTORIAL_MODAL_02 portrait uses a map-visible lower instruction sheet with equal regular/bold copy and a centered footer")
+	check(tutorial_screen.tutorial_dismiss_button.visible and tutorial_screen.tutorial_dismiss_button.custom_minimum_size.x <= 102.1 * portrait_scale and tutorial_screen.tutorial_dismiss_button.custom_minimum_size.y >= 43.9 * portrait_scale and is_equal_approx(tutorial_screen.tutorial_panel.anchor_top, 0.48) and is_equal_approx(tutorial_screen.tutorial_panel.anchor_bottom, 0.955) and tutorial_screen.tutorial_continue_button.custom_minimum_size.x <= 228.1 * portrait_scale and tutorial_screen.tutorial_body.get_theme_font_size("normal_font_size") >= roundi(20.0 * portrait_scale) and tutorial_screen.tutorial_body.get_theme_font_size("bold_font_size") == tutorial_screen.tutorial_body.get_theme_font_size("normal_font_size") and tutorial_screen.tutorial_dimmer.color.a < 0.60, "TUTORIAL_MODAL_02 portrait uses a map-visible lower instruction sheet with equal regular/bold copy, a centered footer and an explicit skip control")
 	check(ChapterMapScreenScript.tutorial_short_tap_policy(Vector2.ZERO, Vector2(8, 4), 240, false, 18.0, 800) and not ChapterMapScreenScript.tutorial_short_tap_policy(Vector2.ZERO, Vector2(40, 0), 240, false, 18.0, 800) and not ChapterMapScreenScript.tutorial_short_tap_policy(Vector2.ZERO, Vector2(2, 0), 900, false, 18.0, 800) and not ChapterMapScreenScript.tutorial_short_tap_policy(Vector2.ZERO, Vector2.ZERO, 120, true, 18.0, 800), "TUTORIAL_MODAL_03 any short body/title tap dismisses while drag, long press and canceled touch remain scroll-safe")
 	tutorial_screen._set_tutorial_step(3)
 	check(tutorial_screen.tutorial_panel.visible and not tutorial_screen.moving and not tutorial_screen.turn_transitioning, "TUTORIAL_MODAL_04 showing the third briefing step is presentation-only and never takes movement authority")
@@ -990,25 +993,24 @@ func _test_exploration_pulses_and_companion_events() -> void:
 	check(module_capacity == 5, "PULSE_04 owned exploration modules extend capacity without consuming stamina")
 	var map_screen_source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd")
 	check(map_screen_source.contains("노선 모듈 +%d · 최종 상한 %d") and map_screen_source.contains("account_level_milestones") and map_screen_source.contains("mobility_items") and map_screen_source.contains("노란 영역 안에서만 이동"), "PULSE_UI_01 map detail exposes base, account-level, route-module and global movement-cap sources")
-	var vera := ExplorationScript.event_encounter_for_node(definition, "NODE_N04")
-	var toa := ExplorationScript.event_encounter_for_node(definition, "NODE_N08")
-	check(str(vera.get("character_id", "")) == "CHR006" and str(vera.get("marker", "")) == "BANG" and str(toa.get("character_id", "")) == "CHR007", "EVENT_PAWN_01 authored event encounters map to companion identities and bang markers")
+	var vera := ExplorationScript.event_encounter_for_node(definition, "NODE_N08")
+	check(str(vera.get("character_id", "")) == "CHR006" and str(vera.get("marker", "")) == "BANG", "EVENT_PAWN_01 authored event encounter maps to Vera and the bang marker")
 	check(ExplorationScript.event_encounter_state(state, str(vera.get("event_encounter_id", ""))) == "AVAILABLE", "EVENT_PAWN_02 special encounter begins available without mutating stage unlock")
 	# The contact payload must survive the map-to-battle handoff as presentation
 	# context only. It is not a second reward or recruitment authority.
 	AppState.profile.chapter_map = {"CH01_MAP": state.duplicate(true)}
 	var credit_before_contact := int(AppState.profile.inventory.get("CREDIT", 0))
 	AppState.pending_battle_token = ""
-	check(AppState.prepare_map_encounter("CH01-N04", "NODE_N04", Vector2i.ZERO), "EVENT_PAWN_02A special contact prepares one ordinary battle transaction")
+	check(AppState.prepare_map_encounter("CH01-N08", "NODE_N08", Vector2i.ZERO), "EVENT_PAWN_02A special contact prepares one ordinary battle transaction")
 	var contact_payload := AppState.pending_map_special_event()
 	check(str(contact_payload.get("event_encounter_id", "")) == str(vera.get("event_encounter_id", "")) and str(contact_payload.get("event_kind", "")) == "COMPANION" and str(contact_payload.get("character_id", "")) == "CHR006" and str(contact_payload.get("contact_outcome_key", "")) == str(vera.get("contact_outcome_key", "")) and contact_payload.get("pre_battle_dialogue", []).size() == 3 and str(state.get("recruitment_states", {}).get("CHR006", "")) == "UNMET", "EVENT_PAWN_02B companion contact carries dialogue presentation only; recruitment is still uncommitted before victory")
 	AppState.abandon_pending_map_encounter()
 	check(AppState.pending_map_special_event().is_empty() and int(AppState.profile.inventory.get("CREDIT", 0)) == credit_before_contact, "EVENT_PAWN_02C abandoning a special contact clears only its presentation transaction and grants no reward")
-	var anomaly := ExplorationScript.event_encounter_for_node(definition, "NODE_N12")
-	check(str(anomaly.get("event_kind", "")) == "SPECIAL_ENEMY" and str(anomaly.get("enemy_id", "")) == "ENM012" and anomaly.get("recruitments", []).is_empty(), "EVENT_PAWN_02D special enemy contact is a non-recruiting event with an authored enemy identity")
-	check(AppState.prepare_map_encounter("CH01-N12", "NODE_N12", Vector2i.ZERO), "EVENT_PAWN_02E special enemy contact prepares its ordinary map battle transaction")
+	var anomaly := ExplorationScript.event_encounter_for_node(definition, "NODE_N06")
+	check(str(anomaly.get("event_kind", "")) == "SPECIAL_ENEMY" and str(anomaly.get("enemy_id", "")) == "ENM010" and anomaly.get("recruitments", []).is_empty(), "EVENT_PAWN_02D special enemy contact is a non-recruiting event with an authored enemy identity")
+	check(AppState.prepare_map_encounter("CH01-N06", "NODE_N06", Vector2i.ZERO), "EVENT_PAWN_02E special enemy contact prepares its ordinary map battle transaction")
 	var anomaly_payload := AppState.pending_map_special_event()
-	check(str(anomaly_payload.get("event_kind", "")) == "SPECIAL_ENEMY" and str(anomaly_payload.get("enemy_id", "")) == "ENM012" and anomaly_payload.get("character_ids", []).is_empty() and anomaly_payload.get("pre_battle_dialogue", []).size() == 3, "EVENT_PAWN_02F special enemy handoff carries enemy art/dialogue data but no companion grant")
+	check(str(anomaly_payload.get("event_kind", "")) == "SPECIAL_ENEMY" and str(anomaly_payload.get("enemy_id", "")) == "ENM010" and anomaly_payload.get("character_ids", []).is_empty() and anomaly_payload.get("pre_battle_dialogue", []).size() == 3, "EVENT_PAWN_02F special enemy handoff carries enemy art/dialogue data but no companion grant")
 	AppState.abandon_pending_map_encounter()
 	# Reproduce the player-facing last approach: an honestly unlocked N20 route
 	# ends on the hostile hex, then the existing one-shot contact transaction
@@ -1042,13 +1044,25 @@ func _test_exploration_pulses_and_companion_events() -> void:
 	var recovered_boss_state := AppState.chapter_map_state()
 	check(AppState.pending_battle_token.is_empty() and AppState.pending_map_encounter_presentation().is_empty() and recovered_boss_state.get("pending_encounter", {}).is_empty() and int(recovered_boss_state.get("current_q", 999)) == boss_pre_contact.x and int(recovered_boss_state.get("current_r", 999)) == boss_pre_contact.y and boss_payload == expected_boss_payload, "BOSS_PRESENTATION_05 reload clears a live boss presentation and restores the exact pre-contact map hex")
 	AppState.abandon_pending_map_encounter()
-	var vera_result := ExplorationScript.resolve_event_encounter_victory(state, definition, "NODE_N04", "CH01-N04")
+	var vera_result := ExplorationScript.resolve_event_encounter_victory(state, definition, "NODE_N08", "CH01-N08")
 	check(bool(vera_result.get("recruit_now", false)) and str(state.recruitment_states.get("CHR006", "")) == "READY", "EVENT_PAWN_03 contact victory resolves the immediate companion only once")
-	var vera_again := ExplorationScript.resolve_event_encounter_victory(state, definition, "NODE_N04", "CH01-N04")
+	var vera_again := ExplorationScript.resolve_event_encounter_victory(state, definition, "NODE_N08", "CH01-N08")
 	check(vera_again.is_empty(), "EVENT_PAWN_04 reload or duplicate result cannot recruit twice")
-	var toa_result := ExplorationScript.resolve_event_encounter_victory(state, definition, "NODE_N08", "CH01-N08")
-	check(not bool(toa_result.get("recruit_now", true)) and str(state.recruitment_states.get("CHR007", "")) == "PENDING", "EVENT_PAWN_05 later companion remains pending after contact victory")
-	check(ExplorationScript.resolve_deferred_recruitments(state, definition, "CH01-N08").is_empty() and ExplorationScript.resolve_deferred_recruitments(state, definition, "CH01-N09") == ["CHR007", "CHR018"], "EVENT_PAWN_06 later recruitments only resolve at their authored progression stage")
+	var two_definition := LoaderScript.load_map("CH05_MAP")
+	var two_event: Dictionary = two_definition.get("event_encounters", []).filter(func(row): return str(row.get("event_kind", "")) == "COMPANION").front()
+	var two_state := ProgressScript.create_default(two_definition)
+	ExplorationScript.ensure_state(two_state, two_definition)
+	var two_contact := ExplorationScript.resolve_event_encounter_victory(two_state, two_definition, str(two_event.node_id), str(two_event.stage_id))
+	var two_join := ExplorationScript.resolve_deferred_recruitments(two_state, two_definition, "CH05-N10")
+	check(not bool(two_contact.get("recruit_now", true)) and str(two_state.recruitment_states.get("CHR010", "")) == "READY" and two_join == ["CHR010"], "EVENT_PAWN_05 Chapter 5 companion resolves after the authored two-victory route")
+	var three_definition := LoaderScript.load_map("CH14_MAP")
+	var three_event: Dictionary = three_definition.get("event_encounters", []).filter(func(row): return str(row.get("event_kind", "")) == "COMPANION").front()
+	var three_state := ProgressScript.create_default(three_definition)
+	ExplorationScript.ensure_state(three_state, three_definition)
+	var three_contact := ExplorationScript.resolve_event_encounter_victory(three_state, three_definition, str(three_event.node_id), str(three_event.stage_id))
+	var three_second := ExplorationScript.resolve_deferred_recruitments(three_state, three_definition, "CH14-N15")
+	var three_third := ExplorationScript.resolve_deferred_recruitments(three_state, three_definition, "CH14-N16")
+	check(not bool(three_contact.get("recruit_now", true)) and three_second.is_empty() and three_third == ["CHR019"] and str(three_state.recruitment_states.get("CHR019", "")) == "READY", "EVENT_PAWN_06 Chapter 14 companion resolves exactly after the authored three-victory route", JSON.stringify({"second": three_second, "third": three_third, "progress": three_state.get("recruitment_progress", {})}))
 	# Chapter expansion contacts may introduce a duo. Prove the two records retain
 	# one map transaction, resolve different timings, and cannot double-grant.
 	var duo_definition := definition.duplicate(true)
@@ -1066,6 +1080,22 @@ func _test_exploration_pulses_and_companion_events() -> void:
 	var duo_repeat := ExplorationScript.resolve_event_encounter_victory(duo_state, duo_definition, "NODE_N03", "CH01-N03")
 	check(duo_result.get("recruit_now_ids", []) == ["CHR006"] and str(duo_state.recruitment_states.get("CHR007", "")) == "PENDING" and duo_repeat.is_empty(), "EVENT_PAWN_DUO_01 one contact resolves immediate and delayed recruitments exactly once")
 	check(ExplorationScript.resolve_deferred_recruitments(duo_state, duo_definition, "CH01-N03").is_empty() and ExplorationScript.resolve_deferred_recruitments(duo_state, duo_definition, "CH01-N04") == ["CHR007"] and str(duo_state.recruitment_states.get("CHR007", "")) == "READY", "EVENT_PAWN_DUO_02 deferred member resolves at its authored stage only")
+	var five_battle_definition := definition.duplicate(true)
+	five_battle_definition.event_encounters = [{
+		"event_encounter_id": "TEST_FIVE_BATTLE_CONTACT", "node_id": "NODE_N03", "marker": "BANG", "entry_type": "EVENT_CONTACT",
+		"recruitments": [{"character_id": "CHR020", "recruitment_timing": "IMMEDIATE_ON_VICTORY", "recruit_after_stage_id": "", "battle_victories_required": 5}],
+	}]
+	var five_battle_state := ProgressScript.create_default(five_battle_definition)
+	ExplorationScript.ensure_state(five_battle_state, five_battle_definition)
+	var five_battle_contact := ExplorationScript.resolve_event_encounter_victory(five_battle_state, five_battle_definition, "NODE_N03", "CH01-N03")
+	var before_fifth: Array[String] = []
+	before_fifth.append_array(ExplorationScript.resolve_deferred_recruitments(five_battle_state, five_battle_definition, "CH01-N03"))
+	before_fifth.append_array(ExplorationScript.resolve_deferred_recruitments(five_battle_state, five_battle_definition, "CH01-N04"))
+	before_fifth.append_array(ExplorationScript.resolve_deferred_recruitments(five_battle_state, five_battle_definition, "CH01-N04"))
+	before_fifth.append_array(ExplorationScript.resolve_deferred_recruitments(five_battle_state, five_battle_definition, "CH01-N05"))
+	before_fifth.append_array(ExplorationScript.resolve_deferred_recruitments(five_battle_state, five_battle_definition, "CH01-N06"))
+	var fifth_result := ExplorationScript.resolve_deferred_recruitments(five_battle_state, five_battle_definition, "CH01-N07")
+	check(not bool(five_battle_contact.get("recruit_now", true)) and before_fifth.is_empty() and fifth_result == ["CHR020"] and int(five_battle_state.recruitment_progress.CHR020.get("victories", 0)) == 5, "EVENT_PAWN_ROUTE_01 a five-battle recruit counts unique operation victories and joins exactly on victory five")
 	var source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd")
 	check(source.contains("CompanionEventMapPawn_") and source.contains("event_marker_base_y") and source.contains("! 구조 신호 방향"), "EVENT_PAWN_07 runtime renders companion event pawns with a grounded, pulsing ! marker instead of a generic hostile label")
 	check(LocalizationService.tr_key("MAP_EVENT_CONTACT_SIGNAL") != "[MAP_EVENT_CONTACT_SIGNAL]" and LocalizationService.tr_key("RESULT_EVENT_RECRUITED") != "[RESULT_EVENT_RECRUITED]", "EVENT_PAWN_08 special-contact and companion-result copy resolves without runtime text")
@@ -1086,8 +1116,7 @@ func _test_runtime_companion_event_pawns() -> void:
 	runtime_screen.world_root = Node3D.new()
 	add_child(runtime_screen.world_root)
 	for fixture in [
-		{"node_id": "NODE_N04", "character_id": "CHR006"},
-		{"node_id": "NODE_N08", "character_id": "CHR007"},
+		{"node_id": "NODE_N08", "character_id": "CHR006"},
 	]:
 		var node := LoaderScript.node_by_id(definition, str(fixture.node_id))
 		runtime_screen._create_enemy_pawn(node)
@@ -1098,13 +1127,13 @@ func _test_runtime_companion_event_pawns() -> void:
 		check(pawn != null and bool(pawn.get_meta("companion_event", false)) and pawn.name.begins_with("CompanionEventMapPawn_"), "EVENT_PAWN_RUNTIME_01 %s creates an authored companion pawn" % str(fixture.node_id))
 		check(sprite != null and sprite.texture != null and str(pack.get("source_id", "")) == str(fixture.character_id), "EVENT_PAWN_RUNTIME_02 %s resolves the companion SD MAP_IDLE texture" % str(fixture.node_id))
 		check(marker != null and marker.text == "!" and float(marker.position.y) > float(sprite.position.y if sprite != null else 0.0), "EVENT_PAWN_RUNTIME_03 %s grounds the companion pawn and lifts its event marker" % str(fixture.node_id))
-	var anomaly_node := LoaderScript.node_by_id(definition, "NODE_N12")
+	var anomaly_node := LoaderScript.node_by_id(definition, "NODE_N06")
 	runtime_screen._create_enemy_pawn(anomaly_node)
-	var anomaly_pawn: Node3D = runtime_screen.enemy_pawns.get("NODE_N12")
+	var anomaly_pawn: Node3D = runtime_screen.enemy_pawns.get("NODE_N06")
 	var anomaly_sprite: Sprite3D = anomaly_pawn.get_node_or_null("EnemyIdleSprite") if anomaly_pawn != null else null
 	var anomaly_marker: Label3D = anomaly_pawn.get_meta("event_marker", null) if anomaly_pawn != null else null
-	var anomaly_pack: Dictionary = runtime_screen.enemy_animation_packs.get("NODE_N12", {})
-	check(anomaly_pawn != null and bool(anomaly_pawn.get_meta("event_contact", false)) and not bool(anomaly_pawn.get_meta("companion_event", true)) and anomaly_sprite != null and anomaly_sprite.texture != null and str(anomaly_pack.get("source_id", "")) == "ENM012" and anomaly_marker != null and anomaly_marker.text == "!", "EVENT_PAWN_RUNTIME_04 special-enemy contact keeps its enemy SD art and the same ! interaction marker")
+	var anomaly_pack: Dictionary = runtime_screen.enemy_animation_packs.get("NODE_N06", {})
+	check(anomaly_pawn != null and bool(anomaly_pawn.get_meta("event_contact", false)) and not bool(anomaly_pawn.get_meta("companion_event", true)) and anomaly_sprite != null and anomaly_sprite.texture != null and str(anomaly_pack.get("source_id", "")) == "ENM010" and anomaly_marker != null and anomaly_marker.text == "!", "EVENT_PAWN_RUNTIME_04 special-enemy contact keeps its enemy SD art and the same ! interaction marker")
 	var duo_definition := definition.duplicate(true)
 	duo_definition.event_encounters = [{
 		"event_encounter_id": "TEST_DUO_RENDER", "node_id": "NODE_N03", "marker": "BANG", "entry_type": "EVENT_CONTACT",

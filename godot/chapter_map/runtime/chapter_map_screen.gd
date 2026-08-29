@@ -527,8 +527,8 @@ func _build_first_map_tutorial() -> void:
 		tutorial_eyebrow.add_theme_font_override("font", briefing_meta_font)
 	tutorial_header.add_child(tutorial_eyebrow)
 	tutorial_dismiss_button = Button.new()
-	tutorial_dismiss_button.text = "안내 접기  ▲"
-	tutorial_dismiss_button.tooltip_text = "현재 단계 안내를 접고 지도를 조작합니다"
+	tutorial_dismiss_button.text = "안내 건너뛰기"
+	tutorial_dismiss_button.tooltip_text = "첫 작전 안내를 마치고 바로 지도를 조작합니다"
 	tutorial_dismiss_button.custom_minimum_size = Vector2(138, 44)
 	tutorial_dismiss_button.add_theme_font_size_override("font_size", 19)
 	tutorial_dismiss_button.add_theme_color_override("font_color", Color("e8d29b"))
@@ -536,7 +536,7 @@ func _build_first_map_tutorial() -> void:
 		tutorial_dismiss_button.add_theme_font_override("font", briefing_meta_font)
 	tutorial_dismiss_button.add_theme_stylebox_override("normal", _panel_style(Color("0c2230"), Color("806b3e"), 1, 8))
 	tutorial_dismiss_button.add_theme_stylebox_override("hover", _panel_style(Color("143848"), Color("9cebd8"), 1, 8))
-	tutorial_dismiss_button.pressed.connect(_hide_first_map_tutorial_modal)
+	tutorial_dismiss_button.pressed.connect(_complete_first_map_tutorial)
 	tutorial_header.add_child(tutorial_dismiss_button)
 	tutorial_title = Label.new()
 	tutorial_title.add_theme_font_size_override("font_size", 38)
@@ -596,7 +596,7 @@ func _build_first_map_tutorial() -> void:
 		tutorial_continue_button.add_theme_font_override("font", briefing_meta_font)
 	tutorial_continue_button.add_theme_stylebox_override("normal", _panel_style(Color("07131f00"), Color("07131f00"), 0, 6))
 	tutorial_continue_button.add_theme_stylebox_override("hover", _panel_style(Color("12303b99"), Color("6fcbb8"), 1, 6))
-	tutorial_continue_button.pressed.connect(_hide_first_map_tutorial_modal)
+	tutorial_continue_button.pressed.connect(_advance_first_map_tutorial)
 	tutorial_footer.add_child(tutorial_continue_button)
 	tutorial_progress_label = Label.new()
 	tutorial_progress_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -611,15 +611,18 @@ func _build_first_map_tutorial() -> void:
 	_set_tutorial_step(1)
 
 func _input(event: InputEvent) -> void:
-	# The briefing promises that any short click/tap dismisses it, including its
-	# title and body.  Track this at screen level so a RichTextLabel or the
-	# ScrollContainer cannot create dead zones.  A drag invalidates the gesture,
-	# leaving the body scrollable on narrow screens.
+	# The briefing promises that any short click/tap progresses the current step,
+	# including its title and body. Track this at screen level so a RichTextLabel
+	# or ScrollContainer cannot create dead zones. A drag remains a scroll gesture.
+	# The explicit skip control is exempted so it can finish the guide immediately.
 	if tutorial_panel == null or not tutorial_panel.visible:
 		return
 	var threshold := 18.0 * _portrait_ui_scale(_runtime_layout_size())
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
+			if _tutorial_skip_contains(event.position):
+				_reset_tutorial_pointer()
+				return
 			tutorial_pointer_active = true
 			tutorial_pointer_tap_valid = true
 			tutorial_pointer_origin = event.position
@@ -628,12 +631,16 @@ func _input(event: InputEvent) -> void:
 			var short_click: bool = tutorial_pointer_tap_valid and tutorial_short_tap_policy(tutorial_pointer_origin, event.position, Time.get_ticks_msec() - tutorial_pointer_started_msec, false, threshold, 800)
 			_reset_tutorial_pointer()
 			if short_click:
-				_hide_first_map_tutorial_modal()
+				_advance_first_map_tutorial()
+				get_viewport().set_input_as_handled()
 	elif event is InputEventMouseMotion and tutorial_pointer_active:
 		if event.position.distance_to(tutorial_pointer_origin) > threshold:
 			tutorial_pointer_tap_valid = false
 	elif event is InputEventScreenTouch and event.index == 0:
 		if event.pressed:
+			if _tutorial_skip_contains(event.position):
+				_reset_tutorial_pointer()
+				return
 			tutorial_pointer_active = true
 			tutorial_pointer_tap_valid = not event.canceled
 			tutorial_pointer_origin = event.position
@@ -642,13 +649,17 @@ func _input(event: InputEvent) -> void:
 			var short_tap: bool = tutorial_pointer_tap_valid and tutorial_short_tap_policy(tutorial_pointer_origin, event.position, Time.get_ticks_msec() - tutorial_pointer_started_msec, event.canceled, 24.0 * _portrait_ui_scale(_runtime_layout_size()), 900)
 			_reset_tutorial_pointer()
 			if short_tap:
-				_hide_first_map_tutorial_modal()
+				_advance_first_map_tutorial()
+				get_viewport().set_input_as_handled()
 	elif event is InputEventScreenDrag and event.index == 0 and tutorial_pointer_active:
 		if event.position.distance_to(tutorial_pointer_origin) > 24.0 * _portrait_ui_scale(_runtime_layout_size()):
 			tutorial_pointer_tap_valid = false
 
 static func tutorial_short_tap_policy(origin: Vector2, released_at: Vector2, elapsed_msec: int, canceled: bool, movement_threshold: float, duration_limit_msec: int) -> bool:
 	return not canceled and elapsed_msec >= 0 and elapsed_msec <= duration_limit_msec and released_at.distance_to(origin) <= movement_threshold
+
+func _tutorial_skip_contains(point: Vector2) -> bool:
+	return tutorial_dismiss_button != null and tutorial_dismiss_button.visible and tutorial_dismiss_button.get_global_rect().has_point(point)
 
 func _reset_tutorial_pointer() -> void:
 	tutorial_pointer_active = false
@@ -663,6 +674,14 @@ func _hide_first_map_tutorial_modal() -> void:
 		tutorial_dimmer.visible = false
 	if tutorial_panel != null:
 		tutorial_panel.visible = false
+
+func _advance_first_map_tutorial() -> void:
+	if not _first_map_tutorial_active():
+		return
+	if tutorial_step >= 3:
+		_complete_first_map_tutorial()
+		return
+	_set_tutorial_step(tutorial_step + 1)
 
 func _start_first_map_tutorial() -> void:
 	if not _first_map_tutorial_active() or tutorial_panel == null:
@@ -705,6 +724,7 @@ func _complete_first_map_tutorial() -> void:
 		return
 	AppState.profile.tutorial_progress["map_basics_complete"] = true
 	_hide_first_map_tutorial_modal()
+	SaveService.save_game()
 
 func _apply_tutorial_layout(size: Vector2, portrait: bool, compact: bool, ui_scale: float) -> void:
 	if tutorial_panel == null:
@@ -753,14 +773,12 @@ func _apply_tutorial_layout(size: Vector2, portrait: bool, compact: bool, ui_sca
 	tutorial_continue_button.custom_minimum_size = Vector2(continue_width, 46.0 * ui_scale)
 	tutorial_continue_button.add_theme_font_size_override("font_size", _tutorial_logical_px(17.0 if portrait else (18.0 if compact else 20.0), size))
 	tutorial_progress_label.add_theme_font_size_override("font_size", _tutorial_logical_px(14.0 if portrait else (15.0 if compact else 17.0), size))
-	tutorial_dismiss_button.custom_minimum_size = Vector2(132.0 * ui_scale, 44.0 * ui_scale)
-	tutorial_dismiss_button.add_theme_font_size_override("font_size", roundi(18.0 * ui_scale))
-	# The portrait modal has roughly 240 physical pixels after its specified side
-	# padding.  Keeping a 132 px dismiss button beside the eyebrow would force the
-	# header wider than that content rail.  The centered footer prompt remains the
-	# collapse affordance on phones, while wider layouts keep the explicit header
-	# control as well.
-	tutorial_dismiss_button.visible = not portrait
+	# Keep the explicit skip control in every viewport. The prior portrait-only
+	# hiding left phone players with no visible way to decline a first-run guide.
+	# A compact 102 px control still fits beside the eyebrow in the 320 px class.
+	tutorial_dismiss_button.custom_minimum_size = Vector2((102.0 if portrait else 132.0) * ui_scale, 44.0 * ui_scale)
+	tutorial_dismiss_button.add_theme_font_size_override("font_size", _tutorial_logical_px(13.0 if portrait else 18.0, size))
+	tutorial_dismiss_button.visible = true
 
 func _tutorial_logical_px(target_css_px: float, runtime_size: Vector2) -> int:
 	var safe_size := Vector2(maxf(1.0, runtime_size.x), maxf(1.0, runtime_size.y))
@@ -2104,10 +2122,17 @@ func _load_runtime_map_texture(path: String) -> Texture2D:
 	return ImageTexture.create_from_image(image)
 
 func _create_enemy_pawn(node: Dictionary) -> void:
-	var enemy := _enemy_for_node(node)
-	if enemy.is_empty(): return
 	var node_id := str(node.get("node_id", ""))
 	var special_event := _event_encounter_for_node(node_id)
+	var enemy := _enemy_for_node(node)
+	# A SPECIAL_ENEMY contact is authored around one identifiable monster.  The
+	# map pawn must therefore use that event identity instead of the stage wave's
+	# first generic enemy; otherwise the ! dialogue names one creature while the
+	# world visibly presents another.
+	if str(special_event.get("event_kind", "")) == "SPECIAL_ENEMY":
+		var event_enemy := DataRegistry.enemy(str(special_event.get("enemy_id", "")))
+		if not event_enemy.is_empty(): enemy = event_enemy
+	if enemy.is_empty(): return
 	var companion_ids: Array[String] = []
 	if not special_event.is_empty():
 		for recruitment_value in MapExplorationServiceScript.recruitment_specs(special_event):

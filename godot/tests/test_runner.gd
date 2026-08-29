@@ -227,7 +227,7 @@ func _test_responsive_ui_contracts() -> void:
 		{"command": "choice"},
 	]
 	check(shell.story_page_progress(sample_story_commands, 3) == Vector2i(2, 3), "story page counter excludes internal art and audio commands")
-	check(shell_source.contains("title_cast_plate_r1.png") and shell_source.contains("title_cast_plate_portrait_r1.png") and shell_source.contains("title_logo_r1.png") and shell_source.contains("PortraitTitleCastLeft") and shell_source.contains("PortraitTitleCastRight") and shell_source.contains("CHR008/portrait.png") and shell_source.contains("CHR001/portrait.png") and shell_source.contains("Vector2(126.0, 252.0) * portrait_scale") and shell_source.contains("12.0 * portrait_scale") and shell_source.contains("var portrait_scale := _portrait_ui_scale() if portrait else 1.0") and shell_source.contains("Vector2(300.0, 84.0) * portrait_scale") and shell_source.contains("_label(notice_copy, 20 if portrait else 22") and shell_source.contains("TAP TO BEGIN") and shell_source.contains("START GAME  ·  기록 시작") and FileAccess.file_exists("res://assets/art/title/title_cast_plate_r1.png"), "portrait title keeps its full-body lead cast inside equal safe insets while retaining a single-scale LUMENBOUND lockup and clear START action")
+	check(shell_source.contains("title_cast_plate_r1.png") and shell_source.contains("title_cast_plate_portrait_r1.png") and shell_source.contains("title_logo_r1.png") and shell_source.contains("PortraitTitleCastLeft") and shell_source.contains("PortraitTitleCastRight") and shell_source.contains("CHR008/portrait.png") and shell_source.contains("CHR001/portrait.png") and shell_source.contains("Vector2(126.0, 252.0) * portrait_scale") and shell_source.contains("12.0 * portrait_scale") and shell_source.contains("var portrait_scale := _portrait_ui_scale() if portrait else 1.0") and shell_source.contains("Vector2(300.0, 84.0) * portrait_scale") and shell_source.contains("_label(notice_copy, 20 if portrait else 22") and shell_source.contains("START GAME을 눌러 시작") and shell_source.contains("START GAME  ·  기록 시작") and FileAccess.file_exists("res://assets/art/title/title_cast_plate_r1.png"), "portrait title keeps its full-body lead cast inside equal safe insets while retaining a single-scale LUMENBOUND lockup and clear START action")
 	var title_builder_source := FileAccess.get_file_as_string("res://../tools/art/build_title_cast_plate.py")
 	check(title_builder_source.contains("LUMENBOUND") and title_builder_source.contains("TACTICS OF THE LAST LINE") and not title_builder_source.contains("AFTER SIGNAL") and not title_builder_source.contains("잔광기록"), "title logo source uses the tactical LUMENBOUND lockup without either rejected title")
 	var canonical_game_title := "LUMENBOUND: TACTICS OF THE LAST LINE"
@@ -254,7 +254,15 @@ func _test_responsive_ui_contracts() -> void:
 	var story_extension_contract := shell_source.contains("StoryTopRightControls") and shell_source.contains("StoryAutoButton") and shell_source.contains("StorySkipButton") and shell_source.contains("StorySpeakerEyebrow") and shell_source.contains("LUMENBOUND · VOICE LINK") and shell_source.contains("StoryMintSignalRail") and shell_source.contains("StoryPageIndicator") and shell_source.contains("_story_dialogue_style(false)")
 	check(shell_source.contains("ClickablePrologueTextBox") and cinematic_prologue_contract and story_extension_contract and shell_source.contains("func _request_story_text_box_advance") and shell_source.contains("scenario_text.visible_ratio = 1.0"), "story text box keeps click/touch typewriter behavior while both story modes expose the LUMENBOUND dialogue hierarchy and fixed AUTO/SKIP rail")
 	var map_source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd")
-	check(map_source.contains("FirstMapTutorialDimmer") and map_source.contains("tutorial_eyebrow.text = \"첫 작전 안내") and map_source.contains("tutorial_progress_label.text") and map_source.contains("map_basics_complete") and map_source.contains("_select_next_encounter()"), "first chapter map provides contextual selection, movement and encounter tutorial guidance")
+	var map_tutorial_flow_contract := map_source.contains("func _advance_first_map_tutorial()") and map_source.contains("tutorial_dismiss_button.text = \"안내 건너뛰기\"") and map_source.contains("tutorial_continue_button.pressed.connect(_advance_first_map_tutorial)") and map_source.contains("tutorial_dismiss_button.pressed.connect(_complete_first_map_tutorial)") and map_source.contains("tutorial_dismiss_button.visible = true") and map_source.contains("get_viewport().set_input_as_handled()")
+	check(map_source.contains("FirstMapTutorialDimmer") and map_source.contains("tutorial_eyebrow.text = \"첫 작전 안내") and map_source.contains("tutorial_progress_label.text") and map_source.contains("map_basics_complete") and map_source.contains("_select_next_encounter()") and map_tutorial_flow_contract, "first chapter map provides contextual selection, movement and encounter guidance with actual three-step progression and an explicit skip")
+	var app_state_source := FileAccess.get_file_as_string("res://autoload/app_state.gd")
+	var home_onboarding_contract := shell_source.contains("HomeFirstOperationTutorialCanvas") and shell_source.contains("HomeTutorialSkipButton") and shell_source.contains("HomeTutorialContinueButton") and shell_source.contains("home_tutorial_surface.theme = theme") and shell_source.contains("자, 이제 제1장 탐색을 시작합니다") and shell_source.contains("func _complete_home_tutorial_and_launch()") and shell_source.contains("SceneRouter.go(\"STAGE_SELECT\")") and shell_source.contains("HomeFirstOperationButton") and shell_source.contains("home_menu_buttons[\"STAGE\"]") and app_state_source.contains("\"home_basics_complete\": false") and app_state_source.contains("tutorial_progress[\"home_basics_complete\"] = false")
+	check(home_onboarding_contract, "first HQ visit explains navigation, exposes Skip, and launches Chapter 1 without an unlabelled menu dead end")
+	var story_skip_contract := shell_source.contains("STORY_SKIP_ALL") and shell_source.contains("현재 이야기 전체 건너뛰기") and shell_source.contains("while not scenario_runner.state.finished and safety < 1000") and shell_source.contains("_finish_story_navigation()")
+	check(story_skip_contract, "player SKIP completes the current story scene instead of advancing only one line")
+	var mobile_navigation_layout_contract := shell_source.contains("START GAME 버튼을 클릭 / 터치해 시작") and shell_source.contains("아래 응답 중 하나를 선택해 기록을 시작하세요.") and shell_source.contains("var preset_row: Container = GridContainer.new() if portrait else HBoxContainer.new()") and shell_source.contains("var slots: Container = GridContainer.new() if portrait else HBoxContainer.new()") and shell_source.contains("var compact_details := portrait or _is_compact_landscape_layout()") and shell_source.contains("var stage_scroll := ScrollContainer.new()") and shell_source.contains("var roster_box := _scroll_box()") and shell_source.contains("var growth_content := _scroll_box()") and shell_source.contains("var archive_box := _scroll_box()") and shell_source.contains("grid.columns = 1 if portrait else 5") and shell_source.contains("grid.columns = 1 if portrait else 4")
+	check(mobile_navigation_layout_contract, "title, story choice, formation, stage fallback, roster, growth, inventory and archive routes expose explicit scrollable actions without portrait overflow")
 	check(not shell_source.contains("두둥!") and not map_source.contains("두둥!") and shell_source.contains("_play_special_event_dialogue") and shell_source.contains("PreBattleEventDialog") and shell_source.contains("EventKeyVisual") and shell_source.contains("panel.gui_input.connect") and shell_source.contains("MAP_EVENT_DIALOGUE_SKIP"), "encounter presentation advances a real event dialogue with character/enemy key art instead of rendering a sound-effect caption")
 	check(shell_source.contains("_reward_celebration_queue") and shell_source.contains("RewardCelebrationQueue") and shell_source.contains("RewardCelebrationHalfBodyArt") and shell_source.contains("NEW ALLY JOINED") and shell_source.contains("KEY ACQUISITION") and shell_source.contains("RewardCelebrationSkip") and shell_source.contains("last_reward_report"), "result screen presents a skippable ally/key-item achievement queue from the committed report without creating a second reward grant")
 	check(map_source.contains("EnemyOcclusionSilhouette") and map_source.contains("SquadOcclusionSilhouette") and map_source.contains("no_depth_test = true") and map_source.contains("const PAWN_STEP_DURATION := 0.18") and map_source.contains("func _arrival_resolution_owns_save"), "map pawns retain occlusion silhouettes while movement and arrival persistence use the fast path")
@@ -351,7 +359,7 @@ func _test_combat_art_contracts() -> void:
 		runtime_sprite_frames_valid = runtime_sprite_frames_valid and runtime_sprites.supports_character(entity_id)
 		for animation_name in expected:
 			runtime_sprite_frames_valid = runtime_sprite_frames_valid and runtime_sprites.texture_at(entity_id, animation_name, 0.0) != null
-	check(runtime_sprite_frames_valid and runtime_entities.size() == 64, "Web battle presentation resolves all 44 players and 20 enemies")
+	check(runtime_sprite_frames_valid and runtime_entities.size() == 109, "Web battle presentation resolves all 44 players and 65 enemies")
 	var runtime_projectiles := ProjectileSpriteLibrary.new()
 	var runtime_projectile_loaded := runtime_projectiles.load_pack()
 	var runtime_projectile_frames_valid := runtime_projectile_loaded
@@ -557,16 +565,14 @@ func _test_data() -> void:
 	check(monotonic, "positive stats never reverse")
 	var normal := DataRegistry.list_of("stages").filter(func(stage): return stage.mode == "NORMAL")
 	var hard := DataRegistry.list_of("stages").filter(func(stage): return stage.mode == "HARD")
-	var ch01_normal := normal.filter(func(stage): return str(stage.chapter_id) == "CH01")
-	var ch02_normal := normal.filter(func(stage): return str(stage.chapter_id) == "CH02")
-	var ch01_hard := hard.filter(func(stage): return str(stage.chapter_id) == "CH01")
-	var ch02_hard := hard.filter(func(stage): return str(stage.chapter_id) == "CH02")
-	check(ch01_normal.size() == 20 and ch02_normal.size() == 20, "both chapters have exactly 20 NORMAL operations")
-	check(ch01_hard.size() == 10 and ch02_hard.size() == 10, "both chapters have exactly 10 HARD operations")
-	check(normal.filter(func(stage): return stage.boss).size() == 2 and normal.filter(func(stage): return int(stage.stage_number) == 20), "each chapter NORMAL 20 is boss")
-	var hard_finales := hard.filter(func(stage): return bool(stage.boss) and int(stage.stage_number) == 10)
-	var optional_ch01_h03_boss := bool(DataRegistry.stage("CH01-H03").get("boss", false))
-	check(hard_finales.size() == 2 and optional_ch01_h03_boss, "each chapter HARD 10 is boss and CH01-H03 retains its authored unique boss metadata")
+	var campaign_counts_valid := DataRegistry.list_of("chapters").size() == 20 and normal.size() == 400 and hard.size() == 100
+	for chapter_value in DataRegistry.list_of("chapters"):
+		var chapter_id := str((chapter_value as Dictionary).get("id", ""))
+		campaign_counts_valid = campaign_counts_valid and normal.filter(func(stage): return str(stage.chapter_id) == chapter_id).size() == 20
+		campaign_counts_valid = campaign_counts_valid and hard.filter(func(stage): return str(stage.chapter_id) == chapter_id).size() == 5
+	check(campaign_counts_valid, "all 20 chapters have exactly 20 NORMAL and 5 HARD operations")
+	check(normal.filter(func(stage): return bool(stage.boss) and int(stage.stage_number) == 20).size() == 20, "each chapter NORMAL 20 is a boss battle")
+	check(DataRegistry.stage("CH01-H06").is_empty() and DataRegistry.stage("CH02-H10").is_empty(), "legacy Chapter 1-2 H06-H10 IDs are retired")
 	var rewards_valid := true
 	for stage in DataRegistry.list_of("stages"):
 		var reward := DataRegistry.by_id("rewards", stage.reward_table_id)
@@ -585,7 +591,7 @@ func _test_data() -> void:
 		for key in ["asset_id", "portrait_asset_id", "icon_asset_id"]: assets_resolve = assets_resolve and AssetRegistry.resolve(character[key]) != ""
 	check(assets_resolve, "all character asset IDs resolve (placeholder allowed)")
 	var combat_preview_assets: Array = DataRegistry.list_of("characters") + DataRegistry.list_of("enemies")
-	var combat_previews_connected := combat_preview_assets.size() == 64
+	var combat_previews_connected := combat_preview_assets.size() == 109
 	var combat_preview_lineage_honest := true
 	for row in combat_preview_assets:
 		var combat_asset_id := str(row.get("asset_id", ""))
@@ -593,7 +599,7 @@ func _test_data() -> void:
 		combat_previews_connected = combat_previews_connected and not AssetRegistry.is_placeholder(combat_asset_id) and AssetRegistry.status_of(combat_asset_id) == "RUNTIME_WEB_COMBAT_PREVIEW" and combat_preview_path.begins_with("res://assets/runtime_web/combat/") and combat_preview_path.ends_with("/preview.png") and ResourceLoader.exists(combat_preview_path)
 		var registered_entry: Dictionary = AssetRegistry.assets.get(combat_asset_id, {})
 		combat_preview_lineage_honest = combat_preview_lineage_honest and str(registered_entry.get("source_status", "")) != "" and str(registered_entry.get("qa_status", "")) == "RUNTIME_CONNECTED_NOT_PRODUCTION_APPROVED" and registered_entry.get("production_approved", true) == false
-	check(combat_previews_connected, "all 64 CharacterDef and EnemyDef combat asset IDs resolve to connected runtime previews instead of dev_placeholder")
+	check(combat_previews_connected, "all 109 CharacterDef and EnemyDef combat asset IDs resolve to connected runtime previews instead of dev_placeholder")
 	check(combat_preview_lineage_honest, "combat preview registry retains source status without claiming production approval")
 	var card_8head_contract := _read_json("res://assets/runtime_web/characters/CARD_8HEAD_RGBA_R1_CONTRACT.json")
 	var card_8head_characters: Dictionary = card_8head_contract.get("characters", {})
@@ -619,9 +625,9 @@ func _test_data() -> void:
 			runtime_static_art_valid = runtime_static_art_valid and row_valid
 	check(runtime_static_art_valid, "all 44 non-combat card, recruit, roster, profile and story images use premium 8-head art with #00FF00 provenance, true RGBA, safe insets and continuity approval", JSON.stringify(card_8head_failures))
 	check(DataRegistry.list_of("characters").size() == 44, "MVP has 44 player characters")
-	check(DataRegistry.list_of("enemies").filter(func(enemy): return enemy.rank == "NORMAL").size() == 12, "MVP has 12 normal enemy archetypes")
-	check(DataRegistry.list_of("enemies").filter(func(enemy): return enemy.rank == "ELITE").size() == 3, "vertical slice has 3 elites")
-	check(DataRegistry.list_of("enemies").filter(func(enemy): return enemy.rank == "BOSS").size() == 5, "MVP has five non-reused bosses")
+	check(DataRegistry.list_of("enemies").filter(func(enemy): return enemy.rank == "NORMAL").size() == 30, "Campaign 20 has 30 normal enemy archetypes")
+	check(DataRegistry.list_of("enemies").filter(func(enemy): return enemy.rank == "ELITE").size() == 12, "Campaign 20 has 12 elite archetypes")
+	check(DataRegistry.list_of("enemies").filter(func(enemy): return enemy.rank == "BOSS").size() == 23, "Campaign 20 has 23 non-reused bosses")
 	check(DataRegistry.list_of("weapons").filter(func(weapon): return weapon.exclusive_owner_id != "").is_empty(), "exclusive weapons count is zero")
 
 func _simulation(seed_value: int, stage_id := "CH01-N01") -> BattleSimulation:
@@ -984,7 +990,7 @@ func _test_story() -> void:
 	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
 	var web_checkpoint_wiring := shell_source.contains("func _persist_story_checkpoint()") and shell_source.contains("var command := scenario_runner.advance()\n\t\t_persist_story_checkpoint()") and shell_source.contains("story_checkpoint_dirty = true") and shell_source.contains("func _flush_story_checkpoint_after_delay()") and shell_source.contains("await get_tree().create_timer(0.24).timeout") and shell_source.contains("story_checkpoint_dirty = false\n\tSaveService.save_game()") and shell_source.contains("var chosen := scenario_runner.choose(index)\n\tif not chosen.ok: return false\n\t_persist_story_checkpoint()")
 	check(web_checkpoint_wiring, "story checkpoints are atomically persisted at Web dialogue and choice boundaries")
-	check(DataRegistry.list_of("scenarios").size() == 15, "story content count covers both chapters")
+	check(DataRegistry.list_of("scenarios").size() == 105, "story content count covers all 20 chapters and interludes")
 	AppState.profile = story_profile_before
 
 func _test_relay() -> void:
@@ -1031,7 +1037,8 @@ func _test_relay() -> void:
 	legacy.erase("relay")
 	legacy["save_schema_version"] = 7
 	var migrated := SaveService._migrate(legacy)
-	check(migrated.ok and int(migrated.value.get("save_schema_version", 0)) == 8 and (migrated.value.get("relay", {}) as Dictionary).has("active_run"), "save migration v7→v8 adds only the relay ledger")
+	var legacy_reserved_kept := str(migrated.value.get("roster", {}).get("CHR044", {}).get("acquisition_status", "")) == "LEGACY_OWNED" if bool(migrated.value.get("roster", {}).get("CHR044", {}).get("unlocked", false)) else true
+	check(migrated.ok and int(migrated.value.get("save_schema_version", 0)) == 9 and (migrated.value.get("relay", {}) as Dictionary).has("active_run") and legacy_reserved_kept, "save migration v7→v9 adds relay and preserves any legacy-owned reserved companion")
 	AppState.profile = profile_backup
 
 func _test_save() -> void:

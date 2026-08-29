@@ -33,8 +33,8 @@ jobs:
           set -euo pipefail
           PCK="$GITHUB_WORKSPACE/builds/web_release/index.pck"
           test -s "$PCK"
-          echo "ea8290f4c21fb7bd4fd0cbe5ab8b047314110c7a2d120a756e0bf91a740629ee  $PCK" | sha256sum --check --strict
-          test "$(stat -c%s "$PCK")" -eq 161070504
+          echo "b5d5bafe764254186c613d10c63e457199603da2380386ceb083d0fd55af43a4  $PCK" | sha256sum --check --strict
+          test "$(stat -c%s "$PCK")" -eq 161079416
 
       - name: Install Godot 4.7.1
         shell: bash
@@ -216,7 +216,7 @@ jobs:
           version["mobile_portrait_fix"] = True
           version["mobile_portrait_revision"] = 2
           version["release_pack_mode"] = "clean_repack_production_art_plus_current_runtime"
-          version["production_art_donor_sha256"] = "ea8290f4c21fb7bd4fd0cbe5ab8b047314110c7a2d120a756e0bf91a740629ee"
+          version["production_art_donor_sha256"] = "b5d5bafe764254186c613d10c63e457199603da2380386ceb083d0fd55af43a4"
           version["created_utc"] = datetime.now(timezone.utc).isoformat()
           version_path.write_text(json.dumps(version, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 

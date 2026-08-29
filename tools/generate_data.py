@@ -10,6 +10,17 @@ import json
 import math
 from pathlib import Path
 
+from campaign20 import (
+    CHAPTER_BLUEPRINTS,
+    CHAPTER_STORY_ARCS,
+    REGULAR_ENEMY_CODES,
+    STORY_RECRUIT_IDS,
+    boss_id_pairs,
+    chapter_rows,
+    regular_enemy_ids_for_chapter,
+    story_recruit_set,
+)
+
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "data_source"
 COMPILED = ROOT / "godot" / "data" / "compiled"
@@ -78,7 +89,11 @@ CHARACTERS = [
     ("CHR005", "SOREN", "ARTILLERY", "BACK", "ANOMALY", "WARD", "HEAVY", 690, 158, 38, 118, 480, 82, 55, 5600, 1160, 250, 330),
     ("CHR006", "VERA", "SPECIALIST", "MIDDLE", "ENERGY", "WARD", "FOCUS", 740, 112, 46, 124, 510, 80, 64, 6000, 820, 295, 380),
     ("CHR007", "TOA", "SPECIALIST", "BACK", "ANOMALY", "BARRIER", "SUPPORT_DEVICE", 790, 105, 49, 121, 505, 78, 66, 6400, 770, 305, 400),
-    ("CHR008", "IRI", "MEDIC", "BACK", "ENERGY", "BARRIER", "SUPPORT_DEVICE", 810, 82, 51, 116, 490, 72, 138, 6600, 610, 320, 890),
+    # Iri joins immediately before the Chapter 2 normal-route boss.  Her
+    # higher baseline keeps the late medic competitive with a roster that has
+    # already been trained through two chapters without making her a tank or
+    # primary damage dealer.
+    ("CHR008", "IRI", "MEDIC", "BACK", "ENERGY", "BARRIER", "SUPPORT_DEVICE", 960, 105, 62, 125, 520, 92, 180, 8000, 760, 390, 1320),
 ]
 
 # The expansion cast is data, not a bank of per-character booleans in save
@@ -145,7 +160,7 @@ def character_data() -> list[dict]:
             "attack_type": attack,
             "defense_type": defense,
             "weapon_class": weapon,
-            "initial_rarity": 2 + (index % 2),
+            "initial_rarity": 3 if cid == "CHR008" else 2 + (index % 2),
             "level": 1,
             "breakthrough": 0,
             "normal_skill_id": f"{base}_NORMAL",
@@ -161,10 +176,11 @@ def character_data() -> list[dict]:
             "stats_l1": {"HP": hp1, "ATK": atk1, "DEF": def1, "ACC": acc, "EVA": eva, "CRIT": crit, "CRIT_RES": 50, "HEAL_POWER": heal, "HASTE": 0, "DAMAGE_REDUCTION": 0, "STATUS_RESIST": 0},
             "stats_l100": {"HP": hp100, "ATK": atk100, "DEF": def100, "ACC": acc + 190, "EVA": eva + 90, "CRIT": crit + 180, "CRIT_RES": 180, "HEAL_POWER": heal100, "HASTE": 12, "DAMAGE_REDUCTION": 6 if role == "GUARDIAN" else 2, "STATUS_RESIST": 15},
             "tags": ["DEV_NAME", "LANTERNLINE", role],
-            # CHR009 onward are authored for the map's ! contact transaction.
-            # Keeping this aligned with CONTACT_EVENT_SPECS prevents the roster
-            # catalogue from falsely presenting a shard-only acquisition path.
-            "acquisition_source": "DEFAULT" if index <= 5 else ("STORY" if index <= 8 else "EVENT_CONTACT"),
+            # Only twenty of the thirty-nine non-starters are story recruits in
+            # the 20-chapter campaign.  RESERVED characters remain visible for
+            # art/skill QA but cannot be silently granted without a future
+            # acquisition system.
+            "acquisition_source": "DEFAULT" if index <= 5 else ("EVENT_CONTACT" if cid in story_recruit_set() else "RESERVED"),
         })
     return result
 
@@ -217,6 +233,45 @@ ENEMIES = [
     ("BOSS004", "REVERSE_GATEKEEPER", "BOSS", "BOSS_PATTERN", "ENERGY", "ARMOR", 10800, 232, 162),
     ("BOSS005", "RETURN_FORMATION_CORE", "BOSS", "BOSS_PATTERN", "ANOMALY", "BARRIER", 12400, 254, 176),
 ]
+
+# Chapters 3-20 add exactly three region-specific combatants each: two normal
+# bodies and one elite.  The rest of each formation reuses established foes,
+# keeping the requested roughly one-third-new/two-thirds-reused ratio.
+for chapter_number in range(3, 21):
+    region_codes = REGULAR_ENEMY_CODES[(chapter_number - 3) // 2]
+    region_ids = regular_enemy_ids_for_chapter(chapter_number)
+    for offset, (enemy_id, code) in enumerate(zip(region_ids, region_codes)):
+        if enemy_id in {row[0] for row in ENEMIES}:
+            continue
+        rank = "ELITE" if offset == 2 else "NORMAL"
+        role = ("MELEE_RUSH", "RANGED", "DEFENDER")[offset]
+        attack = ("PHYSICAL", "ENERGY", "ANOMALY")[(chapter_number + offset) % 3]
+        defense = ("ARMOR", "BARRIER", "WARD")[(chapter_number + offset) % 3]
+        scale = 1.0 + (chapter_number - 2) * 0.16
+        ENEMIES.append((
+            enemy_id, code, rank, role, attack, defense,
+            round((660 if rank == "NORMAL" else 1850) * scale),
+            round((92 if rank == "NORMAL" else 142) * scale),
+            round((38 if rank == "NORMAL" else 94) * scale),
+        ))
+
+# Every chapter owns a unique Normal and Hard finale identity.  Existing boss
+# IDs stay stable for save compatibility; later IDs are immutable additions.
+_existing_enemy_ids = {row[0] for row in ENEMIES}
+for chapter in chapter_rows():
+    normal_boss_id, hard_boss_id = boss_id_pairs()[chapter["id"]]
+    for hard_index, (boss_id, code) in enumerate(((normal_boss_id, chapter["normal_boss_code"]), (hard_boss_id, chapter["hard_boss_code"]))):
+        if boss_id in _existing_enemy_ids:
+            continue
+        chapter_number = int(chapter["number"])
+        scale = 1.0 + (chapter_number - 1) * 0.20 + hard_index * 0.12
+        ENEMIES.append((
+            boss_id, code, "BOSS", "BOSS_PATTERN",
+            ("ENERGY", "ANOMALY", "PHYSICAL")[chapter_number % 3],
+            ("ARMOR", "WARD", "BARRIER")[(chapter_number + hard_index) % 3],
+            round(7600 * scale), round(182 * scale), round(132 * scale),
+        ))
+        _existing_enemy_ids.add(boss_id)
 
 
 _BOSS_PATTERN_SETS = {
@@ -404,6 +459,94 @@ def stage_data() -> tuple[list[dict], list[dict]]:
     return stages, rewards
 
 
+def campaign_stage_data() -> tuple[list[dict], list[dict]]:
+    """Build the audited 20 chapter x 25 battle campaign.
+
+    Chapters 1-2 retain their existing Normal routes.  Their Hard routes are
+    shortened to five operations and end in the already-authored unique boss.
+    Chapters 3-20 use deterministic two-thirds legacy/one-third regional enemy
+    formations and a unique boss for each Normal and Hard finale.
+    """
+    legacy_stages, legacy_rewards = stage_data()
+    reward_by_stage = {str(row["stage_id"]): row for row in legacy_rewards}
+    stages: list[dict] = []
+    rewards: list[dict] = []
+    boss_pairs = boss_id_pairs()
+
+    for stage in legacy_stages:
+        chapter_id = str(stage["chapter_id"])
+        if chapter_id not in ("CH01", "CH02"):
+            continue
+        if str(stage["mode"]) == "HARD" and int(stage["stage_number"]) > 5:
+            continue
+        row = json.loads(json.dumps(stage))
+        if str(row["mode"]) == "HARD":
+            # Remove the former mid-route finale and put the chapter's unique
+            # Hard boss at the new H05 endpoint.
+            row["waves"] = [
+                [enemy_id for enemy_id in wave if not str(enemy_id).startswith("BOSS")]
+                for wave in row["waves"]
+            ]
+            row["waves"] = [wave for wave in row["waves"] if wave]
+            if int(row["stage_number"]) == 5:
+                row["waves"].append([boss_pairs[chapter_id][1]])
+            row["boss"] = int(row["stage_number"]) == 5
+        stages.append(row)
+        rewards.append(json.loads(json.dumps(reward_by_stage[row["id"]])))
+
+    for chapter in chapter_rows()[2:]:
+        chapter_number = int(chapter["number"])
+        chapter_id = str(chapter["id"])
+        new_ids = list(regular_enemy_ids_for_chapter(chapter_number))
+        previous_ids = list(regular_enemy_ids_for_chapter(chapter_number - 1))
+        reusable = ["ENM001", "ENM002", "ENM003", "ENM004", "ENM005", "ENM006", "ENM007", "ENM008", "ENM009"] + previous_ids
+        normal_boss_id, hard_boss_id = boss_pairs[chapter_id]
+        for mode, count in (("NORMAL", 20), ("HARD", 5)):
+            route_code = "N" if mode == "NORMAL" else "H"
+            for number in range(1, count + 1):
+                stage_id = f"{chapter_id}-{route_code}{number:02d}"
+                regional = new_ids[(number + (1 if mode == "HARD" else 0)) % len(new_ids)]
+                legacy_a = reusable[(chapter_number + number * 2) % len(reusable)]
+                legacy_b = reusable[(chapter_number * 3 + number * 5) % len(reusable)]
+                waves = [[legacy_a, regional], [legacy_b, new_ids[(number + 1) % 3]]]
+                if number % 4 == 0:
+                    waves.append(["ENM007" if number % 8 else "ENM009"])
+                is_finale = number == count
+                finale_id = normal_boss_id if mode == "NORMAL" else hard_boss_id
+                is_boss = is_finale and str(finale_id).startswith("BOSS")
+                if is_finale:
+                    waves.append([finale_id])
+                raw_level = 34 + (chapter_number - 2) * 12 + number * 2 + (8 if mode == "HARD" else 0)
+                recommended_level = min(100, raw_level)
+                post_cap_scale = 1.0 if raw_level <= 100 else round(1.0 + (raw_level - 100) * .012, 3)
+                reward_id = f"REWARD_{stage_id}"
+                stages.append({
+                    "id": stage_id, "chapter_id": chapter_id, "mode": mode,
+                    "stage_number": number, "name_key": f"STAGE_{stage_id.replace('-', '_')}",
+                    "recommended_level": recommended_level, "post_cap_scale": post_cap_scale,
+                    "stamina_cost": min(24, 10 + chapter_number // 2 + number // 4 + (4 if mode == "HARD" else 0)),
+                    "time_limit": 100 + min(20, chapter_number), "target_time": 78 + min(16, chapter_number),
+                    "waves": waves, "reward_table_id": reward_id, "boss": is_boss,
+                    "daily_attempts": 0 if mode == "NORMAL" else 3,
+                })
+                tier = "T2" if chapter_number <= 4 else ("T3" if chapter_number <= 10 else "T4")
+                guaranteed = [
+                    {"item_id": "CREDIT", "min": 2800 + chapter_number * 420 + number * 180, "max": 3600 + chapter_number * 560 + number * 260},
+                    {"item_id": f"BREAK_CORE_{tier}", "min": 1, "max": 2},
+                ]
+                if mode == "HARD":
+                    shard_number = 6 + ((chapter_number * 3 + number) % 39)
+                    guaranteed.append({"item_id": f"SHARD_CHR{shard_number:03d}", "min": 1, "max": 1})
+                rewards.append({
+                    "id": reward_id, "stage_id": stage_id, "guaranteed": guaranteed,
+                    "bonus": [{"item_id": "UNIVERSAL_CATALYST", "chance": .12, "quantity": 1, "pity_after_failures": 7}],
+                    "first_clear": [{"item_id": "CREDIT", "quantity": 7000 + chapter_number * 850 + number * 500}, {"item_id": "LANTERN_SHARD", "quantity": 15}],
+                })
+    stages.sort(key=lambda row: (int(str(row["chapter_id"])[2:]), 0 if row["mode"] == "NORMAL" else 1, int(row["stage_number"])))
+    rewards.sort(key=lambda row: next(index for index, stage in enumerate(stages) if stage["id"] == row["stage_id"]))
+    return stages, rewards
+
+
 def relay_spec_data() -> list[dict]:
     """Small offline contracts which borrow authored battles without mutating chapter clear state."""
     return [
@@ -470,6 +613,10 @@ CONTACT_EVENT_SPECS = {
         ("N08", [("CHR035", "IMMEDIATE_ON_VICTORY", "")]),
         ("N09", [("CHR036", "AFTER_STAGE_CLEAR", "CH02-N10")]),
         ("N10", [("CHR037", "IMMEDIATE_ON_VICTORY", ""), ("CHR038", "IMMEDIATE_ON_VICTORY", "")]),
+        # N16-N18 are the authored three-operation approach.  Iri's contact at
+        # N19 is therefore the last recruitment beat before the unique N20
+        # Reverse Gatekeeper boss.
+        ("N19", [("CHR008", "IMMEDIATE_ON_VICTORY", "")]),
         ("H01", [("CHR039", "IMMEDIATE_ON_VICTORY", "")]),
         ("H02", [("CHR040", "IMMEDIATE_ON_VICTORY", "")]),
         ("H03", [("CHR041", "IMMEDIATE_ON_VICTORY", "")]),
@@ -478,14 +625,38 @@ CONTACT_EVENT_SPECS = {
     ],
 }
 
+# Campaign authority supersedes the former 39-recruit Chapter 1-2 pile-up.
+# Each chapter now owns one readable companion arc and one acquisition result.
+CONTACT_EVENT_SPECS = {
+    str(chapter["id"]): [
+        (str(chapter["recruit_stage"]), [(str(chapter["recruit_id"]), "IMMEDIATE_ON_VICTORY", "")])
+    ]
+    for chapter in chapter_rows()
+}
 
-# Four non-recruitment contacts per chapter make the ! marker mean more than a
-# companion acquisition.  They are authored special-enemy incidents which use
-# the same pre-battle dialogue contract but never grant a character, item, or
-# completion flag before their actual battle has been won.
+for chapter in chapter_rows():
+    for hard_index, boss_id in enumerate(boss_id_pairs()[chapter["id"]]):
+        if boss_id in _BOSS_PATTERN_SETS:
+            continue
+        chapter_number = int(chapter["number"])
+        _BOSS_PATTERN_SETS[boss_id] = [
+            {"condition": "TIME", "value": 10 + (chapter_number % 7), "action": f"CH{chapter_number:02d}_SIGNATURE", "damage_multiplier": round(.54 + chapter_number * .018 + hard_index * .12, 3)},
+            {"condition": "HP_BELOW", "value": round(.68 - (chapter_number % 4) * .04, 2), "action": "PHASE_2"},
+            {"condition": "TIME_LEFT_BELOW", "value": 18 + (chapter_number % 5) * 3, "action": f"CH{chapter_number:02d}_FINALE", "damage_multiplier": round(.88 + chapter_number * .016 + hard_index * .10, 3)},
+        ]
+
+
+# Three non-recruitment contacts per chapter make the ! marker mean more than
+# a companion acquisition.  These authored special-enemy incidents use the
+# pre-battle dialogue contract but never grant a character, item, or completion
+# flag before their actual battle has been won.
 SPECIAL_ENEMY_EVENT_SPECS = {
-    "CH01": [("N12", "ENM012"), ("N15", "ENM008"), ("N18", "ENM009"), ("H08", "ENM007")],
-    "CH02": [("N12", "ENM015"), ("N15", "ENM008"), ("N18", "ENM009"), ("H08", "ENM014")],
+    str(chapter["id"]): [
+        ("N06", regular_enemy_ids_for_chapter(int(chapter["number"]))[0]),
+        ("N13", regular_enemy_ids_for_chapter(int(chapter["number"]))[1]),
+        ("H03", regular_enemy_ids_for_chapter(int(chapter["number"]))[2]),
+    ]
+    for chapter in chapter_rows()
 }
 
 
@@ -512,9 +683,37 @@ BOSS_PRESENTATIONS = {
     "CH02-H10": {"event_title_key": "MAP_BOSS_CH02_H10_TITLE", "boss_name_key": "ENEMY_RETURN_FORMATION_CORE", "boss_subtitle_key": "MAP_BOSS_CH02_H10_SUBTITLE"},
 }
 
+for _chapter in chapter_rows():
+    _chapter_id = str(_chapter["id"])
+    _normal_boss_id, _hard_boss_id = boss_id_pairs()[_chapter_id]
+    BOSS_PRESENTATIONS[f"{_chapter_id}-N20"] = {
+        "event_title_key": f"MAP_BOSS_{_chapter_id}_N20_TITLE",
+        "boss_name_key": f"ENEMY_{_chapter['normal_boss_code']}",
+        "boss_subtitle_key": f"MAP_BOSS_{_chapter_id}_N20_SUBTITLE",
+    }
+    BOSS_PRESENTATIONS[f"{_chapter_id}-H05"] = {
+        "event_title_key": f"MAP_BOSS_{_chapter_id}_H05_TITLE",
+        "boss_name_key": f"ENEMY_{_chapter['hard_boss_code']}",
+        "boss_subtitle_key": f"MAP_BOSS_{_chapter_id}_H05_SUBTITLE",
+    }
+
 
 def _dialogue_entry(speaker_kind: str, speaker_id: str, text_key: str) -> dict:
     return {"speaker_kind": speaker_kind, "speaker_id": speaker_id, "text_key": text_key}
+
+
+def recruitment_battle_count(character_id: str) -> int:
+    """Return the authored 1-5 victory route for a contact recruit.
+
+    The contact battle itself is victory one.  Subsequent victories may be on
+    any newly cleared route node, so a contact never requires grinding the same
+    stage.  Iri is special: her three-operation prerequisite is N16-N18 and the
+    N19 contact victory recruits her before N20.
+    """
+    # Reviewed Campaign-20 cadence: quick routes are common early, two-fight
+    # arcs form the backbone, and only one late companion asks for five wins.
+    route_counts = ([1] * 4) + ([2] * 9) + ([3] * 4) + ([4] * 2) + [5]
+    return dict(zip(STORY_RECRUIT_IDS, route_counts)).get(character_id, 1)
 
 
 def chapter_contact_events(chapter_id: str) -> list[dict]:
@@ -528,11 +727,22 @@ def chapter_contact_events(chapter_id: str) -> list[dict]:
         title_key = f"MAP_CONTACT_{suffix}_TITLE"
         body_key = f"MAP_CONTACT_{suffix}_BODY"
         outcome_key = f"MAP_CONTACT_{suffix}_OUTCOME"
+        recruitment_rows = [
+            {
+                "character_id": character_id,
+                "recruitment_timing": timing,
+                "recruit_after_stage_id": after_stage,
+                "battle_victories_required": recruitment_battle_count(character_id),
+            }
+            for character_id, timing, after_stage in recruits
+        ]
+        primary_battle_count = recruitment_battle_count(primary_id)
         events.append({
             "event_encounter_id": event_id, "node_id": node_id, "marker": "BANG", "entry_type": "EVENT_CONTACT", "event_kind": "COMPANION",
             "character_id": primary_id, "recruitment_timing": primary_timing, "recruit_after_stage_id": primary_after,
+            "battle_victories_required": primary_battle_count,
             "title_key": title_key, "body_key": body_key, "contact_outcome_key": outcome_key,
-            "recruitments": [{"character_id": character_id, "recruitment_timing": timing, "recruit_after_stage_id": after_stage} for character_id, timing, after_stage in recruits],
+            "recruitments": recruitment_rows,
             "pre_battle_dialogue": [
                 _dialogue_entry("COMMAND", "", f"MAP_CONTACT_{suffix}_DIALOGUE_01"),
                 _dialogue_entry("COMPANION", primary_id, f"MAP_CONTACT_{suffix}_DIALOGUE_02"),
@@ -587,22 +797,30 @@ def _node_marker_asset(node_type: str) -> str:
 
 
 def expand_chapter_map_definition(definition: dict, chapter_id: str, stages: list[dict]) -> dict:
-    """Promote a 15-node legacy chapter map to the authored 20N+10H route."""
+    """Build one authored 20N+5H route while keeping immutable stage IDs."""
     updated = json.loads(json.dumps(definition))
     by_id = {str(stage["id"]): stage for stage in stages if str(stage["chapter_id"]) == chapter_id}
     existing = {str(node.get("node_id", "")): node for node in updated.get("nodes", [])}
     start_nodes = [node for node in updated.get("nodes", []) if str(node.get("node_type", "")) == "START"]
-    built_nodes = start_nodes[:1]
-    for route_code, mode, count in (("N", "NORMAL", 20), ("H", "HARD", 10)):
-        extension_start = 11 if route_code == "N" else 6
+    built_nodes = start_nodes[:1] or [{
+        "node_id": "NODE_START", "node_type": "START", "q": 0, "r": 0,
+        "stage_id": "", "scenario_id": "", "unlock_condition": "NONE",
+        "reveal_condition": "ALWAYS", "marker_asset_id": "map_marker_start_r7",
+        "repeatable": False, "fast_travel_allowed": True,
+    }]
+    chapter_number = int(chapter_id.removeprefix("CH"))
+    for route_code, mode, count in (("N", "NORMAL", 20), ("H", "HARD", 5)):
         for number in range(1, count + 1):
             stage_id = f"{chapter_id}-{route_code}{number:02d}"
             node_id = f"NODE_{route_code}{number:02d}"
             stage = by_id[stage_id]
             node = dict(existing.get(node_id, {}))
-            if number >= extension_start:
-                coordinate = MAP_EXTENSION_COORDS[chapter_id][route_code][number - extension_start]
-                node["q"], node["r"] = coordinate
+            if route_code == "N":
+                node["q"] = number * 10 + (chapter_number % 3) * 2
+                node["r"] = -number - ((number + chapter_number) % 4) * 2
+            else:
+                node["q"] = 202 - number * 13 + (chapter_number % 4)
+                node["r"] = -18 + number * 3 - (chapter_number % 3)
             node_type = _node_type_for_stage(stage)
             node.update({
                 "node_id": node_id, "node_type": node_type, "stage_id": stage_id, "scenario_id": "",
@@ -618,15 +836,54 @@ def expand_chapter_map_definition(definition: dict, chapter_id: str, stages: lis
             built_nodes.append(node)
     updated["nodes"] = built_nodes
     updated["normal_route"] = [f"{chapter_id}-N{number:02d}" for number in range(1, 21)]
-    updated["hard_route"] = [f"{chapter_id}-H{number:02d}" for number in range(1, 11)]
+    updated["hard_route"] = [f"{chapter_id}-H{number:02d}" for number in range(1, 6)]
     macro = dict(updated.get("macro_world", {}))
     macro["linear_scale_viewports"] = 24
-    macro["bounds"] = {"min_q": -18, "max_q": 236, "min_r": -54, "max_r": 26}
+    macro["seed"] = 7022600 + chapter_number * 101
+    macro["direction_policy"] = f"CHAPTER_{chapter_number:02d}_EXPEDITION_ROUTE"
+    macro["bounds"] = {"min_q": -18, "max_q": 226, "min_r": -54, "max_r": 26}
     updated["macro_world"] = macro
     for patrol in updated.get("patrols", []):
         if str(patrol.get("encounter_id", "")) == "NODE_N10":
             patrol["entry_type"] = "ELITE_GUARD"
     return updated
+
+
+def ensure_campaign_map_sources() -> None:
+    """Create missing chapter map authorities without cloning event state."""
+    map_root = SOURCE / "chapter_maps"
+    map_root.mkdir(parents=True, exist_ok=True)
+    for chapter in chapter_rows():
+        chapter_id = str(chapter["id"])
+        path = map_root / f"{chapter_id}_MAP.json"
+        if path.exists() and chapter_id in ("CH01", "CH02"):
+            continue
+        definition = {
+            "map_id": f"{chapter_id}_MAP", "chapter_id": chapter_id,
+            "visual_set_id": f"{chapter_id}_{str(chapter['normal_boss_code'])}_R1",
+            "start_hex": {"q": 0, "r": 0},
+            "macro_world": {
+                "seed": 7022600 + int(chapter["number"]) * 101,
+                "linear_scale_viewports": 24, "corridor_radius": 4,
+                "direction_policy": f"CHAPTER_{int(chapter['number']):02d}_EXPEDITION_ROUTE",
+                "bounds": {"min_q": -18, "max_q": 226, "min_r": -54, "max_r": 26},
+            },
+            "normal_route": [], "hard_route": [],
+            "map_simulation": {"seed": 140700 + int(chapter["number"]), "tick_seconds": .25, "wait_pulse_ticks": 4},
+            "exploration_rules": {
+                "base_move_points": 4, "max_move_points": 8,
+                "account_level_milestones": [{"level": 35, "bonus": 1}, {"level": 60, "bonus": 1}, {"level": 85, "bonus": 1}],
+                "mobility_items": [{"item_id": "EXPEDITION_ROUTE_MODULE_A", "bonus": 1}, {"item_id": "EXPEDITION_ROUTE_MODULE_B", "bonus": 1}],
+            },
+            "patrols": [], "relays": [], "map_events": [], "event_encounters": [],
+            "nodes": [{
+                "node_id": "NODE_START", "node_type": "START", "q": 0, "r": 0,
+                "stage_id": "", "scenario_id": "", "unlock_condition": "NONE",
+                "reveal_condition": "ALWAYS", "marker_asset_id": "map_marker_start_r7",
+                "repeatable": False, "fast_travel_allowed": True,
+            }],
+        }
+        write_json(path, definition)
 
 
 def weapon_data() -> list[dict]:
@@ -708,11 +965,11 @@ def scenario_sources() -> list[dict]:
         },
         {
             "id": "SCN_CH01_MID_B", "title": "SCENARIO_CH01_MID_B_TITLE", "chapter": "CH01",
-            "background": "bg_ch01_glass_rail_story", "portrait": "portrait_chr003_dev",
+            "background": "bg_ch01_glass_rail_story", "portrait": "portrait_chr006_dev",
             "lines": [
                 ("narration", "SPEAKER_ROUTEKEEPER", "STORY_C1B_01", "SERIOUS"),
-                ("narration", "SPEAKER_ROUTEKEEPER", "STORY_C1B_02", "SERIOUS"),
-                ("dialogue", "SPEAKER_NARIN", "STORY_C1B_03", "CONFIDENT"),
+                ("dialogue", "CHAR_VERA_NAME", "STORY_C1B_02", "SERIOUS"),
+                ("dialogue", "CHAR_VERA_NAME", "STORY_C1B_03", "BATTLE_FOCUS"),
             ],
         },
         {
@@ -763,20 +1020,24 @@ def scenario_sources() -> list[dict]:
         },
         {
             "id": "SCN_CH02_MID_B", "title": "SCENARIO_CH02_MID_B_TITLE", "chapter": "CH02",
-            "background": "bg_ch01_glass_rail_story", "portrait": "portrait_chr003_dev",
+            "background": "bg_ch01_glass_rail_story", "portrait": "portrait_chr008_dev",
             "lines": [
                 ("narration", "SPEAKER_ROUTEKEEPER", "STORY_C2B_01", "SERIOUS"),
-                ("dialogue", "SPEAKER_NARIN", "STORY_C2B_02", "CONCERNED"),
-                ("dialogue", "SPEAKER_NARIN", "STORY_C2B_03", "BATTLE_FOCUS"),
+                ("dialogue", "SPEAKER_IRI", "STORY_C2B_02", "CONCERNED"),
+                ("dialogue", "SPEAKER_IRI", "STORY_C2B_03", "BATTLE_FOCUS"),
             ],
         },
         {
             "id": "SCN_CH02_PREBOSS", "title": "SCENARIO_CH02_PREBOSS_TITLE", "chapter": "CH02",
-            "background": "bg_ch01_signal_cathedral_story", "portrait": "portrait_chr005_dev",
+            "background": "bg_ch01_signal_cathedral_story", "portrait": "portrait_chr008_dev",
+            "extra_portraits": [
+                {"command": "show_portrait", "slot": "LEFT", "asset_id": "portrait_chr005_dev", "expression": "ALERT"},
+            ],
             "lines": [
                 ("narration", "SPEAKER_ROUTEKEEPER", "STORY_C2P_01", "ALERT"),
-                ("dialogue", "SPEAKER_SOREN", "STORY_C2P_02", "SERIOUS"),
-                ("dialogue", "SPEAKER_SOREN", "STORY_C2P_03", "BATTLE_FOCUS"),
+                ("dialogue", "SPEAKER_IRI", "STORY_C2P_02", "SERIOUS"),
+                ("dialogue", "SPEAKER_SOREN", "STORY_C2P_03", "SERIOUS"),
+                ("dialogue", "SPEAKER_IRI", "STORY_C2P_04", "BATTLE_FOCUS"),
             ],
         },
         {
@@ -846,6 +1107,95 @@ def scenario_sources() -> list[dict]:
     return result
 
 
+def campaign_scenario_sources() -> list[dict]:
+    """Append staged Chapter 3-20 story and inter-chapter records.
+
+    The current recruit is always shown as premium half-body art during her
+    contact and pre-boss decision.  The immediately previous recruit remains
+    opposite her so joining the party is dramatized as a relationship, not a
+    text-only unlock notification.
+    """
+    result = scenario_sources()
+    character_codes = {str(row[0]): str(row[1]) for row in CHARACTERS}
+    for chapter in chapter_rows()[2:]:
+        chapter_id = str(chapter["id"])
+        chapter_number = int(chapter["number"])
+        recruit_id = str(chapter["recruit_id"])
+        recruit_speaker = f"CHAR_{character_codes[recruit_id]}_NAME"
+        previous_recruit_id = str(chapter_rows()[chapter_number - 2]["recruit_id"])
+        beats = (
+            ("INTRO", "portrait_chr001_dev", "SPEAKER_MAERU", "SERIOUS"),
+            ("MID_A", "portrait_chr003_dev", "SPEAKER_NARIN", "ALERT"),
+            ("MID_B", f"portrait_{recruit_id.lower()}_dev", recruit_speaker, "CONCERNED"),
+            ("PREBOSS", f"portrait_{recruit_id.lower()}_dev", recruit_speaker, "BATTLE_FOCUS"),
+            ("OUTRO", "portrait_chr001_dev", "SPEAKER_MAERU", "SMILE"),
+        )
+        for beat, portrait, speaker_key, expression in beats:
+            scenario_id = f"SCN_{chapter_id}_{beat}"
+            text_prefix = f"STORY_{chapter_id}_{beat}"
+            commands = [
+                {"id": "start", "command": "set_background", "asset_id": "bg_lantern_tunnel_dev" if beat in ("INTRO", "OUTRO") else "bg_ch01_signal_cathedral_story"},
+                {"command": "show_portrait", "slot": "LEFT" if beat in ("MID_B", "PREBOSS") else "RIGHT", "asset_id": portrait, "expression": expression},
+            ]
+            if beat in ("MID_B", "PREBOSS"):
+                commands.append({"command": "show_portrait", "slot": "RIGHT", "asset_id": f"portrait_{previous_recruit_id.lower()}_dev", "expression": "SERIOUS"})
+            elif beat == "OUTRO":
+                commands.append({"command": "show_portrait", "slot": "LEFT", "asset_id": f"portrait_{recruit_id.lower()}_dev", "expression": "SMILE"})
+            commands.extend([
+                {"command": "fade_in", "duration": .24},
+                {"command": "narration", "speaker_key": "SPEAKER_ROUTEKEEPER", "text_key": f"{text_prefix}_01"},
+                {"command": "dialogue", "speaker_key": speaker_key, "text_key": f"{text_prefix}_02"},
+                {"command": "set_expression", "slot": "LEFT" if beat in ("MID_B", "PREBOSS") else "RIGHT", "expression": "RESOLVED" if beat != "OUTRO" else "SMILE"},
+                {"command": "dialogue", "speaker_key": speaker_key, "text_key": f"{text_prefix}_03"},
+            ])
+            if beat == "OUTRO":
+                commands.append({"command": "narration", "speaker_key": "SPEAKER_ROUTEKEEPER", "text_key": f"{text_prefix}_INTERLUDE"})
+            commands.extend([{"command": "grant_reward", "item_id": "LANTERN_SHARD", "quantity": 5}, {"command": "end_scenario"}])
+            result.append({
+                "id": scenario_id, "title_key": f"SCENARIO_{chapter_id}_{beat}_TITLE",
+                "chapter_id": chapter_id, "commands": commands,
+            })
+    return result
+
+
+def campaign_story_triggers() -> list[dict]:
+    # The generated source file is intentionally rewritten on every build.
+    # Retain only the hand-authored CH01/CH02 authority before regenerating
+    # CH03-CH20 so repeated builds remain idempotent instead of duplicating
+    # ninety campaign triggers each time.
+    source_triggers = json.loads((SOURCE / "chapter_story_triggers.json").read_text(encoding="utf-8"))
+    triggers = [
+        row for row in source_triggers
+        if str(row.get("id", "")).startswith("TRIG_CH01_")
+        or str(row.get("id", "")).startswith("TRIG_CH02_")
+    ]
+    # Shortened Hard routes end at H05.
+    for trigger in triggers:
+        if str(trigger.get("stage_id", "")) == "CH01-H10":
+            trigger["stage_id"] = "CH01-H05"
+        elif str(trigger.get("stage_id", "")) == "CH02-H10":
+            trigger["stage_id"] = "CH02-H05"
+    priority = max(int(row.get("priority", 0)) for row in triggers) + 10
+    for chapter in chapter_rows()[2:]:
+        chapter_id = str(chapter["id"])
+        for beat, event, stage_code in (
+            ("INTRO", "MAP_ENTER", ""),
+            ("MID_A", "STAGE_CLEAR", "N04"),
+            ("MID_B", "STAGE_CLEAR", "N14"),
+            ("PREBOSS", "STAGE_CLEAR", "N19"),
+            ("OUTRO", "STAGE_CLEAR", "N20"),
+        ):
+            trigger_id = f"TRIG_{chapter_id}_{beat}"
+            triggers.append({
+                "id": trigger_id, "event": event,
+                "stage_id": "" if not stage_code else f"{chapter_id}-{stage_code}",
+                "scenario_id": f"SCN_{chapter_id}_{beat}",
+                "completion_flag": f"story.trigger.{trigger_id}", "priority": priority,
+            })
+            priority += 10
+    return triggers
+
+
 LOCALIZED = {
     "GAME_TITLE": ("LUMENBOUND: TACTICS OF THE LAST LINE", "LUMENBOUND: TACTICS OF THE LAST LINE"),
     "GAME_SUBTITLE": ("빛이 끊긴 세계에서 이야기를 잇는 사람들", "People reconnecting stories in a lightless world"),
@@ -885,6 +1235,7 @@ LOCALIZED = {
 	"MAP_BOSS_UNKNOWN_SUBTITLE": ("신호 판독 중", "Signal Scan In Progress"),
 	"RESULT_EVENT_RECRUITED": ("동료 합류 · %s가 편성에 참여합니다.", "Companion Joined · %s is now available for formation."),
 	"RESULT_EVENT_TRACKING": ("신호 동행 · %s의 합류 신호를 %s 이후에 다시 추적합니다.", "Signal Follow-up · %s will join after the signal at %s is restored."),
+	"RESULT_EVENT_TRACKING_BATTLES": ("신호 동행 · %s 합류까지 신규 작전 승리 %d회", "Signal Follow-up · %s joins after %d more new-operation victories"),
 	"MAP_TREASURE_CH01_VT01_NAME": ("부서진 릴레이 보급 상자", "Broken Relay Supply Case"),
 	"MAP_TREASURE_CH01_VT02_NAME": ("해안 보급 상자", "Coastline Supply Case"),
 	"MAP_TREASURE_CH01_VT03_NAME": ("폐허 신호 보관함", "Ruined Signal Crate"),
@@ -955,6 +1306,11 @@ def localization(characters, enemies, stages, skills, weapons, items, scenarios)
         "MAP_EVENT_DIALOGUE_BATTLE": ("전투 개시", "Begin battle"),
         "MAP_EVENT_DIALOGUE_HINT": ("화면을 누르거나 다음을 선택해 사건을 진행합니다.", "Tap the panel or choose Next to continue the incident."),
     })
+    for chapter in chapter_rows()[2:]:
+        loc[f"CHAPTER_{int(chapter['number']):02d}"] = (
+            f"제{int(chapter['number'])}장 — {chapter['title_ko']}",
+            f"Chapter {int(chapter['number'])} — {chapter['title_en']}",
+        )
     for c in characters:
         code = c["name_key"].split("_")[1]
         loc[c["name_key"]] = (ko_names.get(code, code.title()), code.title())
@@ -986,15 +1342,10 @@ def localization(characters, enemies, stages, skills, weapons, items, scenarios)
             loc[f"MAP_CONTACT_{chapter_id}_{str(event['stage_id']).split('-')[-1]}_DIALOGUE_01"] = ("미확인 신호를 포착했습니다. 전투 구역에 진입하기 전에 응답 주체를 확인합니다.", "An unidentified signal is inside the combat zone. Confirm the responder before entering.")
             loc[f"MAP_CONTACT_{chapter_id}_{str(event['stage_id']).split('-')[-1]}_DIALOGUE_02"] = (f"{joined_ko}입니다. 신호가 적대 개체에 붙잡혀 있습니다. 길을 열면 합류하겠습니다.", f"This is {joined_en}. Hostiles have pinned the signal; clear a path and we will join you.")
             loc[f"MAP_CONTACT_{chapter_id}_{str(event['stage_id']).split('-')[-1]}_DIALOGUE_03"] = ("영입 여부와 보상은 전투 승리 뒤에만 확정됩니다. 편성을 정비하고 접촉을 개시합니다.", "Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.")
-            immediate_ko = [korean_names[i] for i, row in enumerate(recruitments) if row["recruitment_timing"] == "IMMEDIATE_ON_VICTORY"]
-            delayed_ko = [korean_names[i] for i, row in enumerate(recruitments) if row["recruitment_timing"] == "AFTER_STAGE_CLEAR"]
-            immediate_en = [english_names[i] for i, row in enumerate(recruitments) if row["recruitment_timing"] == "IMMEDIATE_ON_VICTORY"]
-            delayed_en = [english_names[i] for i, row in enumerate(recruitments) if row["recruitment_timing"] == "AFTER_STAGE_CLEAR"]
-            outcome_ko = ("승리 시 즉시 합류 · " + " · ".join(immediate_ko)) if immediate_ko else "승리 후 신호 동행"
-            outcome_en = ("Victory outcome: joins immediately · " + " / ".join(immediate_en)) if immediate_en else "Victory outcome: signal follow-up"
-            if delayed_ko:
-                outcome_ko += " / 후속 합류 · " + " · ".join(delayed_ko)
-                outcome_en += " / follow-up join · " + " / ".join(delayed_en)
+            route_ko = [f"{korean_names[i]} {int(row['battle_victories_required'])}회" for i, row in enumerate(recruitments)]
+            route_en = [f"{english_names[i]} {int(row['battle_victories_required'])} battle(s)" for i, row in enumerate(recruitments)]
+            outcome_ko = "작전 승리 누적 후 합류 · " + " / ".join(route_ko)
+            outcome_en = "Joins after operation victories · " + " / ".join(route_en)
             loc[outcome_key] = (outcome_ko, outcome_en)
     for chapter_id in SPECIAL_ENEMY_EVENT_SPECS:
         for event in chapter_special_enemy_events(chapter_id):
@@ -1012,6 +1363,10 @@ def localization(characters, enemies, stages, skills, weapons, items, scenarios)
         "MAP_BOSS_CH01_H10": ("심야 공명선", "Midnight Resonance Line"), "MAP_BOSS_CH02_N20": ("역행 개찰 심층", "Reverse Gate Depths"),
         "MAP_BOSS_CH02_H10": ("회송 편성 최심부", "Return Formation Depths"),
     }
+    for chapter in chapter_rows():
+        chapter_id = str(chapter["id"])
+        boss_copy[f"MAP_BOSS_{chapter_id}_N20"] = (str(chapter["title_ko"]), str(chapter["title_en"]))
+        boss_copy[f"MAP_BOSS_{chapter_id}_H05"] = (f"{chapter['title_ko']} · 심층", f"{chapter['title_en']} · Depths")
     for prefix, pair in boss_copy.items():
         loc[prefix + "_TITLE"] = pair
         loc[prefix + "_SUBTITLE"] = ("고유 보스 신호 · 경로 최종 방어선", "Unique boss signal · final route defense")
@@ -1041,22 +1396,34 @@ def localization(characters, enemies, stages, skills, weapons, items, scenarios)
         "SCN_REL_MAERU": ("빈 좌석의 안전띠", "The Empty Seatbelt"),
         "SCN_REL_IRI": ("고장 난 안내 방송", "The Broken Announcement"),
     }
+    beat_titles = {
+        "INTRO": ("진입", "Arrival"), "MID_A": ("첫 단서", "First Trace"),
+        "MID_B": ("뒤집힌 기록", "Reversed Record"), "PREBOSS": ("최종 방어선", "Final Defense"),
+        "OUTRO": ("다음 노선", "The Next Line"),
+    }
+    for chapter in chapter_rows()[2:]:
+        chapter_id = str(chapter["id"])
+        for beat, (beat_ko, beat_en) in beat_titles.items():
+            scenario_titles[f"SCN_{chapter_id}_{beat}"] = (
+                f"제{int(chapter['number'])}장 · {chapter['title_ko']} — {beat_ko}",
+                f"Chapter {int(chapter['number'])} · {chapter['title_en']} — {beat_en}",
+            )
     for scn in scenarios:
         loc[scn["title_key"]] = scenario_titles[scn["id"]]
     story_ko = {
         "STORY_PRO_01": "대정전 뒤, 지하의 광맥 철로는 마지막 도시들을 잇는 유일한 길이 되었다.", "STORY_PRO_02": "새로 깨어난 기록 항해자는 끊긴 등불과 사람들의 기억을 복구해야 한다.", "STORY_PRO_03": "제7 승강장에서 첫 신호가 깜박이고 있어. 거기서 시작하자.", "STORY_PRO_04": "정찰로는 내가 연다. 신호가 살아나면 바로 따라와.",
         "STORY_C1I_01": "등로단은 잔광 폭풍 속에서도 움직이는 소규모 복구 조직이다.", "STORY_C1I_02": "지도에 없는 선로에서 구조 요청을 들었어. 아직 신호가 살아 있어.", "STORY_C1I_03": "진위를 확인하고 길을 복구하자. 모두 출발 준비.",
         "STORY_C1A_01": "첫 터널에는 기억을 흉내 내는 잔향체가 모여 있었다.", "STORY_C1A_02": "그것들은 사람의 목소리를 냈지만 질문에는 답하지 못했다.", "STORY_C1A_03": "전투 뒤 손상되지 않은 기록편 하나를 회수했어. 다음 구간을 열 수 있겠어.",
-        "STORY_C1B_01": "기록편에는 오래전 정거장의 대피 순서가 남아 있었다.", "STORY_C1B_02": "누군가 마지막 열차의 행선지를 고의로 지운 흔적이 보였다.", "STORY_C1B_03": "지워진 층 아래에서 새 좌표를 찾았어. 폐쇄 구간 안쪽이야.",
-        "STORY_C1C_01": "좌표는 폐쇄된 종탑형 중계기로 이어졌다.", "STORY_C1C_02": "신호 안에서 생체 맥박과 비슷한 주기가 느껴져. 구조 대상일 수도 있어.", "STORY_C1C_03": "하지만 잔향체 군집이 먼저 중계기를 포위했어. 서둘러야 해.",
+        "STORY_C1B_01": "기록편의 구조 신호가 공허기관 안에서 역방향으로 소모되고 있었다. 중계기 앞에는 신호를 추적하던 베라가 버티고 있었다.", "STORY_C1B_02": "공허기관이 삼키는 건 광맥 전력이 아니야. 구조 신호의 잔향을 연료로 바꾸고 있어.", "STORY_C1B_03": "내가 역추적 경로를 열게. 핵심부까지 함께 가자. 이 신호를 사람들에게 돌려줘야 해.",
+        "STORY_C1C_01": "좌표는 폐쇄된 종탑형 중계기로 이어졌다. 구조 대상은 더 깊은 회송선에서 원격 신호만 보내고 있었다.", "STORY_C1C_02": "이리야. 아직 합류할 수는 없어. 생체 신호를 따라오면 종착선 앞에서 길을 열어 둘게.", "STORY_C1C_03": "잔향체 군집이 중계기를 포위했어. 신호를 잃지 않으려면 먼저 이 구간을 돌파해야 해.",
         "STORY_PRE_01": "거대한 공허기관이 선로의 빛을 삼키며 깨어났다.", "STORY_PRE_02": "각자 등불과 장비를 확인해. 여기서부터는 한 번의 실수도 허용되지 않아.", "STORY_PRE_03": "우리가 지키려는 것은 선로가 아니라, 그 끝에서 기다리는 사람들의 이야기야.",
         "STORY_OUT_01": "공허기관이 멈추자 지워졌던 행선지가 다시 나타났다.", "STORY_OUT_02": "마지막 열차는 사라진 도시가 아니라 이동 중인 피난처를 향하고 있었다.", "STORY_OUT_03": "첫 노선은 다시 이어졌어. 이제 다음 등불로 가자.",
         "STORY_REL_M_01": "출발 전에는 빈 좌석의 안전띠까지 확인해. 빠뜨리면 마음이 놓이지 않거든.", "STORY_REL_M_02": "돌아오지 못한 동료의 자리를 잊지 않기 위해 시작한 습관이야.", "STORY_REL_M_03": "오늘은 그 자리에 새 구조 장비를 놓았어. 빈자리가 다음 사람을 살리게 됐네.",
         "STORY_REL_I_01": "고장 난 안내 방송을 모아서 작은 합창곡을 만들었어.", "STORY_REL_I_02": "완벽한 음정보다 누군가 살아 있었다는 흔적이 더 중요하다고 생각해.", "STORY_REL_I_03": "다음 정거장에 도착하면 같이 틀어 보자. 혼자 듣는 것보다 좋을 거야.",
         "STORY_C2I_01": "세 개의 고유 보스 기록에는 같은 짧은 handshake 패턴이 남아 있었다.", "STORY_C2I_02": "신호는 진행 방향이 아니라 종착점에서 출발점 쪽으로 하나씩 켜지고 있어.", "STORY_C2I_03": "시간을 되돌리는 장치가 아니야. 망가진 회송 절차가 현재의 우리를 과거 기록에 끼워 맞추고 있어.",
         "STORY_C2A_01": "닫힌 승강장은 존재하지 않는 승객의 이름을 반복해서 불렀다.", "STORY_C2A_02": "구조 신호가 진짜인지 가짜인지가 아니라, 지금 누가 그 신호를 듣고 있는지가 중요해.", "STORY_C2A_03": "우리 이름을 과거 목록에서 지우고, 현재 좌표를 남기자.",
-        "STORY_C2B_01": "전력은 거꾸로 흘렀고, 이미 지나온 플랫폼은 다시 미완료 표지를 켰다.", "STORY_C2B_02": "노선이 악의를 가진 건 아니야. 오래전에 멈췄어야 할 자동 절차가 계속 실행될 뿐이야.", "STORY_C2B_03": "중앙 개찰을 멈추면, 적어도 이 구간의 잘못된 호명은 끝낼 수 있어.",
-        "STORY_C2P_01": "중앙 분기장의 개찰 패널은 탐사대를 오래전의 적 편성으로 분류했다.", "STORY_C2P_02": "패널을 부수는 게 목표가 아니야. 회송 명령을 종료시킬 틈을 만들어야 해.", "STORY_C2P_03": "문이 열리면 바로 지나간다. 돌아가는 기록에 남을 사람이 한 명도 없게.",
+        "STORY_C2B_01": "전력은 거꾸로 흘렀고, 회송핵은 살아 있는 승객을 과거 명부의 빈 좌석으로 덮어쓰기 시작했다.", "STORY_C2B_02": "내 생체 기록으로 현재 명부를 고정하면 마지막 개찰까지 모두의 신원을 지킬 수 있어.", "STORY_C2B_03": "명부 고정이 끝날 때까지 동행할게. 끝나면 보호 대상이 아니라 원정대의 의료 담당으로 가겠어.",
+        "STORY_C2P_01": "세 개의 방어 구간을 연속 돌파하자, 종탑형 중계기에서 추적하던 생체 신호가 중앙 개찰 바로 앞에서 모습을 드러냈다.", "STORY_C2P_02": "늦어서 미안해. 이리야. 회송선의 부상자를 지키느라 움직일 수 없었지만, 이제부터는 내가 너희의 후방을 맡을게.", "STORY_C2P_03": "합류 신호 확인. 다음은 역행 개찰의 고유 방어 개체야. 네 회복 장치가 버틸 수 있겠어?", "STORY_C2P_04": "세 구간 동안 출력은 충분히 맞춰 뒀어. 다친 사람 없이 저 문을 넘기자.",
         "STORY_C2H_01": "지하 회송실에는 빈 자리만 남은 편성표가 벽처럼 이어져 있었다.", "STORY_C2H_02": "이 핵은 사람을 찾는 게 아니라, 비어 있는 칸을 채우려는 거야.", "STORY_C2H_03": "우리가 멈추게 할 건 과거가 아니라, 현재를 지워 버리는 이 명령이야.",
         "STORY_C2O_01": "회송 편성핵이 멈추자, 뒤집혀 있던 신호등이 하나씩 정상 방향으로 돌아왔다.", "STORY_C2O_02": "모든 기록이 사라진 것은 아니지만, 더는 현재의 사람을 과거의 빈자리에 넣지 않았다.", "STORY_C2O_03": "남은 건 바깥을 향한 하나의 정상 신호야. 다음 길은 우리가 선택해서 이어 가자.",
     }
@@ -1064,21 +1431,38 @@ def localization(characters, enemies, stages, skills, weapons, items, scenarios)
         "STORY_PRO_01": "After the Great Blackout, the mineral railway beneath the earth became the last route connecting the surviving cities.", "STORY_PRO_02": "A newly awakened record navigator must restore broken lights and the memories carried between them.", "STORY_PRO_03": "The first signal is blinking at Platform Seven. We start there.", "STORY_PRO_04": "I will clear the reconnaissance route. Follow as soon as the signal comes alive.",
         "STORY_C1I_01": "The Lamplighters are a small restoration crew that keeps moving even through afterglow storms.", "STORY_C1I_02": "I heard a rescue call from a line that is not on the map. The signal is still alive.", "STORY_C1I_03": "We verify it and restore the route. Everyone, prepare to depart.",
         "STORY_C1A_01": "The first tunnel was crowded with echoforms that imitated human memories.", "STORY_C1A_02": "They spoke in human voices, but none could answer a question.", "STORY_C1A_03": "I recovered an intact record fragment after the battle. It should open the next section.",
-        "STORY_C1B_01": "The fragment preserved an evacuation order from the old station.", "STORY_C1B_02": "Someone had deliberately erased the destination of the final train.", "STORY_C1B_03": "I found new coordinates beneath the erased layer. They lead inside the sealed sector.",
-        "STORY_C1C_01": "The coordinates led to a sealed bell-tower relay.", "STORY_C1C_02": "There is a rhythm like a living pulse inside the signal. It may be a survivor.", "STORY_C1C_03": "But an echoform cluster has already surrounded the relay. We need to hurry.",
+        "STORY_C1B_01": "The fragment's rescue signal was being consumed backward inside the Hollow Engine. Vera was holding the relay while tracing it.", "STORY_C1B_02": "The Hollow Engine is not consuming ore-line power. It is turning the echoes of rescue calls into fuel.", "STORY_C1B_03": "I will open a reverse-trace route. Come with me to the core. We have to return these signals to their people.",
+        "STORY_C1C_01": "The coordinates led to a sealed bell-tower relay. The survivor could only transmit remotely from deeper in the return line.", "STORY_C1C_02": "This is Iri. I cannot join you yet. Follow my biosignal and I will open the way near the terminus.", "STORY_C1C_03": "An echoform cluster has surrounded the relay. Break through this section before we lose the signal.",
         "STORY_PRE_01": "The massive Hollow Engine awoke, swallowing the light along the rails.", "STORY_PRE_02": "Check your lights and equipment. From here on, one mistake is too many.", "STORY_PRE_03": "We are not protecting the rails. We are protecting the stories of the people waiting at their end.",
         "STORY_OUT_01": "When the Hollow Engine stopped, the erased destination returned.", "STORY_OUT_02": "The final train had not been bound for a lost city, but for a refuge still in motion.", "STORY_OUT_03": "The first line is connected again. Let us head for the next light.",
         "STORY_REL_M_01": "Before departure, I even check the seatbelt on the empty seat. I cannot relax if I skip it.", "STORY_REL_M_02": "I began doing it so I would not forget the teammate who never returned.", "STORY_REL_M_03": "Today I placed new rescue gear there. An empty place can help save the next person now.",
         "STORY_REL_I_01": "I gathered broken station announcements and turned them into a little chorus.", "STORY_REL_I_02": "A trace that someone lived matters more to me than perfect pitch.", "STORY_REL_I_03": "Let us play it together at the next station. It will sound better than listening alone.",
         "STORY_C2I_01": "The three unique boss records retained the same short handshake pattern.", "STORY_C2I_02": "Signals are lighting one by one from the terminus back toward the origin, not in the direction of travel.", "STORY_C2I_03": "It is not time travel. A damaged return procedure is fitting us into a past record.",
         "STORY_C2A_01": "The sealed platform kept calling the names of passengers who no longer existed.", "STORY_C2A_02": "What matters is not whether a rescue signal is real, but who is hearing it now.", "STORY_C2A_03": "Erase our names from the old list and leave our current coordinates behind.",
-        "STORY_C2B_01": "Power flowed backward, and platforms we had already crossed lit their incomplete signs again.", "STORY_C2B_02": "The line is not malicious. It is only an automated procedure running long after it should have stopped.", "STORY_C2B_03": "If we stop the central gate, at least this section's false calls can end.",
-        "STORY_C2P_01": "The central junction panels classified the expedition as an enemy formation from long ago.", "STORY_C2P_02": "We do not need to smash the panels. We need a gap to terminate the return directive.", "STORY_C2P_03": "When the gate opens, we cross at once. No one is staying behind in a returning record.",
+        "STORY_C2B_01": "Power flowed backward as the return core began overwriting living passengers with empty seats from an old manifest.", "STORY_C2B_02": "If I anchor the current manifest to my biometric record, I can protect everyone's identity through the final gate.", "STORY_C2B_03": "I will stay until the manifest is fixed. After that, I join as the expedition's medic—not as someone you have to protect.",
+        "STORY_C2P_01": "After three consecutive defense sectors, the biosignal tracked from the bell-tower relay finally appeared before the central gate.", "STORY_C2P_02": "Sorry I am late. I am Iri. I could not leave the wounded on the return line, but from now on I will hold your rear line.", "STORY_C2P_03": "Recruitment signal confirmed. The Reverse Gatekeeper is next. Can your recovery rig withstand it?", "STORY_C2P_04": "I tuned its output through all three sectors. We cross that gate without leaving anyone wounded behind.",
         "STORY_C2H_01": "The underground return chamber was lined like a wall with formation charts containing only vacant seats.", "STORY_C2H_02": "This core is not looking for people. It is trying to fill empty slots.", "STORY_C2H_03": "We will stop not the past, but the command that erases the present.",
         "STORY_C2O_01": "When the return formation core stopped, the inverted signal lights turned back toward their proper direction.", "STORY_C2O_02": "Not every record vanished, but none could place a present person into a past empty seat again.", "STORY_C2O_03": "One true beacon remains, facing outward. We choose how to connect the next route.",
     }
     for key, ko in story_ko.items():
         loc[key] = (ko, story_en[key])
+    for chapter in chapter_rows()[2:]:
+        chapter_id = str(chapter["id"])
+        conflict_ko = str(chapter["conflict_ko"])
+        conflict_en = str(chapter["conflict_en"])
+        opening, truth, recruit_action, boss_reversal, resolution, next_hook = CHAPTER_STORY_ARCS[chapter_id]
+        beat_lines = {
+            "INTRO": (opening, (f"이 신호는 앞선 노선의 결과다. 이번 목표는 {conflict_ko}.", f"This signal is a consequence of the previous line. Our objective is to {conflict_en}."), ("원인을 남겨 둔 채 다음 길로 도망치지 않는다. 여기서 연결을 바로잡는다.", "We will not flee onward while leaving the cause behind. We repair the connection here.")),
+            "MID_A": (truth, ("단순한 고장이 아니야. 누군가의 선택을 규칙으로 굳힌 장치야.", "This is no simple fault. A machine has hardened someone's choice into a rule."), ("그 규칙이 누구를 지우는지 확인했어. 다음 접촉에서 증거를 확보한다.", "We know who that rule erases. The next contact will secure the proof.")),
+            "MID_B": (recruit_action, ("내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.", "I will hold the gap in this sector. Follow the signal to where it ends."), ("이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.", "This is more than a bargain for one fight. I will come with you to see this route through.")),
+            "PREBOSS": (boss_reversal, ("내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.", "The weakness I found still holds. We enter before it can rewrite the rule."), ("뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.", "I have the rear. My recruitment—and this route's outcome—become final only after victory.")),
+            "OUTRO": (resolution, ("함께 싸운 이유를 이제 내 기록으로 남길게. 다음 노선에서도 이 선택을 지키겠다.", "I will record why we fought together and defend that choice on the next line."), ("한 장의 결말이 다음 장의 원인이 됐어. 남은 신호를 따라 출발한다.", "One chapter's ending has become the next one's cause. We follow the remaining signal.")),
+        }
+        for beat, lines in beat_lines.items():
+            prefix = f"STORY_{chapter_id}_{beat}"
+            loc[f"{prefix}_01"], loc[f"{prefix}_02"], loc[f"{prefix}_03"] = lines
+            if beat == "OUTRO":
+                loc[f"{prefix}_INTERLUDE"] = next_hook
     loc.update({
         "BATTLE_BOSS_PHASE_1_HUD": ("1단계", "Phase 1"),
         "BATTLE_BOSS_PHASE_2_HUD": ("2단계", "Phase 2"),
@@ -1099,7 +1483,7 @@ def main() -> None:
     characters = character_data()
     skills = skill_data()
     enemies = enemy_data()
-    stages, rewards = stage_data()
+    stages, rewards = campaign_stage_data()
     # Relay specs stay data-authored so the shell and saved run logic never embed
     # a CH01-only stage list. This first vertical slice intentionally reuses
     # existing non-boss battles and existing inventory resources.
@@ -1113,17 +1497,23 @@ def main() -> None:
             "id": chapter_id, "number": number, "name_key": name_key, "map_id": map_id,
             "normal_stage_ids": [s["id"] for s in stages if s["chapter_id"] == chapter_id and s["mode"] == "NORMAL"],
             "hard_stage_ids": [s["id"] for s in stages if s["chapter_id"] == chapter_id and s["mode"] == "HARD"],
+            "required_stage_ids": [f"{chapter_id}-N{stage_number:02d}" for stage_number in (1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 19, 20)],
+            "optional_stage_ids": [f"{chapter_id}-N{stage_number:02d}" for stage_number in (3, 5, 7, 9, 11, 13, 15, 17)] + [f"{chapter_id}-H{stage_number:02d}" for stage_number in range(1, 6)],
         }
-        for chapter_id, number, name_key, map_id in [("CH01", 1, "CHAPTER_01", "CH01_MAP"), ("CH02", 2, "CHAPTER_02", "CH02_MAP")]
+        for chapter_id, number, name_key, map_id in [
+            (str(chapter["id"]), int(chapter["number"]), f"CHAPTER_{int(chapter['number']):02d}", f"{chapter['id']}_MAP")
+            for chapter in chapter_rows()
+        ]
     ]
     items = item_data()
     weapons = weapon_data()
     breakthrough, normal_costs, ultimate_costs = costs()
-    scenarios = scenario_sources()
+    scenarios = campaign_scenario_sources()
     char_levels, acct_levels, weapon_levels = level_rows(), account_rows(), weapon_level_rows()
     affinity_matrix = json.loads((SOURCE / "affinity_matrix.json").read_text(encoding="utf-8"))
     status_effects = json.loads((SOURCE / "status_effects.json").read_text(encoding="utf-8"))
-    story_triggers = json.loads((SOURCE / "chapter_story_triggers.json").read_text(encoding="utf-8"))
+    story_triggers = campaign_story_triggers()
+    write_json(SOURCE / "chapter_story_triggers.json", story_triggers)
 
     write_csv(SOURCE / "characters.csv", [{**c, "stats_l1": json.dumps(c["stats_l1"], separators=(",", ":")), "stats_l100": json.dumps(c["stats_l100"], separators=(",", ":")), "tags": "|".join(c["tags"])} for c in characters])
     write_csv(SOURCE / "character_archetypes.csv", [{"id": role, "description": role, "default_position": "FRONT" if role in ("GUARDIAN", "VANGUARD") else ("BACK" if role in ("ARTILLERY", "MEDIC") else "MIDDLE")} for role in ["GUARDIAN", "VANGUARD", "ASSAULT", "ARTILLERY", "SPECIALIST", "MEDIC"]])
@@ -1165,6 +1555,7 @@ def main() -> None:
     # geometry/patrol/relay data rather than battle balance rows.  Compile it
     # through the same deterministic tool so source and Web runtime cannot
     # silently diverge after an exploration update.
+    ensure_campaign_map_sources()
     chapter_map_source = SOURCE / "chapter_maps"
     for map_path in sorted(chapter_map_source.glob("*.json")):
         map_definition = json.loads(map_path.read_text(encoding="utf-8"))
@@ -1208,6 +1599,7 @@ def main() -> None:
         "items": items,
         "weapons": weapons,
         "chapters": chapters,
+        "legacy_retired_stage_ids": [f"CH{chapter_number:02d}-H{stage_number:02d}" for chapter_number in (1, 2) for stage_number in range(6, 11)],
         "scenarios": scenarios,
         "chapter_story_triggers": story_triggers,
         "character_level_curve": char_levels,

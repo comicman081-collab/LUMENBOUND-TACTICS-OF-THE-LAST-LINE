@@ -88,21 +88,28 @@ def main() -> int:
     skill_icon_license_ids = {str(row.get("asset_id", "")) for row in skill_icon_licenses}
     check("skill icon ownership ledger complete", len(skill_icon_licenses) == 132 and skill_icon_license_ids == set(skill_icon_ids) and all(row.get("ownership_status") == "ORIGINAL_INTERNAL" and row.get("commercial_use") is True and len(str(row.get("file_sha256", ""))) == 64 for row in skill_icon_licenses), len(skill_icon_licenses))
     enemy_counts = {rank: sum(e["rank"] == rank for e in DATA["enemies"]) for rank in ("NORMAL", "ELITE", "BOSS")}
-    check("enemy counts 12/3/5", enemy_counts == {"NORMAL": 12, "ELITE": 3, "BOSS": 5}, enemy_counts)
+    check("enemy counts 30/12/23", enemy_counts == {"NORMAL": 30, "ELITE": 12, "BOSS": 23}, enemy_counts)
     check("boss phases/patterns data-defined", all(e.get("phases") == ["PHASE_1", "PHASE_2", "ENRAGE", "DOWN"] and e.get("patterns") for e in DATA["enemies"] if e["rank"] == "BOSS"))
-    chapter_ids = ("CH01", "CH02")
+    chapter_ids = tuple(f"CH{number:02d}" for number in range(1, 21))
     normal_by_chapter = {chapter_id: [s for s in DATA["stages"] if s["chapter_id"] == chapter_id and s["mode"] == "NORMAL"] for chapter_id in chapter_ids}
     hard_by_chapter = {chapter_id: [s for s in DATA["stages"] if s["chapter_id"] == chapter_id and s["mode"] == "HARD"] for chapter_id in chapter_ids}
-    # The MVP chapter contract is 20 NORMAL + 10 HARD stages per chapter.
-    # Each chapter therefore exposes 30 authored battles before map-side
-    # encounter events are counted separately.
-    check("both chapters NORMAL exactly 20", all(len(normal_by_chapter[chapter_id]) == 20 for chapter_id in chapter_ids))
-    check("both chapters HARD exactly 10", all(len(hard_by_chapter[chapter_id]) == 10 for chapter_id in chapter_ids))
+    # Campaign 20 exposes 25 authored battles per chapter: twenty story-route
+    # operations and five optional Hard operations.
+    check("all 20 chapters have exactly 20 NORMAL operations", all(len(normal_by_chapter[chapter_id]) == 20 for chapter_id in chapter_ids))
+    check("all 20 chapters have exactly 5 HARD operations", all(len(hard_by_chapter[chapter_id]) == 5 for chapter_id in chapter_ids))
     stages_by_id = {str(stage["id"]): stage for stage in DATA["stages"]}
-    check("each chapter N20 and H10 are bosses", all(bool(stages_by_id.get(f"{chapter_id}-N20", {}).get("boss", False)) and bool(stages_by_id.get(f"{chapter_id}-H10", {}).get("boss", False)) for chapter_id in chapter_ids))
+    normal_boss_ids = [
+        next(
+            (str(enemy_id) for wave in stages_by_id[f"{chapter_id}-N20"].get("waves", []) for enemy_id in wave if str(enemy_id).startswith("BOSS")),
+            "",
+        )
+        for chapter_id in chapter_ids
+    ]
+    check("each chapter N20 is a non-reused boss", all(bool(stages_by_id.get(f"{chapter_id}-N20", {}).get("boss", False)) for chapter_id in chapter_ids) and len(normal_boss_ids) == len(set(normal_boss_ids)))
+    check("legacy H06-H10 IDs are retired from active stage data", all(f"{chapter_id}-H{stage_number:02d}" not in stages_by_id for chapter_id in ("CH01", "CH02") for stage_number in range(6, 11)))
     rewards = {r["id"]: r for r in DATA["rewards"]}
     check("all stages have rewards", all(s["reward_table_id"] in rewards and rewards[s["reward_table_id"]]["guaranteed"] for s in DATA["stages"]))
-    rare_profiles = {"CH01": (.08, 8), "CH02": (.12, 7)}
+    rare_profiles = {chapter_id: ((.08, 8) if chapter_id == "CH01" else (.12, 7)) for chapter_id in chapter_ids}
     rare_profile_valid = all(
         stage["chapter_id"] in rare_profiles
         and any(
@@ -166,9 +173,9 @@ def main() -> int:
             and entry.get("production_approved") is False
             and re.search(r"[A-Za-z]:[\\/]", logical_lineage) is None
         )
-    check("all 64 immutable combat asset IDs map to SHA-verified RGBA runtime previews", len(combat_data_rows) == 64 and combat_preview_contract, len(combat_data_rows))
+    check("all 109 immutable combat asset IDs map to SHA-verified RGBA runtime previews", len(combat_data_rows) == 109 and combat_preview_contract, len(combat_data_rows))
     check("combat preview registry preserves honest non-production lineage without workstation paths", combat_preview_lineage_honest)
-    check("scenario count 15", len(DATA["scenarios"]) == 15)
+    check("scenario count 105", len(DATA["scenarios"]) == 105)
     scenario_cg_ids = {
         str(command.get("asset_id", ""))
         for scenario in DATA["scenarios"]

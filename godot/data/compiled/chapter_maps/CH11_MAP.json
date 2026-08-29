@@ -1,0 +1,573 @@
+{
+  "map_id": "CH11_MAP",
+  "chapter_id": "CH11",
+  "visual_set_id": "CH11_TIDE_REAPER_R1",
+  "start_hex": {
+    "q": 0,
+    "r": 0
+  },
+  "macro_world": {
+    "seed": 7023711,
+    "linear_scale_viewports": 24,
+    "corridor_radius": 4,
+    "direction_policy": "CHAPTER_11_EXPEDITION_ROUTE",
+    "bounds": {
+      "min_q": -18,
+      "max_q": 226,
+      "min_r": -54,
+      "max_r": 26
+    }
+  },
+  "normal_route": [
+    "CH11-N01",
+    "CH11-N02",
+    "CH11-N03",
+    "CH11-N04",
+    "CH11-N05",
+    "CH11-N06",
+    "CH11-N07",
+    "CH11-N08",
+    "CH11-N09",
+    "CH11-N10",
+    "CH11-N11",
+    "CH11-N12",
+    "CH11-N13",
+    "CH11-N14",
+    "CH11-N15",
+    "CH11-N16",
+    "CH11-N17",
+    "CH11-N18",
+    "CH11-N19",
+    "CH11-N20"
+  ],
+  "hard_route": [
+    "CH11-H01",
+    "CH11-H02",
+    "CH11-H03",
+    "CH11-H04",
+    "CH11-H05"
+  ],
+  "map_simulation": {
+    "seed": 140711,
+    "tick_seconds": 0.25,
+    "wait_pulse_ticks": 4
+  },
+  "exploration_rules": {
+    "base_move_points": 4,
+    "max_move_points": 8,
+    "account_level_milestones": [
+      {
+        "level": 35,
+        "bonus": 1
+      },
+      {
+        "level": 60,
+        "bonus": 1
+      },
+      {
+        "level": 85,
+        "bonus": 1
+      }
+    ],
+    "mobility_items": [
+      {
+        "item_id": "EXPEDITION_ROUTE_MODULE_A",
+        "bonus": 1
+      },
+      {
+        "item_id": "EXPEDITION_ROUTE_MODULE_B",
+        "bonus": 1
+      }
+    ]
+  },
+  "patrols": [],
+  "relays": [],
+  "map_events": [],
+  "event_encounters": [
+    {
+      "event_encounter_id": "EVENT_CH11_N11",
+      "node_id": "NODE_N11",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "event_kind": "COMPANION",
+      "character_id": "CHR016",
+      "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+      "recruit_after_stage_id": "",
+      "battle_victories_required": 2,
+      "title_key": "MAP_CONTACT_CH11_N11_TITLE",
+      "body_key": "MAP_CONTACT_CH11_N11_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH11_N11_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR016",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": "",
+          "battle_victories_required": 2
+        }
+      ],
+      "pre_battle_dialogue": [
+        {
+          "speaker_kind": "COMMAND",
+          "speaker_id": "",
+          "text_key": "MAP_CONTACT_CH11_N11_DIALOGUE_01"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR016",
+          "text_key": "MAP_CONTACT_CH11_N11_DIALOGUE_02"
+        },
+        {
+          "speaker_kind": "COMMAND",
+          "speaker_id": "",
+          "text_key": "MAP_CONTACT_CH11_N11_DIALOGUE_03"
+        }
+      ],
+      "stage_id": "CH11-N11"
+    },
+    {
+      "event_encounter_id": "EVENT_ANOMALY_CH11_N06",
+      "node_id": "NODE_N06",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "event_kind": "SPECIAL_ENEMY",
+      "enemy_id": "ENM028",
+      "character_id": "",
+      "recruitment_timing": "",
+      "recruit_after_stage_id": "",
+      "title_key": "MAP_ANOMALY_CH11_N06_TITLE",
+      "body_key": "MAP_ANOMALY_CH11_N06_BODY",
+      "contact_outcome_key": "MAP_ANOMALY_CH11_N06_OUTCOME",
+      "recruitments": [],
+      "pre_battle_dialogue": [
+        {
+          "speaker_kind": "COMMAND",
+          "speaker_id": "",
+          "text_key": "MAP_ANOMALY_CH11_N06_DIALOGUE_01"
+        },
+        {
+          "speaker_kind": "ENEMY",
+          "speaker_id": "ENM028",
+          "text_key": "MAP_ANOMALY_CH11_N06_DIALOGUE_02"
+        },
+        {
+          "speaker_kind": "COMMAND",
+          "speaker_id": "",
+          "text_key": "MAP_ANOMALY_CH11_N06_DIALOGUE_03"
+        }
+      ],
+      "stage_id": "CH11-N06"
+    },
+    {
+      "event_encounter_id": "EVENT_ANOMALY_CH11_N13",
+      "node_id": "NODE_N13",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "event_kind": "SPECIAL_ENEMY",
+      "enemy_id": "ENM029",
+      "character_id": "",
+      "recruitment_timing": "",
+      "recruit_after_stage_id": "",
+      "title_key": "MAP_ANOMALY_CH11_N13_TITLE",
+      "body_key": "MAP_ANOMALY_CH11_N13_BODY",
+      "contact_outcome_key": "MAP_ANOMALY_CH11_N13_OUTCOME",
+      "recruitments": [],
+      "pre_battle_dialogue": [
+        {
+          "speaker_kind": "COMMAND",
+          "speaker_id": "",
+          "text_key": "MAP_ANOMALY_CH11_N13_DIALOGUE_01"
+        },
+        {
+          "speaker_kind": "ENEMY",
+          "speaker_id": "ENM029",
+          "text_key": "MAP_ANOMALY_CH11_N13_DIALOGUE_02"
+        },
+        {
+          "speaker_kind": "COMMAND",
+          "speaker_id": "",
+          "text_key": "MAP_ANOMALY_CH11_N13_DIALOGUE_03"
+        }
+      ],
+      "stage_id": "CH11-N13"
+    },
+    {
+      "event_encounter_id": "EVENT_ANOMALY_CH11_H03",
+      "node_id": "NODE_H03",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "event_kind": "SPECIAL_ENEMY",
+      "enemy_id": "ENM030",
+      "character_id": "",
+      "recruitment_timing": "",
+      "recruit_after_stage_id": "",
+      "title_key": "MAP_ANOMALY_CH11_H03_TITLE",
+      "body_key": "MAP_ANOMALY_CH11_H03_BODY",
+      "contact_outcome_key": "MAP_ANOMALY_CH11_H03_OUTCOME",
+      "recruitments": [],
+      "pre_battle_dialogue": [
+        {
+          "speaker_kind": "COMMAND",
+          "speaker_id": "",
+          "text_key": "MAP_ANOMALY_CH11_H03_DIALOGUE_01"
+        },
+        {
+          "speaker_kind": "ENEMY",
+          "speaker_id": "ENM030",
+          "text_key": "MAP_ANOMALY_CH11_H03_DIALOGUE_02"
+        },
+        {
+          "speaker_kind": "COMMAND",
+          "speaker_id": "",
+          "text_key": "MAP_ANOMALY_CH11_H03_DIALOGUE_03"
+        }
+      ],
+      "stage_id": "CH11-H03"
+    }
+  ],
+  "nodes": [
+    {
+      "node_id": "NODE_START",
+      "node_type": "START",
+      "q": 0,
+      "r": 0,
+      "stage_id": "",
+      "scenario_id": "SCN_CH11_INTRO",
+      "unlock_condition": "NONE",
+      "reveal_condition": "ALWAYS",
+      "marker_asset_id": "map_marker_start_r7",
+      "repeatable": false,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 14,
+      "r": -1,
+      "node_id": "NODE_N01",
+      "node_type": "NORMAL_BATTLE",
+      "stage_id": "CH11-N01",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 24,
+      "r": -4,
+      "node_id": "NODE_N02",
+      "node_type": "NORMAL_BATTLE",
+      "stage_id": "CH11-N02",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 34,
+      "r": -7,
+      "node_id": "NODE_N03",
+      "node_type": "NORMAL_BATTLE",
+      "stage_id": "CH11-N03",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 44,
+      "r": -10,
+      "node_id": "NODE_N04",
+      "node_type": "NORMAL_ELITE",
+      "stage_id": "CH11-N04",
+      "scenario_id": "SCN_CH11_MID_A",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_elite_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 54,
+      "r": -5,
+      "node_id": "NODE_N05",
+      "node_type": "NORMAL_BATTLE",
+      "stage_id": "CH11-N05",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 64,
+      "r": -8,
+      "node_id": "NODE_N06",
+      "node_type": "NORMAL_BATTLE",
+      "stage_id": "CH11-N06",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 74,
+      "r": -11,
+      "node_id": "NODE_N07",
+      "node_type": "NORMAL_ELITE",
+      "stage_id": "CH11-N07",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_elite_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 84,
+      "r": -14,
+      "node_id": "NODE_N08",
+      "node_type": "NORMAL_BATTLE",
+      "stage_id": "CH11-N08",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 94,
+      "r": -9,
+      "node_id": "NODE_N09",
+      "node_type": "NORMAL_BATTLE",
+      "stage_id": "CH11-N09",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 104,
+      "r": -12,
+      "node_id": "NODE_N10",
+      "node_type": "NORMAL_ELITE",
+      "stage_id": "CH11-N10",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_elite_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 114,
+      "r": -15,
+      "node_id": "NODE_N11",
+      "node_type": "NORMAL_BATTLE",
+      "stage_id": "CH11-N11",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 124,
+      "r": -18,
+      "node_id": "NODE_N12",
+      "node_type": "NORMAL_ELITE",
+      "stage_id": "CH11-N12",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_elite_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 134,
+      "r": -13,
+      "node_id": "NODE_N13",
+      "node_type": "NORMAL_BATTLE",
+      "stage_id": "CH11-N13",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 144,
+      "r": -16,
+      "node_id": "NODE_N14",
+      "node_type": "NORMAL_BATTLE",
+      "stage_id": "CH11-N14",
+      "scenario_id": "SCN_CH11_MID_B",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 154,
+      "r": -19,
+      "node_id": "NODE_N15",
+      "node_type": "NORMAL_ELITE",
+      "stage_id": "CH11-N15",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_elite_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 164,
+      "r": -22,
+      "node_id": "NODE_N16",
+      "node_type": "NORMAL_BATTLE",
+      "stage_id": "CH11-N16",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 174,
+      "r": -17,
+      "node_id": "NODE_N17",
+      "node_type": "NORMAL_BATTLE",
+      "stage_id": "CH11-N17",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 184,
+      "r": -20,
+      "node_id": "NODE_N18",
+      "node_type": "NORMAL_ELITE",
+      "stage_id": "CH11-N18",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_elite_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 194,
+      "r": -23,
+      "node_id": "NODE_N19",
+      "node_type": "NORMAL_BATTLE",
+      "stage_id": "CH11-N19",
+      "scenario_id": "SCN_CH11_PREBOSS",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_normal_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 204,
+      "r": -26,
+      "node_id": "NODE_N20",
+      "node_type": "NORMAL_BOSS",
+      "stage_id": "CH11-N20",
+      "scenario_id": "SCN_CH11_OUTRO",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_boss_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true,
+      "presentation": {
+        "event_title_key": "MAP_BOSS_CH11_N20_TITLE",
+        "boss_name_key": "ENEMY_TIDE_REAPER",
+        "boss_subtitle_key": "MAP_BOSS_CH11_N20_SUBTITLE",
+        "transition_style": "BOSS"
+      }
+    },
+    {
+      "q": 192,
+      "r": -17,
+      "node_id": "NODE_H01",
+      "node_type": "HARD_BATTLE",
+      "stage_id": "CH11-H01",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_hard_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 179,
+      "r": -14,
+      "node_id": "NODE_H02",
+      "node_type": "HARD_BATTLE",
+      "stage_id": "CH11-H02",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_hard_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 166,
+      "r": -11,
+      "node_id": "NODE_H03",
+      "node_type": "HARD_ELITE",
+      "stage_id": "CH11-H03",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_elite_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 153,
+      "r": -8,
+      "node_id": "NODE_H04",
+      "node_type": "HARD_ELITE",
+      "stage_id": "CH11-H04",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_elite_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    },
+    {
+      "q": 140,
+      "r": -5,
+      "node_id": "NODE_H05",
+      "node_type": "HARD_ELITE",
+      "stage_id": "CH11-H05",
+      "scenario_id": "",
+      "unlock_condition": "STAGE_RULE",
+      "reveal_condition": "ROUTE_PROGRESS",
+      "marker_asset_id": "map_marker_elite_r7",
+      "repeatable": true,
+      "fast_travel_allowed": true
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "id": "SCN_CH09_MID_B",
+  "title_key": "SCENARIO_CH09_MID_B_TITLE",
+  "chapter_id": "CH09",
+  "commands": [
+    {
+      "id": "start",
+      "command": "set_background",
+      "asset_id": "bg_ch01_signal_cathedral_story"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr014_dev",
+      "expression": "CONCERNED"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr013_dev",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "fade_in",
+      "duration": 0.24
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH09_MID_B_01"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VEON_NAME",
+      "text_key": "STORY_CH09_MID_B_02"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "RESOLVED"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VEON_NAME",
+      "text_key": "STORY_CH09_MID_B_03"
+    },
+    {
+      "command": "grant_reward",
+      "item_id": "LANTERN_SHARD",
+      "quantity": 5
+    },
+    {
+      "command": "end_scenario"
+    }
+  ]
+}

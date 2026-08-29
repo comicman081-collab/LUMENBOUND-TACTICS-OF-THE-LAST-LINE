@@ -11,7 +11,7 @@
     {
       "command": "show_portrait",
       "slot": "RIGHT",
-      "asset_id": "portrait_chr003_dev",
+      "asset_id": "portrait_chr006_dev",
       "expression": "SERIOUS"
     },
     {
@@ -24,18 +24,18 @@
       "text_key": "STORY_C1B_01"
     },
     {
-      "command": "narration",
-      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "command": "dialogue",
+      "speaker_key": "CHAR_VERA_NAME",
       "text_key": "STORY_C1B_02"
     },
     {
       "command": "set_expression",
       "slot": "RIGHT",
-      "expression": "CONFIDENT"
+      "expression": "BATTLE_FOCUS"
     },
     {
       "command": "dialogue",
-      "speaker_key": "SPEAKER_NARIN",
+      "speaker_key": "CHAR_VERA_NAME",
       "text_key": "STORY_C1B_03"
     },
     {

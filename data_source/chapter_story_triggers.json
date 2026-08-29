@@ -1,14 +1,818 @@
 [
-  {"id":"TRIG_CH01_INTRO","event":"MAP_ENTER","stage_id":"","scenario_id":"SCN_CH01_INTRO","completion_flag":"story.trigger.TRIG_CH01_INTRO","priority":10},
-  {"id":"TRIG_CH01_MID_A","event":"STAGE_CLEAR","stage_id":"CH01-N03","scenario_id":"SCN_CH01_MID_A","completion_flag":"story.trigger.TRIG_CH01_MID_A","priority":20},
-  {"id":"TRIG_CH01_MID_B","event":"STAGE_CLEAR","stage_id":"CH01-N05","scenario_id":"SCN_CH01_MID_B","completion_flag":"story.trigger.TRIG_CH01_MID_B","priority":30},
-  {"id":"TRIG_CH01_MID_C","event":"STAGE_CLEAR","stage_id":"CH01-N07","scenario_id":"SCN_CH01_MID_C","completion_flag":"story.trigger.TRIG_CH01_MID_C","priority":40},
-  {"id":"TRIG_CH01_PREBOSS","event":"STAGE_CLEAR","stage_id":"CH01-N19","scenario_id":"SCN_CH01_PREBOSS","completion_flag":"story.trigger.TRIG_CH01_PREBOSS","priority":50},
-  {"id":"TRIG_CH01_OUTRO","event":"STAGE_CLEAR","stage_id":"CH01-H10","scenario_id":"SCN_CH01_OUTRO","completion_flag":"story.trigger.TRIG_CH01_OUTRO","priority":60},
-  {"id":"TRIG_CH02_INTRO","event":"MAP_ENTER","stage_id":"","scenario_id":"SCN_CH02_INTRO","completion_flag":"story.trigger.TRIG_CH02_INTRO","priority":70},
-  {"id":"TRIG_CH02_MID_A","event":"STAGE_CLEAR","stage_id":"CH02-N03","scenario_id":"SCN_CH02_MID_A","completion_flag":"story.trigger.TRIG_CH02_MID_A","priority":80},
-  {"id":"TRIG_CH02_MID_B","event":"STAGE_CLEAR","stage_id":"CH02-N06","scenario_id":"SCN_CH02_MID_B","completion_flag":"story.trigger.TRIG_CH02_MID_B","priority":90},
-  {"id":"TRIG_CH02_PREBOSS","event":"STAGE_CLEAR","stage_id":"CH02-N19","scenario_id":"SCN_CH02_PREBOSS","completion_flag":"story.trigger.TRIG_CH02_PREBOSS","priority":100},
-  {"id":"TRIG_CH02_HARD_INTRO","event":"STAGE_CLEAR","stage_id":"CH02-N20","scenario_id":"SCN_CH02_HARD_INTRO","completion_flag":"story.trigger.TRIG_CH02_HARD_INTRO","priority":110},
-  {"id":"TRIG_CH02_OUTRO","event":"STAGE_CLEAR","stage_id":"CH02-H10","scenario_id":"SCN_CH02_OUTRO","completion_flag":"story.trigger.TRIG_CH02_OUTRO","priority":120}
+  {
+    "id": "TRIG_CH01_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH01_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH01_INTRO",
+    "priority": 10
+  },
+  {
+    "id": "TRIG_CH01_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH01-N03",
+    "scenario_id": "SCN_CH01_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH01_MID_A",
+    "priority": 20
+  },
+  {
+    "id": "TRIG_CH01_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH01-N05",
+    "scenario_id": "SCN_CH01_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH01_MID_B",
+    "priority": 30
+  },
+  {
+    "id": "TRIG_CH01_MID_C",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH01-N07",
+    "scenario_id": "SCN_CH01_MID_C",
+    "completion_flag": "story.trigger.TRIG_CH01_MID_C",
+    "priority": 40
+  },
+  {
+    "id": "TRIG_CH01_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH01-N19",
+    "scenario_id": "SCN_CH01_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH01_PREBOSS",
+    "priority": 50
+  },
+  {
+    "id": "TRIG_CH01_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH01-H05",
+    "scenario_id": "SCN_CH01_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH01_OUTRO",
+    "priority": 60
+  },
+  {
+    "id": "TRIG_CH02_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH02_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH02_INTRO",
+    "priority": 70
+  },
+  {
+    "id": "TRIG_CH02_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH02-N03",
+    "scenario_id": "SCN_CH02_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH02_MID_A",
+    "priority": 80
+  },
+  {
+    "id": "TRIG_CH02_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH02-N06",
+    "scenario_id": "SCN_CH02_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH02_MID_B",
+    "priority": 90
+  },
+  {
+    "id": "TRIG_CH02_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH02-N19",
+    "scenario_id": "SCN_CH02_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH02_PREBOSS",
+    "priority": 100
+  },
+  {
+    "id": "TRIG_CH02_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH02-N20",
+    "scenario_id": "SCN_CH02_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH02_HARD_INTRO",
+    "priority": 110
+  },
+  {
+    "id": "TRIG_CH02_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH02-H05",
+    "scenario_id": "SCN_CH02_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH02_OUTRO",
+    "priority": 120
+  },
+  {
+    "id": "TRIG_CH03_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH03_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH03_INTRO",
+    "priority": 130
+  },
+  {
+    "id": "TRIG_CH03_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH03-N04",
+    "scenario_id": "SCN_CH03_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH03_MID_A",
+    "priority": 140
+  },
+  {
+    "id": "TRIG_CH03_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH03-N14",
+    "scenario_id": "SCN_CH03_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH03_MID_B",
+    "priority": 150
+  },
+  {
+    "id": "TRIG_CH03_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH03-N19",
+    "scenario_id": "SCN_CH03_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH03_PREBOSS",
+    "priority": 160
+  },
+  {
+    "id": "TRIG_CH03_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH03-N20",
+    "scenario_id": "SCN_CH03_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH03_OUTRO",
+    "priority": 170
+  },
+  {
+    "id": "TRIG_CH04_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH04_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH04_INTRO",
+    "priority": 180
+  },
+  {
+    "id": "TRIG_CH04_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH04-N04",
+    "scenario_id": "SCN_CH04_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH04_MID_A",
+    "priority": 190
+  },
+  {
+    "id": "TRIG_CH04_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH04-N14",
+    "scenario_id": "SCN_CH04_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH04_MID_B",
+    "priority": 200
+  },
+  {
+    "id": "TRIG_CH04_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH04-N19",
+    "scenario_id": "SCN_CH04_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH04_PREBOSS",
+    "priority": 210
+  },
+  {
+    "id": "TRIG_CH04_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH04-N20",
+    "scenario_id": "SCN_CH04_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH04_OUTRO",
+    "priority": 220
+  },
+  {
+    "id": "TRIG_CH05_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH05_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH05_INTRO",
+    "priority": 230
+  },
+  {
+    "id": "TRIG_CH05_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH05-N04",
+    "scenario_id": "SCN_CH05_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH05_MID_A",
+    "priority": 240
+  },
+  {
+    "id": "TRIG_CH05_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH05-N14",
+    "scenario_id": "SCN_CH05_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH05_MID_B",
+    "priority": 250
+  },
+  {
+    "id": "TRIG_CH05_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH05-N19",
+    "scenario_id": "SCN_CH05_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH05_PREBOSS",
+    "priority": 260
+  },
+  {
+    "id": "TRIG_CH05_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH05-N20",
+    "scenario_id": "SCN_CH05_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH05_OUTRO",
+    "priority": 270
+  },
+  {
+    "id": "TRIG_CH06_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH06_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH06_INTRO",
+    "priority": 280
+  },
+  {
+    "id": "TRIG_CH06_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH06-N04",
+    "scenario_id": "SCN_CH06_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH06_MID_A",
+    "priority": 290
+  },
+  {
+    "id": "TRIG_CH06_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH06-N14",
+    "scenario_id": "SCN_CH06_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH06_MID_B",
+    "priority": 300
+  },
+  {
+    "id": "TRIG_CH06_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH06-N19",
+    "scenario_id": "SCN_CH06_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH06_PREBOSS",
+    "priority": 310
+  },
+  {
+    "id": "TRIG_CH06_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH06-N20",
+    "scenario_id": "SCN_CH06_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH06_OUTRO",
+    "priority": 320
+  },
+  {
+    "id": "TRIG_CH07_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH07_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH07_INTRO",
+    "priority": 330
+  },
+  {
+    "id": "TRIG_CH07_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH07-N04",
+    "scenario_id": "SCN_CH07_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH07_MID_A",
+    "priority": 340
+  },
+  {
+    "id": "TRIG_CH07_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH07-N14",
+    "scenario_id": "SCN_CH07_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH07_MID_B",
+    "priority": 350
+  },
+  {
+    "id": "TRIG_CH07_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH07-N19",
+    "scenario_id": "SCN_CH07_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH07_PREBOSS",
+    "priority": 360
+  },
+  {
+    "id": "TRIG_CH07_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH07-N20",
+    "scenario_id": "SCN_CH07_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH07_OUTRO",
+    "priority": 370
+  },
+  {
+    "id": "TRIG_CH08_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH08_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH08_INTRO",
+    "priority": 380
+  },
+  {
+    "id": "TRIG_CH08_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH08-N04",
+    "scenario_id": "SCN_CH08_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH08_MID_A",
+    "priority": 390
+  },
+  {
+    "id": "TRIG_CH08_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH08-N14",
+    "scenario_id": "SCN_CH08_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH08_MID_B",
+    "priority": 400
+  },
+  {
+    "id": "TRIG_CH08_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH08-N19",
+    "scenario_id": "SCN_CH08_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH08_PREBOSS",
+    "priority": 410
+  },
+  {
+    "id": "TRIG_CH08_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH08-N20",
+    "scenario_id": "SCN_CH08_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH08_OUTRO",
+    "priority": 420
+  },
+  {
+    "id": "TRIG_CH09_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH09_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH09_INTRO",
+    "priority": 430
+  },
+  {
+    "id": "TRIG_CH09_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH09-N04",
+    "scenario_id": "SCN_CH09_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH09_MID_A",
+    "priority": 440
+  },
+  {
+    "id": "TRIG_CH09_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH09-N14",
+    "scenario_id": "SCN_CH09_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH09_MID_B",
+    "priority": 450
+  },
+  {
+    "id": "TRIG_CH09_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH09-N19",
+    "scenario_id": "SCN_CH09_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH09_PREBOSS",
+    "priority": 460
+  },
+  {
+    "id": "TRIG_CH09_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH09-N20",
+    "scenario_id": "SCN_CH09_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH09_OUTRO",
+    "priority": 470
+  },
+  {
+    "id": "TRIG_CH10_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH10_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH10_INTRO",
+    "priority": 480
+  },
+  {
+    "id": "TRIG_CH10_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH10-N04",
+    "scenario_id": "SCN_CH10_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH10_MID_A",
+    "priority": 490
+  },
+  {
+    "id": "TRIG_CH10_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH10-N14",
+    "scenario_id": "SCN_CH10_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH10_MID_B",
+    "priority": 500
+  },
+  {
+    "id": "TRIG_CH10_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH10-N19",
+    "scenario_id": "SCN_CH10_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH10_PREBOSS",
+    "priority": 510
+  },
+  {
+    "id": "TRIG_CH10_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH10-N20",
+    "scenario_id": "SCN_CH10_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH10_OUTRO",
+    "priority": 520
+  },
+  {
+    "id": "TRIG_CH11_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH11_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH11_INTRO",
+    "priority": 530
+  },
+  {
+    "id": "TRIG_CH11_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH11-N04",
+    "scenario_id": "SCN_CH11_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH11_MID_A",
+    "priority": 540
+  },
+  {
+    "id": "TRIG_CH11_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH11-N14",
+    "scenario_id": "SCN_CH11_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH11_MID_B",
+    "priority": 550
+  },
+  {
+    "id": "TRIG_CH11_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH11-N19",
+    "scenario_id": "SCN_CH11_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH11_PREBOSS",
+    "priority": 560
+  },
+  {
+    "id": "TRIG_CH11_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH11-N20",
+    "scenario_id": "SCN_CH11_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH11_OUTRO",
+    "priority": 570
+  },
+  {
+    "id": "TRIG_CH12_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH12_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH12_INTRO",
+    "priority": 580
+  },
+  {
+    "id": "TRIG_CH12_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH12-N04",
+    "scenario_id": "SCN_CH12_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH12_MID_A",
+    "priority": 590
+  },
+  {
+    "id": "TRIG_CH12_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH12-N14",
+    "scenario_id": "SCN_CH12_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH12_MID_B",
+    "priority": 600
+  },
+  {
+    "id": "TRIG_CH12_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH12-N19",
+    "scenario_id": "SCN_CH12_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH12_PREBOSS",
+    "priority": 610
+  },
+  {
+    "id": "TRIG_CH12_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH12-N20",
+    "scenario_id": "SCN_CH12_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH12_OUTRO",
+    "priority": 620
+  },
+  {
+    "id": "TRIG_CH13_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH13_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH13_INTRO",
+    "priority": 630
+  },
+  {
+    "id": "TRIG_CH13_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH13-N04",
+    "scenario_id": "SCN_CH13_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH13_MID_A",
+    "priority": 640
+  },
+  {
+    "id": "TRIG_CH13_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH13-N14",
+    "scenario_id": "SCN_CH13_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH13_MID_B",
+    "priority": 650
+  },
+  {
+    "id": "TRIG_CH13_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH13-N19",
+    "scenario_id": "SCN_CH13_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH13_PREBOSS",
+    "priority": 660
+  },
+  {
+    "id": "TRIG_CH13_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH13-N20",
+    "scenario_id": "SCN_CH13_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH13_OUTRO",
+    "priority": 670
+  },
+  {
+    "id": "TRIG_CH14_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH14_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH14_INTRO",
+    "priority": 680
+  },
+  {
+    "id": "TRIG_CH14_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH14-N04",
+    "scenario_id": "SCN_CH14_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH14_MID_A",
+    "priority": 690
+  },
+  {
+    "id": "TRIG_CH14_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH14-N14",
+    "scenario_id": "SCN_CH14_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH14_MID_B",
+    "priority": 700
+  },
+  {
+    "id": "TRIG_CH14_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH14-N19",
+    "scenario_id": "SCN_CH14_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH14_PREBOSS",
+    "priority": 710
+  },
+  {
+    "id": "TRIG_CH14_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH14-N20",
+    "scenario_id": "SCN_CH14_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH14_OUTRO",
+    "priority": 720
+  },
+  {
+    "id": "TRIG_CH15_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH15_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH15_INTRO",
+    "priority": 730
+  },
+  {
+    "id": "TRIG_CH15_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH15-N04",
+    "scenario_id": "SCN_CH15_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH15_MID_A",
+    "priority": 740
+  },
+  {
+    "id": "TRIG_CH15_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH15-N14",
+    "scenario_id": "SCN_CH15_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH15_MID_B",
+    "priority": 750
+  },
+  {
+    "id": "TRIG_CH15_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH15-N19",
+    "scenario_id": "SCN_CH15_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH15_PREBOSS",
+    "priority": 760
+  },
+  {
+    "id": "TRIG_CH15_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH15-N20",
+    "scenario_id": "SCN_CH15_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH15_OUTRO",
+    "priority": 770
+  },
+  {
+    "id": "TRIG_CH16_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH16_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH16_INTRO",
+    "priority": 780
+  },
+  {
+    "id": "TRIG_CH16_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH16-N04",
+    "scenario_id": "SCN_CH16_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH16_MID_A",
+    "priority": 790
+  },
+  {
+    "id": "TRIG_CH16_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH16-N14",
+    "scenario_id": "SCN_CH16_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH16_MID_B",
+    "priority": 800
+  },
+  {
+    "id": "TRIG_CH16_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH16-N19",
+    "scenario_id": "SCN_CH16_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH16_PREBOSS",
+    "priority": 810
+  },
+  {
+    "id": "TRIG_CH16_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH16-N20",
+    "scenario_id": "SCN_CH16_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH16_OUTRO",
+    "priority": 820
+  },
+  {
+    "id": "TRIG_CH17_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH17_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH17_INTRO",
+    "priority": 830
+  },
+  {
+    "id": "TRIG_CH17_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH17-N04",
+    "scenario_id": "SCN_CH17_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH17_MID_A",
+    "priority": 840
+  },
+  {
+    "id": "TRIG_CH17_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH17-N14",
+    "scenario_id": "SCN_CH17_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH17_MID_B",
+    "priority": 850
+  },
+  {
+    "id": "TRIG_CH17_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH17-N19",
+    "scenario_id": "SCN_CH17_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH17_PREBOSS",
+    "priority": 860
+  },
+  {
+    "id": "TRIG_CH17_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH17-N20",
+    "scenario_id": "SCN_CH17_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH17_OUTRO",
+    "priority": 870
+  },
+  {
+    "id": "TRIG_CH18_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH18_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH18_INTRO",
+    "priority": 880
+  },
+  {
+    "id": "TRIG_CH18_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH18-N04",
+    "scenario_id": "SCN_CH18_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH18_MID_A",
+    "priority": 890
+  },
+  {
+    "id": "TRIG_CH18_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH18-N14",
+    "scenario_id": "SCN_CH18_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH18_MID_B",
+    "priority": 900
+  },
+  {
+    "id": "TRIG_CH18_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH18-N19",
+    "scenario_id": "SCN_CH18_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH18_PREBOSS",
+    "priority": 910
+  },
+  {
+    "id": "TRIG_CH18_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH18-N20",
+    "scenario_id": "SCN_CH18_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH18_OUTRO",
+    "priority": 920
+  },
+  {
+    "id": "TRIG_CH19_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH19_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH19_INTRO",
+    "priority": 930
+  },
+  {
+    "id": "TRIG_CH19_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH19-N04",
+    "scenario_id": "SCN_CH19_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH19_MID_A",
+    "priority": 940
+  },
+  {
+    "id": "TRIG_CH19_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH19-N14",
+    "scenario_id": "SCN_CH19_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH19_MID_B",
+    "priority": 950
+  },
+  {
+    "id": "TRIG_CH19_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH19-N19",
+    "scenario_id": "SCN_CH19_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH19_PREBOSS",
+    "priority": 960
+  },
+  {
+    "id": "TRIG_CH19_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH19-N20",
+    "scenario_id": "SCN_CH19_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH19_OUTRO",
+    "priority": 970
+  },
+  {
+    "id": "TRIG_CH20_INTRO",
+    "event": "MAP_ENTER",
+    "stage_id": "",
+    "scenario_id": "SCN_CH20_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH20_INTRO",
+    "priority": 980
+  },
+  {
+    "id": "TRIG_CH20_MID_A",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH20-N04",
+    "scenario_id": "SCN_CH20_MID_A",
+    "completion_flag": "story.trigger.TRIG_CH20_MID_A",
+    "priority": 990
+  },
+  {
+    "id": "TRIG_CH20_MID_B",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH20-N14",
+    "scenario_id": "SCN_CH20_MID_B",
+    "completion_flag": "story.trigger.TRIG_CH20_MID_B",
+    "priority": 1000
+  },
+  {
+    "id": "TRIG_CH20_PREBOSS",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH20-N19",
+    "scenario_id": "SCN_CH20_PREBOSS",
+    "completion_flag": "story.trigger.TRIG_CH20_PREBOSS",
+    "priority": 1010
+  },
+  {
+    "id": "TRIG_CH20_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH20-N20",
+    "scenario_id": "SCN_CH20_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH20_OUTRO",
+    "priority": 1020
+  }
 ]

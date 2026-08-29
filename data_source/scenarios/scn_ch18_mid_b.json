@@ -1,0 +1,56 @@
+{
+  "id": "SCN_CH18_MID_B",
+  "title_key": "SCENARIO_CH18_MID_B_TITLE",
+  "chapter_id": "CH18",
+  "commands": [
+    {
+      "id": "start",
+      "command": "set_background",
+      "asset_id": "bg_ch01_signal_cathedral_story"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr023_dev",
+      "expression": "CONCERNED"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr022_dev",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "fade_in",
+      "duration": 0.24
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH18_MID_B_01"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_YURIEN_NAME",
+      "text_key": "STORY_CH18_MID_B_02"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "RESOLVED"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_YURIEN_NAME",
+      "text_key": "STORY_CH18_MID_B_03"
+    },
+    {
+      "command": "grant_reward",
+      "item_id": "LANTERN_SHARD",
+      "quantity": 5
+    },
+    {
+      "command": "end_scenario"
+    }
+  ]
+}

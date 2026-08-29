@@ -90,6 +90,20 @@ var transition_edge_last_source := ""
 var story_checkpoint_dirty := false
 var story_checkpoint_save_scheduled := false
 const TRANSITION_EDGE_DEBOUNCE_MSEC := 220
+# The first visit to HQ is a guided handoff, not an unlabelled menu landing.
+# Keep its presentation separate from map/tutorial ownership so a resize or
+# route rebuild cannot change progress until the player deliberately launches.
+var home_tutorial_layer: CanvasLayer
+var home_tutorial_surface: Control
+var home_tutorial_panel: PanelContainer
+var home_tutorial_eyebrow: Label
+var home_tutorial_title: Label
+var home_tutorial_body: RichTextLabel
+var home_tutorial_continue_button: Button
+var home_tutorial_skip_button: Button
+var home_tutorial_progress_label: Label
+var home_tutorial_step := 0
+var home_menu_buttons: Dictionary = {}
 
 func _ready() -> void:
 	_build_root()
@@ -548,6 +562,8 @@ func _process(delta: float) -> void:
 		_update_battle_hud()
 
 func _clear() -> void:
+	_free_home_tutorial()
+	home_menu_buttons.clear()
 	for child in content.get_children():
 		content.remove_child(child)
 		child.queue_free()
@@ -969,8 +985,10 @@ func _show_title() -> void:
 	start.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	start.add_theme_font_size_override("font_size", roundi(23.0 * portrait_scale) if portrait else 25)
 	cta.add_child(start)
-	var guide := _label("TAP TO BEGIN" if portrait else "CLICK / TOUCH TO BEGIN", 15 if portrait else 16, Color("d3ad63"))
+	var guide := _label("START GAME을 눌러 시작" if portrait else "START GAME 버튼을 클릭 / 터치해 시작", 16 if portrait else 17, Color("f0cf7c"))
 	guide.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	guide.add_theme_color_override("font_outline_color", Color("06101c"))
+	guide.add_theme_constant_override("outline_size", 3)
 	cta.add_child(guide)
 
 func _portrait_title_cast_member(node_name: String, texture_path: String, align_right: bool, portrait_scale: float) -> TextureRect:
@@ -1029,6 +1047,180 @@ func _make_title_start_button(button: Button) -> void:
 	button.add_theme_constant_override("outline_size", 2)
 	button.add_theme_color_override("font_outline_color", Color("271407"))
 
+func _home_tutorial_active() -> bool:
+	var tutorial_value = AppState.profile.get("tutorial_progress", {})
+	if not tutorial_value is Dictionary:
+		return false
+	var tutorial: Dictionary = tutorial_value
+	return not bool(tutorial.get("home_basics_complete", false))
+
+func _free_home_tutorial() -> void:
+	if home_tutorial_layer != null and is_instance_valid(home_tutorial_layer):
+		if home_tutorial_layer.get_parent() == self:
+			remove_child(home_tutorial_layer)
+		home_tutorial_layer.queue_free()
+	home_tutorial_layer = null
+	home_tutorial_surface = null
+	home_tutorial_panel = null
+	home_tutorial_eyebrow = null
+	home_tutorial_title = null
+	home_tutorial_body = null
+	home_tutorial_continue_button = null
+	home_tutorial_skip_button = null
+	home_tutorial_progress_label = null
+	home_tutorial_step = 0
+
+func _build_home_tutorial() -> void:
+	if not _home_tutorial_active():
+		return
+	_free_home_tutorial()
+	var portrait := _is_portrait_layout()
+	var ui_scale := _responsive_control_scale()
+	home_tutorial_layer = CanvasLayer.new()
+	home_tutorial_layer.name = "HomeFirstOperationTutorialCanvas"
+	home_tutorial_layer.layer = 120
+	add_child(home_tutorial_layer)
+	home_tutorial_surface = Control.new()
+	home_tutorial_surface.name = "HomeFirstOperationTutorialSurface"
+	home_tutorial_surface.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	home_tutorial_surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	# Controls placed below a CanvasLayer do not reliably inherit the AppShell
+	# theme in the Web renderer. Without an explicit theme owner, the first-HQ
+	# guide falls back to a font without Korean glyph coverage while the lobby
+	# behind it remains readable. Bind the same bundled Noto Sans KR theme at the
+	# modal root so every label, RichTextLabel and button shares one font path.
+	home_tutorial_surface.theme = theme
+	home_tutorial_layer.add_child(home_tutorial_surface)
+	var dimmer := ColorRect.new()
+	dimmer.name = "HomeFirstOperationTutorialDimmer"
+	dimmer.color = Color("02060bc0") if portrait else Color("02060ba8")
+	dimmer.mouse_filter = Control.MOUSE_FILTER_STOP
+	dimmer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	home_tutorial_surface.add_child(dimmer)
+	home_tutorial_panel = PanelContainer.new()
+	home_tutorial_panel.name = "HomeFirstOperationTutorial"
+	home_tutorial_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	home_tutorial_panel.anchor_left = 0.055 if portrait else 0.14
+	home_tutorial_panel.anchor_right = 0.945 if portrait else 0.86
+	home_tutorial_panel.anchor_top = 0.38 if portrait else 0.51
+	home_tutorial_panel.anchor_bottom = 0.94
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color("09111df5")
+	panel_style.border_color = Color("e3c270")
+	panel_style.set_border_width_all(2)
+	panel_style.set_corner_radius_all(14)
+	panel_style.shadow_color = Color("000000bb")
+	panel_style.shadow_size = 20
+	home_tutorial_panel.add_theme_stylebox_override("panel", panel_style)
+	home_tutorial_surface.add_child(home_tutorial_panel)
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", roundi((26.0 if portrait else 34.0) * ui_scale))
+	margin.add_theme_constant_override("margin_right", roundi((26.0 if portrait else 34.0) * ui_scale))
+	margin.add_theme_constant_override("margin_top", roundi((20.0 if portrait else 26.0) * ui_scale))
+	margin.add_theme_constant_override("margin_bottom", roundi((18.0 if portrait else 24.0) * ui_scale))
+	home_tutorial_panel.add_child(margin)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", roundi(12.0 * ui_scale))
+	margin.add_child(box)
+	var header := HBoxContainer.new()
+	box.add_child(header)
+	home_tutorial_eyebrow = Label.new()
+	home_tutorial_eyebrow.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	home_tutorial_eyebrow.add_theme_font_size_override("font_size", roundi(18.0 * ui_scale))
+	home_tutorial_eyebrow.add_theme_color_override("font_color", Color("8fe9d9"))
+	header.add_child(home_tutorial_eyebrow)
+	home_tutorial_skip_button = _button("안내 건너뛰기", _complete_home_tutorial_and_launch, false, Vector2(172, 50))
+	home_tutorial_skip_button.name = "HomeTutorialSkipButton"
+	home_tutorial_skip_button.add_theme_font_size_override("font_size", roundi(18.0 * ui_scale))
+	header.add_child(home_tutorial_skip_button)
+	home_tutorial_title = Label.new()
+	home_tutorial_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	home_tutorial_title.add_theme_font_size_override("font_size", roundi((28.0 if portrait else 34.0) * ui_scale))
+	home_tutorial_title.add_theme_color_override("font_color", Color("ffe6a2"))
+	home_tutorial_title.add_theme_color_override("font_outline_color", Color("02060b"))
+	home_tutorial_title.add_theme_constant_override("outline_size", 3)
+	box.add_child(home_tutorial_title)
+	var divider := ColorRect.new()
+	divider.color = Color("6ee7d077")
+	divider.custom_minimum_size = Vector2(0, 2)
+	box.add_child(divider)
+	home_tutorial_body = RichTextLabel.new()
+	home_tutorial_body.bbcode_enabled = true
+	home_tutorial_body.fit_content = true
+	home_tutorial_body.scroll_active = false
+	home_tutorial_body.custom_minimum_size.y = roundi((92.0 if portrait else 106.0) * ui_scale)
+	home_tutorial_body.add_theme_font_size_override("normal_font_size", roundi((20.0 if portrait else 22.0) * ui_scale))
+	home_tutorial_body.add_theme_font_size_override("bold_font_size", roundi((20.0 if portrait else 22.0) * ui_scale))
+	home_tutorial_body.add_theme_constant_override("line_separation", roundi(7.0 * ui_scale))
+	home_tutorial_body.add_theme_color_override("default_color", Color("f2f6fb"))
+	home_tutorial_body.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_child(home_tutorial_body)
+	var footer: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
+	footer.add_theme_constant_override("separation", roundi(12.0 * ui_scale))
+	box.add_child(footer)
+	home_tutorial_progress_label = Label.new()
+	home_tutorial_progress_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	home_tutorial_progress_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	home_tutorial_progress_label.add_theme_font_size_override("font_size", roundi(18.0 * ui_scale))
+	home_tutorial_progress_label.add_theme_color_override("font_color", Color("aabbd0"))
+	footer.add_child(home_tutorial_progress_label)
+	home_tutorial_continue_button = _button("다음 안내", _advance_home_tutorial, false, Vector2(250, 58))
+	home_tutorial_continue_button.name = "HomeTutorialContinueButton"
+	_make_primary_button(home_tutorial_continue_button)
+	footer.add_child(home_tutorial_continue_button)
+	_set_home_tutorial_step(1)
+
+func _start_home_tutorial() -> void:
+	if current_screen != "HOME" or not _home_tutorial_active():
+		return
+	_build_home_tutorial()
+
+func _set_home_tutorial_step(step: int) -> void:
+	if home_tutorial_panel == null or not is_instance_valid(home_tutorial_panel):
+		return
+	home_tutorial_step = clampi(step, 1, 4)
+	home_tutorial_eyebrow.text = "첫 방문 안내  ·  %d / 4" % home_tutorial_step
+	home_tutorial_progress_label.text = "%d / 4  ·  하단 버튼을 눌러 계속" % home_tutorial_step
+	match home_tutorial_step:
+		1:
+			home_tutorial_title.text = "본부에서는 ‘준비’와 ‘출동’을 고릅니다"
+			home_tutorial_body.text = "여기는 작전의 출발점입니다. [color=#8fe9d9][b]메인 스토리[/b][/color]는 이미 본 대화를 다시 확인하고, [color=#ffe6a2][b]챕터 / 스테이지[/b][/color]와 위의 [color=#ffe6a2][b]첫 작전 시작[/b][/color]이 실제 탐색과 전투로 이어집니다."
+			home_tutorial_continue_button.text = "준비 메뉴 보기"
+		2:
+			home_tutorial_title.text = "전투 전에는 편성과 성장을 확인하세요"
+			home_tutorial_body.text = "[color=#8fe9d9][b]파티 편성[/b][/color]에서 이번 전투의 5명을 정하고, [color=#8fe9d9][b]캐릭터 / 성장[/b][/color]에서 레벨과 장비를 강화합니다. [color=#8fe9d9][b]인벤토리[/b][/color]에서는 작전으로 얻은 재료를 확인할 수 있습니다."
+			home_tutorial_continue_button.text = "기록 메뉴 보기"
+		3:
+			home_tutorial_title.text = "이야기와 시스템 메뉴도 이곳에 있습니다"
+			home_tutorial_body.text = "[color=#8fe9d9][b]릴레이 작전[/b][/color]은 해금 동료를 세 부대로 나누는 연속 전투입니다. [color=#8fe9d9][b]스토리 아카이브[/b][/color]는 읽은 장면을, [color=#8fe9d9][b]설정 / 라이선스[/b][/color]는 언어와 사운드를 관리합니다."
+			home_tutorial_continue_button.text = "첫 작전 안내 받기"
+		4:
+			home_tutorial_title.text = "자, 이제 제1장 탐색을 시작합니다"
+			home_tutorial_body.text = "[color=#ffe6a2][b]챕터 / 스테이지[/b][/color]로 이동하면 제1장의 육각 탐색 맵이 열립니다. 그곳에서 노란 이동 범위, 조우 이벤트, 보물, 전투 진입법을 순서대로 안내합니다."
+			home_tutorial_continue_button.text = "제1장 탐색 시작  ›"
+			var stage_button = home_menu_buttons.get("STAGE", null)
+			if stage_button is Button and is_instance_valid(stage_button):
+				_make_primary_button(stage_button as Button)
+
+func _advance_home_tutorial() -> void:
+	if home_tutorial_step >= 4:
+		_complete_home_tutorial_and_launch()
+		return
+	_set_home_tutorial_step(home_tutorial_step + 1)
+
+func _complete_home_tutorial_and_launch() -> void:
+	if AppState.profile.get("tutorial_progress", null) is Dictionary:
+		AppState.profile.tutorial_progress["home_basics_complete"] = true
+	SaveService.save_game()
+	_free_home_tutorial()
+	SceneRouter.go("STAGE_SELECT")
+
+func _launch_first_operation() -> void:
+	if _home_tutorial_active():
+		_complete_home_tutorial_and_launch()
+		return
+	SceneRouter.go("STAGE_SELECT")
+
 func _show_home() -> void:
 	AudioService.play_bgm("audio_bgm_lobby")
 	AppState.refresh_stamina()
@@ -1036,6 +1228,18 @@ func _show_home() -> void:
 	var resource_bar := _panel()
 	resource_bar.add_child(_label("계정 Lv.%d   작전력 %d/%d   크레딧 %s" % [AppState.profile.account.level, AppState.profile.account.stamina, AppState.account_max_stamina(), MathUtil.comma(AppState.inventory_count("CREDIT"))], 28, Color("ffe28a")))
 	var portrait := _is_portrait_layout()
+	var operation_row: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
+	operation_row.add_theme_constant_override("separation", 14)
+	resource_bar.add_child(operation_row)
+	var operation_copy := VBoxContainer.new()
+	operation_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	operation_row.add_child(operation_copy)
+	operation_copy.add_child(_label("다음 목적지  ·  제1장 탐색", 20, Color("8fe9d9")))
+	operation_copy.add_child(_label("처음이라면 이 버튼으로 출동하세요. 이동 · 조우 · 전투 안내가 이어집니다.", 17, Color("c7d4e4")))
+	var first_operation := _button("첫 작전 시작  ›", _launch_first_operation, false, Vector2(260, 62))
+	first_operation.name = "HomeFirstOperationButton"
+	_make_primary_button(first_operation)
+	operation_row.add_child(first_operation)
 	var body: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
 	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -1050,8 +1254,13 @@ func _show_home() -> void:
 	# persistent save action.  72 physical px remains comfortably above the
 	# 56 logical-px touch target while avoiding a clipped last row.
 	var menu_height := 72.0 if portrait else 108.0
-	menu.add_child(_button("메인 스토리", func(): AppState.active_scenario_id = "SCN_PROLOGUE"; SceneRouter.go("STORY", {"after": "HOME"}), false, Vector2(235, menu_height)))
-	menu.add_child(_button("챕터 / 스테이지", func(): SceneRouter.go("STAGE_SELECT"), false, Vector2(235, menu_height)))
+	var main_story_button := _button("메인 스토리", func(): AppState.active_scenario_id = "SCN_PROLOGUE"; SceneRouter.go("STORY", {"after": "HOME"}), false, Vector2(235, menu_height))
+	main_story_button.name = "HomeMainStoryButton"
+	menu.add_child(main_story_button)
+	var chapter_stage_button := _button("챕터 / 스테이지", _launch_first_operation, false, Vector2(235, menu_height))
+	chapter_stage_button.name = "HomeChapterStageButton"
+	home_menu_buttons["STAGE"] = chapter_stage_button
+	menu.add_child(chapter_stage_button)
 	menu.add_child(_button("릴레이 작전", func(): SceneRouter.go("RELAY"), false, Vector2(235, menu_height)))
 	menu.add_child(_button("파티 편성", func(): SceneRouter.go("FORMATION"), false, Vector2(235, menu_height)))
 	menu.add_child(_button("캐릭터 / 성장", func(): SceneRouter.go("ROSTER"), false, Vector2(235, menu_height)))
@@ -1085,6 +1294,8 @@ func _show_home() -> void:
 	for character_id in AppState.get_party():
 		party_names.append(_display_character_name(str(character_id)))
 	row.add_child(_label("현재 파티: " + ", ".join(party_names), 18, Color("8ba8c8")))
+	if _home_tutorial_active():
+		call_deferred("_start_home_tutorial")
 
 func _show_relay() -> void:
 	AudioService.play_bgm("audio_bgm_lobby")
@@ -1648,7 +1859,7 @@ func _restore_story_view_after_reflow() -> void:
 		scenario_text.visible_ratio = 1.0
 	elif type == "choice" or scenario_runner.state.waiting_for_choice:
 		scenario_speaker.text = "선택"
-		scenario_text.text = "당신의 기록 방식을 선택하세요."
+		scenario_text.text = "아래 응답 중 하나를 선택해 기록을 시작하세요."
 		for i in range(command.get("choices", []).size()):
 			var choice: Dictionary = command.choices[i]
 			scenario_choices.add_child(_story_button(LocalizationService.tr_key(choice.text_key), func(index := i): _request_story_choice(index, "button:choice"), false, Vector2(400, 58)))
@@ -1738,7 +1949,7 @@ func _advance_story() -> void:
 			return
 		if type == "choice":
 			scenario_speaker.text = "선택"
-			scenario_text.text = "당신의 기록 방식을 선택하세요."
+			scenario_text.text = "아래 응답 중 하나를 선택해 기록을 시작하세요."
 			_refresh_story_dialogue_chrome(type)
 			for i in range(command.get("choices", []).size()):
 				var choice: Dictionary = command.choices[i]
@@ -1912,7 +2123,7 @@ func _refresh_story_control_states() -> void:
 		story_auto_button.text = "AUTO  ON" if story_auto else "AUTO"
 		story_auto_button.add_theme_color_override("font_color", Color("8ff3e3") if story_auto else Color("f4f7ff"))
 	if story_skip_button != null:
-		story_skip_button.tooltip_text = "프롤로그 전체 건너뛰기" if story_is_prologue else "이미 읽은 대사 건너뛰기"
+		story_skip_button.tooltip_text = "프롤로그 전체 건너뛰기" if story_is_prologue else "현재 이야기 전체 건너뛰기"
 
 func _skip_story_from_control() -> void:
 	if story_is_prologue:
@@ -1933,8 +2144,16 @@ func _skip_prologue_to_end() -> void:
 	_finish_story_navigation()
 
 func _skip_story() -> void:
-	if scenario_runner != null and scenario_runner.can_skip_current(): _request_story_advance("button:skip")
-	else: footer_status.text = "읽은 대사만 건너뛸 수 있습니다."
+	if scenario_runner == null or not _consume_transition_edge("STORY_SKIP_ALL", "button:skip-story"):
+		return
+	var safety := 0
+	while not scenario_runner.state.finished and safety < 1000:
+		safety += 1
+		var command := scenario_runner.advance()
+		if str(command.get("command", "")) == "choice":
+			scenario_runner.choose(0)
+	_persist_story_checkpoint()
+	_finish_story_navigation()
 
 func _dev_skip_story() -> void:
 	if not SettingsService.is_developer_mode() or scenario_runner == null: return
@@ -1982,91 +2201,111 @@ func _toggle_story_ui() -> void:
 
 func _show_formation() -> void:
 	_title("파티 편성", "전열 2 / 중열 2 / 후열 1 • 중복 편성 불가 • 프리셋 5개")
-	var preset_row := HBoxContainer.new()
+	var portrait := _is_portrait_layout()
+	var preset_row: Container = GridContainer.new() if portrait else HBoxContainer.new()
+	if preset_row is GridContainer:
+		(preset_row as GridContainer).columns = 2
 	content.add_child(preset_row)
 	for i in range(5):
-		preset_row.add_child(_button("PRESET %d" % (i + 1), func(index := i): AppState.profile.active_party = index; _show_screen("FORMATION"), i == int(AppState.profile.active_party), Vector2(150, 56)))
-	var slots := HBoxContainer.new()
+		preset_row.add_child(_button("PRESET %d" % (i + 1), func(index := i): AppState.profile.active_party = index; _show_screen("FORMATION"), i == int(AppState.profile.active_party), Vector2(148 if portrait else 150, 56)))
+	var slots: Container = GridContainer.new() if portrait else HBoxContainer.new()
+	if slots is GridContainer:
+		(slots as GridContainer).columns = 2
 	slots.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_child(slots)
 	var position_names := ["전열 A", "전열 B", "중열 A", "중열 B", "후열"]
 	for i in range(5):
 		var character := DataRegistry.character(AppState.get_party()[i])
 		var card := VBoxContainer.new()
-		card.custom_minimum_size = Vector2(220, 205)
+		card.custom_minimum_size = Vector2(0, 0) if portrait else Vector2(220, 205)
 		card.add_theme_constant_override("separation", 6)
 		slots.add_child(card)
-		card.add_child(_art_rect(str(character.icon_asset_id), Vector2(220, 112)))
+		card.add_child(_art_rect(str(character.icon_asset_id), Vector2(126, 64) if portrait else Vector2(220, 112)))
 		var marker := "◆ " if formation_slot == i else ""
-		var button := _button("%s%s\n%s • %s" % [marker, position_names[i], LocalizationService.tr_key(character.name_key), character.role], func(index := i): formation_slot = index; _show_screen("FORMATION"), false, Vector2(220, 82))
+		var button := _button("%s%s\n%s • %s" % [marker, position_names[i], LocalizationService.tr_key(character.name_key), character.role], func(index := i): formation_slot = index; _show_screen("FORMATION"), false, Vector2(148, 66) if portrait else Vector2(220, 82))
 		card.add_child(button)
 	var roster_box := _scroll_box()
 	roster_box.add_child(_label("선택 슬롯 %d에 배치할 캐릭터" % (formation_slot + 1), 24, Color("f1d77a")))
 	var grid := GridContainer.new()
-	grid.columns = 4
+	grid.columns = 1 if portrait else 4
 	roster_box.add_child(grid)
 	for character in DataRegistry.list_of("characters"):
 		var unlocked := bool(AppState.profile.roster[character.id].unlocked)
 		var roster_card := VBoxContainer.new()
-		roster_card.custom_minimum_size = Vector2(250, 184)
+		roster_card.custom_minimum_size = Vector2(0, 0) if portrait else Vector2(250, 184)
 		roster_card.add_theme_constant_override("separation", 5)
 		grid.add_child(roster_card)
-		roster_card.add_child(_art_rect(str(character.icon_asset_id), Vector2(250, 104)))
-		roster_card.add_child(_button("%s\n%s / %s" % [LocalizationService.tr_key(character.name_key), character.role, character.preferred_position], func(character_id: String = str(character.id)): AppState.set_party_slot(formation_slot, character_id); SaveService.save_game(); _show_screen("FORMATION"), not unlocked, Vector2(250, 74)))
-	var actions := HBoxContainer.new()
+		roster_card.add_child(_art_rect(str(character.icon_asset_id), Vector2(300, 88) if portrait else Vector2(250, 104)))
+		roster_card.add_child(_button("%s\n%s / %s" % [LocalizationService.tr_key(character.name_key), character.role, character.preferred_position], func(character_id: String = str(character.id)): AppState.set_party_slot(formation_slot, character_id); SaveService.save_game(); _show_screen("FORMATION"), not unlocked, Vector2(300, 66) if portrait else Vector2(250, 74)))
+	var actions: Container = GridContainer.new() if portrait else HBoxContainer.new()
+	if actions is GridContainer:
+		(actions as GridContainer).columns = 1
 	content.add_child(actions)
 	var formation_destination := str(AppState.route_payload.get("after", "STAGE_SELECT"))
 	if formation_destination not in ["STAGE_DETAIL", "STAGE_SELECT"]:
 		formation_destination = "STAGE_SELECT"
 	var formation_action_text := "스테이지 상세로" if formation_destination == "STAGE_DETAIL" else "스테이지 선택으로"
-	actions.add_child(_button(formation_action_text, func(destination := formation_destination): SceneRouter.go(destination), false, Vector2(240, 64)))
-	actions.add_child(_button("저장", func(): _report_result(SaveService.save_game()), false, Vector2(140, 64)))
+	actions.add_child(_button(formation_action_text, func(destination := formation_destination): SceneRouter.go(destination), false, Vector2(300 if portrait else 240, 64)))
+	actions.add_child(_button("저장", func(): _report_result(SaveService.save_game()), false, Vector2(300 if portrait else 140, 64)))
 
 func _show_stage_select() -> void:
 	var selected_stage: Dictionary = DataRegistry.stage(AppState.selected_stage_id)
 	var selected_chapter_id := str(selected_stage.get("chapter_id", "CH01"))
 	_title("접근성 스테이지 목록", "챕터별 장거리 육각 맵의 목록형 보존 화면")
-	var chapter_row := HBoxContainer.new()
+	var portrait := _is_portrait_layout()
+	var chapter_row: Container = GridContainer.new() if portrait else HBoxContainer.new()
+	if chapter_row is GridContainer:
+		(chapter_row as GridContainer).columns = 1
 	content.add_child(chapter_row)
 	for chapter_value in DataRegistry.list_of("chapters"):
 		var chapter: Dictionary = chapter_value
 		var chapter_id := str(chapter.get("id", ""))
 		var progress: Dictionary = AppState.profile.get("chapter_progress", {}).get(chapter_id, {})
 		var chapter_name := LocalizationService.tr_key(str(chapter.get("name_key", "")))
-		chapter_row.add_child(_button(chapter_name, func(id := chapter_id, first_stage := str(chapter.get("normal_stage_ids", [""])[0])): AppState.selected_stage_id = first_stage; stage_mode = "NORMAL"; _show_screen("STAGE_SELECT"), chapter_id.is_empty() or not bool(progress.get("unlocked", false)), Vector2(190, 58)))
-	var mode_row := HBoxContainer.new()
+		chapter_row.add_child(_button(chapter_name, func(id := chapter_id, first_stage := str(chapter.get("normal_stage_ids", [""])[0])): AppState.selected_stage_id = first_stage; stage_mode = "NORMAL"; _show_screen("STAGE_SELECT"), chapter_id.is_empty() or not bool(progress.get("unlocked", false)), Vector2(300 if portrait else 190, 58)))
+	var mode_row: Container = GridContainer.new() if portrait else HBoxContainer.new()
+	if mode_row is GridContainer:
+		(mode_row as GridContainer).columns = 2
 	content.add_child(mode_row)
-	mode_row.add_child(_button("NORMAL", func(): stage_mode = "NORMAL"; _show_screen("STAGE_SELECT"), stage_mode == "NORMAL", Vector2(180, 60)))
-	mode_row.add_child(_button("HARD", func(): stage_mode = "HARD"; _show_screen("STAGE_SELECT"), stage_mode == "HARD", Vector2(180, 60)))
+	mode_row.add_child(_button("NORMAL", func(): stage_mode = "NORMAL"; _show_screen("STAGE_SELECT"), stage_mode == "NORMAL", Vector2(148 if portrait else 180, 60)))
+	mode_row.add_child(_button("HARD", func(): stage_mode = "HARD"; _show_screen("STAGE_SELECT"), stage_mode == "HARD", Vector2(148 if portrait else 180, 60)))
 	var selected_chapter: Dictionary = DataRegistry.chapter(selected_chapter_id)
 	var selected_progress: Dictionary = AppState.profile.get("chapter_progress", {}).get(selected_chapter_id, {})
 	if stage_mode == "HARD" and not bool(selected_progress.get("hard_unlocked", false)) and not AppState.debug_unlock_all_enabled():
 		var normal_route: Array = selected_chapter.get("normal_stage_ids", [])
 		var final_normal := str(normal_route.back()) if not normal_route.is_empty() else ""
 		content.add_child(_label("HARD는 %s 클리어 후 해금됩니다." % _stage_display_name(final_normal), 24, Color("ffbd7a")))
+	# The accessibility fallback can list an entire chapter. Keep it independently
+	# scrollable so a one-column phone layout never pushes late-stage buttons
+	# below the viewport with no route to reach them.
+	var stage_scroll := ScrollContainer.new()
+	stage_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	stage_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	stage_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content.add_child(stage_scroll)
 	var grid := GridContainer.new()
-	grid.columns = 5
-	grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	content.add_child(grid)
+	grid.columns = 1 if portrait else 5
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	stage_scroll.add_child(grid)
 	for stage in DataRegistry.list_of("stages"):
 		if stage.mode != stage_mode or str(stage.get("chapter_id", "")) != selected_chapter_id: continue
 		var stars := int(AppState.profile.stage_stars.get(stage.id, 0))
 		var unlocked := AppState.is_stage_unlocked(stage.id)
 		var boss := " · 보스" if stage.boss else ""
 		var stage_name := LocalizationService.tr_key(str(stage.name_key))
-		grid.add_child(_button("%s%s\n권장 Lv.%d\n%s" % [stage_name, boss, stage.recommended_level, "★".repeat(stars) + "☆".repeat(3 - stars)], func(stage_id: String = str(stage.id)): AppState.selected_stage_id = stage_id; SceneRouter.go("STAGE_DETAIL"), not unlocked, Vector2(235, 120)))
+		grid.add_child(_button("%s%s\n권장 Lv.%d\n%s" % [stage_name, boss, stage.recommended_level, "★".repeat(stars) + "☆".repeat(3 - stars)], func(stage_id: String = str(stage.id)): AppState.selected_stage_id = stage_id; SceneRouter.go("STAGE_DETAIL"), not unlocked, Vector2(300 if portrait else 235, 120)))
 
 func _show_chapter_map() -> void:
-	AppState.queue_story_event("MAP_ENTER")
-	var pending_story := AppState.next_pending_story_trigger()
+	var selected_stage: Dictionary = DataRegistry.stage(AppState.selected_stage_id)
+	var chapter_id := str(selected_stage.get("chapter_id", "CH01"))
+	AppState.queue_story_event("MAP_ENTER", "", chapter_id)
+	var pending_story := AppState.next_pending_story_trigger(chapter_id)
 	if not pending_story.is_empty():
 		AppState.active_scenario_id = str(pending_story.get("scenario_id", ""))
 		SaveService.save_game()
 		SceneRouter.go("STORY", {"after": "STAGE_SELECT", "origin": "CHAPTER_MAP"})
 		return
 	AudioService.play_bgm("audio_bgm_lobby")
-	var selected_stage: Dictionary = DataRegistry.stage(AppState.selected_stage_id)
-	var chapter_id := str(selected_stage.get("chapter_id", "CH01"))
 	var chapter: Dictionary = DataRegistry.chapter(chapter_id)
 	var map_id := AppState.map_id_for_chapter(chapter_id)
 	_title(LocalizationService.tr_key(str(chapter.get("name_key", ""))), "탐색 경로를 따라 조우를 선택하고, 기존 실시간 전투에 진입합니다.")
@@ -2104,10 +2343,12 @@ func _map_treasure_reward_requested(report: Dictionary) -> void:
 func _show_stage_detail() -> void:
 	var stage := DataRegistry.stage(AppState.selected_stage_id)
 	_title(LocalizationService.tr_key(str(stage.name_key)) + (" • 보스" if stage.boss else ""), "권장 Lv.%d • %d 작전력 • %d초" % [stage.recommended_level, stage.stamina_cost, stage.time_limit])
-	var columns := HBoxContainer.new()
+	var portrait := _is_portrait_layout()
+	var compact_details := portrait or _is_compact_landscape_layout()
+	var columns: BoxContainer = VBoxContainer.new() if compact_details else HBoxContainer.new()
 	columns.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	columns.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	columns.add_theme_constant_override("separation", 18)
+	columns.add_theme_constant_override("separation", 14 if compact_details else 18)
 	content.add_child(columns)
 	var wave_box := _panel_box(columns)
 	wave_box.add_child(_label("적 편성 • %d 웨이브" % stage.waves.size(), 25, Color("a8b7ff")))
@@ -2122,13 +2363,19 @@ func _show_stage_detail() -> void:
 	if stage.mode == "HARD":
 		attempts = "무제한 (DEV)" if SettingsService.is_developer_mode() else "%d/%d" % [AppState.profile.hard_attempts.counts.get(stage.id, 0), stage.daily_attempts]
 	wave_box.add_child(_label("입장 횟수 %s   현재 %s/3성" % [attempts, AppState.profile.stage_stars.get(stage.id, 0)], 20, Color("e9c979")))
-	var actions := HBoxContainer.new()
+	var actions: Container = GridContainer.new() if compact_details else HBoxContainer.new()
+	if actions is GridContainer:
+		(actions as GridContainer).columns = 2
+	actions.add_theme_constant_override("separation", 10 if compact_details else 0)
 	content.add_child(actions)
-	actions.add_child(_button("파티 편성", func(): SceneRouter.go("FORMATION"), false, Vector2(190, 66)))
-	actions.add_child(_button("전투 시작", func(): _request_battle_start("button:battle_start"), not AppState.can_enter_stage(stage.id), Vector2(210, 66)))
+	var action_width := 154 if portrait else (172 if compact_details else 190)
+	actions.add_child(_button("파티 편성", func(): SceneRouter.go("FORMATION"), false, Vector2(action_width, 66)))
+	var start_button := _button("전투 시작", func(): _request_battle_start("button:battle_start"), not AppState.can_enter_stage(stage.id), Vector2(action_width, 66))
+	_make_primary_button(start_button)
+	actions.add_child(start_button)
 	for count in [1, 5, 10]:
 		var sweep_disabled: bool = int(AppState.profile.stage_stars.get(stage.id, 0)) < 3 or not AppState.can_enter_stage_count(stage.id, int(count))
-		actions.add_child(_button("소탕 %d회" % count, func(value: int = int(count)): _sweep(value), sweep_disabled, Vector2(160, 66)))
+		actions.add_child(_button("소탕 %d회" % count, func(value: int = int(count)): _sweep(value), sweep_disabled, Vector2(150 if compact_details else 160, 66)))
 
 func _request_battle_start(source: String, stage_id := "") -> bool:
 	if battle_transition_active: return false
@@ -3050,12 +3297,18 @@ func _event_encounter_result_payload(special_event: Dictionary, victory: bool, m
 		return {}
 	var character_id := str(special_event.get("character_id", ""))
 	var resolved_map_id := map_id if not map_id.is_empty() else AppState.map_id_for_stage(AppState.selected_stage_id)
-	var recruitment_state := str(AppState.chapter_map_state(resolved_map_id).get("recruitment_states", {}).get(character_id, ""))
+	var map_state := AppState.chapter_map_state(resolved_map_id)
+	var recruitment_state := str(map_state.get("recruitment_states", {}).get(character_id, ""))
+	var recruitment_progress: Dictionary = map_state.get("recruitment_progress", {}).get(character_id, {})
+	var required_victories := int(recruitment_progress.get("required", special_event.get("battle_victories_required", 1)))
+	var completed_victories := int(recruitment_progress.get("victories", 1 if victory else 0))
 	return {
 		"character_id": character_id,
 		"recruitment_timing": str(special_event.get("recruitment_timing", "")),
 		"recruit_after_stage_id": str(special_event.get("recruit_after_stage_id", "")),
 		"recruitment_state": recruitment_state,
+		"battle_victories_required": required_victories,
+		"battle_victories_remaining": maxi(0, required_victories - completed_victories),
 	}
 
 func _display_runtime_name(runtime_id: String) -> String:
@@ -3336,9 +3589,13 @@ func _add_progress_unlock_summary(parent: VBoxContainer, font_size: int) -> void
 		if str(event_encounter.get("recruitment_state", "")) == "READY":
 			lines.append(LocalizationService.tr_key("RESULT_EVENT_RECRUITED") % event_name)
 		elif str(event_encounter.get("recruitment_state", "")) == "PENDING":
-			var later_stage := DataRegistry.stage(str(event_encounter.get("recruit_after_stage_id", "")))
-			var later_name := LocalizationService.tr_key(str(later_stage.get("name_key", "")))
-			lines.append(LocalizationService.tr_key("RESULT_EVENT_TRACKING") % [event_name, later_name])
+			var remaining_battles := int(event_encounter.get("battle_victories_remaining", 0))
+			if remaining_battles > 0:
+				lines.append(LocalizationService.tr_key("RESULT_EVENT_TRACKING_BATTLES") % [event_name, remaining_battles])
+			else:
+				var later_stage := DataRegistry.stage(str(event_encounter.get("recruit_after_stage_id", "")))
+				var later_name := LocalizationService.tr_key(str(later_stage.get("name_key", "")))
+				lines.append(LocalizationService.tr_key("RESULT_EVENT_TRACKING") % [event_name, later_name])
 	for character_id_value in progress.get("newly_recruited_characters", []):
 		var recruited_name := _display_character_name(str(character_id_value))
 		var recruited_line := LocalizationService.tr_key("RESULT_EVENT_RECRUITED") % recruited_name
@@ -3643,28 +3900,33 @@ func _sweep(count: int) -> void:
 
 func _show_roster() -> void:
 	_title("캐릭터 목록", "44명 • 역할/위치/공격/방어 계통 검증")
+	var portrait := _is_portrait_layout()
+	var roster_box := _scroll_box()
 	var grid := GridContainer.new()
-	grid.columns = 4
+	grid.columns = 1 if portrait else 4
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	content.add_child(grid)
+	roster_box.add_child(grid)
 	for character in DataRegistry.list_of("characters"):
 		var progress: Dictionary = AppState.profile.roster[character.id]
 		var lock_prefix := "잠김 · " if not bool(progress.unlocked) else ""
-		grid.add_child(_button("%s%s\n%s • %s\nLv.%d B%d • 관계 %d" % [lock_prefix, LocalizationService.tr_key(character.name_key), character.role, character.preferred_position, progress.level, progress.breakthrough, progress.relationship_level], func(character_id: String = str(character.id)): AppState.selected_character_id = character_id; SceneRouter.go("CHARACTER_DETAIL"), false, Vector2(290, 130)))
+		grid.add_child(_button("%s%s\n%s • %s\nLv.%d B%d • 관계 %d" % [lock_prefix, LocalizationService.tr_key(character.name_key), character.role, character.preferred_position, progress.level, progress.breakthrough, progress.relationship_level], func(character_id: String = str(character.id)): AppState.selected_character_id = character_id; SceneRouter.go("CHARACTER_DETAIL"), false, Vector2(300 if portrait else 290, 112 if portrait else 130)))
 
 func _show_growth() -> void:
 	var cid := AppState.selected_character_id
 	var definition := DataRegistry.character(cid)
 	var progress: Dictionary = AppState.profile.roster[cid]
 	_title(LocalizationService.tr_key(definition.name_key), "정보 • 능력치 • 스킬 • 레벨업 • 돌파 • 무기 • 관계 • 프로필")
-	var hero := HBoxContainer.new()
+	var portrait := _is_portrait_layout()
+	var growth_content := _scroll_box()
+	var hero: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
 	hero.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hero.add_theme_constant_override("separation", 18)
-	content.add_child(hero)
+	growth_content.add_child(hero)
 	var portrait_panel := PanelContainer.new()
-	portrait_panel.custom_minimum_size = Vector2(306, 372)
+	portrait_panel.custom_minimum_size = Vector2(300, 292) if portrait else Vector2(306, 372)
 	hero.add_child(portrait_panel)
-	portrait_panel.add_child(_art_rect(str(definition.portrait_asset_id), Vector2(282, 350)))
+	portrait_panel.add_child(_art_rect(str(definition.portrait_asset_id), Vector2(276, 270) if portrait else Vector2(282, 350)))
 	var summary := _panel_box(hero)
 	summary.add_child(_label("%s / %s / %s→%s" % [definition.role, definition.preferred_position, definition.attack_type, definition.defense_type], 23, Color("91d8d0")))
 	summary.add_child(_label("Lv.%d (상한 %d)  EXP %d   B%d   관계 Lv.%d" % [progress.level, CharacterProgression.level_cap(progress), progress.xp, progress.breakthrough, progress.relationship_level], 25))
@@ -3674,15 +3936,17 @@ func _show_growth() -> void:
 		return
 	var level_preview := CharacterProgression.preview(cid, "TRAINING_NOTE_L", 1)
 	summary.add_child(_label("레벨업 예상: Lv.%d / EXP %d • 크레딧 %s • 잉여 EXP %d" % [level_preview.level, level_preview.xp, MathUtil.comma(int(level_preview.credit_cost)), level_preview.unused_xp], 18, Color("f1d77a") if int(level_preview.unused_xp) > 0 else Color("8fe0b6")))
-	var party_selector := HBoxContainer.new()
+	var party_selector: Container = GridContainer.new() if portrait else HBoxContainer.new()
+	if party_selector is GridContainer:
+		(party_selector as GridContainer).columns = 2
 	party_selector.add_theme_constant_override("separation", 8)
-	content.add_child(party_selector)
+	growth_content.add_child(party_selector)
 	for party_id_variant in AppState.get_party():
 		var party_id := str(party_id_variant)
 		party_selector.add_child(_button(_display_character_name(party_id), func(value: String = party_id): AppState.selected_character_id = value; _show_screen("GROWTH"), party_id == cid, Vector2(156, 52)))
 	var next_plan_action: Dictionary = GrowthPlanBuilderScript.next_legal_action(AppState.get_party())
 	var plan_preview: Dictionary = GrowthPlanBuilderScript.preview_recommended_batch(AppState.get_party(), 12) if not next_plan_action.is_empty() else {}
-	var plan_box := _panel_box(content)
+	var plan_box := _panel_box(growth_content)
 	plan_box.add_child(_label("권장 파티 성장", 22, Color("f1d77a")))
 	if next_plan_action.is_empty():
 		plan_box.add_child(_label("현재 보유 재료로 즉시 적용 가능한 파티 성장 항목이 없습니다.", 17, Color("91aac8")))
@@ -3705,8 +3969,9 @@ func _show_growth() -> void:
 		plan_box.add_child(_label("직전 적용 %d단계: %s%s" % [last_growth_plan_actions.size(), " / ".join(action_texts), suffix], 15, Color("8fe0b6")))
 		plan_box.add_child(_label(_growth_plan_result_text(last_growth_plan_report), 16, Color("c7d9ed")))
 	var grid := GridContainer.new()
-	grid.columns = 3
-	content.add_child(grid)
+	grid.columns = 1 if portrait else 3
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	growth_content.add_child(grid)
 	# Offer every authored training-note denomination.  The actual preview/service
 	# remains the authority, so an oversized note cannot silently waste EXP at a
 	# breakthrough cap and smaller legal notes remain usable in the Web UI.
@@ -3731,7 +3996,7 @@ func _show_growth() -> void:
 	var weapon_level_disabled: bool = AppState.inventory_count("WEAPON_CHIP_M") < 1 or not weapon_preview.ok or int(weapon_preview.value.get("unused_xp", 0)) > 0
 	grid.add_child(_button("%s 강화\nLv.%d T%d" % [_display_runtime_name(weapon_id), weapon_state.level, weapon_state.tier], func(): _report_result(WeaponUpgradeService.use_material(weapon_id, "WEAPON_CHIP_M", 1)); _show_screen("GROWTH"), weapon_level_disabled, Vector2(290, 86)))
 	grid.add_child(_button("%s 티어업" % _display_runtime_name(weapon_id), func(): _report_result(WeaponUpgradeService.tier_up(weapon_id)); _show_screen("GROWTH"), int(weapon_state.tier) >= 6, Vector2(290, 86)))
-	var detail_box := _panel()
+	var detail_box := _panel_box(growth_content)
 	var detail_lines: Array[String] = []
 	detail_lines.append("레벨업 재료: %s 1/%d • %s %s/%s" % [_display_item_name("TRAINING_NOTE_L"), AppState.inventory_count("TRAINING_NOTE_L"), _display_item_name("CREDIT"), MathUtil.comma(AppState.inventory_count("CREDIT")), MathUtil.comma(int(level_preview.credit_cost))])
 	detail_lines.append("돌파 요구: %s" % _cost_detail(BreakthroughService.next_cost(cid)))
@@ -3742,8 +4007,8 @@ func _show_growth() -> void:
 	detail_lines.append("무기 강화: %s 1/%d • 현재 추가 %s" % [_display_item_name("WEAPON_CHIP_M"), AppState.inventory_count("WEAPON_CHIP_M"), _format_counts(WeaponUpgradeService.flat_stats_for(weapon_id, weapon_state), false)])
 	detail_lines.append("무기 티어업 요구: %s" % _cost_detail(WeaponUpgradeService.tier_up_cost(weapon_id)))
 	detail_box.add_child(_label("\n".join(detail_lines), 17, Color("b8cae0")))
-	var compatible := HBoxContainer.new()
-	content.add_child(compatible)
+	var compatible: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
+	growth_content.add_child(compatible)
 	compatible.add_child(_label("호환 %s:" % definition.weapon_class, 19, Color("91aac8")))
 	for weapon in DataRegistry.list_of("weapons"):
 		if weapon.weapon_class == definition.weapon_class:
@@ -3756,8 +4021,8 @@ func _show_growth() -> void:
 				missing_items.append(str(item_id))
 	if AppState.inventory_count("TRAINING_NOTE_L") < 1: missing_items.append("TRAINING_NOTE_L")
 	if AppState.inventory_count("WEAPON_CHIP_M") < 1: missing_items.append("WEAPON_CHIP_M")
-	var footer := HBoxContainer.new()
-	content.add_child(footer)
+	var footer: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
+	growth_content.add_child(footer)
 	if missing_items.is_empty():
 		footer.add_child(_button("재료 획득처 보기", func(): SceneRouter.go("STAGE_SELECT"), false, Vector2(230, 60)))
 	else:
@@ -3797,28 +4062,33 @@ func _go_to_item_source(item_id: String) -> void:
 
 func _show_inventory() -> void:
 	_title("인벤토리", "통화·경험치·돌파·스킬·무기·조각")
+	var portrait := _is_portrait_layout()
 	var grid := GridContainer.new()
-	grid.columns = 4
+	grid.columns = 1 if portrait else 4
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var scroll_box := _scroll_box()
 	scroll_box.add_child(grid)
 	for item in DataRegistry.list_of("items"):
 		var count := AppState.inventory_count(item.id)
 		if count > 0:
-			grid.add_child(_button("%s\n%s" % [_display_item_name(str(item.id)), MathUtil.comma(count)], func(): footer_status.text = "획득처: Chapter 1 스테이지 상세에서 확인", false, Vector2(260, 76)))
+			grid.add_child(_button("%s\n%s" % [_display_item_name(str(item.id)), MathUtil.comma(count)], func(): footer_status.text = "획득처: 스테이지 상세에서 확인", false, Vector2(300 if portrait else 260, 76)))
 
 func _show_archive() -> void:
-	_title("스토리 아카이브", "메인 7편 + 캐릭터 개인 스토리 2편")
+	_title("스토리 아카이브", "메인·챕터·개인 이야기 기록")
+	var portrait := _is_portrait_layout()
+	var archive_box := _scroll_box()
 	var grid := GridContainer.new()
-	grid.columns = 3
+	grid.columns = 1 if portrait else 3
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	content.add_child(grid)
+	archive_box.add_child(grid)
 	for scenario in DataRegistry.list_of("scenarios"):
 		var relation_locked: bool = str(scenario.chapter_id) == "REL" and ((str(scenario.id) == "SCN_REL_MAERU" and int(AppState.profile.roster.CHR001.relationship_level) < 2) or (str(scenario.id) == "SCN_REL_IRI" and int(AppState.profile.roster.CHR008.relationship_level) < 2))
-		grid.add_child(_button("%s\n%s" % [LocalizationService.tr_key(scenario.title_key), scenario.chapter_id], func(scenario_id: String = str(scenario.id)): AppState.active_scenario_id = scenario_id; AppState.profile.last_scenario_position.erase(scenario_id); SceneRouter.go("STORY", {"after": "ARCHIVE"}), relation_locked, Vector2(320, 90)))
+		grid.add_child(_button("%s\n%s" % [LocalizationService.tr_key(scenario.title_key), scenario.chapter_id], func(scenario_id: String = str(scenario.id)): AppState.active_scenario_id = scenario_id; AppState.profile.last_scenario_position.erase(scenario_id); SceneRouter.go("STORY", {"after": "ARCHIVE"}), relation_locked, Vector2(300 if portrait else 320, 90)))
 
 func _show_settings() -> void:
 	_title("설정", "로컬 설정은 저장 파일에 보존")
-	var box := _panel()
+	var box := _scroll_box()
 	box.add_child(_button("언어: %s" % SettingsService.values.language, func(): SettingsService.values.language = "en" if SettingsService.values.language == "ko" else "ko"; _show_screen("SETTINGS"), false, Vector2(300, 64)))
 	box.add_child(_button("로컬 오디오: %s" % ("ON" if SettingsService.values.audio_enabled else "OFF"), func():
 		AudioService.set_enabled(not bool(SettingsService.values.audio_enabled))

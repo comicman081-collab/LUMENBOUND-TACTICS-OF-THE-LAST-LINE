@@ -26,7 +26,7 @@ static func create_default(definition: Dictionary) -> Dictionary:
 		# stamina, never enter BattleSimulation, and use axial steps as their
 		# only authority so the same save/input follows the same route.
 		"movement_points": 0, "movement_points_max": 0, "exploration_pulse": 0,
-		"event_encounter_states": {}, "recruitment_states": {},
+		"event_encounter_states": {}, "recruitment_states": {}, "recruitment_progress": {},
 		"exploration_completion": {},
 		"map_simulation_state": {"tick": 0, "seed": int(definition.get("map_simulation", {}).get("seed", 140701)), "paused": false}
 	}

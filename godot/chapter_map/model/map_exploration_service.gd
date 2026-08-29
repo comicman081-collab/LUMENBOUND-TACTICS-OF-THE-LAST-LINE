@@ -67,6 +67,9 @@ static func ensure_state(state: Dictionary, definition: Dictionary, grid = null)
 	if not state.has("recruitment_states"):
 		state.recruitment_states = {}
 		changed = true
+	if not state.has("recruitment_progress"):
+		state.recruitment_progress = {}
+		changed = true
 	if not state.has("exploration_completion"):
 		state.exploration_completion = {}
 		changed = true
@@ -178,10 +181,11 @@ static func recruitment_specs(encounter: Dictionary) -> Array:
 		return specs
 	var character_id := str(encounter.get("character_id", ""))
 	if not character_id.is_empty():
-		specs.append({
+			specs.append({
 			"character_id": character_id,
 			"recruitment_timing": str(encounter.get("recruitment_timing", "IMMEDIATE_ON_VICTORY")),
 			"recruit_after_stage_id": str(encounter.get("recruit_after_stage_id", "")),
+			"battle_victories_required": int(encounter.get("battle_victories_required", 1)),
 		})
 	return specs
 
@@ -211,8 +215,27 @@ static func resolve_event_encounter_victory(state: Dictionary, definition: Dicti
 		var character_id := str(recruitment.get("character_id", ""))
 		if character_id.is_empty(): continue
 		var timing := str(recruitment.get("recruitment_timing", "IMMEDIATE_ON_VICTORY"))
-		if timing == "IMMEDIATE_ON_VICTORY":
+		var has_battle_route := recruitment.has("battle_victories_required")
+		var required_victories := clampi(int(recruitment.get("battle_victories_required", 1)), 1, 5)
+		if has_battle_route and required_victories > 1:
+			state.recruitment_states[character_id] = "PENDING"
+			state.recruitment_progress[character_id] = {
+				"victories": 1,
+				"required": required_victories,
+				"counted_stage_ids": [cleared_stage_id],
+			}
+			delayed.append({
+				"character_id": character_id,
+				"battle_victories_required": required_victories,
+				"battle_victories_remaining": required_victories - 1,
+			})
+		elif timing == "IMMEDIATE_ON_VICTORY" or (has_battle_route and required_victories == 1):
 			state.recruitment_states[character_id] = "READY"
+			state.recruitment_progress[character_id] = {
+				"victories": 1,
+				"required": 1,
+				"counted_stage_ids": [cleared_stage_id],
+			}
 			recruit_now_ids.append(character_id)
 		else:
 			var after_stage_id := str(recruitment.get("recruit_after_stage_id", cleared_stage_id))
@@ -234,8 +257,26 @@ static func resolve_deferred_recruitments(state: Dictionary, definition: Diction
 		for recruitment_value in recruitment_specs(encounter):
 			var recruitment: Dictionary = recruitment_value
 			var character_id := str(recruitment.get("character_id", ""))
-			if str(recruitment.get("recruitment_timing", "")) != "AFTER_STAGE_CLEAR": continue
 			if character_id.is_empty() or str(state.get("recruitment_states", {}).get(character_id, "UNMET")) != "PENDING": continue
+			if recruitment.has("battle_victories_required"):
+				var required_victories := clampi(int(recruitment.get("battle_victories_required", 1)), 1, 5)
+				var progress: Dictionary = state.recruitment_progress.get(character_id, {
+					"victories": 1,
+					"required": required_victories,
+					"counted_stage_ids": [],
+				})
+				var counted_stage_ids: Array = progress.get("counted_stage_ids", [])
+				if not counted_stage_ids.has(cleared_stage_id):
+					counted_stage_ids.append(cleared_stage_id)
+					progress.victories = int(progress.get("victories", 0)) + 1
+				progress.required = required_victories
+				progress.counted_stage_ids = counted_stage_ids
+				state.recruitment_progress[character_id] = progress
+				if int(progress.get("victories", 0)) >= required_victories:
+					state.recruitment_states[character_id] = "READY"
+					ready.append(character_id)
+				continue
+			if str(recruitment.get("recruitment_timing", "")) != "AFTER_STAGE_CLEAR": continue
 			if str(recruitment.get("recruit_after_stage_id", "")) != cleared_stage_id: continue
 			state.recruitment_states[character_id] = "READY"
 			ready.append(character_id)

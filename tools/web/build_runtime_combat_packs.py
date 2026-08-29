@@ -522,6 +522,7 @@ def expansion_static_sources() -> dict[str, dict]:
         if not entity_id or entity_id in known:
             continue
         authority_path = EXPANSION_SOURCE_ROOT / f"{entity_id.lower()}_authority.png"
+        matte_path = EXPANSION_SOURCE_ROOT / f"{entity_id.lower()}_green_matte.png"
         override = development_overrides.get(entity_id)
         if override:
             path = (contract_path.parent / str(override.get("authorityImage", ""))).resolve()
@@ -534,11 +535,16 @@ def expansion_static_sources() -> dict[str, dict]:
         if not path.is_file():
             image = Image.new("RGBA", (1024, 1024), (0, 0, 0, 0))
             fingerprint = _draw_expansion_character_source(image, entity_id, row) if entity_id.startswith("CHR") else _draw_expansion_enemy_source(image, entity_id, row)
+            matte = Image.new("RGB", image.size, CARD_MATTE_RGB)
+            matte.paste(image.convert("RGB"), mask=image.getchannel("A"))
+            matte.save(matte_path, optimize=True)
             image.save(path, optimize=True)
         else:
             fingerprint = {"costume_id": f"{entity_id}_{'COSTUME' if entity_id.startswith('CHR') else 'SILHOUETTE'}_A", "role": str(row.get("role", "")), "palette": {}}
         contracts[entity_id] = existing_contracts.get(entity_id, {
             "costumeId": fingerprint["costume_id"], "authorityImage": path.name, "authoritySha256": sha256(path),
+            "generationMatte": matte_path.name if matte_path.is_file() else "", "generationMatteSha256": sha256(matte_path) if matte_path.is_file() else "",
+            "generationMatteColor": "#00FF00",
             "status": "CANDIDATE_PENDING_GPT_COSTUME_CONTINUITY_REVIEW",
             "fingerprint": {"role": fingerprint["role"], "palette": fingerprint["palette"], "coverage": "NON_EXPLICIT_FULL_BODY", "weaponGrip": "SEPARATED_READABLE_GRIP_ZONES"},
         })

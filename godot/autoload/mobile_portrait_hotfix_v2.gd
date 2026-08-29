@@ -8,7 +8,9 @@ const DESIGN_VIEWPORT_SIZE := Vector2(1920.0, 1080.0)
 const PROBE_INTERVAL := 0.10
 const MAP_SUBTITLE_FULL := "탐색 경로를 따라 조우를 선택하고, 기존 실시간 전투에 진입합니다."
 const MAP_SUBTITLE_COMPACT := "조우를 선택해 이동·전투를 진행하세요."
-const FALLBACK_CARD := "res://assets/runtime_web/characters/CHR001_card_384x576.png"
+# Story, roster and recruit fallbacks must resolve the 8-head card family;
+# SD art is reserved exclusively for battle and tactical-map pawns.
+const FALLBACK_CARD := "res://assets/runtime_web/characters/CHR001/portrait.png"
 
 var _shell: Control
 var _probe_left := 0.0

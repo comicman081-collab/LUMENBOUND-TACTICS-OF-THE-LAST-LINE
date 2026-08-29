@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 4,
+  "characterId": "CHR001",
+  "status": "CANDIDATE_PENDING_VISUAL_QA",
+  "repair": "REVIEWED_HAIR_NEGATIVE_SPACE_ONLY",
+  "source": "godot/assets/art/characters/CHR001/portrait_1024x1536.png",
+  "sourceSha256": "6da898f7db7045774c7bed12adf27aacc4a7267b76310e7c039473cd095de4fb",
+  "generationMatte": "#00FF00",
+  "runtimeBackground": "RGBA_TRANSPARENT",
+  "removedRegions": [
+    {
+      "seed": [
+        370,
+        220
+      ],
+      "bounds": [
+        300,
+        180,
+        425,
+        305
+      ],
+      "pixels": 4621
+    },
+    {
+      "seed": [
+        250,
+        360
+      ],
+      "bounds": [
+        210,
+        305,
+        350,
+        420
+      ],
+      "pixels": 4827
+    },
+    {
+      "seed": [
+        180,
+        500
+      ],
+      "bounds": [
+        135,
+        370,
+        245,
+        555
+      ],
+      "pixels": 4146
+    },
+    {
+      "seed": [
+        215,
+        535
+      ],
+      "bounds": [
+        180,
+        500,
+        250,
+        600
+      ],
+      "pixels": 205
+    }
+  ],
+  "removedPixels": 13799,
+  "rgba": "data_source/art_source/standing_green_matte_r4/chr001_standing_r4_rgba.png",
+  "rgbaSha256": "f6ff3316ef54e239e27dc6402b7f791b7d2098bf89ff2c27b1a746f6daaad299",
+  "greenMatte": "data_source/art_source/standing_green_matte_r4/chr001_standing_r4_green_matte.png",
+  "greenMatteSha256": "2680673fb6aed7f986b0194a25c7cbbf9365d9072aadc8d1b9601add28b088d7"
+}

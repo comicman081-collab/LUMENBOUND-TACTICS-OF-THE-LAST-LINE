@@ -1,0 +1,20 @@
+{
+  "characterId": "CHR001",
+  "status": "REJECTED_BACKGROUND_RESIDUE_DO_NOT_PROMOTE",
+  "rejectionReason": "Hair-back pale/grey backing remained visible after R5; superseded by the fully fresh R7 source in card_8head_green_matte_r2/CHR001.",
+  "generationMatte": "#00FF00",
+  "runtimeBackground": "RGBA_TRANSPARENT",
+  "source": "godot/assets/art/characters/CHR001/portrait_1024x1536.png",
+  "sourceSha256": "6da898f7db7045774c7bed12adf27aacc4a7267b76310e7c039473cd095de4fb",
+  "model": "diffusers-sdxl-inpaint-0.1-local",
+  "modelPath": "C:\\AI_MODELS\\sdxl-inpaint",
+  "seed": 100137,
+  "prompt": "high-end 2D anime tactical SRPG full-body adult woman guardian, preserve the existing turquoise teal ponytail, gold-trimmed teal armour, tower shield and chained lantern, elegant mature 8-head illustration, repair only the ponytail hair background with clean separated teal hair strands, flat chroma green background",
+  "negativePrompt": "chibi, SD, child, baby face, male, cropped, white background, black background, scenery, shadow, text, logo, different costume, different weapon, extra limbs, damaged face, low detail",
+  "guide": "data_source/art_source/standing_green_matte_r5/CHR001/chr001_8head_r5_green_guide.png",
+  "hairMask": "data_source/art_source/standing_green_matte_r5/CHR001/chr001_8head_r5_hair_mask.png",
+  "greenMatte": "data_source/art_source/standing_green_matte_r5/CHR001/chr001_8head_r5_green_matte.png",
+  "greenMatteSha256": "92cc33bf5f712f47af91ec3bbcc1d14beac0d79e7b3810d6b336bafaa29ada7e",
+  "rgba": "data_source/art_source/standing_green_matte_r5/CHR001/chr001_8head_r5_rgba.png",
+  "rgbaSha256": "223ee5c8579e9759c461844cab52abd0fe4b787365815f6bc07507b0b077e314"
+}

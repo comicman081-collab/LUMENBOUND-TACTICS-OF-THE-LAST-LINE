@@ -1954,7 +1954,7 @@ func _create_node_marker(node: Dictionary) -> void:
 		marker_prefix = "MARKER_NORMAL"
 	elif hard_stage:
 		marker_prefix = "MARKER_HARD_GATE"
-	elif node_type.contains("BOSS") or stage_id.ends_with("N10"):
+	elif node_type.contains("BOSS") or bool(DataRegistry.stage(stage_id).get("boss", false)):
 		marker_prefix = "MARKER_BOSS"
 	elif node_type.contains("ELITE"):
 		marker_prefix = "MARKER_ELITE"
@@ -1972,12 +1972,12 @@ func _create_node_marker(node: Dictionary) -> void:
 		marker_root.add_child(fallback)
 	# Three persistent visual anchors make it clear this is a long broken relay
 	# route, even when the streamed local terrain hides far-away node labels.
-	if stage_id.ends_with("N03") or stage_id.ends_with("N07") or stage_id.ends_with("N10"):
+	if stage_id.ends_with("N03") or stage_id.ends_with("N07") or stage_id.ends_with("N10") or stage_id.ends_with("N15") or stage_id.ends_with("N20"):
 		_spawn_kit_components("PROP_SIGNAL_TOWER", Vector3(0.62, 0.06, -0.30), 0.76 if stage_id.ends_with("N03") else 1.0, 0.18, marker_root)
-	elif stage_id.ends_with("H05"):
+	elif stage_id.ends_with("H05") or stage_id.ends_with("H10"):
 		_spawn_kit_components("PROP_SIGNAL_BEACON", Vector3(0.56, 0.05, -0.30), 0.92, -0.30, marker_root)
 	if not hard_stage:
-		_add_route_accent_light(marker_root, Vector3(0.0, 0.72, 0.0), 1.05 if stage_id.ends_with("N10") else 0.48)
+		_add_route_accent_light(marker_root, Vector3(0.0, 0.72, 0.0), 1.05 if stage_id.ends_with("N20") else 0.48)
 	world_root.add_child(marker_root)
 	node_markers[str(node.node_id)] = marker_root
 
@@ -2113,6 +2113,7 @@ func _create_enemy_pawn(node: Dictionary) -> void:
 		for recruitment_value in MapExplorationServiceScript.recruitment_specs(special_event):
 			companion_ids.append(str(recruitment_value.get("character_id", "")))
 	var companion: Dictionary = DataRegistry.character(companion_ids[0]) if not companion_ids.is_empty() else {}
+	var is_event_contact := not special_event.is_empty()
 	var is_companion_event := not companion.is_empty()
 	var is_companion_duo := companion_ids.size() == 2
 	var root := Node3D.new()
@@ -2160,7 +2161,7 @@ func _create_enemy_pawn(node: Dictionary) -> void:
 	ring_mesh.rings = 8
 	ring_mesh.ring_segments = 18
 	danger_ring.mesh = ring_mesh
-	var threat_color := Color("7ee7d5") if is_companion_event else (Color("d85d67") if rank == "NORMAL" else (Color("ef9a47") if rank == "ELITE" else Color("dc5dcc")))
+	var threat_color := Color("7ee7d5") if is_companion_event else (Color("ff8d70") if is_event_contact else (Color("d85d67") if rank == "NORMAL" else (Color("ef9a47") if rank == "ELITE" else Color("dc5dcc"))))
 	danger_ring.material_override = _material(threat_color, threat_color.darkened(0.1))
 	danger_ring.position.y = 0.06
 	root.add_child(danger_ring)
@@ -2223,8 +2224,8 @@ func _create_enemy_pawn(node: Dictionary) -> void:
 		root.add_child(second_sprite)
 		_add_occlusion_silhouette(second_sprite, root, "CompanionSecondaryOcclusionSilhouette", Color("75f3dc"))
 	var threat := Label3D.new()
-	threat.text = "!" if is_companion_event else ("위협" if rank == "NORMAL" else ("정예" if rank == "ELITE" else "보스"))
-	threat.font_size = 56 if is_companion_event else (46 if rank == "BOSS" else 38)
+	threat.text = "!" if is_event_contact else ("위협" if rank == "NORMAL" else ("정예" if rank == "ELITE" else "보스"))
+	threat.font_size = 56 if is_event_contact else (46 if rank == "BOSS" else 38)
 	threat.outline_size = 8
 	threat.modulate = threat_color.lightened(0.16)
 	threat.billboard = BaseMaterial3D.BILLBOARD_ENABLED
@@ -2244,14 +2245,16 @@ func _create_enemy_pawn(node: Dictionary) -> void:
 	root.set_meta("awareness_label", awareness)
 	root.set_meta("node_id", node_id)
 	root.set_meta("companion_event", is_companion_event)
+	root.set_meta("event_contact", is_event_contact)
+	if is_event_contact:
+		root.set_meta("event_marker", threat)
+		root.set_meta("event_marker_base_y", threat.position.y)
+		root.set_meta("event_marker_phase", float(node_id.hash() % 19) * 0.31)
 	if is_companion_event:
 		root.set_meta("event_companion_ids", companion_ids)
 		# Event contacts deliberately use the companion's own SD art, not an
 		# enemy fallback.  Keep the authored ! above the pawn on a small diegetic
 		# pulse so it survives dense terrain and remains legible at map scale.
-		root.set_meta("event_marker", threat)
-		root.set_meta("event_marker_base_y", threat.position.y)
-		root.set_meta("event_marker_phase", float(node_id.hash() % 19) * 0.31)
 	world_root.add_child(root)
 	enemy_pawns[node_id] = root
 
@@ -3916,7 +3919,7 @@ func _process(delta: float) -> void:
 			var secondary_size: Vector2 = secondary_pack.get("frame_size", Vector2(104, 104))
 			var secondary_frame := _animation_frame(secondary_pack, "idle", Time.get_ticks_msec() + int(child.get_meta("animation_phase_msec", 0)))
 			secondary_texture.region = Rect2(float(secondary_frame % int(secondary_pack.get("columns", 1))) * secondary_size.x, float(secondary_frame / int(secondary_pack.get("columns", 1))) * secondary_size.y, secondary_size.x, secondary_size.y)
-		if bool(root.get_meta("companion_event", false)):
+		if bool(root.get_meta("event_contact", false)):
 			var marker_phase := float(root.get_meta("event_marker_phase", 0.0))
 			var event_marker = root.get_meta("event_marker", null)
 			if event_marker is Label3D:

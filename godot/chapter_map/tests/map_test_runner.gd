@@ -69,23 +69,23 @@ func _test_data() -> void:
 	check(node_ids.size() == definition.nodes.size(), "all map node IDs unique")
 	var normal: Array = definition.nodes.filter(func(node): return str(node.node_type).begins_with("NORMAL_"))
 	var hard: Array = definition.nodes.filter(func(node): return str(node.node_type).begins_with("HARD_"))
-	check(normal.size() == 10, "map has exactly 10 NORMAL battle nodes")
-	check(hard.size() == 5, "map has exactly 5 HARD battle nodes")
+	check(normal.size() == 20, "map has exactly 20 NORMAL battle nodes")
+	check(hard.size() == 10, "map has exactly 10 HARD battle nodes")
 	check(definition.nodes.filter(func(node): return str(node.get("stage_id", "")) != "").all(func(node): return not DataRegistry.stage(str(node.stage_id)).is_empty()), "all battle nodes reference valid stages")
 	check(definition.nodes.all(func(node): return grid.has(Vector2i(int(node.q), int(node.r)))), "all nodes occupy valid tiles")
 	check(definition.nodes.all(func(node): return grid.traversable(Vector2i(int(node.q), int(node.r)))), "no node collides with blocked terrain")
 	check(definition.tiles.any(func(tile): return bool(tile.movement_blocked)), "map includes blocked deep-water terrain")
 	check(bool(definition.get("macro_generated", false)) and int(definition.get("macro_world", {}).get("linear_scale_viewports", 0)) >= 10, "map uses ten-plus-viewport deterministic macro layout")
 	var n01 := LoaderScript.node_for_stage(definition, "CH01-N01")
-	var n10 := LoaderScript.node_for_stage(definition, "CH01-N10")
-	var boss_presentation_value: Variant = n10.get("presentation", {})
+	var n20 := LoaderScript.node_for_stage(definition, "CH01-N20")
+	var boss_presentation_value: Variant = n20.get("presentation", {})
 	var boss_presentation: Dictionary = boss_presentation_value if boss_presentation_value is Dictionary else {}
 	var boss_presentation_keys_valid := str(boss_presentation.get("transition_style", "")) == "BOSS"
 	for locale in ["ko", "en"]:
 		var table: Dictionary = LocalizationService.tables.get(locale, {})
 		boss_presentation_keys_valid = boss_presentation_keys_valid and table.has(str(boss_presentation.get("event_title_key", ""))) and table.has(str(boss_presentation.get("boss_name_key", ""))) and table.has(str(boss_presentation.get("boss_subtitle_key", "")))
-	check(boss_presentation_keys_valid and not boss_presentation.has("title") and not boss_presentation.has("subtitle"), "BOSS_PRESENTATION_01 N10 owns localized map-authored title-card and threat-banner data")
-	check(HexCoordScript.distance(Vector2i.ZERO, Vector2i(int(n10.q), int(n10.r))) >= 90, "NORMAL route spans ten-plus local map lengths")
+	check(boss_presentation_keys_valid and not boss_presentation.has("title") and not boss_presentation.has("subtitle"), "BOSS_PRESENTATION_01 N20 owns localized map-authored title-card and threat-banner data")
+	check(HexCoordScript.distance(Vector2i.ZERO, Vector2i(int(n20.q), int(n20.r))) >= 200, "expanded NORMAL route spans twenty local map lengths")
 	check(LoaderScript.load_map("CH01_MAP").get("tiles", []) == definition.get("tiles", []), "macro terrain seed is deterministic across loads")
 	var macro_hashes: Dictionary = {}
 	for run in 10:
@@ -125,17 +125,33 @@ func _test_data() -> void:
 	check(event_contract_valid, "MAP_EVENT_LOCALIZATION_01 map events use localization keys without raw runtime text")
 	check(event_localization_valid, "MAP_EVENT_LOCALIZATION_02 all map event title, body and choice keys resolve in ko/en")
 	var companion_localization_valid: bool = true
-	var companion_data_valid: bool = definition.get("event_encounters", []).size() == 15
+	var companion_data_valid: bool = definition.get("event_encounters", []).size() == 19
+	var companion_count := 0
+	var special_enemy_count := 0
 	for encounter_value in definition.get("event_encounters", []):
 		var encounter: Dictionary = encounter_value
 		for locale in ["ko", "en"]:
 			companion_localization_valid = companion_localization_valid and LocalizationService.tables.get(locale, {}).has(str(encounter.get("title_key", ""))) and LocalizationService.tables.get(locale, {}).has(str(encounter.get("body_key", ""))) and LocalizationService.tables.get(locale, {}).has(str(encounter.get("contact_outcome_key", "")))
 		var recruitments: Array = encounter.get("recruitments", [])
-		companion_data_valid = companion_data_valid and not DataRegistry.character(str(encounter.get("character_id", ""))).is_empty() and str(encounter.get("marker", "")) == "BANG" and not str(encounter.get("contact_outcome_key", "")).is_empty() and recruitments.size() >= 1 and recruitments.size() <= 2
+		var dialogue_pages: Array = encounter.get("pre_battle_dialogue", [])
+		for page_value in dialogue_pages:
+			var page: Dictionary = page_value if page_value is Dictionary else {}
+			for locale in ["ko", "en"]:
+				companion_localization_valid = companion_localization_valid and LocalizationService.tables.get(locale, {}).has(str(page.get("text_key", "")))
+		var event_kind := str(encounter.get("event_kind", ""))
+		if event_kind == "COMPANION":
+			companion_count += 1
+			companion_data_valid = companion_data_valid and not DataRegistry.character(str(encounter.get("character_id", ""))).is_empty() and recruitments.size() >= 1 and recruitments.size() <= 2
+		elif event_kind == "SPECIAL_ENEMY":
+			special_enemy_count += 1
+			companion_data_valid = companion_data_valid and not DataRegistry.enemy(str(encounter.get("enemy_id", ""))).is_empty() and recruitments.is_empty()
+		else:
+			companion_data_valid = false
+		companion_data_valid = companion_data_valid and str(encounter.get("marker", "")) == "BANG" and not str(encounter.get("contact_outcome_key", "")).is_empty() and dialogue_pages.size() >= 2 and dialogue_pages.size() <= 4
 		for recruitment_value in recruitments:
 			companion_data_valid = companion_data_valid and not DataRegistry.character(str((recruitment_value as Dictionary).get("character_id", ""))).is_empty()
-	check(companion_data_valid, "EVENT_PAWN_DATA_01 all 15 chapter contacts resolve one or two immutable companion IDs")
-	check(companion_localization_valid, "EVENT_PAWN_DATA_02 companion-event text resolves in ko/en")
+	check(companion_data_valid and companion_count == 15 and special_enemy_count == 4, "EVENT_PAWN_DATA_01 15 companion and 4 special-enemy contacts own validated pre-battle dialogue data")
+	check(companion_localization_valid, "EVENT_PAWN_DATA_02 every event and dialogue page resolves in ko/en")
 
 func _test_user_facing_labels() -> void:
 	var screen = ChapterMapScreenScript.new()
@@ -354,7 +370,7 @@ func _test_geometry_grounding_contract() -> void:
 		var route_coord := Vector2i(int(route_node.get("q", 0)), int(route_node.get("r", 0)))
 		grounding_coords.append_array(MacroWorldGeneratorScript.route_line(previous_coord, route_coord))
 		previous_coord = route_coord
-	var normal_boss_node := LoaderScript.node_for_stage(definition, "CH01-N10")
+	var normal_boss_node := LoaderScript.node_for_stage(definition, "CH01-N20")
 	previous_coord = Vector2i(int(normal_boss_node.get("q", 0)), int(normal_boss_node.get("r", 0)))
 	for stage_id in definition.get("hard_route", []):
 		var hard_node := LoaderScript.node_for_stage(definition, str(stage_id))
@@ -383,8 +399,8 @@ func _test_unlock_and_progress() -> void:
 	check(AppState.is_stage_unlocked("CH01-N01"), "N01 initially unlocked")
 	check(not AppState.is_stage_unlocked("CH01-N02"), "N02 initially locked")
 	check(not AppState.is_stage_unlocked("CH01-H01"), "HARD gate initially locked")
-	for number in range(1, 11): AppState.record_stage_clear("CH01-N%02d" % number, 3)
-	check(AppState.is_stage_unlocked("CH01-H01"), "N10 clear opens HARD gate")
+	for number in range(1, 21): AppState.record_stage_clear("CH01-N%02d" % number, 3)
+	check(AppState.is_stage_unlocked("CH01-H01"), "N20 clear opens HARD gate")
 	check(not AppState.is_stage_unlocked("CH01-H02"), "H02 waits for H01")
 	AppState.record_stage_clear("CH01-H01", 2)
 	check(AppState.is_stage_unlocked("CH01-H02"), "H01 clear unlocks H02 exactly")
@@ -398,7 +414,7 @@ func _test_unlock_and_progress() -> void:
 	hard_screen.hard_overlay = ChapterMapScreenScript._hard_overlay_from_state(state, definition)
 	check(str(hard_screen._next_encounter_node().get("stage_id", "")) == "CH01-H02", "H01 battle return next encounter is H02, never N01")
 	hard_screen.free()
-	check(state.revealed_tiles.has("%d,%d" % [int(h01.q), int(h01.r)]), "HARD route reveal follows N10 clear")
+	check(state.revealed_tiles.has("%d,%d" % [int(h01.q), int(h01.r)]), "HARD route reveal follows N20 clear")
 	var fresh := ProgressScript.create_default(definition)
 	var before: int = fresh.revealed_tiles.size()
 	ProgressScript.refresh_reveal(fresh, definition, 1, 0, false)
@@ -500,7 +516,7 @@ func _test_transactions_and_roundtrip() -> void:
 	# hostile, loses, then must return to the exact preceding route hex so H03 is
 	# selectable and reachable again instead of becoming an at-node softlock.
 	AppState.new_game()
-	for number in range(1, 11):
+	for number in range(1, 21):
 		AppState.record_stage_clear("CH01-N%02d" % number, 3)
 	for number in range(1, 3):
 		AppState.record_stage_clear("CH01-H%02d" % number, 3)
@@ -584,27 +600,27 @@ func _test_transactions_and_roundtrip() -> void:
 func _test_preboss_staging_and_reveal_one_shot() -> void:
 	var backup := AppState.profile.duplicate(true)
 	AppState.new_game()
-	for number in range(1, 9):
+	for number in range(1, 19):
 		AppState.record_stage_clear("CH01-N%02d" % number, 3)
-	var n08 := LoaderScript.node_for_stage(definition, "CH01-N08")
-	var n09 := LoaderScript.node_for_stage(definition, "CH01-N09")
-	var n10 := LoaderScript.node_for_stage(definition, "CH01-N10")
-	var n08_coord := Vector2i(int(n08.q), int(n08.r))
-	var n09_coord := Vector2i(int(n09.q), int(n09.r))
-	var n10_coord := Vector2i(int(n10.q), int(n10.r))
-	AppState.set_chapter_map_position(n08_coord, str(n08.node_id))
-	check(AppState.prepare_map_encounter("CH01-N09", str(n09.node_id), n08_coord), "PREBOSS_STAGING_01 N09 encounter prepares from the prior grounded staging hex")
-	check(AppState.begin_battle_transaction("CH01-N09"), "PREBOSS_STAGING_02 N09 battle owns one transaction")
+	var n18 := LoaderScript.node_for_stage(definition, "CH01-N18")
+	var n19 := LoaderScript.node_for_stage(definition, "CH01-N19")
+	var n20 := LoaderScript.node_for_stage(definition, "CH01-N20")
+	var n18_coord := Vector2i(int(n18.q), int(n18.r))
+	var n19_coord := Vector2i(int(n19.q), int(n19.r))
+	var n20_coord := Vector2i(int(n20.q), int(n20.r))
+	AppState.set_chapter_map_position(n18_coord, str(n18.node_id))
+	check(AppState.prepare_map_encounter("CH01-N19", str(n19.node_id), n18_coord), "PREBOSS_STAGING_01 N19 encounter prepares from the prior grounded staging hex")
+	check(AppState.begin_battle_transaction("CH01-N19"), "PREBOSS_STAGING_02 N19 battle owns one transaction")
 	var reveal_token := AppState.pending_battle_token
-	check(AppState.record_stage_clear("CH01-N09", 3), "PREBOSS_STAGING_03 N09 first clear updates canonical progress")
-	check(AppState.queue_story_event("STAGE_CLEAR", "CH01-N09"), "PREBOSS_STAGING_04 N09 clear queues the pre-boss story")
-	check(AppState.apply_battle_result_to_map("CH01-N09", true), "PREBOSS_STAGING_05 N09 victory applies to the map once")
+	check(AppState.record_stage_clear("CH01-N19", 3), "PREBOSS_STAGING_03 N19 first clear updates canonical progress")
+	check(AppState.queue_story_event("STAGE_CLEAR", "CH01-N19"), "PREBOSS_STAGING_04 N19 clear queues the pre-boss story")
+	check(AppState.apply_battle_result_to_map("CH01-N19", true), "PREBOSS_STAGING_05 N19 victory applies to the map once")
 	var state := AppState.chapter_map_state()
-	check(Vector2i(int(state.current_q), int(state.current_r)) == n09_coord and n09_coord != n10_coord, "PREBOSS_STAGING_06 squad remains on N09 staging, never the N10 hostile hex")
+	check(Vector2i(int(state.current_q), int(state.current_r)) == n19_coord and n19_coord != n20_coord, "PREBOSS_STAGING_06 squad remains on N19 staging, never the N20 hostile hex")
 	check(state.get("pending_encounter", {}).is_empty() and AppState.pending_battle_token.is_empty(), "PREBOSS_STAGING_07 pre-boss story starts with zero battle transactions")
-	check(AppState.is_stage_unlocked("CH01-N10"), "PREBOSS_STAGING_08 N10 canonical unlock is available before presentation")
+	check(AppState.is_stage_unlocked("CH01-N20"), "PREBOSS_STAGING_08 N20 canonical unlock is available before presentation")
 	var pending_reveal: Dictionary = state.get("pending_reveal", {}).duplicate(true)
-	check(str(pending_reveal.get("reveal_id", "")) == reveal_token and pending_reveal.get("unlocked_stage_ids", []).has("CH01-N10"), "REVEAL_ONESHOT_01 N10 reveal presentation is derived once from the battle token")
+	check(str(pending_reveal.get("reveal_id", "")) == reveal_token and pending_reveal.get("unlocked_stage_ids", []).has("CH01-N20"), "REVEAL_ONESHOT_01 N20 reveal presentation is derived once from the battle token")
 	AppState.refresh_chapter_map_reveal()
 	check(AppState.chapter_map_state().get("pending_reveal", {}) == pending_reveal, "REVEAL_ONESHOT_02 canonical refresh does not recreate or mutate pending presentation")
 	var reload_before_story := AppState.profile.duplicate(true)
@@ -620,8 +636,8 @@ func _test_preboss_staging_and_reveal_one_shot() -> void:
 		var command := runner.advance()
 		if str(command.get("command", "")) == "choice": runner.choose(0)
 	state = AppState.chapter_map_state()
-	check(loaded.ok and runner.state.finished and Vector2i(int(state.current_q), int(state.current_r)) == n09_coord, "PREBOSS_STAGING_10 story completion preserves the N09 staging coordinate")
-	check(state.get("pending_encounter", {}).is_empty() and AppState.pending_battle_token.is_empty(), "PREBOSS_STAGING_11 story completion cannot synthesize an N10 battle transaction")
+	check(loaded.ok and runner.state.finished and Vector2i(int(state.current_q), int(state.current_r)) == n19_coord, "PREBOSS_STAGING_10 story completion preserves the N19 staging coordinate")
+	check(state.get("pending_encounter", {}).is_empty() and AppState.pending_battle_token.is_empty(), "PREBOSS_STAGING_11 story completion cannot synthesize an N20 battle transaction")
 	var consumed := AppState.consume_chapter_map_pending_reveal()
 	check(str(consumed.get("reveal_id", "")) == reveal_token and AppState.chapter_map_state().get("pending_reveal", {}).is_empty(), "REVEAL_ONESHOT_04 map consumes the stored reveal presentation once")
 	check(AppState.chapter_map_state().get("reveal_consumed", []).has(reveal_token) and AppState.consume_chapter_map_pending_reveal().is_empty(), "REVEAL_ONESHOT_05 duplicate presentation consumption is rejected")
@@ -985,35 +1001,41 @@ func _test_exploration_pulses_and_companion_events() -> void:
 	AppState.pending_battle_token = ""
 	check(AppState.prepare_map_encounter("CH01-N04", "NODE_N04", Vector2i.ZERO), "EVENT_PAWN_02A special contact prepares one ordinary battle transaction")
 	var contact_payload := AppState.pending_map_special_event()
-	check(str(contact_payload.get("event_encounter_id", "")) == str(vera.get("event_encounter_id", "")) and str(contact_payload.get("character_id", "")) == "CHR006" and str(contact_payload.get("contact_outcome_key", "")) == str(vera.get("contact_outcome_key", "")), "EVENT_PAWN_02B special contact carries the authored companion identity and outcome contract into transition presentation")
+	check(str(contact_payload.get("event_encounter_id", "")) == str(vera.get("event_encounter_id", "")) and str(contact_payload.get("event_kind", "")) == "COMPANION" and str(contact_payload.get("character_id", "")) == "CHR006" and str(contact_payload.get("contact_outcome_key", "")) == str(vera.get("contact_outcome_key", "")) and contact_payload.get("pre_battle_dialogue", []).size() == 3 and str(state.get("recruitment_states", {}).get("CHR006", "")) == "UNMET", "EVENT_PAWN_02B companion contact carries dialogue presentation only; recruitment is still uncommitted before victory")
 	AppState.abandon_pending_map_encounter()
 	check(AppState.pending_map_special_event().is_empty() and int(AppState.profile.inventory.get("CREDIT", 0)) == credit_before_contact, "EVENT_PAWN_02C abandoning a special contact clears only its presentation transaction and grants no reward")
-	# Reproduce the player-facing last approach: an honestly unlocked N10 route
+	var anomaly := ExplorationScript.event_encounter_for_node(definition, "NODE_N12")
+	check(str(anomaly.get("event_kind", "")) == "SPECIAL_ENEMY" and str(anomaly.get("enemy_id", "")) == "ENM012" and anomaly.get("recruitments", []).is_empty(), "EVENT_PAWN_02D special enemy contact is a non-recruiting event with an authored enemy identity")
+	check(AppState.prepare_map_encounter("CH01-N12", "NODE_N12", Vector2i.ZERO), "EVENT_PAWN_02E special enemy contact prepares its ordinary map battle transaction")
+	var anomaly_payload := AppState.pending_map_special_event()
+	check(str(anomaly_payload.get("event_kind", "")) == "SPECIAL_ENEMY" and str(anomaly_payload.get("enemy_id", "")) == "ENM012" and anomaly_payload.get("character_ids", []).is_empty() and anomaly_payload.get("pre_battle_dialogue", []).size() == 3, "EVENT_PAWN_02F special enemy handoff carries enemy art/dialogue data but no companion grant")
+	AppState.abandon_pending_map_encounter()
+	# Reproduce the player-facing last approach: an honestly unlocked N20 route
 	# ends on the hostile hex, then the existing one-shot contact transaction
 	# owns both the title-card payload and exactly one battle entry.
 	AppState.new_game()
-	AppState.profile.chapter_progress.CH01.normal_highest = 9
-	for normal_number in range(1, 10):
+	AppState.profile.chapter_progress.CH01.normal_highest = 19
+	for normal_number in range(1, 20):
 		AppState.profile.stage_stars["CH01-N%02d" % normal_number] = 3
 	var boss_state := ProgressScript.migrate_from_profile(AppState.profile, definition)
 	ExplorationScript.ensure_state(boss_state, definition, grid)
-	var n09 := LoaderScript.node_for_stage(definition, "CH01-N09")
-	var n10 := LoaderScript.node_for_stage(definition, "CH01-N10")
+	var n19 := LoaderScript.node_for_stage(definition, "CH01-N19")
+	var n20 := LoaderScript.node_for_stage(definition, "CH01-N20")
 	var boss_allowed: Dictionary = {}
 	for raw_key in boss_state.get("revealed_tiles", []): boss_allowed[str(raw_key)] = true
-	var boss_start := Vector2i(int(n09.q), int(n09.r))
-	var boss_contact := Vector2i(int(n10.q), int(n10.r))
+	var boss_start := Vector2i(int(n19.q), int(n19.r))
+	var boss_contact := Vector2i(int(n20.q), int(n20.r))
 	var boss_path := HexPathfinderScript.find_path(grid, boss_start, boss_contact, boss_allowed)
 	var boss_pre_contact := boss_path[-2] if boss_path.size() > 1 else boss_start
 	ProgressScript.mark_visited(boss_state, boss_path)
 	AppState.profile.chapter_map = {"CH01_MAP": boss_state.duplicate(true)}
-	AppState.set_chapter_map_position(boss_contact, str(n10.node_id))
+	AppState.set_chapter_map_position(boss_contact, str(n20.node_id))
 	AppState.pending_battle_token = ""
-	check(boss_path.size() > 1 and boss_path.front() == boss_start and boss_path.back() == boss_contact and AppState.prepare_map_encounter("CH01-N10", str(n10.node_id), boss_pre_contact), "BOSS_PRESENTATION_03 physical N09-to-N10 route reaches one boss contact transaction")
+	check(boss_path.size() > 1 and boss_path.front() == boss_start and boss_path.back() == boss_contact and AppState.prepare_map_encounter("CH01-N20", str(n20.node_id), boss_pre_contact), "BOSS_PRESENTATION_03 physical N19-to-N20 route reaches one boss contact transaction")
 	var boss_payload := AppState.pending_map_encounter_presentation()
-	var expected_boss_payload: Dictionary = n10.get("presentation", {})
-	var boss_started_once := AppState.begin_battle_transaction("CH01-N10")
-	var boss_started_twice := AppState.begin_battle_transaction("CH01-N10")
+	var expected_boss_payload: Dictionary = n20.get("presentation", {})
+	var boss_started_once := AppState.begin_battle_transaction("CH01-N20")
+	var boss_started_twice := AppState.begin_battle_transaction("CH01-N20")
 	check(boss_started_once and not boss_started_twice and not AppState.pending_battle_token.is_empty() and boss_payload == expected_boss_payload, "BOSS_PRESENTATION_04 physical contact keeps one localized card payload and starts one battle")
 	var boss_save := AppState.profile.duplicate(true)
 	AppState.apply_loaded(boss_save)
@@ -1049,7 +1071,7 @@ func _test_exploration_pulses_and_companion_events() -> void:
 	check(LocalizationService.tr_key("MAP_EVENT_CONTACT_SIGNAL") != "[MAP_EVENT_CONTACT_SIGNAL]" and LocalizationService.tr_key("RESULT_EVENT_RECRUITED") != "[RESULT_EVENT_RECRUITED]", "EVENT_PAWN_08 special-contact and companion-result copy resolves without runtime text")
 	var app_source := FileAccess.get_file_as_string("res://autoload/app_state.gd")
 	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
-	check(app_source.contains("special_event") and app_source.contains("contact_outcome_key") and app_source.contains("pending_map_special_event") and shell_source.contains("CompanionEventContactCard") and shell_source.contains("CompanionOutcomePanel") and shell_source.contains("CompanionOutcomeRow") and shell_source.contains("조우 결과") and shell_source.contains("SPECIAL_EVENT_CONTACT_DURATION := 1.85"), "EVENT_PAWN_09 contact uses one fixed outcome band and a clear recruitment outcome within its authored 1.85-second transition")
+	check(app_source.contains("special_event") and app_source.contains("contact_outcome_key") and app_source.contains("pre_battle_dialogue") and app_source.contains("pending_map_special_event") and shell_source.contains("_play_special_event_dialogue") and shell_source.contains("PreBattleEventDialog") and shell_source.contains("EventKeyVisual") and shell_source.contains("MAP_EVENT_DIALOGUE_SKIP") and shell_source.contains("panel.gui_input.connect") and shell_source.contains("TextureRect.STRETCH_KEEP_ASPECT_COVERED"), "EVENT_PAWN_09 contact opens an input-advanced pre-battle dialogue with a fixed outcome band and left key visual")
 	check(shell_source.contains("_newly_recruited_character_ids") and shell_source.contains("RESULT_EVENT_TRACKING"), "EVENT_PAWN_10 battle result distinguishes immediate companion joins from later signal tracking")
 	AppState.profile = backup
 
@@ -1076,6 +1098,13 @@ func _test_runtime_companion_event_pawns() -> void:
 		check(pawn != null and bool(pawn.get_meta("companion_event", false)) and pawn.name.begins_with("CompanionEventMapPawn_"), "EVENT_PAWN_RUNTIME_01 %s creates an authored companion pawn" % str(fixture.node_id))
 		check(sprite != null and sprite.texture != null and str(pack.get("source_id", "")) == str(fixture.character_id), "EVENT_PAWN_RUNTIME_02 %s resolves the companion SD MAP_IDLE texture" % str(fixture.node_id))
 		check(marker != null and marker.text == "!" and float(marker.position.y) > float(sprite.position.y if sprite != null else 0.0), "EVENT_PAWN_RUNTIME_03 %s grounds the companion pawn and lifts its event marker" % str(fixture.node_id))
+	var anomaly_node := LoaderScript.node_by_id(definition, "NODE_N12")
+	runtime_screen._create_enemy_pawn(anomaly_node)
+	var anomaly_pawn: Node3D = runtime_screen.enemy_pawns.get("NODE_N12")
+	var anomaly_sprite: Sprite3D = anomaly_pawn.get_node_or_null("EnemyIdleSprite") if anomaly_pawn != null else null
+	var anomaly_marker: Label3D = anomaly_pawn.get_meta("event_marker", null) if anomaly_pawn != null else null
+	var anomaly_pack: Dictionary = runtime_screen.enemy_animation_packs.get("NODE_N12", {})
+	check(anomaly_pawn != null and bool(anomaly_pawn.get_meta("event_contact", false)) and not bool(anomaly_pawn.get_meta("companion_event", true)) and anomaly_sprite != null and anomaly_sprite.texture != null and str(anomaly_pack.get("source_id", "")) == "ENM012" and anomaly_marker != null and anomaly_marker.text == "!", "EVENT_PAWN_RUNTIME_04 special-enemy contact keeps its enemy SD art and the same ! interaction marker")
 	var duo_definition := definition.duplicate(true)
 	duo_definition.event_encounters = [{
 		"event_encounter_id": "TEST_DUO_RENDER", "node_id": "NODE_N03", "marker": "BANG", "entry_type": "EVENT_CONTACT",
@@ -1164,7 +1193,7 @@ func _macro_visual_routes_are_grounded() -> bool:
 	for route_index in range(route_sets.size()):
 		var previous := Vector2i(int(definition.get("start_hex", {}).get("q", 0)), int(definition.get("start_hex", {}).get("r", 0)))
 		if route_index == 1:
-			var branch_node := LoaderScript.node_for_stage(definition, "CH01-N10")
+			var branch_node := LoaderScript.node_for_stage(definition, "CH01-N20")
 			if not branch_node.is_empty():
 				previous = Vector2i(int(branch_node.get("q", 0)), int(branch_node.get("r", 0)))
 		for stage_id in route_sets[route_index]:

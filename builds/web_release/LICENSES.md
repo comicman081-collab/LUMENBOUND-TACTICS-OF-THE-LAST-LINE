@@ -1,20 +1,20 @@
-﻿# LUMENBOUND R7 Web ??License Notices
+# LUMENBOUND R7 Web — License Notices
 
 ## Project asset policy
 
 # License Policy
 
-Godot Engine??MIT ?쇱씠?좎뒪? 寃뚯엫/?????먯궛 ?쇱씠?좎뒪瑜?遺꾨━???쒖떆?쒕떎. ?몃? ?뚯씪留덈떎 source, author, license, modification, commercial_use, attribution_required, file_sha256瑜??붽뎄?쒕떎.
+Godot Engine의 MIT 라이선스와 게임/제3자 자산 라이선스를 분리해 표시한다. 외부 파일마다 source, author, license, modification, commercial_use, attribution_required, file_sha256를 요구한다.
 
-濡쒖뺄 `asset_share` ?⑺넗由?肄붾뱶??package license??MIT吏留?媛쒕퀎 output manifest?먮뒗 ?먯궛 沅뚮━ ?꾨뱶媛 ?녿떎. ?곕씪???숆린??寃곌낵??`MANIFEST_NOT_DECLARED`, `commercial_use=false`, `attribution_required=true`濡?蹂댁닔?곸쑝濡?湲곕줉?덈떎. 沅뚮━ ?뺤씤 ???곸뾽 ?댁슜 媛?μ씠?쇨퀬 二쇱옣?섏? ?딅뒗??
+로컬 `asset_share` 팩토리 코드의 package license는 MIT지만 개별 output manifest에는 자산 권리 필드가 없다. 따라서 동기화 결과는 `MANIFEST_NOT_DECLARED`, `commercial_use=false`, `attribution_required=true`로 보수적으로 기록했다. 권리 확인 전 상업 이용 가능이라고 주장하지 않는다.
 
-濡쒖뺄 AI 紐⑤뜽? 鍮뚮뱶 ?쒖젏 濡쒖뺄 紐⑤뜽 ?덉슜 紐⑸줉???덉슜 紐⑸줉留?鍮뚮뱶 ?쒖젏???ъ슜?????덈떎. 濡쒖뺄 ?쒖옉 紐⑤뜽 ??μ냼? 濡쒖뺄 ?쒖옉 紐⑤뜽 ??μ냼???먮낯 諛??곌껐 ?먯궛? ?쎄린 ?꾩슜?쇰줈 痍④툒?섎ŉ 寃뚯엫???ы븿?섏? ?딅뒗?? Apache-2.0 ?먮뒗 Open RAIL 怨꾩뿴?대씪???ъ떎? 媛쒕퀎 異쒕젰臾쇱쓽 ????沅뚮━쨌?곹몴쨌珥덉긽쨌??묎텒 ?덉쟾???먮룞 蹂댁쬆?섏? ?딅뒗?? Krea2, 沅뚮━ 遺덈챸 紐⑤뜽, OpenPose 議곌굔 紐⑤뜽, InsightFace 怨꾩뿴 pretrained weights??湲덉? 紐⑸줉?쇰줈 ?좎??쒕떎.
+로컬 AI 모델은 빌드 시점 로컬 모델 허용 목록의 허용 목록만 빌드 시점에 사용할 수 있다. 로컬 제작 모델 저장소와 로컬 제작 모델 저장소의 원본 및 연결 자산은 읽기 전용으로 취급하며 게임에 포함하지 않는다. Apache-2.0 또는 Open RAIL 계열이라는 사실은 개별 출력물의 제3자 권리·상표·초상·저작권 안전을 자동 보증하지 않는다. Krea2, 권리 불명 모델, OpenPose 조건 모델, InsightFace 계열 pretrained weights는 금지 목록으로 유지한다.
 
-理쒖쥌 ???ㅼ젙?먯꽌 ?쇱씠?좎뒪 ?붾㈃???????덈떎. ?ㅽ듃?뚰겕 ?ㅽ듃由щ컢쨌?먭꺽 ?앹꽦 API쨌?⑤씪??TTS???녿떎.
+최종 앱 설정에서 라이선스 화면을 열 수 있다. 네트워크 스트리밍·원격 생성 API·온라인 TTS는 없다.
 
-Web 諛고룷 ?뚯씪 ?ш린 ?쒗븳???꾪븳 WASM gzip fallback?먮뒗 濡쒖뺄???ㅼ튂??pako
-`pako_inflate.min.js`(MIT License, nodeca/pako)瑜??ъ슜?쒕떎. ?대떦 ?뚯씪? 鍮뚮뱶
-?쒖젏?먮쭔 蹂듭궗?섎ŉ, 釉뚮씪?곗??먯꽌??gzip WASM??硫붾え由ъ뿉???댁젣?섎뒗 ?⑸룄??
+Web 배포 파일 크기 제한을 위한 WASM gzip fallback에는 로컬에 설치된 pako
+`pako_inflate.min.js`(MIT License, nodeca/pako)를 사용한다. 해당 파일은 빌드
+시점에만 복사되며, 브라우저에서는 gzip WASM을 메모리에서 해제하는 용도다.
 
 
 ## Godot Engine 4.7.1

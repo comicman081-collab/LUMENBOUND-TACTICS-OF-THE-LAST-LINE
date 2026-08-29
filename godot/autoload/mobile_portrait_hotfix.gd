@@ -10,7 +10,10 @@ const PROBE_INTERVAL := 0.08
 const MAP_SUBTITLE_FULL := "탐색 경로를 따라 조우를 선택하고, 기존 실시간 전투에 진입합니다."
 const MAP_SUBTITLE_COMPACT := "조우를 선택해 이동·전투를 진행하세요."
 const PROLOGUE_FALLBACK_CG := "res://assets/runtime_web/story/cg_ch01_pilot_teamwork_1280x720.png"
-const PROLOGUE_FALLBACK_CARD := "res://assets/runtime_web/characters/CHR001_card_384x576.png"
+# Non-combat surfaces use only the approved 8-head runtime portrait.  The
+# legacy compact `*_card_384x576` family contains early SD placeholders for
+# several members and must never be selected by a story/mobile fallback.
+const PROLOGUE_FALLBACK_CARD := "res://assets/runtime_web/characters/CHR001/portrait.png"
 
 var _probe_left := 0.0
 var _shell: Control
@@ -273,7 +276,7 @@ func _runtime_card_path(asset_id: String) -> String:
 	if suffix.length() < 3:
 		return ""
 	var digits := suffix.substr(0, 3)
-	return "res://assets/runtime_web/characters/CHR%s_card_384x576.png" % digits
+	return "res://assets/runtime_web/characters/CHR%s/portrait.png" % digits
 
 func _is_placeholder_texture(texture: Texture2D) -> bool:
 	if texture == null:

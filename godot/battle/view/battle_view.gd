@@ -209,7 +209,11 @@ func _consume_events() -> void:
 					else: AudioService.play_event("ENEMY_HIT", .06)
 			if int(event.value) > 0:
 				var damage_source := str(event.extra.get("source", ""))
-				if damage_source in ["NORMAL", "ULTIMATE"]:
+				# Presentation can consume a burst of events after simulation has
+				# already advanced.  Never replay a cast projectile from a unit that
+				# is now DOWN; otherwise a collapsed enemy visibly attacks from the
+				# ground even though the model correctly killed it.
+				if damage_source in ["NORMAL", "ULTIMATE"] and _action_source_is_presentable(str(event.source)):
 					_spawn_projectile(str(event.source), str(event.target), damage_source)
 					_spawn_vfx(str(event.source), str(event.target), "impact_%s" % damage_source.to_lower(), .18 if damage_source == "NORMAL" else .28)
 				var damaged := simulation.find_unit(str(event.target))
@@ -222,6 +226,8 @@ func _consume_events() -> void:
 			_spawn_vfx(str(event.source), str(event.target), "shield")
 		elif event.type == BattleEvent.BASIC_ATTACK:
 			var basic_source := simulation.find_unit(str(event.source))
+			if not _action_source_is_presentable(str(event.source)):
+				continue
 			if str(basic_source.team) == "PLAYER": AudioService.play_event("PLAYER_BASIC_ATTACK", .05)
 			elif str(basic_source.get("rank", "NORMAL")) == "BOSS": AudioService.play_event("BOSS_BASIC_ATTACK", .05)
 			else: AudioService.play_event("ENEMY_BASIC_ATTACK", .05)
@@ -230,6 +236,8 @@ func _consume_events() -> void:
 			_play_animation(str(event.source), "basic_attack")
 		elif event.type == BattleEvent.NORMAL_SKILL:
 			var skill_source := simulation.find_unit(str(event.source))
+			if not _action_source_is_presentable(str(event.source)):
+				continue
 			var skill_fallback_event := "PLAYER_NORMAL_SKILL" if str(skill_source.team) == "PLAYER" else ("BOSS_SKILL" if str(skill_source.get("rank", "NORMAL")) == "BOSS" else "ENEMY_SKILL")
 			AudioService.play_card_start(card_start_id_for_event(event, skill_source), skill_fallback_event, .10)
 			_spawn_skill_callout(str(event.source), "SKILL", Color("79e8ff"))
@@ -237,6 +245,8 @@ func _consume_events() -> void:
 			_play_animation(str(event.source), "normal_skill")
 		elif event.type == BattleEvent.ULTIMATE:
 			var ultimate_source := simulation.find_unit(str(event.source))
+			if not _action_source_is_presentable(str(event.source)):
+				continue
 			var ultimate_fallback_event := "PLAYER_ULTIMATE" if str(ultimate_source.team) == "PLAYER" else ("BOSS_SKILL" if str(ultimate_source.get("rank", "NORMAL")) == "BOSS" else "ENEMY_SKILL")
 			AudioService.play_card_start(card_start_id_for_event(event, ultimate_source), ultimate_fallback_event, .12)
 			_spawn_skill_callout(str(event.source), "ULT", Color("ffd36f"))
@@ -416,7 +426,15 @@ func _load_runtime_texture(path: String) -> Texture2D:
 	return ImageTexture.create_from_image(image)
 
 func _play_animation(uid: String, animation_name: String) -> void:
+	if animation_name not in ["down", "victory"] and not _action_source_is_presentable(uid):
+		return
 	animation_tracks[uid] = {"name": animation_name, "elapsed": 0.0}
+
+func _action_source_is_presentable(uid: String) -> bool:
+	if simulation == null or uid.is_empty():
+		return false
+	var source := simulation.find_unit(uid)
+	return not source.is_empty() and UnitState.alive(source) and str(source.get("state", "")) != "DOWN"
 
 func _advance_animations(delta: float) -> void:
 	for uid in animation_tracks:

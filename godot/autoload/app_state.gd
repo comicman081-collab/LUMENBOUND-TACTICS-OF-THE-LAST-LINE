@@ -5,8 +5,9 @@ const ChapterMapLoaderScript := preload("res://chapter_map/runtime/chapter_map_l
 const ChapterMapProgressScript := preload("res://chapter_map/model/chapter_map_progress.gd")
 const MapExplorationServiceScript := preload("res://chapter_map/model/map_exploration_service.gd")
 const MapSimulationScript := preload("res://chapter_map/model/map_simulation.gd")
+const RelayServiceScript := preload("res://relay/relay_service.gd")
 
-const SAVE_SCHEMA_VERSION := 7
+const SAVE_SCHEMA_VERSION := 8
 var profile: Dictionary = {}
 var route_payload: Dictionary = {}
 var selected_stage_id := "CH01-N01"
@@ -81,7 +82,8 @@ func new_game() -> void:
 		"settings": SettingsService.persisted_values(),
 		"tutorial_progress": {"title_seen": false, "map_basics_complete": false},
 		"last_scenario_position": {},
-		"claimed_rewards": []
+		"claimed_rewards": [],
+		"relay": RelayServiceScript.default_profile()
 	}
 
 func apply_loaded(loaded: Dictionary) -> void:
@@ -93,6 +95,7 @@ func apply_loaded(loaded: Dictionary) -> void:
 		profile.tutorial_progress["title_seen"] = false
 	if not profile.tutorial_progress.has("map_basics_complete"):
 		profile.tutorial_progress["map_basics_complete"] = false
+	RelayServiceScript.ensure_profile(profile)
 	pending_battle_token = ""
 	_ensure_roster_entries()
 	_ensure_chapter_progress_entries()
@@ -196,15 +199,35 @@ func set_party_slot(slot: int, character_id: String) -> bool:
 	return true
 
 func create_party_snapshot() -> Array:
+	return create_party_snapshot_for(get_party())
+
+func create_party_snapshot_for(character_ids: Array) -> Array:
 	var snapshot: Array = []
-	for character_id in get_party():
+	for character_id_value in character_ids:
+		var character_id := str(character_id_value)
+		if character_id.is_empty() or not profile.get("roster", {}).has(character_id):
+			continue
 		var definition := DataRegistry.character(character_id).duplicate(true)
+		if definition.is_empty():
+			continue
 		var progress: Dictionary = profile.roster[character_id].duplicate(true)
 		var weapon_id := str(progress.get("equipped_weapon_id", ""))
 		progress["weapon_state"] = profile.weapons.get(weapon_id, {}).duplicate(true)
 		definition["progress"] = progress
 		snapshot.append(definition)
 	return snapshot
+
+func relay_active() -> bool:
+	return RelayServiceScript.is_active(profile)
+
+func relay_current_stage_id() -> String:
+	return RelayServiceScript.current_stage_id(profile)
+
+func relay_current_squad() -> Array[String]:
+	return RelayServiceScript.current_squad(profile)
+
+func relay_party_snapshot() -> Array:
+	return create_party_snapshot_for(relay_current_squad())
 
 func is_stage_unlocked(stage_id: String) -> bool:
 	if debug_unlock_all_enabled():
@@ -305,11 +328,14 @@ func prepare_map_encounter(stage_id: String, node_id: String, return_coord: Vect
 			character_ids.append(str(recruitment_value.get("character_id", "")))
 		special_payload = {
 			"event_encounter_id": str(special_event.get("event_encounter_id", "")),
+			"event_kind": str(special_event.get("event_kind", "COMPANION")),
+			"enemy_id": str(special_event.get("enemy_id", "")),
 			"character_id": str(character_ids[0]) if not character_ids.is_empty() else "",
 			"character_ids": character_ids,
 			"title_key": str(special_event.get("title_key", "")),
 			"body_key": str(special_event.get("body_key", "")),
 			"contact_outcome_key": str(special_event.get("contact_outcome_key", "")),
+			"pre_battle_dialogue": special_event.get("pre_battle_dialogue", []).duplicate(true),
 			"recruitment_timing": str(special_event.get("recruitment_timing", "")),
 			"recruit_after_stage_id": str(special_event.get("recruit_after_stage_id", "")),
 		}

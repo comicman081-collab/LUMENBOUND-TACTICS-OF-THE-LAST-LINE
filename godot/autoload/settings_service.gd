@@ -17,7 +17,25 @@ var values := {
 }
 
 func _ready() -> void:
+	apply_web_preview_audio_override()
 	_apply_developer_build_policy()
+
+func apply_web_preview_audio_override() -> void:
+	# Local Web QA sometimes needs a silent visual pass.  This URL-only override
+	# never touches a player's saved setting and only affects the currently open
+	# preview session; normal Web and packaged builds preserve the user's chosen
+	# audio state.
+	if not OS.has_feature("web"):
+		return
+	var muted = JavaScriptBridge.eval("new URLSearchParams(window.location.search).get('r15-audio-muted')", true)
+	if str(muted) == "1":
+		values.audio_enabled = false
+
+func web_preview_audio_forced_muted() -> bool:
+	if not OS.has_feature("web"):
+		return false
+	var muted = JavaScriptBridge.eval("new URLSearchParams(window.location.search).get('r15-audio-muted')", true)
+	return str(muted) == "1"
 
 static func developer_mode_for_build(debug_build: bool) -> bool:
 	# Developer tooling is a build capability, never a user-save preference.

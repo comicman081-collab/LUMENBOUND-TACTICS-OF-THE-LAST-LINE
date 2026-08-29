@@ -6326,10 +6326,269 @@
           "ENM008"
         ],
         [
-          "BOSS001"
+          "ENM009"
         ]
       ],
       "reward_table_id": "REWARD_CH01-N10",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH01-N11",
+      "chapter_id": "CH01",
+      "mode": "NORMAL",
+      "stage_number": 11,
+      "name_key": "STAGE_CH01_N11",
+      "recommended_level": 11,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 9,
+      "time_limit": 90,
+      "target_time": 70,
+      "waves": [
+        [
+          "ENM010",
+          "ENM005"
+        ],
+        [
+          "ENM011",
+          "ENM006",
+          "ENM002"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH01-N11",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH01-N12",
+      "chapter_id": "CH01",
+      "mode": "NORMAL",
+      "stage_number": 12,
+      "name_key": "STAGE_CH01_N12",
+      "recommended_level": 12,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 9,
+      "time_limit": 90,
+      "target_time": 70,
+      "waves": [
+        [
+          "ENM012",
+          "ENM007"
+        ],
+        [
+          "ENM003",
+          "ENM008"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH01-N12",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH01-N13",
+      "chapter_id": "CH01",
+      "mode": "NORMAL",
+      "stage_number": 13,
+      "name_key": "STAGE_CH01_N13",
+      "recommended_level": 13,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 10,
+      "time_limit": 90,
+      "target_time": 70,
+      "waves": [
+        [
+          "ENM004",
+          "ENM010",
+          "ENM001"
+        ],
+        [
+          "ENM009"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH01-N13",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH01-N14",
+      "chapter_id": "CH01",
+      "mode": "NORMAL",
+      "stage_number": 14,
+      "name_key": "STAGE_CH01_N14",
+      "recommended_level": 14,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 10,
+      "time_limit": 90,
+      "target_time": 70,
+      "waves": [
+        [
+          "ENM011",
+          "ENM006"
+        ],
+        [
+          "ENM007",
+          "ENM005"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH01-N14",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH01-N15",
+      "chapter_id": "CH01",
+      "mode": "NORMAL",
+      "stage_number": 15,
+      "name_key": "STAGE_CH01_N15",
+      "recommended_level": 15,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 10,
+      "time_limit": 90,
+      "target_time": 70,
+      "waves": [
+        [
+          "ENM003",
+          "ENM012"
+        ],
+        [
+          "ENM008",
+          "ENM002",
+          "ENM010"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH01-N15",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH01-N16",
+      "chapter_id": "CH01",
+      "mode": "NORMAL",
+      "stage_number": 16,
+      "name_key": "STAGE_CH01_N16",
+      "recommended_level": 16,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 11,
+      "time_limit": 90,
+      "target_time": 70,
+      "waves": [
+        [
+          "ENM001",
+          "ENM004"
+        ],
+        [
+          "ENM007",
+          "ENM009"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH01-N16",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH01-N17",
+      "chapter_id": "CH01",
+      "mode": "NORMAL",
+      "stage_number": 17,
+      "name_key": "STAGE_CH01_N17",
+      "recommended_level": 17,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 11,
+      "time_limit": 90,
+      "target_time": 70,
+      "waves": [
+        [
+          "ENM005",
+          "ENM011"
+        ],
+        [
+          "ENM008",
+          "ENM012"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH01-N17",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH01-N18",
+      "chapter_id": "CH01",
+      "mode": "NORMAL",
+      "stage_number": 18,
+      "name_key": "STAGE_CH01_N18",
+      "recommended_level": 18,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 11,
+      "time_limit": 90,
+      "target_time": 70,
+      "waves": [
+        [
+          "ENM006",
+          "ENM010",
+          "ENM003"
+        ],
+        [
+          "ENM009",
+          "ENM007"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH01-N18",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH01-N19",
+      "chapter_id": "CH01",
+      "mode": "NORMAL",
+      "stage_number": 19,
+      "name_key": "STAGE_CH01_N19",
+      "recommended_level": 19,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 12,
+      "time_limit": 90,
+      "target_time": 70,
+      "waves": [
+        [
+          "ENM002",
+          "ENM011"
+        ],
+        [
+          "ENM008",
+          "ENM004"
+        ],
+        [
+          "ENM009"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH01-N19",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH01-N20",
+      "chapter_id": "CH01",
+      "mode": "NORMAL",
+      "stage_number": 20,
+      "name_key": "STAGE_CH01_N20",
+      "recommended_level": 20,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 12,
+      "time_limit": 90,
+      "target_time": 70,
+      "waves": [
+        [
+          "ENM003",
+          "ENM006"
+        ],
+        [
+          "ENM007",
+          "ENM008"
+        ],
+        [
+          "BOSS001"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH01-N20",
       "boss": true,
       "daily_attempts": 0
     },
@@ -6455,10 +6714,140 @@
           "ENM009"
         ],
         [
-          "BOSS002"
+          "ENM012"
         ]
       ],
       "reward_table_id": "REWARD_CH01-H05",
+      "boss": false,
+      "daily_attempts": 3
+    },
+    {
+      "id": "CH01-H06",
+      "chapter_id": "CH01",
+      "mode": "HARD",
+      "stage_number": 6,
+      "name_key": "STAGE_CH01_H06",
+      "recommended_level": 22,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 13,
+      "time_limit": 90,
+      "target_time": 70,
+      "waves": [
+        [
+          "ENM010",
+          "ENM007"
+        ],
+        [
+          "ENM008",
+          "ENM006",
+          "ENM009"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH01-H06",
+      "boss": false,
+      "daily_attempts": 3
+    },
+    {
+      "id": "CH01-H07",
+      "chapter_id": "CH01",
+      "mode": "HARD",
+      "stage_number": 7,
+      "name_key": "STAGE_CH01_H07",
+      "recommended_level": 24,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 14,
+      "time_limit": 90,
+      "target_time": 70,
+      "waves": [
+        [
+          "ENM011",
+          "ENM009"
+        ],
+        [
+          "ENM007",
+          "ENM012"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH01-H07",
+      "boss": false,
+      "daily_attempts": 3
+    },
+    {
+      "id": "CH01-H08",
+      "chapter_id": "CH01",
+      "mode": "HARD",
+      "stage_number": 8,
+      "name_key": "STAGE_CH01_H08",
+      "recommended_level": 26,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 14,
+      "time_limit": 90,
+      "target_time": 70,
+      "waves": [
+        [
+          "ENM008",
+          "ENM010"
+        ],
+        [
+          "ENM009",
+          "ENM003"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH01-H08",
+      "boss": false,
+      "daily_attempts": 3
+    },
+    {
+      "id": "CH01-H09",
+      "chapter_id": "CH01",
+      "mode": "HARD",
+      "stage_number": 9,
+      "name_key": "STAGE_CH01_H09",
+      "recommended_level": 28,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 14,
+      "time_limit": 90,
+      "target_time": 70,
+      "waves": [
+        [
+          "ENM007",
+          "ENM011"
+        ],
+        [
+          "ENM008",
+          "ENM012",
+          "ENM009"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH01-H09",
+      "boss": false,
+      "daily_attempts": 3
+    },
+    {
+      "id": "CH01-H10",
+      "chapter_id": "CH01",
+      "mode": "HARD",
+      "stage_number": 10,
+      "name_key": "STAGE_CH01_H10",
+      "recommended_level": 30,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 15,
+      "time_limit": 90,
+      "target_time": 70,
+      "waves": [
+        [
+          "ENM007",
+          "ENM008"
+        ],
+        [
+          "ENM009",
+          "ENM009"
+        ],
+        [
+          "BOSS002"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH01-H10",
       "boss": true,
       "daily_attempts": 3
     },
@@ -6709,10 +7098,268 @@
           "ENM008"
         ],
         [
-          "BOSS004"
+          "ENM009"
         ]
       ],
       "reward_table_id": "REWARD_CH02-N10",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N11",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 11,
+      "name_key": "STAGE_CH02_N11",
+      "recommended_level": 42,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 15,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM014",
+          "ENM001"
+        ],
+        [
+          "ENM015",
+          "ENM007",
+          "ENM013"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N11",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N12",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 12,
+      "name_key": "STAGE_CH02_N12",
+      "recommended_level": 44,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 15,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM013",
+          "ENM008"
+        ],
+        [
+          "ENM014",
+          "ENM009"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N12",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N13",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 13,
+      "name_key": "STAGE_CH02_N13",
+      "recommended_level": 46,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 16,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM015",
+          "ENM003"
+        ],
+        [
+          "ENM013",
+          "ENM006",
+          "ENM014"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N13",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N14",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 14,
+      "name_key": "STAGE_CH02_N14",
+      "recommended_level": 48,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 16,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM014",
+          "ENM007"
+        ],
+        [
+          "ENM015",
+          "ENM008"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N14",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N15",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 15,
+      "name_key": "STAGE_CH02_N15",
+      "recommended_level": 50,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 17,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM013",
+          "ENM009"
+        ],
+        [
+          "ENM014",
+          "ENM002",
+          "ENM015"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N15",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N16",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 16,
+      "name_key": "STAGE_CH02_N16",
+      "recommended_level": 52,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 17,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM015",
+          "ENM006"
+        ],
+        [
+          "ENM013",
+          "ENM007"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N16",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N17",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 17,
+      "name_key": "STAGE_CH02_N17",
+      "recommended_level": 54,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 18,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM014",
+          "ENM008"
+        ],
+        [
+          "ENM015",
+          "ENM009"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N17",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N18",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 18,
+      "name_key": "STAGE_CH02_N18",
+      "recommended_level": 56,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 18,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM013",
+          "ENM014",
+          "ENM007"
+        ],
+        [
+          "ENM015",
+          "ENM008"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N18",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N19",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 19,
+      "name_key": "STAGE_CH02_N19",
+      "recommended_level": 58,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 19,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM014",
+          "ENM015"
+        ],
+        [
+          "ENM013",
+          "ENM009",
+          "ENM007"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N19",
+      "boss": false,
+      "daily_attempts": 0
+    },
+    {
+      "id": "CH02-N20",
+      "chapter_id": "CH02",
+      "mode": "NORMAL",
+      "stage_number": 20,
+      "name_key": "STAGE_CH02_N20",
+      "recommended_level": 60,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 19,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM015",
+          "ENM008"
+        ],
+        [
+          "ENM014",
+          "ENM013"
+        ],
+        [
+          "BOSS004"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-N20",
       "boss": true,
       "daily_attempts": 0
     },
@@ -6837,10 +7484,140 @@
           "ENM014"
         ],
         [
-          "BOSS005"
+          "ENM009"
         ]
       ],
       "reward_table_id": "REWARD_CH02-H05",
+      "boss": false,
+      "daily_attempts": 3
+    },
+    {
+      "id": "CH02-H06",
+      "chapter_id": "CH02",
+      "mode": "HARD",
+      "stage_number": 6,
+      "name_key": "STAGE_CH02_H06",
+      "recommended_level": 42,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 18,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM013",
+          "ENM007"
+        ],
+        [
+          "ENM014",
+          "ENM015",
+          "ENM008"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-H06",
+      "boss": false,
+      "daily_attempts": 3
+    },
+    {
+      "id": "CH02-H07",
+      "chapter_id": "CH02",
+      "mode": "HARD",
+      "stage_number": 7,
+      "name_key": "STAGE_CH02_H07",
+      "recommended_level": 44,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 19,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM014",
+          "ENM009"
+        ],
+        [
+          "ENM013",
+          "ENM006"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-H07",
+      "boss": false,
+      "daily_attempts": 3
+    },
+    {
+      "id": "CH02-H08",
+      "chapter_id": "CH02",
+      "mode": "HARD",
+      "stage_number": 8,
+      "name_key": "STAGE_CH02_H08",
+      "recommended_level": 46,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 19,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM015",
+          "ENM008"
+        ],
+        [
+          "ENM014",
+          "ENM007"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-H08",
+      "boss": false,
+      "daily_attempts": 3
+    },
+    {
+      "id": "CH02-H09",
+      "chapter_id": "CH02",
+      "mode": "HARD",
+      "stage_number": 9,
+      "name_key": "STAGE_CH02_H09",
+      "recommended_level": 48,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 20,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM013",
+          "ENM014"
+        ],
+        [
+          "ENM015",
+          "ENM009",
+          "ENM008"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-H09",
+      "boss": false,
+      "daily_attempts": 3
+    },
+    {
+      "id": "CH02-H10",
+      "chapter_id": "CH02",
+      "mode": "HARD",
+      "stage_number": 10,
+      "name_key": "STAGE_CH02_H10",
+      "recommended_level": 50,
+      "post_cap_scale": 1.0,
+      "stamina_cost": 20,
+      "time_limit": 95,
+      "target_time": 74,
+      "waves": [
+        [
+          "ENM015",
+          "ENM008"
+        ],
+        [
+          "ENM013",
+          "ENM014"
+        ],
+        [
+          "BOSS005"
+        ]
+      ],
+      "reward_table_id": "REWARD_CH02-H10",
       "boss": true,
       "daily_attempts": 3
     }
@@ -7292,6 +8069,471 @@
       ]
     },
     {
+      "id": "REWARD_CH01-N11",
+      "stage_id": "CH01-N11",
+      "guaranteed": [
+        {
+          "item_id": "SKILL_BOOK_T1",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "WEAPON_ORE_T2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "BLUEPRINT_T2",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "BREAK_CORE_T1",
+          "chance": 0.35,
+          "quantity": 1
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.08,
+          "quantity": 1,
+          "pity_after_failures": 8
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 8000
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH01-N12",
+      "stage_id": "CH01-N12",
+      "guaranteed": [
+        {
+          "item_id": "SKILL_BOOK_T1",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "WEAPON_ORE_T2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "BLUEPRINT_T2",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "BREAK_CORE_T1",
+          "chance": 0.35,
+          "quantity": 1
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.08,
+          "quantity": 1,
+          "pity_after_failures": 8
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 8500
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH01-N13",
+      "stage_id": "CH01-N13",
+      "guaranteed": [
+        {
+          "item_id": "SKILL_BOOK_T1",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "WEAPON_ORE_T2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "BLUEPRINT_T2",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "BREAK_CORE_T1",
+          "chance": 0.35,
+          "quantity": 1
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.08,
+          "quantity": 1,
+          "pity_after_failures": 8
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 9000
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH01-N14",
+      "stage_id": "CH01-N14",
+      "guaranteed": [
+        {
+          "item_id": "SKILL_BOOK_T1",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "WEAPON_ORE_T2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "BLUEPRINT_T2",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "BREAK_CORE_T1",
+          "chance": 0.35,
+          "quantity": 1
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.08,
+          "quantity": 1,
+          "pity_after_failures": 8
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 9500
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH01-N15",
+      "stage_id": "CH01-N15",
+      "guaranteed": [
+        {
+          "item_id": "SKILL_BOOK_T1",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "WEAPON_ORE_T2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "BLUEPRINT_T2",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "BREAK_CORE_T1",
+          "chance": 0.35,
+          "quantity": 1
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.08,
+          "quantity": 1,
+          "pity_after_failures": 8
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 10000
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH01-N16",
+      "stage_id": "CH01-N16",
+      "guaranteed": [
+        {
+          "item_id": "SKILL_BOOK_T1",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "SKILL_BOOK_T2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "SKILL_TOKEN_T2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "ULT_BOOK_T2",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "BREAK_CORE_T1",
+          "chance": 0.35,
+          "quantity": 1
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.08,
+          "quantity": 1,
+          "pity_after_failures": 8
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 10500
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH01-N17",
+      "stage_id": "CH01-N17",
+      "guaranteed": [
+        {
+          "item_id": "SKILL_BOOK_T1",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "SKILL_BOOK_T2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "SKILL_TOKEN_T2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "ULT_BOOK_T2",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "BREAK_CORE_T1",
+          "chance": 0.35,
+          "quantity": 1
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.08,
+          "quantity": 1,
+          "pity_after_failures": 8
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 11000
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH01-N18",
+      "stage_id": "CH01-N18",
+      "guaranteed": [
+        {
+          "item_id": "SKILL_BOOK_T1",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "SKILL_BOOK_T2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "SKILL_TOKEN_T2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "ULT_BOOK_T2",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "BREAK_CORE_T1",
+          "chance": 0.35,
+          "quantity": 1
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.08,
+          "quantity": 1,
+          "pity_after_failures": 8
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 11500
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH01-N19",
+      "stage_id": "CH01-N19",
+      "guaranteed": [
+        {
+          "item_id": "SKILL_BOOK_T1",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "SKILL_BOOK_T2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "SKILL_TOKEN_T2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "ULT_BOOK_T2",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "BREAK_CORE_T1",
+          "chance": 0.35,
+          "quantity": 1
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.08,
+          "quantity": 1,
+          "pity_after_failures": 8
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 12000
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH01-N20",
+      "stage_id": "CH01-N20",
+      "guaranteed": [
+        {
+          "item_id": "SKILL_BOOK_T1",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "SKILL_BOOK_T2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "SKILL_TOKEN_T2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "ULT_BOOK_T2",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "BREAK_CORE_T1",
+          "chance": 0.35,
+          "quantity": 1
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.08,
+          "quantity": 1,
+          "pity_after_failures": 8
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 12500
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 10
+        }
+      ]
+    },
+    {
       "id": "REWARD_CH01-H01",
       "stage_id": "CH01-H01",
       "guaranteed": [
@@ -7534,6 +8776,226 @@
         {
           "item_id": "CREDIT",
           "quantity": 5000
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH01-H06",
+      "stage_id": "CH01-H06",
+      "guaranteed": [
+        {
+          "item_id": "SHARD_CHR008",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "BREAK_CORE_T4",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "ROLE_TOKEN_T4",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "BREAK_CORE_T1",
+          "chance": 0.35,
+          "quantity": 1
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.08,
+          "quantity": 1,
+          "pity_after_failures": 8
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 5500
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH01-H07",
+      "stage_id": "CH01-H07",
+      "guaranteed": [
+        {
+          "item_id": "SHARD_CHR008",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "BREAK_CORE_T4",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "ROLE_TOKEN_T4",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "BREAK_CORE_T1",
+          "chance": 0.35,
+          "quantity": 1
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.08,
+          "quantity": 1,
+          "pity_after_failures": 8
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 6000
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH01-H08",
+      "stage_id": "CH01-H08",
+      "guaranteed": [
+        {
+          "item_id": "SHARD_CHR008",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "BREAK_CORE_T4",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "ROLE_TOKEN_T4",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "BREAK_CORE_T1",
+          "chance": 0.35,
+          "quantity": 1
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.08,
+          "quantity": 1,
+          "pity_after_failures": 8
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 6500
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH01-H09",
+      "stage_id": "CH01-H09",
+      "guaranteed": [
+        {
+          "item_id": "SHARD_CHR008",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "FACTION_SEAL_T3",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "BREAK_CORE_T1",
+          "chance": 0.35,
+          "quantity": 1
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.08,
+          "quantity": 1,
+          "pity_after_failures": 8
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 7000
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH01-H10",
+      "stage_id": "CH01-H10",
+      "guaranteed": [
+        {
+          "item_id": "SHARD_CHR008",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "item_id": "FACTION_SEAL_T3",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "BREAK_CORE_T1",
+          "chance": 0.35,
+          "quantity": 1
+        },
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.08,
+          "quantity": 1,
+          "pity_after_failures": 8
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 7500
         },
         {
           "item_id": "LANTERN_SHARD",
@@ -7882,6 +9344,346 @@
       ]
     },
     {
+      "id": "REWARD_CH02-N11",
+      "stage_id": "CH02-N11",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 4550,
+          "max": 6050
+        },
+        {
+          "item_id": "BREAK_CORE_T3",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 12600
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N12",
+      "stage_id": "CH02-N12",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 4800,
+          "max": 6400
+        },
+        {
+          "item_id": "BREAK_CORE_T3",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 13200
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N13",
+      "stage_id": "CH02-N13",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 5050,
+          "max": 6750
+        },
+        {
+          "item_id": "BREAK_CORE_T3",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 13800
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N14",
+      "stage_id": "CH02-N14",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 5300,
+          "max": 7100
+        },
+        {
+          "item_id": "BREAK_CORE_T3",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 14400
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N15",
+      "stage_id": "CH02-N15",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 5550,
+          "max": 7450
+        },
+        {
+          "item_id": "BREAK_CORE_T3",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 15000
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N16",
+      "stage_id": "CH02-N16",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 5800,
+          "max": 7800
+        },
+        {
+          "item_id": "BREAK_CORE_T3",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 15600
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N17",
+      "stage_id": "CH02-N17",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 6050,
+          "max": 8150
+        },
+        {
+          "item_id": "BREAK_CORE_T3",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 16200
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N18",
+      "stage_id": "CH02-N18",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 6300,
+          "max": 8500
+        },
+        {
+          "item_id": "BREAK_CORE_T3",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 16800
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N19",
+      "stage_id": "CH02-N19",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 6550,
+          "max": 8850
+        },
+        {
+          "item_id": "BREAK_CORE_T3",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 17400
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-N20",
+      "stage_id": "CH02-N20",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 6800,
+          "max": 9200
+        },
+        {
+          "item_id": "BREAK_CORE_T3",
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 18000
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
       "id": "REWARD_CH02-H01",
       "stage_id": "CH02-H01",
       "guaranteed": [
@@ -8075,6 +9877,201 @@
           "quantity": 15
         }
       ]
+    },
+    {
+      "id": "REWARD_CH02-H06",
+      "stage_id": "CH02-H06",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 3300,
+          "max": 4300
+        },
+        {
+          "item_id": "BREAK_CORE_T4",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "SHARD_CHR032",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 9600
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-H07",
+      "stage_id": "CH02-H07",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 3550,
+          "max": 4650
+        },
+        {
+          "item_id": "BREAK_CORE_T4",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "SHARD_CHR033",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 10200
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-H08",
+      "stage_id": "CH02-H08",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 3800,
+          "max": 5000
+        },
+        {
+          "item_id": "BREAK_CORE_T4",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "SHARD_CHR034",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 10800
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-H09",
+      "stage_id": "CH02-H09",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 4050,
+          "max": 5350
+        },
+        {
+          "item_id": "BREAK_CORE_T4",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "SHARD_CHR035",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 11400
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "id": "REWARD_CH02-H10",
+      "stage_id": "CH02-H10",
+      "guaranteed": [
+        {
+          "item_id": "CREDIT",
+          "min": 4300,
+          "max": 5700
+        },
+        {
+          "item_id": "BREAK_CORE_T4",
+          "min": 1,
+          "max": 2
+        },
+        {
+          "item_id": "SHARD_CHR036",
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "bonus": [
+        {
+          "item_id": "UNIVERSAL_CATALYST",
+          "chance": 0.12,
+          "quantity": 1,
+          "pity_after_failures": 7
+        }
+      ],
+      "first_clear": [
+        {
+          "item_id": "CREDIT",
+          "quantity": 12000
+        },
+        {
+          "item_id": "LANTERN_SHARD",
+          "quantity": 15
+        }
+      ]
     }
   ],
   "items": [
@@ -8083,6 +10080,7 @@
       "name_key": "ITEM_CREDIT",
       "category": "CREDIT",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_credit_dev"
     },
     {
@@ -8090,6 +10088,7 @@
       "name_key": "ITEM_LANTERN_SHARD",
       "category": "LANTERN",
       "xp_value": 0,
+      "presentation_tier": "RARE",
       "icon_asset_id": "item_lantern_shard_dev"
     },
     {
@@ -8097,6 +10096,7 @@
       "name_key": "ITEM_EXPEDITION_ROUTE_MODULE_A",
       "category": "EXPEDITION",
       "xp_value": 0,
+      "presentation_tier": "MAJOR",
       "icon_asset_id": "item_lantern_shard_dev"
     },
     {
@@ -8104,6 +10104,7 @@
       "name_key": "ITEM_EXPEDITION_ROUTE_MODULE_B",
       "category": "EXPEDITION",
       "xp_value": 0,
+      "presentation_tier": "MAJOR",
       "icon_asset_id": "item_lantern_shard_dev"
     },
     {
@@ -8111,6 +10112,7 @@
       "name_key": "ITEM_TRAINING_NOTE_S",
       "category": "TRAINING",
       "xp_value": 100,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_training_note_s_dev"
     },
     {
@@ -8118,6 +10120,7 @@
       "name_key": "ITEM_TRAINING_NOTE_M",
       "category": "TRAINING",
       "xp_value": 500,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_training_note_m_dev"
     },
     {
@@ -8125,6 +10128,7 @@
       "name_key": "ITEM_TRAINING_NOTE_L",
       "category": "TRAINING",
       "xp_value": 2500,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_training_note_l_dev"
     },
     {
@@ -8132,6 +10136,7 @@
       "name_key": "ITEM_TRAINING_NOTE_XL",
       "category": "TRAINING",
       "xp_value": 10000,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_training_note_xl_dev"
     },
     {
@@ -8139,6 +10144,7 @@
       "name_key": "ITEM_BREAK_CORE_T1",
       "category": "BREAK",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_break_core_t1_dev"
     },
     {
@@ -8146,6 +10152,7 @@
       "name_key": "ITEM_BREAK_CORE_T2",
       "category": "BREAK",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_break_core_t2_dev"
     },
     {
@@ -8153,6 +10160,7 @@
       "name_key": "ITEM_BREAK_CORE_T3",
       "category": "BREAK",
       "xp_value": 0,
+      "presentation_tier": "RARE",
       "icon_asset_id": "item_break_core_t3_dev"
     },
     {
@@ -8160,6 +10168,7 @@
       "name_key": "ITEM_BREAK_CORE_T4",
       "category": "BREAK",
       "xp_value": 0,
+      "presentation_tier": "MAJOR",
       "icon_asset_id": "item_break_core_t4_dev"
     },
     {
@@ -8167,6 +10176,7 @@
       "name_key": "ITEM_ROLE_TOKEN_T1",
       "category": "ROLE",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_role_token_t1_dev"
     },
     {
@@ -8174,6 +10184,7 @@
       "name_key": "ITEM_ROLE_TOKEN_T2",
       "category": "ROLE",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_role_token_t2_dev"
     },
     {
@@ -8181,6 +10192,7 @@
       "name_key": "ITEM_ROLE_TOKEN_T3",
       "category": "ROLE",
       "xp_value": 0,
+      "presentation_tier": "RARE",
       "icon_asset_id": "item_role_token_t3_dev"
     },
     {
@@ -8188,6 +10200,7 @@
       "name_key": "ITEM_ROLE_TOKEN_T4",
       "category": "ROLE",
       "xp_value": 0,
+      "presentation_tier": "MAJOR",
       "icon_asset_id": "item_role_token_t4_dev"
     },
     {
@@ -8195,6 +10208,7 @@
       "name_key": "ITEM_FACTION_SEAL_T1",
       "category": "FACTION",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_faction_seal_t1_dev"
     },
     {
@@ -8202,6 +10216,7 @@
       "name_key": "ITEM_FACTION_SEAL_T2",
       "category": "FACTION",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_faction_seal_t2_dev"
     },
     {
@@ -8209,6 +10224,7 @@
       "name_key": "ITEM_FACTION_SEAL_T3",
       "category": "FACTION",
       "xp_value": 0,
+      "presentation_tier": "RARE",
       "icon_asset_id": "item_faction_seal_t3_dev"
     },
     {
@@ -8216,6 +10232,7 @@
       "name_key": "ITEM_SKILL_BOOK_T1",
       "category": "SKILL",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_skill_book_t1_dev"
     },
     {
@@ -8223,6 +10240,7 @@
       "name_key": "ITEM_SKILL_BOOK_T2",
       "category": "SKILL",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_skill_book_t2_dev"
     },
     {
@@ -8230,6 +10248,7 @@
       "name_key": "ITEM_SKILL_BOOK_T3",
       "category": "SKILL",
       "xp_value": 0,
+      "presentation_tier": "RARE",
       "icon_asset_id": "item_skill_book_t3_dev"
     },
     {
@@ -8237,6 +10256,7 @@
       "name_key": "ITEM_SKILL_BOOK_T4",
       "category": "SKILL",
       "xp_value": 0,
+      "presentation_tier": "MAJOR",
       "icon_asset_id": "item_skill_book_t4_dev"
     },
     {
@@ -8244,6 +10264,7 @@
       "name_key": "ITEM_SKILL_TOKEN_T1",
       "category": "SKILL",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_skill_token_t1_dev"
     },
     {
@@ -8251,6 +10272,7 @@
       "name_key": "ITEM_SKILL_TOKEN_T2",
       "category": "SKILL",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_skill_token_t2_dev"
     },
     {
@@ -8258,6 +10280,7 @@
       "name_key": "ITEM_SKILL_TOKEN_T3",
       "category": "SKILL",
       "xp_value": 0,
+      "presentation_tier": "RARE",
       "icon_asset_id": "item_skill_token_t3_dev"
     },
     {
@@ -8265,6 +10288,7 @@
       "name_key": "ITEM_SKILL_TOKEN_T4",
       "category": "SKILL",
       "xp_value": 0,
+      "presentation_tier": "MAJOR",
       "icon_asset_id": "item_skill_token_t4_dev"
     },
     {
@@ -8272,6 +10296,7 @@
       "name_key": "ITEM_ULT_BOOK_T1",
       "category": "ULT",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_ult_book_t1_dev"
     },
     {
@@ -8279,6 +10304,7 @@
       "name_key": "ITEM_ULT_BOOK_T2",
       "category": "ULT",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_ult_book_t2_dev"
     },
     {
@@ -8286,6 +10312,7 @@
       "name_key": "ITEM_ULT_BOOK_T3",
       "category": "ULT",
       "xp_value": 0,
+      "presentation_tier": "RARE",
       "icon_asset_id": "item_ult_book_t3_dev"
     },
     {
@@ -8293,6 +10320,7 @@
       "name_key": "ITEM_ULT_BOOK_T4",
       "category": "ULT",
       "xp_value": 0,
+      "presentation_tier": "MAJOR",
       "icon_asset_id": "item_ult_book_t4_dev"
     },
     {
@@ -8300,6 +10328,7 @@
       "name_key": "ITEM_WEAPON_CHIP_S",
       "category": "WEAPON",
       "xp_value": 100,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_weapon_chip_s_dev"
     },
     {
@@ -8307,6 +10336,7 @@
       "name_key": "ITEM_WEAPON_CHIP_M",
       "category": "WEAPON",
       "xp_value": 500,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_weapon_chip_m_dev"
     },
     {
@@ -8314,6 +10344,7 @@
       "name_key": "ITEM_WEAPON_CHIP_L",
       "category": "WEAPON",
       "xp_value": 2500,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_weapon_chip_l_dev"
     },
     {
@@ -8321,6 +10352,7 @@
       "name_key": "ITEM_WEAPON_CHIP_XL",
       "category": "WEAPON",
       "xp_value": 10000,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_weapon_chip_xl_dev"
     },
     {
@@ -8328,6 +10360,7 @@
       "name_key": "ITEM_WEAPON_ORE_T1",
       "category": "WEAPON",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_weapon_ore_t1_dev"
     },
     {
@@ -8335,6 +10368,7 @@
       "name_key": "ITEM_WEAPON_ORE_T2",
       "category": "WEAPON",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_weapon_ore_t2_dev"
     },
     {
@@ -8342,6 +10376,7 @@
       "name_key": "ITEM_WEAPON_ORE_T3",
       "category": "WEAPON",
       "xp_value": 0,
+      "presentation_tier": "RARE",
       "icon_asset_id": "item_weapon_ore_t3_dev"
     },
     {
@@ -8349,6 +10384,7 @@
       "name_key": "ITEM_WEAPON_ORE_T4",
       "category": "WEAPON",
       "xp_value": 0,
+      "presentation_tier": "MAJOR",
       "icon_asset_id": "item_weapon_ore_t4_dev"
     },
     {
@@ -8356,6 +10392,7 @@
       "name_key": "ITEM_BLUEPRINT_T1",
       "category": "BLUEPRINT",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_blueprint_t1_dev"
     },
     {
@@ -8363,6 +10400,7 @@
       "name_key": "ITEM_BLUEPRINT_T2",
       "category": "BLUEPRINT",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_blueprint_t2_dev"
     },
     {
@@ -8370,6 +10408,7 @@
       "name_key": "ITEM_BLUEPRINT_T3",
       "category": "BLUEPRINT",
       "xp_value": 0,
+      "presentation_tier": "RARE",
       "icon_asset_id": "item_blueprint_t3_dev"
     },
     {
@@ -8377,6 +10416,7 @@
       "name_key": "ITEM_BLUEPRINT_T4",
       "category": "BLUEPRINT",
       "xp_value": 0,
+      "presentation_tier": "MAJOR",
       "icon_asset_id": "item_blueprint_t4_dev"
     },
     {
@@ -8384,6 +10424,7 @@
       "name_key": "ITEM_UNIVERSAL_CATALYST",
       "category": "UNIVERSAL",
       "xp_value": 0,
+      "presentation_tier": "MAJOR",
       "icon_asset_id": "item_universal_catalyst_dev"
     },
     {
@@ -8391,6 +10432,7 @@
       "name_key": "ITEM_SHARD_CHR001",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr001_dev"
     },
     {
@@ -8398,6 +10440,7 @@
       "name_key": "ITEM_SHARD_CHR002",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr002_dev"
     },
     {
@@ -8405,6 +10448,7 @@
       "name_key": "ITEM_SHARD_CHR003",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr003_dev"
     },
     {
@@ -8412,6 +10456,7 @@
       "name_key": "ITEM_SHARD_CHR004",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr004_dev"
     },
     {
@@ -8419,6 +10464,7 @@
       "name_key": "ITEM_SHARD_CHR005",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr005_dev"
     },
     {
@@ -8426,6 +10472,7 @@
       "name_key": "ITEM_SHARD_CHR006",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr006_dev"
     },
     {
@@ -8433,6 +10480,7 @@
       "name_key": "ITEM_SHARD_CHR007",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr007_dev"
     },
     {
@@ -8440,6 +10488,7 @@
       "name_key": "ITEM_SHARD_CHR008",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr008_dev"
     },
     {
@@ -8447,6 +10496,7 @@
       "name_key": "ITEM_SHARD_CHR009",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr009_dev"
     },
     {
@@ -8454,6 +10504,7 @@
       "name_key": "ITEM_SHARD_CHR010",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr010_dev"
     },
     {
@@ -8461,6 +10512,7 @@
       "name_key": "ITEM_SHARD_CHR011",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr011_dev"
     },
     {
@@ -8468,6 +10520,7 @@
       "name_key": "ITEM_SHARD_CHR012",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr012_dev"
     },
     {
@@ -8475,6 +10528,7 @@
       "name_key": "ITEM_SHARD_CHR013",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr013_dev"
     },
     {
@@ -8482,6 +10536,7 @@
       "name_key": "ITEM_SHARD_CHR014",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr014_dev"
     },
     {
@@ -8489,6 +10544,7 @@
       "name_key": "ITEM_SHARD_CHR015",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr015_dev"
     },
     {
@@ -8496,6 +10552,7 @@
       "name_key": "ITEM_SHARD_CHR016",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr016_dev"
     },
     {
@@ -8503,6 +10560,7 @@
       "name_key": "ITEM_SHARD_CHR017",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr017_dev"
     },
     {
@@ -8510,6 +10568,7 @@
       "name_key": "ITEM_SHARD_CHR018",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr018_dev"
     },
     {
@@ -8517,6 +10576,7 @@
       "name_key": "ITEM_SHARD_CHR019",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr019_dev"
     },
     {
@@ -8524,6 +10584,7 @@
       "name_key": "ITEM_SHARD_CHR020",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr020_dev"
     },
     {
@@ -8531,6 +10592,7 @@
       "name_key": "ITEM_SHARD_CHR021",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr021_dev"
     },
     {
@@ -8538,6 +10600,7 @@
       "name_key": "ITEM_SHARD_CHR022",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr022_dev"
     },
     {
@@ -8545,6 +10608,7 @@
       "name_key": "ITEM_SHARD_CHR023",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr023_dev"
     },
     {
@@ -8552,6 +10616,7 @@
       "name_key": "ITEM_SHARD_CHR024",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr024_dev"
     },
     {
@@ -8559,6 +10624,7 @@
       "name_key": "ITEM_SHARD_CHR025",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr025_dev"
     },
     {
@@ -8566,6 +10632,7 @@
       "name_key": "ITEM_SHARD_CHR026",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr026_dev"
     },
     {
@@ -8573,6 +10640,7 @@
       "name_key": "ITEM_SHARD_CHR027",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr027_dev"
     },
     {
@@ -8580,6 +10648,7 @@
       "name_key": "ITEM_SHARD_CHR028",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr028_dev"
     },
     {
@@ -8587,6 +10656,7 @@
       "name_key": "ITEM_SHARD_CHR029",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr029_dev"
     },
     {
@@ -8594,6 +10664,7 @@
       "name_key": "ITEM_SHARD_CHR030",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr030_dev"
     },
     {
@@ -8601,6 +10672,7 @@
       "name_key": "ITEM_SHARD_CHR031",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr031_dev"
     },
     {
@@ -8608,6 +10680,7 @@
       "name_key": "ITEM_SHARD_CHR032",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr032_dev"
     },
     {
@@ -8615,6 +10688,7 @@
       "name_key": "ITEM_SHARD_CHR033",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr033_dev"
     },
     {
@@ -8622,6 +10696,7 @@
       "name_key": "ITEM_SHARD_CHR034",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr034_dev"
     },
     {
@@ -8629,6 +10704,7 @@
       "name_key": "ITEM_SHARD_CHR035",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr035_dev"
     },
     {
@@ -8636,6 +10712,7 @@
       "name_key": "ITEM_SHARD_CHR036",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr036_dev"
     },
     {
@@ -8643,6 +10720,7 @@
       "name_key": "ITEM_SHARD_CHR037",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr037_dev"
     },
     {
@@ -8650,6 +10728,7 @@
       "name_key": "ITEM_SHARD_CHR038",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr038_dev"
     },
     {
@@ -8657,6 +10736,7 @@
       "name_key": "ITEM_SHARD_CHR039",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr039_dev"
     },
     {
@@ -8664,6 +10744,7 @@
       "name_key": "ITEM_SHARD_CHR040",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr040_dev"
     },
     {
@@ -8671,6 +10752,7 @@
       "name_key": "ITEM_SHARD_CHR041",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr041_dev"
     },
     {
@@ -8678,6 +10760,7 @@
       "name_key": "ITEM_SHARD_CHR042",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr042_dev"
     },
     {
@@ -8685,6 +10768,7 @@
       "name_key": "ITEM_SHARD_CHR043",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr043_dev"
     },
     {
@@ -8692,6 +10776,7 @@
       "name_key": "ITEM_SHARD_CHR044",
       "category": "SHARD",
       "xp_value": 0,
+      "presentation_tier": "STANDARD",
       "icon_asset_id": "item_shard_chr044_dev"
     }
   ],
@@ -8893,14 +10978,29 @@
         "CH01-N07",
         "CH01-N08",
         "CH01-N09",
-        "CH01-N10"
+        "CH01-N10",
+        "CH01-N11",
+        "CH01-N12",
+        "CH01-N13",
+        "CH01-N14",
+        "CH01-N15",
+        "CH01-N16",
+        "CH01-N17",
+        "CH01-N18",
+        "CH01-N19",
+        "CH01-N20"
       ],
       "hard_stage_ids": [
         "CH01-H01",
         "CH01-H02",
         "CH01-H03",
         "CH01-H04",
-        "CH01-H05"
+        "CH01-H05",
+        "CH01-H06",
+        "CH01-H07",
+        "CH01-H08",
+        "CH01-H09",
+        "CH01-H10"
       ]
     },
     {
@@ -8918,14 +11018,29 @@
         "CH02-N07",
         "CH02-N08",
         "CH02-N09",
-        "CH02-N10"
+        "CH02-N10",
+        "CH02-N11",
+        "CH02-N12",
+        "CH02-N13",
+        "CH02-N14",
+        "CH02-N15",
+        "CH02-N16",
+        "CH02-N17",
+        "CH02-N18",
+        "CH02-N19",
+        "CH02-N20"
       ],
       "hard_stage_ids": [
         "CH02-H01",
         "CH02-H02",
         "CH02-H03",
         "CH02-H04",
-        "CH02-H05"
+        "CH02-H05",
+        "CH02-H06",
+        "CH02-H07",
+        "CH02-H08",
+        "CH02-H09",
+        "CH02-H10"
       ]
     }
   ],
@@ -9800,7 +11915,7 @@
     {
       "id": "TRIG_CH01_PREBOSS",
       "event": "STAGE_CLEAR",
-      "stage_id": "CH01-N09",
+      "stage_id": "CH01-N19",
       "scenario_id": "SCN_CH01_PREBOSS",
       "completion_flag": "story.trigger.TRIG_CH01_PREBOSS",
       "priority": 50
@@ -9808,7 +11923,7 @@
     {
       "id": "TRIG_CH01_OUTRO",
       "event": "STAGE_CLEAR",
-      "stage_id": "CH01-N10",
+      "stage_id": "CH01-H10",
       "scenario_id": "SCN_CH01_OUTRO",
       "completion_flag": "story.trigger.TRIG_CH01_OUTRO",
       "priority": 60
@@ -9840,7 +11955,7 @@
     {
       "id": "TRIG_CH02_PREBOSS",
       "event": "STAGE_CLEAR",
-      "stage_id": "CH02-N09",
+      "stage_id": "CH02-N19",
       "scenario_id": "SCN_CH02_PREBOSS",
       "completion_flag": "story.trigger.TRIG_CH02_PREBOSS",
       "priority": 100
@@ -9848,7 +11963,7 @@
     {
       "id": "TRIG_CH02_HARD_INTRO",
       "event": "STAGE_CLEAR",
-      "stage_id": "CH02-N10",
+      "stage_id": "CH02-N20",
       "scenario_id": "SCN_CH02_HARD_INTRO",
       "completion_flag": "story.trigger.TRIG_CH02_HARD_INTRO",
       "priority": 110
@@ -9856,7 +11971,7 @@
     {
       "id": "TRIG_CH02_OUTRO",
       "event": "STAGE_CLEAR",
-      "stage_id": "CH02-H05",
+      "stage_id": "CH02-H10",
       "scenario_id": "SCN_CH02_OUTRO",
       "completion_flag": "story.trigger.TRIG_CH02_OUTRO",
       "priority": 120
@@ -11614,6 +13729,25 @@
       "dispellable": false,
       "boss_resistance": 0.0,
       "source_id": ""
+    }
+  ],
+  "relay_specs": [
+    {
+      "id": "RELAY_CH01_A",
+      "name": "삼중 노선 릴레이 · 제1구간",
+      "subtitle": "서로 다른 15명을 세 개의 독립 편성으로 운용하십시오.",
+      "stage_ids": [
+        "CH01-N03",
+        "CH01-N06",
+        "CH01-N09"
+      ],
+      "completion_rewards": {
+        "CREDIT": 15000,
+        "TRAINING_NOTE_L": 3,
+        "SKILL_BOOK_T1": 6
+      },
+      "s_rank_time": 150.0,
+      "a_rank_time": 195.0
     }
   ]
 }

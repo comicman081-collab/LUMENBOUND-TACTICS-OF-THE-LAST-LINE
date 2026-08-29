@@ -8,6 +8,7 @@ const HexGridScript := preload("res://chapter_map/model/hex_grid.gd")
 const HexCoordScript := preload("res://chapter_map/model/hex_coord.gd")
 const GrowthAffordabilityAnalyzerScript := preload("res://progression/growth_affordability_analyzer.gd")
 const GrowthPlanBuilderScript := preload("res://progression/growth_plan_builder.gd")
+const RelayServiceScript := preload("res://relay/relay_service.gd")
 const DESIGN_VIEWPORT_SIZE := Vector2(1920.0, 1080.0)
 const COMPACT_LANDSCAPE_MAX_WIDTH := 980.0
 const MIN_TOUCH_CSS_PX := 56.0
@@ -63,8 +64,20 @@ var last_rewards: Dictionary = {}
 var last_reward_report: Dictionary = {}
 var last_growth_plan_actions: Array = []
 var last_growth_plan_report: Dictionary = {}
+var battle_party_ids: Array[String] = []
+var relay_edit_squad := 0
+var relay_edit_slot := 0
 var debug_reset_armed := false
 var battle_transition_active := false
+# Pre-battle event modals run while the map is still the active scene. Keep a
+# raw-input bridge so an embedded Web canvas cannot leave the event card
+# without a responsive click, touch, Next, or Skip route.
+var pre_battle_event_input_active := false
+var pre_battle_event_input_panel: Control
+var pre_battle_event_input_next: Button
+var pre_battle_event_input_skip: Button
+var pre_battle_event_advance: Callable
+var pre_battle_event_resolve: Callable
 # Development-only capture aid. It is armed only by the explicit DEBUG-menu
 # fixture below, is consumed by the next companion contact, and never changes
 # the short player-facing encounter transition in a normal or Release run.
@@ -82,6 +95,12 @@ func _ready() -> void:
 	_build_root()
 	EventBus.screen_changed.connect(_show_screen)
 	SaveService.load_game()
+	# SaveService restores the player's normal preference after autoloads have
+	# entered the tree. Re-apply the URL-only visual-QA mute here so a saved
+	# audio-enabled value cannot restart BGM in the explicitly silent preview.
+	SettingsService.apply_web_preview_audio_override()
+	if SettingsService.web_preview_audio_forced_muted():
+		AudioService.set_enabled(false)
 	# A persistent save diagnostic belonged to the development shell.  Saving is
 	# still atomic and reported by its own action feedback, but Release screens
 	# must not expose a bottom-right implementation status.
@@ -421,6 +440,39 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	AudioService.unlock_from_user_gesture()
 	_request_story_advance("keyboard:%d" % int((event as InputEventKey).keycode))
 
+func _input(event: InputEvent) -> void:
+	if not pre_battle_event_input_active:
+		return
+	var pressed := false
+	var position := Vector2(-1, -1)
+	if event is InputEventMouseButton:
+		pressed = event.pressed and event.button_index == MOUSE_BUTTON_LEFT
+		position = event.position
+	elif event is InputEventScreenTouch:
+		pressed = event.pressed
+		position = event.position
+	if not pressed or not _handle_pre_battle_event_input(position):
+		return
+	AudioService.unlock_from_user_gesture()
+	get_viewport().set_input_as_handled()
+
+func _handle_pre_battle_event_input(position: Vector2) -> bool:
+	if not pre_battle_event_input_active or pre_battle_event_input_panel == null or not is_instance_valid(pre_battle_event_input_panel):
+		return false
+	if not pre_battle_event_input_panel.get_global_rect().has_point(position):
+		return false
+	if pre_battle_event_input_skip != null and is_instance_valid(pre_battle_event_input_skip) and pre_battle_event_input_skip.get_global_rect().has_point(position):
+		if pre_battle_event_resolve.is_valid():
+			pre_battle_event_resolve.call()
+		return true
+	if pre_battle_event_input_next != null and is_instance_valid(pre_battle_event_input_next) and pre_battle_event_input_next.get_global_rect().has_point(position):
+		if pre_battle_event_advance.is_valid():
+			pre_battle_event_advance.call()
+		return true
+	if pre_battle_event_advance.is_valid():
+		pre_battle_event_advance.call()
+	return true
+
 func _is_story_advance_key_event(event: InputEvent) -> bool:
 	if not event is InputEventKey: return false
 	var key_event := event as InputEventKey
@@ -534,6 +586,7 @@ func _show_screen(screen_id: String) -> void:
 		"HOME": _show_home()
 		"STORY": _show_story()
 		"FORMATION": _show_formation()
+		"RELAY": _show_relay()
 		"STAGE_SELECT": _show_chapter_map()
 		"STAGE_LIST_FALLBACK": _show_stage_select()
 		"STAGE_DETAIL": _show_stage_detail()
@@ -855,18 +908,32 @@ func _show_title() -> void:
 	stage.clip_contents = true
 	content.add_child(stage)
 	var cast_plate := TextureRect.new()
-	cast_plate.name = "FullBodyCastPlate"
+	cast_plate.name = "TitleBackdropPlate"
 	cast_plate.texture = load("res://assets/art/title/title_cast_plate_portrait_r1.png" if portrait else "res://assets/art/title/title_cast_plate_r1.png") as Texture2D
 	cast_plate.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	cast_plate.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	cast_plate.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	# The legacy portrait plate contains intentionally edge-cropped figures. It
+	# remains as atmospheric scenery, but must not be the readable cast layer on
+	# a narrow screen; the two whole-character plates below own that role.
+	cast_plate.modulate = Color(0.42, 0.48, 0.58, 0.34) if portrait else Color.WHITE
 	cast_plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stage.add_child(cast_plate)
 	var center_scrim := ColorRect.new()
-	center_scrim.color = Color("02071224")
+	center_scrim.color = Color("020712b3") if portrait else Color("02071224")
 	center_scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	center_scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stage.add_child(center_scrim)
+	if portrait:
+		# Keep both lead characters completely inside a 390×844-class safe frame.
+		# Their scale is deliberately subordinate to the start action, while the
+		# equal side insets make the composition survive narrow browser gutters.
+		# The title is a non-combat surface: use the canonical 8-head portraits,
+		# never the legacy compact cards which may contain SD placeholders.
+		var left_cast := _portrait_title_cast_member("PortraitTitleCastLeft", "res://assets/runtime_web/characters/CHR008/portrait.png", false, portrait_scale)
+		stage.add_child(left_cast)
+		var right_cast := _portrait_title_cast_member("PortraitTitleCastRight", "res://assets/runtime_web/characters/CHR001/portrait.png", true, portrait_scale)
+		stage.add_child(right_cast)
 	var logo := TextureRect.new()
 	logo.name = "FantasyTitleLogo"
 	logo.texture = load("res://assets/art/title/title_logo_r1.png") as Texture2D
@@ -905,6 +972,24 @@ func _show_title() -> void:
 	var guide := _label("TAP TO BEGIN" if portrait else "CLICK / TOUCH TO BEGIN", 15 if portrait else 16, Color("d3ad63"))
 	guide.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	cta.add_child(guide)
+
+func _portrait_title_cast_member(node_name: String, texture_path: String, align_right: bool, portrait_scale: float) -> TextureRect:
+	var cast_member := TextureRect.new()
+	cast_member.name = node_name
+	cast_member.texture = load(texture_path) as Texture2D
+	cast_member.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	cast_member.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	# 126×252 CSS px intentionally fits an entire 2:3 character with a 12px
+	# exterior safety inset. The CTA remains the central, unobstructed action.
+	cast_member.size = Vector2(126.0, 252.0) * portrait_scale
+	cast_member.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT if align_right else Control.PRESET_BOTTOM_LEFT)
+	cast_member.position = Vector2(
+		-(cast_member.size.x + 12.0 * portrait_scale) if align_right else 12.0 * portrait_scale,
+		-(cast_member.size.y + 14.0 * portrait_scale)
+	)
+	cast_member.modulate = Color(1.0, 1.0, 1.0, 0.94)
+	cast_member.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return cast_member
 
 func _start_title_flow() -> void:
 	AppState.profile.tutorial_progress.title_seen = true
@@ -967,6 +1052,7 @@ func _show_home() -> void:
 	var menu_height := 72.0 if portrait else 108.0
 	menu.add_child(_button("메인 스토리", func(): AppState.active_scenario_id = "SCN_PROLOGUE"; SceneRouter.go("STORY", {"after": "HOME"}), false, Vector2(235, menu_height)))
 	menu.add_child(_button("챕터 / 스테이지", func(): SceneRouter.go("STAGE_SELECT"), false, Vector2(235, menu_height)))
+	menu.add_child(_button("릴레이 작전", func(): SceneRouter.go("RELAY"), false, Vector2(235, menu_height)))
 	menu.add_child(_button("파티 편성", func(): SceneRouter.go("FORMATION"), false, Vector2(235, menu_height)))
 	menu.add_child(_button("캐릭터 / 성장", func(): SceneRouter.go("ROSTER"), false, Vector2(235, menu_height)))
 	menu.add_child(_button("인벤토리", func(): SceneRouter.go("INVENTORY"), false, Vector2(235, menu_height)))
@@ -999,6 +1085,129 @@ func _show_home() -> void:
 	for character_id in AppState.get_party():
 		party_names.append(_display_character_name(str(character_id)))
 	row.add_child(_label("현재 파티: " + ", ".join(party_names), 18, Color("8ba8c8")))
+
+func _show_relay() -> void:
+	AudioService.play_bgm("audio_bgm_lobby")
+	var specification := RelayServiceScript.first_spec()
+	if specification.is_empty():
+		_title("릴레이 작전", "계약 데이터가 없습니다.")
+		content.add_child(_label("릴레이 계약 데이터 검증 실패", 24, Color("ff7f8a")))
+		return
+	var relay_id := str(specification.get("id", ""))
+	var active := RelayServiceScript.active_run(AppState.profile)
+	_title("삼중 노선 릴레이", str(specification.get("subtitle", "기존 전투를 연속 작전으로 재구성합니다.")))
+	var scroll := _scroll_box()
+	if not active.is_empty():
+		_show_relay_active_run(scroll, specification, active)
+		return
+	_show_relay_draft(scroll, specification)
+	var completion := RelayServiceScript.completion_summary(AppState.profile, relay_id)
+	if not completion.is_empty():
+		var completed_box := _panel_box(scroll)
+		completed_box.add_child(_label("완료 기록  ·  최고 등급 %s  ·  완주 %d회" % [str(completion.get("best_grade", "B")), int(completion.get("runs_completed", 0))], 22, Color("9cf2df")))
+		completed_box.add_child(_label("첫 완주 보상은 한 번만 지급됩니다. 재도전은 편성·기록 갱신용입니다.", 17, Color("9fb2ca")))
+
+func _show_relay_draft(parent: VBoxContainer, specification: Dictionary) -> void:
+	var unlocked_count := RelayServiceScript.unlocked_character_ids(AppState.profile).size()
+	var draft_box := _panel_box(parent)
+	draft_box.add_child(_label("계약 편성  ·  해금 동료 %d / 15명 필요" % unlocked_count, 25, Color("f1d77a")))
+	draft_box.add_child(_label("세 부대의 15명은 전부 달라야 합니다. 각 구간 승리 후 그 부대는 잠기며, 패배하면 현재 구간만 다시 도전합니다.", 18, Color("cdd9e9")))
+	var quick_actions := HBoxContainer.new()
+	draft_box.add_child(quick_actions)
+	quick_actions.add_child(_button("15명 자동 편성", func():
+		if RelayServiceScript.autofill_draft(AppState.profile):
+			SaveService.save_game()
+			_show_screen("RELAY")
+		else:
+			footer_status.text = "릴레이에는 해금 동료 15명이 필요합니다."
+	, unlocked_count < 15, Vector2(230, 58)))
+	quick_actions.add_child(_button("편성 초기화", func():
+		AppState.profile.relay.draft_squads = [[], [], []]
+		SaveService.save_game()
+		_show_screen("RELAY")
+	, false, Vector2(190, 58)))
+	var squads := RelayServiceScript.draft_squads(AppState.profile)
+	for squad_index in range(RelayServiceScript.SQUAD_COUNT):
+		var squad_box := _panel_box(parent)
+		var selected_mark := "  ◀ 선택" if relay_edit_squad == squad_index else ""
+		squad_box.add_child(_label("%d부대%s" % [squad_index + 1, selected_mark], 23, Color("78e6d0") if relay_edit_squad == squad_index else Color("a8b7ff")))
+		var slots := GridContainer.new()
+		slots.columns = 1 if _is_portrait_layout() else 5
+		squad_box.add_child(slots)
+		var squad: Array = squads[squad_index]
+		for slot_index in range(RelayServiceScript.SQUAD_SIZE):
+			var character_id := str(squad[slot_index]) if slot_index < squad.size() else ""
+			var character := DataRegistry.character(character_id)
+			var slot_text := "SLOT %d\n%s" % [slot_index + 1, _display_character_name(character_id) if not character.is_empty() else "선택 필요"]
+			var is_selected := relay_edit_squad == squad_index and relay_edit_slot == slot_index
+			slots.add_child(_button(slot_text, func(s := squad_index, p := slot_index): relay_edit_squad = s; relay_edit_slot = p; _show_screen("RELAY"), false, Vector2(180, 76)))
+	var roster_box := _panel_box(parent)
+	roster_box.add_child(_label("%d부대 · 슬롯 %d 선택" % [relay_edit_squad + 1, relay_edit_slot + 1], 22, Color("f1d77a")))
+	roster_box.add_child(_label("이미 다른 릴레이 부대에 있는 동료를 선택하면 그 기존 슬롯은 비워집니다.", 17, Color("9fb2ca")))
+	var roster_grid := GridContainer.new()
+	roster_grid.columns = 2 if _is_portrait_layout() else 5
+	roster_box.add_child(roster_grid)
+	for character_id in RelayServiceScript.unlocked_character_ids(AppState.profile):
+		var character := DataRegistry.character(character_id)
+		roster_grid.add_child(_button("%s\n%s · %s" % [_display_character_name(character_id), str(character.get("role", "")), str(character.get("preferred_position", ""))], func(value := character_id):
+			RelayServiceScript.set_draft_member(AppState.profile, relay_edit_squad, relay_edit_slot, value)
+			SaveService.save_game()
+			_show_screen("RELAY")
+		, false, Vector2(190, 74)))
+	var validation := RelayServiceScript.validate_squads(AppState.profile, squads)
+	var ready := validation.is_empty()
+	var start_box := _panel_box(parent)
+	start_box.add_child(_label("계약 보상  ·  " + _format_counts(specification.get("completion_rewards", {}), false), 20, Color("9cf2df")))
+	if not ready:
+		start_box.add_child(_label("시작 조건: " + ", ".join(validation), 17, Color("ffbd7a")))
+	var start := _button("릴레이 시작  ·  3개 구간", func(): _start_relay_contract(str(specification.get("id", ""))), not ready, Vector2(340, 72))
+	_make_primary_button(start)
+	start_box.add_child(start)
+
+func _show_relay_active_run(parent: VBoxContainer, specification: Dictionary, run: Dictionary) -> void:
+	var segment_index := int(run.get("segment_index", 0))
+	var stage_ids: Array = specification.get("stage_ids", [])
+	var progress_box := _panel_box(parent)
+	progress_box.add_child(_label("작전 진행  ·  구간 %d / %d" % [segment_index + 1, stage_ids.size()], 27, Color("f1d77a")))
+	progress_box.add_child(_label("현재 구간은 %s입니다. 앞선 승리 부대는 고정되며 이 화면을 닫거나 새로고침해도 저장됩니다." % _stage_display_name(RelayServiceScript.current_stage_id(AppState.profile)), 19, Color("cdd9e9")))
+	var squads: Array = run.get("squads", [])
+	var results: Array = run.get("segment_results", [])
+	for squad_index in range(RelayServiceScript.SQUAD_COUNT):
+		var squad_box := _panel_box(parent)
+		var status := "현재 출전" if squad_index == segment_index else ("구간 완료 · 잠김" if squad_index < results.size() else "대기")
+		squad_box.add_child(_label("%d부대 · %s" % [squad_index + 1, status], 22, Color("78e6d0") if squad_index == segment_index else Color("a8b7ff")))
+		var names: Array[String] = []
+		if squad_index < squads.size() and squads[squad_index] is Array:
+			for character_id_value in squads[squad_index]: names.append(_display_character_name(str(character_id_value)))
+		squad_box.add_child(_label(" · ".join(names), 18, Color("e8f3ff")))
+		if squad_index < results.size():
+			var result: Dictionary = results[squad_index]
+			squad_box.add_child(_label("승리 · %.1f초 · 생존 %d" % [float(result.get("time", 0.0)), int(result.get("survivors", 0))], 16, Color("9cf2df")))
+	var actions := HBoxContainer.new()
+	parent.add_child(actions)
+	var begin := _button("현재 구간 전투 시작", _request_relay_battle_start, false, Vector2(300, 72))
+	_make_primary_button(begin)
+	actions.add_child(begin)
+	actions.add_child(_button("계약 포기", func(): RelayServiceScript.cancel(AppState.profile); SaveService.save_game(); _show_screen("RELAY"), false, Vector2(190, 72)))
+
+func _start_relay_contract(relay_id: String) -> void:
+	var started := RelayServiceScript.start(AppState.profile, relay_id, AppState.battle_seed + Time.get_ticks_msec())
+	if not bool(started.get("ok", false)):
+		footer_status.text = "릴레이 시작 실패: %s" % str(started.get("error", "UNKNOWN"))
+		return
+	SaveService.save_game()
+	_show_screen("RELAY")
+
+func _request_relay_battle_start() -> void:
+	if battle_transition_active or not AppState.relay_active():
+		return
+	var stage_id := AppState.relay_current_stage_id()
+	if stage_id.is_empty() or AppState.relay_current_squad().size() != RelayServiceScript.SQUAD_SIZE:
+		footer_status.text = "릴레이 저장 상태가 유효하지 않습니다."
+		return
+	AppState.selected_stage_id = stage_id
+	battle_transition_active = true
+	SceneRouter.go("BATTLE")
 
 func _show_story(reuse_runtime_state := false) -> void:
 	AudioService.play_bgm("audio_bgm_story")
@@ -1495,6 +1704,15 @@ func result_header_data(report: Dictionary) -> Dictionary:
 		"MAP_EVENT":
 			title = "탐색 결과"
 			subtitle = "탐색 기록 완료"
+		"RELAY":
+			title = "릴레이 구간 결과"
+			var relay: Dictionary = report.get("relay", {})
+			if bool(relay.get("completed", false)):
+				subtitle = "계약 완주 · 등급 %s" % str(relay.get("grade", "B"))
+			elif bool(relay.get("retry", false)):
+				subtitle = "현재 구간 재도전 가능"
+			else:
+				subtitle = "다음 구간으로 편성 잠금 유지"
 	if SettingsService.is_developer_mode() and not source_id.is_empty():
 		subtitle += " · [%s]" % source_id
 	return {"title": title, "subtitle": subtitle}
@@ -1957,6 +2175,16 @@ func _play_map_battle_transition() -> void:
 	focus.modulate = Color("7cebd000")
 	focus.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	veil.add_child(focus)
+	# A ! contact is an authored event, not a decorative 1.85-second title card.
+	# Its dialogue window owns input until the player chooses Next or Skip, then
+	# hands off exactly once to the already-created battle transaction.  The
+	# payload remains read-only presentation data: recruitment, rewards, and the
+	# event-complete flag still belong exclusively to the victory resolver.
+	if not special_event.is_empty():
+		await _play_special_event_dialogue(veil, special_event, focus)
+		veil.queue_free()
+		SceneRouter.go("BATTLE")
+		return
 	var boss_card: PanelContainer
 	if str(encounter_presentation.get("transition_style", "")) == "BOSS":
 		# This is an original signal-readout card, not a copied reference layout.
@@ -2137,15 +2365,333 @@ func _play_map_battle_transition() -> void:
 	veil.queue_free()
 	SceneRouter.go("BATTLE")
 
+func _event_dialogue_speaker_name(page: Dictionary) -> String:
+	var speaker_kind := str(page.get("speaker_kind", "COMMAND"))
+	var speaker_id := str(page.get("speaker_id", ""))
+	if speaker_kind == "COMPANION":
+		return _display_character_name(speaker_id)
+	if speaker_kind == "ENEMY":
+		var enemy := DataRegistry.enemy(speaker_id)
+		return LocalizationService.tr_key(str(enemy.get("name_key", speaker_id))) if not enemy.is_empty() else LocalizationService.tr_key("MAP_EVENT_ENEMY_SIGNAL_NAME")
+	return LocalizationService.tr_key("MAP_EVENT_COMMAND_NAME")
+
+func _play_special_event_dialogue(veil: ColorRect, special_event: Dictionary, focus: Label) -> void:
+	var dialogue: Array = special_event.get("pre_battle_dialogue", [])
+	if dialogue.is_empty():
+		dialogue = [
+			{"speaker_kind": "COMMAND", "speaker_id": "", "text_key": str(special_event.get("body_key", "MAP_EVENT_DEFAULT_BODY"))},
+			{"speaker_kind": "COMMAND", "speaker_id": "", "text_key": str(special_event.get("contact_outcome_key", "MAP_EVENT_DEFAULT_BODY"))},
+		]
+	var panel := PanelContainer.new()
+	panel.name = "PreBattleEventDialog"
+	panel.set_anchors_preset(Control.PRESET_CENTER)
+	var portrait_layout := _is_portrait_layout()
+	# The encounter is staged as a dialogue scene, not a centered text alert:
+	# a permanent left key-visual identifies the companion/special enemy while
+	# every command page continues on the right.  Keeping this art visible on
+	# command pages prevents the familiar VN problem where the player loses
+	# track of who the event is about between narration lines.
+	# This is the one high-attention surface in the map flow.  Treat it as a
+	# compact tactical briefing, not a legacy message box: the portrait gets a
+	# stable editorial column, the narrative owns the reading column, and the
+	# consequence plus the primary action remain visible without competing.
+	# Portrait keeps the same two-column encounter grammar, but it needs enough
+	# vertical room for a readable Korean paragraph and the 56px touch controls.
+	# This height is intentionally calculated against the expanded mobile canvas;
+	# it prevents children from spilling below the modal on a 390×844 class phone.
+	var panel_size := Vector2(1690, 1720) if portrait_layout else Vector2(1500, 750)
+	panel.position = Vector2(-845, -860) if portrait_layout else Vector2(-750, -375)
+	panel.size = panel_size
+	panel.custom_minimum_size = panel_size
+	panel.modulate = Color(1.0, 1.0, 1.0, 0.0)
+	# The event dialog is a modal interaction surface.  Explicit input filters
+	# keep its full copy/key-visual area tappable on Web while allowing the two
+	# bottom controls to remain ordinary Buttons.
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color("08121ff8")
+	panel_style.border_color = Color("89ecd9")
+	panel_style.set_border_width_all(2)
+	panel_style.shadow_color = Color("02050bcf")
+	panel_style.shadow_size = 20
+	panel_style.shadow_offset = Vector2(0, 10)
+	panel_style.set_corner_radius_all(18)
+	panel_style.content_margin_left = 42
+	panel_style.content_margin_right = 42
+	panel_style.content_margin_top = 30
+	panel_style.content_margin_bottom = 28
+	panel.add_theme_stylebox_override("panel", panel_style)
+	veil.add_child(panel)
+	var layout := VBoxContainer.new()
+	layout.mouse_filter = Control.MOUSE_FILTER_PASS
+	layout.add_theme_constant_override("separation", 14)
+	panel.add_child(layout)
+	var header := HBoxContainer.new()
+	header.mouse_filter = Control.MOUSE_FILTER_PASS
+	header.add_theme_constant_override("separation", 18)
+	layout.add_child(header)
+	var signal_badge := PanelContainer.new()
+	signal_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var signal_badge_style := StyleBoxFlat.new()
+	signal_badge_style.bg_color = Color("113344")
+	signal_badge_style.border_color = Color("4fd9c2")
+	signal_badge_style.set_border_width_all(1)
+	signal_badge_style.set_corner_radius_all(7)
+	signal_badge_style.content_margin_left = 14
+	signal_badge_style.content_margin_right = 14
+	signal_badge_style.content_margin_top = 7
+	signal_badge_style.content_margin_bottom = 7
+	signal_badge.add_theme_stylebox_override("panel", signal_badge_style)
+	signal_badge.custom_minimum_size = Vector2(310 if portrait_layout else 230, 0)
+	header.add_child(signal_badge)
+	var contact_signal := _label(LocalizationService.tr_key("MAP_EVENT_CONTACT_SIGNAL"), 21 if not portrait_layout else 25, Color("9df5e4"))
+	contact_signal.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	contact_signal.add_theme_font_override("font", _story_weighted_font(650, 0.25))
+	signal_badge.add_child(contact_signal)
+	var header_spacer := Control.new()
+	header_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(header_spacer)
+	var page_counter := _label("", 21 if not portrait_layout else 25, Color("cce6ec"))
+	page_counter.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	page_counter.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	page_counter.add_theme_font_override("font", _story_weighted_font(600, 0.15))
+	header.add_child(page_counter)
+	var title := _label(LocalizationService.tr_key(str(special_event.get("title_key", "MAP_EVENT_DEFAULT_TITLE"))), 46 if not portrait_layout else 52, Color("ffe1a0"))
+	title.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	title.add_theme_font_override("font", _story_weighted_font(720, 0.35))
+	title.add_theme_constant_override("line_spacing", 2)
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	layout.add_child(title)
+	var main_row := HBoxContainer.new()
+	main_row.mouse_filter = Control.MOUSE_FILTER_PASS
+	main_row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	main_row.add_theme_constant_override("separation", 34)
+	layout.add_child(main_row)
+	var portrait_frame := PanelContainer.new()
+	portrait_frame.name = "EventKeyVisual"
+	portrait_frame.mouse_filter = Control.MOUSE_FILTER_PASS
+	portrait_frame.custom_minimum_size = Vector2(460, 440) if portrait_layout else Vector2(398, 380)
+	var portrait_style := StyleBoxFlat.new()
+	portrait_style.bg_color = Color("061925")
+	portrait_style.border_color = Color("4ed2bf")
+	portrait_style.set_border_width_all(1)
+	portrait_style.set_corner_radius_all(12)
+	portrait_style.content_margin_left = 12
+	portrait_style.content_margin_right = 12
+	portrait_style.content_margin_top = 12
+	portrait_style.content_margin_bottom = 12
+	portrait_frame.add_theme_stylebox_override("panel", portrait_style)
+	main_row.add_child(portrait_frame)
+	var copy := VBoxContainer.new()
+	copy.mouse_filter = Control.MOUSE_FILTER_PASS
+	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	copy.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	copy.add_theme_constant_override("separation", 16)
+	main_row.add_child(copy)
+	var speaker_label := _label("", 29 if not portrait_layout else 35, Color("91f5df"))
+	speaker_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	speaker_label.add_theme_font_override("font", _story_weighted_font(650, 0.25))
+	copy.add_child(speaker_label)
+	var dialogue_label := _label("", 36 if not portrait_layout else 42, Color("f7fbff"))
+	dialogue_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	dialogue_label.add_theme_font_override("font", _story_weighted_font(510, 0.08))
+	dialogue_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	dialogue_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	dialogue_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	dialogue_label.add_theme_constant_override("line_spacing", 12)
+	dialogue_label.add_theme_constant_override("outline_size", 1)
+	dialogue_label.add_theme_color_override("font_outline_color", Color("08101b"))
+	copy.add_child(dialogue_label)
+	var outcome_panel := PanelContainer.new()
+	outcome_panel.name = "PreBattleEventOutcomeBand"
+	outcome_panel.mouse_filter = Control.MOUSE_FILTER_PASS
+	outcome_panel.custom_minimum_size = Vector2(0, 88 if not portrait_layout else 106)
+	var outcome_style := StyleBoxFlat.new()
+	outcome_style.bg_color = Color("0b2b35")
+	outcome_style.border_color = Color("4ecab7")
+	outcome_style.set_border_width_all(1)
+	outcome_style.set_corner_radius_all(12)
+	outcome_style.content_margin_left = 22
+	outcome_style.content_margin_right = 22
+	outcome_style.content_margin_top = 8
+	outcome_style.content_margin_bottom = 8
+	outcome_panel.add_theme_stylebox_override("panel", outcome_style)
+	layout.add_child(outcome_panel)
+	var outcome := _label(LocalizationService.tr_key(str(special_event.get("contact_outcome_key", "MAP_EVENT_DEFAULT_BODY"))), 25 if not portrait_layout else 30, Color("edfffb"))
+	outcome.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	outcome.add_theme_font_override("font", _story_weighted_font(590, 0.15))
+	outcome.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	outcome.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	outcome.add_theme_constant_override("outline_size", 1)
+	outcome.add_theme_color_override("font_outline_color", Color("103f48"))
+	outcome_panel.add_child(outcome)
+	var controls: BoxContainer = VBoxContainer.new() if portrait_layout else HBoxContainer.new()
+	controls.mouse_filter = Control.MOUSE_FILTER_PASS
+	controls.alignment = BoxContainer.ALIGNMENT_END
+	controls.add_theme_constant_override("separation", 16)
+	layout.add_child(controls)
+	var hint := _label(LocalizationService.tr_key("MAP_EVENT_DIALOGUE_HINT"), 20 if not portrait_layout else 24, Color("b8d7dd"))
+	hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	controls.add_child(hint)
+	var skip_button := _button(LocalizationService.tr_key("MAP_EVENT_DIALOGUE_SKIP"), func() -> void: pass, false, Vector2(220 if not portrait_layout else 276, 72 if not portrait_layout else 86))
+	skip_button.name = "EventDialogueSkip"
+	skip_button.add_theme_font_override("font", _story_weighted_font(620, 0.18))
+	skip_button.add_theme_font_size_override("font_size", _story_logical_px(17.0) if portrait_layout else 23)
+	var skip_normal := StyleBoxFlat.new()
+	skip_normal.bg_color = Color("132435")
+	skip_normal.border_color = Color("6b9ead")
+	skip_normal.set_border_width_all(1)
+	skip_normal.set_corner_radius_all(9)
+	var skip_hover := skip_normal.duplicate()
+	skip_hover.bg_color = Color("1d3b50")
+	skip_button.add_theme_stylebox_override("normal", skip_normal)
+	skip_button.add_theme_stylebox_override("hover", skip_hover)
+	skip_button.add_theme_stylebox_override("pressed", skip_hover)
+	skip_button.add_theme_color_override("font_color", Color("e2f3f4"))
+	var next_button := _button(LocalizationService.tr_key("MAP_EVENT_DIALOGUE_NEXT"), func() -> void: pass, false, Vector2(214 if not portrait_layout else 264, 72 if not portrait_layout else 86))
+	next_button.name = "EventDialogueNext"
+	next_button.add_theme_font_override("font", _story_weighted_font(700, 0.30))
+	next_button.add_theme_font_size_override("font_size", _story_logical_px(18.0) if portrait_layout else 24)
+	_make_primary_button(next_button)
+	if portrait_layout:
+		# `_button` raises generic portrait controls to the full touch target on
+		# both axes.  In this paired action row we preserve the touch height while
+		# setting two truthful, side-by-side widths that leave the dialogue hint
+		# readable above them.
+		skip_button.custom_minimum_size = Vector2(_story_logical_px(112.0), _story_logical_px(56.0))
+		next_button.custom_minimum_size = Vector2(_story_logical_px(132.0), _story_logical_px(56.0))
+		var action_row := HBoxContainer.new()
+		action_row.alignment = BoxContainer.ALIGNMENT_END
+		action_row.add_theme_constant_override("separation", _story_logical_px(10.0))
+		action_row.add_child(skip_button)
+		action_row.add_child(next_button)
+		controls.add_child(action_row)
+	else:
+		controls.add_child(skip_button)
+		controls.add_child(next_button)
+	var page_index := 0
+	var resolved := false
+	var update_page: Callable
+	var advance_page: Callable
+	update_page = func() -> void:
+		var page_value: Variant = dialogue[clampi(page_index, 0, dialogue.size() - 1)]
+		var page: Dictionary = page_value if page_value is Dictionary else {}
+		speaker_label.text = _event_dialogue_speaker_name(page)
+		dialogue_label.text = LocalizationService.tr_key(str(page.get("text_key", special_event.get("body_key", "MAP_EVENT_DEFAULT_BODY"))))
+		page_counter.text = "%d / %d" % [page_index + 1, dialogue.size()]
+		next_button.text = LocalizationService.tr_key("MAP_EVENT_DIALOGUE_BATTLE") if page_index >= dialogue.size() - 1 else LocalizationService.tr_key("MAP_EVENT_DIALOGUE_NEXT")
+		for child in portrait_frame.get_children():
+			child.free()
+		var speaker_kind := str(page.get("speaker_kind", "COMMAND"))
+		var event_kind := str(special_event.get("event_kind", "COMPANION"))
+		var key_visual_added := false
+		if event_kind == "COMPANION":
+			var character := DataRegistry.character(str(special_event.get("character_id", "")))
+			if not character.is_empty():
+				# Non-combat contacts always use the established 8-head standing
+				# art.  COVERED makes the framed presentation a half-body crop
+				# without fabricating a second character variant.
+				# Keep the character's face and silhouette intact.  The former COVERED
+				# crop was visually forceful but could cut a head or hair detail; this
+				# briefing frame deliberately preserves a readable 8-head portrait.
+				var character_art := _art_rect(str(character.get("portrait_asset_id", "")), Vector2(436, 416) if portrait_layout else Vector2(374, 356), TextureRect.STRETCH_KEEP_ASPECT_CENTERED)
+				# `_art_rect` normally scales a standalone portrait for a mobile card.
+				# This event frame is already size-governed, so applying that scale here
+				# made it consume the whole horizontal row and collapsed the dialogue.
+				character_art.custom_minimum_size = Vector2(436, 416) if portrait_layout else Vector2(374, 356)
+				portrait_frame.add_child(character_art)
+				key_visual_added = true
+		elif event_kind == "SPECIAL_ENEMY":
+			var enemy := DataRegistry.enemy(str(special_event.get("enemy_id", "")))
+			if not enemy.is_empty():
+				# Special enemies deliberately use their registered combat preview:
+				# this keeps the map contact, warning marker, and coming battle
+				# recognisably about the same enemy rather than a generic icon.
+				var enemy_art := _art_rect(str(enemy.get("asset_id", "")), Vector2(436, 416) if portrait_layout else Vector2(374, 356), TextureRect.STRETCH_KEEP_ASPECT_CENTERED)
+				enemy_art.custom_minimum_size = Vector2(436, 416) if portrait_layout else Vector2(374, 356)
+				portrait_frame.add_child(enemy_art)
+				key_visual_added = true
+		if not key_visual_added:
+			var threat_glyph := _label("!", 144 if portrait_layout else 116, Color("ffb77a") if speaker_kind == "ENEMY" else Color("79ecda"))
+			threat_glyph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			threat_glyph.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+			portrait_frame.add_child(threat_glyph)
+	update_page.call()
+	advance_page = func() -> void:
+		if page_index < dialogue.size() - 1:
+			page_index += 1
+			update_page.call()
+		else:
+			resolved = true
+	skip_button.pressed.connect(func() -> void: resolved = true)
+	next_button.pressed.connect(advance_page)
+	pre_battle_event_input_panel = panel
+	pre_battle_event_input_next = next_button
+	pre_battle_event_input_skip = skip_button
+	pre_battle_event_advance = advance_page
+	pre_battle_event_resolve = func() -> void: resolved = true
+	pre_battle_event_input_active = true
+	# The whole event body is a VN-like advance target. Buttons keep their own
+	# input, while clicking/tapping any empty dialogue or key-visual area follows
+	# the same single advancement path as Next.  Skip remains intentionally
+	# separate: it resolves presentation only and never commits event rewards.
+	panel.gui_input.connect(func(event: InputEvent) -> void:
+		var clicked: bool = event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT
+		var touched: bool = event is InputEventScreenTouch and event.pressed
+		if clicked or touched:
+			_handle_pre_battle_event_input(event.position)
+			panel.accept_event()
+	)
+	var intro := create_tween()
+	intro.tween_property(veil, "color", Color("06101cf4"), 0.12)
+	intro.parallel().tween_property(focus, "modulate", Color("fff0c8"), 0.12)
+	intro.parallel().tween_property(panel, "modulate", Color.WHITE, 0.12)
+	await intro.finished
+	focus.visible = false
+	while not resolved:
+		await get_tree().process_frame
+	pre_battle_event_input_active = false
+	pre_battle_event_input_panel = null
+	pre_battle_event_input_next = null
+	pre_battle_event_input_skip = null
+	pre_battle_event_advance = Callable()
+	pre_battle_event_resolve = Callable()
+	var outro := create_tween()
+	outro.tween_property(panel, "modulate", Color("ffffff00"), 0.10)
+	outro.parallel().tween_property(veil, "color", Color("06101c00"), 0.10)
+	await outro.finished
+
 func _show_battle() -> void:
 	battle_transition_active = false
 	var stage := DataRegistry.stage(AppState.selected_stage_id)
 	AudioService.play_bgm("audio_bgm_boss" if bool(stage.boss) else "audio_bgm_battle")
 	var simulation := BattleSimulation.new()
-	simulation.setup(AppState.create_party_snapshot(), stage, AppState.battle_seed, DataRegistry.data, AppState.effective_battle_debug_options())
+	# Both party providers return an untyped Variant Array at runtime.  Assigning
+	# that directly to the typed Array[String] fails in the Web/portrait battle
+	# path before BattleView is instantiated, leaving only the background/BGM.
+	# Normalize each stable ID explicitly so entry cannot blank the whole screen.
+	battle_party_ids.clear()
+	var selected_party_ids: Array = AppState.relay_current_squad() if AppState.relay_active() else AppState.get_party()
+	for party_id_value in selected_party_ids:
+		battle_party_ids.append(str(party_id_value))
+	var party_snapshot := AppState.relay_party_snapshot() if AppState.relay_active() else AppState.create_party_snapshot()
+	if party_snapshot.size() != 5:
+		footer_status.text = "전투 편성 데이터가 유효하지 않습니다."
+		SceneRouter.go("RELAY" if AppState.relay_active() else "FORMATION")
+		return
+	simulation.setup(party_snapshot, stage, AppState.battle_seed, DataRegistry.data, AppState.effective_battle_debug_options())
 	simulation.auto_enabled = bool(SettingsService.values.battle_auto)
 	battle_view = BattleViewScene.instantiate()
+	# BattleView is a canvas-drawn Control.  A VBoxContainer only grants it the
+	# full combat width when it participates in the horizontal expand contract;
+	# vertical expansion alone can collapse its draw rect to zero on a narrow Web
+	# viewport, leaving only the lobby background and active BGM.  Keep it as one
+	# full-width responsive battlefield on both desktop and portrait mobile.
+	battle_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	battle_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	battle_view.custom_minimum_size = Vector2(0.0, 420.0)
 	battle_view.setup(simulation)
 	battle_view.speed = int(SettingsService.values.battle_speed)
 	battle_view.battle_finished.connect(_battle_finished)
@@ -2384,6 +2930,9 @@ func _compact_number(value: int) -> String:
 	return str(value)
 
 func _battle_finished(result: Dictionary) -> void:
+	if AppState.relay_active():
+		_relay_battle_finished(result)
+		return
 	last_battle_result = result
 	last_rewards = {}
 	last_reward_report = {}
@@ -2429,7 +2978,47 @@ func _battle_finished(result: Dictionary) -> void:
 	SaveService.save_game()
 	SceneRouter.go("RESULT")
 
+func _relay_battle_finished(result: Dictionary) -> void:
+	last_battle_result = result.duplicate(true)
+	last_rewards = {}
+	last_reward_report = {}
+	var pre_profile := AppState.profile.duplicate(true)
+	var relay_id := str(RelayServiceScript.active_run(AppState.profile).get("relay_id", ""))
+	var outcome := RelayServiceScript.record_segment_result(AppState.profile, result)
+	if not bool(outcome.get("ok", false)):
+		footer_status.text = "릴레이 결과 반영 실패: %s" % str(outcome.get("error", "UNKNOWN"))
+		SceneRouter.go("RELAY")
+		return
+	if bool(result.get("victory", false)):
+		for character_id in battle_party_ids:
+			RelationshipService.grant(character_id, 10)
+	last_rewards = (outcome.get("rewards", {}) as Dictionary).duplicate(true)
+	var post_profile := AppState.profile.duplicate(true)
+	last_reward_report = {
+		"source_type": "RELAY",
+		"source_id": relay_id,
+		"rewards": last_rewards.duplicate(true),
+		"pre_inventory": pre_profile.get("inventory", {}).duplicate(true),
+		"post_inventory": post_profile.get("inventory", {}).duplicate(true),
+		"growth": GrowthAffordabilityAnalyzerScript.analyze(pre_profile, post_profile),
+		"relay": {
+			"victory": bool(result.get("victory", false)),
+			"retry": bool(outcome.get("retry", false)),
+			"advanced": bool(outcome.get("advanced", false)),
+			"completed": bool(outcome.get("completed", false)),
+			"first_completion": bool(outcome.get("first_completion", false)),
+			"grade": str(outcome.get("grade", "")),
+			"next_segment": int(outcome.get("segment_index", -1)) + 1,
+		},
+	}
+	SaveService.save_game()
+	SceneRouter.go("RESULT")
+
 func _abandon_battle() -> void:
+	if AppState.relay_active():
+		SaveService.save_game()
+		SceneRouter.go("RELAY")
+		return
 	AppState.abandon_pending_map_encounter(AppState.map_id_for_stage(AppState.selected_stage_id))
 	SaveService.save_game()
 	SceneRouter.go("STAGE_SELECT")
@@ -2732,8 +3321,6 @@ func _newly_unlocked_stage_ids(pre_profile: Dictionary, post_profile: Dictionary
 
 func _add_progress_unlock_summary(parent: VBoxContainer, font_size: int) -> void:
 	var progress: Dictionary = last_reward_report.get("progress", {})
-	if progress.is_empty():
-		return
 	var lines: Array[String] = []
 	if bool(progress.get("first_clear", false)):
 		lines.append("첫 클리어 기록 완료")
@@ -2764,9 +3351,181 @@ func _add_progress_unlock_summary(parent: VBoxContainer, font_size: int) -> void
 		lines.append("이어지는 이야기 · %s" % (LocalizationService.tr_key(title_key) if not title_key.is_empty() else LocalizationService.tr_key("UI_STORY_TITLE")))
 	if not lines.is_empty():
 		_reward_summary_card(parent, "진행 변화\n" + "\n".join(lines), font_size)
+	var relay: Dictionary = last_reward_report.get("relay", {})
+	if not relay.is_empty():
+		var relay_lines: Array[String] = []
+		if bool(relay.get("retry", false)):
+			relay_lines.append("현재 구간 패배 · 앞선 구간 승리와 부대 잠금은 유지됩니다.")
+		elif bool(relay.get("completed", false)):
+			relay_lines.append("계약 완주 · 등급 %s" % str(relay.get("grade", "B")))
+			relay_lines.append("첫 완주 보상 지급" if bool(relay.get("first_completion", false)) else "재도전 기록 갱신 · 첫 완주 보상은 이미 수령했습니다.")
+		elif bool(relay.get("advanced", false)):
+			relay_lines.append("%d구간 완료 · 다음 부대가 출전합니다." % int(relay.get("next_segment", 0)))
+		if not relay_lines.is_empty():
+			_reward_summary_card(parent, "릴레이 진행\n" + "\n".join(relay_lines), font_size)
 
 func _result_feature_character() -> Dictionary:
-	return result_feature_character_for_report(last_reward_report, AppState.get_party())
+	return result_feature_character_for_report(last_reward_report, battle_party_ids if not battle_party_ids.is_empty() else AppState.get_party())
+
+func _reward_celebration_queue() -> Array[Dictionary]:
+	# Result presentation reads the committed delta only. It cannot call a
+	# reward/recruitment/progression service, so close/skip/rebuild/reload never
+	# turns a visual acknowledgement into a second grant.
+	var entries: Array[Dictionary] = []
+	var progress: Dictionary = last_reward_report.get("progress", {})
+	if bool(last_battle_result.get("victory", false)):
+		entries.append({
+			"kind": "CLEAR",
+			"eyebrow": "FIRST CLEAR" if bool(progress.get("first_clear", false)) else "OPERATION COMPLETE",
+			"title": "첫 작전 클리어 기록" if bool(progress.get("first_clear", false)) else "작전 승리",
+			"body": "승리 기록이 확정되었습니다. 이어지는 획득 보상을 확인하세요.",
+			"character": _result_feature_character(),
+			"accent": Color("9cb8ff"),
+		})
+	# New allies are individual cards and use the actual transition delta. A
+	# deferred contact therefore appears only on the later victory where its
+	# authored recruitment gate is really met.
+	for character_id_value in progress.get("newly_recruited_characters", []):
+		var character := DataRegistry.character(str(character_id_value))
+		if not character.is_empty():
+			entries.append({
+				"kind": "ALLY",
+				"eyebrow": "NEW ALLY JOINED",
+				"title": "%s 합류" % _display_character_name(str(character.get("id", ""))),
+				"body": "동료 계약이 확정되었습니다. 파티·성장 화면에서 바로 편성할 수 있습니다.",
+				"character": character,
+				"accent": Color("ffd77a"),
+			})
+	# Only data-authored RARE/MAJOR item deltas become individual celebration
+	# pages; credit and ordinary consumables stay in the concise reward ledger.
+	var rewards: Dictionary = last_reward_report.get("rewards", last_rewards)
+	var reward_ids: Array = rewards.keys()
+	reward_ids.sort()
+	for item_id_value in reward_ids:
+		var item_id := str(item_id_value)
+		var item := DataRegistry.by_id("items", item_id)
+		if str(item.get("presentation_tier", "STANDARD")) not in ["RARE", "MAJOR"]:
+			continue
+		entries.append({
+			"kind": "KEY_ITEM",
+			"eyebrow": "KEY ACQUISITION",
+			"title": _display_item_name(item_id),
+			"body": "%s 등급 전리품  +%s" % [str(item.get("presentation_tier", "RARE")), MathUtil.comma(int(rewards[item_id]))],
+			"character": _result_feature_character(),
+			"accent": Color("81e9d5") if str(item.get("presentation_tier", "")) == "RARE" else Color("ffd77a"),
+		})
+	return entries
+
+func _add_reward_celebration(parent: Node, font_size: int, compact := false) -> void:
+	var celebrations := _reward_celebration_queue()
+	if celebrations.is_empty():
+		return
+	var card := Control.new()
+	card.name = "RewardCelebrationQueue"
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var height := (188.0 if compact else 236.0) * _portrait_ui_scale()
+	card.custom_minimum_size = Vector2(0.0, height)
+	parent.add_child(card)
+	var backdrop := Panel.new()
+	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var card_style := StyleBoxFlat.new()
+	card_style.bg_color = Color("0a2331f2")
+	card_style.border_color = Color("81e9d5")
+	card_style.set_border_width_all(2)
+	card_style.set_corner_radius_all(16)
+	backdrop.add_theme_stylebox_override("panel", card_style)
+	card.add_child(backdrop)
+	# The translucent right-side half-body is a non-interactive presentation
+	# layer. A character-specific card is retained for ally joins; key items use
+	# the actual reporting lead, never a made-up illustration.
+	var art := TextureRect.new()
+	art.name = "RewardCelebrationHalfBodyArt"
+	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	art.set_anchor(SIDE_LEFT, 0.56)
+	art.set_anchor(SIDE_TOP, 0.0)
+	art.set_anchor(SIDE_RIGHT, 1.0)
+	art.set_anchor(SIDE_BOTTOM, 1.0)
+	art.offset_left = -10.0
+	art.offset_top = -height * 0.18
+	art.offset_right = -8.0
+	art.offset_bottom = 0.0
+	art.modulate = Color(1.0, 1.0, 1.0, 0.46)
+	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	card.add_child(art)
+	var copy := VBoxContainer.new()
+	copy.set_anchor(SIDE_LEFT, 0.0)
+	copy.set_anchor(SIDE_TOP, 0.0)
+	copy.set_anchor(SIDE_RIGHT, 0.67)
+	copy.set_anchor(SIDE_BOTTOM, 1.0)
+	copy.offset_left = 22.0
+	copy.offset_top = 17.0
+	copy.offset_right = -6.0
+	copy.offset_bottom = -54.0
+	copy.add_theme_constant_override("separation", 3)
+	card.add_child(copy)
+	var eyebrow := _label("", font_size - 1, Color("81e9d5"))
+	copy.add_child(eyebrow)
+	var title := _label("", font_size + (7 if compact else 10), Color("fff4d4"))
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title.add_theme_constant_override("outline_size", 2)
+	title.add_theme_color_override("font_outline_color", Color("05111d"))
+	copy.add_child(title)
+	var body := _label("", font_size, Color("d8edf3"))
+	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	copy.add_child(body)
+	var controls := HBoxContainer.new()
+	controls.set_anchor(SIDE_LEFT, 0.0)
+	controls.set_anchor(SIDE_TOP, 1.0)
+	controls.set_anchor(SIDE_RIGHT, 0.67)
+	controls.set_anchor(SIDE_BOTTOM, 1.0)
+	controls.offset_left = 18.0
+	controls.offset_top = -46.0
+	controls.offset_right = -8.0
+	controls.offset_bottom = -10.0
+	controls.add_theme_constant_override("separation", 8)
+	card.add_child(controls)
+	var page_counter := _label("", font_size - 2, Color("b8d8e5"))
+	page_counter.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	page_counter.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	controls.add_child(page_counter)
+	var skip_button := _button("보상 스킵", func() -> void: pass, false, Vector2(132 if compact else 152, 42 if compact else 48))
+	skip_button.name = "RewardCelebrationSkip"
+	controls.add_child(skip_button)
+	var next_button := _button("다음", func() -> void: pass, false, Vector2(112 if compact else 132, 42 if compact else 48))
+	next_button.name = "RewardCelebrationNext"
+	controls.add_child(next_button)
+	var queue_index := 0
+	var show_entry: Callable
+	show_entry = func() -> void:
+		var entry: Dictionary = celebrations[queue_index]
+		var accent: Color = entry.get("accent", Color("81e9d5"))
+		card_style.border_color = accent
+		eyebrow.text = str(entry.get("eyebrow", "ACQUISITION"))
+		eyebrow.add_theme_color_override("font_color", accent)
+		title.text = str(entry.get("title", ""))
+		body.text = str(entry.get("body", ""))
+		page_counter.text = "%d / %d" % [queue_index + 1, celebrations.size()]
+		next_button.text = "결과 보기" if queue_index >= celebrations.size() - 1 else "다음"
+		var entry_character: Dictionary = entry.get("character", {})
+		art.texture = _asset_texture(str(entry_character.get("portrait_asset_id", ""))) if not entry_character.is_empty() else null
+		art.visible = art.texture != null
+		card.modulate = Color(1.0, 1.0, 1.0, 0.0)
+		card.scale = Vector2(0.985, 0.985)
+		var reveal := create_tween()
+		reveal.set_parallel(true)
+		reveal.tween_property(card, "modulate", Color.WHITE, 0.14)
+		reveal.tween_property(card, "scale", Vector2.ONE, 0.18)
+	show_entry.call()
+	skip_button.pressed.connect(func() -> void: card.queue_free())
+	next_button.pressed.connect(func() -> void:
+		if queue_index >= celebrations.size() - 1:
+			card.queue_free()
+			return
+		queue_index += 1
+		show_entry.call()
+	)
 
 func result_feature_character_for_report(report: Dictionary, party: Array) -> Dictionary:
 	# A companion-contact victory is a story result as well as a battle result.
@@ -2819,12 +3578,15 @@ func _show_result() -> void:
 	var box := _panel_box(hero)
 	box.add_child(_label("VICTORY" if last_battle_result.get("victory", false) else "DEFEAT", 52, Color("f1d77a") if last_battle_result.get("victory", false) else Color("ff7f8a")))
 	box.add_child(_label("시간 %.2fs  ·  생존 %d" % [last_battle_result.get("time", 0), last_battle_result.get("survivors", 0)], 26))
+	_add_reward_celebration(box, 20)
 	_add_reward_clarity(box, 23)
 	box.add_child(_label("가한 피해\n%s\n\n회복\n%s" % [_format_counts(last_battle_result.get("damage", {})), _format_counts(last_battle_result.get("healing", {}))], 19, Color("cdd5e3")))
 	var actions := HBoxContainer.new()
 	content.add_child(actions)
-	actions.add_child(_button("권장 파티 성장", func(): AppState.selected_character_id = str(AppState.get_party()[0]); SceneRouter.go("GROWTH"), false, Vector2(220, 66)))
-	actions.add_child(_button("챕터 맵으로", func(): SceneRouter.go("STAGE_SELECT"), false, Vector2(220, 66)))
+	var result_is_relay := str(last_reward_report.get("source_type", "")) == "RELAY"
+	var growth_party := battle_party_ids if result_is_relay and not battle_party_ids.is_empty() else AppState.get_party()
+	actions.add_child(_button("권장 파티 성장", func(party := growth_party): AppState.selected_character_id = str(party[0]); SceneRouter.go("GROWTH"), false, Vector2(220, 66)))
+	actions.add_child(_button("릴레이 작전으로" if result_is_relay else "챕터 맵으로", func(): SceneRouter.go("RELAY" if result_is_relay else "STAGE_SELECT"), false, Vector2(220, 66)))
 	actions.add_child(_button("홈", func(): SceneRouter.go("HOME"), false, Vector2(160, 66)))
 
 func _show_result_portrait() -> void:
@@ -2847,6 +3609,7 @@ func _show_result_portrait() -> void:
 	box.add_child(_label("VICTORY" if last_battle_result.get("victory", false) else "DEFEAT", 40, Color("f1d77a") if last_battle_result.get("victory", false) else Color("ff7f8a")))
 	box.add_child(_label("시간 %.2fs  ·  생존 %d" % [last_battle_result.get("time", 0), last_battle_result.get("survivors", 0)], 20))
 	box.add_child(_label("결정론 기록  %s" % str(last_battle_result.get("event_hash", "")).left(16), 14, Color("7e9dbd")))
+	_add_reward_celebration(box, 15, true)
 	_add_reward_clarity(box, 16)
 	box.add_child(_label("가한 피해\n%s\n\n회복\n%s" % [_format_counts(last_battle_result.get("damage", {})), _format_counts(last_battle_result.get("healing", {}))], 15, Color("cdd5e3")))
 	var actions := GridContainer.new()
@@ -2854,8 +3617,10 @@ func _show_result_portrait() -> void:
 	actions.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	actions.add_theme_constant_override("separation", roundi(7.0 * ui_scale))
 	content.add_child(actions)
-	actions.add_child(_button("권장 파티 성장", func(): AppState.selected_character_id = str(AppState.get_party()[0]); SceneRouter.go("GROWTH"), false, Vector2(320, 52)))
-	actions.add_child(_button("챕터 맵으로", func(): SceneRouter.go("STAGE_SELECT"), false, Vector2(320, 52)))
+	var result_is_relay := str(last_reward_report.get("source_type", "")) == "RELAY"
+	var growth_party := battle_party_ids if result_is_relay and not battle_party_ids.is_empty() else AppState.get_party()
+	actions.add_child(_button("권장 파티 성장", func(party := growth_party): AppState.selected_character_id = str(party[0]); SceneRouter.go("GROWTH"), false, Vector2(320, 52)))
+	actions.add_child(_button("릴레이 작전으로" if result_is_relay else "챕터 맵으로", func(): SceneRouter.go("RELAY" if result_is_relay else "STAGE_SELECT"), false, Vector2(320, 52)))
 	actions.add_child(_button("홈", func(): SceneRouter.go("HOME"), false, Vector2(320, 52)))
 
 func _sweep(count: int) -> void:
@@ -3093,7 +3858,7 @@ func _show_debug() -> void:
 	grid.add_child(_button("적 배율 %.1f×" % AppState.debug_options.enemy_multiplier, func(): AppState.debug_options.enemy_multiplier = 1.0 if float(AppState.debug_options.enemy_multiplier) >= 2.0 else float(AppState.debug_options.enemy_multiplier) + .25; _show_screen("DEBUG"), false, Vector2(280, 72)))
 	grid.add_child(_button("계정 Lv.100", func(): AppState.profile.account.level = 100; _show_screen("DEBUG"), int(AppState.profile.account.level) == 100, Vector2(280, 72)))
 	grid.add_child(_button("선택 무기 Lv.60/T6", func(): _debug_max_weapon(); _show_screen("DEBUG"), false, Vector2(280, 72)))
-	grid.add_child(_button("N10 즉시 선택", func(): AppState.selected_stage_id = "CH01-N10"; SceneRouter.go("STAGE_DETAIL"), false, Vector2(280, 72)))
+	grid.add_child(_button("N20 즉시 선택", func(): AppState.selected_stage_id = "CH01-N20"; SceneRouter.go("STAGE_DETAIL"), false, Vector2(280, 72)))
 	grid.add_child(_button("고급 SD 전투 QA (CHR009-013 / BOSS003)", _debug_prepare_premium_sd_battle_qa, false, Vector2(280, 72)))
 	grid.add_child(_button("리뉴얼 SD 전투 QA (CHR014·027·037·040·043 / BOSS003)", _debug_prepare_renewal_sd_battle_qa, false, Vector2(280, 72)))
 	grid.add_child(_button("CH01 NORMAL 완료 / HARD QA", func(): _debug_unlock_chapter_hard(); _show_screen("DEBUG"), false, Vector2(280, 72)))
@@ -3171,15 +3936,15 @@ func _debug_unlock_chapter_hard() -> void:
 	# This capability exists only in the development-authorized screen.  Keep an
 	# independent guard here as well so a synthetic callback cannot mutate a
 	# public Release save.  This creates a reward-free canonical NORMAL-complete
-	# snapshot: every route blocker is removed and the squad is anchored at N10,
-	# allowing an actual H01-H05 map/contact/battle/return browser run.
+	# snapshot: every route blocker is removed and the squad is anchored at N20,
+	# allowing an actual H01-H10 map/contact/battle/return browser run.
 	if not SettingsService.is_developer_mode():
 		return
-	AppState.profile.chapter_progress.CH01.normal_highest = 10
+	AppState.profile.chapter_progress.CH01.normal_highest = 20
 	AppState.profile.chapter_progress.CH01.hard_unlocked = true
 	var definition := ChapterMapLoaderScript.load_map("CH01_MAP")
 	var map_state := AppState.chapter_map_state("CH01_MAP")
-	for number in range(1, 11):
+	for number in range(1, 21):
 		var stage_id := "CH01-N%02d" % number
 		var node := ChapterMapLoaderScript.node_for_stage(definition, stage_id)
 		AppState.profile.stage_stars[stage_id] = 3
@@ -3188,9 +3953,9 @@ func _debug_unlock_chapter_hard() -> void:
 			MapExplorationServiceScript.mark_encounter_cleared(map_state, str(node.node_id))
 			if not map_state.cleared_nodes.has(str(node.node_id)):
 				map_state.cleared_nodes.append(str(node.node_id))
-	var n10 := ChapterMapLoaderScript.node_for_stage(definition, "CH01-N10")
-	if not n10.is_empty():
-		AppState.set_chapter_map_position(Vector2i(int(n10.q), int(n10.r)), str(n10.node_id), "CH01_MAP")
+	var n20 := ChapterMapLoaderScript.node_for_stage(definition, "CH01-N20")
+	if not n20.is_empty():
+		AppState.set_chapter_map_position(Vector2i(int(n20.q), int(n20.r)), str(n20.node_id), "CH01_MAP")
 	AppState.refresh_chapter_map_reveal()
 
 func _debug_prepare_companion_event(node_id: String) -> void:

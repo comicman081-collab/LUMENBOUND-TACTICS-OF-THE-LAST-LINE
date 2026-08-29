@@ -37,8 +37,10 @@ static func validate(definition: Dictionary) -> Array[String]:
 		if stage_id != "" and DataRegistry.stage(stage_id).is_empty(): errors.append("unknown stage " + stage_id)
 		if node.get("node_type", "") in ["NORMAL_BATTLE", "NORMAL_ELITE", "NORMAL_BOSS"]: normal += 1
 		if node.get("node_type", "") in ["HARD_BATTLE", "HARD_ELITE", "HARD_BOSS"]: hard += 1
-	if normal != 10: errors.append("NORMAL node count %d" % normal)
-	if hard != 5: errors.append("HARD node count %d" % hard)
+	if normal != 20: errors.append("NORMAL node count %d" % normal)
+	if hard != 10: errors.append("HARD node count %d" % hard)
+	if definition.get("normal_route", []).size() != 20: errors.append("NORMAL route count %d" % definition.get("normal_route", []).size())
+	if definition.get("hard_route", []).size() != 10: errors.append("HARD route count %d" % definition.get("hard_route", []).size())
 	var exploration_rules: Dictionary = definition.get("exploration_rules", {})
 	var base_move_points := int(exploration_rules.get("base_move_points", 0))
 	var max_move_points := int(exploration_rules.get("max_move_points", 0))
@@ -67,7 +69,24 @@ static func validate(definition: Dictionary) -> Array[String]:
 		if not node_ids.has(node_id): errors.append("event encounter unknown node " + node_id)
 		if str(event_encounter.get("marker", "")) != "BANG": errors.append("event encounter marker invalid " + event_encounter_id)
 		if str(event_encounter.get("entry_type", "")) != "EVENT_CONTACT": errors.append("event encounter entry invalid " + event_encounter_id)
+		var event_kind := str(event_encounter.get("event_kind", "COMPANION"))
+		if event_kind not in ["COMPANION", "SPECIAL_ENEMY"]: errors.append("event encounter kind invalid " + event_encounter_id)
 		if str(event_encounter.get("title_key", "")).is_empty() or str(event_encounter.get("body_key", "")).is_empty() or str(event_encounter.get("contact_outcome_key", "")).is_empty(): errors.append("event encounter localization missing " + event_encounter_id)
+		var dialogue: Array = event_encounter.get("pre_battle_dialogue", [])
+		if dialogue.size() < 2 or dialogue.size() > 4:
+			errors.append("event encounter dialogue count invalid " + event_encounter_id)
+		for page_value in dialogue:
+			if not page_value is Dictionary:
+				errors.append("event encounter dialogue invalid " + event_encounter_id)
+				continue
+			var page: Dictionary = page_value
+			var speaker_kind := str(page.get("speaker_kind", ""))
+			if speaker_kind not in ["COMMAND", "COMPANION", "ENEMY"] or str(page.get("text_key", "")).is_empty():
+				errors.append("event encounter dialogue payload invalid " + event_encounter_id)
+			if speaker_kind == "COMPANION" and DataRegistry.character(str(page.get("speaker_id", ""))).is_empty():
+				errors.append("event encounter dialogue companion invalid " + event_encounter_id)
+			if speaker_kind == "ENEMY" and DataRegistry.enemy(str(page.get("speaker_id", ""))).is_empty():
+				errors.append("event encounter dialogue enemy invalid " + event_encounter_id)
 		var recruitments: Array = event_encounter.get("recruitments", [])
 		if recruitments.is_empty() and not str(event_encounter.get("character_id", "")).is_empty():
 			recruitments = [{
@@ -75,8 +94,10 @@ static func validate(definition: Dictionary) -> Array[String]:
 				"recruitment_timing": str(event_encounter.get("recruitment_timing", "")),
 				"recruit_after_stage_id": str(event_encounter.get("recruit_after_stage_id", "")),
 			}]
-		if recruitments.is_empty() or recruitments.size() > 2:
+		if event_kind == "COMPANION" and (recruitments.is_empty() or recruitments.size() > 2):
 			errors.append("event encounter recruitment count invalid " + event_encounter_id)
+		if event_kind == "SPECIAL_ENEMY" and (not recruitments.is_empty() or DataRegistry.enemy(str(event_encounter.get("enemy_id", ""))).is_empty()):
+			errors.append("special enemy contract invalid " + event_encounter_id)
 		for recruitment_value in recruitments:
 			if not recruitment_value is Dictionary:
 				errors.append("event encounter recruitment invalid " + event_encounter_id)

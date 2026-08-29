@@ -445,6 +445,471 @@
     ]
   },
   {
+    "id": "REWARD_CH01-N11",
+    "stage_id": "CH01-N11",
+    "guaranteed": [
+      {
+        "item_id": "SKILL_BOOK_T1",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "WEAPON_ORE_T2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "BLUEPRINT_T2",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "BREAK_CORE_T1",
+        "chance": 0.35,
+        "quantity": 1
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.08,
+        "quantity": 1,
+        "pity_after_failures": 8
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 8000
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 10
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH01-N12",
+    "stage_id": "CH01-N12",
+    "guaranteed": [
+      {
+        "item_id": "SKILL_BOOK_T1",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "WEAPON_ORE_T2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "BLUEPRINT_T2",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "BREAK_CORE_T1",
+        "chance": 0.35,
+        "quantity": 1
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.08,
+        "quantity": 1,
+        "pity_after_failures": 8
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 8500
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 10
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH01-N13",
+    "stage_id": "CH01-N13",
+    "guaranteed": [
+      {
+        "item_id": "SKILL_BOOK_T1",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "WEAPON_ORE_T2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "BLUEPRINT_T2",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "BREAK_CORE_T1",
+        "chance": 0.35,
+        "quantity": 1
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.08,
+        "quantity": 1,
+        "pity_after_failures": 8
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 9000
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 10
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH01-N14",
+    "stage_id": "CH01-N14",
+    "guaranteed": [
+      {
+        "item_id": "SKILL_BOOK_T1",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "WEAPON_ORE_T2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "BLUEPRINT_T2",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "BREAK_CORE_T1",
+        "chance": 0.35,
+        "quantity": 1
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.08,
+        "quantity": 1,
+        "pity_after_failures": 8
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 9500
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 10
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH01-N15",
+    "stage_id": "CH01-N15",
+    "guaranteed": [
+      {
+        "item_id": "SKILL_BOOK_T1",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "WEAPON_ORE_T2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "BLUEPRINT_T2",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "BREAK_CORE_T1",
+        "chance": 0.35,
+        "quantity": 1
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.08,
+        "quantity": 1,
+        "pity_after_failures": 8
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 10000
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 10
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH01-N16",
+    "stage_id": "CH01-N16",
+    "guaranteed": [
+      {
+        "item_id": "SKILL_BOOK_T1",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "SKILL_BOOK_T2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "SKILL_TOKEN_T2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "ULT_BOOK_T2",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "BREAK_CORE_T1",
+        "chance": 0.35,
+        "quantity": 1
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.08,
+        "quantity": 1,
+        "pity_after_failures": 8
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 10500
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 10
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH01-N17",
+    "stage_id": "CH01-N17",
+    "guaranteed": [
+      {
+        "item_id": "SKILL_BOOK_T1",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "SKILL_BOOK_T2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "SKILL_TOKEN_T2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "ULT_BOOK_T2",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "BREAK_CORE_T1",
+        "chance": 0.35,
+        "quantity": 1
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.08,
+        "quantity": 1,
+        "pity_after_failures": 8
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 11000
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 10
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH01-N18",
+    "stage_id": "CH01-N18",
+    "guaranteed": [
+      {
+        "item_id": "SKILL_BOOK_T1",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "SKILL_BOOK_T2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "SKILL_TOKEN_T2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "ULT_BOOK_T2",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "BREAK_CORE_T1",
+        "chance": 0.35,
+        "quantity": 1
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.08,
+        "quantity": 1,
+        "pity_after_failures": 8
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 11500
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 10
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH01-N19",
+    "stage_id": "CH01-N19",
+    "guaranteed": [
+      {
+        "item_id": "SKILL_BOOK_T1",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "SKILL_BOOK_T2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "SKILL_TOKEN_T2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "ULT_BOOK_T2",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "BREAK_CORE_T1",
+        "chance": 0.35,
+        "quantity": 1
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.08,
+        "quantity": 1,
+        "pity_after_failures": 8
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 12000
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 10
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH01-N20",
+    "stage_id": "CH01-N20",
+    "guaranteed": [
+      {
+        "item_id": "SKILL_BOOK_T1",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "SKILL_BOOK_T2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "SKILL_TOKEN_T2",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "ULT_BOOK_T2",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "BREAK_CORE_T1",
+        "chance": 0.35,
+        "quantity": 1
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.08,
+        "quantity": 1,
+        "pity_after_failures": 8
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 12500
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 10
+      }
+    ]
+  },
+  {
     "id": "REWARD_CH01-H01",
     "stage_id": "CH01-H01",
     "guaranteed": [
@@ -687,6 +1152,226 @@
       {
         "item_id": "CREDIT",
         "quantity": 5000
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 10
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH01-H06",
+    "stage_id": "CH01-H06",
+    "guaranteed": [
+      {
+        "item_id": "SHARD_CHR008",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "BREAK_CORE_T4",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "ROLE_TOKEN_T4",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "BREAK_CORE_T1",
+        "chance": 0.35,
+        "quantity": 1
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.08,
+        "quantity": 1,
+        "pity_after_failures": 8
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 5500
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 10
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH01-H07",
+    "stage_id": "CH01-H07",
+    "guaranteed": [
+      {
+        "item_id": "SHARD_CHR008",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "BREAK_CORE_T4",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "ROLE_TOKEN_T4",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "BREAK_CORE_T1",
+        "chance": 0.35,
+        "quantity": 1
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.08,
+        "quantity": 1,
+        "pity_after_failures": 8
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 6000
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 10
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH01-H08",
+    "stage_id": "CH01-H08",
+    "guaranteed": [
+      {
+        "item_id": "SHARD_CHR008",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "BREAK_CORE_T4",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "ROLE_TOKEN_T4",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "BREAK_CORE_T1",
+        "chance": 0.35,
+        "quantity": 1
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.08,
+        "quantity": 1,
+        "pity_after_failures": 8
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 6500
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 10
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH01-H09",
+    "stage_id": "CH01-H09",
+    "guaranteed": [
+      {
+        "item_id": "SHARD_CHR008",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "FACTION_SEAL_T3",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "BREAK_CORE_T1",
+        "chance": 0.35,
+        "quantity": 1
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.08,
+        "quantity": 1,
+        "pity_after_failures": 8
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 7000
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 10
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH01-H10",
+    "stage_id": "CH01-H10",
+    "guaranteed": [
+      {
+        "item_id": "SHARD_CHR008",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "min": 1,
+        "max": 1
+      },
+      {
+        "item_id": "FACTION_SEAL_T3",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "BREAK_CORE_T1",
+        "chance": 0.35,
+        "quantity": 1
+      },
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.08,
+        "quantity": 1,
+        "pity_after_failures": 8
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 7500
       },
       {
         "item_id": "LANTERN_SHARD",
@@ -1035,6 +1720,346 @@
     ]
   },
   {
+    "id": "REWARD_CH02-N11",
+    "stage_id": "CH02-N11",
+    "guaranteed": [
+      {
+        "item_id": "CREDIT",
+        "min": 4550,
+        "max": 6050
+      },
+      {
+        "item_id": "BREAK_CORE_T3",
+        "min": 1,
+        "max": 2
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.12,
+        "quantity": 1,
+        "pity_after_failures": 7
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 12600
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 15
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH02-N12",
+    "stage_id": "CH02-N12",
+    "guaranteed": [
+      {
+        "item_id": "CREDIT",
+        "min": 4800,
+        "max": 6400
+      },
+      {
+        "item_id": "BREAK_CORE_T3",
+        "min": 1,
+        "max": 2
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.12,
+        "quantity": 1,
+        "pity_after_failures": 7
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 13200
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 15
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH02-N13",
+    "stage_id": "CH02-N13",
+    "guaranteed": [
+      {
+        "item_id": "CREDIT",
+        "min": 5050,
+        "max": 6750
+      },
+      {
+        "item_id": "BREAK_CORE_T3",
+        "min": 1,
+        "max": 2
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.12,
+        "quantity": 1,
+        "pity_after_failures": 7
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 13800
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 15
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH02-N14",
+    "stage_id": "CH02-N14",
+    "guaranteed": [
+      {
+        "item_id": "CREDIT",
+        "min": 5300,
+        "max": 7100
+      },
+      {
+        "item_id": "BREAK_CORE_T3",
+        "min": 1,
+        "max": 2
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.12,
+        "quantity": 1,
+        "pity_after_failures": 7
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 14400
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 15
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH02-N15",
+    "stage_id": "CH02-N15",
+    "guaranteed": [
+      {
+        "item_id": "CREDIT",
+        "min": 5550,
+        "max": 7450
+      },
+      {
+        "item_id": "BREAK_CORE_T3",
+        "min": 1,
+        "max": 2
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.12,
+        "quantity": 1,
+        "pity_after_failures": 7
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 15000
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 15
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH02-N16",
+    "stage_id": "CH02-N16",
+    "guaranteed": [
+      {
+        "item_id": "CREDIT",
+        "min": 5800,
+        "max": 7800
+      },
+      {
+        "item_id": "BREAK_CORE_T3",
+        "min": 1,
+        "max": 2
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.12,
+        "quantity": 1,
+        "pity_after_failures": 7
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 15600
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 15
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH02-N17",
+    "stage_id": "CH02-N17",
+    "guaranteed": [
+      {
+        "item_id": "CREDIT",
+        "min": 6050,
+        "max": 8150
+      },
+      {
+        "item_id": "BREAK_CORE_T3",
+        "min": 1,
+        "max": 2
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.12,
+        "quantity": 1,
+        "pity_after_failures": 7
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 16200
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 15
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH02-N18",
+    "stage_id": "CH02-N18",
+    "guaranteed": [
+      {
+        "item_id": "CREDIT",
+        "min": 6300,
+        "max": 8500
+      },
+      {
+        "item_id": "BREAK_CORE_T3",
+        "min": 1,
+        "max": 2
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.12,
+        "quantity": 1,
+        "pity_after_failures": 7
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 16800
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 15
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH02-N19",
+    "stage_id": "CH02-N19",
+    "guaranteed": [
+      {
+        "item_id": "CREDIT",
+        "min": 6550,
+        "max": 8850
+      },
+      {
+        "item_id": "BREAK_CORE_T3",
+        "min": 1,
+        "max": 2
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.12,
+        "quantity": 1,
+        "pity_after_failures": 7
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 17400
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 15
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH02-N20",
+    "stage_id": "CH02-N20",
+    "guaranteed": [
+      {
+        "item_id": "CREDIT",
+        "min": 6800,
+        "max": 9200
+      },
+      {
+        "item_id": "BREAK_CORE_T3",
+        "min": 1,
+        "max": 2
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.12,
+        "quantity": 1,
+        "pity_after_failures": 7
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 18000
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 15
+      }
+    ]
+  },
+  {
     "id": "REWARD_CH02-H01",
     "stage_id": "CH02-H01",
     "guaranteed": [
@@ -1222,6 +2247,201 @@
       {
         "item_id": "CREDIT",
         "quantity": 9000
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 15
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH02-H06",
+    "stage_id": "CH02-H06",
+    "guaranteed": [
+      {
+        "item_id": "CREDIT",
+        "min": 3300,
+        "max": 4300
+      },
+      {
+        "item_id": "BREAK_CORE_T4",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "SHARD_CHR032",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.12,
+        "quantity": 1,
+        "pity_after_failures": 7
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 9600
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 15
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH02-H07",
+    "stage_id": "CH02-H07",
+    "guaranteed": [
+      {
+        "item_id": "CREDIT",
+        "min": 3550,
+        "max": 4650
+      },
+      {
+        "item_id": "BREAK_CORE_T4",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "SHARD_CHR033",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.12,
+        "quantity": 1,
+        "pity_after_failures": 7
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 10200
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 15
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH02-H08",
+    "stage_id": "CH02-H08",
+    "guaranteed": [
+      {
+        "item_id": "CREDIT",
+        "min": 3800,
+        "max": 5000
+      },
+      {
+        "item_id": "BREAK_CORE_T4",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "SHARD_CHR034",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.12,
+        "quantity": 1,
+        "pity_after_failures": 7
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 10800
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 15
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH02-H09",
+    "stage_id": "CH02-H09",
+    "guaranteed": [
+      {
+        "item_id": "CREDIT",
+        "min": 4050,
+        "max": 5350
+      },
+      {
+        "item_id": "BREAK_CORE_T4",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "SHARD_CHR035",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.12,
+        "quantity": 1,
+        "pity_after_failures": 7
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 11400
+      },
+      {
+        "item_id": "LANTERN_SHARD",
+        "quantity": 15
+      }
+    ]
+  },
+  {
+    "id": "REWARD_CH02-H10",
+    "stage_id": "CH02-H10",
+    "guaranteed": [
+      {
+        "item_id": "CREDIT",
+        "min": 4300,
+        "max": 5700
+      },
+      {
+        "item_id": "BREAK_CORE_T4",
+        "min": 1,
+        "max": 2
+      },
+      {
+        "item_id": "SHARD_CHR036",
+        "min": 1,
+        "max": 1
+      }
+    ],
+    "bonus": [
+      {
+        "item_id": "UNIVERSAL_CATALYST",
+        "chance": 0.12,
+        "quantity": 1,
+        "pity_after_failures": 7
+      }
+    ],
+    "first_clear": [
+      {
+        "item_id": "CREDIT",
+        "quantity": 12000
       },
       {
         "item_id": "LANTERN_SHARD",

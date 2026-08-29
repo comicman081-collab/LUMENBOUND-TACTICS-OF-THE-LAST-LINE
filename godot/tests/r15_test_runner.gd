@@ -138,12 +138,12 @@ func _test_runtime_projectiles_and_vfx() -> void:
 func _test_stage_content() -> void:
 	var normal_stages := DataRegistry.list_of("stages").filter(func(stage): return str(stage.get("mode", "")) == "NORMAL")
 	var hard_stages := DataRegistry.list_of("stages").filter(func(stage): return str(stage.get("mode", "")) == "HARD")
-	var chapter_stage_counts_valid := normal_stages.size() == 20 and hard_stages.size() == 10
+	var chapter_stage_counts_valid := normal_stages.size() == 40 and hard_stages.size() == 20
 	for chapter_value in DataRegistry.list_of("chapters"):
 		var chapter: Dictionary = chapter_value
 		var chapter_id := str(chapter.get("id", ""))
-		chapter_stage_counts_valid = chapter_stage_counts_valid and normal_stages.filter(func(stage): return str(stage.get("chapter_id", "")) == chapter_id).size() == 10 and hard_stages.filter(func(stage): return str(stage.get("chapter_id", "")) == chapter_id).size() == 5
-	check(chapter_stage_counts_valid, "STAGE_01 both chapters have exact NORMAL 10 / HARD 5")
+		chapter_stage_counts_valid = chapter_stage_counts_valid and normal_stages.filter(func(stage): return str(stage.get("chapter_id", "")) == chapter_id).size() == 20 and hard_stages.filter(func(stage): return str(stage.get("chapter_id", "")) == chapter_id).size() == 10
+	check(chapter_stage_counts_valid, "STAGE_01 both chapters have exact NORMAL 20 / HARD 10 (30 battles each)")
 	var rosters_valid := true
 	var every_stage_has_waves := true
 	for stage in DataRegistry.list_of("stages"):
@@ -153,24 +153,21 @@ func _test_stage_content() -> void:
 			var wave: Array = wave_value
 			for enemy_id in wave:
 				rosters_valid = rosters_valid and not DataRegistry.enemy(str(enemy_id)).is_empty()
-	check(every_stage_has_waves and rosters_valid, "STAGE_02 all thirty stages reference valid populated enemy rosters")
-	var n10 := DataRegistry.stage("CH01-N10")
-	var h05 := DataRegistry.stage("CH01-H05")
-	var ch02_n10 := DataRegistry.stage("CH02-N10")
-	var ch02_h05 := DataRegistry.stage("CH02-H05")
-	var n10_boss := false
-	var h05_boss := false
-	for wave in n10.get("waves", []):
-		for enemy_id in wave: n10_boss = n10_boss or str(enemy_id) == "BOSS001"
-	for wave in h05.get("waves", []):
-		for enemy_id in wave: h05_boss = h05_boss or str(enemy_id) == "BOSS002"
-	var ch02_n10_boss := false
-	var ch02_h05_boss := false
-	for wave in ch02_n10.get("waves", []):
-		for enemy_id in wave: ch02_n10_boss = ch02_n10_boss or str(enemy_id) == "BOSS004"
-	for wave in ch02_h05.get("waves", []):
-		for enemy_id in wave: ch02_h05_boss = ch02_h05_boss or str(enemy_id) == "BOSS005"
-	check(n10_boss and h05_boss and ch02_n10_boss and ch02_h05_boss, "STAGE_03 all chapter finale operations use distinct boss IDs")
+	check(every_stage_has_waves and rosters_valid, "STAGE_02 all sixty stages reference valid populated enemy rosters")
+	var expected_boss_stages := {"BOSS001": "CH01-N20", "BOSS002": "CH01-H10", "BOSS003": "CH01-H03", "BOSS004": "CH02-N20", "BOSS005": "CH02-H10"}
+	var boss_placement_valid := true
+	var boss_counts: Dictionary = {}
+	for stage_value in DataRegistry.list_of("stages"):
+		var boss_stage: Dictionary = stage_value
+		for wave_value in boss_stage.get("waves", []):
+			for enemy_id_value in wave_value:
+				var enemy_id := str(enemy_id_value)
+				if expected_boss_stages.has(enemy_id):
+					boss_counts[enemy_id] = int(boss_counts.get(enemy_id, 0)) + 1
+					boss_placement_valid = boss_placement_valid and str(boss_stage.get("id", "")) == str(expected_boss_stages[enemy_id])
+	for boss_id in expected_boss_stages:
+		boss_placement_valid = boss_placement_valid and int(boss_counts.get(boss_id, 0)) == 1
+	check(boss_placement_valid, "STAGE_03 five bosses are each placed once at their unique expanded finale operation")
 	var ch01_new_normals_integrated := true
 	for enemy_id in ["ENM010", "ENM011", "ENM012"]:
 		var found := false
@@ -209,11 +206,26 @@ func _test_map_bindings() -> void:
 			elif type.begins_with("HARD_"):
 				hard_nodes += 1
 				map_stage_ids[stage_id] = true
-		maps_valid = maps_valid and normal_nodes == 10 and hard_nodes == 5 and definition.get("event_encounters", []).size() == 15
-	check(maps_valid, "MAP_01 both chapter map definitions validate with 15 companion contacts each")
+		var companion_events := 0
+		var special_enemy_events := 0
+		var event_dialogue_valid := true
+		for event_value in definition.get("event_encounters", []):
+			var event: Dictionary = event_value
+			var event_kind := str(event.get("event_kind", ""))
+			companion_events += 1 if event_kind == "COMPANION" else 0
+			special_enemy_events += 1 if event_kind == "SPECIAL_ENEMY" else 0
+			var pages: Array = event.get("pre_battle_dialogue", [])
+			event_dialogue_valid = event_dialogue_valid and pages.size() >= 2 and pages.size() <= 4
+			for page_value in pages:
+				var page: Dictionary = page_value if page_value is Dictionary else {}
+				event_dialogue_valid = event_dialogue_valid and str(page.get("speaker_kind", "")) in ["COMMAND", "COMPANION", "ENEMY"] and not str(page.get("text_key", "")).is_empty()
+			if event_kind == "SPECIAL_ENEMY":
+				event_dialogue_valid = event_dialogue_valid and not DataRegistry.enemy(str(event.get("enemy_id", ""))).is_empty() and event.get("recruitments", []).is_empty()
+		maps_valid = maps_valid and normal_nodes == 20 and hard_nodes == 10 and companion_events == 15 and special_enemy_events == 4 and event_dialogue_valid
+	check(maps_valid, "MAP_01 both maps validate with 30 battle nodes and 15 companion / 4 special-enemy pre-battle events")
 	var all_stage_bindings := true
 	for stage in DataRegistry.list_of("stages"): all_stage_bindings = all_stage_bindings and map_stage_ids.has(str(stage.id))
-	check(all_stage_bindings and map_stage_ids.size() == 30, "MAP_02 all thirty stage IDs bind once to chapter map encounter nodes")
+	check(all_stage_bindings and map_stage_ids.size() == 60, "MAP_02 all sixty stage IDs bind once to chapter map encounter nodes")
 	var expected_node_scenarios: Dictionary = {}
 	var expected_start_scenarios: Dictionary = {}
 	for trigger_value in DataRegistry.list_of("chapter_story_triggers"):
@@ -270,7 +282,7 @@ func _test_scenario_content() -> void:
 	check(iri_portraits.size() == 1 and str(iri_portraits[0].get("asset_id", "")) == "portrait_chr008_dev" and iri_speakers.size() >= 1, "STORY_05 Iri relationship story uses CHR008 portrait and localized Iri speaker identity")
 	var preboss: Dictionary = DataRegistry.by_id("scenarios", "SCN_CH01_PREBOSS")
 	var starts_battle_from_story: bool = preboss.get("commands", []).any(func(command): return str(command.get("command", "")) == "start_battle")
-	check(not starts_battle_from_story, "STORY_06 pre-boss story returns to the map; only N10 pawn contact starts battle")
+	check(not starts_battle_from_story, "STORY_06 pre-boss story returns to the map; only the N20 pawn contact starts battle")
 
 func _test_story_progression_triggers() -> void:
 	var triggers: Array = DataRegistry.list_of("chapter_story_triggers")
@@ -316,6 +328,7 @@ func _test_result_refresh_boundaries() -> void:
 	SaveService.soak_sandbox_enabled = true
 	SaveService.soak_sandbox_session = "r15_result_refresh_audit"
 	SaveService.reset_save_files()
+	AppState.new_game()
 
 	# A view callback is not a commit authority. Without a live entry token even
 	# a prepared encounter plus syntactically valid victory result must leave every
@@ -329,7 +342,7 @@ func _test_result_refresh_boundaries() -> void:
 	var tokenless_shell := AppShellScript.new()
 	tokenless_shell.call("_battle_finished", {"victory": true, "survivors": 5, "time": 10.0, "ticks": 300, "damage": {}, "healing": {}})
 	var tokenless_after := _persistent_profile(AppState.profile)
-	check(JSON.stringify(_canonical(tokenless_before)) == JSON.stringify(_canonical(tokenless_after)) and not bool(AppState.profile.first_clear.get("CH01-N01", false)), "RESULT_TXN_01 tokenless or stale victory callback cannot mutate canonical progression")
+	check(JSON.stringify(_canonical(tokenless_before)) == JSON.stringify(_canonical(tokenless_after)) and not bool(AppState.profile.first_clear.get("CH01-N01", false)), "RESULT_TXN_01 tokenless or stale victory callback cannot mutate canonical progression", JSON.stringify({"changed_profile_keys": _changed_dictionary_keys(tokenless_before, tokenless_after), "first_clear": AppState.profile.first_clear.get("CH01-N01", false), "pending_token": AppState.pending_battle_token}))
 	tokenless_shell.free()
 	SaveService.reset_save_files()
 
@@ -638,6 +651,17 @@ func _persistent_profile(value: Dictionary) -> Dictionary:
 	for key in ["quarantined_unknown_character_ids", "quarantined_unknown_map_node_ids", "quarantined_unknown_treasure_ids"]:
 		persistent.erase(key)
 	return persistent
+
+func _changed_dictionary_keys(before: Dictionary, after: Dictionary) -> Array[String]:
+	var keys: Dictionary = {}
+	for key_value in before.keys(): keys[str(key_value)] = true
+	for key_value in after.keys(): keys[str(key_value)] = true
+	var changed: Array[String] = []
+	for key in keys:
+		if JSON.stringify(_canonical(before.get(key))) != JSON.stringify(_canonical(after.get(key))):
+			changed.append(str(key))
+	changed.sort()
+	return changed
 
 func _canonical(value: Variant) -> Variant:
 	if value is Dictionary:

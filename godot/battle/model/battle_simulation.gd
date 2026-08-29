@@ -136,6 +136,11 @@ func _tick_unit(unit: Dictionary) -> void:
 		unit.attack_cd = float(unit.attack_interval)
 
 func _basic_attack(attacker: Dictionary) -> void:
+	# The normal tick loop already filters downed units, but this method is also
+	# used by deterministic probes.  Keep the combat authority defensive so a
+	# dead enemy can never enqueue a late attack/cast through a direct path.
+	if state.ended or not UnitState.alive(attacker):
+		return
 	var targets := state.enemies if attacker.team == "PLAYER" else state.party
 	var target := TargetResolver.choose(attacker, targets)
 	if target.is_empty():
@@ -144,6 +149,10 @@ func _basic_attack(attacker: Dictionary) -> void:
 	_deal_damage(attacker, target, 1.0, "BASIC")
 
 func _use_normal(caster: Dictionary) -> void:
+	# A DOWN unit has no cast rights.  This explicit guard prevents stale
+	# cooldown/animation callers from emitting a skill after death.
+	if state.ended or not UnitState.alive(caster):
+		return
 	var skill := _skill(caster.normal_skill_id)
 	var level := int(caster.skill_levels.get("normal", 1))
 	var coefficient := SkillRuntime.value_at(skill, level)
@@ -168,6 +177,8 @@ func _use_normal(caster: Dictionary) -> void:
 			if effect == "SLOW": StatusEffectRuntime.apply(target, "SLOW", 3.0, caster.uid, .3)
 
 func _use_ultimate(caster: Dictionary, target_unit_id := "") -> bool:
+	if state.ended or not UnitState.alive(caster):
+		return false
 	var skill := _skill(caster.ultimate_skill_id)
 	if not SkillRuntime.can_use_ultimate(caster, skill, state.tactical_gauge):
 		return false
@@ -198,7 +209,11 @@ func _use_ultimate(caster: Dictionary, target_unit_id := "") -> bool:
 	return true
 
 func _deal_damage(attacker: Dictionary, target: Dictionary, coefficient: float, source: String) -> void:
-	if not UnitState.alive(target) or state.ended:
+	# Damage, healing and shielding are sometimes reached by boss-pattern and
+	# deterministic probe paths rather than only by _tick_unit.  The source must
+	# be alive on every authority boundary: a DOWN unit cannot finish a stale
+	# effect after its defeat.
+	if not UnitState.alive(attacker) or not UnitState.alive(target) or state.ended:
 		return
 	if UnitState.has_status(target, "INVULNERABLE"):
 		_emit(BattleEvent.make(state.tick, BattleEvent.DAMAGE, attacker.uid, target.uid, 0, {"invulnerable": true, "source": source}))
@@ -233,14 +248,14 @@ func _deal_damage(attacker: Dictionary, target: Dictionary, coefficient: float, 
 		_down_unit(target, attacker.uid, source)
 
 func _heal(caster: Dictionary, target: Dictionary, coefficient: float) -> void:
-	if target.is_empty() or not UnitState.alive(target): return
+	if caster.is_empty() or not UnitState.alive(caster) or target.is_empty() or not UnitState.alive(target): return
 	var amount := mini(HealingResolver.calculate(caster, coefficient, rng), int(target.max_hp) - int(target.hp))
 	target.hp += amount
 	healing_by_character[caster.def_id] = int(healing_by_character.get(caster.def_id, 0)) + amount
 	_emit(BattleEvent.make(state.tick, BattleEvent.HEAL, caster.uid, target.uid, amount))
 
 func _apply_shield(caster: Dictionary, target: Dictionary, coefficient: float) -> void:
-	if target.is_empty() or not UnitState.alive(target): return
+	if caster.is_empty() or not UnitState.alive(caster) or target.is_empty() or not UnitState.alive(target): return
 	var amount := HealingResolver.calculate(caster, coefficient, rng)
 	target.shields[caster.uid] = amount
 	_recalculate_shield(target)
@@ -302,6 +317,8 @@ func _auto_ultimate() -> void:
 			_use_ultimate(unit); return
 
 func _tick_boss_patterns(boss: Dictionary) -> void:
+	if state.ended or not UnitState.alive(boss):
+		return
 	for index in range(boss.patterns.size()):
 		var key := str(index)
 		if boss.pattern_triggers.has(key): continue
@@ -342,6 +359,8 @@ func _emit_boss_pattern_cast(boss: Dictionary, target: Dictionary, action: Strin
 	# A boss pattern is a real battle event, so it exercises the same runtime
 	# ultimate VFX pathway as a player cast instead of being an invisible stat
 	# mutation. The payload preserves the unique gameplay grammar for replays.
+	if state.ended or not UnitState.alive(boss):
+		return
 	_emit(BattleEvent.make(state.tick, BattleEvent.ULTIMATE, str(boss.uid), str(target.get("uid", "")), 0, {"boss_pattern": action}))
 
 func _update_statuses() -> void:

@@ -208,103 +208,251 @@ ITEM_WEAPON_ORE_T1,WEAPON_ORE_T1
 ITEM_WEAPON_ORE_T2,WEAPON_ORE_T2
 ITEM_WEAPON_ORE_T3,WEAPON_ORE_T3
 ITEM_WEAPON_ORE_T4,WEAPON_ORE_T4
+MAP_ANOMALY_CH01_H08_BODY,An anomalous reaction is blocking the route. Analyze the signal before entering the combat zone.
+MAP_ANOMALY_CH01_H08_DIALOGUE_01,The reaction ahead is unlike a normal unit. Combat will begin after the signal is assessed.
+MAP_ANOMALY_CH01_H08_DIALOGUE_02,ENM007: [distorted hostile waveform]
+MAP_ANOMALY_CH01_H08_DIALOGUE_03,The signal is locked. Closing this window begins combat; no state is committed before victory.
+MAP_ANOMALY_CH01_H08_OUTCOME,Victory outcome: threat signal stabilized · no recruitment/reward
+MAP_ANOMALY_CH01_H08_TITLE,Anomalous Threat Signal: ENM007
+MAP_ANOMALY_CH01_N12_BODY,An anomalous reaction is blocking the route. Analyze the signal before entering the combat zone.
+MAP_ANOMALY_CH01_N12_DIALOGUE_01,The reaction ahead is unlike a normal unit. Combat will begin after the signal is assessed.
+MAP_ANOMALY_CH01_N12_DIALOGUE_02,ENM012: [distorted hostile waveform]
+MAP_ANOMALY_CH01_N12_DIALOGUE_03,The signal is locked. Closing this window begins combat; no state is committed before victory.
+MAP_ANOMALY_CH01_N12_OUTCOME,Victory outcome: threat signal stabilized · no recruitment/reward
+MAP_ANOMALY_CH01_N12_TITLE,Anomalous Threat Signal: ENM012
+MAP_ANOMALY_CH01_N15_BODY,An anomalous reaction is blocking the route. Analyze the signal before entering the combat zone.
+MAP_ANOMALY_CH01_N15_DIALOGUE_01,The reaction ahead is unlike a normal unit. Combat will begin after the signal is assessed.
+MAP_ANOMALY_CH01_N15_DIALOGUE_02,ENM008: [distorted hostile waveform]
+MAP_ANOMALY_CH01_N15_DIALOGUE_03,The signal is locked. Closing this window begins combat; no state is committed before victory.
+MAP_ANOMALY_CH01_N15_OUTCOME,Victory outcome: threat signal stabilized · no recruitment/reward
+MAP_ANOMALY_CH01_N15_TITLE,Anomalous Threat Signal: ENM008
+MAP_ANOMALY_CH01_N18_BODY,An anomalous reaction is blocking the route. Analyze the signal before entering the combat zone.
+MAP_ANOMALY_CH01_N18_DIALOGUE_01,The reaction ahead is unlike a normal unit. Combat will begin after the signal is assessed.
+MAP_ANOMALY_CH01_N18_DIALOGUE_02,ENM009: [distorted hostile waveform]
+MAP_ANOMALY_CH01_N18_DIALOGUE_03,The signal is locked. Closing this window begins combat; no state is committed before victory.
+MAP_ANOMALY_CH01_N18_OUTCOME,Victory outcome: threat signal stabilized · no recruitment/reward
+MAP_ANOMALY_CH01_N18_TITLE,Anomalous Threat Signal: ENM009
+MAP_ANOMALY_CH02_H08_BODY,An anomalous reaction is blocking the route. Analyze the signal before entering the combat zone.
+MAP_ANOMALY_CH02_H08_DIALOGUE_01,The reaction ahead is unlike a normal unit. Combat will begin after the signal is assessed.
+MAP_ANOMALY_CH02_H08_DIALOGUE_02,ENM014: [distorted hostile waveform]
+MAP_ANOMALY_CH02_H08_DIALOGUE_03,The signal is locked. Closing this window begins combat; no state is committed before victory.
+MAP_ANOMALY_CH02_H08_OUTCOME,Victory outcome: threat signal stabilized · no recruitment/reward
+MAP_ANOMALY_CH02_H08_TITLE,Anomalous Threat Signal: ENM014
+MAP_ANOMALY_CH02_N12_BODY,An anomalous reaction is blocking the route. Analyze the signal before entering the combat zone.
+MAP_ANOMALY_CH02_N12_DIALOGUE_01,The reaction ahead is unlike a normal unit. Combat will begin after the signal is assessed.
+MAP_ANOMALY_CH02_N12_DIALOGUE_02,ENM015: [distorted hostile waveform]
+MAP_ANOMALY_CH02_N12_DIALOGUE_03,The signal is locked. Closing this window begins combat; no state is committed before victory.
+MAP_ANOMALY_CH02_N12_OUTCOME,Victory outcome: threat signal stabilized · no recruitment/reward
+MAP_ANOMALY_CH02_N12_TITLE,Anomalous Threat Signal: ENM015
+MAP_ANOMALY_CH02_N15_BODY,An anomalous reaction is blocking the route. Analyze the signal before entering the combat zone.
+MAP_ANOMALY_CH02_N15_DIALOGUE_01,The reaction ahead is unlike a normal unit. Combat will begin after the signal is assessed.
+MAP_ANOMALY_CH02_N15_DIALOGUE_02,ENM008: [distorted hostile waveform]
+MAP_ANOMALY_CH02_N15_DIALOGUE_03,The signal is locked. Closing this window begins combat; no state is committed before victory.
+MAP_ANOMALY_CH02_N15_OUTCOME,Victory outcome: threat signal stabilized · no recruitment/reward
+MAP_ANOMALY_CH02_N15_TITLE,Anomalous Threat Signal: ENM008
+MAP_ANOMALY_CH02_N18_BODY,An anomalous reaction is blocking the route. Analyze the signal before entering the combat zone.
+MAP_ANOMALY_CH02_N18_DIALOGUE_01,The reaction ahead is unlike a normal unit. Combat will begin after the signal is assessed.
+MAP_ANOMALY_CH02_N18_DIALOGUE_02,ENM009: [distorted hostile waveform]
+MAP_ANOMALY_CH02_N18_DIALOGUE_03,The signal is locked. Closing this window begins combat; no state is committed before victory.
+MAP_ANOMALY_CH02_N18_OUTCOME,Victory outcome: threat signal stabilized · no recruitment/reward
+MAP_ANOMALY_CH02_N18_TITLE,Anomalous Threat Signal: ENM009
+MAP_BOSS_CH01_H03_SUBTITLE,Unique boss signal · final route defense
+MAP_BOSS_CH01_H03_TITLE,White Dawn Watchline
+MAP_BOSS_CH01_H10_SUBTITLE,Unique boss signal · final route defense
+MAP_BOSS_CH01_H10_TITLE,Midnight Resonance Line
+MAP_BOSS_CH01_N20_SUBTITLE,Unique boss signal · final route defense
+MAP_BOSS_CH01_N20_TITLE,Deep Relay Core
 MAP_BOSS_CH02_H05_SUBTITLE,Return Chamber Depths · Vacant-Seat Formation Directive
 MAP_BOSS_CH02_H05_TITLE,Return Formation Core Shutdown
+MAP_BOSS_CH02_H10_SUBTITLE,Unique boss signal · final route defense
+MAP_BOSS_CH02_H10_TITLE,Return Formation Depths
 MAP_BOSS_CH02_N10_SUBTITLE,Return Line Junction · Reverse Procedure Gatekeeper
 MAP_BOSS_CH02_N10_TITLE,Central Reverse Gate
+MAP_BOSS_CH02_N20_SUBTITLE,Unique boss signal · final route defense
+MAP_BOSS_CH02_N20_TITLE,Reverse Gate Depths
 MAP_BOSS_CONTACT_CAPTION,Threat Signal · Anomalous Entity Detected
 MAP_BOSS_N10_EVENT_TITLE,Deep Signal Interdiction
 MAP_BOSS_N10_SUBTITLE,Relay Depths · Access-Control Entity
 MAP_BOSS_UNKNOWN_NAME,Unidentified Threat
 MAP_BOSS_UNKNOWN_SUBTITLE,Signal Scan In Progress
 MAP_CONTACT_CH01_H01_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH01_H01_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH01_H01_DIALOGUE_02,This is Noar. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH01_H01_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH01_H01_OUTCOME,Victory outcome: joins immediately · Noar
 MAP_CONTACT_CH01_H01_TITLE,Special Signal: Noar
 MAP_CONTACT_CH01_H02_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH01_H02_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH01_H02_DIALOGUE_02,This is Seb. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH01_H02_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH01_H02_OUTCOME,Victory outcome: joins immediately · Seb
 MAP_CONTACT_CH01_H02_TITLE,Special Signal: Seb
 MAP_CONTACT_CH01_H03_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH01_H03_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH01_H03_DIALOGUE_02,This is Yurien / Moen. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH01_H03_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH01_H03_OUTCOME,Victory outcome: joins immediately · Moen / follow-up join · Yurien
 MAP_CONTACT_CH01_H03_TITLE,Special Signal: Yurien / Moen
 MAP_CONTACT_CH01_H04_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH01_H04_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH01_H04_DIALOGUE_02,This is Lavent. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH01_H04_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH01_H04_OUTCOME,Victory outcome: joins immediately · Lavent
 MAP_CONTACT_CH01_H04_TITLE,Special Signal: Lavent
 MAP_CONTACT_CH01_H05_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH01_H05_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH01_H05_DIALOGUE_02,This is Kairen. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH01_H05_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH01_H05_OUTCOME,Victory outcome: joins immediately · Kairen
 MAP_CONTACT_CH01_H05_TITLE,Special Signal: Kairen
 MAP_CONTACT_CH01_N01_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH01_N01_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH01_N01_DIALOGUE_02,This is Liv. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH01_N01_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH01_N01_OUTCOME,Victory outcome: joins immediately · Liv
 MAP_CONTACT_CH01_N01_TITLE,Special Signal: Liv
 MAP_CONTACT_CH01_N02_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH01_N02_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH01_N02_DIALOGUE_02,This is Seon. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH01_N02_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH01_N02_OUTCOME,Victory outcome: joins immediately · Seon
 MAP_CONTACT_CH01_N02_TITLE,Special Signal: Seon
 MAP_CONTACT_CH01_N03_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH01_N03_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH01_N03_DIALOGUE_02,This is Adeline / Kir. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH01_N03_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH01_N03_OUTCOME,Victory outcome: joins immediately · Adeline / follow-up join · Kir
 MAP_CONTACT_CH01_N03_TITLE,Special Signal: Adeline / Kir
 MAP_CONTACT_CH01_N04_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH01_N04_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH01_N04_DIALOGUE_02,This is Vera / Rema. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH01_N04_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH01_N04_OUTCOME,Victory outcome: joins immediately · Vera / Rema
 MAP_CONTACT_CH01_N04_TITLE,Special Signal: Vera / Rema
 MAP_CONTACT_CH01_N05_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH01_N05_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH01_N05_DIALOGUE_02,This is Veon. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH01_N05_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH01_N05_OUTCOME,Victory outcome: joins immediately · Veon
 MAP_CONTACT_CH01_N05_TITLE,Special Signal: Veon
 MAP_CONTACT_CH01_N06_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH01_N06_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH01_N06_DIALOGUE_02,This is Hart. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH01_N06_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH01_N06_OUTCOME,Victory outcome: signal follow-up / follow-up join · Hart
 MAP_CONTACT_CH01_N06_TITLE,Special Signal: Hart
 MAP_CONTACT_CH01_N07_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH01_N07_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH01_N07_DIALOGUE_02,This is Orsa / Tiel. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH01_N07_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH01_N07_OUTCOME,Victory outcome: joins immediately · Orsa / Tiel
 MAP_CONTACT_CH01_N07_TITLE,Special Signal: Orsa / Tiel
 MAP_CONTACT_CH01_N08_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH01_N08_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH01_N08_DIALOGUE_02,This is Toa / Rias. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH01_N08_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH01_N08_OUTCOME,Victory outcome: signal follow-up / follow-up join · Toa / Rias
 MAP_CONTACT_CH01_N08_TITLE,Special Signal: Toa / Rias
 MAP_CONTACT_CH01_N09_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH01_N09_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH01_N09_DIALOGUE_02,This is Perin. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH01_N09_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH01_N09_OUTCOME,Victory outcome: joins immediately · Perin
 MAP_CONTACT_CH01_N09_TITLE,Special Signal: Perin
 MAP_CONTACT_CH01_N10_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH01_N10_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH01_N10_DIALOGUE_02,This is Karn. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH01_N10_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH01_N10_OUTCOME,Victory outcome: joins immediately · Karn
 MAP_CONTACT_CH01_N10_TITLE,Special Signal: Karn
 MAP_CONTACT_CH02_H01_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH02_H01_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH02_H01_DIALOGUE_02,This is Soa. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH02_H01_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH02_H01_OUTCOME,Victory outcome: joins immediately · Soa
 MAP_CONTACT_CH02_H01_TITLE,Special Signal: Soa
 MAP_CONTACT_CH02_H02_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH02_H02_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH02_H02_DIALOGUE_02,This is Bael. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH02_H02_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH02_H02_OUTCOME,Victory outcome: joins immediately · Bael
 MAP_CONTACT_CH02_H02_TITLE,Special Signal: Bael
 MAP_CONTACT_CH02_H03_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH02_H03_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH02_H03_DIALOGUE_02,This is Teran. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH02_H03_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH02_H03_OUTCOME,Victory outcome: joins immediately · Teran
 MAP_CONTACT_CH02_H03_TITLE,Special Signal: Teran
 MAP_CONTACT_CH02_H04_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH02_H04_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH02_H04_DIALOGUE_02,This is Yunak / Arint. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH02_H04_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH02_H04_OUTCOME,Victory outcome: joins immediately · Arint / follow-up join · Yunak
 MAP_CONTACT_CH02_H04_TITLE,Special Signal: Yunak / Arint
 MAP_CONTACT_CH02_H05_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH02_H05_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH02_H05_DIALOGUE_02,This is Velk. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH02_H05_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH02_H05_OUTCOME,Victory outcome: joins immediately · Velk
 MAP_CONTACT_CH02_H05_TITLE,Special Signal: Velk
 MAP_CONTACT_CH02_N01_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH02_N01_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH02_N01_DIALOGUE_02,This is Inoa. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH02_N01_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH02_N01_OUTCOME,Victory outcome: joins immediately · Inoa
 MAP_CONTACT_CH02_N01_TITLE,Special Signal: Inoa
 MAP_CONTACT_CH02_N02_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH02_N02_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH02_N02_DIALOGUE_02,This is Dran. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH02_N02_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH02_N02_OUTCOME,Victory outcome: joins immediately · Dran
 MAP_CONTACT_CH02_N02_TITLE,Special Signal: Dran
 MAP_CONTACT_CH02_N03_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH02_N03_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH02_N03_DIALOGUE_02,This is Merin. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH02_N03_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH02_N03_OUTCOME,Victory outcome: signal follow-up / follow-up join · Merin
 MAP_CONTACT_CH02_N03_TITLE,Special Signal: Merin
 MAP_CONTACT_CH02_N04_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH02_N04_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH02_N04_DIALOGUE_02,This is Ciel. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH02_N04_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH02_N04_OUTCOME,Victory outcome: joins immediately · Ciel
 MAP_CONTACT_CH02_N04_TITLE,Special Signal: Ciel
 MAP_CONTACT_CH02_N05_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH02_N05_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH02_N05_DIALOGUE_02,This is Rome / Kian. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH02_N05_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH02_N05_OUTCOME,Victory outcome: joins immediately · Rome / follow-up join · Kian
 MAP_CONTACT_CH02_N05_TITLE,Special Signal: Rome / Kian
 MAP_CONTACT_CH02_N06_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH02_N06_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH02_N06_DIALOGUE_02,This is Dael. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH02_N06_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH02_N06_OUTCOME,Victory outcome: joins immediately · Dael
 MAP_CONTACT_CH02_N06_TITLE,Special Signal: Dael
 MAP_CONTACT_CH02_N07_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH02_N07_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH02_N07_DIALOGUE_02,This is Orbin. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH02_N07_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH02_N07_OUTCOME,Victory outcome: joins immediately · Orbin
 MAP_CONTACT_CH02_N07_TITLE,Special Signal: Orbin
 MAP_CONTACT_CH02_N08_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH02_N08_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH02_N08_DIALOGUE_02,This is Heraon. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH02_N08_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH02_N08_OUTCOME,Victory outcome: joins immediately · Heraon
 MAP_CONTACT_CH02_N08_TITLE,Special Signal: Heraon
 MAP_CONTACT_CH02_N09_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH02_N09_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH02_N09_DIALOGUE_02,This is Mire. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH02_N09_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH02_N09_OUTCOME,Victory outcome: signal follow-up / follow-up join · Mire
 MAP_CONTACT_CH02_N09_TITLE,Special Signal: Mire
 MAP_CONTACT_CH02_N10_BODY,Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.
+MAP_CONTACT_CH02_N10_DIALOGUE_01,An unidentified signal is inside the combat zone. Confirm the responder before entering.
+MAP_CONTACT_CH02_N10_DIALOGUE_02,This is Raen / Zern. Hostiles have pinned the signal; clear a path and we will join you.
+MAP_CONTACT_CH02_N10_DIALOGUE_03,Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.
 MAP_CONTACT_CH02_N10_OUTCOME,Victory outcome: joins immediately · Raen / Zern
 MAP_CONTACT_CH02_N10_TITLE,Special Signal: Raen / Zern
 MAP_EVENT_BROKEN_SWITCH_BODY,The damaged junction device is connected to a short detour.
@@ -315,6 +463,7 @@ MAP_EVENT_COAST_LOG_BODY,Light beneath the waves briefly reveals the next restor
 MAP_EVENT_COAST_LOG_LEAVE,Move on
 MAP_EVENT_COAST_LOG_SYNC,Synchronize the log
 MAP_EVENT_COAST_LOG_TITLE,Coastal Observation Log
+MAP_EVENT_COMMAND_NAME,Lamplighter Comms
 MAP_EVENT_CONTACT_SIGNAL,Special Signal Contact
 MAP_EVENT_CRYSTAL_TRACE_BODY,A faint vibration in the crystal cluster points toward a northern side path.
 MAP_EVENT_CRYSTAL_TRACE_INVESTIGATE,Investigate
@@ -324,6 +473,11 @@ MAP_EVENT_DEFAULT_BODY,A subtle change in the surroundings invites a closer look
 MAP_EVENT_DEFAULT_CHOICE_PRIMARY,Investigate
 MAP_EVENT_DEFAULT_CHOICE_SECONDARY,Move on
 MAP_EVENT_DEFAULT_TITLE,Exploration Record
+MAP_EVENT_DIALOGUE_BATTLE,Begin battle
+MAP_EVENT_DIALOGUE_HINT,Tap the panel or choose Next to continue the incident.
+MAP_EVENT_DIALOGUE_NEXT,Next
+MAP_EVENT_DIALOGUE_SKIP,Skip dialogue
+MAP_EVENT_ENEMY_SIGNAL_NAME,Threat Signal
 MAP_EVENT_MOVE_TO,Move to the site
 MAP_EVENT_RELAY_TOA_BODY,An expedition specialist answers from a broken relay. Finish the encounter to follow the next signal together.
 MAP_EVENT_RELAY_TOA_OUTCOME,Victory outcome: signal follow-up; joins formation after NORMAL 9
@@ -506,6 +660,11 @@ STAGE_CH01_H02,Chapter 1 HARD 2
 STAGE_CH01_H03,Chapter 1 HARD 3
 STAGE_CH01_H04,Chapter 1 HARD 4
 STAGE_CH01_H05,Chapter 1 HARD 5
+STAGE_CH01_H06,Chapter 1 HARD 6
+STAGE_CH01_H07,Chapter 1 HARD 7
+STAGE_CH01_H08,Chapter 1 HARD 8
+STAGE_CH01_H09,Chapter 1 HARD 9
+STAGE_CH01_H10,Chapter 1 HARD 10
 STAGE_CH01_N01,Chapter 1 NORMAL 1
 STAGE_CH01_N02,Chapter 1 NORMAL 2
 STAGE_CH01_N03,Chapter 1 NORMAL 3
@@ -516,11 +675,26 @@ STAGE_CH01_N07,Chapter 1 NORMAL 7
 STAGE_CH01_N08,Chapter 1 NORMAL 8
 STAGE_CH01_N09,Chapter 1 NORMAL 9
 STAGE_CH01_N10,Chapter 1 NORMAL 10
+STAGE_CH01_N11,Chapter 1 NORMAL 11
+STAGE_CH01_N12,Chapter 1 NORMAL 12
+STAGE_CH01_N13,Chapter 1 NORMAL 13
+STAGE_CH01_N14,Chapter 1 NORMAL 14
+STAGE_CH01_N15,Chapter 1 NORMAL 15
+STAGE_CH01_N16,Chapter 1 NORMAL 16
+STAGE_CH01_N17,Chapter 1 NORMAL 17
+STAGE_CH01_N18,Chapter 1 NORMAL 18
+STAGE_CH01_N19,Chapter 1 NORMAL 19
+STAGE_CH01_N20,Chapter 1 NORMAL 20
 STAGE_CH02_H01,Chapter 2 HARD 1
 STAGE_CH02_H02,Chapter 2 HARD 2
 STAGE_CH02_H03,Chapter 2 HARD 3
 STAGE_CH02_H04,Chapter 2 HARD 4
 STAGE_CH02_H05,Chapter 2 HARD 5
+STAGE_CH02_H06,Chapter 2 HARD 6
+STAGE_CH02_H07,Chapter 2 HARD 7
+STAGE_CH02_H08,Chapter 2 HARD 8
+STAGE_CH02_H09,Chapter 2 HARD 9
+STAGE_CH02_H10,Chapter 2 HARD 10
 STAGE_CH02_N01,Chapter 2 NORMAL 1
 STAGE_CH02_N02,Chapter 2 NORMAL 2
 STAGE_CH02_N03,Chapter 2 NORMAL 3
@@ -531,6 +705,16 @@ STAGE_CH02_N07,Chapter 2 NORMAL 7
 STAGE_CH02_N08,Chapter 2 NORMAL 8
 STAGE_CH02_N09,Chapter 2 NORMAL 9
 STAGE_CH02_N10,Chapter 2 NORMAL 10
+STAGE_CH02_N11,Chapter 2 NORMAL 11
+STAGE_CH02_N12,Chapter 2 NORMAL 12
+STAGE_CH02_N13,Chapter 2 NORMAL 13
+STAGE_CH02_N14,Chapter 2 NORMAL 14
+STAGE_CH02_N15,Chapter 2 NORMAL 15
+STAGE_CH02_N16,Chapter 2 NORMAL 16
+STAGE_CH02_N17,Chapter 2 NORMAL 17
+STAGE_CH02_N18,Chapter 2 NORMAL 18
+STAGE_CH02_N19,Chapter 2 NORMAL 19
+STAGE_CH02_N20,Chapter 2 NORMAL 20
 STORY_C1A_01,The first tunnel was crowded with echoforms that imitated human memories.
 STORY_C1A_02,"They spoke in human voices, but none could answer a question."
 STORY_C1A_03,I recovered an intact record fragment after the battle. It should open the next section.

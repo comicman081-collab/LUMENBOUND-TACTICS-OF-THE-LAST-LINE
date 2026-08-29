@@ -13,7 +13,12 @@ def is_key_green(pixel: tuple[int, int, int]) -> bool:
     # The authoring matte is exact #00FF00. A strict hue/dominance window also
     # catches its antialiased fringe without erasing lime hair, teal VFX, or
     # shaded green costume materials whose red/blue channels are substantial.
-    return green >= 178 and red <= 104 and blue <= 104 and green - red >= 92 and green - blue >= 92
+    # Image generators can bake a two-pixel green antialias/glow fringe around
+    # the subject even when the field itself is exact #00FF00.  The wider
+    # dominance window removes that spill while preserving cyan/teal materials
+    # (their blue channel remains close to green) and shaded lime costume areas
+    # (their red channel remains materially present).
+    return green >= 138 and red <= 150 and blue <= 150 and green - red >= 52 and green - blue >= 52
 
 
 def extract(source: Path, destination: Path) -> None:
@@ -35,16 +40,17 @@ def extract(source: Path, destination: Path) -> None:
     rgba = rgb.convert("RGBA")
     output = rgba.load()
     alpha_pixels = alpha.load()
-    # Suppress chroma spill only along semi-transparent keyed edges. Fully
-    # opaque intentional green costume and VFX regions are never recoloured.
+    # Suppress chroma spill along keyed edges and opaque generator-baked neon
+    # fringe. Cyan/teal materials remain safe because their blue channel stays
+    # close to green.
     for y in range(height):
         for x in range(width):
             edge_alpha = alpha_pixels[x, y]
-            if 0 < edge_alpha < 250:
-                red, green, blue, _ = output[x, y]
-                output[x, y] = (red, min(green, max(red, blue) + 24), blue, edge_alpha)
+            red, green, blue, _ = output[x, y]
+            green_dominant = green >= 118 and green - red >= 30 and green - blue >= 30
+            if 0 < edge_alpha < 250 or green_dominant:
+                output[x, y] = (red, min(green, max(red, blue) + 12), blue, edge_alpha)
             else:
-                red, green, blue, _ = output[x, y]
                 output[x, y] = (red, green, blue, edge_alpha)
     destination.parent.mkdir(parents=True, exist_ok=True)
     rgba.save(destination, optimize=True)

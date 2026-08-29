@@ -3,6 +3,7 @@ extends Node
 var passed := 0
 var failed := 0
 var failures: Array[String] = []
+const RelayServiceScript := preload("res://relay/relay_service.gd")
 
 func _ready() -> void:
 	call_deferred("_run")
@@ -27,6 +28,7 @@ func _run() -> void:
 	_test_battle()
 	_test_growth()
 	_test_story()
+	_test_relay()
 	_test_save()
 	print("TEST_SUMMARY total=%d pass=%d fail=%d" % [passed + failed, passed, failed])
 	if not failures.is_empty(): print("FAILURES=", JSON.stringify(failures))
@@ -67,7 +69,7 @@ func _test_settings_policy() -> void:
 	SceneRouter.go("DEBUG", {"tampered": true})
 	check(SceneRouter.current_screen == "HOME" and SceneRouter.history.is_empty() and AppState.route_payload.is_empty(), "direct DEBUG routing is rejected when developer mode is inactive")
 	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
-	check(shell_source.contains("if not SceneRouter.screen_allowed(screen_id, SettingsService.is_developer_mode()):") and shell_source.contains("func _show_debug() -> void:\n\tif not SettingsService.is_developer_mode():") and shell_source.contains("func _debug_unlock_chapter_hard() -> void:\n\t# This capability exists only in the development-authorized screen") and shell_source.contains("\tif not SettingsService.is_developer_mode():\n\t\treturn\n\tAppState.profile.chapter_progress.CH01.normal_highest = 10"), "direct app-shell DEBUG rendering and HARD QA mutation are independently guarded")
+	check(shell_source.contains("if not SceneRouter.screen_allowed(screen_id, SettingsService.is_developer_mode()):") and shell_source.contains("func _show_debug() -> void:\n\tif not SettingsService.is_developer_mode():") and shell_source.contains("func _debug_unlock_chapter_hard() -> void:\n\t# This capability exists only in the development-authorized screen") and shell_source.contains("\tif not SettingsService.is_developer_mode():\n\t\treturn\n\tAppState.profile.chapter_progress.CH01.normal_highest = 20"), "direct app-shell DEBUG rendering and HARD QA mutation are independently guarded")
 	SettingsService.values.developer_mode = true
 	var debug_modifiers := AppState.effective_battle_debug_options()
 	check(AppState.debug_unlock_all_enabled() == OS.is_debug_build() and bool(debug_modifiers.invincible) == OS.is_debug_build() and (is_equal_approx(float(debug_modifiers.enemy_multiplier), 2.0) if OS.is_debug_build() else is_equal_approx(float(debug_modifiers.enemy_multiplier), 1.0)), "debug build can use authorized unlock and battle modifiers")
@@ -96,6 +98,23 @@ func _read_json(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path): return {}
 	var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
 	return parsed if parsed is Dictionary else {}
+
+func _semi_transparent_chroma_residue_count(path: String) -> int:
+	var texture := load(path) as Texture2D
+	if texture == null: return -1
+	var image := texture.get_image()
+	if image == null or image.is_empty(): return -1
+	image.convert(Image.FORMAT_RGBA8)
+	var residue := 0
+	for y in image.get_height():
+		for x in image.get_width():
+			var pixel := image.get_pixel(x, y)
+			var alpha := roundi(pixel.a * 255.0)
+			# Opaque lime is valid character material. This only identifies a
+			# semi-transparent #00FF00-style fringe left by chroma-key resizing.
+			if alpha > 0 and alpha < 255 and pixel.g >= 0.96 and pixel.r <= 0.10 and pixel.b <= 0.10 and pixel.g - pixel.r >= 0.80 and pixel.g - pixel.b >= 0.80:
+				residue += 1
+	return residue
 
 func _test_input_transition_edges() -> void:
 	var shell_script = load("res://screens/app_shell.gd")
@@ -138,6 +157,32 @@ func _test_input_transition_edges() -> void:
 	check(phase_hud_labels.all(func(label): return not str(label).contains("PHASE_") and str(label) != "ENRAGE"), "boss HUD localizes phase states without exposing internal IDs")
 	check(story_wiring, "story touch/click uses guarded requests while shared button gesture/audio wrapper remains intact")
 	battle_shell.free()
+	var event_shell = shell_script.new()
+	var event_panel := Control.new()
+	event_panel.position = Vector2(100, 100)
+	event_panel.size = Vector2(600, 360)
+	event_shell.add_child(event_panel)
+	var event_skip := Button.new()
+	event_skip.position = Vector2(260, 260)
+	event_skip.size = Vector2(130, 70)
+	event_panel.add_child(event_skip)
+	var event_next := Button.new()
+	event_next.position = Vector2(420, 260)
+	event_next.size = Vector2(130, 70)
+	event_panel.add_child(event_next)
+	var event_trace: Array[String] = []
+	event_shell.pre_battle_event_input_panel = event_panel
+	event_shell.pre_battle_event_input_skip = event_skip
+	event_shell.pre_battle_event_input_next = event_next
+	event_shell.pre_battle_event_input_active = true
+	event_shell.pre_battle_event_advance = func() -> void: event_trace.append("advance")
+	event_shell.pre_battle_event_resolve = func() -> void: event_trace.append("skip")
+	var body_routes: bool = event_shell._handle_pre_battle_event_input(Vector2(130, 130))
+	var next_routes: bool = event_shell._handle_pre_battle_event_input(Vector2(550, 390))
+	var skip_routes: bool = event_shell._handle_pre_battle_event_input(Vector2(410, 390))
+	var outside_is_ignored: bool = not event_shell._handle_pre_battle_event_input(Vector2(60, 60))
+	check(body_routes and next_routes and skip_routes and outside_is_ignored and event_trace == ["advance", "advance", "skip"], "pre-battle event body, Next and Skip each route through their intended raw input path")
+	event_shell.free()
 
 func _test_responsive_ui_contracts() -> void:
 	var shell_script = load("res://screens/app_shell.gd")
@@ -182,7 +227,7 @@ func _test_responsive_ui_contracts() -> void:
 		{"command": "choice"},
 	]
 	check(shell.story_page_progress(sample_story_commands, 3) == Vector2i(2, 3), "story page counter excludes internal art and audio commands")
-	check(shell_source.contains("title_cast_plate_r1.png") and shell_source.contains("title_cast_plate_portrait_r1.png") and shell_source.contains("title_logo_r1.png") and shell_source.contains("var portrait_scale := _portrait_ui_scale() if portrait else 1.0") and shell_source.contains("Vector2(300.0, 84.0) * portrait_scale") and shell_source.contains("_label(notice_copy, 20 if portrait else 22") and shell_source.contains("TAP TO BEGIN") and shell_source.contains("START GAME  ·  기록 시작") and FileAccess.file_exists("res://assets/art/title/title_cast_plate_r1.png"), "title uses immutable full-body cast art, a single-scale portrait LUMENBOUND lockup and a clear START action")
+	check(shell_source.contains("title_cast_plate_r1.png") and shell_source.contains("title_cast_plate_portrait_r1.png") and shell_source.contains("title_logo_r1.png") and shell_source.contains("PortraitTitleCastLeft") and shell_source.contains("PortraitTitleCastRight") and shell_source.contains("CHR008/portrait.png") and shell_source.contains("CHR001/portrait.png") and shell_source.contains("Vector2(126.0, 252.0) * portrait_scale") and shell_source.contains("12.0 * portrait_scale") and shell_source.contains("var portrait_scale := _portrait_ui_scale() if portrait else 1.0") and shell_source.contains("Vector2(300.0, 84.0) * portrait_scale") and shell_source.contains("_label(notice_copy, 20 if portrait else 22") and shell_source.contains("TAP TO BEGIN") and shell_source.contains("START GAME  ·  기록 시작") and FileAccess.file_exists("res://assets/art/title/title_cast_plate_r1.png"), "portrait title keeps its full-body lead cast inside equal safe insets while retaining a single-scale LUMENBOUND lockup and clear START action")
 	var title_builder_source := FileAccess.get_file_as_string("res://../tools/art/build_title_cast_plate.py")
 	check(title_builder_source.contains("LUMENBOUND") and title_builder_source.contains("TACTICS OF THE LAST LINE") and not title_builder_source.contains("AFTER SIGNAL") and not title_builder_source.contains("잔광기록"), "title logo source uses the tactical LUMENBOUND lockup without either rejected title")
 	var canonical_game_title := "LUMENBOUND: TACTICS OF THE LAST LINE"
@@ -210,12 +255,13 @@ func _test_responsive_ui_contracts() -> void:
 	check(shell_source.contains("ClickablePrologueTextBox") and cinematic_prologue_contract and story_extension_contract and shell_source.contains("func _request_story_text_box_advance") and shell_source.contains("scenario_text.visible_ratio = 1.0"), "story text box keeps click/touch typewriter behavior while both story modes expose the LUMENBOUND dialogue hierarchy and fixed AUTO/SKIP rail")
 	var map_source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd")
 	check(map_source.contains("FirstMapTutorialDimmer") and map_source.contains("tutorial_eyebrow.text = \"첫 작전 안내") and map_source.contains("tutorial_progress_label.text") and map_source.contains("map_basics_complete") and map_source.contains("_select_next_encounter()"), "first chapter map provides contextual selection, movement and encounter tutorial guidance")
-	check(not shell_source.contains("두둥!") and not map_source.contains("두둥!") and shell_source.contains("encounter_heading") and shell_source.contains("조우 결과") and map_source.contains("조우 이벤트 카드 뒤 전투로 전환"), "encounter presentation names and explains the actual event instead of rendering a sound-effect caption")
+	check(not shell_source.contains("두둥!") and not map_source.contains("두둥!") and shell_source.contains("_play_special_event_dialogue") and shell_source.contains("PreBattleEventDialog") and shell_source.contains("EventKeyVisual") and shell_source.contains("panel.gui_input.connect") and shell_source.contains("MAP_EVENT_DIALOGUE_SKIP"), "encounter presentation advances a real event dialogue with character/enemy key art instead of rendering a sound-effect caption")
+	check(shell_source.contains("_reward_celebration_queue") and shell_source.contains("RewardCelebrationQueue") and shell_source.contains("RewardCelebrationHalfBodyArt") and shell_source.contains("NEW ALLY JOINED") and shell_source.contains("KEY ACQUISITION") and shell_source.contains("RewardCelebrationSkip") and shell_source.contains("last_reward_report"), "result screen presents a skippable ally/key-item achievement queue from the committed report without creating a second reward grant")
 	check(map_source.contains("EnemyOcclusionSilhouette") and map_source.contains("SquadOcclusionSilhouette") and map_source.contains("no_depth_test = true") and map_source.contains("const PAWN_STEP_DURATION := 0.18") and map_source.contains("func _arrival_resolution_owns_save"), "map pawns retain occlusion silhouettes while movement and arrival persistence use the fast path")
 	var result_exit_guard := shell_source.contains("func _navigate_back_from_header") and shell_source.contains("if current_screen == \"RESULT\":") and shell_source.contains("SceneRouter.go(\"STAGE_SELECT\")")
 	check(result_exit_guard, "result-to-growth navigation cannot re-enter a committed Battle through generic history")
 	check(shell_source.contains("_debug_prepare_companion_event") and shell_source.contains("SettingsService.is_developer_mode"), "companion-event E2E fixture is developer-gated and excluded from Release authority")
-	var debug_labels := ["모든 재료 999", "전체 동료 해금", "스테이지 전체 해금", "선택 캐릭터 +10레벨", "선택 캐릭터 10/10/5", "무적:", "Seed +1", "적 배율", "계정 Lv.100", "선택 무기 Lv.60/T6", "N10 즉시 선택", "CH01 NORMAL 완료 / HARD QA"]
+	var debug_labels := ["모든 재료 999", "전체 동료 해금", "스테이지 전체 해금", "선택 캐릭터 +10레벨", "선택 캐릭터 10/10/5", "무적:", "Seed +1", "적 배율", "계정 Lv.100", "선택 무기 Lv.60/T6", "N20 즉시 선택", "CH01 NORMAL 완료 / HARD QA"]
 	var ordered := true
 	var cursor := -1
 	for label in debug_labels:
@@ -341,6 +387,12 @@ func _test_combat_art_contracts() -> void:
 	check(runtime_bgm_contract, "all local BGM streams use their full-length source (20s+ title / 60s+ in-game) and are loop-enabled", ", ".join(bgm_length_diagnostics))
 	var audio_service_source := FileAccess.get_file_as_string("res://autoload/audio_service.gd")
 	check(audio_service_source.contains("playback_attempt_counts") and audio_service_source.contains("playback_verified_counts") and audio_service_source.contains("_verify_start_after_delay") and audio_service_source.contains("_queue_bgm_recovery(\"watchdog\")") and audio_service_source.contains("_reserve_bgm_attempt") and audio_service_source.contains("BGM_CIRCUIT_FAILURE_THRESHOLD"), "audio runtime separates attempts from verified starts and bounds stopped-Web-BGM recovery")
+	var settings_source := FileAccess.get_file_as_string("res://autoload/settings_service.gd")
+	var mute_shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
+	var load_index := mute_shell_source.find("SaveService.load_game()")
+	var mute_override_index := mute_shell_source.find("SettingsService.apply_web_preview_audio_override()")
+	var mute_stop_index := mute_shell_source.find("AudioService.set_enabled(false)")
+	check(settings_source.contains("func apply_web_preview_audio_override()") and settings_source.contains("func web_preview_audio_forced_muted()") and load_index >= 0 and mute_override_index > load_index and mute_stop_index > mute_override_index, "Web QA mute reapplies after the saved preference and stops audio before the title route")
 	check(audio_service_source.contains("MusicCrossfadePlayer") and audio_service_source.contains("BGM_LOOP_CROSSFADE_SECONDS") and audio_service_source.contains("_begin_bgm_loop_crossfade") and audio_service_source.contains("_prepare_music_crossfade") and audio_service_source.contains("_music_has_active_playback"), "BGM uses a two-player pre-end crossfade instead of exposing compact-loop restarts")
 	var loop_probe := AudioStreamWAV.new()
 	loop_probe.format = AudioStreamWAV.FORMAT_16_BITS
@@ -434,6 +486,7 @@ func _test_card_audio_contracts() -> void:
 	check(audio_service_source.contains("card_start_profiles") and audio_service_source.contains("func play_card_start") and audio_service_source.contains("gain_db") and audio_service_source.contains("pitch_scale"), "AudioService exposes layered card starts with per-entry gain and pitch")
 	check(battle_view_source.contains("AudioService.play_card_start(card_start_id_for_event(event, skill_source)") and battle_view_source.contains("AudioService.play_card_start(card_start_id_for_event(event, ultimate_source)") and battle_view_source.contains("AudioService.play_event(\"PLAYER_BASIC_ATTACK\""), "skill and ultimate starts use cards while basic attacks retain legacy event audio")
 	check(battle_view_source.contains("if damage_event_has_hit_sfx(event):") and battle_view_source.contains("extra.get(\"miss\", false)") and battle_view_source.contains("extra.get(\"invulnerable\", false)"), "BattleView gates hit audio behind explicit real-damage semantics")
+	check(battle_view_source.contains("func _action_source_is_presentable") and battle_view_source.contains("not _action_source_is_presentable(str(event.source))") and battle_view_source.contains("animation_name not in [\"down\", \"victory\"]"), "BattleView suppresses late cast visuals from units already DOWN")
 
 func _test_data() -> void:
 	check(DataRegistry.load_error == "", "compiled data loads", DataRegistry.load_error)
@@ -508,12 +561,12 @@ func _test_data() -> void:
 	var ch02_normal := normal.filter(func(stage): return str(stage.chapter_id) == "CH02")
 	var ch01_hard := hard.filter(func(stage): return str(stage.chapter_id) == "CH01")
 	var ch02_hard := hard.filter(func(stage): return str(stage.chapter_id) == "CH02")
-	check(ch01_normal.size() == 10 and ch02_normal.size() == 10, "both chapters have exactly 10 NORMAL operations")
-	check(ch01_hard.size() == 5 and ch02_hard.size() == 5, "both chapters have exactly 5 HARD operations")
-	check(normal.filter(func(stage): return stage.boss).size() == 2 and normal.filter(func(stage): return stage.boss).all(func(stage): return int(stage.stage_number) == 10), "each chapter NORMAL 10 is boss")
-	var hard_finales := hard.filter(func(stage): return bool(stage.boss) and int(stage.stage_number) == 5)
+	check(ch01_normal.size() == 20 and ch02_normal.size() == 20, "both chapters have exactly 20 NORMAL operations")
+	check(ch01_hard.size() == 10 and ch02_hard.size() == 10, "both chapters have exactly 10 HARD operations")
+	check(normal.filter(func(stage): return stage.boss).size() == 2 and normal.filter(func(stage): return int(stage.stage_number) == 20), "each chapter NORMAL 20 is boss")
+	var hard_finales := hard.filter(func(stage): return bool(stage.boss) and int(stage.stage_number) == 10)
 	var optional_ch01_h03_boss := bool(DataRegistry.stage("CH01-H03").get("boss", false))
-	check(hard_finales.size() == 2 and optional_ch01_h03_boss, "each chapter HARD 5 is boss and CH01-H03 retains its authored unique boss metadata")
+	check(hard_finales.size() == 2 and optional_ch01_h03_boss, "each chapter HARD 10 is boss and CH01-H03 retains its authored unique boss metadata")
 	var rewards_valid := true
 	for stage in DataRegistry.list_of("stages"):
 		var reward := DataRegistry.by_id("rewards", stage.reward_table_id)
@@ -542,45 +595,29 @@ func _test_data() -> void:
 		combat_preview_lineage_honest = combat_preview_lineage_honest and str(registered_entry.get("source_status", "")) != "" and str(registered_entry.get("qa_status", "")) == "RUNTIME_CONNECTED_NOT_PRODUCTION_APPROVED" and registered_entry.get("production_approved", true) == false
 	check(combat_previews_connected, "all 64 CharacterDef and EnemyDef combat asset IDs resolve to connected runtime previews instead of dev_placeholder")
 	check(combat_preview_lineage_honest, "combat preview registry retains source status without claiming production approval")
-	var runtime_static_art_valid := true
+	var card_8head_contract := _read_json("res://assets/runtime_web/characters/CARD_8HEAD_RGBA_R1_CONTRACT.json")
+	var card_8head_characters: Dictionary = card_8head_contract.get("characters", {})
+	var runtime_static_art_valid := str(card_8head_contract.get("generationMatte", "")) == "#00FF00" and str(card_8head_contract.get("runtimeBackground", "")) == "RGBA_TRANSPARENT" and card_8head_characters.size() == 44
+	var card_8head_failures: Array[String] = []
+	if not runtime_static_art_valid:
+		card_8head_failures.append("contract=%s characters=%d" % [JSON.stringify({"matte": card_8head_contract.get("generationMatte", ""), "runtime": card_8head_contract.get("runtimeBackground", "")}), card_8head_characters.size()])
 	for character in DataRegistry.list_of("characters"):
+		var character_id := str(character.get("id", ""))
+		var continuity: Dictionary = card_8head_characters.get(character_id, {})
 		for key in ["portrait_asset_id", "icon_asset_id"]:
 			var runtime_path := AssetRegistry.resolve(str(character[key]))
-			var packaged_static_location := runtime_path.begins_with("res://assets/runtime_web/characters/") or runtime_path.begins_with("res://assets/art/characters/")
-			runtime_static_art_valid = runtime_static_art_valid and packaged_static_location and ResourceLoader.exists(runtime_path)
-	check(runtime_static_art_valid, "all 44 roster portrait and icon IDs resolve to packaged runtime static artwork")
-	var chr002_static_art: Dictionary = DataRegistry.character("CHR002")
-	var chr002_portrait_path := AssetRegistry.resolve(str(chr002_static_art.get("portrait_asset_id", "")))
-	var chr002_icon_path := AssetRegistry.resolve(str(chr002_static_art.get("icon_asset_id", "")))
-	var chr001_static_art: Dictionary = DataRegistry.character("CHR001")
-	var chr001_portrait_path := AssetRegistry.resolve(str(chr001_static_art.get("portrait_asset_id", "")))
-	var chr001_icon_path := AssetRegistry.resolve(str(chr001_static_art.get("icon_asset_id", "")))
-	check(chr001_portrait_path == "res://assets/art/characters/CHR001/portrait_1024x1536.png" and chr001_icon_path == "res://assets/art/characters/CHR001/icon_512x512.png" and ResourceLoader.exists(chr001_portrait_path) and ResourceLoader.exists(chr001_icon_path), "CHR001 R6P2 static art resolves from documented Blender lineage paths on the shared runtime card frame")
-	check(chr002_portrait_path == "res://assets/art/characters/CHR002/CHR002_PORTRAIT_R1.png" and chr002_icon_path == "res://assets/art/characters/CHR002/CHR002_ICON_R1.png" and ResourceLoader.exists(chr002_portrait_path) and ResourceLoader.exists(chr002_icon_path), "CHR002 R1 static art resolves from transparent production art paths on the shared runtime card frame")
-	var chr003_static_art: Dictionary = DataRegistry.character("CHR003")
-	var chr003_portrait_path := AssetRegistry.resolve(str(chr003_static_art.get("portrait_asset_id", "")))
-	var chr003_icon_path := AssetRegistry.resolve(str(chr003_static_art.get("icon_asset_id", "")))
-	check(chr003_portrait_path == "res://assets/art/characters/CHR003/CHR003_PORTRAIT_R1.png" and chr003_icon_path == "res://assets/art/characters/CHR003/CHR003_ICON_R1.png" and ResourceLoader.exists(chr003_portrait_path) and ResourceLoader.exists(chr003_icon_path), "CHR003 R1 static art resolves from transparent production art paths on the frozen CHR002 shared runtime card frame")
-	var chr004_static_art: Dictionary = DataRegistry.character("CHR004")
-	var chr004_portrait_path := AssetRegistry.resolve(str(chr004_static_art.get("portrait_asset_id", "")))
-	var chr004_icon_path := AssetRegistry.resolve(str(chr004_static_art.get("icon_asset_id", "")))
-	check(chr004_portrait_path == "res://assets/art/characters/CHR004/CHR004_PORTRAIT_R1.png" and chr004_icon_path == "res://assets/art/characters/CHR004/CHR004_ICON_R1.png" and ResourceLoader.exists(chr004_portrait_path) and ResourceLoader.exists(chr004_icon_path), "CHR004 R1 static art resolves from transparent production art paths on the frozen shared runtime card frame")
-	var chr005_static_art: Dictionary = DataRegistry.character("CHR005")
-	var chr005_portrait_path := AssetRegistry.resolve(str(chr005_static_art.get("portrait_asset_id", "")))
-	var chr005_icon_path := AssetRegistry.resolve(str(chr005_static_art.get("icon_asset_id", "")))
-	check(chr005_portrait_path == "res://assets/art/characters/CHR005/CHR005_PORTRAIT_R1.png" and chr005_icon_path == "res://assets/art/characters/CHR005/CHR005_ICON_R1.png" and ResourceLoader.exists(chr005_portrait_path) and ResourceLoader.exists(chr005_icon_path), "CHR005 R1 static art resolves from transparent production art paths on the frozen shared runtime card frame")
-	var chr006_static_art: Dictionary = DataRegistry.character("CHR006")
-	var chr006_portrait_path := AssetRegistry.resolve(str(chr006_static_art.get("portrait_asset_id", "")))
-	var chr006_icon_path := AssetRegistry.resolve(str(chr006_static_art.get("icon_asset_id", "")))
-	check(chr006_portrait_path == "res://assets/art/characters/CHR006/CHR006_PORTRAIT_R1.png" and chr006_icon_path == "res://assets/art/characters/CHR006/CHR006_ICON_R1.png" and ResourceLoader.exists(chr006_portrait_path) and ResourceLoader.exists(chr006_icon_path), "CHR006 R1 static art resolves from transparent production art paths on the frozen shared runtime card frame")
-	var chr007_static_art: Dictionary = DataRegistry.character("CHR007")
-	var chr007_portrait_path := AssetRegistry.resolve(str(chr007_static_art.get("portrait_asset_id", "")))
-	var chr007_icon_path := AssetRegistry.resolve(str(chr007_static_art.get("icon_asset_id", "")))
-	check(chr007_portrait_path == "res://assets/art/characters/CHR007/CHR007_PORTRAIT_R1.png" and chr007_icon_path == "res://assets/art/characters/CHR007/CHR007_ICON_R1.png" and ResourceLoader.exists(chr007_portrait_path) and ResourceLoader.exists(chr007_icon_path), "CHR007 R1 static art resolves from transparent production art paths on the frozen shared runtime card frame")
-	var chr008_static_art: Dictionary = DataRegistry.character("CHR008")
-	var chr008_portrait_path := AssetRegistry.resolve(str(chr008_static_art.get("portrait_asset_id", "")))
-	var chr008_icon_path := AssetRegistry.resolve(str(chr008_static_art.get("icon_asset_id", "")))
-	check(chr008_portrait_path == "res://assets/art/characters/CHR008/CHR008_PORTRAIT_R1.png" and chr008_icon_path == "res://assets/art/characters/CHR008/CHR008_ICON_R1.png" and ResourceLoader.exists(chr008_portrait_path) and ResourceLoader.exists(chr008_icon_path), "CHR008 R1 static art resolves from transparent production art paths on the frozen shared runtime card frame")
+			var packaged_static_location := runtime_path.begins_with("res://assets/runtime_web/characters/%s/" % character_id)
+			var alpha_record: Dictionary = continuity.get("portrait", {}) if key == "portrait_asset_id" else continuity.get("icon", {})
+			var safe_insets: Array = alpha_record.get("safeInsets", [])
+			var opaque_transparent_extrema: Array = alpha_record.get("alphaExtrema", [])
+			var alpha_extrema_valid := opaque_transparent_extrema.size() == 2 and int(opaque_transparent_extrema[0]) == 0 and int(opaque_transparent_extrema[1]) == 255
+			var chroma_residue := _semi_transparent_chroma_residue_count(runtime_path) if FileAccess.file_exists(runtime_path) else -1
+			var premium_8head := str((continuity.get("fingerprint", {}) as Dictionary).get("presentation", "")) == "PREMIUM_8_HEAD_FULL_BODY_CARD"
+			var row_valid := packaged_static_location and FileAccess.file_exists(runtime_path) and str(continuity.get("status", "")) == "COSTUME_CONTINUITY_PASS" and premium_8head and alpha_extrema_valid and chroma_residue == 0 and safe_insets.size() == 4 and int(safe_insets[0]) >= 16 and int(safe_insets[1]) >= 16 and int(safe_insets[2]) >= 16 and int(safe_insets[3]) >= 16
+			if not row_valid:
+				card_8head_failures.append("%s:%s path=%s contract=%s presentation=%s alpha=%s greenFringe=%d inset=%s" % [character_id, key, runtime_path, str(continuity.get("status", "")), str((continuity.get("fingerprint", {}) as Dictionary).get("presentation", "")), JSON.stringify(opaque_transparent_extrema), chroma_residue, JSON.stringify(safe_insets)])
+			runtime_static_art_valid = runtime_static_art_valid and row_valid
+	check(runtime_static_art_valid, "all 44 non-combat card, recruit, roster, profile and story images use premium 8-head art with #00FF00 provenance, true RGBA, safe insets and continuity approval", JSON.stringify(card_8head_failures))
 	check(DataRegistry.list_of("characters").size() == 44, "MVP has 44 player characters")
 	check(DataRegistry.list_of("enemies").filter(func(enemy): return enemy.rank == "NORMAL").size() == 12, "MVP has 12 normal enemy archetypes")
 	check(DataRegistry.list_of("enemies").filter(func(enemy): return enemy.rank == "ELITE").size() == 3, "vertical slice has 3 elites")
@@ -683,6 +720,32 @@ func _test_battle() -> void:
 	stun_sim.tick()
 	var acted := stun_sim.event_log.slice(before).any(func(event): return event.source == stunned.uid and event.type in [BattleEvent.BASIC_ATTACK, BattleEvent.NORMAL_SKILL])
 	check(not acted, "stun blocks action")
+	var downed_caster_sim := _simulation(111)
+	var downed_enemy: Dictionary = downed_caster_sim.state.enemies[0]
+	downed_enemy.hp = 0
+	downed_enemy.alive = false
+	downed_enemy.state = "DOWN"
+	var downed_event_start := downed_caster_sim.event_log.size()
+	downed_caster_sim._basic_attack(downed_enemy)
+	downed_caster_sim._use_normal(downed_enemy)
+	downed_caster_sim._use_ultimate(downed_enemy)
+	downed_caster_sim._emit_boss_pattern_cast(downed_enemy, downed_caster_sim.state.party[0], "TEST")
+	downed_caster_sim._deal_damage(downed_enemy, downed_caster_sim.state.party[0], 1.0, "TEST")
+	downed_caster_sim._heal(downed_enemy, downed_caster_sim.state.party[0], 1.0)
+	downed_caster_sim._apply_shield(downed_enemy, downed_caster_sim.state.party[0], 1.0)
+	var downed_cast_emitted := downed_caster_sim.event_log.slice(downed_event_start).any(func(event): return event.source == downed_enemy.uid and event.type in [BattleEvent.BASIC_ATTACK, BattleEvent.NORMAL_SKILL, BattleEvent.ULTIMATE])
+	var downed_effect_emitted := downed_caster_sim.event_log.slice(downed_event_start).any(func(event): return event.source == downed_enemy.uid and event.type in [BattleEvent.DAMAGE, BattleEvent.HEAL, BattleEvent.SHIELD])
+	check(not downed_cast_emitted and not downed_effect_emitted, "downed unit cannot enqueue skill, boss-pattern, damage, heal, or shield actions")
+	var late_event_view := BattleView.new()
+	late_event_view.setup(downed_caster_sim)
+	late_event_view.consumed_events = downed_caster_sim.event_log.size()
+	downed_caster_sim.event_log.append(BattleEvent.make(downed_caster_sim.state.tick, BattleEvent.BASIC_ATTACK, downed_enemy.uid, downed_caster_sim.state.party[0].uid))
+	downed_caster_sim.event_log.append(BattleEvent.make(downed_caster_sim.state.tick, BattleEvent.NORMAL_SKILL, downed_enemy.uid, downed_caster_sim.state.party[0].uid, 0, {"skill_id": "TEST_DOWNED_NORMAL"}))
+	downed_caster_sim.event_log.append(BattleEvent.make(downed_caster_sim.state.tick, BattleEvent.ULTIMATE, downed_enemy.uid, downed_caster_sim.state.party[0].uid, 0, {"skill_id": "TEST_DOWNED_ULTIMATE"}))
+	late_event_view._consume_events()
+	var late_track: Dictionary = late_event_view.animation_tracks.get(downed_enemy.uid, {})
+	check(late_event_view.projectiles.is_empty() and late_event_view.vfx_presentations.is_empty() and late_event_view.skill_callouts.is_empty() and str(late_track.get("name", "")) == "move", "late visual events cannot make a DOWN enemy cast from the ground")
+	late_event_view.free()
 	var target_sim := _simulation(101)
 	target_sim.auto_enabled = false
 	var manual_caster: Dictionary = target_sim.state.party[1]
@@ -754,8 +817,8 @@ func _test_battle() -> void:
 	var reused := pooled_view.pool_diagnostics()
 	check(int(recycled.free_projectiles) == 100 and int(recycled.free_floating_texts) == 100 and int(reused.active_projectiles) == 100 and int(reused.active_floating_texts) == 100 and int(reused.free_projectiles) == 0 and int(reused.free_floating_texts) == 0, "100 projectile and damage-text entries are recycled from pools")
 	pooled_view.free()
-	var phase_sim := _simulation(1715, "CH01-N10")
-	# N10's boss can be in a later wave. The renderer consumes the same STATUS
+	var phase_sim := _simulation(1715, "CH01-N20")
+	# N20's boss can be in a later wave. The renderer consumes the same STATUS
 	# payload independently of which wave emitted it, so a live wave-one source
 	# gives this view-only test a stable anchor without advancing simulation.
 	var phase_source: Dictionary = phase_sim.state.enemies[0]
@@ -859,18 +922,18 @@ func _test_story() -> void:
 	SettingsService.values.developer_mode = false
 	var release_header: Dictionary = shell.story_header_data("SCN_CH01_PREBOSS")
 	var unknown_release_header: Dictionary = shell.story_header_data("SCN_UNKNOWN_INTERNAL")
-	var release_result_header: Dictionary = shell.result_header_data({"source_type": "BATTLE", "source_id": "CH01-N10"})
+	var release_result_header: Dictionary = shell.result_header_data({"source_type": "BATTLE", "source_id": "CH01-N20"})
 	var release_treasure_header: Dictionary = shell.result_header_data({"source_type": "TREASURE", "source_id": "TREASURE_VISIBLE_01"})
 	SettingsService.values.developer_mode = true
 	var developer_header: Dictionary = shell.story_header_data("SCN_CH01_PREBOSS")
-	var developer_result_header: Dictionary = shell.result_header_data({"source_type": "BATTLE", "source_id": "CH01-N10"})
+	var developer_result_header: Dictionary = shell.result_header_data({"source_type": "BATTLE", "source_id": "CH01-N20"})
 	SettingsService.values.developer_mode = developer_mode_before
 	check(str(release_header.title) == LocalizationService.tr_key("SCENARIO_CH01_PREBOSS_TITLE") and str(release_header.subtitle).is_empty(), "story release header uses localized scenario title and hides raw scenario ID")
 	check(str(developer_header.title) == LocalizationService.tr_key("SCENARIO_CH01_PREBOSS_TITLE") and str(developer_header.subtitle) == "SCN_CH01_PREBOSS", "story developer header may expose raw scenario ID without replacing localized title")
 	check(str(unknown_release_header.title) == LocalizationService.tr_key("UI_STORY_TITLE") and str(unknown_release_header.subtitle).is_empty(), "unknown story release header falls back to neutral localized copy without exposing SCN ID")
-	check(str(release_result_header.title) == "전투 결과" and str(release_result_header.subtitle) == LocalizationService.tr_key("STAGE_CH01_N10") and not str(release_result_header.subtitle).contains("CH01-"), "battle result release header resolves the localized stage name instead of the stage ID")
+	check(str(release_result_header.title) == "전투 결과" and str(release_result_header.subtitle) == LocalizationService.tr_key("STAGE_CH01_N20") and not str(release_result_header.subtitle).contains("CH01-"), "battle result release header resolves the localized stage name instead of the stage ID")
 	check(str(release_treasure_header.subtitle) == "현장 보급품 회수" and not str(release_treasure_header.subtitle).contains("TREASURE_VISIBLE_01"), "exploration result release header uses neutral copy instead of a source ID")
-	check(str(developer_result_header.subtitle).contains("CH01-N10"), "result developer header retains the stage ID for diagnostics")
+	check(str(developer_result_header.subtitle).contains("CH01-N20"), "result developer header retains the stage ID for diagnostics")
 	var delayed_recruit_feature: Dictionary = shell.result_feature_character_for_report({"progress": {"newly_recruited_characters": ["CHR007"]}}, ["CHR001"])
 	var immediate_event_feature: Dictionary = shell.result_feature_character_for_report({"progress": {"event_encounter": {"character_id": "CHR006"}}}, ["CHR001"])
 	check(str(delayed_recruit_feature.get("id", "")) == "CHR007" and str(immediate_event_feature.get("id", "")) == "CHR006", "result art prioritizes actual deferred or immediate companion joins over the unrelated party lead")
@@ -923,6 +986,53 @@ func _test_story() -> void:
 	check(web_checkpoint_wiring, "story checkpoints are atomically persisted at Web dialogue and choice boundaries")
 	check(DataRegistry.list_of("scenarios").size() == 15, "story content count covers both chapters")
 	AppState.profile = story_profile_before
+
+func _test_relay() -> void:
+	var profile_backup := AppState.profile.duplicate(true)
+	AppState.new_game()
+	var specification := RelayServiceScript.first_spec()
+	var spec_errors := RelayServiceScript.validate_specification(specification)
+	check(str(specification.get("id", "")) == "RELAY_CH01_A" and spec_errors.is_empty() and (specification.get("stage_ids", []) as Array).size() == 3, "relay contract is data-driven with three valid distinct stage segments", JSON.stringify(spec_errors))
+	var rejected := RelayServiceScript.start(AppState.profile, str(specification.get("id", "")), 123)
+	check(not bool(rejected.get("ok", false)) and str(rejected.get("error", "")).begins_with("LOCKED_OR_EMPTY"), "relay blocks a run before fifteen unlocked unique members exist")
+	var unlocked := 0
+	for character_value in DataRegistry.list_of("characters"):
+		var character_id := str((character_value as Dictionary).get("id", ""))
+		if unlocked < 15:
+			AppState.profile.roster[character_id].unlocked = true
+			unlocked += 1
+	check(RelayServiceScript.autofill_draft(AppState.profile), "relay auto-fill creates three squads once fifteen companions are available")
+	var squads := RelayServiceScript.draft_squads(AppState.profile)
+	check(RelayServiceScript.validate_squads(AppState.profile, squads).is_empty(), "relay draft has three complete five-member squads with no duplicate character")
+	var duplicate_squads := squads.duplicate(true)
+	duplicate_squads[2][4] = duplicate_squads[0][0]
+	var duplicate_errors := RelayServiceScript.validate_squads(AppState.profile, duplicate_squads)
+	check(duplicate_errors.any(func(value): return str(value).begins_with("DUPLICATE_MEMBER")), "relay validator rejects a character reused across two squads", JSON.stringify(duplicate_errors))
+	var started := RelayServiceScript.start(AppState.profile, str(specification.get("id", "")), 12345)
+	check(bool(started.get("ok", false)) and RelayServiceScript.current_stage_id(AppState.profile) == "CH01-N03" and RelayServiceScript.current_squad(AppState.profile).size() == 5, "relay starts its first existing battle with the first locked five-member squad")
+	var relay_snapshot := AppState.relay_party_snapshot()
+	check(relay_snapshot.size() == 5 and str(relay_snapshot[0].get("id", "")).begins_with("CHR"), "relay battle snapshot resolves the selected squad through the ordinary character progression path")
+	var restored_profile := AppState.profile.duplicate(true)
+	AppState.apply_loaded(restored_profile)
+	check(AppState.relay_active() and AppState.relay_current_stage_id() == "CH01-N03" and AppState.relay_current_squad().size() == 5, "relay active run, segment and squad locks survive save-state restoration")
+	var credit_before_failure := AppState.inventory_count("CREDIT")
+	var failed_segment := RelayServiceScript.record_segment_result(AppState.profile, {"victory": false, "time": 20.0, "survivors": 0})
+	check(bool(failed_segment.get("retry", false)) and RelayServiceScript.current_stage_id(AppState.profile) == "CH01-N03" and AppState.inventory_count("CREDIT") == credit_before_failure, "relay failure preserves the current segment and grants no reward")
+	var first_win := RelayServiceScript.record_segment_result(AppState.profile, {"victory": true, "time": 40.0, "survivors": 5, "ticks": 100, "event_hash": "relay-1"})
+	check(bool(first_win.get("advanced", false)) and RelayServiceScript.current_stage_id(AppState.profile) == "CH01-N06", "first relay victory advances only to the next segment and locks the winning squad")
+	var second_win := RelayServiceScript.record_segment_result(AppState.profile, {"victory": true, "time": 42.0, "survivors": 5, "ticks": 101, "event_hash": "relay-2"})
+	check(bool(second_win.get("advanced", false)) and RelayServiceScript.current_stage_id(AppState.profile) == "CH01-N09", "second relay victory persists the second squad lock and opens the final segment")
+	var credit_before_completion := AppState.inventory_count("CREDIT")
+	var final_win := RelayServiceScript.record_segment_result(AppState.profile, {"victory": true, "time": 43.0, "survivors": 5, "ticks": 102, "event_hash": "relay-3"})
+	check(bool(final_win.get("completed", false)) and bool(final_win.get("first_completion", false)) and str(final_win.get("grade", "")) == "S" and int(final_win.get("rewards", {}).get("CREDIT", 0)) == 15000 and AppState.inventory_count("CREDIT") == credit_before_completion + 15000, "relay final completion calculates a grade and commits existing-resource reward exactly once")
+	var duplicate_completion := RelayServiceScript.record_segment_result(AppState.profile, {"victory": true, "time": 1.0, "survivors": 5})
+	check(not bool(duplicate_completion.get("ok", false)) and AppState.inventory_count("CREDIT") == credit_before_completion + 15000 and not RelayServiceScript.completion_summary(AppState.profile, str(specification.get("id", ""))).is_empty(), "stale relay completion callback cannot mint a second completion reward")
+	var legacy := AppState.profile.duplicate(true)
+	legacy.erase("relay")
+	legacy["save_schema_version"] = 7
+	var migrated := SaveService._migrate(legacy)
+	check(migrated.ok and int(migrated.value.get("save_schema_version", 0)) == 8 and (migrated.value.get("relay", {}) as Dictionary).has("active_run"), "save migration v7→v8 adds only the relay ledger")
+	AppState.profile = profile_backup
 
 func _test_save() -> void:
 	var production_paths := SaveService.save_paths_for(false)

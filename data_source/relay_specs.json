@@ -1,0 +1,19 @@
+[
+  {
+    "id": "RELAY_CH01_A",
+    "name": "삼중 노선 릴레이 · 제1구간",
+    "subtitle": "서로 다른 15명을 세 개의 독립 편성으로 운용하십시오.",
+    "stage_ids": [
+      "CH01-N03",
+      "CH01-N06",
+      "CH01-N09"
+    ],
+    "completion_rewards": {
+      "CREDIT": 15000,
+      "TRAINING_NOTE_L": 3,
+      "SKILL_BOOK_T1": 6
+    },
+    "s_rank_time": 150.0,
+    "a_rank_time": 195.0
+  }
+]

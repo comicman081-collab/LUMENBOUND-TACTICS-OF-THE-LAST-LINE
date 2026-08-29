@@ -4,6 +4,7 @@ const ChapterMapLoaderScript := preload("res://chapter_map/runtime/chapter_map_l
 const ChapterMapProgressScript := preload("res://chapter_map/model/chapter_map_progress.gd")
 const MapExplorationServiceScript := preload("res://chapter_map/model/map_exploration_service.gd")
 const MapSimulationScript := preload("res://chapter_map/model/map_simulation.gd")
+const RelayServiceScript := preload("res://relay/relay_service.gd")
 
 const SAVE_PATH := "user://save_v1.json"
 const BACKUP_PATH := "user://save_v1.backup.json"
@@ -264,6 +265,12 @@ func _migrate(data: Dictionary) -> GameResult:
 				if not progress.has("unlocked"): progress["unlocked"] = chapter_id == first_chapter_id
 			data["save_schema_version"] = 7
 			version = 7
+		elif version == 7:
+			# Relay runs are additive and offline.  Migrate only their own ledger;
+			# never touch stage stars, roster unlocks, map state, or inventory here.
+			RelayServiceScript.ensure_profile(data)
+			data["save_schema_version"] = 8
+			version = 8
 		else:
 			return GameResult.failure("missing migration from %d" % version)
 	return GameResult.success(data)

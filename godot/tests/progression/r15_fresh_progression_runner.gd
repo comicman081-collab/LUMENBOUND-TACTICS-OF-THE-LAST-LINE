@@ -5,7 +5,7 @@ extends RefCounted
 ## SceneTree entrypoint so startup, runner loading, and progression logic each
 ## produce an unambiguous checkpoint without mocking game services.
 
-const CHECKPOINT_STAGES := {"CH01-N03": true, "CH01-N05": true, "CH01-N07": true, "CH01-N09": true, "CH01-N10": true}
+const CHECKPOINT_STAGES := {"CH01-N03": true, "CH01-N06": true, "CH01-N10": true, "CH01-N15": true, "CH01-N19": true, "CH01-N20": true}
 const MAX_GROWTH_ACTIONS_PER_STAGE := 100
 const GrowthPlanBuilderScript := preload("res://progression/growth_plan_builder.gd")
 
@@ -25,16 +25,16 @@ func run() -> Dictionary:
 	var initial_save := SaveService.save_game()
 	if not initial_save.ok:
 		return _finish_failure("fresh save failed: %s" % initial_save.error)
-	var stages: Array = DataRegistry.list_of("stages").filter(func(value): return str(value.get("mode", "")) == "NORMAL")
+	var stages: Array = DataRegistry.list_of("stages").filter(func(value): return str(value.get("mode", "")) == "NORMAL" and str(value.get("chapter_id", "")) == "CH01")
 	stages.sort_custom(func(left, right): return int(left.get("stage_number", 0)) < int(right.get("stage_number", 0)))
-	if stages.size() != 10:
-		return _finish_failure("expected exactly ten normal stages")
+	if stages.size() != 20:
+		return _finish_failure("expected exactly twenty Chapter 1 normal stages")
 	for index in stages.size():
 		var stage: Dictionary = stages[index]
 		var stage_id := str(stage.get("id", ""))
 		if not _run_stage(stage, 1515000 + index):
 			break
-	var complete := errors.is_empty() and rows.size() == 10 and bool(AppState.profile.get("first_clear", {}).get("CH01-N10", false))
+	var complete := errors.is_empty() and rows.size() == 20 and bool(AppState.profile.get("first_clear", {}).get("CH01-N20", false))
 	var report := _report(complete)
 	_write_report(report)
 	if complete:

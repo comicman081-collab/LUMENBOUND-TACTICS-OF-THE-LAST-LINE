@@ -1,0 +1,49 @@
+{
+  "characterId": "CHR001",
+  "status": "PROMOTED_RUNTIME_QA_PASS",
+  "revision": "R7",
+  "generationMode": "CHATGPT_EXISTING_SESSION_FRESH_8_HEAD_GENERATION",
+  "sourceRule": "NEW_GENERATION_ONLY_NO_R1_TO_R6_IMAGE_REUSE_OR_REPAIR",
+  "generationMatte": "#00FF00",
+  "runtimeBackground": "RGBA_TRANSPARENT",
+  "identityReference": "godot/assets/runtime_web/combat/CHR001/preview.png",
+  "identityRequirements": [
+    "turquoise long high ponytail and swept bangs",
+    "small gold crown ornament",
+    "teal and gold guardian armour",
+    "large teal glass kite shield with gold frame at screen-right",
+    "chained lantern mace at screen-left",
+    "adult 8-head non-combat card/story illustration"
+  ],
+  "freshGeneratedSource": "data_source/art_source/card_8head_green_matte_r2/CHR001/chr001_8head_r7_chatgpt_fresh_green_matte.png",
+  "freshGeneratedSourceSha256": "979b1e4950feebdae1e10a7411473f5bffbcd35b2bc203cc09a38b8a66c79063",
+  "exactGreenMatte": "data_source/art_source/card_8head_green_matte_r2/CHR001/chr001_8head_r7_chatgpt_fresh_exact_green_matte.png",
+  "exactGreenMatteSha256": "e05a3ec18d914776e593acf30607592b3cf64893102a250059d765362c5f99df",
+  "matteNormalization": "edge-connected high-dominance chroma green only; preserves generated character pixels",
+  "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r2/CHR001/chr001_8head_r7_chatgpt_fresh_exact_rgba.png",
+  "rgbaCandidateSha256": "da835137d7de629debc7e66fb3d7ef4b3896d744973fd566d1499a81527d5492",
+  "rgbaQa": {
+    "alphaExtrema": [0, 255],
+    "alphaBbox": [141, 17, 955, 1431],
+    "opaqueGreenResiduePixels": 0
+  },
+  "visualQa": {
+    "freshGeneration": "PASS",
+    "hairBackResidue": "PASS_NONE_VISIBLE",
+    "greenSourceCorners": "PASS_EXACT_00FF00",
+    "sdContinuity": "PASS_TEAL_HAIR_CROWN_GUARDIAN_SHIELD_LANTERN",
+    "nonCombatScaleRule": "PASS_8_HEAD_ONLY"
+  },
+  "runtimeRegression": {
+    "runtimePortrait": "godot/assets/runtime_web/characters/CHR001/portrait.png",
+    "runtimePortraitSha256": "4b1367dc9e7207df73368c606137ad9a4060443e9003719de56ad60e36f28bd4",
+    "webBuild": "builds/web_development",
+    "inAppPrologueStanding": "PASS_NO_WHITE_OR_GREEN_BACKER_VISIBLE",
+    "automatedSuites": {
+      "headless": "196/196 PASS",
+      "r15": "54/54 PASS",
+      "map": "279/279 PASS"
+    },
+    "finalExistingChatGPTReview": "PASS PASS PASS PASS"
+  }
+}

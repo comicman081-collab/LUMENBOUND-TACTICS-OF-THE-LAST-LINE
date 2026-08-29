@@ -1,0 +1,51 @@
+{
+  "characterId": "CHR001",
+  "status": "REJECTED_LOCAL_R6_QUALITY_AND_IDENTITY_DO_NOT_PROMOTE",
+  "rejectionReason": "Both local R6 outputs had cleanly generated matte candidates but failed required premium-detail and Maeru identity continuity visual review; R7 is the only CHR001 promotion candidate.",
+  "generationMatte": "#00FF00",
+  "runtimeBackground": "RGBA_TRANSPARENT",
+  "model": "stabilityai-sdxl-base-1.0-local + controlnet-canny-sdxl-1.0-local + ip-adapter-sdxl-local + sam2.1-hiera-small-local",
+  "guide": "data_source/art_source/card_8head_green_matte_r2/CHR001/chr001_8head_r6_fullbody_canny_guide.png",
+  "prompt": "long turquoise teal high ponytail, gold crown, amber eyes, teal and gold guardian armour, huge teal gold kite shield, chained lantern mace, premium polished anime tactical SRPG card, adult woman guardian, elegant eight-head full body, head and boots visible, non-explicit isolated studio character art, flat solid chroma green background",
+  "negativePrompt": "chibi, SD, child, teen, male, cropped, closeup, portrait, scenery, shadow, text, logo, multiple people, extra limbs, duplicate arms, missing shield, missing weapon, white background, black background, gray background",
+  "identityRequirements": [
+    "turquoise high ponytail",
+    "gold crown ornament",
+    "teal-gold guardian armour",
+    "kite shield",
+    "chained lantern"
+  ],
+  "continuityReference": "godot/assets/runtime_web/combat/CHR001/preview.png",
+  "candidates": [
+    {
+      "candidate": 1,
+      "seed": 101201,
+      "rawFreshRender": "data_source/art_source/card_8head_green_matte_r2/CHR001/chr001_8head_r6v01_seed101201_raw_fresh.png",
+      "rawFreshRenderSha256": "fefa3ae1247ced840306202ce973b7560452be3404c03b09ffd1eeaab1eb89cc",
+      "greenMatte": "data_source/art_source/card_8head_green_matte_r2/CHR001/chr001_8head_r6v01_seed101201_green_matte.png",
+      "greenMatteSha256": "85ccda84ea60bb7572d012b77b9a04633833f7a0a06e0392576c2025401d6b64",
+      "rgba": "data_source/art_source/card_8head_green_matte_r2/CHR001/chr001_8head_r6v01_seed101201_rgba.png",
+      "rgbaSha256": "491be9ae4bc0c7568b07076672f7d0b1a8d0c3847d9692ef6943a7a149e202cd",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "status": "REJECTED_LOW_DETAIL_AND_IDENTITY_DRIFT"
+    },
+    {
+      "candidate": 2,
+      "seed": 101202,
+      "rawFreshRender": "data_source/art_source/card_8head_green_matte_r2/CHR001/chr001_8head_r6v02_seed101202_raw_fresh.png",
+      "rawFreshRenderSha256": "407bd6d7b5f300cb7a72240764882778b4e1adc965426f1b020e7619a500b579",
+      "greenMatte": "data_source/art_source/card_8head_green_matte_r2/CHR001/chr001_8head_r6v02_seed101202_green_matte.png",
+      "greenMatteSha256": "cbea591d960f4a9c4e016dee4fe60e9d0384bec43e3cbcb8c602196fe3d3e373",
+      "rgba": "data_source/art_source/card_8head_green_matte_r2/CHR001/chr001_8head_r6v02_seed101202_rgba.png",
+      "rgbaSha256": "131fdc7405ab4ec1ac7a4d46b5f8c36fc03150d61736fd1ce46e57b305da7c33",
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "status": "REJECTED_LOW_DETAIL_AND_MISSING_SHIELD"
+    }
+  ]
+}

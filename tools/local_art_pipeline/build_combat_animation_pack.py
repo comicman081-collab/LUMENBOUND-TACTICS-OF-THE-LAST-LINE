@@ -118,6 +118,36 @@ def transform(base: Image.Image, angle: float = 0.0, tx: int = 0, ty: int = 0, s
     return canvas
 
 
+def down_transform(base: Image.Image, index: int, count: int, team: str) -> Image.Image:
+    """Create a grounded, fully framed collapse without clipping the body.
+
+    The standing pack's shared transform intentionally pivots around the feet.
+    That is correct for attacks but wrong for a 78° fall: it can push a wide
+    shield/hair silhouette beyond a fixed 512px frame.  Down states instead
+    rotate the isolated subject on an expanded canvas, then place its lowest
+    pixel on the common floor line.  Frame zero remains pixel-aligned with the
+    standing source; the final pose is centred, complete, and visibly prone.
+    """
+    t = index / max(1, count - 1)
+    alpha = base.getchannel("A")
+    bbox = alpha.point(lambda value: 255 if value > 18 else 0).getbbox()
+    if bbox is None:
+        return Image.new("RGBA", (FRAME_SIZE, FRAME_SIZE), (0, 0, 0, 0))
+    subject = base.crop(bbox)
+    collapse_scale = 1.0 - 0.14 * t
+    subject = subject.resize((max(1, round(subject.width * collapse_scale)), max(1, round(subject.height * collapse_scale))), Image.Resampling.BICUBIC)
+    direction = 1 if team == "PLAYER" else -1
+    fallen = subject.rotate(direction * 78.0 * t, resample=Image.Resampling.BICUBIC, expand=True)
+    canvas = Image.new("RGBA", (FRAME_SIZE, FRAME_SIZE), (0, 0, 0, 0))
+    x = (FRAME_SIZE - fallen.width) // 2
+    # The pose rests on the same world floor as an idle frame, with a tiny
+    # visual lift during the fall so the final silhouette stays inside bounds.
+    floor = FOOT_PIXEL[1] - round(5.0 * t)
+    y = floor - fallen.height
+    canvas.alpha_composite(fallen, (x, y))
+    return canvas
+
+
 def upper_body_motion(base: Image.Image, angle: float, tx: int, ty: int) -> Image.Image:
     """Move the upper body/weapon around the hips while the legs stay planted."""
     if abs(angle) < 0.001 and tx == 0 and ty == 0:
@@ -195,7 +225,13 @@ def motion(animation: str, index: int, count: int, role: str, team: str) -> dict
     if animation == "hit":
         return {"angle": direction * [0, -8, 5, 0][index], "tx": direction * [0, -14, -7, 0][index], "ty": [0, 2, 1, 0][index]}
     if animation == "down":
-        return {"angle": direction * 68 * t, "tx": round(direction * 38 * t), "ty": round(20 * t), "sx": 1.0 - 0.13 * t, "sy": 1.0 - 0.13 * t}
+        # A 68-degree fall around the foot anchor needs more than the ordinary
+        # standing-art canvas.  The previous 0.87 final scale plus a downward
+        # drift pushed the late DOWN frames beyond the 512 edge, visibly
+        # cutting off the prone character.  Keep the body fully inside the
+        # shared canvas while still ending on a grounded, readable silhouette.
+        collapse_scale = 1.0 - 0.18 * t
+        return {"angle": direction * 68 * t, "tx": round(direction * 60 * t), "ty": round(-12 * t), "sx": collapse_scale, "sy": collapse_scale}
     if animation == "victory":
         pulse = np.sin(t * np.pi * 2.0)
         return {"angle": direction * 4 * pulse, "tx": round(direction * 3 * pulse), "ty": round(-8 * abs(pulse)), "sx": 1.0 + 0.025 * abs(pulse), "sy": 1.0 + 0.025 * abs(pulse)}
@@ -203,6 +239,10 @@ def motion(animation: str, index: int, count: int, role: str, team: str) -> dict
 
 
 def render_frame(base: Image.Image, animation: str, index: int, count: int, role: str, team: str) -> Image.Image:
+    # Down needs a framed subject-space rotation rather than the ordinary
+    # foot-pivot transform; see down_transform for the no-crop contract.
+    if animation == "down":
+        return down_transform(base, index, count, team)
     spec = motion(animation, index, count, role, team)
     upper = upper_body_motion(base, float(spec.pop("upper_angle", 0.0)), int(spec.pop("upper_tx", 0)), int(spec.pop("upper_ty", 0)))
     flash = float(spec.pop("flash", 0.0))

@@ -3,10 +3,10 @@
   "asset_id": "runtime_web_combat_chr001",
   "character_id": "CHR001",
   "status": "RUNTIME_WEB_COMBAT_ATLAS",
-  "source_status": "ART_QA_CANDIDATE",
+  "source_status": "DEV_CUTOUT_RIG_ANIMATION",
   "source_root": "assets/art/sd/CHR001",
-  "source_asset_id": "sd_chr001_premium_r6p2",
-  "ownership_status": "ORIGINAL_INTERNAL",
+  "source_asset_id": "sd_chr001_maeru_combat_r8_green_key",
+  "ownership_status": "PROJECT_DEV_GENERATED",
   "frame_size": [
     128,
     128
@@ -17,15 +17,15 @@
   ],
   "head_anchor": [
     0.5,
-    0.12
+    0.064453125
   ],
   "view": "THREE_QUARTER_RIGHT_DOWN_30",
   "facing_policy": "SEPARATE_LEFT_RIGHT",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "c08ed82bfc50378932fbd1a41047070d9b731c8badef34bc0e3f47925fbf977c",
+  "preview_sha256": "2174bc72fe10d455a70ede3bec5456b35a52f4f56c500fd83fa4f450c59ca51a",
   "atlas_columns": 10,
-  "total_frames": 84,
+  "total_frames": 80,
   "animations": {
     "idle": {
       "fps": 12,
@@ -74,7 +74,12 @@
         26,
         27
       ],
-      "events": []
+      "events": [
+        {
+          "frame": 4,
+          "event": "DAMAGE_FRAME"
+        }
+      ]
     },
     "normal_skill": {
       "fps": 12,
@@ -93,7 +98,16 @@
         38,
         39
       ],
-      "events": []
+      "events": [
+        {
+          "frame": 7,
+          "event": "VFX_FRAME"
+        },
+        {
+          "frame": 7,
+          "event": "DAMAGE_FRAME"
+        }
+      ]
     },
     "ultimate": {
       "fps": 12,
@@ -118,7 +132,20 @@
         56,
         57
       ],
-      "events": []
+      "events": [
+        {
+          "frame": 5,
+          "event": "VFX_FRAME"
+        },
+        {
+          "frame": 11,
+          "event": "DAMAGE_FRAME"
+        },
+        {
+          "frame": 11,
+          "event": "SFX_FRAME"
+        }
+      ]
     },
     "hit": {
       "fps": 12,
@@ -161,19 +188,13 @@
         78,
         79
       ],
-      "events": []
-    },
-    "stun": {
-      "fps": 12,
-      "loop": true,
-      "frame_indices": [
-        80,
-        81,
-        82,
-        83
-      ],
-      "events": []
+      "events": [
+        {
+          "frame": 9,
+          "event": "ANIMATION_END"
+        }
+      ]
     }
   },
-  "sha256": "52daaf72529c3e954eeab3bff44a2443e62d1538c54c40901e7689c050cdc2b1"
+  "sha256": "f0a33c83bfd95de28d736abf0d22a0e6aacce6896e400ee8aeb9f66d56e878f2"
 }

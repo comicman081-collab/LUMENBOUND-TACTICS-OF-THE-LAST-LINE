@@ -32,6 +32,45 @@
     }
   },
   "developmentCostumeOverrides": {
+    "CHR001": {
+      "costumeId": "CHR001_CANONICAL_GUARDIAN_R1",
+      "authorityImage": "../../combat_hd_sources/maeru_r8_sd_green_matte/chr001_sd_r8_exact_green_matte.png",
+      "authoritySha256": "6b92ede93773db794132595126c96020b461a2fecfe4cc84ef55efe7e216dede",
+      "runtimeRgbaImage": "../../combat_hd_sources/maeru_r8_sd_green_matte/chr001_sd_r8_runtime_rgba.png",
+      "runtimeRgbaSha256": "d6c8d45a1b450b7b7bf8095e8f329a1c525efd68d42f4c90cb7d58173679e82a",
+      "runtimeAtlas": "godot/assets/runtime_web/combat/CHR001/atlas.png",
+      "runtimeAtlasSha256": "f0a33c83bfd95de28d736abf0d22a0e6aacce6896e400ee8aeb9f66d56e878f2",
+      "status": "CANDIDATE_LOCAL_REVIEW_PASS_PENDING_IN_APP_REVIEW",
+      "artRevision": "SD_R8_GREEN_MATTE_CUTOUT_RIG",
+      "generationMatte": {
+        "color": "#00FF00",
+        "role": "INTERMEDIATE_ONLY",
+        "runtimeBackground": "TRANSPARENT_RGBA",
+        "keying": "FULL_CANVAS_STRICT_HUE_GREEN_KEY_WITH_EDGE_DESPILL"
+      },
+      "review": {
+        "verdict": "COSTUME_CONTINUITY_PASS",
+        "surface": "codex_local_visual_review",
+        "authoring": "imagegen_identity_preserving_edit",
+        "externalInAppReview": "PENDING",
+        "checks": [
+          "adult_15_plus_3_5_to_4_head_sd_read",
+          "maeru_teal_ponytail_gold_crown_guardian_palette_shield_and_lantern_preserved",
+          "screen_right_player_combat_intent",
+          "full_body_safe_margin_and_readable_two_hand_weapon_zones",
+          "flat_green_source_verified_then_keyed_to_transparent_rgba",
+          "no_visible_chroma_residue_in_runtime_source"
+        ]
+      },
+      "fingerprint": {
+        "identityInvariant": "adult female Maeru guardian; teal high ponytail with gold crown ornament; white/teal/gold armour; gold-edged teal kite shield and chained lantern",
+        "silhouette": "3.5-to-4-head premium SD guardian with high ponytail, shield on screen-right and lantern on screen-left",
+        "garmentModules": "white breastplate with gold trims, teal hip panels, dark gloves and armoured boots",
+        "coverage": "ADULT_NON_EXPLICIT_15_PLUS_COSTUME",
+        "accessories": "gold crown, teal shield crystal, chained lantern",
+        "weaponGrip": "RIGHT_HAND_SHIELD_GRIP_AND_LEFT_HAND_CHAINED_LANTERN_GRIP"
+      }
+    },
     "BOSS003": {
       "costumeId": "BOSS003_SILHOUETTE_B",
       "authorityImage": "../../combat_hd_sources/boss003_silhouette_b_authority.png",

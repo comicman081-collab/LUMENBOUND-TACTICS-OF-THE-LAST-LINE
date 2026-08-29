@@ -1,0 +1,1823 @@
+{
+  "schemaVersion": 2,
+  "generationMatte": "#00FF00",
+  "runtimeBackground": "RGBA_TRANSPARENT_REQUIRED",
+  "coverage": "CHR009-CHR044",
+  "reviewPolicy": "NO_RUNTIME_PROMOTION_BEFORE_IN_APP_GPT_CONTINUITY_APPROVAL",
+  "batchReview": {
+    "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+    "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+    "reviewedAt": "2026-08-29",
+    "comparisonSheets": [
+      "builds/qa/card_8head_identity_review/CARD_8HEAD_SD_AUTHORITY_COMPARE_CHR009_CHR017.jpg",
+      "builds/qa/card_8head_identity_review/CARD_8HEAD_SD_AUTHORITY_COMPARE_CHR018_CHR026.jpg",
+      "builds/qa/card_8head_identity_review/CARD_8HEAD_SD_AUTHORITY_COMPARE_CHR027_CHR035.jpg",
+      "builds/qa/card_8head_identity_review/CARD_8HEAD_SD_AUTHORITY_COMPARE_CHR036_CHR044.jpg"
+    ],
+    "characterContinuity": "PASS_36_OF_36",
+    "batchDistinctness": "PASS",
+    "greenKeyPipeline": "PASS"
+  },
+  "candidates": {
+    "CHR009": {
+      "characterName": "LIV",
+      "combatRole": "VANGUARD",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/chr009_costume_c_authority.png",
+      "identityReferenceSha256": "7ee1bffa9a060d3028649e2131f2eecc8085a3c71959f903569197092646a619",
+      "costumeId": "chr009_costume_c_7ee1bffa9a060d30_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR009/chr009_8head_card_r6_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "ed269042bb373710bdc46d1197fea7e444774060ffcc8d6472ac08bd6ea4c3bc",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR009/chr009_8head_card_r6_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "5c952ebc9196e50cf45c3e7bd2e62f483327883e5c55181c1cb33ed8f2854972",
+      "alphaQaSheet": "builds/qa/card_8head_chr009_r6_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          887,
+          1774
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          80,
+          143,
+          807,
+          1631
+        ],
+        "safeInsets": [
+          80,
+          143,
+          80,
+          143
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR010": {
+      "characterName": "SEON",
+      "combatRole": "MEDIC",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/chr010_costume_b_authority.png",
+      "identityReferenceSha256": "f462fbf50595c26d5196fd7a6867affd1524c0822ecc3b362ab6350963fded31",
+      "costumeId": "chr010_costume_b_f462fbf50595c26d_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR010/chr010_8head_card_r2_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "feaea50ca095a8594b2ea96ff5eac40b1fdeda69c045c17b13716613d4d0281e",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR010/chr010_8head_card_r2_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "095c4349234ad992319c0ac044c96561b2021ac123302e9aee18c65c279f4c69",
+      "alphaQaSheet": "builds/qa/card_8head_chr010_r2_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          87,
+          81,
+          937,
+          1456
+        ],
+        "safeInsets": [
+          87,
+          81,
+          87,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR011": {
+      "characterName": "ADELINE",
+      "combatRole": "ARTILLERY",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/chr011_costume_b_authority_r2.png",
+      "identityReferenceSha256": "fb3bce3271009272b8dc530e73ff1028d3389669680a842543a5da2498b1e409",
+      "costumeId": "chr011_costume_b_fb3bce3271009272_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR011/chr011_8head_card_r2_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "77e06098ca5b44ae6c1c845e08118a5fb77cc11a6da9a40831d54c021477a3cf",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR011/chr011_8head_card_r2_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "d236121c5ef68c3696718fb0ca6c9ba21af67aad662b354dc2e3c22b8ebb84c7",
+      "alphaQaSheet": "builds/qa/card_8head_chr011_r2_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1055,
+          1491
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          90,
+          80,
+          965,
+          1411
+        ],
+        "safeInsets": [
+          90,
+          80,
+          90,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR012": {
+      "characterName": "KIR",
+      "combatRole": "SPECIALIST",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/chr012_costume_b_authority.png",
+      "identityReferenceSha256": "75a35503b92255cd14ca8285c9a9601e150ea9ef7f0a16e15eb34435418c7d41",
+      "costumeId": "chr012_costume_b_75a35503b92255cd_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR012/chr012_8head_card_r2_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "821c0a2d7438979646b290b53fd92f6f71a715d6dc2893b08be1ec2c11f18aba",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR012/chr012_8head_card_r2_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "94c45c2e9123c744e3fb95760b1ea66df2eb17e8a7f8f8dee88b4ef04293fca5",
+      "alphaQaSheet": "builds/qa/card_8head_chr012_r2_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          992,
+          1586
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          81,
+          161,
+          911,
+          1425
+        ],
+        "safeInsets": [
+          81,
+          161,
+          81,
+          161
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR013": {
+      "characterName": "REMA",
+      "combatRole": "GUARDIAN",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/chr013_costume_b_authority.png",
+      "identityReferenceSha256": "6bc5817bf00befc17d8981f60afb519412435219abc3827f3d871f7de8c7d87c",
+      "costumeId": "chr013_costume_b_6bc5817bf00befc1_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR013/chr013_8head_card_r2_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "61c0844ead62470bd852b9aa098fae1abf1bfed30f47e2b6d59a91f142f0decc",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR013/chr013_8head_card_r2_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "bf12828c356fb3bff43df1b3e2315aade9d1ea322ce6fa3e6e968d68d0d08b2a",
+      "alphaQaSheet": "builds/qa/card_8head_chr013_r2_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1054,
+          1492
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          80,
+          153,
+          976,
+          1339
+        ],
+        "safeInsets": [
+          80,
+          153,
+          78,
+          153
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR014": {
+      "characterName": "VEON",
+      "combatRole": "ASSAULT",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr014_costume_d_authority.png",
+      "identityReferenceSha256": "c994d99182330aa2f626797ff71f86aa131eb77755e317198bdcede0cc6188b4",
+      "costumeId": "chr014_costume_d_c994d99182330aa2_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR014/chr014_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "66417179123a0fd3bbc9ee34052cf589102ec152179544dfdc07a51406cbe80c",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR014/chr014_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "e362aa24038f0bd1bc59b9b7892ed54119aaf6b65b92c6ace8fc2ea5a68315ce",
+      "alphaQaSheet": "builds/qa/card_8head_chr014_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          90,
+          83,
+          934,
+          1456
+        ],
+        "safeInsets": [
+          90,
+          83,
+          90,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR015": {
+      "characterName": "HART",
+      "combatRole": "ARTILLERY",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr015_costume_c_authority.png",
+      "identityReferenceSha256": "3e6dbf9a0b36f26fdd5d9775371a543f136ba4ce9ed28c6068e7a1c58dc91261",
+      "costumeId": "chr015_costume_c_3e6dbf9a0b36f26f_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR015/chr015_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "ae1c050d382f53897451b8bee6c96cae1a69de479e6604356406ac3cb8d5776b",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR015/chr015_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "8e98274356e9f30afede7f20edecdd0be0455a7e91a3c9eecb0d2b2917b98a35",
+      "alphaQaSheet": "builds/qa/card_8head_chr015_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          80,
+          104,
+          944,
+          1433
+        ],
+        "safeInsets": [
+          80,
+          104,
+          80,
+          103
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR016": {
+      "characterName": "ORSA",
+      "combatRole": "GUARDIAN",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr016_costume_c_sd_r1_greenkey_authority.png",
+      "identityReferenceSha256": "43ca4bb407a669e31f2c52bfc067ba126aa4bc79768e3bd22422b51e4ed41f33",
+      "costumeId": "chr016_costume_c_43ca4bb407a669e3_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR016/chr016_8head_card_r2_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "89814bdf27fd852015e762deb6c527dae6d2209c9521e1c22f60dbad1e7e8c83",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR016/chr016_8head_card_r2_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "07e83ff306ba2763a5919bf944498db5c155afbfa88db402d3b0e9e0b41362b2",
+      "alphaQaSheet": "builds/qa/card_8head_chr016_r2_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1122,
+          1402
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          145,
+          80,
+          977,
+          1322
+        ],
+        "safeInsets": [
+          145,
+          80,
+          145,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR017": {
+      "characterName": "TIEL",
+      "combatRole": "MEDIC",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr017_costume_c_sd_r1_greenkey_authority.png",
+      "identityReferenceSha256": "3af4881a402f91b3d9af4721aae8eabcc6615ce58f43c2650d68127ebc755704",
+      "costumeId": "chr017_costume_c_3af4881a402f91b3_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR017/chr017_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "ebc9f9e3d9c999e9af9a7a665b07df9c1fc568ffa9f0353b39ae0705fc0220e0",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR017/chr017_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "9c9294a13fe45b6a5b8e3d5aa626afa8bf2194260ae2de068d82144acc4c1259",
+      "alphaQaSheet": "builds/qa/card_8head_chr017_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1060,
+          1484
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          131,
+          106,
+          929,
+          1378
+        ],
+        "safeInsets": [
+          131,
+          106,
+          131,
+          106
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR018": {
+      "characterName": "RIAS",
+      "combatRole": "ASSAULT",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr018_costume_d_sd_r1_greenkey_authority.png",
+      "identityReferenceSha256": "c959e7b43552a587b860f8f5fa358832928e68dbbf9415f9df434de86b4e5ee3",
+      "costumeId": "chr018_costume_d_c959e7b43552a587_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR018/chr018_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "d048708d9044294e16cdd14e12ba5ae609bc56d0326b247fa96ab84a6797911e",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR018/chr018_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "d64b1be58d67849822abd91f6250415c9408db13f538b495a148ac9de2bf3cf1",
+      "alphaQaSheet": "builds/qa/card_8head_chr018_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1122,
+          1402
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          168,
+          80,
+          953,
+          1322
+        ],
+        "safeInsets": [
+          168,
+          80,
+          169,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR019": {
+      "characterName": "PERIN",
+      "combatRole": "SPECIALIST",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr019_costume_c_sd_r1_rgba_authority.png",
+      "identityReferenceSha256": "7e4e3eab6db1616bc4a7f06a4c41272d8f849c61919b5f3414107f2ce6113e28",
+      "costumeId": "chr019_costume_c_7e4e3eab6db1616b_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR019/chr019_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "356cdd6e672168f3f08fbe46e6a0b53778a74ec015852d7e921e8717fb4427c2",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR019/chr019_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "69684c4c21d8869c4a3bb93d135f3150ce2383677d696bc08043dddb86e18e07",
+      "alphaQaSheet": "builds/qa/card_8head_chr019_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          134,
+          104,
+          889,
+          1432
+        ],
+        "safeInsets": [
+          134,
+          104,
+          135,
+          104
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR020": {
+      "characterName": "KARN",
+      "combatRole": "VANGUARD",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr020_costume_c_sd_r1_rgba_authority.png",
+      "identityReferenceSha256": "ae18e79d21fe6767b4c90daad5fab24d0726e55a06e7c736d6f73eaee3f62323",
+      "costumeId": "chr020_costume_c_ae18e79d21fe6767_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR020/chr020_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "9ef5310f8753a68a597d840e229f04954dc79b5ce5e091b803cd4732c5b38682",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR020/chr020_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "18efa45fbe8e048bd5da34719a9a72ff2964800f771a28b6394eae317436534a",
+      "alphaQaSheet": "builds/qa/card_8head_chr020_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1122,
+          1402
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          173,
+          80,
+          949,
+          1322
+        ],
+        "safeInsets": [
+          173,
+          80,
+          173,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR021": {
+      "characterName": "NOAR",
+      "combatRole": "MEDIC",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr021_costume_c_sd_r1_rgba_authority.png",
+      "identityReferenceSha256": "2dc4a06f7bdfc2cb3246f2c55e2d3e16b61eef176d55bac61d5f85a0f870783b",
+      "costumeId": "chr021_costume_c_2dc4a06f7bdfc2cb_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR021/chr021_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "06f02b839a570d9d5299714cbb1297e5d53522ed9461d5e7a3c9600f5d9112a0",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR021/chr021_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "baba9ba9e521d42a7acf2234ca848f23af8049aa3831c823a2787be6041bfba8",
+      "alphaQaSheet": "builds/qa/card_8head_chr021_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          109,
+          177,
+          915,
+          1359
+        ],
+        "safeInsets": [
+          109,
+          177,
+          109,
+          177
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR022": {
+      "characterName": "SEB",
+      "combatRole": "VANGUARD",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr022_costume_c_sd_r1_rgba_authority.png",
+      "identityReferenceSha256": "c35a7e74bc26ec34c26b3d7603630a81869f781ec225206c1649ab8461f2b0f9",
+      "costumeId": "chr022_costume_c_c35a7e74bc26ec34_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR022/chr022_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "dbb3207a817d8959f63c591ef50fc9aa3b3164db5d3ec5599aa2bc67772027eb",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR022/chr022_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "146b4b2840c446ec793c595f9804fb2e6f01a1300893efbb43430fc72d55d0ca",
+      "alphaQaSheet": "builds/qa/card_8head_chr022_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          80,
+          155,
+          944,
+          1381
+        ],
+        "safeInsets": [
+          80,
+          155,
+          80,
+          155
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR023": {
+      "characterName": "YURIEN",
+      "combatRole": "ARTILLERY",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr023_costume_c_sd_r1_rgba_authority.png",
+      "identityReferenceSha256": "ecc46527f20399867934ede4847d2468338fbe4ff226f6729f75fdc61a4ce49d",
+      "costumeId": "chr023_costume_c_ecc46527f2039986_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR023/chr023_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "5e115dc536031b203cc0907be05307c46415a1b9ed4ee39c320e1269a0935c05",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR023/chr023_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "8b898528c86769eda4f786c543627c5619558f465e8c1db59c3d4efba5f50969",
+      "alphaQaSheet": "builds/qa/card_8head_chr023_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          972,
+          1619
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          80,
+          195,
+          892,
+          1423
+        ],
+        "safeInsets": [
+          80,
+          195,
+          80,
+          196
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR024": {
+      "characterName": "MOEN",
+      "combatRole": "SPECIALIST",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr024_costume_c_sd_r1_rgba_authority.png",
+      "identityReferenceSha256": "e11dc2c526422872124ecb94e4cdf21540c4633439451cf551b35ab3bf46b298",
+      "costumeId": "chr024_costume_c_e11dc2c526422872_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR024/chr024_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "138843da6f51d3e9294c8d34e6b747ed88c51f4283515057c6ad6561b2b1cde2",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR024/chr024_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "b11f588a3a0ca0e039490fa2ddd4954e4b3e7cb02f53df4a69961d5152b6b616",
+      "alphaQaSheet": "builds/qa/card_8head_chr024_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          240,
+          80,
+          783,
+          1456
+        ],
+        "safeInsets": [
+          240,
+          80,
+          241,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR025": {
+      "characterName": "LAVENT",
+      "combatRole": "GUARDIAN",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr025_costume_c_sd_r1_rgba_authority.png",
+      "identityReferenceSha256": "8a6213825b28bc520fc11794951dc4a757ea449e879ddeec1293634021d61159",
+      "costumeId": "chr025_costume_c_8a6213825b28bc52_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR025/chr025_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "bc3250df94996af4cba84502d7987a9d36c431af8e9f86879c5eac3053a29bed",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR025/chr025_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "c713fd9c963c222c8b0e055eda9c43b5ff4f207328cdfa9ac20ad94b0578ecbd",
+      "alphaQaSheet": "builds/qa/card_8head_chr025_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          128,
+          137,
+          895,
+          1398
+        ],
+        "safeInsets": [
+          128,
+          137,
+          129,
+          138
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR026": {
+      "characterName": "KAIREN",
+      "combatRole": "ASSAULT",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr026_costume_c_authority.png",
+      "identityReferenceSha256": "c8f86b265f4b81371e5274f6f245c62c14e03b74a73182a6caa7cad66e2a343c",
+      "costumeId": "chr026_costume_c_c8f86b265f4b8137_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR026/chr026_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "3be3da949fe27ee9ad5e62aef2d5b1154ac6471e0faece0aa7feab21d75ba96e",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR026/chr026_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "159fd18c76c92d95ad06a41b33cc603a70d29efe1d1db5ff85236d50f96f097b",
+      "alphaQaSheet": "builds/qa/card_8head_chr026_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          948,
+          1659
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          92,
+          92,
+          855,
+          1566
+        ],
+        "safeInsets": [
+          92,
+          92,
+          93,
+          93
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR027": {
+      "characterName": "INOA",
+      "combatRole": "SPECIALIST",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr027_costume_d_sd_r1_rgba_authority.png",
+      "identityReferenceSha256": "258e4b2a60c8c3a101d8cbf6d727ec44dc6de58ee603a8938282a551284d3da4",
+      "costumeId": "chr027_costume_d_258e4b2a60c8c3a1_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR027/chr027_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "578614dbcd4673fa8170f234a7e5129291da990d20b7b6a1da119c216c16d3d4",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR027/chr027_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "5ed5f1a4f6e3ee684008b8d2e592f50c9ba5a089c1d8380bc184f5171f2fb812",
+      "alphaQaSheet": "builds/qa/card_8head_chr027_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1023,
+          1537
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          95,
+          90,
+          927,
+          1447
+        ],
+        "safeInsets": [
+          95,
+          90,
+          96,
+          90
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR028": {
+      "characterName": "DRAN",
+      "combatRole": "VANGUARD",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr028_costume_c_authority.png",
+      "identityReferenceSha256": "40c7fd4d97de862effb8313a5e3812e3abdb2f2da4a732cf734c9f9ae5c6b7bc",
+      "costumeId": "chr028_costume_c_40c7fd4d97de862e_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR028/chr028_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "b30d760d69be51aa89e17f246fc737a23aace39df7d80f40aca50acb73c71b18",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR028/chr028_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "8d117c185cb16e61d5b3cbeb6c69b75bb02bbfb1aa7a913aa3510e6d64d969a3",
+      "alphaQaSheet": "builds/qa/card_8head_chr028_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1055,
+          1491
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          81,
+          98,
+          975,
+          1392
+        ],
+        "safeInsets": [
+          81,
+          98,
+          80,
+          99
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR029": {
+      "characterName": "MERIN",
+      "combatRole": "MEDIC",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr029_costume_c_authority.png",
+      "identityReferenceSha256": "b974cc4b2b3b40084a5043292d71e61d71d052316698b9504a0b3ea1691ebcb0",
+      "costumeId": "chr029_costume_c_b974cc4b2b3b4008_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR029/chr029_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "071c28f282db1ec164750d86de07bc0930d08fc739309fb32edfaf92dfd0047b",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR029/chr029_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "2db2e261e0359b76996116ab5b554f74abca20a60b5fd4c9cefd82ad933672c2",
+      "alphaQaSheet": "builds/qa/card_8head_chr029_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          153,
+          80,
+          870,
+          1456
+        ],
+        "safeInsets": [
+          153,
+          80,
+          154,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR030": {
+      "characterName": "CIEL",
+      "combatRole": "ARTILLERY",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr030_costume_c_authority.png",
+      "identityReferenceSha256": "7b6b3e5278ef8fc535a1ad855efae082cd281ecd8e0ac97485f231b98fffba4c",
+      "costumeId": "chr030_costume_c_7b6b3e5278ef8fc5_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR030/chr030_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "a95bea9a7d498adc01a2d60cbe2654870301a46455b9f470d7afa88df123ca9f",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR030/chr030_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "0a7e2ee4c42308af8aa12606de37d85edb86ad4c9a1ac375fe23deaa2b2b182b",
+      "alphaQaSheet": "builds/qa/card_8head_chr030_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          80,
+          191,
+          944,
+          1346
+        ],
+        "safeInsets": [
+          80,
+          191,
+          80,
+          190
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR031": {
+      "characterName": "ROME",
+      "combatRole": "GUARDIAN",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr031_costume_c_authority.png",
+      "identityReferenceSha256": "bfc1f639fbbcea8c8876cc9a5b5a9933bd1c977015d990ab15391b665862729c",
+      "costumeId": "chr031_costume_c_bfc1f639fbbcea8c_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR031/chr031_8head_card_r2_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "1ef842cb494fcd07d40eb8bd584f56248970d8b07059198a776c2cbf2bcdc6a0",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR031/chr031_8head_card_r2_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "d40ad4d1b802e33592fdb49053d6d3bf304f0fe0436b99e96fbb8e64db857e37",
+      "alphaQaSheet": "builds/qa/card_8head_chr031_r2_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1122,
+          1402
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          248,
+          80,
+          873,
+          1322
+        ],
+        "safeInsets": [
+          248,
+          80,
+          249,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR032": {
+      "characterName": "KIAN",
+      "combatRole": "ASSAULT",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr032_costume_c_authority.png",
+      "identityReferenceSha256": "fa6d618cb9bae926033a5c728dcb669d09f0bfa59358697bd61dbb1dd952ee6f",
+      "costumeId": "chr032_costume_c_fa6d618cb9bae926_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR032/chr032_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "2b0cc76bb91b7eb4ab3d41e0d717cca9152cd3a374c788e4eac534b9e151a354",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR032/chr032_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "cf4ab90ad0bbc34beae704d9efb456e8de3dbe43c72b6a3a17ed5f717c7fe9d0",
+      "alphaQaSheet": "builds/qa/card_8head_chr032_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          941,
+          1672
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          132,
+          81,
+          809,
+          1592
+        ],
+        "safeInsets": [
+          132,
+          81,
+          132,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR033": {
+      "characterName": "DAEL",
+      "combatRole": "SPECIALIST",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr033_costume_c_sd_r1_rgba_authority.png",
+      "identityReferenceSha256": "841a1e14c29b56e9a4d9135ce5ee8c6e08c7eb97e477c171d8c4d3794671fb87",
+      "costumeId": "chr033_costume_c_841a1e14c29b56e9_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR033/chr033_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "c7225afcce2d0cd44239b13a2c2136bb192887e54221ef748a8b9f65eb6cb6d9",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR033/chr033_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "109801b21de7bbcc00c197bd5b64cc73c02a2b1de61ee5c5ec7b55c13369e297",
+      "alphaQaSheet": "builds/qa/card_8head_chr033_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          179,
+          80,
+          844,
+          1456
+        ],
+        "safeInsets": [
+          179,
+          80,
+          180,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR034": {
+      "characterName": "ORBIN",
+      "combatRole": "GUARDIAN",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr034_costume_c_authority.png",
+      "identityReferenceSha256": "dd9e9790d9a039674b06c5474c5ce0262bd982674575de6336237494f9b5959a",
+      "costumeId": "chr034_costume_c_dd9e9790d9a03967_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR034/chr034_8head_card_r2_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "8a8549f90bea1095ddd3bf581dda1b72ac81aa4625b72d526511d07fc540f66d",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR034/chr034_8head_card_r2_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "6899644b38047f363a7063e6018c932d59416efebff7abf0b717472e4545c371",
+      "alphaQaSheet": "builds/qa/card_8head_chr034_r2_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1254,
+          1254
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          320,
+          80,
+          933,
+          1174
+        ],
+        "safeInsets": [
+          320,
+          80,
+          321,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR035": {
+      "characterName": "HERAON",
+      "combatRole": "ARTILLERY",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr035_costume_c_authority.png",
+      "identityReferenceSha256": "4df2af917c90dde64c5dc6aa9b4ebc8653f53d11e2d819e4a8cf4a4b4242998f",
+      "costumeId": "chr035_costume_c_4df2af917c90dde6_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR035/chr035_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "866857dfbf84938b8e419ff964c3d5feb869540a358033ce83b734a56d094956",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR035/chr035_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "005cfd4ea1f0c8586feaddf0c9f6435a8a699f3e61e4544b2fdc136fcdf6e9ac",
+      "alphaQaSheet": "builds/qa/card_8head_chr035_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          137,
+          80,
+          887,
+          1456
+        ],
+        "safeInsets": [
+          137,
+          80,
+          137,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR036": {
+      "characterName": "MIRE",
+      "combatRole": "MEDIC",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr036_costume_c_authority.png",
+      "identityReferenceSha256": "a118ff844d7d9f9b04e7f895fd0afea90528b2ff39e74144fb09e858afad10d9",
+      "costumeId": "chr036_costume_c_a118ff844d7d9f9b_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR036/chr036_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "24ee788a4cc8f2946084891a7821ee984746ebcc2d9df40b68aedbfc1e38c25e",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR036/chr036_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "275704ccb0b501d0459350c842aa3208cfc575a47c3f2fa4050f4dd003167e35",
+      "alphaQaSheet": "builds/qa/card_8head_chr036_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          158,
+          80,
+          866,
+          1456
+        ],
+        "safeInsets": [
+          158,
+          80,
+          158,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR037": {
+      "characterName": "RAEN",
+      "combatRole": "VANGUARD",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr037_costume_d_authority.png",
+      "identityReferenceSha256": "ff3a749d63fa5c530ba3c3cebe66863bb261d27748c7a9f984a9da3faebfe723",
+      "costumeId": "chr037_costume_d_ff3a749d63fa5c53_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR037/chr037_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "320460d7c7fd2bdebe91ed5a04fef5e4f4b49a9ac555411843f03c5a658e8ff1",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR037/chr037_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "33401b02818de75f453a8fbd69161487580c9d61d63a738d1076e453432002e8",
+      "alphaQaSheet": "builds/qa/card_8head_chr037_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          80,
+          166,
+          944,
+          1371
+        ],
+        "safeInsets": [
+          80,
+          166,
+          80,
+          165
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR038": {
+      "characterName": "ZERN",
+      "combatRole": "ASSAULT",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr038_costume_c_authority.png",
+      "identityReferenceSha256": "e95fb733bc4499c9ac2059d97f4814c77be887f1d3b5063cd8caca8d57edf835",
+      "costumeId": "chr038_costume_c_e95fb733bc4499c9_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR038/chr038_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "c76571c039d7702074c2330faa751da92702c58735774d32a38d7651a222c5c7",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR038/chr038_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "afce1533cbad6aaf773749bc3e7429e3ef6938274b998c768eafd639d5b99daa",
+      "alphaQaSheet": "builds/qa/card_8head_chr038_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1122,
+          1402
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          191,
+          80,
+          931,
+          1322
+        ],
+        "safeInsets": [
+          191,
+          80,
+          191,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR039": {
+      "characterName": "SOA",
+      "combatRole": "SPECIALIST",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr039_costume_c_sd_r1_rgba_authority.png",
+      "identityReferenceSha256": "b21ff832c1c6bb583773ca44f8f5af516b87fa36ff499691a5745ae69bc7bff7",
+      "costumeId": "chr039_costume_c_b21ff832c1c6bb58_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR039/chr039_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "d53824ce0ef573eed517c7b50fe3ad68f82568c722cc6741c08997995fb7ed73",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR039/chr039_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "14d6e5f7c16843a7c481024fb7771a5c6e7d90121ba2bb78f4fae8babc414da2",
+      "alphaQaSheet": "builds/qa/card_8head_chr039_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          140,
+          80,
+          883,
+          1456
+        ],
+        "safeInsets": [
+          140,
+          80,
+          141,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR040": {
+      "characterName": "BAEL",
+      "combatRole": "MEDIC",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr040_costume_d_sd_r1_rgba_authority.png",
+      "identityReferenceSha256": "abba3e8a70ef3f29b168e148e8c42d6593f1a8675de2e81303a8fe6f29fc7396",
+      "costumeId": "chr040_costume_d_abba3e8a70ef3f29_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR040/chr040_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "969e58c900148d326fc947c80448edc9c3d54f4a9550633b773a80db436abdff",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR040/chr040_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "08bf6442ee605b6260bda8b5500b198afdb0bca2647f63c8147b165984d08932",
+      "alphaQaSheet": "builds/qa/card_8head_chr040_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1023,
+          1537
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          130,
+          80,
+          892,
+          1457
+        ],
+        "safeInsets": [
+          130,
+          80,
+          131,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR041": {
+      "characterName": "TERAN",
+      "combatRole": "VANGUARD",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr041_costume_c_sd_r1_rgba_authority.png",
+      "identityReferenceSha256": "b1295402e97ea8856ced2ec3367b86871decb77220d5637d4550dacac09c3462",
+      "costumeId": "chr041_costume_c_b1295402e97ea885_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR041/chr041_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "87b2f6ac08cbb941e7397c8a3e508aa683323e50feafbc0ae897c4ea8570df08",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR041/chr041_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "8f6373e13773eafd734ccb7b0c3d7728ed3b8caa33062ae43cb153e2696f9f8f",
+      "alphaQaSheet": "builds/qa/card_8head_chr041_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1122,
+          1402
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          176,
+          86,
+          945,
+          1316
+        ],
+        "safeInsets": [
+          176,
+          86,
+          177,
+          86
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR042": {
+      "characterName": "YUNAK",
+      "combatRole": "ARTILLERY",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr042_costume_c_authority.png",
+      "identityReferenceSha256": "b225b369adfd6b4459a538310f14309a05add11064e9d795aed18d1a65c41108",
+      "costumeId": "chr042_costume_c_b225b369adfd6b44_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR042/chr042_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "f440614c5538e52fb5c6575c7f879e7be26f490dd6cd840aa58e0367c6c9cbca",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR042/chr042_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "4b5a88c7d545629a1b9d4aba53ca35d95efed8f234f3740524ef5562dc93a0d3",
+      "alphaQaSheet": "builds/qa/card_8head_chr042_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          80,
+          224,
+          944,
+          1311
+        ],
+        "safeInsets": [
+          80,
+          224,
+          80,
+          225
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR043": {
+      "characterName": "ARINT",
+      "combatRole": "GUARDIAN",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr043_costume_c_authority.png",
+      "identityReferenceSha256": "1c5600f6975100438b3760d9188bcfe6a01be544735326b56059ba013b622e98",
+      "costumeId": "chr043_costume_c_1c5600f697510043_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR043/chr043_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "314e082be25ae04ffde49c67e89442bd2fc85e091798fd9804a311fc6417eb1f",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR043/chr043_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "45bb866dc5eb5d61017a7b00ed9fe1b23b54b94e32a15b0df289cec85ac0bdf5",
+      "alphaQaSheet": "builds/qa/card_8head_chr043_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1024,
+          1536
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          80,
+          113,
+          944,
+          1422
+        ],
+        "safeInsets": [
+          80,
+          113,
+          80,
+          114
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    },
+    "CHR044": {
+      "characterName": "VELK",
+      "combatRole": "ASSAULT",
+      "cardFamily": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+      "identityReference": "data_source/art_source/combat_hd_sources/renewed/chr044_costume_c_authority.png",
+      "identityReferenceSha256": "af648ab79650a463f593e7bd9220c53af4637dcd97d13560d7c963c76cfa770d",
+      "costumeId": "chr044_costume_c_af648ab79650a463_sc112",
+      "identityLock": {
+        "faceHairSilhouette": "must match identity reference",
+        "costumeAndWeapon": "must match identity reference",
+        "allowedChange": "adult 8-head proportion and premium card rendering only"
+      },
+      "generationMatte": "#00FF00",
+      "greenMatteCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR044/chr044_8head_card_r1_imagegen_safe_green_matte.png",
+      "greenMatteCandidateSha256": "d03f36d790e7c3990565df14fa69454b1604e0c5b50a2d251d0c76452d96cfd6",
+      "rgbaCandidate": "data_source/art_source/card_8head_green_matte_r1/CHR044/chr044_8head_card_r1_imagegen_safe_rgba.png",
+      "rgbaCandidateSha256": "1f5594c4f12cfe2191aa39d5a90326c3752b12fa06e7bb6741c71b2dc85a3734",
+      "alphaQaSheet": "builds/qa/card_8head_chr044_r1_alpha_contact.png",
+      "alphaQa": {
+        "size": [
+          1122,
+          1402
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          204,
+          81,
+          918,
+          1322
+        ],
+        "safeInsets": [
+          204,
+          81,
+          204,
+          80
+        ],
+        "visibleKeyGreenPixels": 0
+      },
+      "generation": "OPENAI_IMAGEGEN_INDIVIDUAL_AUTHORITY_REFERENCE_GREEN_MATTE",
+      "continuityReview": {
+        "reviewer": "IN_APP_CHATGPT_EXISTING_SESSION",
+        "sessionUrl": "https://chatgpt.com/c/6a8c3496-05b0-83e9-b69f-c29b70a61300",
+        "reviewedAt": "2026-08-29",
+        "result": "COSTUME_CONTINUITY_PASS"
+      },
+      "status": "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION"
+    }
+  }
+}

@@ -1,0 +1,2387 @@
+{
+  "schemaVersion": 1,
+  "status": "SUPERSEDED_INVALID_MIXED_PRESENTATION_QA",
+  "doNotUseFor": ["runtime", "card", "gacha", "roster", "story", "recruit", "final_qa"],
+  "supersededBy": "builds/qa/character_presentation_r3/CHARACTER_PRESENTATION_R3_CONTRACT.json",
+  "invalidReason": "R2 mixed SD combat authorities into a standing/card presentation sheet. It cannot prove the required 44-character 8-head non-combat coverage.",
+  "generationMatte": "#00FF00",
+  "runtimeBackground": "RGBA_TRANSPARENT",
+  "characters": {
+    "CHR001": {
+      "costumeId": "CHR001_CANONICAL_R1",
+      "authorityImage": "godot/assets/art/characters/CHR001/portrait_1024x1536.png",
+      "authoritySha256": "6da898f7db7045774c7bed12adf27aacc4a7267b76310e7c039473cd095de4fb",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr001_standing_r2_green_matte.png",
+      "greenMatteSha256": "ddfb60ff96ecf28da05c8ef927cc2f6a5d307b766ad6a907067f5b9fa2773e8c",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR001/portrait.png",
+      "runtimePortraitSha256": "d0771aab49304ce8d13defd6a4dd28e2068cecca622913af74673e1c370b5588",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR001/icon.png",
+      "runtimeIconSha256": "6b29d8d640a3d183674710a63589286ba654bb47e8fe0c45506cc1785750b143",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          59,
+          96,
+          450,
+          681
+        ],
+        "safeInsets": [
+          59,
+          96,
+          62,
+          87
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          63,
+          32,
+          192,
+          224
+        ],
+        "safeInsets": [
+          63,
+          32,
+          64,
+          32
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR002": {
+      "costumeId": "CHR002_CANONICAL_R1",
+      "authorityImage": "godot/assets/art/characters/CHR002/CHR002_PORTRAIT_R1.png",
+      "authoritySha256": "e739484e7a8539fff3f3c76e6a51419c484ce96820f89da2b99ca4222fcad923",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr002_standing_r2_green_matte.png",
+      "greenMatteSha256": "dbaa1e0c97dad8a20fec33c869c46caaf893cab3185da4a3fddc28c03cb4e085",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR002/portrait.png",
+      "runtimePortraitSha256": "7dbc73b295b375d931a8dceef970739f58cd129fdc1a69c62ea5cae84472a682",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR002/icon.png",
+      "runtimeIconSha256": "8abee7e1e066414715cdb1f560fbc07ca1a1d543de00610972148a413c0c0a2c",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          32,
+          74,
+          488,
+          706
+        ],
+        "safeInsets": [
+          32,
+          74,
+          24,
+          62
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          54,
+          25,
+          202,
+          231
+        ],
+        "safeInsets": [
+          54,
+          25,
+          54,
+          25
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR003": {
+      "costumeId": "CHR003_CANONICAL_R1",
+      "authorityImage": "godot/assets/art/characters/CHR003/CHR003_PORTRAIT_R1.png",
+      "authoritySha256": "0703805ed4824721366232750c1b59e62b3ad998b1204af843854eb097c2368c",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr003_standing_r2_green_matte.png",
+      "greenMatteSha256": "b71b9070b0c56c05776ab503a8a4b30bac06a642890df70f9a0d4946f83cf146",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR003/portrait.png",
+      "runtimePortraitSha256": "fb998fa586df6e8a59f800338a55d6f3ca585e98e0cad44012ae25ddc0dd9aeb",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR003/icon.png",
+      "runtimeIconSha256": "2f2e1efc6d4314218358b99d3f39760f08edba8855e792cc90bfbed47a3ee7e8",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          41,
+          48,
+          475,
+          734
+        ],
+        "safeInsets": [
+          41,
+          48,
+          37,
+          34
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          57,
+          17,
+          200,
+          240
+        ],
+        "safeInsets": [
+          57,
+          17,
+          56,
+          16
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR004": {
+      "costumeId": "CHR004_CANONICAL_R1",
+      "authorityImage": "godot/assets/art/characters/CHR004/CHR004_PORTRAIT_R1.png",
+      "authoritySha256": "fa5b8b3f27e9232d2e731647ee7016fa8bea347dd47ce740234b732cba078fe4",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr004_standing_r2_green_matte.png",
+      "greenMatteSha256": "54a17daa5d39644eb329244f305724edffe3301e4fcdca0ea82021217702277f",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR004/portrait.png",
+      "runtimePortraitSha256": "3a44f81810d93d4bcca9af551ed756b453a038733759f848c2fb6c1a1f07977d",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR004/icon.png",
+      "runtimeIconSha256": "e07f30d69b7f172e496ac1df08855627d821d9a0f6bff859af2ca8846b923b1c",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          48,
+          47,
+          430,
+          736
+        ],
+        "safeInsets": [
+          48,
+          47,
+          82,
+          32
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          59,
+          17,
+          185,
+          240
+        ],
+        "safeInsets": [
+          59,
+          17,
+          71,
+          16
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR005": {
+      "costumeId": "CHR005_CANONICAL_R1",
+      "authorityImage": "godot/assets/art/characters/CHR005/CHR005_PORTRAIT_R1.png",
+      "authoritySha256": "c06bdefb0c382740645fa0a317433d1415ce0b1cfb5a124271f019834b48f6e2",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr005_standing_r2_green_matte.png",
+      "greenMatteSha256": "f7074078dcf026bd1ddbf2a9d08ab67cdcc7c7b296f9372503e9d1ca6c71041b",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR005/portrait.png",
+      "runtimePortraitSha256": "c39f38ff071ff83d7c9c19120ce988066ea21b92dc2046c0ef93c78575ec69a8",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR005/icon.png",
+      "runtimeIconSha256": "ec73e4165f89c3b507b91ae588d6fdf98df54b2dedc41e57740bd96bc6eeb120",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          54,
+          51,
+          476,
+          735
+        ],
+        "safeInsets": [
+          54,
+          51,
+          36,
+          33
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          61,
+          18,
+          200,
+          240
+        ],
+        "safeInsets": [
+          61,
+          18,
+          56,
+          16
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR006": {
+      "costumeId": "CHR006_CANONICAL_R1",
+      "authorityImage": "godot/assets/art/characters/CHR006/CHR006_PORTRAIT_R1.png",
+      "authoritySha256": "ec1e661dc539d484ce897b4250389745cc7b4a5e72f97ee6a387b2ca54f169ae",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr006_standing_r2_green_matte.png",
+      "greenMatteSha256": "bceec95f1d4c8b4bd632a60130fbe5799f569bbbf71996f1f5bd2dd8ebb58daa",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR006/portrait.png",
+      "runtimePortraitSha256": "8f5533136fa3963710da59d687a2e9866fedb860e7ad015bfc4aa54f15195e76",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR006/icon.png",
+      "runtimeIconSha256": "f953740dbb069a5beabcf68c39bdd84354d4e5b28e25b679cfebd49f5d51d497",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          68,
+          70,
+          449,
+          714
+        ],
+        "safeInsets": [
+          68,
+          70,
+          63,
+          54
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          66,
+          24,
+          191,
+          234
+        ],
+        "safeInsets": [
+          66,
+          24,
+          65,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR007": {
+      "costumeId": "CHR007_CANONICAL_R1",
+      "authorityImage": "godot/assets/art/characters/CHR007/CHR007_PORTRAIT_R1.png",
+      "authoritySha256": "bfff8ff51df145401bba2709673f136c5db1c913ab8e74af1cb4d85c29587fad",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr007_standing_r2_green_matte.png",
+      "greenMatteSha256": "e98bba901677a650681fe4319aae260270860170095f43a6bfb96cbf1df92408",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR007/portrait.png",
+      "runtimePortraitSha256": "b50cc1fe90beaca03466b7ab9322513c122cc7dad38ab5176523c73f578aeb9f",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR007/icon.png",
+      "runtimeIconSha256": "6017fee8210277ee7deaeb97b80be57f0e6d4a3f9c5bf57c4c0a4b1154dc9ac4",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          45,
+          46,
+          470,
+          737
+        ],
+        "safeInsets": [
+          45,
+          46,
+          42,
+          31
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          59,
+          16,
+          198,
+          240
+        ],
+        "safeInsets": [
+          59,
+          16,
+          58,
+          16
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR008": {
+      "costumeId": "CHR008_CANONICAL_R1",
+      "authorityImage": "godot/assets/art/characters/CHR008/CHR008_PORTRAIT_R1.png",
+      "authoritySha256": "2c4dd024ffb511c686f87ebbe9e97288d698a488fe713a99f51ba2e5e2ccb1e6",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr008_standing_r2_green_matte.png",
+      "greenMatteSha256": "0cf95891641571255c68b68b12c3846388bd37af58e71306908f41ea7b7cbdf3",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR008/portrait.png",
+      "runtimePortraitSha256": "9cba49f7fa0a8929c95e7bf5e376023b38808a03320887b7f7a7b29c86e6f1ac",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR008/icon.png",
+      "runtimeIconSha256": "31b2fe8f785cbf66fa97ab2f01781c5ce2041b01726886618b3e091748dff8bc",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          70,
+          41,
+          421,
+          737
+        ],
+        "safeInsets": [
+          70,
+          41,
+          91,
+          31
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          66,
+          16,
+          182,
+          240
+        ],
+        "safeInsets": [
+          66,
+          16,
+          74,
+          16
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR009": {
+      "costumeId": "chr009_costume_c_7ee1bffa9a060d30_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/chr009_costume_c_authority.png",
+      "authoritySha256": "7ee1bffa9a060d3028649e2131f2eecc8085a3c71959f903569197092646a619",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr009_standing_r2_green_matte.png",
+      "greenMatteSha256": "b4e506d20a5357c32abcb01ab3af09d20ade65af5547924396a236a16b89973d",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR009/portrait.png",
+      "runtimePortraitSha256": "ec134c2d79b9c26728b31de351eb0e01a92ac668ce4fdb5fc240e106a48f0b08",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR009/icon.png",
+      "runtimeIconSha256": "b7f31cc604c71fb31c9bde7fd0effff1f9e2a845bfb19f278664bb7d6ec1a71a",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          28,
+          82,
+          454,
+          713
+        ],
+        "safeInsets": [
+          28,
+          82,
+          58,
+          55
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          53,
+          28,
+          193,
+          234
+        ],
+        "safeInsets": [
+          53,
+          28,
+          63,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR010": {
+      "costumeId": "chr010_costume_b_f462fbf50595c26d_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/chr010_costume_b_authority.png",
+      "authoritySha256": "f462fbf50595c26d5196fd7a6867affd1524c0822ecc3b362ab6350963fded31",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr010_standing_r2_green_matte.png",
+      "greenMatteSha256": "2ce907b87bd72f46d7815f2c95b1e3453d6c18c45be33b5cfcba0a29790ac26f",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR010/portrait.png",
+      "runtimePortraitSha256": "e1060bcb64932752c26de1fa1cd833125d879cde02796bc9197636c03a4909b7",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR010/icon.png",
+      "runtimeIconSha256": "a2147dd8939277649b1e92944886446c210cd845e119fb6a187a41ed14e56e4f",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          80,
+          212,
+          482,
+          702
+        ],
+        "safeInsets": [
+          80,
+          212,
+          30,
+          66
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          56,
+          28,
+          220,
+          227
+        ],
+        "safeInsets": [
+          56,
+          28,
+          36,
+          29
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR011": {
+      "costumeId": "chr011_costume_b_fb3bce3271009272_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/chr011_costume_b_authority_r2.png",
+      "authoritySha256": "fb3bce3271009272b8dc530e73ff1028d3389669680a842543a5da2498b1e409",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr011_standing_r2_green_matte.png",
+      "greenMatteSha256": "a1918323dbdb9ff20bfbb0040f2aa4187f2ec21e11d28de1f4304ca20b06778b",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR011/portrait.png",
+      "runtimePortraitSha256": "f8026c84ceab2817ebb8a4c7991c6a954260fcbb7576c6fe96fe8411cb527a1b",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR011/icon.png",
+      "runtimeIconSha256": "d6291306a34df3c050dd8fdd08996fa58b1682866d975fce0c052680044bd394",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          74,
+          206,
+          473,
+          717
+        ],
+        "safeInsets": [
+          74,
+          206,
+          39,
+          51
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          57,
+          35,
+          212,
+          234
+        ],
+        "safeInsets": [
+          57,
+          35,
+          44,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR012": {
+      "costumeId": "chr012_costume_b_75a35503b92255cd_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/chr012_costume_b_authority.png",
+      "authoritySha256": "75a35503b92255cd14ca8285c9a9601e150ea9ef7f0a16e15eb34435418c7d41",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr012_standing_r2_green_matte.png",
+      "greenMatteSha256": "33326b8bcc5ed5322b513f0bf169147e05983e80ab63b386542e33461aff127b",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR012/portrait.png",
+      "runtimePortraitSha256": "3974e8fe04dad6f528ba6dc2304fa6ac0d9630a400bc0630873f3a5f94eb67be",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR012/icon.png",
+      "runtimeIconSha256": "187bf503c4642ec11028aa74e03fa6f06db2adf5e3e2b75aae7c66126f3e340c",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          58,
+          244,
+          450,
+          687
+        ],
+        "safeInsets": [
+          58,
+          244,
+          62,
+          81
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          44,
+          35,
+          209,
+          221
+        ],
+        "safeInsets": [
+          44,
+          35,
+          47,
+          35
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR013": {
+      "costumeId": "chr013_costume_b_6bc5817bf00befc1_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/chr013_costume_b_authority.png",
+      "authoritySha256": "6bc5817bf00befc17d8981f60afb519412435219abc3827f3d871f7de8c7d87c",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr013_standing_r2_green_matte.png",
+      "greenMatteSha256": "ac62fe285380f82b054dd2932d0fb77bfbbb35e5aa6195d2663746b7d51a96b8",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR013/portrait.png",
+      "runtimePortraitSha256": "201120ae38b93525068c6b5055c3009e576c9ba5978dee8ac49f37fc70b545f0",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR013/icon.png",
+      "runtimeIconSha256": "7066bb07aadb7d7dbe143336ed82f88f2b7d61566c0449e5b9ba75e01a0b9337",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          31,
+          292,
+          481,
+          716
+        ],
+        "safeInsets": [
+          31,
+          292,
+          31,
+          52
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          19,
+          25,
+          237,
+          231
+        ],
+        "safeInsets": [
+          19,
+          25,
+          19,
+          25
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR014": {
+      "costumeId": "chr014_costume_d_c994d99182330aa2_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr014_costume_d_authority.png",
+      "authoritySha256": "c994d99182330aa2f626797ff71f86aa131eb77755e317198bdcede0cc6188b4",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr014_standing_r2_green_matte.png",
+      "greenMatteSha256": "c5125c89ed27b43726eb754065d618ef2ac6fdc350005ee516eb938c1721c8eb",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR014/portrait.png",
+      "runtimePortraitSha256": "f1d402b4c49eba078cf1aeb3c16a9beaa2bc4f1dd4d503af671fd2deed7782cb",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR014/icon.png",
+      "runtimeIconSha256": "9c7e940e24b8945fd705393b4618bc158d5c96fe81990d821bcb40d887ea334e",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          53,
+          286,
+          459,
+          722
+        ],
+        "safeInsets": [
+          53,
+          286,
+          53,
+          46
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          30,
+          23,
+          227,
+          234
+        ],
+        "safeInsets": [
+          30,
+          23,
+          29,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR015": {
+      "costumeId": "chr015_costume_c_3e6dbf9a0b36f26f_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr015_costume_c_authority.png",
+      "authoritySha256": "3e6dbf9a0b36f26fdd5d9775371a543f136ba4ce9ed28c6068e7a1c58dc91261",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr015_standing_r2_green_matte.png",
+      "greenMatteSha256": "157c63fa914bdda20d1f4bdf4299403c9f2e4b390778a340d3517cd8040cd345",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR015/portrait.png",
+      "runtimePortraitSha256": "b1c9ede43146345a88f921c1dc0a61ca723e1404f756292550c2a5d69a12f854",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR015/icon.png",
+      "runtimeIconSha256": "a659bc594d7fe8eb4c3dd3502431485e13778d5952ddc036e72aa6214390fc1e",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          53,
+          288,
+          457,
+          722
+        ],
+        "safeInsets": [
+          53,
+          288,
+          55,
+          46
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          29,
+          23,
+          225,
+          234
+        ],
+        "safeInsets": [
+          29,
+          23,
+          31,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR016": {
+      "costumeId": "chr016_costume_c_43ca4bb407a669e3_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr016_costume_c_sd_r1_greenkey_authority.png",
+      "authoritySha256": "43ca4bb407a669e31f2c52bfc067ba126aa4bc79768e3bd22422b51e4ed41f33",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr016_standing_r2_green_matte.png",
+      "greenMatteSha256": "592d2793063a7fd35ace743ce252878505e30794d384a1ab1e3d77403b726ccc",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR016/portrait.png",
+      "runtimePortraitSha256": "5f0c5cba4952c8273a5188b4e5267f36e6f13e2ba25e57d2b3befe2fed6293d1",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR016/icon.png",
+      "runtimeIconSha256": "0f1fc6c54f9d625a7f0e33f9611dc15a1ba0f0a0a0c911b30a6a1510156bb433",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          67,
+          308,
+          431,
+          697
+        ],
+        "safeInsets": [
+          67,
+          308,
+          81,
+          71
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          36,
+          33,
+          213,
+          222
+        ],
+        "safeInsets": [
+          36,
+          33,
+          43,
+          34
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR017": {
+      "costumeId": "chr017_costume_c_3af4881a402f91b3_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr017_costume_c_sd_r1_greenkey_authority.png",
+      "authoritySha256": "3af4881a402f91b3d9af4721aae8eabcc6615ce58f43c2650d68127ebc755704",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr017_standing_r2_green_matte.png",
+      "greenMatteSha256": "77a5ba19df73584cd212ca0f639f5de71c3be2d0c1e53f74427b2fb26bf82b5a",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR017/portrait.png",
+      "runtimePortraitSha256": "7b030b5c41d81b8d9a341e604087bfb947a000fdd702828af25dd2b788049657",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR017/icon.png",
+      "runtimeIconSha256": "0207e496e1a2ccd54671616b1ebdc0ffd5f38feb1a297d5798e5988cbe4bd016",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          86,
+          336,
+          411,
+          687
+        ],
+        "safeInsets": [
+          86,
+          336,
+          101,
+          81
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          45,
+          46,
+          203,
+          217
+        ],
+        "safeInsets": [
+          45,
+          46,
+          53,
+          39
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR018": {
+      "costumeId": "chr018_costume_d_c959e7b43552a587_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr018_costume_d_sd_r1_greenkey_authority.png",
+      "authoritySha256": "c959e7b43552a587b860f8f5fa358832928e68dbbf9415f9df434de86b4e5ee3",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr018_standing_r2_green_matte.png",
+      "greenMatteSha256": "8166636404ad6be37a85dfa61815ae7766341da2a1883f0ef8fd762d064b1f91",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR018/portrait.png",
+      "runtimePortraitSha256": "8d84c34177165acc7c061b65318349074445c166903d2de3a74323244865dce9",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR018/icon.png",
+      "runtimeIconSha256": "12b012e6080044da462b02cd9b147770550bf85e48034a7fcc1af38e5cc71fb0",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          58,
+          323,
+          430,
+          704
+        ],
+        "safeInsets": [
+          58,
+          323,
+          82,
+          64
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          32,
+          40,
+          212,
+          225
+        ],
+        "safeInsets": [
+          32,
+          40,
+          44,
+          31
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR019": {
+      "costumeId": "chr019_costume_c_7e4e3eab6db1616b_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr019_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "7e4e3eab6db1616bc4a7f06a4c41272d8f849c61919b5f3414107f2ce6113e28",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr019_standing_r2_green_matte.png",
+      "greenMatteSha256": "4c4c0e851cd9fa60891693646762f5492f4fcef5d6acbdb891bb07dee74ceb31",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR019/portrait.png",
+      "runtimePortraitSha256": "04106a5507ea3135b0e3419cb3c59f17870ce98a49d7c914184b6e3a4dc8ce63",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR019/icon.png",
+      "runtimeIconSha256": "846bb5366070bbe70597b3cae437841a120f6da37c9b8ba7eebb5013cd603115",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          121,
+          316,
+          400,
+          671
+        ],
+        "safeInsets": [
+          121,
+          316,
+          112,
+          97
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          62,
+          37,
+          198,
+          209
+        ],
+        "safeInsets": [
+          62,
+          37,
+          58,
+          47
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR020": {
+      "costumeId": "chr020_costume_c_ae18e79d21fe6767_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr020_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "ae18e79d21fe6767b4c90daad5fab24d0726e55a06e7c736d6f73eaee3f62323",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr020_standing_r2_green_matte.png",
+      "greenMatteSha256": "9b4110861ac9a00061b91f21bc9aa56f91e7d4833fbb9756129004f0680b561c",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR020/portrait.png",
+      "runtimePortraitSha256": "97c122f2f0c5c8f71de0769b08a56ffaf4a3a8f7c39b618a2d644c116b42f04e",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR020/icon.png",
+      "runtimeIconSha256": "a369d5d33b4befe1c7bcba76e16dc25fc089ee0bf6373cba315a3f1ae19fdb64",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          103,
+          324,
+          394,
+          703
+        ],
+        "safeInsets": [
+          103,
+          324,
+          118,
+          65
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          53,
+          41,
+          195,
+          225
+        ],
+        "safeInsets": [
+          53,
+          41,
+          61,
+          31
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR021": {
+      "costumeId": "chr021_costume_c_2dc4a06f7bdfc2cb_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr021_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "2dc4a06f7bdfc2cb3246f2c55e2d3e16b61eef176d55bac61d5f85a0f870783b",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr021_standing_r2_green_matte.png",
+      "greenMatteSha256": "e4ae8a89e50a7dd225045b0a8bbdb0b92fe2814761f04848bbdde10c1d6a2a8c",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR021/portrait.png",
+      "runtimePortraitSha256": "7e739a4875ba275f7105e2c6f1c5605fbbd3f1e2bebe03bedfeb8d276ba5180e",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR021/icon.png",
+      "runtimeIconSha256": "8a924c420611feca59addb881ad86191ec60efd74618aa618a464ca6b8473e18",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          105,
+          342,
+          394,
+          680
+        ],
+        "safeInsets": [
+          105,
+          342,
+          118,
+          88
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          54,
+          49,
+          195,
+          214
+        ],
+        "safeInsets": [
+          54,
+          49,
+          61,
+          42
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR022": {
+      "costumeId": "chr022_costume_c_c35a7e74bc26ec34_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr022_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "c35a7e74bc26ec34c26b3d7603630a81869f781ec225206c1649ab8461f2b0f9",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr022_standing_r2_green_matte.png",
+      "greenMatteSha256": "49f61e4ff8e1b99c4a29f6f40dd76f3b8b7ba60307532bbf0878e24382533951",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR022/portrait.png",
+      "runtimePortraitSha256": "5aa08ba9ef8acd13f63d7a3a1a7a3b7babccf1582c15cfbb4dccc4c12304e4f4",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR022/icon.png",
+      "runtimeIconSha256": "7756f456e9672e79d9bc2531230027790fe1793b209a41cc850b30fff1e9432c",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          58,
+          307,
+          449,
+          713
+        ],
+        "safeInsets": [
+          58,
+          307,
+          63,
+          55
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          32,
+          32,
+          222,
+          230
+        ],
+        "safeInsets": [
+          32,
+          32,
+          34,
+          26
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR023": {
+      "costumeId": "chr023_costume_c_ecc46527f2039986_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr023_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "ecc46527f20399867934ede4847d2468338fbe4ff226f6729f75fdc61a4ce49d",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr023_standing_r2_green_matte.png",
+      "greenMatteSha256": "184f0e2edeb157d7488b7f2464ea0a5e8a1bfbcae685392eb8cfe893e5c9d205",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR023/portrait.png",
+      "runtimePortraitSha256": "69ba8e5cab4566b8df0c8db5d1dc07cba71aabc4f497aca296f9fec934e434f4",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR023/icon.png",
+      "runtimeIconSha256": "4c21a15a44f99ca55343fd28b10c6c5ac8979cf3247ea89f5335fcd2b6fdb090",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          112,
+          311,
+          445,
+          709
+        ],
+        "safeInsets": [
+          112,
+          311,
+          67,
+          59
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          58,
+          34,
+          220,
+          227
+        ],
+        "safeInsets": [
+          58,
+          34,
+          36,
+          29
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR024": {
+      "costumeId": "chr024_costume_c_e11dc2c526422872_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr024_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "e11dc2c526422872124ecb94e4cdf21540c4633439451cf551b35ab3bf46b298",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr024_standing_r2_green_matte.png",
+      "greenMatteSha256": "5d9a56fe0b14735356eb41334efd91e167e9d50db25901948ea694edccd2639a",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR024/portrait.png",
+      "runtimePortraitSha256": "cf2124fa7bfe57529fa089e6725dc0e62989ed936198654add5725f79281b1e8",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR024/icon.png",
+      "runtimeIconSha256": "98f961f734872f895f27b1d5bcbca7bf9b6e4017e415068e6f61b76b1c3012dd",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          135,
+          298,
+          351,
+          710
+        ],
+        "safeInsets": [
+          135,
+          298,
+          161,
+          58
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          69,
+          28,
+          175,
+          228
+        ],
+        "safeInsets": [
+          69,
+          28,
+          81,
+          28
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR025": {
+      "costumeId": "chr025_costume_c_8a6213825b28bc52_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr025_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "8a6213825b28bc520fc11794951dc4a757ea449e879ddeec1293634021d61159",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr025_standing_r2_green_matte.png",
+      "greenMatteSha256": "8c64c8e47dbb10b955a1b030efc522b7553c67c01071e92db2bf09255ffd51f8",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR025/portrait.png",
+      "runtimePortraitSha256": "ffcb5085ccbf1b768d5452b058aaf61139bf763bca6123bf4372ae0b2c65175c",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR025/icon.png",
+      "runtimeIconSha256": "6300178ec8315626183556f65d80ed5de802f33597948861a765c71e5fdcc680",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          103,
+          312,
+          397,
+          694
+        ],
+        "safeInsets": [
+          103,
+          312,
+          115,
+          74
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          53,
+          35,
+          197,
+          220
+        ],
+        "safeInsets": [
+          53,
+          35,
+          59,
+          36
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR026": {
+      "costumeId": "chr026_costume_c_c8f86b265f4b8137_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr026_costume_c_authority.png",
+      "authoritySha256": "c8f86b265f4b81371e5274f6f245c62c14e03b74a73182a6caa7cad66e2a343c",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr026_standing_r2_green_matte.png",
+      "greenMatteSha256": "f3252477e49181dfc4941f69d30ffb04e25f96d1c9e29ce69a32df882b767c38",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR026/portrait.png",
+      "runtimePortraitSha256": "db339776576135ac7c4cc6b7987f94b57519a069f04b51f580f9fabe5156be05",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR026/icon.png",
+      "runtimeIconSha256": "407116669e322b521d9763c1f7301211a070360ff37c59f865b53d464fadf860",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          111,
+          286,
+          401,
+          722
+        ],
+        "safeInsets": [
+          111,
+          286,
+          111,
+          46
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          57,
+          22,
+          198,
+          234
+        ],
+        "safeInsets": [
+          57,
+          22,
+          58,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR027": {
+      "costumeId": "chr027_costume_d_258e4b2a60c8c3a1_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr027_costume_d_sd_r1_rgba_authority.png",
+      "authoritySha256": "258e4b2a60c8c3a101d8cbf6d727ec44dc6de58ee603a8938282a551284d3da4",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr027_standing_r2_green_matte.png",
+      "greenMatteSha256": "4ea8f3278616bbbb61b9bdd780bd941ce1fe72b89b93fb146f80ed20d39035e2",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR027/portrait.png",
+      "runtimePortraitSha256": "239991f262cce23afb6524d8fee2cac2eba75ab9558223334895fc445fe48717",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR027/icon.png",
+      "runtimeIconSha256": "cb2b27f50e27a5d224e6d22269cb8f92f30e1583cc4ea8703d81e4369eab5e3e",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          72,
+          299,
+          438,
+          713
+        ],
+        "safeInsets": [
+          72,
+          299,
+          74,
+          55
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          39,
+          29,
+          216,
+          229
+        ],
+        "safeInsets": [
+          39,
+          29,
+          40,
+          27
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR028": {
+      "costumeId": "chr028_costume_c_40c7fd4d97de862e_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr028_costume_c_authority.png",
+      "authoritySha256": "40c7fd4d97de862effb8313a5e3812e3abdb2f2da4a732cf734c9f9ae5c6b7bc",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr028_standing_r2_green_matte.png",
+      "greenMatteSha256": "d9450c3e61466b63bd49c0686be5fe41945151f6df1a2bc6e3eb0583675e2851",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR028/portrait.png",
+      "runtimePortraitSha256": "f34c3a46f3e1dd026a75263e532fc462678fee28800640400dcee80a68c184d5",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR028/icon.png",
+      "runtimeIconSha256": "dce53e24da9034a307ded3a0e93bea79634fe10207377b87852ee3612e71df63",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          77,
+          286,
+          434,
+          722
+        ],
+        "safeInsets": [
+          77,
+          286,
+          78,
+          46
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          41,
+          22,
+          214,
+          234
+        ],
+        "safeInsets": [
+          41,
+          22,
+          42,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR029": {
+      "costumeId": "chr029_costume_c_b974cc4b2b3b4008_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr029_costume_c_authority.png",
+      "authoritySha256": "b974cc4b2b3b40084a5043292d71e61d71d052316698b9504a0b3ea1691ebcb0",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr029_standing_r2_green_matte.png",
+      "greenMatteSha256": "99db0a6655eb2f2f26a92fe00667c9c87fb75290617adb469d6f8fc2e6843758",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR029/portrait.png",
+      "runtimePortraitSha256": "3c36a8be0c488ded53ad2c1d8c3dca9d732e261986e75f078c96f36121158443",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR029/icon.png",
+      "runtimeIconSha256": "e51158f4f2e4b599d2827a5dde604601b05a2f02444b99f5a0e0e8b180fb4c88",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          104,
+          286,
+          407,
+          722
+        ],
+        "safeInsets": [
+          104,
+          286,
+          105,
+          46
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          54,
+          22,
+          202,
+          234
+        ],
+        "safeInsets": [
+          54,
+          22,
+          54,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR030": {
+      "costumeId": "chr030_costume_c_7b6b3e5278ef8fc5_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr030_costume_c_authority.png",
+      "authoritySha256": "7b6b3e5278ef8fc535a1ad855efae082cd281ecd8e0ac97485f231b98fffba4c",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr030_standing_r2_green_matte.png",
+      "greenMatteSha256": "bb04b02aa027e9d3490ff8fd124676bea81629a6b7cf7b219e624df65216ed2d",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR030/portrait.png",
+      "runtimePortraitSha256": "351e0aeabb6e1a4ea85974aabc15f1da50d5122d08e7818ba268eb5e2507e7ef",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR030/icon.png",
+      "runtimeIconSha256": "1e00a7671447457c681dea9d06059871ea0fd2c62c4aff357c537e8507e28165",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          67,
+          286,
+          444,
+          722
+        ],
+        "safeInsets": [
+          67,
+          286,
+          68,
+          46
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          36,
+          22,
+          219,
+          234
+        ],
+        "safeInsets": [
+          36,
+          22,
+          37,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR031": {
+      "costumeId": "chr031_costume_c_bfc1f639fbbcea8c_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr031_costume_c_authority.png",
+      "authoritySha256": "bfc1f639fbbcea8c8876cc9a5b5a9933bd1c977015d990ab15391b665862729c",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr031_standing_r2_green_matte.png",
+      "greenMatteSha256": "f5ed05e0bb178a79a1a4e7f7bde36856aa034891da07feafcdf77f23a0f11c73",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR031/portrait.png",
+      "runtimePortraitSha256": "fa0d9a42dde2da102ddca21f66e08bbbcaed759fd419cbfd379e1aba03f4784d",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR031/icon.png",
+      "runtimeIconSha256": "05f683c087a78426765789b12583bdebafb07890797fbcfa9d432c600e76b812",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          93,
+          286,
+          419,
+          722
+        ],
+        "safeInsets": [
+          93,
+          286,
+          93,
+          46
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          49,
+          22,
+          207,
+          234
+        ],
+        "safeInsets": [
+          49,
+          22,
+          49,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR032": {
+      "costumeId": "chr032_costume_c_fa6d618cb9bae926_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr032_costume_c_authority.png",
+      "authoritySha256": "fa6d618cb9bae926033a5c728dcb669d09f0bfa59358697bd61dbb1dd952ee6f",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr032_standing_r2_green_matte.png",
+      "greenMatteSha256": "55ac8dd9ba48f95c87ef65faefb53938b4d46950ead41b40db630c026deb38cf",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR032/portrait.png",
+      "runtimePortraitSha256": "7f6cfb25beb9878796391259b25b8a2f35becb90c39130f95b24fa8e1790d9c2",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR032/icon.png",
+      "runtimeIconSha256": "cb645f96bd649caab29fa9a04165d731c50b0965f629d7465f9c7ac0d9962788",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          145,
+          286,
+          366,
+          722
+        ],
+        "safeInsets": [
+          145,
+          286,
+          146,
+          46
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          74,
+          23,
+          182,
+          234
+        ],
+        "safeInsets": [
+          74,
+          23,
+          74,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR033": {
+      "costumeId": "chr033_costume_c_841a1e14c29b56e9_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr033_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "841a1e14c29b56e9a4d9135ce5ee8c6e08c7eb97e477c171d8c4d3794671fb87",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr033_standing_r2_green_matte.png",
+      "greenMatteSha256": "efccda1b42544b6c1831c638171adb25ab282bd61662f7f1f6273e384b2ae7ce",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR033/portrait.png",
+      "runtimePortraitSha256": "ed0cc1a074e086bad771649ede49ddd01445b5b7dc9a52835a5c557ace8451a5",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR033/icon.png",
+      "runtimeIconSha256": "93d205e03bf39eee39afaf900117f9ae2b5d7ff1e3e7a29db445e995685fbf48",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          123,
+          323,
+          393,
+          706
+        ],
+        "safeInsets": [
+          123,
+          323,
+          119,
+          62
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          63,
+          40,
+          195,
+          226
+        ],
+        "safeInsets": [
+          63,
+          40,
+          61,
+          30
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR034": {
+      "costumeId": "chr034_costume_c_dd9e9790d9a03967_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr034_costume_c_authority.png",
+      "authoritySha256": "dd9e9790d9a039674b06c5474c5ce0262bd982674575de6336237494f9b5959a",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr034_standing_r2_green_matte.png",
+      "greenMatteSha256": "46749157f51f2e1381f899692cf3362d7da913103466e64bbabc0082b566dc4c",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR034/portrait.png",
+      "runtimePortraitSha256": "d528c9f696bb361bf6d4a8bc22eebf2391f5b14c81d5c8d273e59b7ee3286b5b",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR034/icon.png",
+      "runtimeIconSha256": "3bb64312634f4db370afd52e5d92d8c6ca33b83afdac18a4e8e5ccc263bb12a0",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          114,
+          288,
+          398,
+          722
+        ],
+        "safeInsets": [
+          114,
+          288,
+          114,
+          46
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          59,
+          23,
+          197,
+          234
+        ],
+        "safeInsets": [
+          59,
+          23,
+          59,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR035": {
+      "costumeId": "chr035_costume_c_4df2af917c90dde6_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr035_costume_c_authority.png",
+      "authoritySha256": "4df2af917c90dde64c5dc6aa9b4ebc8653f53d11e2d819e4a8cf4a4b4242998f",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr035_standing_r2_green_matte.png",
+      "greenMatteSha256": "9588fa55eeea102dc30ad9e6ff138609362482e055762adc8974b2464682ad40",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR035/portrait.png",
+      "runtimePortraitSha256": "69d58bcb6994e83d4e842ea8edf228672290807687445e8e11e99988442c575f",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR035/icon.png",
+      "runtimeIconSha256": "f05027988b4d28f42a9596b0fbe222248edea4b9e1ba4a74f6ad9cc7289fe892",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          113,
+          286,
+          399,
+          722
+        ],
+        "safeInsets": [
+          113,
+          286,
+          113,
+          46
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          58,
+          22,
+          198,
+          234
+        ],
+        "safeInsets": [
+          58,
+          22,
+          58,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR036": {
+      "costumeId": "chr036_costume_c_a118ff844d7d9f9b_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr036_costume_c_authority.png",
+      "authoritySha256": "a118ff844d7d9f9b04e7f895fd0afea90528b2ff39e74144fb09e858afad10d9",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr036_standing_r2_green_matte.png",
+      "greenMatteSha256": "f8d687de9cae4de490cec32f9768ac6357b57fa63c7c0d495fabfe62dea6d11d",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR036/portrait.png",
+      "runtimePortraitSha256": "e75f4a7b6b509c37bc7b7bda31be8f43c0475b0668c6695e870447c1fad349c6",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR036/icon.png",
+      "runtimeIconSha256": "f7c0cce60a0c6ecb2ae1bc729bbff215283de9e13c3323d6feed18ae2b48b886",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          89,
+          286,
+          423,
+          722
+        ],
+        "safeInsets": [
+          89,
+          286,
+          89,
+          46
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          47,
+          22,
+          209,
+          234
+        ],
+        "safeInsets": [
+          47,
+          22,
+          47,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR037": {
+      "costumeId": "chr037_costume_d_ff3a749d63fa5c53_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr037_costume_d_authority.png",
+      "authoritySha256": "ff3a749d63fa5c530ba3c3cebe66863bb261d27748c7a9f984a9da3faebfe723",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr037_standing_r2_green_matte.png",
+      "greenMatteSha256": "96c19738492ab9b18fcea2f572b576c6b38abf5aa8b71eb2a18306fda73e71f8",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR037/portrait.png",
+      "runtimePortraitSha256": "4dbc528137dd7ca27e023075fd9f548b735a13f8e54e627079f1bda584da3361",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR037/icon.png",
+      "runtimeIconSha256": "da4f2115e860128e70d8076dcd83f3ae007d59c6553bce37bc1938ea865fcf41",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          69,
+          286,
+          443,
+          722
+        ],
+        "safeInsets": [
+          69,
+          286,
+          69,
+          46
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          37,
+          22,
+          219,
+          234
+        ],
+        "safeInsets": [
+          37,
+          22,
+          37,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR038": {
+      "costumeId": "chr038_costume_c_e95fb733bc4499c9_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr038_costume_c_authority.png",
+      "authoritySha256": "e95fb733bc4499c9ac2059d97f4814c77be887f1d3b5063cd8caca8d57edf835",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr038_standing_r2_green_matte.png",
+      "greenMatteSha256": "9836964baedcd865ffd135be21df8f0f48108477de9b119730d4b875ac327411",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR038/portrait.png",
+      "runtimePortraitSha256": "6735b94ed8b0ba44ca1589ea66db5d3a310136cccd3fed497d111b47819c0638",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR038/icon.png",
+      "runtimeIconSha256": "c08f401a45580eb997d5ce5d02642808e4c528695f50541cead04208ff47797b",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          77,
+          286,
+          435,
+          722
+        ],
+        "safeInsets": [
+          77,
+          286,
+          77,
+          46
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          41,
+          22,
+          215,
+          234
+        ],
+        "safeInsets": [
+          41,
+          22,
+          41,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR039": {
+      "costumeId": "chr039_costume_c_b21ff832c1c6bb58_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr039_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "b21ff832c1c6bb583773ca44f8f5af516b87fa36ff499691a5745ae69bc7bff7",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr039_standing_r2_green_matte.png",
+      "greenMatteSha256": "7ab01b00933a1c2a90a0a21a48b2e9caa183d1cfc021013f69f449700003cb4b",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR039/portrait.png",
+      "runtimePortraitSha256": "2b671d384436b6eb071c8ad92e8a4847195e84c14d0de5333ab2c89b059419fb",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR039/icon.png",
+      "runtimeIconSha256": "a4dc95e1921928cf3fb1819d1f74748f1b59ae15b935cd44e2d2e78253c3e473",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          78,
+          308,
+          436,
+          707
+        ],
+        "safeInsets": [
+          78,
+          308,
+          76,
+          61
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          41,
+          33,
+          216,
+          226
+        ],
+        "safeInsets": [
+          41,
+          33,
+          40,
+          30
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR040": {
+      "costumeId": "chr040_costume_d_abba3e8a70ef3f29_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr040_costume_d_sd_r1_rgba_authority.png",
+      "authoritySha256": "abba3e8a70ef3f29b168e148e8c42d6593f1a8675de2e81303a8fe6f29fc7396",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr040_standing_r2_green_matte.png",
+      "greenMatteSha256": "845b18e986d840467b24e36c1b2e1e9cfc77280fc75fa538f908de592b9dd796",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR040/portrait.png",
+      "runtimePortraitSha256": "ea4c7bf660f5e83c5dc8bca1380a36cd37cc5997b34932bd69994835e88f159f",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR040/icon.png",
+      "runtimeIconSha256": "6e55dc289a23dc1e125bec304ce8c31b647bbe056bc765f79b29aa4f593f3fa7",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          108,
+          316,
+          411,
+          694
+        ],
+        "safeInsets": [
+          108,
+          316,
+          101,
+          74
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          56,
+          37,
+          204,
+          221
+        ],
+        "safeInsets": [
+          56,
+          37,
+          52,
+          35
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR041": {
+      "costumeId": "chr041_costume_c_b1295402e97ea885_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr041_costume_c_sd_r1_rgba_authority.png",
+      "authoritySha256": "b1295402e97ea8856ced2ec3367b86871decb77220d5637d4550dacac09c3462",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr041_standing_r2_green_matte.png",
+      "greenMatteSha256": "7a816456ae80bc11f22c20aa2bb52a1033f7cbae393c89d8e001c70ee59678c3",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR041/portrait.png",
+      "runtimePortraitSha256": "f2d7d2b053ecc4fd360e1bf19eb0ef008bd4c99ba859a482c0d8cbf9996ab8d4",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR041/icon.png",
+      "runtimeIconSha256": "21e16d809cc4e570ae5ac2bb12a4ac8d45ca84fdc26dc4bcc4eee9d657a14b00",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          46,
+          327,
+          475,
+          691
+        ],
+        "safeInsets": [
+          46,
+          327,
+          37,
+          77
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          26,
+          42,
+          234,
+          219
+        ],
+        "safeInsets": [
+          26,
+          42,
+          22,
+          37
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR042": {
+      "costumeId": "chr042_costume_c_b225b369adfd6b44_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr042_costume_c_authority.png",
+      "authoritySha256": "b225b369adfd6b4459a538310f14309a05add11064e9d795aed18d1a65c41108",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr042_standing_r2_green_matte.png",
+      "greenMatteSha256": "0246288bae4c7af1fc7522f1e42b5e5e434b403f3009f742c5df28f2009ffab3",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR042/portrait.png",
+      "runtimePortraitSha256": "26ffe281cf4cd271682c767bea921746dd2fdb4c6acd30147c2d28b292cf7087",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR042/icon.png",
+      "runtimeIconSha256": "3917676e6b1d1e83fffbbb3760d85e2010ce2c3e620b1e7e1ff4090658b4155f",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          48,
+          289,
+          462,
+          721
+        ],
+        "safeInsets": [
+          48,
+          289,
+          50,
+          47
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          27,
+          24,
+          228,
+          233
+        ],
+        "safeInsets": [
+          27,
+          24,
+          28,
+          23
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR043": {
+      "costumeId": "chr043_costume_c_1c5600f697510043_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr043_costume_c_authority.png",
+      "authoritySha256": "1c5600f6975100438b3760d9188bcfe6a01be544735326b56059ba013b622e98",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr043_standing_r2_green_matte.png",
+      "greenMatteSha256": "7759f068945996829ae1e19a25bcaebc041711355f426b91d919cdf9b58ef417",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR043/portrait.png",
+      "runtimePortraitSha256": "eb1bd9d165544dc55b8dda83d29fcc426a8568be0bb43ed0d618f88d6120bd23",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR043/icon.png",
+      "runtimeIconSha256": "9ee5f3bb7a035f8cb1df25c7ba6d2e4558cc58c65c8c96d0776caa395d5775f2",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          110,
+          286,
+          401,
+          722
+        ],
+        "safeInsets": [
+          110,
+          286,
+          111,
+          46
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          57,
+          22,
+          199,
+          234
+        ],
+        "safeInsets": [
+          57,
+          22,
+          57,
+          22
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    },
+    "CHR044": {
+      "costumeId": "chr044_costume_c_af648ab79650a463_sc112",
+      "authorityImage": "data_source/art_source/combat_hd_sources/renewed/chr044_costume_c_authority.png",
+      "authoritySha256": "af648ab79650a463f593e7bd9220c53af4637dcd97d13560d7c963c76cfa770d",
+      "greenMatte": "data_source/art_source/standing_green_matte_r2/chr044_standing_r2_green_matte.png",
+      "greenMatteSha256": "c8b8785d80da11b1135f1c51b6b45b7cdd044a205505db07cfa56ede13ee67b7",
+      "runtimePortrait": "godot/assets/runtime_web/characters/CHR044/portrait.png",
+      "runtimePortraitSha256": "6ed21d3c78b8bb21ee7a662d8a9194fd931fb05dcfba00c290c60d8993e5f782",
+      "runtimeIcon": "godot/assets/runtime_web/characters/CHR044/icon.png",
+      "runtimeIconSha256": "c9197db0f1790bb42dcc1f897183de0d7eeaad7e1035edeb2edf26242f1ca314",
+      "fingerprint": {
+        "identity": "authority-preserved",
+        "costume": "unchanged",
+        "weaponGrip": "authority-preserved",
+        "background": "#00FF00 intermediate → RGBA runtime"
+      },
+      "portrait": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          48,
+          304,
+          464,
+          704
+        ],
+        "safeInsets": [
+          48,
+          304,
+          48,
+          64
+        ]
+      },
+      "icon": {
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "alphaBbox": [
+          27,
+          31,
+          229,
+          225
+        ],
+        "safeInsets": [
+          27,
+          31,
+          27,
+          31
+        ]
+      },
+      "status": "COSTUME_CONTINUITY_PASS"
+    }
+  }
+}

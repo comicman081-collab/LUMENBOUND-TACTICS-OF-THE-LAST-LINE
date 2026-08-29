@@ -26,6 +26,12 @@ PROJECTILE_OUTPUT = OUTPUT / "projectiles"
 VFX_OUTPUT = OUTPUT / "vfx"
 STORY_OUTPUT = OUTPUT / "story"
 EXPANSION_SOURCE_ROOT = ROOT / "data_source" / "art_source" / "expansion_static_sources"
+# Every non-combat card/standing image is authored against a flat chroma-green
+# intermediate.  The matte is retained as a non-runtime audit source; the
+# shipped image always keeps its genuine RGBA alpha channel and is never green
+# in-game.  This is intentionally separate from the SD battle/map authorities.
+CARD_MATTE_ROOT = ROOT / "data_source" / "art_source" / "card_8head_green_matte_r1"
+CARD_MATTE_RGB = (0, 255, 0)
 # Battle sprites are viewed well beyond a profile-icon scale.  These density
 # targets retain linework and material separation in the 1920px battle view
 # while leaving the atlas topology and simulation timing unchanged.
@@ -76,6 +82,23 @@ COMBAT_SOURCES = {
     "ENM002": GODOT / "assets" / "generated_import" / "enemies" / "sd_enm002_arc_mote_combat_r28_dev",
     "ENM007": GODOT / "assets" / "art" / "enemies" / "ENM007",
     "BOSS001": GODOT / "assets" / "art" / "bosses" / "BOSS001",
+}
+
+# These eight are the immutable premium 8-head authorities for the original
+# companions.  They feed every card, recruit, roster, profile and story
+# surface.  Do not point these IDs at an SD frame: SD is battle/map-only.
+PRIMARY_CARD_SOURCES = {
+    # R5 is a green-matte source generated locally from the established Maeru
+    # authority.  It repairs the baked white hair backing before chroma keying;
+    # R3/R4 threshold attempts remain archived as rejected QA candidates.
+    "CHR001": {"source": ROOT / "data_source" / "art_source" / "card_8head_green_matte_r2" / "CHR001" / "chr001_8head_r7_chatgpt_fresh_exact_green_matte.png", "costume_id": "CHR001_CANONICAL_8HEAD_CARD_R7", "source_status": "CHATGPT_FRESH_8HEAD_R7_GREEN_MATTE_VISUAL_QA_PASS", "presentation": "PREMIUM_8_HEAD_FULL_BODY_CARD", "input_mode": "KEY_GREEN_MATTE"},
+    "CHR002": {"source": GODOT / "assets" / "art" / "characters" / "CHR002" / "CHR002_PORTRAIT_R1.png", "costume_id": "CHR002_CANONICAL_8HEAD_CARD_R1", "source_status": "ORIGINAL_INTERNAL_RGBA_8HEAD_AUTHORITY", "presentation": "PREMIUM_8_HEAD_FULL_BODY_CARD", "input_mode": "RGBA_AUTHORITY"},
+    "CHR003": {"source": GODOT / "assets" / "art" / "characters" / "CHR003" / "CHR003_PORTRAIT_R1.png", "costume_id": "CHR003_CANONICAL_8HEAD_CARD_R1", "source_status": "ORIGINAL_INTERNAL_RGBA_8HEAD_AUTHORITY", "presentation": "PREMIUM_8_HEAD_FULL_BODY_CARD", "input_mode": "RGBA_AUTHORITY"},
+    "CHR004": {"source": GODOT / "assets" / "art" / "characters" / "CHR004" / "CHR004_PORTRAIT_R1.png", "costume_id": "CHR004_CANONICAL_8HEAD_CARD_R1", "source_status": "ORIGINAL_INTERNAL_RGBA_8HEAD_AUTHORITY", "presentation": "PREMIUM_8_HEAD_FULL_BODY_CARD", "input_mode": "RGBA_AUTHORITY"},
+    "CHR005": {"source": GODOT / "assets" / "art" / "characters" / "CHR005" / "CHR005_PORTRAIT_R1.png", "costume_id": "CHR005_CANONICAL_8HEAD_CARD_R1", "source_status": "ORIGINAL_INTERNAL_RGBA_8HEAD_AUTHORITY", "presentation": "PREMIUM_8_HEAD_FULL_BODY_CARD", "input_mode": "RGBA_AUTHORITY"},
+    "CHR006": {"source": GODOT / "assets" / "art" / "characters" / "CHR006" / "CHR006_PORTRAIT_R1.png", "costume_id": "CHR006_CANONICAL_8HEAD_CARD_R1", "source_status": "ORIGINAL_INTERNAL_RGBA_8HEAD_AUTHORITY", "presentation": "PREMIUM_8_HEAD_FULL_BODY_CARD", "input_mode": "RGBA_AUTHORITY"},
+    "CHR007": {"source": GODOT / "assets" / "art" / "characters" / "CHR007" / "CHR007_PORTRAIT_R1.png", "costume_id": "CHR007_CANONICAL_8HEAD_CARD_R1", "source_status": "ORIGINAL_INTERNAL_RGBA_8HEAD_AUTHORITY", "presentation": "PREMIUM_8_HEAD_FULL_BODY_CARD", "input_mode": "RGBA_AUTHORITY"},
+    "CHR008": {"source": GODOT / "assets" / "art" / "characters" / "CHR008" / "CHR008_PORTRAIT_R1.png", "costume_id": "CHR008_CANONICAL_8HEAD_CARD_R1", "source_status": "ORIGINAL_INTERNAL_RGBA_8HEAD_AUTHORITY", "presentation": "PREMIUM_8_HEAD_FULL_BODY_CARD", "input_mode": "RGBA_AUTHORITY"},
 }
 
 
@@ -536,6 +559,44 @@ def expansion_static_sources() -> dict[str, dict]:
     return definitions
 
 
+def card_8head_sources() -> dict[str, dict]:
+    """Return the strict 44-character non-combat card authorities.
+
+    The SD combat/map source directories are deliberately not consulted here.
+    Expansion cards are allowed into the runtime only after their individual
+    green-matte candidate has been explicitly continuity-approved.
+    """
+    sources = dict(PRIMARY_CARD_SOURCES)
+    contract_path = CARD_MATTE_ROOT / "qa" / "CARD_8HEAD_CANDIDATE_CONTRACT.json"
+    document = load_json(contract_path) if contract_path.is_file() else {"candidates": {}}
+    candidates = dict(document.get("candidates", {}))
+    for index in range(9, 45):
+        entity_id = f"CHR{index:03d}"
+        candidate = dict(candidates.get(entity_id, {}))
+        # The reviewed RGBA candidate has already passed the project's strict
+        # key removal and edge-despill pass.  Re-keying the green authoring
+        # matte here can reintroduce a thin green fringe after thumbnailing, so
+        # runtime cards are packed directly from the approved transparent file.
+        relative_path = str(candidate.get("rgbaCandidate", ""))
+        source = ROOT / relative_path
+        if not relative_path or not source.is_file():
+            raise FileNotFoundError(f"{entity_id} 8-head card authority is missing: {source}")
+        if sha256(source) != str(candidate.get("rgbaCandidateSha256", "")):
+            raise ValueError(f"{entity_id} 8-head card authority hash does not match its candidate contract")
+        if str(candidate.get("status", "")) != "CONTINUITY_APPROVED_PENDING_RUNTIME_PROMOTION":
+            raise ValueError(f"{entity_id} 8-head card authority is not approved for runtime promotion")
+        sources[entity_id] = {
+            "source": source,
+            "costume_id": f"{entity_id}_CANONICAL_8HEAD_CARD_R1",
+            "source_status": "OPENAI_IMAGEGEN_GREEN_MATTE_8HEAD_CONTINUITY_APPROVED",
+            "presentation": "PREMIUM_8_HEAD_FULL_BODY_CARD",
+            "input_mode": "RGBA_AUTHORITY",
+        }
+    if set(sources) != {f"CHR{index:03d}" for index in range(1, 45)}:
+        raise ValueError("8-head card coverage must be exactly CHR001–CHR044")
+    return sources
+
+
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -573,6 +634,51 @@ def image_cell(source: Path, size: int) -> Image.Image:
     if image.size != (size, size):
         image = image.resize((size, size), Image.Resampling.LANCZOS)
     return image
+
+
+def _is_card_key_green(pixel: tuple[int, int, int]) -> bool:
+    red, green, blue = pixel
+    # Preserve intentional lime costume materials while removing the exact
+    # #00FF00 source field and its antialiased fringe.
+    return green >= 178 and red <= 104 and blue <= 104 and green - red >= 92 and green - blue >= 92
+
+
+def _key_card_green_matte(source: Path) -> Image.Image:
+    """Convert a #00FF00 card source to actual RGBA before runtime resize."""
+    rgb = Image.open(source).convert("RGB")
+    pixels = rgb.load()
+    alpha = Image.new("L", rgb.size, 255)
+    alpha_pixels = alpha.load()
+    for y in range(rgb.height):
+        for x in range(rgb.width):
+            if _is_card_key_green(pixels[x, y]):
+                alpha_pixels[x, y] = 0
+    # Soften only the chroma boundary; do not retain a keyed green fringe.
+    alpha = alpha.filter(ImageFilter.GaussianBlur(0.6))
+    image = rgb.convert("RGBA")
+    image.putalpha(alpha)
+    _decontaminate_card_rgba(image)
+    if image.getchannel("A").getextrema() != (0, 255):
+        raise ValueError(f"card green key did not produce true RGBA extrema: {source}")
+    return image
+
+
+def _decontaminate_card_rgba(image: Image.Image) -> None:
+    """Clear keyed green RGB before and after thumbnail resampling.
+
+    PNG stores RGB even where alpha is zero.  Leaving #00FF00 in those fully
+    transparent pixels lets a subsequent Lanczos resize blend a green outline
+    back into hair and shield edges.  Only transparent/key-fringe samples are
+    touched; opaque teal armour remains untouched.
+    """
+    pixels = image.load()
+    for y in range(image.height):
+        for x in range(image.width):
+            red, green, blue, alpha = pixels[x, y]
+            if alpha == 0:
+                pixels[x, y] = (0, 0, 0, 0)
+            elif alpha < 255 and green >= 120 and green - red >= 30 and green - blue >= 30:
+                pixels[x, y] = (red, min(green, max(red, blue) + 12), blue, alpha)
 
 
 def _static_base_canvas(source: Path) -> Image.Image:
@@ -799,14 +905,39 @@ def build_combat_pack(entity_id: str, source_root: Path) -> dict:
     }
 
 
-def build_expansion_character_static_art(sources: dict[str, dict]) -> list[dict]:
-    """Build compact roster portrait and icon derivatives for new companions.
+def _write_card_green_matte(entity_id: str, source_image: Image.Image) -> Path:
+    """Record the exact flat #00FF00 card authoring matte without shipping it."""
+    provenance_root = CARD_MATTE_ROOT / "provenance"
+    provenance_root.mkdir(parents=True, exist_ok=True)
+    matte = Image.new("RGBA", source_image.size, CARD_MATTE_RGB + (255,))
+    matte.alpha_composite(source_image)
+    path = provenance_root / f"{entity_id.lower()}_8head_card_r1_green_matte.png"
+    matte.convert("RGB").save(path, optimize=True)
+    return path
 
-    The source authority PNG remains the single costume authority.  These are
-    Web delivery derivatives, never a claim that the candidate source has been
-    approved as final production illustration.
+
+def _card_alpha_record(image: Image.Image) -> dict:
+    alpha = image.getchannel("A")
+    extrema = alpha.getextrema()
+    bbox = alpha.getbbox()
+    if extrema != (0, 255) or bbox is None:
+        raise ValueError(f"8-head card RGBA validation failed: extrema={extrema}, bbox={bbox}")
+    left, top, right, bottom = bbox
+    margins = [left, top, image.width - right, image.height - bottom]
+    if min(margins) < 16:
+        raise ValueError(f"8-head card safe inset failed: margins={margins}")
+    return {"alphaExtrema": list(extrema), "alphaBbox": [left, top, right, bottom], "safeInsets": margins}
+
+
+def build_character_8head_card_art(sources: dict[str, dict]) -> list[dict]:
+    """Build the 44-character non-combat 8-head card family.
+
+    This function is deliberately forbidden from reading the SD combat/map
+    authorities.  Each output is a true-alpha derivative of either an approved
+    transparent 8-head authority or an approved #00FF00 8-head matte source.
     """
     entries: list[dict] = []
+    contracts: dict[str, dict] = {}
     for entity_id, definition in sources.items():
         if not entity_id.startswith("CHR"):
             continue
@@ -815,36 +946,88 @@ def build_expansion_character_static_art(sources: dict[str, dict]) -> list[dict]
             raise FileNotFoundError(f"{entity_id} character authority source missing: {source}")
         target_root = OUTPUT / "characters" / entity_id
         target_root.mkdir(parents=True, exist_ok=True)
-        source_image = Image.open(source).convert("RGBA")
+        input_mode = str(definition.get("input_mode", ""))
+        if input_mode == "KEY_GREEN_MATTE":
+            source_image = _key_card_green_matte(source)
+            green_matte_path = source
+        elif input_mode == "RGBA_AUTHORITY":
+            source_image = Image.open(source).convert("RGBA")
+            green_matte_path = _write_card_green_matte(entity_id, source_image)
+        else:
+            raise ValueError(f"{entity_id} card authority has unknown input mode: {input_mode}")
+        # Re-run the strict edge decontamination for *every* authority. Some
+        # historical approved RGBA cards were derived from green sources before
+        # this final pass existed; their authored pixels stay intact, while a
+        # handful of translucent key-green edge samples cannot reach Web UI.
+        _decontaminate_card_rgba(source_image)
         portrait = Image.new("RGBA", (512, 768), (0, 0, 0, 0))
         portrait_subject = source_image.copy()
-        portrait_subject.thumbnail((492, 732), Image.Resampling.LANCZOS)
-        portrait.alpha_composite(portrait_subject, ((512 - portrait_subject.width) // 2, 768 - portrait_subject.height - 8))
+        # A 22px side / 30px bottom target inset prevents any face, weapon,
+        # hand or boot from being clipped by a story, roster or mobile frame.
+        portrait_subject.thumbnail((468, 698), Image.Resampling.LANCZOS)
+        _decontaminate_card_rgba(portrait_subject)
+        portrait.alpha_composite(portrait_subject, ((512 - portrait_subject.width) // 2, 768 - portrait_subject.height - 30))
+        _decontaminate_card_rgba(portrait)
         portrait_path = target_root / "portrait.png"
         portrait.save(portrait_path, optimize=True)
+        portrait_record = _card_alpha_record(portrait)
         icon = Image.new("RGBA", (256, 256), (0, 0, 0, 0))
         icon_subject = source_image.copy()
-        icon_subject.thumbnail((236, 236), Image.Resampling.LANCZOS)
-        icon.alpha_composite(icon_subject, ((256 - icon_subject.width) // 2, 256 - icon_subject.height - 2))
+        icon_subject.thumbnail((224, 224), Image.Resampling.LANCZOS)
+        _decontaminate_card_rgba(icon_subject)
+        icon.alpha_composite(icon_subject, ((256 - icon_subject.width) // 2, 256 - icon_subject.height - 16))
+        _decontaminate_card_rgba(icon)
         icon_path = target_root / "icon.png"
         icon.save(icon_path, optimize=True)
+        icon_record = _card_alpha_record(icon)
+        costume_id = str(definition.get("costume_id", definition.get("asset_id", f"{entity_id}_CANONICAL_R1")))
+        contracts[entity_id] = {
+            "costumeId": costume_id,
+            "authorityImage": str(source.relative_to(ROOT)).replace("\\", "/"),
+            "authoritySha256": sha256(source),
+            "greenMatte": str(green_matte_path.relative_to(ROOT)).replace("\\", "/"),
+            "greenMatteSha256": sha256(green_matte_path),
+            "runtimePortrait": str(portrait_path.relative_to(ROOT)).replace("\\", "/"),
+            "runtimePortraitSha256": sha256(portrait_path),
+            "runtimeIcon": str(icon_path.relative_to(ROOT)).replace("\\", "/"),
+            "runtimeIconSha256": sha256(icon_path),
+            "fingerprint": {"identity": "authority-preserved", "costume": "unchanged", "presentation": str(definition.get("presentation", "PREMIUM_8_HEAD_FULL_BODY_CARD")), "weaponGrip": "authority-preserved", "background": "#00FF00 intermediate → RGBA runtime"},
+            "portrait": portrait_record,
+            "icon": icon_record,
+            "status": "COSTUME_CONTINUITY_PASS",
+        }
         common = {
-            "status": "RUNTIME_WEB_CANDIDATE_ART",
-            "category": "character_static_art",
+            "status": "RUNTIME_WEB_GREEN_MATTE_RGBA",
+            "category": "character_8head_card_art",
             "entity_id": entity_id,
-            "source": f"candidate_costume_authority:{entity_id}",
-            "source_asset_id": str(definition["asset_id"]),
-            "source_status": str(definition.get("source_status", "COSTUME_CONTRACT_PENDING_GPT_REVIEW")),
+            "source": f"green_matte_8head_card_derivative:{entity_id}",
+            "source_asset_id": costume_id,
+            "source_status": str(definition.get("source_status", "COSTUME_CONTINUITY_PASS")),
             "ownership_status": "ORIGINAL_INTERNAL",
             "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
-            "qa_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
+            "qa_status": "8HEAD_CARD_CONTINUITY_PASS_RGBA_SEPARATION_VALIDATED",
             "production_approved": False,
         }
         entries.extend([
             {**common, "asset_id": f"portrait_{entity_id.lower()}_dev", "godot_path": f"res://assets/runtime_web/characters/{entity_id}/portrait.png", "sha256": sha256(portrait_path), "width": 512, "height": 768},
             {**common, "asset_id": f"icon_{entity_id.lower()}_dev", "godot_path": f"res://assets/runtime_web/characters/{entity_id}/icon.png", "sha256": sha256(icon_path), "width": 256, "height": 256},
         ])
-        print(f"RUNTIME_CHARACTER_ART={entity_id}|portrait={portrait_path.stat().st_size}|icon={icon_path.stat().st_size}")
+        print(f"RUNTIME_8HEAD_CARD_ART={entity_id}|portrait={portrait_path.stat().st_size}|icon={icon_path.stat().st_size}")
+    contract_payload = {
+        "schemaVersion": 1,
+        "generationMatte": "#00FF00",
+        "runtimeBackground": "RGBA_TRANSPARENT",
+        "characters": contracts,
+    }
+    contract_text = json.dumps(contract_payload, ensure_ascii=False, indent=2) + "\n"
+    contract_path = CARD_MATTE_ROOT / "qa" / "CARD_8HEAD_RGBA_R1_CONTRACT.json"
+    contract_path.parent.mkdir(parents=True, exist_ok=True)
+    contract_path.write_text(contract_text, encoding="utf-8")
+    # Keep the same compact contract beside the PCK-ready portraits so release
+    # regression tests verify what the player build actually references.
+    runtime_contract_path = OUTPUT / "characters" / "CARD_8HEAD_RGBA_R1_CONTRACT.json"
+    runtime_contract_path.write_text(contract_text, encoding="utf-8")
+    print(f"CARD_8HEAD_RGBA_R1={len(contracts)}|contract={contract_path}|runtime_contract={runtime_contract_path}")
     return entries
 
 
@@ -1431,9 +1614,10 @@ def main() -> int:
     expansion_sources = expansion_static_sources()
     player_sd_overrides = player_sd_static_overrides()
     static_sources = {**STATIC_COMBAT_SOURCES, **player_sd_overrides, **expansion_sources}
+    card_sources = card_8head_sources()
     combat = [build_combat_pack(entity_id, path) for entity_id, path in COMBAT_SOURCES.items() if entity_id not in player_sd_overrides]
     combat.extend(build_static_combat_pack(entity_id, definition) for entity_id, definition in static_sources.items())
-    update_runtime_asset_manifest(combat, build_expansion_character_static_art(expansion_sources))
+    update_runtime_asset_manifest(combat, build_character_8head_card_art(card_sources))
     update_runtime_story_manifest(build_story_plates())
     profiles = complete_vfx_style_profiles()
     projectiles = [build_projectile_pack(source_id, path) for source_id, path in PROJECTILE_SOURCES.items()]

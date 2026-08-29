@@ -265,6 +265,11 @@ def stage_data() -> tuple[list[dict], list[dict]]:
     stages, rewards = [], []
     override_path = SOURCE / "stage_balance_overrides.json"
     balance_overrides = json.loads(override_path.read_text(encoding="utf-8")) if override_path.exists() else {}
+    # A chapter map is a full 30-contact expedition: twenty NORMAL nodes followed
+    # by ten HARD nodes.  The original bosses remain unique, but their finales
+    # now sit at the end of the longer route (N20/H10) instead of being repeated
+    # as the map grows.  Extra contacts deliberately recombine established
+    # normal/elite archetypes rather than inventing invisible placeholder art.
     normals = [
         [["ENM001", "ENM002"], ["ENM001", "ENM003"]],
         [["ENM001", "ENM002", "ENM002"], ["ENM003", "ENM004"]],
@@ -275,6 +280,16 @@ def stage_data() -> tuple[list[dict], list[dict]]:
         [["ENM012", "ENM006"], ["ENM008"]],
         [["ENM003", "ENM004"], ["ENM008", "ENM001"]],
         [["ENM007"], ["ENM008"], ["ENM009"]],
+        [["ENM003", "ENM006"], ["ENM007", "ENM008"], ["ENM009"]],
+        [["ENM010", "ENM005"], ["ENM011", "ENM006", "ENM002"]],
+        [["ENM012", "ENM007"], ["ENM003", "ENM008"]],
+        [["ENM004", "ENM010", "ENM001"], ["ENM009"]],
+        [["ENM011", "ENM006"], ["ENM007", "ENM005"]],
+        [["ENM003", "ENM012"], ["ENM008", "ENM002", "ENM010"]],
+        [["ENM001", "ENM004"], ["ENM007", "ENM009"]],
+        [["ENM005", "ENM011"], ["ENM008", "ENM012"]],
+        [["ENM006", "ENM010", "ENM003"], ["ENM009", "ENM007"]],
+        [["ENM002", "ENM011"], ["ENM008", "ENM004"], ["ENM009"]],
         [["ENM003", "ENM006"], ["ENM007", "ENM008"], ["BOSS001"]],
     ]
     hard = [
@@ -282,6 +297,11 @@ def stage_data() -> tuple[list[dict], list[dict]]:
         [["ENM008", "ENM006"], ["ENM007", "ENM008"]],
         [["ENM009"], ["ENM007", "ENM008"], ["BOSS003"]],
         [["ENM007", "ENM009"], ["ENM008", "ENM009"]],
+        [["ENM007", "ENM008"], ["ENM009", "ENM009"], ["ENM012"]],
+        [["ENM010", "ENM007"], ["ENM008", "ENM006", "ENM009"]],
+        [["ENM011", "ENM009"], ["ENM007", "ENM012"]],
+        [["ENM008", "ENM010"], ["ENM009", "ENM003"]],
+        [["ENM007", "ENM011"], ["ENM008", "ENM012", "ENM009"]],
         [["ENM007", "ENM008"], ["ENM009", "ENM009"], ["BOSS002"]],
     ]
     for mode, wave_sets in (("NORMAL", normals), ("HARD", hard)):
@@ -312,7 +332,12 @@ def stage_data() -> tuple[list[dict], list[dict]]:
                 "CH01-H03": ["FACTION_SEAL_T3", "WEAPON_ORE_T3", "BLUEPRINT_T3"],
                 "CH01-H04": ["WEAPON_ORE_T4", "BLUEPRINT_T4"],
                 "CH01-H05": ["UNIVERSAL_CATALYST"],
-            }[sid]
+            }.get(sid, [])
+            if not farmable:
+                if mode == "NORMAL":
+                    farmable = ["WEAPON_ORE_T2", "BLUEPRINT_T2"] if i <= 15 else ["SKILL_BOOK_T2", "SKILL_TOKEN_T2", "ULT_BOOK_T2"]
+                else:
+                    farmable = ["BREAK_CORE_T4", "ROLE_TOKEN_T4"] if i <= 8 else ["UNIVERSAL_CATALYST", "FACTION_SEAL_T3"]
             guaranteed = [{"item_id": primary, "min": 1 if primary != "CREDIT" else 1200, "max": 2 if primary != "CREDIT" else 1800}]
             for farm_item in farmable:
                 if farm_item != primary:
@@ -332,13 +357,28 @@ def stage_data() -> tuple[list[dict], list[dict]]:
         [["ENM014", "ENM003"], ["ENM013", "ENM007"]],
         [["ENM015", "ENM006"], ["ENM014", "ENM008"]],
         [["ENM013", "ENM014"], ["ENM015", "ENM007", "ENM009"]],
-        [["ENM013", "ENM015"], ["ENM014", "ENM008"], ["BOSS004"]],
+        [["ENM013", "ENM015"], ["ENM014", "ENM008"], ["ENM009"]],
+        [["ENM014", "ENM001"], ["ENM015", "ENM007", "ENM013"]],
+        [["ENM013", "ENM008"], ["ENM014", "ENM009"]],
+        [["ENM015", "ENM003"], ["ENM013", "ENM006", "ENM014"]],
+        [["ENM014", "ENM007"], ["ENM015", "ENM008"]],
+        [["ENM013", "ENM009"], ["ENM014", "ENM002", "ENM015"]],
+        [["ENM015", "ENM006"], ["ENM013", "ENM007"]],
+        [["ENM014", "ENM008"], ["ENM015", "ENM009"]],
+        [["ENM013", "ENM014", "ENM007"], ["ENM015", "ENM008"]],
+        [["ENM014", "ENM015"], ["ENM013", "ENM009", "ENM007"]],
+        [["ENM015", "ENM008"], ["ENM014", "ENM013"], ["BOSS004"]],
     ]
     chapter_two_hard = [
         [["ENM013", "ENM007"], ["ENM015", "ENM009"]],
         [["ENM014", "ENM008"], ["ENM013", "ENM009"]],
         [["ENM015", "ENM007"], ["ENM014", "ENM008"]],
         [["ENM013", "ENM014"], ["ENM007", "ENM009"]],
+        [["ENM015", "ENM008"], ["ENM013", "ENM014"], ["ENM009"]],
+        [["ENM013", "ENM007"], ["ENM014", "ENM015", "ENM008"]],
+        [["ENM014", "ENM009"], ["ENM013", "ENM006"]],
+        [["ENM015", "ENM008"], ["ENM014", "ENM007"]],
+        [["ENM013", "ENM014"], ["ENM015", "ENM009", "ENM008"]],
         [["ENM015", "ENM008"], ["ENM013", "ENM014"], ["BOSS005"]],
     ]
     for mode, wave_sets in (("NORMAL", chapter_two_normals), ("HARD", chapter_two_hard)):
@@ -353,7 +393,7 @@ def stage_data() -> tuple[list[dict], list[dict]]:
                 "post_cap_scale": float(stage_override.get("post_cap_scale", 1.0)), "stamina_cost": stamina,
                 "time_limit": int(stage_override.get("time_limit", 95)), "target_time": int(stage_override.get("target_time", 74)),
                 "waves": waves, "reward_table_id": reward_id,
-                "boss": (mode == "NORMAL" and i == 10) or (mode == "HARD" and i == 5),
+                "boss": any(str(enemy_id).startswith("BOSS") for wave in waves for enemy_id in wave),
                 "daily_attempts": 0 if mode == "NORMAL" else 3,
             })
             tier = "T2" if i <= 5 else ("T3" if mode == "NORMAL" else "T4")
@@ -362,6 +402,21 @@ def stage_data() -> tuple[list[dict], list[dict]]:
                 guaranteed.append({"item_id": f"SHARD_CHR{26 + i:03d}", "min": 1, "max": 1})
             rewards.append({"id": reward_id, "stage_id": sid, "guaranteed": guaranteed, "bonus": [{"item_id": "UNIVERSAL_CATALYST", "chance": .12, "quantity": 1, "pity_after_failures": 7}], "first_clear": [{"item_id": "CREDIT", "quantity": 6000 + i * 600}, {"item_id": "LANTERN_SHARD", "quantity": 15}]})
     return stages, rewards
+
+
+def relay_spec_data() -> list[dict]:
+    """Small offline contracts which borrow authored battles without mutating chapter clear state."""
+    return [
+        {
+            "id": "RELAY_CH01_A",
+            "name": "삼중 노선 릴레이 · 제1구간",
+            "subtitle": "서로 다른 15명을 세 개의 독립 편성으로 운용하십시오.",
+            "stage_ids": ["CH01-N03", "CH01-N06", "CH01-N09"],
+            "completion_rewards": {"CREDIT": 15000, "TRAINING_NOTE_L": 3, "SKILL_BOOK_T1": 6},
+            "s_rank_time": 150.0,
+            "a_rank_time": 195.0,
+        }
+    ]
 
 
 def item_data() -> list[dict]:
@@ -378,7 +433,9 @@ def item_data() -> list[dict]:
         "BLUEPRINT_T1", "BLUEPRINT_T2", "BLUEPRINT_T3", "BLUEPRINT_T4", "UNIVERSAL_CATALYST",
     ] + [f"SHARD_CHR{i:03d}" for i in range(1, 45)]
     xp = {"TRAINING_NOTE_S": 100, "TRAINING_NOTE_M": 500, "TRAINING_NOTE_L": 2500, "TRAINING_NOTE_XL": 10000, "WEAPON_CHIP_S": 100, "WEAPON_CHIP_M": 500, "WEAPON_CHIP_L": 2500, "WEAPON_CHIP_XL": 10000}
-    return [{"id": item, "name_key": f"ITEM_{item}", "category": item.split("_")[0], "xp_value": xp.get(item, 0), "icon_asset_id": ("item_lantern_shard_dev" if item.startswith("EXPEDITION_ROUTE_MODULE") else f"item_{item.lower()}_dev")} for item in ids]
+    major = {"EXPEDITION_ROUTE_MODULE_A", "EXPEDITION_ROUTE_MODULE_B", "UNIVERSAL_CATALYST", "BLUEPRINT_T4", "WEAPON_ORE_T4", "BREAK_CORE_T4", "ROLE_TOKEN_T4", "SKILL_BOOK_T4", "SKILL_TOKEN_T4", "ULT_BOOK_T4"}
+    rare = {"LANTERN_SHARD", "BLUEPRINT_T3", "WEAPON_ORE_T3", "BREAK_CORE_T3", "ROLE_TOKEN_T3", "FACTION_SEAL_T3", "SKILL_BOOK_T3", "SKILL_TOKEN_T3", "ULT_BOOK_T3"}
+    return [{"id": item, "name_key": f"ITEM_{item}", "category": item.split("_")[0], "xp_value": xp.get(item, 0), "presentation_tier": ("MAJOR" if item in major else ("RARE" if item in rare else "STANDARD")), "icon_asset_id": ("item_lantern_shard_dev" if item.startswith("EXPEDITION_ROUTE_MODULE") else f"item_{item.lower()}_dev")} for item in ids]
 
 
 # Each operation owns exactly one contact record and one real-time battle
@@ -422,6 +479,44 @@ CONTACT_EVENT_SPECS = {
 }
 
 
+# Four non-recruitment contacts per chapter make the ! marker mean more than a
+# companion acquisition.  They are authored special-enemy incidents which use
+# the same pre-battle dialogue contract but never grant a character, item, or
+# completion flag before their actual battle has been won.
+SPECIAL_ENEMY_EVENT_SPECS = {
+    "CH01": [("N12", "ENM012"), ("N15", "ENM008"), ("N18", "ENM009"), ("H08", "ENM007")],
+    "CH02": [("N12", "ENM015"), ("N15", "ENM008"), ("N18", "ENM009"), ("H08", "ENM014")],
+}
+
+
+# The long-route coordinates are deliberate authored anchors, not procedural
+# encounters.  MacroWorldGenerator fills the legal terrain corridor between
+# them, preserving the same one-hex movement and route-preview authority.
+MAP_EXTENSION_COORDS = {
+    "CH01": {
+        "N": [(106, -15), (116, -20), (128, -18), (139, -23), (150, -21), (161, -26), (173, -24), (184, -29), (195, -27), (207, -32)],
+        "H": [(201, -25), (193, -19), (183, -23), (174, -17), (166, -21), (156, -16), (148, -20), (138, -14), (130, -18), (119, -12)],
+    },
+    "CH02": {
+        "N": [(115, -16), (127, -21), (139, -19), (150, -24), (162, -22), (173, -27), (185, -25), (196, -30), (208, -28), (220, -33)],
+        "H": [(214, -26), (206, -20), (196, -24), (187, -18), (179, -22), (169, -17), (161, -21), (151, -15), (143, -19), (132, -13)],
+    },
+}
+
+
+BOSS_PRESENTATIONS = {
+    "CH01-N20": {"event_title_key": "MAP_BOSS_CH01_N20_TITLE", "boss_name_key": "ENEMY_HOLLOW_ENGINE", "boss_subtitle_key": "MAP_BOSS_CH01_N20_SUBTITLE"},
+    "CH01-H03": {"event_title_key": "MAP_BOSS_CH01_H03_TITLE", "boss_name_key": "ENEMY_WHITE_DAWN_OBSERVER", "boss_subtitle_key": "MAP_BOSS_CH01_H03_SUBTITLE"},
+    "CH01-H10": {"event_title_key": "MAP_BOSS_CH01_H10_TITLE", "boss_name_key": "ENEMY_NIGHT_BELL", "boss_subtitle_key": "MAP_BOSS_CH01_H10_SUBTITLE"},
+    "CH02-N20": {"event_title_key": "MAP_BOSS_CH02_N20_TITLE", "boss_name_key": "ENEMY_REVERSE_GATEKEEPER", "boss_subtitle_key": "MAP_BOSS_CH02_N20_SUBTITLE"},
+    "CH02-H10": {"event_title_key": "MAP_BOSS_CH02_H10_TITLE", "boss_name_key": "ENEMY_RETURN_FORMATION_CORE", "boss_subtitle_key": "MAP_BOSS_CH02_H10_SUBTITLE"},
+}
+
+
+def _dialogue_entry(speaker_kind: str, speaker_id: str, text_key: str) -> dict:
+    return {"speaker_kind": speaker_kind, "speaker_id": speaker_id, "text_key": text_key}
+
+
 def chapter_contact_events(chapter_id: str) -> list[dict]:
     events: list[dict] = []
     for route_stage, recruits in CONTACT_EVENT_SPECS[chapter_id]:
@@ -434,13 +529,104 @@ def chapter_contact_events(chapter_id: str) -> list[dict]:
         body_key = f"MAP_CONTACT_{suffix}_BODY"
         outcome_key = f"MAP_CONTACT_{suffix}_OUTCOME"
         events.append({
-            "event_encounter_id": event_id, "node_id": node_id, "marker": "BANG", "entry_type": "EVENT_CONTACT",
+            "event_encounter_id": event_id, "node_id": node_id, "marker": "BANG", "entry_type": "EVENT_CONTACT", "event_kind": "COMPANION",
             "character_id": primary_id, "recruitment_timing": primary_timing, "recruit_after_stage_id": primary_after,
             "title_key": title_key, "body_key": body_key, "contact_outcome_key": outcome_key,
             "recruitments": [{"character_id": character_id, "recruitment_timing": timing, "recruit_after_stage_id": after_stage} for character_id, timing, after_stage in recruits],
+            "pre_battle_dialogue": [
+                _dialogue_entry("COMMAND", "", f"MAP_CONTACT_{suffix}_DIALOGUE_01"),
+                _dialogue_entry("COMPANION", primary_id, f"MAP_CONTACT_{suffix}_DIALOGUE_02"),
+                _dialogue_entry("COMMAND", "", f"MAP_CONTACT_{suffix}_DIALOGUE_03"),
+            ],
             "stage_id": stage_id,
         })
     return events
+
+
+def chapter_special_enemy_events(chapter_id: str) -> list[dict]:
+    events: list[dict] = []
+    for route_stage, enemy_id in SPECIAL_ENEMY_EVENT_SPECS[chapter_id]:
+        suffix = f"{chapter_id}_{route_stage}"
+        events.append({
+            "event_encounter_id": f"EVENT_ANOMALY_{suffix}", "node_id": f"NODE_{route_stage}",
+            "marker": "BANG", "entry_type": "EVENT_CONTACT", "event_kind": "SPECIAL_ENEMY", "enemy_id": enemy_id,
+            "character_id": "", "recruitment_timing": "", "recruit_after_stage_id": "",
+            "title_key": f"MAP_ANOMALY_{suffix}_TITLE", "body_key": f"MAP_ANOMALY_{suffix}_BODY",
+            "contact_outcome_key": f"MAP_ANOMALY_{suffix}_OUTCOME", "recruitments": [],
+            "pre_battle_dialogue": [
+                _dialogue_entry("COMMAND", "", f"MAP_ANOMALY_{suffix}_DIALOGUE_01"),
+                _dialogue_entry("ENEMY", enemy_id, f"MAP_ANOMALY_{suffix}_DIALOGUE_02"),
+                _dialogue_entry("COMMAND", "", f"MAP_ANOMALY_{suffix}_DIALOGUE_03"),
+            ],
+            "stage_id": f"{chapter_id}-{route_stage}",
+        })
+    return events
+
+
+def _is_boss_stage(stage: dict) -> bool:
+    return any(str(enemy_id).startswith("BOSS") for wave in stage.get("waves", []) for enemy_id in wave)
+
+
+def _node_type_for_stage(stage: dict) -> str:
+    mode = str(stage["mode"])
+    number = int(stage["stage_number"])
+    if _is_boss_stage(stage):
+        return f"{mode}_BOSS"
+    # Keep a readable cadence across the expanded route: an elite every few
+    # nodes, with the original authored elite beats retained where possible.
+    elite_numbers = {"NORMAL": {4, 7, 10, 12, 15, 18}, "HARD": {3, 4, 5, 7, 9}}
+    return f"{mode}_{'ELITE' if number in elite_numbers[mode] else 'BATTLE'}"
+
+
+def _node_marker_asset(node_type: str) -> str:
+    if node_type.endswith("BOSS"):
+        return "map_marker_boss_r7"
+    if node_type.endswith("ELITE"):
+        return "map_marker_elite_r7"
+    return "map_marker_hard_r7" if node_type.startswith("HARD") else "map_marker_normal_r7"
+
+
+def expand_chapter_map_definition(definition: dict, chapter_id: str, stages: list[dict]) -> dict:
+    """Promote a 15-node legacy chapter map to the authored 20N+10H route."""
+    updated = json.loads(json.dumps(definition))
+    by_id = {str(stage["id"]): stage for stage in stages if str(stage["chapter_id"]) == chapter_id}
+    existing = {str(node.get("node_id", "")): node for node in updated.get("nodes", [])}
+    start_nodes = [node for node in updated.get("nodes", []) if str(node.get("node_type", "")) == "START"]
+    built_nodes = start_nodes[:1]
+    for route_code, mode, count in (("N", "NORMAL", 20), ("H", "HARD", 10)):
+        extension_start = 11 if route_code == "N" else 6
+        for number in range(1, count + 1):
+            stage_id = f"{chapter_id}-{route_code}{number:02d}"
+            node_id = f"NODE_{route_code}{number:02d}"
+            stage = by_id[stage_id]
+            node = dict(existing.get(node_id, {}))
+            if number >= extension_start:
+                coordinate = MAP_EXTENSION_COORDS[chapter_id][route_code][number - extension_start]
+                node["q"], node["r"] = coordinate
+            node_type = _node_type_for_stage(stage)
+            node.update({
+                "node_id": node_id, "node_type": node_type, "stage_id": stage_id, "scenario_id": "",
+                "unlock_condition": "STAGE_RULE", "reveal_condition": "ROUTE_PROGRESS",
+                "marker_asset_id": _node_marker_asset(node_type), "repeatable": True, "fast_travel_allowed": True,
+            })
+            if _is_boss_stage(stage):
+                presentation = dict(BOSS_PRESENTATIONS[stage_id])
+                presentation["transition_style"] = "BOSS"
+                node["presentation"] = presentation
+            else:
+                node.pop("presentation", None)
+            built_nodes.append(node)
+    updated["nodes"] = built_nodes
+    updated["normal_route"] = [f"{chapter_id}-N{number:02d}" for number in range(1, 21)]
+    updated["hard_route"] = [f"{chapter_id}-H{number:02d}" for number in range(1, 11)]
+    macro = dict(updated.get("macro_world", {}))
+    macro["linear_scale_viewports"] = 24
+    macro["bounds"] = {"min_q": -18, "max_q": 236, "min_r": -54, "max_r": 26}
+    updated["macro_world"] = macro
+    for patrol in updated.get("patrols", []):
+        if str(patrol.get("encounter_id", "")) == "NODE_N10":
+            patrol["entry_type"] = "ELITE_GUARD"
+    return updated
 
 
 def weapon_data() -> list[dict]:
@@ -759,7 +945,16 @@ def localization(characters, enemies, stages, skills, weapons, items, scenarios)
         "UNIVERSAL_CATALYST": "범용 촉매", "WEAPON_CHIP_S": "무기 칩 S", "WEAPON_CHIP_M": "무기 칩 M", "WEAPON_CHIP_L": "무기 칩 L", "WEAPON_CHIP_XL": "무기 칩 XL",
         "WEAPON_ORE_T1": "무기 광석 T1", "WEAPON_ORE_T2": "무기 광석 T2", "WEAPON_ORE_T3": "무기 광석 T3", "WEAPON_ORE_T4": "무기 광석 T4",
     }
-    loc.update({"CHAPTER_01": ("제1장 — 꺼진 노선의 신호", "Chapter 1 — Signal on the Dark Line"), "CHAPTER_02": ("제2장 — 되감기는 종착선", "Chapter 2 — The Returning Terminus")})
+    loc.update({
+        "CHAPTER_01": ("제1장 — 꺼진 노선의 신호", "Chapter 1 — Signal on the Dark Line"),
+        "CHAPTER_02": ("제2장 — 되감기는 종착선", "Chapter 2 — The Returning Terminus"),
+        "MAP_EVENT_COMMAND_NAME": ("등로단 통신", "Lamplighter Comms"),
+        "MAP_EVENT_ENEMY_SIGNAL_NAME": ("위협 신호", "Threat Signal"),
+        "MAP_EVENT_DIALOGUE_SKIP": ("대화 건너뛰기", "Skip dialogue"),
+        "MAP_EVENT_DIALOGUE_NEXT": ("다음", "Next"),
+        "MAP_EVENT_DIALOGUE_BATTLE": ("전투 개시", "Begin battle"),
+        "MAP_EVENT_DIALOGUE_HINT": ("화면을 누르거나 다음을 선택해 사건을 진행합니다.", "Tap the panel or choose Next to continue the incident."),
+    })
     for c in characters:
         code = c["name_key"].split("_")[1]
         loc[c["name_key"]] = (ko_names.get(code, code.title()), code.title())
@@ -788,6 +983,9 @@ def localization(characters, enemies, stages, skills, weapons, items, scenarios)
             outcome_key = str(event["contact_outcome_key"])
             loc[title_key] = (f"특별 신호 · {joined_ko}", f"Special Signal: {joined_en}")
             loc[body_key] = ("왜곡된 회송 신호 속에서 동료의 구조 좌표가 겹쳐진다. 접촉을 마치면 이 조우의 진짜 응답을 확인할 수 있다.", "Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.")
+            loc[f"MAP_CONTACT_{chapter_id}_{str(event['stage_id']).split('-')[-1]}_DIALOGUE_01"] = ("미확인 신호를 포착했습니다. 전투 구역에 진입하기 전에 응답 주체를 확인합니다.", "An unidentified signal is inside the combat zone. Confirm the responder before entering.")
+            loc[f"MAP_CONTACT_{chapter_id}_{str(event['stage_id']).split('-')[-1]}_DIALOGUE_02"] = (f"{joined_ko}입니다. 신호가 적대 개체에 붙잡혀 있습니다. 길을 열면 합류하겠습니다.", f"This is {joined_en}. Hostiles have pinned the signal; clear a path and we will join you.")
+            loc[f"MAP_CONTACT_{chapter_id}_{str(event['stage_id']).split('-')[-1]}_DIALOGUE_03"] = ("영입 여부와 보상은 전투 승리 뒤에만 확정됩니다. 편성을 정비하고 접촉을 개시합니다.", "Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.")
             immediate_ko = [korean_names[i] for i, row in enumerate(recruitments) if row["recruitment_timing"] == "IMMEDIATE_ON_VICTORY"]
             delayed_ko = [korean_names[i] for i, row in enumerate(recruitments) if row["recruitment_timing"] == "AFTER_STAGE_CLEAR"]
             immediate_en = [english_names[i] for i, row in enumerate(recruitments) if row["recruitment_timing"] == "IMMEDIATE_ON_VICTORY"]
@@ -798,6 +996,25 @@ def localization(characters, enemies, stages, skills, weapons, items, scenarios)
                 outcome_ko += " / 후속 합류 · " + " · ".join(delayed_ko)
                 outcome_en += " / follow-up join · " + " / ".join(delayed_en)
             loc[outcome_key] = (outcome_ko, outcome_en)
+    for chapter_id in SPECIAL_ENEMY_EVENT_SPECS:
+        for event in chapter_special_enemy_events(chapter_id):
+            suffix = str(event["stage_id"]).split("-")[-1]
+            enemy_id = str(event["enemy_id"])
+            enemy_ko = enemy_names.get(enemy_id, enemy_id)
+            loc[str(event["title_key"])] = (f"특이 위협 신호 · {enemy_ko}", f"Anomalous Threat Signal: {enemy_id}")
+            loc[str(event["body_key"])] = ("경로를 봉쇄하는 특이 반응이 감지되었습니다. 신호를 분석한 뒤 전투 구역으로 진입합니다.", "An anomalous reaction is blocking the route. Analyze the signal before entering the combat zone.")
+            loc[str(event["contact_outcome_key"])] = ("승리 시 위협 신호 안정화 · 영입/보상은 없음", "Victory outcome: threat signal stabilized · no recruitment/reward")
+            loc[f"MAP_ANOMALY_{chapter_id}_{suffix}_DIALOGUE_01"] = ("경로 앞의 반응은 일반 개체와 다릅니다. 가까이 가면 전투가 시작됩니다.", "The reaction ahead is unlike a normal unit. Combat will begin after the signal is assessed.")
+            loc[f"MAP_ANOMALY_{chapter_id}_{suffix}_DIALOGUE_02"] = (f"{enemy_ko}: [왜곡된 적대 파장]", f"{enemy_id}: [distorted hostile waveform]")
+            loc[f"MAP_ANOMALY_{chapter_id}_{suffix}_DIALOGUE_03"] = ("신호를 고정했습니다. 이 창을 닫으면 전투 개시이며, 승리 전에는 아무 상태도 확정되지 않습니다.", "The signal is locked. Closing this window begins combat; no state is committed before victory.")
+    boss_copy = {
+        "MAP_BOSS_CH01_N20": ("심층 중계 핵", "Deep Relay Core"), "MAP_BOSS_CH01_H03": ("백야 감시선", "White Dawn Watchline"),
+        "MAP_BOSS_CH01_H10": ("심야 공명선", "Midnight Resonance Line"), "MAP_BOSS_CH02_N20": ("역행 개찰 심층", "Reverse Gate Depths"),
+        "MAP_BOSS_CH02_H10": ("회송 편성 최심부", "Return Formation Depths"),
+    }
+    for prefix, pair in boss_copy.items():
+        loc[prefix + "_TITLE"] = pair
+        loc[prefix + "_SUBTITLE"] = ("고유 보스 신호 · 경로 최종 방어선", "Unique boss signal · final route defense")
     for w in weapons:
         loc[w["name_key"]] = (f"공용 {w['weapon_class']} 장비 {w['id']}", f"Common {w['weapon_class']} Gear {w['id']}")
     for item in items:
@@ -883,6 +1100,10 @@ def main() -> None:
     skills = skill_data()
     enemies = enemy_data()
     stages, rewards = stage_data()
+    # Relay specs stay data-authored so the shell and saved run logic never embed
+    # a CH01-only stage list. This first vertical slice intentionally reuses
+    # existing non-boss battles and existing inventory resources.
+    relay_specs = relay_spec_data()
 
     # Chapter definitions are consumed at runtime for map selection, route
     # progression, and additive save repair. Keep the exact ordered stage IDs
@@ -923,6 +1144,7 @@ def main() -> None:
     write_csv(SOURCE / "enemies.csv", [{**e, "stats": json.dumps(e["stats"], separators=(",", ":")), "patterns": json.dumps(e.get("patterns", []), separators=(",", ":"))} for e in enemies])
     write_csv(SOURCE / "stages.csv", [{**s, "waves": json.dumps(s["waves"], separators=(",", ":"))} for s in stages])
     write_json(SOURCE / "stage_rewards.json", rewards)
+    write_json(SOURCE / "relay_specs.json", relay_specs)
     write_csv(SOURCE / "reward_items.csv", items)
     write_json(SOURCE / "chapters.json", chapters)
     for scn in scenarios:
@@ -947,6 +1169,8 @@ def main() -> None:
     for map_path in sorted(chapter_map_source.glob("*.json")):
         map_definition = json.loads(map_path.read_text(encoding="utf-8"))
         chapter_id = str(map_definition.get("chapter_id", ""))
+        if chapter_id in CONTACT_EVENT_SPECS:
+            map_definition = expand_chapter_map_definition(map_definition, chapter_id, stages)
         # The trigger table is the runtime authority; mirror its scenario IDs onto
         # authored map nodes as an audit index.  This makes the intended moment of
         # every chapter scenario visible in the map data without creating a second
@@ -965,7 +1189,7 @@ def main() -> None:
             else:
                 node["scenario_id"] = stage_scenario_ids.get(str(node.get("stage_id", "")), "")
         if chapter_id in CONTACT_EVENT_SPECS:
-            map_definition["event_encounters"] = chapter_contact_events(chapter_id)
+            map_definition["event_encounters"] = chapter_contact_events(chapter_id) + chapter_special_enemy_events(chapter_id)
             # The generated contact catalog is part of the data source of
             # truth, not a compiled-only patch. Persisting it lets map review
             # and Web builds read the exact same 1–2 companion contract.
@@ -1001,6 +1225,7 @@ def main() -> None:
         "weapon_tier_caps": {"1": 10, "2": 20, "3": 30, "4": 40, "5": 50, "6": 60},
         "affinity_matrix": affinity_matrix,
         "status_effects": status_effects,
+        "relay_specs": relay_specs,
     }
     write_json(COMPILED / "game_data.json", compiled)
 

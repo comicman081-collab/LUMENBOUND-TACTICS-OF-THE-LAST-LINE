@@ -83,6 +83,33 @@ $indexHtml = $indexHtml.Replace("`t`t<title>LUMENBOUND: TACTICS OF THE LAST LINE
 if ($indexHtml -notmatch '<title>LUMENBOUND: TACTICS OF THE LAST LINE</title>') {
     throw 'Failed to set the public LUMENBOUND browser title.'
 }
+# The public pack is intentionally substantial, so the stock blank progress bar
+# reads as a frozen tab on a cold mobile connection. Give download progress an
+# immediate branded surface and an explicit percentage without changing the
+# Godot boot/runtime contract.
+$indexHtml = $indexHtml.Replace(
+    "#status {`n`tbackground-color: #242424;",
+    "#status {`n`tbackground:`n`t`tradial-gradient(circle at 50% 36%, rgba(36, 116, 123, .22), transparent 32%),`n`t`tlinear-gradient(180deg, #06101a 0%, #02070d 100%);"
+)
+$indexHtml = $indexHtml.Replace(
+    "#status-progress {`n`tbottom: 10%;`n`twidth: 50%;`n`tmargin: 0 auto;`n}",
+    "#status-progress {`n`tbottom: 13%;`n`twidth: min(56%, 680px);`n`tmargin: 0 auto;`n`theight: 10px;`n`taccent-color: #77e3cf;`n}`n`n#status-copy {`n`tposition: absolute;`n`tleft: 5%;`n`tright: 5%;`n`tbottom: 17%;`n`ttext-align: center;`n`tfont: 600 clamp(14px, 1.7vw, 22px)/1.5 `"Segoe UI`", `"Noto Sans KR`", sans-serif;`n`tletter-spacing: .08em;`n`tcolor: #d9f7ee;`n`ttext-shadow: 0 2px 12px #000;`n}`n`n#status-percent { color: #f1cf7a; }"
+)
+$indexHtml = $indexHtml.Replace(
+    "`t`t`t<img id=`"status-splash`" class=`"show-image--true fullsize--true use-filter--true`" src=`"index.png`" alt=`"`">",
+    "`t`t`t<img id=`"status-splash`" class=`"show-image--true fullsize--true use-filter--true`" src=`"index.png`" alt=`"`">`n`t`t`t<div id=`"status-copy`">LUMENBOUND 전술 기록을 불러오는 중 · <span id=`"status-percent`">0%</span></div>"
+)
+$indexHtml = $indexHtml.Replace(
+    "`tconst statusProgress = document.getElementById('status-progress');",
+    "`tconst statusProgress = document.getElementById('status-progress');`n`tconst statusPercent = document.getElementById('status-percent');"
+)
+$indexHtml = $indexHtml.Replace(
+    "`t`t`t`t`tstatusProgress.max = total;",
+    "`t`t`t`t`tstatusProgress.max = total;`n`t`t`t`t`tstatusPercent.textContent = Math.max(1, Math.min(100, Math.round(current / total * 100))) + '%';"
+)
+if ($indexHtml -notmatch 'id="status-percent"' -or $indexHtml -notmatch 'statusPercent.textContent') {
+    throw 'Failed to install the public progress percentage overlay.'
+}
 Set-Content -LiteralPath $indexPath -Value $indexHtml -Encoding UTF8
 
 $manifestPath = Join-Path $output 'index.manifest.json'

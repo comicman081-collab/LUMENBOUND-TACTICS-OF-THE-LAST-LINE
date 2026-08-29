@@ -304,9 +304,14 @@ func _test_geometry_grounding_contract() -> void:
 	check(map_screen_source.contains("The Blender-authored cap is the final local ground authority"), "P0_VIS_02 streamed Blender terrain caps remain production ground")
 	check(map_screen_source.contains("func _node_overlay_anchor") and map_screen_source.contains("func _overlay_position_from_world") and map_screen_source.contains("_overlay_position_from_world(_node_overlay_anchor(node))"), "MAP_STAGE_OVERLAY_PROJECTION_01 labels follow instantiated marker anchors with one SubViewport conversion")
 	check(map_screen_source.contains("func _overlay_anchor_is_visible") and map_screen_source.contains("camera.is_position_behind(world_position)") and map_screen_source.contains("_overlay_anchor_is_visible(anchor, button.size)"), "MAP_STAGE_OVERLAY_PROJECTION_02 off-frustum labels cannot detach from their 3D marker")
-	check(map_screen_source.contains("const STREAM_RADIUS := 16") and map_screen_source.contains("func _has_streamed_ground") and map_screen_source.contains("func _map_entity_is_locally_renderable"), "MAP_STAGE_OVERLAY_PROJECTION_03 full camera neighbourhood and visible entities require streamed terrain caps")
+	check(map_screen_source.contains("const STREAM_RADIUS := 9") and map_screen_source.contains("func _has_streamed_ground") and map_screen_source.contains("func _map_entity_is_locally_renderable"), "MAP_STAGE_OVERLAY_PROJECTION_03 bounded Web camera neighbourhood and visible entities require streamed terrain caps")
 	check(map_screen_source.contains("_map_entity_is_locally_renderable(encounter_coord, camera_coord, STREAM_RADIUS + 2)"), "MAP_STAGE_OVERLAY_PROJECTION_04 hostile refresh and process visibility share the streamed-ground contract")
 	check(map_screen_source.contains("func _clamp_camera_target_to_terrain") and not map_screen_source.contains("clampf(camera_target.x, -42.0, 170.0)"), "MAP_CAMERA_TERRAIN_01 camera pan is constrained by generated land instead of a broad ocean rectangle")
+	check(map_screen_source.contains("if not OS.has_feature(\"web\"):") and map_screen_source.contains("_create_connected_terrain_surface()") and map_screen_source.contains("silhouette.modulate = Color(color.r, color.g, color.b, 0.78)"), "MAP_WEB_LOAD_01 Web skips the full macro SurfaceTool mesh and occluded pawns keep a strong locator silhouette")
+	check(map_screen_source.contains("func _route_overlay_material") and map_screen_source.contains("material.no_depth_test = true") and map_screen_source.contains("for coord in preview_path:") and map_screen_source.contains("if preview_path.is_empty():\n\t\tpreview_path = HexPathfinderScript.find_path"), "MAP_ROUTE_VISIBILITY_01 visible objectives expose a depth-independent route and authorize its exact traversable cells")
+	var pending_reveal_body := _source_function_body(map_screen_source, "_present_pending_reveal_once")
+	check(pending_reveal_body.contains("_select_next_encounter()"), "MAP_ROUTE_VISIBILITY_02 returning from battle immediately selects and frames the newly revealed encounter")
+	check(map_screen_source.contains("const MAP_TUTORIAL_REVISION := 2") and map_screen_source.contains("map_basics_revision") and not _source_function_body(map_screen_source, "_first_map_tutorial_active").contains("stage_stars"), "MAP_TUTORIAL_08 revised map guidance is replayed once for existing saves regardless of first-battle stars")
 	check(map_screen_source.contains("Do not evict the current district before this tween begins") and map_screen_source.contains("_stream_visible_tiles(coord, true)"), "MAP_CAMERA_TERRAIN_02 focus tween retains current streamed ground until camera movement begins")
 	var camera_screen := ChapterMapScreenScript.new()
 	camera_screen.definition = definition
@@ -812,6 +817,18 @@ func _test_dynamic_exploration() -> void:
 		ten_hex_tiles.append({"q":q,"r":0,"elevation":0})
 	ten_hex_grid.load_tiles(ten_hex_tiles)
 	check(MapSimulationScript.awareness_for({"awareness_radius":3,"alert_radius":1}, {"q":0,"r":0}, Vector2i(9, 0), ten_hex_grid, {}) != MapSimulationScript.UNAWARE, "AWARENESS_03 normal enemies recognize the party within the ten-hex baseline")
+	check(MapSimulationScript.awareness_for({"awareness_radius":3,"alert_radius":1}, {"q":0,"r":0}, Vector2i(2, 0), synthetic, {"los_blockers":[{"q":1,"r":0}]}) != MapSimulationScript.UNAWARE, "AWARENESS_03A ten-hex recognition is not disabled by a visual line-of-sight blocker")
+	var detour_grid := HexGridScript.new()
+	detour_grid.load_tiles([
+		{"q":0,"r":0,"elevation":0}, {"q":0,"r":1,"elevation":0},
+		{"q":1,"r":1,"elevation":0}, {"q":2,"r":0,"elevation":0},
+		{"q":2,"r":1,"elevation":0},
+	])
+	var detour_runtime := {"q":0,"r":0,"patrol_state":"IDLE"}
+	var detour_before := Vector2i(int(detour_runtime.q), int(detour_runtime.r))
+	detour_runtime = MapSimulationScript._advance_chase(detour_runtime, {}, Vector2i(2, 0), detour_grid)
+	var detour_after := Vector2i(int(detour_runtime.q), int(detour_runtime.r))
+	check(detour_after != detour_before and detour_grid.can_step(detour_before, detour_after) and not HexPathfinderScript.find_path(detour_grid, detour_after, Vector2i(2, 0)).is_empty(), "AWARENESS_03B normal enemy chase uses the same legal detour path authority as player movement")
 	var event_node: Dictionary = definition.get("event_encounters", [])[0]
 	var event_patrol := MapSimulationScript.patrol_definition(definition, str(event_node.get("node_id", "")))
 	var boss_node := LoaderScript.node_for_stage(definition, "CH01-N20")

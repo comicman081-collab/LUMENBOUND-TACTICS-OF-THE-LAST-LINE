@@ -4,6 +4,7 @@ extends RefCounted
 const COMPILED_ROOT := "res://data/compiled/chapter_maps/"
 const MacroWorldGeneratorScript := preload("res://chapter_map/model/macro_world_generator.gd")
 const HexCoordScript := preload("res://chapter_map/model/hex_coord.gd")
+const HexGridScript := preload("res://chapter_map/model/hex_grid.gd")
 static var cached_maps: Dictionary = {}
 
 static func load_map(map_id: String) -> Dictionary:
@@ -154,6 +155,50 @@ static func validate(definition: Dictionary) -> Array[String]:
 		for choice in choices:
 			if str(choice.get("choice_id", "")).is_empty() or str(choice.get("label_key", "")).is_empty(): errors.append("event choice localization missing " + event_id)
 			if choice.has("label"): errors.append("event choice contains raw localized text " + event_id)
+	# A visible objective on an isolated island is a broken gameplay promise. Use
+	# the exact same grid/can_step/pathfinder authority as both the player and
+	# normal-enemy chase logic, so neither side can enter a tile the other side
+	# considers illegal and every authored mob, treasure or event is reachable.
+	var grid := HexGridScript.new()
+	grid.load_tiles(definition.get("tiles", []))
+	var start_value: Dictionary = definition.get("start_hex", {"q": 0, "r": 0})
+	var start_coord := Vector2i(int(start_value.get("q", 0)), int(start_value.get("r", 0)))
+	if not grid.traversable(start_coord):
+		errors.append("start hex is not traversable")
+	else:
+		# Flood the legal component once. Running A* independently for every one of
+		# the authored objectives made validation itself a cold-start bottleneck on
+		# Web; this is linear in map size and preserves the same can_step authority.
+		var connected: Dictionary = {HexCoordScript.key(start_coord): true}
+		var frontier: Array[Vector2i] = [start_coord]
+		var frontier_index := 0
+		while frontier_index < frontier.size():
+			var current: Vector2i = frontier[frontier_index]
+			frontier_index += 1
+			for neighbor in HexCoordScript.neighbors(current):
+				var neighbor_key := HexCoordScript.key(neighbor)
+				if connected.has(neighbor_key) or not grid.can_step(current, neighbor):
+					continue
+				connected[neighbor_key] = true
+				frontier.append(neighbor)
+		var connectivity_targets: Array[Dictionary] = []
+		for node in definition.get("nodes", []):
+			connectivity_targets.append({"kind": "node", "id": str(node.get("node_id", "")), "q": int(node.get("q", 0)), "r": int(node.get("r", 0))})
+		for treasure in definition.get("treasures", []):
+			connectivity_targets.append({"kind": "treasure", "id": str(treasure.get("treasure_id", "")), "q": int(treasure.get("q", 0)), "r": int(treasure.get("r", 0))})
+		for relay in definition.get("relays", []):
+			connectivity_targets.append({"kind": "relay", "id": str(relay.get("relay_id", "")), "q": int(relay.get("q", 0)), "r": int(relay.get("r", 0))})
+		for event in definition.get("map_events", []):
+			connectivity_targets.append({"kind": "event", "id": str(event.get("event_id", "")), "q": int(event.get("q", 0)), "r": int(event.get("r", 0))})
+		for patrol in definition.get("patrols", []):
+			var patrol_id := str(patrol.get("encounter_id", ""))
+			for point_index in range((patrol.get("patrol_route_hexes", []) as Array).size()):
+				var point: Dictionary = patrol.get("patrol_route_hexes", [])[point_index]
+				connectivity_targets.append({"kind": "patrol", "id": "%s[%d]" % [patrol_id, point_index], "q": int(point.get("q", 0)), "r": int(point.get("r", 0))})
+		for target in connectivity_targets:
+			var target_coord := Vector2i(int(target.q), int(target.r))
+			if grid.traversable(target_coord) and not connected.has(HexCoordScript.key(target_coord)):
+				errors.append("unreachable %s %s" % [str(target.kind), str(target.id)])
 	return errors
 
 static func node_for_stage(definition: Dictionary, stage_id: String) -> Dictionary:

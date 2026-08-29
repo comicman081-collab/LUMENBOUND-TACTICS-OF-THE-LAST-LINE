@@ -460,7 +460,10 @@ static func awareness_for(patrol: Dictionary, runtime: Dictionary, party_coord: 
 	if int(enemy_tile.get("elevation", 0)) > int(party_tile.get("elevation", 0)):
 		radius += int(patrol.get("high_ground_bonus", 1))
 	var distance := HexCoordScript.distance(enemy_coord, party_coord)
-	if distance > radius or not has_line_of_sight(grid, definition, enemy_coord, party_coord):
+	# The authored requirement is a roughly ten-hex recognition radius. Requiring
+	# a separate straight-line LOS test let a single viaduct/cliff blocker make a
+	# nearby enemy inert even though both units shared a valid walking route.
+	if distance > radius:
 		return UNAWARE
 	return ALERT if distance <= alert_radius else SUSPICIOUS
 
@@ -538,20 +541,15 @@ static func _advance_chase(runtime: Dictionary, patrol: Dictionary, party_coord:
 	var current := Vector2i(int(runtime.get("q", 0)), int(runtime.get("r", 0)))
 	if current == party_coord:
 		return runtime
-	var home: Dictionary = patrol.get("return_hex", {"q": current.x, "r": current.y})
-	var home_coord := Vector2i(int(home.get("q", current.x)), int(home.get("r", current.y)))
-	var leash := maxi(10, int(patrol.get("guard_radius", 10)))
-	var choices := HexCoordScript.neighbors(current)
-	choices.sort_custom(func(left: Vector2i, right: Vector2i) -> bool:
-		var ld := HexCoordScript.distance(left, party_coord)
-		var rd := HexCoordScript.distance(right, party_coord)
-		return ld < rd or (ld == rd and (left.x < right.x or (left.x == right.x and left.y < right.y))))
-	for candidate in choices:
-		if grid.can_step(current, candidate) and HexCoordScript.distance(home_coord, candidate) <= leash:
-			runtime.q = candidate.x
-			runtime.r = candidate.y
-			runtime.patrol_state = PATROL_CHASE
-			return runtime
+	# Use the same authoritative pathfinder as the player. The old greedy adjacent
+	# choice could stall forever at a blocked hex even when a route around it was
+	# available, creating enemies that appeared close but never moved.
+	var chase_path: Array[Vector2i] = HexPathfinderScript.find_path(grid, current, party_coord)
+	if chase_path.size() >= 2 and grid.can_step(current, chase_path[1]):
+		var next_coord: Vector2i = chase_path[1]
+		runtime.q = next_coord.x
+		runtime.r = next_coord.y
+		runtime.patrol_state = PATROL_CHASE
 	return runtime
 
 static func patrol_is_stationary(definition: Dictionary, patrol: Dictionary) -> bool:

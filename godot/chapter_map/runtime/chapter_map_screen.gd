@@ -22,13 +22,14 @@ const VIEWPORT_SIZE := Vector2i(1280, 720)
 # a long-map return rebuilding every distant terrain-dressing component at
 # once.  The stream follows both camera panning and squad travel, so this does
 # not alter axial topology, reveal, pathfinding, or what destinations exist.
-const STREAM_RADIUS := 16
+const STREAM_RADIUS := 9
 const OCEAN_SURFACE_Y := -1.55
 const CAMERA_TERRAIN_MARGIN := 2.8
 const CAMERA_TERRAIN_SEARCH_RADIUS := 16
 const PAWN_VISUAL_BASE_Y := 0.18
 const PAWN_STEP_DURATION := 0.18
 const DIRECT_DOUBLE_CLICK_WINDOW_MSEC := 460
+const MAP_TUTORIAL_REVISION := 2
 # A moving patrol may leave its authored node while the squad is walking toward
 # it.  Re-route a bounded number of times so contact still happens at the live
 # enemy coordinate, without ever turning a node click into an instant battle.
@@ -231,6 +232,10 @@ func _present_pending_reveal_once() -> void:
 	# during the presentation must restore canonical unlocks without replaying it.
 	SaveService.save_game()
 	_show_map_notice(reveal_notice_text(reveal, SettingsService.is_developer_mode()))
+	# Battle return should immediately frame and display the newly unlocked route.
+	# Keeping the cleared node selected left a stale yellow range until another
+	# explicit "next encounter" action.
+	_select_next_encounter()
 
 func stage_display_text(stage_id: String, compact := false, include_internal_id := false) -> String:
 	var stage := DataRegistry.stage(stage_id)
@@ -466,7 +471,9 @@ func _first_map_tutorial_active() -> bool:
 	var progress_value = AppState.profile.get("tutorial_progress", {})
 	if not (progress_value is Dictionary):
 		return false
-	return not bool((progress_value as Dictionary).get("map_basics_complete", false)) and int(AppState.profile.get("stage_stars", {}).get("CH01-N01", 0)) <= 0
+	# Show revised guidance once to existing saves as well. Tying this to N01
+	# stars permanently hid the tutorial from players returning after battle one.
+	return int((progress_value as Dictionary).get("map_basics_revision", 0)) < MAP_TUTORIAL_REVISION
 
 func _build_first_map_tutorial() -> void:
 	if not _first_map_tutorial_active():
@@ -731,6 +738,7 @@ func _complete_first_map_tutorial() -> void:
 	if not _first_map_tutorial_active():
 		return
 	AppState.profile.tutorial_progress["map_basics_complete"] = true
+	AppState.profile.tutorial_progress["map_basics_revision"] = MAP_TUTORIAL_REVISION
 	_hide_first_map_tutorial_modal()
 	SaveService.save_game()
 
@@ -1001,12 +1009,14 @@ func _add_occlusion_silhouette(source: Sprite3D, parent: Node3D, silhouette_name
 	silhouette.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	silhouette.pixel_size = source.pixel_size
 	silhouette.position = source.position
-	silhouette.scale = Vector3(1.075, 1.075, 1.075)
+	silhouette.scale = Vector3(1.14, 1.14, 1.14)
 	silhouette.alpha_cut = SpriteBase3D.ALPHA_CUT_OPAQUE_PREPASS
 	silhouette.no_depth_test = true
 	silhouette.shaded = false
-	silhouette.modulate = Color(color.r, color.g, color.b, 0.28)
-	silhouette.render_priority = source.render_priority - 1
+	# This is an accessibility locator, not a decorative ghost. The old 0.28
+	# alpha copy disappeared under the Chapter 1 viaduct after battle return.
+	silhouette.modulate = Color(color.r, color.g, color.b, 0.78)
+	silhouette.render_priority = 110
 	silhouette.set_meta("occlusion_silhouette", true)
 	parent.add_child(silhouette)
 	return silhouette
@@ -1046,9 +1056,14 @@ func _build_world() -> void:
 	_create_world_backdrop()
 	_create_world_island_shelf()
 	await get_tree().process_frame
-	_create_connected_terrain_surface()
+	# Streamed Blender caps are the Web ground authority. Building a second
+	# full-map SurfaceTool mesh synchronously traversed the entire macro world
+	# before a local tile appeared and caused the reported 20-second blank map.
+	if not OS.has_feature("web"):
+		_create_connected_terrain_surface()
 	await get_tree().process_frame
-	_create_boundary_coastline()
+	if not OS.has_feature("web"):
+		_create_boundary_coastline()
 	await get_tree().process_frame
 	_create_signal_causeways()
 	await get_tree().process_frame
@@ -1091,7 +1106,7 @@ func _build_world() -> void:
 	ring_mesh.rings = 8
 	ring_mesh.ring_segments = 24
 	selected_ring.mesh = ring_mesh
-	selected_ring.material_override = _material(Color("6ff6dd"), Color("28d7bd"))
+	selected_ring.material_override = _route_overlay_material(Color("6ff6dddc"), Color("28d7bd"))
 	selected_ring.visible = false
 	world_root.add_child(selected_ring)
 	var node_build_index := 0
@@ -2568,12 +2583,21 @@ func _movement_overlay_material(color: Color, emission := Color.BLACK) -> Standa
 	material.albedo_color = color
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
-	material.no_depth_test = false
-	material.render_priority = 1
+	# This is UI authority. Keep it readable when a legal path passes below the
+	# dam/viaduct; terrain and simulation depth remain unchanged.
+	material.no_depth_test = true
+	material.render_priority = 90
 	if emission != Color.BLACK:
 		material.emission_enabled = true
 		material.emission = emission
 		material.emission_energy_multiplier = 1.0
+	return material
+
+func _route_overlay_material(color: Color, emission := Color.BLACK) -> StandardMaterial3D:
+	var material := _material(color, emission)
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.no_depth_test = true
+	material.render_priority = 92
 	return material
 
 func _movement_hex_corners(coord: Vector2i, surface_y: float) -> Array[Vector3]:
@@ -2603,14 +2627,11 @@ func _movement_range_allowlist() -> Dictionary:
 	# A revealed treasure explicitly authorizes its short exploratory detour;
 	# mirror that existing path rule so the yellow range never understates where
 	# the confirmed treasure route can actually travel.
-	if not selected_treasure.is_empty():
-		return {}
 	var allowed := _path_reveal_allowlist()
-	# A visible patrol may have stepped one or more cells outside the original
-	# campaign reveal snapshot. Its live route is still actionable world state.
-	# Add only the selected route cells so the yellow overlay reaches the pawn
-	# without turning selection into a global fog-of-war bypass.
-	if not selected_node.is_empty():
+	# Every visible selectable objective is a gameplay promise. Its current route
+	# and target cell override stale fog state, and the same allowlist drives the
+	# yellow overlay and direct pointer movement.
+	if not selected_node.is_empty() or not selected_treasure.is_empty() or not selected_relay.is_empty() or not selected_event.is_empty():
 		for coord in preview_path:
 			allowed[HexCoordScript.key(coord)] = true
 	return allowed
@@ -2742,7 +2763,7 @@ func _update_route_mesh() -> void:
 	var route_exceeds_pulse := preview_path.size() - 1 > movement_points
 	if preview_path.size() >= 2:
 		var guide_color := Color("657989") if route_exceeds_pulse else route_color.lightened(0.18)
-		immediate.surface_begin(Mesh.PRIMITIVE_LINE_STRIP, _material(guide_color, guide_color.darkened(0.18)))
+		immediate.surface_begin(Mesh.PRIMITIVE_LINE_STRIP, _route_overlay_material(guide_color, guide_color.darkened(0.18)))
 		for coord in preview_path:
 			immediate.surface_add_vertex(HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.54))
 		immediate.surface_end()
@@ -2754,7 +2775,7 @@ func _update_route_mesh() -> void:
 			var ribbon_mesh := BoxMesh.new()
 			ribbon_mesh.size = Vector3(0.18, 0.045, from.distance_to(to))
 			ribbon.mesh = ribbon_mesh
-			ribbon.material_override = _material(segment_color, segment_color.darkened(0.05))
+			ribbon.material_override = _route_overlay_material(segment_color, segment_color.darkened(0.05))
 			ribbon.position = (from + to) * 0.5
 			world_root.add_child(ribbon)
 			ribbon.look_at(to, Vector3.UP)
@@ -2766,7 +2787,7 @@ func _update_route_mesh() -> void:
 			pulse_mesh.height = 0.055
 			pulse_mesh.radial_segments = 6
 			pulse.mesh = pulse_mesh
-			pulse.material_override = _material(Color("f5bc62") if index < movement_points else Color("667580"), Color("f3a83e") if index < movement_points else Color("34424c"))
+			pulse.material_override = _route_overlay_material(Color("f5bc62") if index < movement_points else Color("667580"), Color("f3a83e") if index < movement_points else Color("34424c"))
 			pulse.position = to + Vector3(0.0, 0.035, 0.0)
 			world_root.add_child(pulse)
 			route_nodes.append(pulse)
@@ -2926,10 +2947,11 @@ func _select_node(node: Dictionary) -> void:
 	map_state.last_selected_node = str(node.node_id)
 	var allowed := _path_reveal_allowlist()
 	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), _encounter_coord(node), allowed)
-	# Patrol simulation owns the live pawn coordinate. A pawn that entered an
-	# adjacent unrevealed cell must not become visible-but-untargetable merely
-	# because authored fog data still points at its spawn marker.
-	if preview_path.is_empty() and enemy_pawns.has(str(node.get("node_id", ""))):
+	# Selection itself proves that this is a visible, unlocked gameplay target.
+	# Fog may conceal scenery, but it must never turn a visible mob/objective into
+	# an unreachable button. Fall back to the shared traversable grid, then reveal
+	# only the confirmed route through the movement allowlist below.
+	if preview_path.is_empty():
 		preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), _encounter_coord(node))
 	preview_path = _truncate_at_first_unresolved_encounter(preview_path)
 	if not preview_path.is_empty() and preview_path[-1] != _encounter_coord(node):

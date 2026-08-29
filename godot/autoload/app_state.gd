@@ -80,7 +80,7 @@ func new_game() -> void:
 		"hard_attempts": {"date": Time.get_date_string_from_system(), "counts": {}},
 		"reward_pity_counters": {},
 		"settings": SettingsService.persisted_values(),
-		"tutorial_progress": {"title_seen": false, "home_basics_complete": false, "map_basics_complete": false},
+		"tutorial_progress": {"title_seen": false, "home_basics_complete": false, "map_basics_complete": false, "map_basics_revision": 0},
 		"last_scenario_position": {},
 		"claimed_rewards": [],
 		"relay": RelayServiceScript.default_profile()
@@ -97,6 +97,8 @@ func apply_loaded(loaded: Dictionary) -> void:
 		profile.tutorial_progress["home_basics_complete"] = false
 	if not profile.tutorial_progress.has("map_basics_complete"):
 		profile.tutorial_progress["map_basics_complete"] = false
+	if not profile.tutorial_progress.has("map_basics_revision"):
+		profile.tutorial_progress["map_basics_revision"] = 0
 	RelayServiceScript.ensure_profile(profile)
 	pending_battle_token = ""
 	_ensure_roster_entries()

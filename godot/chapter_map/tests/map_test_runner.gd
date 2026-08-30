@@ -212,6 +212,25 @@ func _test_paths() -> void:
 	pulse_screen.free()
 	var reachable_three := HexPathfinderScript.reachable_within(grid, fresh_start, 3, fresh_allowed)
 	check(reachable_three.has(HexCoordScript.key(fresh_start)) and reachable_three.values().all(func(value): return int(value) <= 3) and reachable_three.has(HexCoordScript.key(fresh_path[3])) and not reachable_three.has(HexCoordScript.key(fresh_path[4])), "MOVE_RANGE_01 range authority includes exactly pathable cells within the remaining three steps")
+	# Regression: fog/reveal is not the physical walk graph. A party standing on a
+	# legal cell that is absent from a stale reveal snapshot must still get a full
+	# next movement pulse instead of an empty yellow range/softlock.
+	var traversal_screen := ChapterMapScreenScript.new()
+	traversal_screen.definition = definition
+	traversal_screen.grid = grid
+	traversal_screen.map_state = fresh_state.duplicate(true)
+	var stranded_coord: Vector2i = fresh_path[1]
+	traversal_screen.map_state.current_q = stranded_coord.x
+	traversal_screen.map_state.current_r = stranded_coord.y
+	traversal_screen.map_state.revealed_tiles.erase(HexCoordScript.key(stranded_coord))
+	var recovered_range := HexPathfinderScript.reachable_within(grid, stranded_coord, 3, traversal_screen._movement_range_allowlist())
+	check(traversal_screen._movement_range_allowlist().is_empty() and recovered_range.size() > 1 and recovered_range.has(HexCoordScript.key(stranded_coord)), "MOVE_RANGE_01A stale fog data cannot remove the party start cell or soft-lock the next pulse")
+	var recovered_objective_path := HexPathfinderScript.find_path(grid, stranded_coord, Vector2i(int(fresh_n01.q), int(fresh_n01.r)), traversal_screen._traversal_allowlist())
+	check(recovered_objective_path.size() > 1 and recovered_objective_path.front() == stranded_coord and recovered_objective_path.back() == Vector2i(int(fresh_n01.q), int(fresh_n01.r)), "MOVE_RANGE_01B a visible mob route uses the physical grid independently of fog persistence")
+	traversal_screen.free()
+	var first_treasure: Dictionary = definition.get("treasures", [])[0]
+	var first_treasure_path := HexPathfinderScript.find_path(grid, fresh_start, Vector2i(int(first_treasure.get("q", 0)), int(first_treasure.get("r", 0))))
+	check(first_treasure_path.size() > 1 and first_treasure_path.front() == fresh_start, "MOVE_RANGE_01C the first treasure uses the same unrestricted physical component as forward movement")
 	var terminal_stop := {HexCoordScript.key(fresh_path[2]): true}
 	var terminal_allowed: Dictionary = {}
 	for path_index in range(4): terminal_allowed[HexCoordScript.key(fresh_path[path_index])] = true
@@ -298,17 +317,23 @@ func _test_geometry_grounding_contract() -> void:
 	check(map_screen_source.contains("material.cull_mode = BaseMaterial3D.CULL_BACK"), "P0_VIS_02 map top surfaces retain production back-face culling")
 	check(map_screen_source.contains("EnemyGroundingTerrace"), "P0_VIS_02 hostile patrols retain a physical terrain socket")
 	check(map_screen_source.contains("sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_OPAQUE_PREPASS"), "P0_VIS_02 hostile sprite uses a depth-stable alpha prepass")
-	check(map_screen_source.contains("pawn_sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_OPAQUE_PREPASS"), "P0_VIS_02 squad sprite uses a depth-stable alpha prepass")
-	check(not map_screen_source.contains("sprite.no_depth_test = true"), "P0_VIS_02 hostile sprite cannot bypass world depth")
-	check(not map_screen_source.contains("pawn_sprite.no_depth_test = true"), "P0_VIS_02 squad sprite cannot bypass world depth")
+	check(map_screen_source.contains("pawn_sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD"), "P0_VIS_02 squad sprite uses an exact top-layer alpha cutout")
+	var enemy_pawn_body := _source_function_body(map_screen_source, "_create_enemy_pawn")
+	check(not enemy_pawn_body.contains("sprite.no_depth_test = true"), "P0_VIS_02 hostile sprite cannot bypass world depth")
+	check(map_screen_source.contains("pawn_sprite.no_depth_test = true") and map_screen_source.contains("pawn_sprite.render_priority = 127"), "P0_VIS_02 selected squad remains above map presentation layers")
 	check(map_screen_source.contains("The Blender-authored cap is the final local ground authority"), "P0_VIS_02 streamed Blender terrain caps remain production ground")
 	check(map_screen_source.contains("func _node_overlay_anchor") and map_screen_source.contains("func _overlay_position_from_world") and map_screen_source.contains("_overlay_position_from_world(_node_overlay_anchor(node))"), "MAP_STAGE_OVERLAY_PROJECTION_01 labels follow instantiated marker anchors with one SubViewport conversion")
 	check(map_screen_source.contains("func _overlay_anchor_is_visible") and map_screen_source.contains("camera.is_position_behind(world_position)") and map_screen_source.contains("_overlay_anchor_is_visible(anchor, button.size)"), "MAP_STAGE_OVERLAY_PROJECTION_02 off-frustum labels cannot detach from their 3D marker")
-	check(map_screen_source.contains("const STREAM_RADIUS := 9") and map_screen_source.contains("func _has_streamed_ground") and map_screen_source.contains("func _map_entity_is_locally_renderable"), "MAP_STAGE_OVERLAY_PROJECTION_03 bounded Web camera neighbourhood and visible entities require streamed terrain caps")
+	check(map_screen_source.contains("const BASE_PLAYER_VISION_RADIUS := 8") and map_screen_source.contains("const MAX_PLAYER_VISION_RADIUS := 13") and map_screen_source.contains("const FOG_COVER_RADIUS := 20") and map_screen_source.contains("const STREAM_RADIUS := MAX_PLAYER_VISION_RADIUS + 1") and map_screen_source.contains("func _has_streamed_ground") and map_screen_source.contains("func _map_entity_is_locally_renderable"), "MAP_STAGE_OVERLAY_PROJECTION_03 growth-aware squad vision and a viewport-covering fog curtain bound streamed terrain and entities")
 	check(map_screen_source.contains("_map_entity_is_locally_renderable(encounter_coord, camera_coord, STREAM_RADIUS + 2)"), "MAP_STAGE_OVERLAY_PROJECTION_04 hostile refresh and process visibility share the streamed-ground contract")
+	check(map_screen_source.contains("func _player_vision_radius") and map_screen_source.contains("func _coord_is_in_player_vision") and map_screen_source.contains("func _player_vision_allowlist") and map_screen_source.contains("func _clamp_camera_candidate_to_vision") and map_screen_source.contains("FogOfWarShader") and map_screen_source.contains("FogOfWarScreenShader") and map_screen_source.contains("func _refresh_fog_cover") and map_screen_source.contains("func _update_screen_fog_overlay") and map_screen_source.contains("SquadVisionFogCurtain") and map_screen_source.contains("SquadVisionScreenFog"), "MAP_FOG_OF_WAR_01 terrain, camera, route, marker and screen presentation share the growth-aware player vision authority")
+	check(map_screen_source.count("_coord_is_in_player_vision(encounter_coord)") >= 2 and map_screen_source.contains("root.visible = _coord_is_in_player_vision(treasure_coord)") and map_screen_source.contains("event_root.visible = _coord_is_in_player_vision(event_coord)"), "MAP_FOG_OF_WAR_02 mobs, treasure and events cannot leak beyond the live sight radius")
+	check(map_screen_source.contains("func _refresh_clear_ground_infill") and map_screen_source.contains("StreamedHexGapInfill") and map_screen_source.contains("TILE_SIZE * 1.10") and map_screen_source.contains("instance.scale.x *= 1.10") and map_screen_source.contains("instance.scale.z *= 1.10") and map_screen_source.contains("streamed_infill_material.cull_mode = BaseMaterial3D.CULL_DISABLED"), "MAP_TERRAIN_INFILL_01 one two-sided streamed surface and overlapping cap footprints close visible gaps between in-vision hexes")
 	check(map_screen_source.contains("func _clamp_camera_target_to_terrain") and not map_screen_source.contains("clampf(camera_target.x, -42.0, 170.0)"), "MAP_CAMERA_TERRAIN_01 camera pan is constrained by generated land instead of a broad ocean rectangle")
 	check(map_screen_source.contains("if not OS.has_feature(\"web\"):") and map_screen_source.contains("_create_connected_terrain_surface()") and map_screen_source.contains("silhouette.modulate = Color(color.r, color.g, color.b, 0.78)"), "MAP_WEB_LOAD_01 Web skips the full macro SurfaceTool mesh and occluded pawns keep a strong locator silhouette")
-	check(map_screen_source.contains("func _route_overlay_material") and map_screen_source.contains("material.no_depth_test = true") and map_screen_source.contains("for coord in preview_path:") and map_screen_source.contains("if preview_path.is_empty():\n\t\tpreview_path = HexPathfinderScript.find_path"), "MAP_ROUTE_VISIBILITY_01 visible objectives expose a depth-independent route and authorize its exact traversable cells")
+	check(map_screen_source.contains("pending_dressing_tiles.append") and map_screen_source.contains("func _process_pending_dressing()") and map_screen_source.contains("await _stream_visible_tiles(arrival, false, true)") and not _source_function_body(map_screen_source, "_move_along").contains("_stream_visible_tiles(coord)"), "MAP_WEB_LOAD_02 Web presents playable ground before deferred prop clusters and streams once per completed move")
+	check(map_screen_source.contains("pawn_occlusion_silhouette.visible = false") and map_screen_source.contains("material.no_depth_test = always_on_top") and map_screen_source.contains("squad_visibility_authority"), "MAP_PAWN_VISIBILITY_01 movement-range UI cannot turn the selected squad into a translucent ghost or duplicate after-image")
+	check(map_screen_source.contains("func _route_overlay_material") and map_screen_source.contains("material.no_depth_test = true") and map_screen_source.contains("for coord in preview_path:") and map_screen_source.contains("func _traversal_allowlist") and map_screen_source.contains("Fog/reveal is presentation authority, never traversal authority") and not map_screen_source.contains("find_path(grid, current, coord, _path_reveal_allowlist())"), "MAP_ROUTE_VISIBILITY_01 visible objectives expose a depth-independent route while fog remains separate from the physical walk graph")
 	var pending_reveal_body := _source_function_body(map_screen_source, "_present_pending_reveal_once")
 	check(pending_reveal_body.contains("_select_next_encounter()"), "MAP_ROUTE_VISIBILITY_02 returning from battle immediately selects and frames the newly revealed encounter")
 	check(map_screen_source.contains("const MAP_TUTORIAL_REVISION := 2") and map_screen_source.contains("map_basics_revision") and not _source_function_body(map_screen_source, "_first_map_tutorial_active").contains("stage_stars"), "MAP_TUTORIAL_08 revised map guidance is replayed once for existing saves regardless of first-battle stars")
@@ -317,8 +342,12 @@ func _test_geometry_grounding_contract() -> void:
 	camera_screen.definition = definition
 	camera_screen.grid.load_tiles(definition.get("tiles", []))
 	var n04_camera_node := LoaderScript.node_for_stage(definition, "CH01-N04")
+	camera_screen.map_state = {"current_q": int(n04_camera_node.q), "current_r": int(n04_camera_node.r)}
 	var n04_camera_target := HexCoordScript.axial_to_world(Vector2i(int(n04_camera_node.q), int(n04_camera_node.r)), 1.08)
-	check(camera_screen._clamp_camera_target_to_terrain(n04_camera_target).is_equal_approx(n04_camera_target), "MAP_CAMERA_TERRAIN_03 valid encounter focus remains at its authored ground coordinate")
+	check(camera_screen._clamp_camera_target_to_terrain(n04_camera_target).is_equal_approx(n04_camera_target), "MAP_CAMERA_TERRAIN_03 valid in-vision encounter focus remains at its authored ground coordinate")
+	camera_screen.map_state = {"current_q": 0, "current_r": 0}
+	var fog_clamped_target := camera_screen._clamp_camera_target_to_terrain(n04_camera_target)
+	check(HexCoordScript.distance(Vector2i.ZERO, HexCoordScript.world_to_axial(fog_clamped_target, 1.08)) <= 10, "MAP_CAMERA_TERRAIN_03A camera cannot scout past the squad-centred ten-cell vision boundary")
 	var ocean_target := Vector3(500.0, 0.0, -500.0)
 	var clamped_target := camera_screen._clamp_camera_target_to_terrain(ocean_target)
 	check(clamped_target.distance_to(ocean_target) > 100.0 and clamped_target.is_finite(), "MAP_CAMERA_TERRAIN_04 corrupt or dragged ocean target is repaired near traversable terrain")
@@ -406,7 +435,19 @@ func _test_unlock_and_progress() -> void:
 	check(AppState.is_stage_unlocked("CH01-N01"), "N01 initially unlocked")
 	check(not AppState.is_stage_unlocked("CH01-N02"), "N02 initially locked")
 	check(not AppState.is_stage_unlocked("CH01-H01"), "HARD gate initially locked")
-	for number in range(1, 21): AppState.record_stage_clear("CH01-N%02d" % number, 3)
+	var leader_state := AppState.chapter_map_state()
+	var leader_screen := ChapterMapScreenScript.new()
+	leader_screen.definition = definition
+	leader_screen.map_state = leader_state
+	var fresh_party := AppState.get_party()
+	leader_state.map_leader_id = str(fresh_party[1])
+	check(not leader_screen._map_leader_selection_unlocked() and leader_screen._map_leader_id() == str(fresh_party[0]), "MAP_LEADER_01 first operation keeps the authored party lead")
+	AppState.record_stage_clear("CH01-N01", 3)
+	check(leader_screen._map_leader_selection_unlocked() and leader_screen._map_leader_id() == str(fresh_party[1]), "MAP_LEADER_02 second operation unlocks a persistent map representative from the current party")
+	leader_state.map_leader_id = "NOT_IN_PARTY"
+	check(leader_screen._map_leader_id() == str(fresh_party[0]), "MAP_LEADER_03 stale saved representative safely follows the active party")
+	leader_screen.free()
+	for number in range(2, 21): AppState.record_stage_clear("CH01-N%02d" % number, 3)
 	check(AppState.is_stage_unlocked("CH01-H01"), "N20 clear opens HARD gate")
 	check(not AppState.is_stage_unlocked("CH01-H02"), "H02 waits for H01")
 	AppState.record_stage_clear("CH01-H01", 2)
@@ -813,11 +854,22 @@ func _test_dynamic_exploration() -> void:
 	check(not MapSimulationScript.has_line_of_sight(synthetic, {"los_blockers":[{"q":1,"r":0}]}, Vector2i.ZERO, Vector2i(2, 0)), "AWARENESS_02 cliff/rock blocker stops line of sight")
 	var ten_hex_grid := HexGridScript.new()
 	var ten_hex_tiles: Array = []
-	for q in range(11):
+	for q in range(12):
 		ten_hex_tiles.append({"q":q,"r":0,"elevation":0})
 	ten_hex_grid.load_tiles(ten_hex_tiles)
-	check(MapSimulationScript.awareness_for({"awareness_radius":3,"alert_radius":1}, {"q":0,"r":0}, Vector2i(9, 0), ten_hex_grid, {}) != MapSimulationScript.UNAWARE, "AWARENESS_03 normal enemies recognize the party within the ten-hex baseline")
+	check(MapSimulationScript.awareness_for({"awareness_radius":3,"alert_radius":1}, {"q":0,"r":0}, Vector2i(8, 0), ten_hex_grid, {}) != MapSimulationScript.UNAWARE and MapSimulationScript.awareness_for({"awareness_radius":3,"alert_radius":1}, {"q":0,"r":0}, Vector2i(9, 0), ten_hex_grid, {}, 9) != MapSimulationScript.UNAWARE, "AWARENESS_03 enemies recognize the party at the exact base or movement-grown sight boundary")
 	check(MapSimulationScript.awareness_for({"awareness_radius":3,"alert_radius":1}, {"q":0,"r":0}, Vector2i(2, 0), synthetic, {"los_blockers":[{"q":1,"r":0}]}) != MapSimulationScript.UNAWARE, "AWARENESS_03A ten-hex recognition is not disabled by a visual line-of-sight blocker")
+	check(MapSimulationScript.awareness_for({"awareness_radius":99,"alert_radius":99,"high_ground_bonus":99}, {"q":0,"r":0}, Vector2i(9, 0), ten_hex_grid, {}) == MapSimulationScript.UNAWARE, "AWARENESS_03B enemies remain hidden and inactive past the live sight radius even when authored bonuses request more range")
+	var fog_hold_definition := {
+		"tiles": ten_hex_tiles,
+		"map_simulation": {"seed": 1},
+		"patrols": [{"encounter_id":"FOG_HOLD", "patrol_route_hexes":[{"q":0,"r":0}], "return_hex":{"q":0,"r":0}, "awareness_radius":99, "high_ground_bonus":99}],
+	}
+	var fog_hold_state := {"current_q":9,"current_r":0,"current_party_hex":[9,0],"visited_tiles":["9:0"],"revealed_tiles":["9:0"],"encounter_states":{},"cleared_encounters":[]}
+	MapSimulationScript.ensure_state(fog_hold_state, fog_hold_definition, ten_hex_grid)
+	var fog_hold_before := MapSimulationScript.coord_for(fog_hold_state, "FOG_HOLD")
+	var fog_hold_result := MapSimulationScript.advance_ticks(fog_hold_state, fog_hold_definition, ten_hex_grid, Vector2i(9, 0), 1)
+	check(MapSimulationScript.coord_for(fog_hold_state, "FOG_HOLD") == fog_hold_before and str(fog_hold_result.get("awareness", {}).get("FOG_HOLD", "")) == MapSimulationScript.UNAWARE, "AWARENESS_03C enemies beyond the live player vision remain stationary during the enemy phase")
 	var detour_grid := HexGridScript.new()
 	detour_grid.load_tiles([
 		{"q":0,"r":0,"elevation":0}, {"q":0,"r":1,"elevation":0},
@@ -828,7 +880,7 @@ func _test_dynamic_exploration() -> void:
 	var detour_before := Vector2i(int(detour_runtime.q), int(detour_runtime.r))
 	detour_runtime = MapSimulationScript._advance_chase(detour_runtime, {}, Vector2i(2, 0), detour_grid)
 	var detour_after := Vector2i(int(detour_runtime.q), int(detour_runtime.r))
-	check(detour_after != detour_before and detour_grid.can_step(detour_before, detour_after) and not HexPathfinderScript.find_path(detour_grid, detour_after, Vector2i(2, 0)).is_empty(), "AWARENESS_03B normal enemy chase uses the same legal detour path authority as player movement")
+	check(detour_after != detour_before and detour_grid.can_step(detour_before, detour_after) and not HexPathfinderScript.find_path(detour_grid, detour_after, Vector2i(2, 0)).is_empty(), "AWARENESS_03D normal enemy chase uses the same legal detour path authority as player movement")
 	var event_node: Dictionary = definition.get("event_encounters", [])[0]
 	var event_patrol := MapSimulationScript.patrol_definition(definition, str(event_node.get("node_id", "")))
 	var boss_node := LoaderScript.node_for_stage(definition, "CH01-N20")
@@ -1011,11 +1063,14 @@ func _test_direct_move_turn_contracts() -> void:
 	var skip_body := _source_function_body(map_screen_source, "skip_movement")
 	var confirm_body := _source_function_body(map_screen_source, "_confirm_move")
 	var enemy_turn_body := _source_function_body(map_screen_source, "_complete_player_turn")
+	var reward_resume_body := _source_function_body(map_screen_source, "_resume_post_reward_turn")
+	var arrival_body := _source_function_body(map_screen_source, "_resolve_arrival")
 	var app_shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
 	check(not process_body.is_empty() and not process_body.contains("_advance_map_simulation("), "TURN_SOURCE_01 idle frame processing never advances enemy simulation")
 	check(not move_body.is_empty() and not move_body.contains("MapSimulationScript.advance_ticks(") and not skip_body.is_empty() and not skip_body.contains("MapSimulationScript.advance_ticks("), "TURN_SOURCE_02 animated and skipped player movement never advance enemy time per step")
 	check(enemy_turn_body.contains("update.get(\"moves\", [])") and enemy_turn_body.contains("_focus_coord(destination, false)") and enemy_turn_body.contains("_focus_current(false)"), "TURN_SOURCE_03 enemy phase follows every moving mob and returns the camera to the party")
-	check(map_screen_source.contains("signal map_ready") and map_screen_source.contains("await _build_world()") and map_screen_source.contains("await _stream_visible_tiles(Vector2i(int(map_state.current_q), int(map_state.current_r)), true, true)") and map_screen_source.contains("created_count % 18") and app_shell_source.contains("await map_screen.map_ready"), "MAP_LOAD_COOPERATIVE_01 initial map construction yields between streamed batches and the shell keeps loading authority until the map is ready")
+	check(map_screen_source.contains("signal map_ready") and map_screen_source.contains("await _build_world()") and map_screen_source.contains("await _stream_visible_tiles(Vector2i(int(map_state.current_q), int(map_state.current_r)), true, true)") and map_screen_source.contains("stream_batch_size := 4 if OS.has_feature(\"web\") else 18") and map_screen_source.contains("node_batch_size := 1 if OS.has_feature(\"web\") else 4") and map_screen_source.contains("func _build_map_content_visuals") and map_screen_source.contains("if OS.has_feature(\"web\"):\n\t\treturn") and app_shell_source.contains("await map_screen.map_ready"), "MAP_LOAD_COOPERATIVE_01 initial Web map construction presents terrain, squad and camera before incremental encounter content")
+	check(arrival_body.contains("map_state[POST_REWARD_TURN_PENDING_KEY] = true") and arrival_body.find("SaveService.save_game()") > arrival_body.find("POST_REWARD_TURN_PENDING_KEY") and not reward_resume_body.is_empty() and reward_resume_body.contains("exhausted_legacy_edge") and reward_resume_body.contains("await _complete_player_turn(\"보물 획득\")") and map_screen_source.contains("call_deferred(\"_resume_post_reward_turn\")"), "TREASURE_TURN_01 a treasure result persists and resumes its owed enemy phase, including legacy zero-movement saves, instead of returning to a softlock")
 	check(confirm_body.find("_set_tutorial_step(3)") >= 0 and confirm_body.find("_move_along(pulse_path)") > confirm_body.find("_set_tutorial_step(3)"), "TUTORIAL_FLOW_01 direct movement starts in the same confirmation call after step-three guidance is displayed")
 	AppState.profile = backup
 
@@ -1034,7 +1089,7 @@ func _test_exploration_pulses_and_companion_events() -> void:
 	AppState.profile.inventory.EXPEDITION_ROUTE_MODULE_A = 1
 	AppState.profile.inventory.EXPEDITION_ROUTE_MODULE_B = 1
 	var module_capacity := ExplorationScript.movement_capacity(AppState.profile, definition)
-	check(module_capacity == 5, "PULSE_04 owned exploration modules extend capacity without consuming stamina")
+	check(module_capacity == 5 and ExplorationScript.player_vision_radius(AppState.profile, definition) == 10, "PULSE_04 owned exploration modules extend movement and reveal one fog ring per gained step")
 	var map_screen_source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd")
 	check(map_screen_source.contains("노선 모듈 +%d · 최종 상한 %d") and map_screen_source.contains("account_level_milestones") and map_screen_source.contains("mobility_items") and map_screen_source.contains("노란 영역 안에서만 이동"), "PULSE_UI_01 map detail exposes base, account-level, route-module and global movement-cap sources")
 	var vera := ExplorationScript.event_encounter_for_node(definition, "NODE_N08")

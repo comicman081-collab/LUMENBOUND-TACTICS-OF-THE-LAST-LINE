@@ -4,6 +4,8 @@ extends RefCounted
 const HexCoordScript := preload("res://chapter_map/model/hex_coord.gd")
 const GrowthAnalyzerScript := preload("res://progression/growth_affordability_analyzer.gd")
 const MapSimulationScript := preload("res://chapter_map/model/map_simulation.gd")
+const BASE_PLAYER_VISION_RADIUS := 8
+const INITIAL_PLAYER_MOVE_POINTS := 3
 
 static func ensure_state(state: Dictionary, definition: Dictionary, grid = null) -> bool:
 	var changed := false
@@ -33,6 +35,12 @@ static func ensure_state(state: Dictionary, definition: Dictionary, grid = null)
 		changed = true
 	if not state.has("claimed_treasures"):
 		state.claimed_treasures = []
+		changed = true
+	if not state.has("post_reward_turn_pending"):
+		state.post_reward_turn_pending = false
+		changed = true
+	if not state.has("map_leader_id"):
+		state.map_leader_id = ""
 		changed = true
 	if not state.has("pending_encounter"):
 		state.pending_encounter = {}
@@ -130,6 +138,11 @@ static func movement_capacity(profile: Dictionary, definition: Dictionary) -> in
 			capacity += maxi(0, int(module.get("bonus", 0)))
 	return clampi(capacity, 1, maxi(1, int(rules.get("max_move_points", 8))))
 
+static func player_vision_radius(profile: Dictionary, definition: Dictionary) -> int:
+	# The campaign begins with three movement points and eight clear sight cells.
+	# Every permanent movement-capacity increase reveals exactly one extra ring.
+	return BASE_PLAYER_VISION_RADIUS + maxi(0, movement_capacity(profile, definition) - INITIAL_PLAYER_MOVE_POINTS)
+
 static func refill_movement(state: Dictionary, definition: Dictionary) -> void:
 	ensure_state(state, definition)
 	state.exploration_pulse = int(state.get("exploration_pulse", 0)) + 1
@@ -145,7 +158,7 @@ static func complete_player_move_turn(state: Dictionary, definition: Dictionary,
 	var pulse_before := int(state.get("exploration_pulse", 0))
 	# One player action owns one enemy action. The former WAIT helper expanded one
 	# turn into several ticks and let enemies move repeatedly behind one caption.
-	var update: Dictionary = MapSimulationScript.advance_ticks(state, definition, grid, party_coord, 1)
+	var update: Dictionary = MapSimulationScript.advance_ticks(state, definition, grid, party_coord, 1, player_vision_radius(AppState.profile, definition))
 	refill_movement(state, definition)
 	update.tick_before = tick_before
 	update.tick_after = int(state.get("map_simulation_state", {}).get("tick", 0))

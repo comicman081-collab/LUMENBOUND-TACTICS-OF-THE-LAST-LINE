@@ -12,6 +12,7 @@ static func create_default(definition: Dictionary) -> Dictionary:
 		"visited_tiles": [], "revealed_tiles": [], "cleared_nodes": [],
 		"pending_reveal": {}, "reveal_consumed": [],
 		"last_selected_node": "", "camera_zoom": 1.0, "camera_center": [0.0, 0.0],
+		"map_leader_id": "",
 		"processed_battle_tokens": [], "processed_reward_tokens": [],
 		"current_party_hex": [int(start.get("q", 0)), int(start.get("r", 0))],
 		# The discrete hex occupied immediately before a hostile-contact step.
@@ -19,6 +20,7 @@ static func create_default(definition: Dictionary) -> Dictionary:
 		"last_pre_contact_hex": [int(start.get("q", 0)), int(start.get("r", 0))],
 		"cleared_encounters": [], "encounter_states": {},
 		"treasure_states": {}, "revealed_treasures": [], "claimed_treasures": [],
+		"post_reward_turn_pending": false,
 		"pending_encounter": {}, "last_map_camera_hex": [int(start.get("q", 0)), int(start.get("r", 0))],
 		"discovered_tiles": [], "patrol_states": {}, "patrol_positions": {},
 		"relay_states": {}, "map_event_states": {}, "intel_states": {},

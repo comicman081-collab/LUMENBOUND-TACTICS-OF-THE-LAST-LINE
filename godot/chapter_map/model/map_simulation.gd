@@ -22,6 +22,7 @@ const PATROL_CLEARED := "CLEARED"
 const UNAWARE := "UNAWARE"
 const SUSPICIOUS := "SUSPICIOUS"
 const ALERT := "ALERT"
+const BASE_PLAYER_VISION_RADIUS := 8
 
 static func ensure_state(state: Dictionary, definition: Dictionary, grid = null) -> bool:
 	var changed := false
@@ -359,7 +360,7 @@ static func disengage_after_battle(state: Dictionary, definition: Dictionary, en
 	state.patrol_positions[encounter_id] = [retreat.x, retreat.y]
 	return true
 
-static func advance_ticks(state: Dictionary, definition: Dictionary, grid, party_coord: Vector2i, tick_count := 1) -> Dictionary:
+static func advance_ticks(state: Dictionary, definition: Dictionary, grid, party_coord: Vector2i, tick_count := 1, vision_radius := BASE_PLAYER_VISION_RADIUS) -> Dictionary:
 	ensure_state(state, definition, grid)
 	var result := {"changed": [], "moves": [], "contacts": [], "awareness": {}}
 	if bool(state.get("map_simulation_state", {}).get("paused", false)):
@@ -396,7 +397,7 @@ static func advance_ticks(state: Dictionary, definition: Dictionary, grid, party
 					runtime.erase("disengage_party_q")
 					runtime.erase("disengage_party_r")
 					contact_suppressed = false
-			var awareness := UNAWARE if contact_suppressed else awareness_for(patrol, runtime, party_coord, grid, definition)
+			var awareness := UNAWARE if contact_suppressed else awareness_for(patrol, runtime, party_coord, grid, definition, vision_radius)
 			runtime.awareness = awareness
 			if awareness != UNAWARE:
 				runtime.patrol_state = PATROL_ALERT
@@ -425,7 +426,7 @@ static func advance_wait(state: Dictionary, definition: Dictionary, grid, party_
 	var pulses := maxi(1, int(definition.get("map_simulation", {}).get("wait_pulse_ticks", 4)))
 	return advance_ticks(state, definition, grid, party_coord, pulses)
 
-static func contacts_at_party_coord(state: Dictionary, definition: Dictionary, grid, party_coord: Vector2i) -> Array[String]:
+static func contacts_at_party_coord(state: Dictionary, definition: Dictionary, grid, party_coord: Vector2i, vision_radius := BASE_PLAYER_VISION_RADIUS) -> Array[String]:
 	## Pure contact query used while the player pawn crosses a hex. Enemy time is
 	## advanced only by the single enemy phase after movement has finished.
 	var contacts: Array[String] = []
@@ -444,26 +445,23 @@ static func contacts_at_party_coord(state: Dictionary, definition: Dictionary, g
 		if contact_suppressed:
 			continue
 		var enemy_coord := Vector2i(int(runtime.get("q", 0)), int(runtime.get("r", 0)))
-		var awareness := awareness_for(patrol, runtime, party_coord, grid, definition)
+		var awareness := awareness_for(patrol, runtime, party_coord, grid, definition, vision_radius)
 		var contact_radius := maxi(0, int(patrol.get("engagement_radius", 0)))
 		if HexCoordScript.distance(enemy_coord, party_coord) <= contact_radius and (awareness == ALERT or enemy_coord == party_coord):
 			contacts.append(encounter_id)
 	contacts.sort()
 	return contacts
 
-static func awareness_for(patrol: Dictionary, runtime: Dictionary, party_coord: Vector2i, grid, definition: Dictionary) -> String:
+static func awareness_for(patrol: Dictionary, runtime: Dictionary, party_coord: Vector2i, grid, definition: Dictionary, vision_radius := BASE_PLAYER_VISION_RADIUS) -> String:
 	var enemy_coord := Vector2i(int(runtime.get("q", 0)), int(runtime.get("r", 0)))
-	var radius := maxi(10, int(patrol.get("awareness_radius", 10)))
 	var alert_radius := maxi(0, int(patrol.get("alert_radius", 1)))
-	var enemy_tile: Dictionary = grid.tile(enemy_coord)
-	var party_tile: Dictionary = grid.tile(party_coord)
-	if int(enemy_tile.get("elevation", 0)) > int(party_tile.get("elevation", 0)):
-		radius += int(patrol.get("high_ground_bonus", 1))
 	var distance := HexCoordScript.distance(enemy_coord, party_coord)
-	# The authored requirement is a roughly ten-hex recognition radius. Requiring
-	# a separate straight-line LOS test let a single viaduct/cliff blocker make a
-	# nearby enemy inert even though both units shared a valid walking route.
-	if distance > radius:
+	# Enemy activation and player visibility are one shared, exact authority:
+	# clear/active through the current player sight radius, hidden and frozen past
+	# it. The default is eight; permanent movement growth is passed in by the map
+	# exploration authority. Authored
+	# awareness or elevation bonuses must never leak AI activity through the fog.
+	if distance > maxi(1, vision_radius):
 		return UNAWARE
 	return ALERT if distance <= alert_radius else SUSPICIOUS
 
@@ -483,7 +481,7 @@ static func has_line_of_sight(grid, definition: Dictionary, from: Vector2i, to: 
 			return false
 	return true
 
-static func risk_for_path(state: Dictionary, definition: Dictionary, grid, path: Array[Vector2i]) -> String:
+static func risk_for_path(state: Dictionary, definition: Dictionary, grid, path: Array[Vector2i], vision_radius := BASE_PLAYER_VISION_RADIUS) -> String:
 	ensure_state(state, definition, grid)
 	var watched := false
 	for coord in path:
@@ -497,7 +495,7 @@ static func risk_for_path(state: Dictionary, definition: Dictionary, grid, path:
 				return "ENCOUNTER"
 			var runtime: Dictionary = state.get("patrol_states", {}).get(encounter_id, {})
 			var test_runtime := runtime.duplicate(true)
-			if awareness_for(patrol, test_runtime, coord, grid, definition) != UNAWARE:
+			if awareness_for(patrol, test_runtime, coord, grid, definition, vision_radius) != UNAWARE:
 				watched = true
 	return "WATCHED" if watched else "SAFE"
 

@@ -18,11 +18,14 @@ const VIEWPORT_SIZE := Vector2i(1280, 720)
 # panel, making a valid marker read as if it floated over the ocean.  Twenty
 # retains a bounded slice of the 96-hex world while covering the full visible
 # neighbourhood at every supported zoom and aspect ratio.
-# Keep a little more than a full camera neighbourhood resident, while avoiding
-# a long-map return rebuilding every distant terrain-dressing component at
-# once.  The stream follows both camera panning and squad travel, so this does
-# not alter axial topology, reveal, pathfinding, or what destinations exist.
-const STREAM_RADIUS := 9
+# Gameplay sight is squad-centred, never camera-centred. A fresh squad clears
+# eight rings. Each permanent +1 movement-capacity gain clears one extra ring,
+# up to thirteen at the global eight-step movement cap. The same live radius
+# gates fog, enemies, loot, route previews, camera panning and click targets.
+const BASE_PLAYER_VISION_RADIUS := 8
+const MAX_PLAYER_VISION_RADIUS := 13
+const FOG_COVER_RADIUS := 20
+const STREAM_RADIUS := MAX_PLAYER_VISION_RADIUS + 1
 const OCEAN_SURFACE_Y := -1.55
 const CAMERA_TERRAIN_MARGIN := 2.8
 const CAMERA_TERRAIN_SEARCH_RADIUS := 16
@@ -45,6 +48,8 @@ const MapSimulationScript := preload("res://chapter_map/model/map_simulation.gd"
 const MacroWorldGeneratorScript := preload("res://chapter_map/model/macro_world_generator.gd")
 const EnvironmentFXControllerScript := preload("res://chapter_map/presentation/environment_fx_controller.gd")
 const EnvironmentWaterShader := preload("res://chapter_map/shaders/water_environment.gdshader")
+const FogOfWarShader := preload("res://chapter_map/shaders/fog_of_war.gdshader")
+const FogOfWarScreenShader := preload("res://chapter_map/shaders/fog_of_war_screen.gdshader")
 
 var definition: Dictionary
 var grid = HexGridScript.new()
@@ -52,6 +57,8 @@ var map_state: Dictionary
 var viewport: SubViewport
 var viewport_container: SubViewportContainer
 var presentation_layer: Control
+var fog_screen_overlay: ColorRect
+var fog_screen_material: ShaderMaterial
 var overlay: Control
 var map_area: Control
 var map_frame: PanelContainer
@@ -64,6 +71,7 @@ var pawn_visual: Node3D
 var pawn_banner: MeshInstance3D
 var pawn_sprite: Sprite3D
 var pawn_occlusion_silhouette: Sprite3D
+var pawn_front_overlay: TextureRect
 var pawn_animation_pack: Dictionary = {}
 var pawn_motion_state := "IDLE"
 var pawn_motion_phase := 0.0
@@ -79,15 +87,29 @@ var landmark_visuals: Dictionary = {}
 var tile_meshes: Dictionary = {}
 var tile_dressing_roots: Dictionary = {}
 var active_dressing_root: Node3D
+var pending_dressing_tiles: Array[Dictionary] = []
+# Browser builds use the single streamed infill mesh as their terrain authority.
+# Keep the live keys separately so UI/encounter visibility never needs hundreds
+# of one-MeshInstance hex caps just to answer a ground-presence query.
+var streamed_ground_keys: Dictionary = {}
+var pending_dressing_keys: Dictionary = {}
+var web_detail_assets_ready := true
+var web_detail_build_started := false
 var terrain_surface: MeshInstance3D
 var terrain_material: StandardMaterial3D
 var terrain_cap_material_cache: Dictionary = {}
+var fog_of_war_material: ShaderMaterial
+var fog_cover_instance: MeshInstance3D
+var streamed_infill_instance: MeshInstance3D
+var streamed_infill_material: StandardMaterial3D
 var map_world_environment: Environment
 var map_water_material: ShaderMaterial
 var map_sun: DirectionalLight3D
 var map_fill: DirectionalLight3D
 var environment_fx: EnvironmentFXController
 var stream_anchor := Vector2i(999999, 999999)
+var environment_context_coord := Vector2i(999999, 999999)
+var environment_context_hard := false
 var blender_mesh_library: Dictionary = {}
 var movement_range_fill: MeshInstance3D
 var movement_range_grid: MeshInstance3D
@@ -126,6 +148,7 @@ var movement_skip_requested := false
 var turn_transitioning := false
 var pending_turn_completion := false
 var pending_turn_label := ""
+const POST_REWARD_TURN_PENDING_KEY := "post_reward_turn_pending"
 var direct_move_pending := false
 var last_node_pointer_id := ""
 var last_node_pointer_msec := -100000
@@ -167,6 +190,7 @@ var tutorial_pointer_active := false
 var tutorial_pointer_tap_valid := false
 var tutorial_pointer_origin := Vector2.ZERO
 var tutorial_pointer_started_msec := -100000
+var leader_selector_layer: Control
 
 func _ready() -> void:
 	map_simulation_paused = true
@@ -199,9 +223,39 @@ func _ready() -> void:
 	_focus_current(true)
 	map_simulation_paused = false
 	map_ready.emit()
+	if OS.has_feature("web"):
+		call_deferred("_build_web_map_detail")
+	# Treasure rewards temporarily leave the map for the result presentation.
+	# Persist the unfinished player-turn edge so returning to a freshly-created
+	# map screen can never strand the squad at movement 0/max with every action
+	# disabled.  The same deferred call is also a fail-safe when an external
+	# result listener elects to keep this map instance alive.
+	if bool(map_state.get(POST_REWARD_TURN_PENDING_KEY, false)) or MapExplorationServiceScript.movement_remaining(map_state, definition) <= 0:
+		call_deferred("_resume_post_reward_turn")
 	if _first_map_tutorial_active():
 		call_deferred("_start_first_map_tutorial")
 	call_deferred("_present_pending_reveal_once")
+
+func _build_web_map_detail() -> void:
+	# This deliberately runs outside the stage-entry critical path. The map is
+	# already interactive when this begins; encounter affordances arrive one
+	# bounded frame at a time instead of holding a black SubViewport hostage.
+	if not OS.has_feature("web") or web_detail_build_started or not is_inside_tree():
+		return
+	web_detail_build_started = true
+	await get_tree().process_frame
+	if not is_inside_tree():
+		return
+	await _build_map_content_visuals()
+	if not is_inside_tree():
+		return
+	# Importing the 3D authoring kit instantiates over a thousand meshes in one
+	# Web main-thread burst. Keep the desktop authored kit intact, but let the
+	# Web version use its already-visible combined terrain, route tint, fog and
+	# SD encounter art instead. This removes the delayed 5-FPS hitch that used
+	# to fire just after a seemingly successful stage entry.
+	web_detail_assets_ready = true
+	_refresh_state_visuals()
 
 static func _hard_overlay_from_state(state: Dictionary, map_definition: Dictionary) -> bool:
 	var last_node_id := str(state.get("last_selected_node", ""))
@@ -287,7 +341,8 @@ func _build_interface() -> void:
 	root.add_child(toolbar)
 	var normal_button := _button("일반 작전", func(): hard_overlay = false; _refresh_state_visuals(), Vector2(128, 56))
 	var hard_button := _button("위험 작전", func(): hard_overlay = true; _refresh_state_visuals(), Vector2(128, 56))
-	var current_button := _button("현재 부대", func(): _focus_current(false), Vector2(116, 56))
+	var current_button := _button("맵 대표", _open_map_leader_selector, Vector2(116, 56))
+	current_button.tooltip_text = "2번째 작전부터 현재 파티원 중 맵에 표시할 캐릭터를 선택합니다."
 	var overview_button := _button("구역 개요", _focus_full_map, Vector2(116, 56))
 	var skip_button := _button("이동 건너뛰기", skip_movement, Vector2(132, 56))
 	for action_button in [normal_button, hard_button, current_button, overview_button, skip_button]:
@@ -337,6 +392,15 @@ func _build_interface() -> void:
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	viewport.msaa_3d = Viewport.MSAA_2X
 	viewport_container.add_child(viewport)
+	fog_screen_overlay = ColorRect.new()
+	fog_screen_overlay.name = "SquadVisionScreenFog"
+	fog_screen_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	fog_screen_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fog_screen_overlay.color = Color.WHITE
+	fog_screen_material = ShaderMaterial.new()
+	fog_screen_material.shader = FogOfWarScreenShader
+	fog_screen_overlay.material = fog_screen_material
+	presentation_layer.add_child(fog_screen_overlay)
 	overlay = Control.new()
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	# The overlay carries actual stage buttons. PASS keeps transparent space
@@ -723,7 +787,7 @@ func _set_tutorial_step(step: int) -> void:
 	match tutorial_step:
 		1:
 			tutorial_title.text = "황금빛 이동 범위를 읽으세요"
-			tutorial_body.text = "지도 위 [color=#f1cf7a][b]! 조우[/b][/color] 또는 오른쪽 위 [color=#8de7d1][b]다음 조우[/b][/color]를 선택하면 실제 이동 경로가 표시됩니다.\n\n반투명 황금색 칸과 굵은 외곽선은 이번 아군 턴에 도달할 수 있는 정확한 범위입니다."
+			tutorial_body.text = "지도 위 [color=#f1cf7a][b]! 조우[/b][/color], 보물, 또는 노란 칸을 한 번 선택하면 실제 이동 경로가 표시됩니다. 같은 노란 칸을 한 번 더 클릭하면 이동합니다. 오른쪽 위 [color=#8de7d1][b]다음 조우[/b][/color]로도 다음 적을 바로 고를 수 있습니다.\n\n반투명 황금색 칸과 굵은 외곽선은 이번 아군 턴에 도달할 수 있는 정확한 범위입니다."
 			tutorial_continue_button.text = "클릭 / 터치하여 지도를 확인"
 		2:
 			tutorial_title.text = "목적지를 바로 확정하세요"
@@ -830,11 +894,11 @@ func _apply_responsive_layout() -> void:
 		if compact:
 			action_button.custom_minimum_size = Vector2((56.0 if portrait else 112.0) * ui_scale, 56.0 * ui_scale)
 			action_button.add_theme_font_size_override("font_size", roundi((17.0 if portrait else 18.0) * ui_scale))
-			action_button.text = ["일반", "위험", "부대", "개요", "스킵"][index]
+			action_button.text = ["일반", "위험", "대표", "개요", "스킵"][index]
 		else:
 			action_button.custom_minimum_size = [Vector2(128, 56), Vector2(128, 56), Vector2(116, 56), Vector2(116, 56), Vector2(132, 56)][index]
 			action_button.add_theme_font_size_override("font_size", 24)
-			action_button.text = ["일반 작전", "위험 작전", "현재 부대", "구역 개요", "이동 건너뛰기"][index]
+			action_button.text = ["일반 작전", "위험 작전", "맵 대표", "구역 개요", "이동 건너뛰기"][index]
 	if wait_button != null:
 		wait_button.custom_minimum_size = Vector2((56.0 if portrait else 112.0) * ui_scale, 56.0 * ui_scale) if compact else Vector2(86, 56)
 		wait_button.add_theme_font_size_override("font_size", roundi((17.0 if portrait else 18.0) * ui_scale) if compact else 24)
@@ -1050,8 +1114,13 @@ func _build_world() -> void:
 	map_world_environment.fog_sky_affect = 0.42
 	world_environment.environment = map_world_environment
 	world_root.add_child(world_environment)
-	_load_blender_kit()
-	_load_terrain_relief()
+	# A complete source kit import can take several seconds in a single-threaded
+	# browser. It is scenery, not input authority: show the actual playable map
+	# first, then hydrate authored trees/relief/causeways after map_ready.
+	web_detail_assets_ready = not OS.has_feature("web")
+	if web_detail_assets_ready:
+		_load_blender_kit()
+		_load_terrain_relief()
 	await get_tree().process_frame
 	_create_world_backdrop()
 	_create_world_island_shelf()
@@ -1065,7 +1134,8 @@ func _build_world() -> void:
 	if not OS.has_feature("web"):
 		_create_boundary_coastline()
 	await get_tree().process_frame
-	_create_signal_causeways()
+	if not OS.has_feature("web"):
+		_create_signal_causeways()
 	await get_tree().process_frame
 	map_sun = DirectionalLight3D.new()
 	map_sun.rotation_degrees = Vector3(-42, -38, 0)
@@ -1109,6 +1179,32 @@ func _build_world() -> void:
 	selected_ring.material_override = _route_overlay_material(Color("6ff6dddc"), Color("28d7bd"))
 	selected_ring.visible = false
 	world_root.add_child(selected_ring)
+	# The camera and squad must exist before optional encounter presentation.
+	# Otherwise the SubViewport stays black while Web builds every enemy atlas and
+	# stage button, which is exactly the long blank "deploying tactical map"
+	# frame reported in QA.
+	_create_pawn()
+	camera = Camera3D.new()
+	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+	camera.size = 13.2 / camera_zoom
+	camera.near = 0.1
+	camera.far = 100.0
+	world_root.add_child(camera)
+	camera.make_current()
+	_create_web_pawn_front_overlay()
+	if environment_fx != null:
+		environment_fx.bind_world(map_world_environment, terrain_material, map_water_material, map_sun, map_fill)
+		_refresh_environment_presentation()
+	if OS.has_feature("web"):
+		return
+	await _build_map_content_visuals()
+
+func _build_map_content_visuals() -> void:
+	# Static desktop builds can afford this as part of construction. Web calls the
+	# exact same routine after map_ready, so tactical authority never waits on
+	# marker labels, enemy portraits, treasure props or landmark ornaments.
+	if not node_markers.is_empty():
+		return
 	var node_build_index := 0
 	for node in definition.get("nodes", []):
 		_create_node_marker(node)
@@ -1116,7 +1212,11 @@ func _build_world() -> void:
 		if str(node.get("stage_id", "")) != "":
 			_create_enemy_pawn(node)
 		node_build_index += 1
-		if node_build_index % 4 == 0:
+		# Web is single-threaded.  Creating several enemy portraits, labels and
+		# materials in one frame made the lobby -> map transition look frozen even
+		# though loading eventually completed. Keep each browser frame bounded.
+		var node_batch_size := 1 if OS.has_feature("web") else 4
+		if node_build_index % node_batch_size == 0:
 			await get_tree().process_frame
 	for treasure in definition.get("treasures", []):
 		_create_treasure_visual(treasure)
@@ -1130,17 +1230,6 @@ func _build_world() -> void:
 	# Nodes are created after the initial interface reflow. Apply the active
 	# viewport profile once more so first-load portrait controls are touch-sized.
 	_apply_responsive_layout()
-	_create_pawn()
-	camera = Camera3D.new()
-	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-	camera.size = 13.2 / camera_zoom
-	camera.near = 0.1
-	camera.far = 100.0
-	world_root.add_child(camera)
-	camera.make_current()
-	if environment_fx != null:
-		environment_fx.bind_world(map_world_environment, terrain_material, map_water_material, map_sun, map_fill)
-		_refresh_environment_presentation()
 
 func _material(color: Color, emission := Color.BLACK) -> StandardMaterial3D:
 	var material := StandardMaterial3D.new()
@@ -1706,16 +1795,164 @@ func _terrain_cap_top_material(terrain: String, coord: Vector2i) -> StandardMate
 	terrain_cap_material_cache[key] = material
 	return material
 
+func _player_map_coord() -> Vector2i:
+	return Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
+
+func _player_vision_radius() -> int:
+	return clampi(MapExplorationServiceScript.player_vision_radius(AppState.profile, definition), BASE_PLAYER_VISION_RADIUS, MAX_PLAYER_VISION_RADIUS)
+
+func _coord_is_in_player_vision(coord: Vector2i) -> bool:
+	return HexCoordScript.distance(_player_map_coord(), coord) <= _player_vision_radius()
+
+func _player_vision_allowlist() -> Dictionary:
+	var allowed: Dictionary = {}
+	var center := _player_map_coord()
+	for tile_value in definition.get("tiles", []):
+		var tile: Dictionary = tile_value
+		var coord := Vector2i(int(tile.get("q", 0)), int(tile.get("r", 0)))
+		if HexCoordScript.distance(center, coord) <= _player_vision_radius():
+			allowed[HexCoordScript.key(coord)] = true
+	return allowed
+
+func _fog_material() -> ShaderMaterial:
+	if fog_of_war_material == null:
+		fog_of_war_material = ShaderMaterial.new()
+		fog_of_war_material.shader = FogOfWarShader
+		fog_of_war_material.render_priority = 96
+	return fog_of_war_material
+
+func _streamed_infill_material() -> StandardMaterial3D:
+	if streamed_infill_material == null:
+		streamed_infill_material = StandardMaterial3D.new()
+		streamed_infill_material.vertex_color_use_as_albedo = true
+		streamed_infill_material.roughness = 0.94
+		# Compatibility/Web can disagree on generated X/Z fan winding. This mesh is
+		# a ground-only seam seal, so render both faces and never expose black holes.
+		streamed_infill_material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	return streamed_infill_material
+
+func _update_screen_fog_overlay() -> void:
+	if fog_screen_overlay == null or fog_screen_material == null or camera == null or viewport == null:
+		return
+	var overlay_size := fog_screen_overlay.size
+	if overlay_size.x <= 1.0 or overlay_size.y <= 1.0:
+		return
+	var viewport_size := Vector2(viewport.size)
+	var surface_scale := overlay_size / viewport_size
+	var squad_world := _pawn_world_position()
+	var sight_edge_world := squad_world + Vector3(sqrt(3.0) * TILE_SIZE * float(_player_vision_radius()), 0.0, 0.0)
+	var squad_px := camera.unproject_position(squad_world) * surface_scale
+	var edge_px := camera.unproject_position(sight_edge_world) * surface_scale
+	fog_screen_material.set_shader_parameter("reveal_center_px", squad_px)
+	fog_screen_material.set_shader_parameter("overlay_size_px", overlay_size)
+	fog_screen_material.set_shader_parameter("reveal_radius_px", maxf(42.0, squad_px.distance_to(edge_px)))
+	fog_screen_material.set_shader_parameter("feather_px", clampf(overlay_size.x * 0.035, 24.0, 64.0))
+
+func _refresh_clear_ground_infill(center: Vector2i) -> void:
+	# Web intentionally skips the expensive 96-hex connected macro surface. A
+	# single lightweight streamed mesh closes the remaining black seams between
+	# authored hex caps without rebuilding distant terrain or changing collision.
+	var surface_tool := SurfaceTool.new()
+	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var vision_radius := _player_vision_radius()
+	for tile_value in definition.get("tiles", []):
+		var tile: Dictionary = tile_value
+		var coord := Vector2i(int(tile.get("q", 0)), int(tile.get("r", 0)))
+		if HexCoordScript.distance(center, coord) > vision_radius:
+			continue
+		if str(tile.get("terrain_type", "")) in ["SHALLOW_WATER", "DEEP_WATER"]:
+			continue
+		# Sit just above the authored cap top. Placing this below the cap left the
+		# cap's near-black side wall visible in every seam at the gameplay camera.
+		# Route overlays, pawns and props all remain higher than this 0.018 surface.
+		var surface_y := float(tile.get("elevation", 0)) * ELEVATION_STEP + 0.018
+		var hex_center := HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y)
+		var tint := _terrain_surface_color(tile)
+		for corner_index in range(6):
+			var next_index := (corner_index + 1) % 6
+			var angle_a := PI / 6.0 + float(corner_index) * PI / 3.0
+			var angle_b := PI / 6.0 + float(next_index) * PI / 3.0
+			var point_a := hex_center + Vector3(cos(angle_a) * TILE_SIZE * 1.10, 0.0, sin(angle_a) * TILE_SIZE * 1.10)
+			var point_b := hex_center + Vector3(cos(angle_b) * TILE_SIZE * 1.10, 0.0, sin(angle_b) * TILE_SIZE * 1.10)
+			for vertex in [hex_center, point_a, point_b]:
+				surface_tool.set_color(tint)
+				surface_tool.set_normal(Vector3.UP)
+				surface_tool.add_vertex(vertex)
+	var infill_mesh := surface_tool.commit()
+	if streamed_infill_instance == null or not is_instance_valid(streamed_infill_instance):
+		streamed_infill_instance = MeshInstance3D.new()
+		streamed_infill_instance.name = "StreamedHexGapInfill"
+		streamed_infill_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		streamed_infill_instance.material_override = _streamed_infill_material()
+		world_root.add_child(streamed_infill_instance)
+	streamed_infill_instance.mesh = infill_mesh
+
+func _refresh_fog_cover(center: Vector2i) -> void:
+	# One mesh covers the complete 11..18 hex annulus. This is both more legible
+	# and cheaper than hundreds of individual fog nodes: the player sees a real
+	# mist boundary even when the orthographic viewport extends well past ring 11.
+	var surface_tool := SurfaceTool.new()
+	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var fog_ring_radius := _player_vision_radius() + 1
+	for dq in range(-FOG_COVER_RADIUS, FOG_COVER_RADIUS + 1):
+		for dr in range(-FOG_COVER_RADIUS, FOG_COVER_RADIUS + 1):
+			var coord := center + Vector2i(dq, dr)
+			var distance := HexCoordScript.distance(center, coord)
+			if distance < fog_ring_radius or distance > FOG_COVER_RADIUS:
+				continue
+			var tile: Dictionary = grid.tile(coord)
+			var cover_y := maxf(0.42, float(tile.get("elevation", 0)) * ELEVATION_STEP + 0.42)
+			var hex_center := HexCoordScript.axial_to_world(coord, TILE_SIZE, cover_y)
+			for corner_index in range(6):
+				var next_index := (corner_index + 1) % 6
+				var angle_a := PI / 6.0 + float(corner_index) * PI / 3.0
+				var angle_b := PI / 6.0 + float(next_index) * PI / 3.0
+				var point_a := hex_center + Vector3(cos(angle_a) * TILE_SIZE * 1.035, 0.0, sin(angle_a) * TILE_SIZE * 1.035)
+				var point_b := hex_center + Vector3(cos(angle_b) * TILE_SIZE * 1.035, 0.0, sin(angle_b) * TILE_SIZE * 1.035)
+				for vertex in [hex_center, point_a, point_b]:
+					surface_tool.set_normal(Vector3.UP)
+					surface_tool.set_uv(Vector2(vertex.x * 0.07, vertex.z * 0.07))
+					surface_tool.add_vertex(vertex)
+	var fog_mesh := surface_tool.commit()
+	if fog_cover_instance == null or not is_instance_valid(fog_cover_instance):
+		fog_cover_instance = MeshInstance3D.new()
+		fog_cover_instance.name = "SquadVisionFogCurtain"
+		fog_cover_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		fog_cover_instance.material_override = _fog_material()
+		fog_cover_instance.set_meta("fog_shell", true)
+		world_root.add_child(fog_cover_instance)
+	fog_cover_instance.mesh = fog_mesh
+
 func _create_tile(tile: Dictionary) -> void:
 	var coord := Vector2i(int(tile.q), int(tile.r))
 	var terrain_type := str(tile.terrain_type)
+	var surface_y := float(tile.elevation) * ELEVATION_STEP
+	if not _coord_is_in_player_vision(coord):
+		# Radius 11 is not terrain information. It is a depth-writing mist seal, so
+		# distant elevation, props, enemies and loot cannot leak through the edge of
+		# the clear ten-cell neighbourhood on either Web or desktop renderers.
+		var fog_instance := MeshInstance3D.new()
+		var fog_mesh := CylinderMesh.new()
+		fog_mesh.top_radius = TILE_SIZE * 1.02
+		fog_mesh.bottom_radius = TILE_SIZE * 1.04
+		fog_mesh.height = 0.20
+		fog_mesh.radial_segments = 6
+		fog_instance.mesh = fog_mesh
+		fog_instance.rotation_degrees.y = 30.0
+		fog_instance.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, maxf(surface_y, 0.0) + 0.12)
+		fog_instance.material_override = _fog_material()
+		fog_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		fog_instance.set_meta("tile", tile)
+		fog_instance.set_meta("fog_shell", true)
+		world_root.add_child(fog_instance)
+		tile_meshes[HexCoordScript.key(coord)] = fog_instance
+		return
 	# Water is represented by the continuous tide field and island coastline.
 	# It stays fully present in Grid data for pathing/reveal, without rendering a
 	# literal hex-board sea around the land.
 	if terrain_type in ["SHALLOW_WATER", "DEEP_WATER"]:
 		return
 	var instance := MeshInstance3D.new()
-	var surface_y := float(tile.elevation) * ELEVATION_STEP
 	# Prefer the authored Blender low-poly kit. It carries bevelled edge normals,
 	# layered terrain materials, and avoids the old uniform runtime cylinder slab
 	# impression. The small procedural cap remains only as a safe import fallback.
@@ -1725,6 +1962,12 @@ func _create_tile(tile: Dictionary) -> void:
 		var kit_mesh: Mesh = kit_info.get("mesh")
 		instance.mesh = kit_mesh
 		instance.scale = kit_info.get("scale", Vector3.ONE)
+		# The authored cap intentionally had a presentation bevel, but its former
+		# footprint left repeated black diamond holes where three map hexes meet.
+		# A small X/Z overlap keeps the bevel while making the district read as one
+		# continuous landmass. Collision and axial movement remain grid-authored.
+		instance.scale.x *= 1.10
+		instance.scale.z *= 1.10
 		# The authored hex is now a thin readable surface accent, not the whole
 		# landmass. Broad Blender relief carries the district silhouette below it;
 		# this prevents the old black-walled column field while retaining precise
@@ -1743,7 +1986,7 @@ func _create_tile(tile: Dictionary) -> void:
 	else:
 		var elevation := int(tile.elevation)
 		var cap := CylinderMesh.new()
-		cap.top_radius = TILE_SIZE * .96
+		cap.top_radius = TILE_SIZE * 1.03
 		cap.bottom_radius = TILE_SIZE * (1.01 + minf(float(elevation), 3.0) * .025)
 		cap.height = .10 + float(elevation) * .07
 		cap.radial_segments = 6
@@ -1752,6 +1995,7 @@ func _create_tile(tile: Dictionary) -> void:
 		instance.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y - cap.height * .5)
 		instance.set_meta("blender_kit", false)
 	instance.set_meta("tile", tile)
+	instance.set_meta("fog_shell", false)
 	# The Blender-authored cap is the final local ground authority for streamed
 	# macro districts. It is deliberately thin and bevelled—not the former tall
 	# prototype prism—so it closes any continuous-surface seam while preserving
@@ -1763,22 +2007,111 @@ func _create_tile(tile: Dictionary) -> void:
 	active_dressing_root.name = "TerrainDressing_%s" % HexCoordScript.key(coord)
 	world_root.add_child(active_dressing_root)
 	tile_dressing_roots[HexCoordScript.key(coord)] = active_dressing_root
-	_create_terrain_dressing(tile, HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y), coord)
+	var dressing_position := HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y)
+	if OS.has_feature("web"):
+		# Imported prop clusters are by far the most expensive part of Web map
+		# construction.  Queue them after the playable ground is visible instead
+		# of blocking stage entry on hundreds of tree/rail child meshes.
+		pending_dressing_tiles.append({"tile": tile, "position": dressing_position, "coord": coord, "root": active_dressing_root})
+	else:
+		_create_terrain_dressing(tile, dressing_position, coord)
 	active_dressing_root = null
 
-func _stream_visible_tiles(center: Vector2i, force := false, incremental := false) -> void:
-	if not force and HexCoordScript.distance(stream_anchor, center) < 3:
+func _process_pending_dressing() -> void:
+	if pending_dressing_tiles.is_empty() or moving or turn_transitioning or not web_detail_assets_ready:
 		return
-	stream_anchor = center
-	var wanted: Dictionary = {}
-	for tile in definition.get("tiles", []):
-		var coord := Vector2i(int(tile.q), int(tile.r))
-		if HexCoordScript.distance(center, coord) <= STREAM_RADIUS:
-			wanted[HexCoordScript.key(coord)] = tile
+	# Web deliberately avoids instantiating the desktop Blender prop kit at run
+	# time. Do not keep executing empty authoring-cluster searches every frame;
+	# the combined terrain, route, fog, encounter art and landmarks are already
+	# sufficient gameplay presentation and remain smooth on mobile browsers.
+	if OS.has_feature("web") and blender_mesh_library.is_empty():
+		return
+	# One authored cluster per frame keeps input/camera responsive on single-
+	# threaded Web builds while the surrounding detail settles in naturally.
+	var entry: Dictionary = pending_dressing_tiles.pop_front()
+	var key := str(entry.get("key", ""))
+	if not key.is_empty():
+		pending_dressing_keys.erase(key)
+		if OS.has_feature("web") and not streamed_ground_keys.has(key):
+			return
+	var root: Node3D = entry.get("root")
+	if root == null and OS.has_feature("web"):
+		root = tile_dressing_roots.get(key)
+		if root == null or not is_instance_valid(root):
+			root = Node3D.new()
+			root.name = "TerrainDressing_%s" % key
+			world_root.add_child(root)
+			tile_dressing_roots[key] = root
+	if root == null or not is_instance_valid(root) or root.is_queued_for_deletion():
+		return
+	active_dressing_root = root
+	_create_terrain_dressing(entry.get("tile", {}), entry.get("position", Vector3.ZERO), entry.get("coord", Vector2i.ZERO))
+	active_dressing_root = null
+
+func _stream_web_visible_ground(wanted: Dictionary) -> void:
+	# The old Web path created one bevelled MeshInstance per clear hex, then a
+	# second combined surface below it. That doubled draw/node work on every
+	# stage entry and reward return. The combined infill already closes and tints
+	# every live hex, so on Web it is the only required ground geometry.
 	for key in tile_meshes.keys():
+		var obsolete: MeshInstance3D = tile_meshes[key]
+		if is_instance_valid(obsolete):
+			obsolete.queue_free()
+	tile_meshes.clear()
+	for key in tile_dressing_roots.keys():
 		if wanted.has(str(key)):
 			continue
+		var stale_root: Node3D = tile_dressing_roots[key]
+		if is_instance_valid(stale_root):
+			stale_root.queue_free()
+		tile_dressing_roots.erase(key)
+		pending_dressing_keys.erase(key)
+	streamed_ground_keys.clear()
+	for key_value in wanted.keys():
+		var key := str(key_value)
+		var tile: Dictionary = wanted[key]
+		if str(tile.get("terrain_type", "")) in ["SHALLOW_WATER", "DEEP_WATER"]:
+			continue
+		streamed_ground_keys[key] = true
+		if tile_dressing_roots.has(key) or pending_dressing_keys.has(key):
+			continue
+		var coord := Vector2i(int(tile.get("q", 0)), int(tile.get("r", 0)))
+		var surface_y := float(tile.get("elevation", 0)) * ELEVATION_STEP + 0.018
+		pending_dressing_tiles.append({
+			"tile": tile,
+			"position": HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y),
+			"coord": coord,
+			"key": key,
+		})
+		pending_dressing_keys[key] = true
+
+func _stream_visible_tiles(_requested_center: Vector2i, force := false, incremental := false) -> void:
+	# Camera panning must never become a scouting exploit. Rendering follows the
+	# logical squad hex exclusively; the camera may only inspect this clear area.
+	var center := _player_map_coord()
+	if not force and stream_anchor == center:
+		return
+	stream_anchor = center
+	_refresh_fog_cover(center)
+	_refresh_clear_ground_infill(center)
+	var wanted: Dictionary = {}
+	var vision_radius := _player_vision_radius()
+	for tile in definition.get("tiles", []):
+		var coord := Vector2i(int(tile.q), int(tile.r))
+		if HexCoordScript.distance(center, coord) <= vision_radius:
+			wanted[HexCoordScript.key(coord)] = tile
+	if OS.has_feature("web"):
+		_stream_web_visible_ground(wanted)
+		return
+	for key in tile_meshes.keys():
 		var stale: MeshInstance3D = tile_meshes[key]
+		var keep := wanted.has(str(key))
+		if keep and is_instance_valid(stale):
+			var wanted_coord := HexCoordScript.from_key(str(key))
+			var wanted_fogged := not _coord_is_in_player_vision(wanted_coord)
+			keep = bool(stale.get_meta("fog_shell", false)) == wanted_fogged
+		if keep:
+			continue
 		if is_instance_valid(stale):
 			stale.queue_free()
 		var dressing: Node3D = tile_dressing_roots.get(key)
@@ -1791,7 +2124,12 @@ func _stream_visible_tiles(center: Vector2i, force := false, incremental := fals
 		if not tile_meshes.has(key):
 			_create_tile(wanted[key])
 			created_count += 1
-			if incremental and created_count % 18 == 0:
+			# Terrain dressing is the expensive part of a streamed tile.  Eighteen
+			# dressed cells per Web frame could monopolise the main thread for many
+			# seconds on mobile. Yield every four cells while keeping desktop batches
+			# large enough for fast editor iteration.
+			var stream_batch_size := 4 if OS.has_feature("web") else 18
+			if incremental and created_count % stream_batch_size == 0:
 				await get_tree().process_frame
 
 func _kit_component(prefix: String) -> Dictionary:
@@ -1940,8 +2278,13 @@ func _create_node_button(node: Dictionary) -> void:
 	button.add_theme_color_override("font_outline_color", Color("02080f"))
 	button.add_theme_constant_override("outline_size", 6)
 	button.mouse_filter = Control.MOUSE_FILTER_STOP
-	button.pressed.connect(func(): _select_node(node))
-	button.gui_input.connect(func(event: InputEvent): _on_node_button_input(event, node))
+	# Bind an owned snapshot instead of retaining the temporary loop dictionary in
+	# a lambda. Web can dispatch a queued pointer event after the map-content
+	# builder yields; a freed lambda capture there emitted an engine error during
+	# otherwise valid direct movement.
+	var node_snapshot := node.duplicate(true)
+	button.pressed.connect(_select_node.bind(node_snapshot))
+	button.gui_input.connect(_on_node_button_input.bind(node_snapshot))
 	overlay.add_child(button)
 	node_buttons[str(node.node_id)] = button
 
@@ -2073,6 +2416,8 @@ func _overlay_anchor_is_visible(world_position: Vector3, control_size: Vector2) 
 	return Rect2(-padding, overlay.size + padding * 2.0).has_point(projected)
 
 func _has_streamed_ground(coord: Vector2i) -> bool:
+	if OS.has_feature("web"):
+		return streamed_ground_keys.has(HexCoordScript.key(coord)) and streamed_infill_instance != null and is_instance_valid(streamed_infill_instance) and streamed_infill_instance.visible
 	var ground: MeshInstance3D = tile_meshes.get(HexCoordScript.key(coord))
 	return ground != null and is_instance_valid(ground) and ground.visible
 
@@ -2540,7 +2885,7 @@ func _create_pawn() -> void:
 	pawn_visual.position.y = 0.18
 	pawn.add_child(pawn_visual)
 	_spawn_kit_components("SQUAD_STANDARD", Vector3(0.0, 0.02, 0.0), 1.48, 0.0, pawn_visual)
-	var lead_id := str(AppState.get_party()[0])
+	var lead_id := _map_leader_id()
 	pawn_animation_pack = _map_idle_texture(lead_id)
 	if not pawn_animation_pack.is_empty():
 		pawn_sprite = Sprite3D.new()
@@ -2551,14 +2896,24 @@ func _create_pawn() -> void:
 		# Keep the squad in the production world depth pass for the same reason as
 		# hostile pawns: a map pawn cannot claim grounded placement while bypassing
 		# the terrain, water and encounter-socket depth relationships.
-		pawn_sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_OPAQUE_PREPASS
-		pawn_sprite.no_depth_test = false
+		# The selected squad is map interaction UI as well as world art. Render the
+		# actual cutout itself above range/fog presentation so a translucent ground
+		# layer can never wash out its body or face.
+		pawn_sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
+		pawn_sprite.no_depth_test = true
+		pawn_sprite.shaded = false
+		pawn_sprite.modulate = Color.WHITE
 		var leader_frame_size: Vector2 = pawn_animation_pack.get("frame_size", Vector2(104.0, 104.0))
 		var leader_anchor: Vector2 = pawn_animation_pack.get("foot_anchor", Vector2(0.5, 0.88))
 		pawn_sprite.position.y = _sprite_center_y_for_foot(0.15, PAWN_VISUAL_BASE_Y, leader_frame_size.y, pawn_sprite.pixel_size, leader_anchor.y)
-		pawn_sprite.render_priority = 10
+		pawn_sprite.render_priority = 127
 		pawn_visual.add_child(pawn_sprite)
 		pawn_occlusion_silhouette = _add_occlusion_silhouette(pawn_sprite, pawn_visual, "SquadOcclusionSilhouette", Color("69f4e2"))
+		if pawn_occlusion_silhouette != null:
+			# The former enlarged duplicate caused a visible translucent after-image.
+			# The real pawn now owns top-layer visibility, so retire the duplicate.
+			pawn_occlusion_silhouette.visible = false
+			pawn_occlusion_silhouette.set_meta("squad_visibility_authority", true)
 	else:
 		# The Blender-made standard remains legible for leaders without a map-pawn
 		# portrait instead of falling back to a grey capsule or generic primitive.
@@ -2573,20 +2928,161 @@ func _create_pawn() -> void:
 	pawn_visual.add_child(pawn_banner)
 	pawn_last_position = pawn.position
 
+func _create_web_pawn_front_overlay() -> void:
+	# Compatibility Web can sort an alpha Sprite3D below a depth-tested terrain
+	# overlay even when render_priority/no_depth_test are requested. Mirror the
+	# selected squad's *same atlas frame* into the UI layer on Web. This keeps the
+	# pawn entirely above yellow movement cells and fog without inventing a second
+	# character image or changing hit/map coordinates.
+	if not OS.has_feature("web") or overlay == null or pawn_sprite == null or pawn_sprite.texture == null:
+		return
+	pawn_front_overlay = TextureRect.new()
+	pawn_front_overlay.name = "SquadPawnTopLayer"
+	pawn_front_overlay.texture = pawn_sprite.texture
+	pawn_front_overlay.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	pawn_front_overlay.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	pawn_front_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	pawn_front_overlay.z_index = 48
+	pawn_front_overlay.show_behind_parent = false
+	overlay.add_child(pawn_front_overlay)
+	# The UI copy is the Web presentation authority. Keep the physical base,
+	# contact shadow and socket in 3D, but avoid a translucent double cutout.
+	pawn_sprite.visible = false
+	_sync_web_pawn_front_overlay()
+
+func _sync_web_pawn_front_overlay() -> void:
+	if pawn_front_overlay == null or pawn_sprite == null or camera == null or overlay == null or pawn == null:
+		return
+	if pawn_sprite.texture == null or overlay.size.y <= 1.0:
+		pawn_front_overlay.visible = false
+		return
+	pawn_front_overlay.texture = pawn_sprite.texture
+	var frame_size: Vector2 = pawn_animation_pack.get("frame_size", Vector2(104.0, 104.0))
+	var foot_anchor: Vector2 = pawn_animation_pack.get("foot_anchor", Vector2(0.5, 0.88))
+	var screen_pixels_per_world := overlay.size.y / maxf(0.001, camera.size)
+	var token_size := frame_size * pawn_sprite.pixel_size * screen_pixels_per_world
+	var contact := _overlay_position_from_world(_pawn_world_position() + Vector3(0.0, 0.15, 0.0))
+	pawn_front_overlay.size = token_size
+	pawn_front_overlay.position = contact - Vector2(token_size.x * foot_anchor.x, token_size.y * foot_anchor.y)
+	pawn_front_overlay.visible = _coord_is_in_player_vision(_player_map_coord())
+
+func _map_leader_selection_unlocked() -> bool:
+	# Stage 1 teaches the authored lead automatically.  The first victory unlocks
+	# player choice permanently, including immediately before the next battle and
+	# after returning from any battle result.
+	return int(AppState.profile.get("stage_stars", {}).get("CH01-N01", 0)) > 0
+
+func _map_leader_id() -> String:
+	var party: Array = AppState.get_party()
+	if party.is_empty():
+		return ""
+	if not _map_leader_selection_unlocked():
+		return str(party[0])
+	var saved_id := str(map_state.get("map_leader_id", ""))
+	return saved_id if party.has(saved_id) else str(party[0])
+
+func _character_display_name(character_id: String) -> String:
+	var character := DataRegistry.character(character_id)
+	if character.is_empty():
+		return character_id
+	return LocalizationService.tr_key(str(character.get("name_key", character_id))).replace(" (DEV)", "")
+
+func _open_map_leader_selector() -> void:
+	if not _map_leader_selection_unlocked():
+		_focus_current(false)
+		_show_map_notice("첫 작전은 마에루로 진행합니다 · 일반 1 클리어 후 맵 대표 선택 해금")
+		return
+	if leader_selector_layer != null and is_instance_valid(leader_selector_layer):
+		leader_selector_layer.queue_free()
+	leader_selector_layer = Control.new()
+	leader_selector_layer.name = "MapLeaderSelector"
+	leader_selector_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	leader_selector_layer.mouse_filter = Control.MOUSE_FILTER_STOP
+	leader_selector_layer.z_index = 220
+	add_child(leader_selector_layer)
+	var dimmer := ColorRect.new()
+	dimmer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	dimmer.color = Color("02070dcc")
+	dimmer.mouse_filter = Control.MOUSE_FILTER_STOP
+	dimmer.gui_input.connect(func(event: InputEvent):
+		if event is InputEventMouseButton and event.pressed or event is InputEventScreenTouch and event.pressed:
+			_close_map_leader_selector()
+	)
+	leader_selector_layer.add_child(dimmer)
+	var panel := PanelContainer.new()
+	panel.set_anchors_preset(Control.PRESET_CENTER)
+	var runtime_size := _runtime_layout_size()
+	var portrait := runtime_size.y > runtime_size.x
+	var panel_size := Vector2(minf(runtime_size.x * 0.90, 660.0), minf(runtime_size.y * 0.82, 600.0))
+	panel.position = -panel_size * 0.5
+	panel.size = panel_size
+	panel.add_theme_stylebox_override("panel", _panel_style(Color("07111cf5"), Color("76e2d0"), 2, 18))
+	leader_selector_layer.add_child(panel)
+	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", 10)
+	panel.add_child(content)
+	var title := Label.new()
+	title.text = "맵 대표 캐릭터"
+	title.add_theme_font_size_override("font_size", 30 if not portrait else 25)
+	title.add_theme_color_override("font_color", Color("f4d88d"))
+	content.add_child(title)
+	var guide := Label.new()
+	guide.text = "현재 파티에서 선택 · 선택한 캐릭터는 전투 진입 전·복귀 후 맵에 계속 표시됩니다."
+	guide.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	guide.add_theme_font_size_override("font_size", 19)
+	guide.add_theme_color_override("font_color", Color("b9cbd3"))
+	content.add_child(guide)
+	for character_id_value in AppState.get_party():
+		var character_id := str(character_id_value)
+		var character := DataRegistry.character(character_id)
+		var role := str(character.get("role", ""))
+		var selected := character_id == _map_leader_id()
+		var option := _button(("◆ " if selected else "") + _character_display_name(character_id) + ("  ·  " + role if not role.is_empty() else ""), _select_map_leader.bind(character_id), Vector2(panel_size.x - 40.0, 58.0))
+		option.disabled = selected
+		content.add_child(option)
+	var close_button := _button("닫기", _close_map_leader_selector, Vector2(panel_size.x - 40.0, 54.0))
+	content.add_child(close_button)
+
+func _close_map_leader_selector() -> void:
+	if leader_selector_layer != null and is_instance_valid(leader_selector_layer):
+		leader_selector_layer.queue_free()
+	leader_selector_layer = null
+
+func _select_map_leader(character_id: String) -> void:
+	if not AppState.get_party().has(character_id):
+		return
+	var next_pack := _map_idle_texture(character_id)
+	if next_pack.is_empty():
+		_show_map_notice("해당 캐릭터의 맵 SD 에셋을 불러오지 못했습니다")
+		return
+	map_state.map_leader_id = character_id
+	pawn_animation_pack = next_pack
+	if pawn_sprite != null:
+		pawn_sprite.texture = next_pack.get("texture")
+		var frame_size: Vector2 = next_pack.get("frame_size", Vector2(104.0, 104.0))
+		var anchor: Vector2 = next_pack.get("foot_anchor", Vector2(0.5, 0.88))
+		pawn_sprite.position.y = _sprite_center_y_for_foot(0.15, PAWN_VISUAL_BASE_Y, frame_size.y, pawn_sprite.pixel_size, anchor.y)
+	if pawn_occlusion_silhouette != null:
+		pawn_occlusion_silhouette.texture = pawn_sprite.texture
+		pawn_occlusion_silhouette.position = pawn_sprite.position
+	SaveService.save_game()
+	_close_map_leader_selector()
+	_show_map_notice("맵 대표 변경 · %s" % _character_display_name(character_id))
+
 func _pawn_world_position() -> Vector3:
 	var coord := Vector2i(int(map_state.current_q), int(map_state.current_r))
 	return HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.14)
 
-func _movement_overlay_material(color: Color, emission := Color.BLACK) -> StandardMaterial3D:
+func _movement_overlay_material(color: Color, emission := Color.BLACK, always_on_top := false) -> StandardMaterial3D:
 	var material := StandardMaterial3D.new()
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	material.albedo_color = color
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
-	# This is UI authority. Keep it readable when a legal path passes below the
-	# dam/viaduct; terrain and simulation depth remain unchanged.
-	material.no_depth_test = true
-	material.render_priority = 90
+	# Fill and cell seams belong on the physical ground and therefore sit behind
+	# pawns/props. Only the outer boundary may request no-depth presentation.
+	material.no_depth_test = always_on_top
+	material.render_priority = 90 if always_on_top else 0
 	if emission != Color.BLACK:
 		material.emission_enabled = true
 		material.emission = emission
@@ -2624,17 +3120,19 @@ func _unresolved_encounter_stop_hexes() -> Dictionary:
 	return stop_hexes
 
 func _movement_range_allowlist() -> Dictionary:
-	# A revealed treasure explicitly authorizes its short exploratory detour;
-	# mirror that existing path rule so the yellow range never understates where
-	# the confirmed treasure route can actually travel.
-	var allowed := _path_reveal_allowlist()
-	# Every visible selectable objective is a gameplay promise. Its current route
-	# and target cell override stale fog state, and the same allowlist drives the
-	# yellow overlay and direct pointer movement.
-	if not selected_node.is_empty() or not selected_treasure.is_empty() or not selected_relay.is_empty() or not selected_event.is_empty():
-		for coord in preview_path:
-			allowed[HexCoordScript.key(coord)] = true
-	return allowed
+	# Fog/reveal is presentation authority, never traversal authority.  The prior
+	# implementation intersected the walk graph with persisted revealed_tiles.
+	# A route-selected cell could therefore be legal for one pulse, then become
+	# the party's *excluded start cell* on the next pulse and soft-lock both the
+	# yellow range and every objective route.  Movement remains naturally bounded
+	# by movement points and can_step; the eight-plus-cell sight radius controls
+	# what can be selected and rendered separately.
+	return _traversal_allowlist()
+
+func _traversal_allowlist() -> Dictionary:
+	# An empty allowlist is HexPathfinder's explicit "all authored traversable
+	# tiles" contract.  Player and enemy pathfinding must share this physical grid.
+	return {}
 
 func _append_range_triangle(vertices: Array[Vector3], a: Vector3, b: Vector3, c: Vector3) -> void:
 	# ImmediateMesh reports an engine error when surface_end closes a surface that
@@ -2700,8 +3198,17 @@ func _update_movement_range_overlay() -> void:
 	if reachable_keys.is_empty():
 		_clear_movement_range_overlay()
 		return
+	# Keep the occupied socket visually clean. The current coordinate remains in
+	# movement_range_reachable for path/input authority, but it is not a movement
+	# destination and must not tint the squad art yellow.
+	var visible_range_keys: Array = reachable_keys.filter(func(key_value): return HexCoordScript.from_key(str(key_value)) != current)
+	if visible_range_keys.is_empty():
+		movement_range_fill.mesh = null
+		movement_range_grid.mesh = null
+		movement_range_boundary.mesh = null
+		return
 	var fill_vertices: Array[Vector3] = []
-	for key_value in reachable_keys:
+	for key_value in visible_range_keys:
 		var coord := HexCoordScript.from_key(str(key_value))
 		var surface_y := float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.105
 		var center := HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y)
@@ -2716,7 +3223,7 @@ func _update_movement_range_overlay() -> void:
 	# becoming brighter than the rest of the grid.
 	var cell_grid_vertices: Array[Vector3] = []
 	var emitted_edges: Dictionary = {}
-	for key_value in reachable_keys:
+	for key_value in visible_range_keys:
 		var coord := HexCoordScript.from_key(str(key_value))
 		var surface_y := float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.125
 		var corners := _movement_hex_corners(coord, surface_y)
@@ -2734,7 +3241,7 @@ func _update_movement_range_overlay() -> void:
 	var cell_grid_mesh := _movement_triangle_mesh(cell_grid_vertices, _movement_overlay_material(Color("ffd36ba8"), Color("b57618")))
 	movement_range_grid.mesh = cell_grid_mesh if cell_grid_mesh.get_surface_count() > 0 else null
 	var boundary_vertices: Array[Vector3] = []
-	for key_value in reachable_keys:
+	for key_value in visible_range_keys:
 		var coord := HexCoordScript.from_key(str(key_value))
 		var surface_y := float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.135
 		var corners := _movement_hex_corners(coord, surface_y)
@@ -2748,7 +3255,7 @@ func _update_movement_range_overlay() -> void:
 			var from: Vector3 = corners[edge_indices.x]
 			var to: Vector3 = corners[edge_indices.y]
 			_append_range_edge_ribbon(boundary_vertices, from, to, 0.070)
-	var boundary_mesh := _movement_triangle_mesh(boundary_vertices, _movement_overlay_material(Color("fff0a6f5"), Color("ffb52b")))
+	var boundary_mesh := _movement_triangle_mesh(boundary_vertices, _movement_overlay_material(Color("fff0a6f5"), Color("ffb52b"), true))
 	movement_range_boundary.mesh = boundary_mesh if boundary_mesh.get_surface_count() > 0 else null
 
 func _update_route_mesh() -> void:
@@ -2817,11 +3324,12 @@ func _refresh_state_visuals() -> void:
 		var stage_id := str(node.get("stage_id", ""))
 		var is_hard := stage_id.contains("-H")
 		var key := "%d,%d" % [int(node.q), int(node.r)]
-		button.visible = revealed.has(key) and (stage_id == "" or hard_overlay == is_hard)
+		var node_coord := _encounter_coord(node)
+		var unlocked := stage_id == "" or AppState.is_stage_unlocked(stage_id)
+		button.visible = _coord_is_in_player_vision(node_coord) and (revealed.has(key) or (not stage_id.is_empty() and unlocked)) and (stage_id == "" or hard_overlay == is_hard)
 		if marker_root != null: marker_root.visible = button.visible
 		if not button.visible: continue
 		var stars := int(AppState.profile.stage_stars.get(stage_id, 0)) if stage_id != "" else 0
-		var unlocked := stage_id == "" or AppState.is_stage_unlocked(stage_id)
 		var special_event := _event_encounter_for_node(str(node.get("node_id", "")))
 		var marker := "◆" if stage_id == "" else ("★" if stars == 3 else ("✓" if stars > 0 else ("!" if not special_event.is_empty() and unlocked else ("◇" if unlocked else "🔒"))))
 		var display_label := stage_display_text(stage_id, true, SettingsService.is_developer_mode()) if stage_id != "" else "탐색 거점"
@@ -2851,7 +3359,7 @@ func _refresh_state_visuals() -> void:
 			var cleared := MapExplorationServiceScript.encounter_cleared(map_state, str(node.node_id)) or stars > 0
 			var encounter_coord := _encounter_coord(node)
 			var camera_coord := HexCoordScript.world_to_axial(camera_target, TILE_SIZE)
-			enemy_root.visible = button.visible and not cleared and unlocked and _map_entity_is_locally_renderable(encounter_coord, camera_coord, STREAM_RADIUS + 2)
+			enemy_root.visible = button.visible and _coord_is_in_player_vision(encounter_coord) and not cleared and unlocked and _map_entity_is_locally_renderable(encounter_coord, camera_coord, STREAM_RADIUS + 2)
 			# A cleared relay stays in the map as a quiet visual anchor, but the
 			# hostile pawn is gone.  This keeps the encounter readable before text.
 			if marker_root != null and cleared:
@@ -2865,7 +3373,8 @@ func _refresh_state_visuals() -> void:
 		# HIDDEN/HINTED keeps only the authored crystal/ruin dressing created
 		# above.  Do not expose the cache ring, chest, route, or exact target
 		# before proximity has actually revealed it.
-		root.visible = state != "UNDISCOVERED" and state != "CLAIMED"
+		var treasure_coord := Vector2i(int(treasure.get("q", 0)), int(treasure.get("r", 0)))
+		root.visible = _coord_is_in_player_vision(treasure_coord) and state != "UNDISCOVERED" and state != "CLAIMED"
 		for visual_name in ["crate", "lid", "seal", "glow"]:
 			var visual = root.get_meta(visual_name, null)
 			if visual == null: continue
@@ -2878,7 +3387,8 @@ func _refresh_state_visuals() -> void:
 		if relay_root == null: continue
 		var relay_key := "%d,%d" % [int(relay.get("q", 0)), int(relay.get("r", 0))]
 		var relay_active := MapExplorationServiceScript.relay_state(map_state, relay_id) == "ACTIVE"
-		relay_root.visible = relay_active or revealed.has(relay_key)
+		var relay_coord := Vector2i(int(relay.get("q", 0)), int(relay.get("r", 0)))
+		relay_root.visible = _coord_is_in_player_vision(relay_coord) and (relay_active or revealed.has(relay_key))
 		var relay_signal = relay_root.get_meta("signal", null)
 		if relay_signal is MeshInstance3D:
 			(relay_signal as MeshInstance3D).material_override = _material(Color("71f7d3") if relay_active else Color("4c6876"), Color("48f4d1") if relay_active else Color("183744"))
@@ -2890,7 +3400,15 @@ func _refresh_state_visuals() -> void:
 		var event_root: Node3D = event_visuals.get(event_id)
 		if event_root == null: continue
 		var event_status := MapExplorationServiceScript.event_state(map_state, event_id)
-		event_root.visible = event_status == "DISCOVERED"
+		var event_coord := Vector2i(int(event.get("q", 0)), int(event.get("r", 0)))
+		event_root.visible = _coord_is_in_player_vision(event_coord) and event_status == "DISCOVERED"
+	for landmark in definition.get("landmarks", []):
+		var landmark_id := str(landmark.get("landmark_id", ""))
+		var landmark_root: Node3D = landmark_visuals.get(landmark_id)
+		if landmark_root == null:
+			continue
+		var landmark_coord := Vector2i(int(landmark.get("q", 0)), int(landmark.get("r", 0)))
+		landmark_root.visible = _coord_is_in_player_vision(landmark_coord)
 	for node_id in enemy_pawns:
 		_update_enemy_pawn_from_simulation(str(node_id))
 	var completion := MapExplorationServiceScript.completion(map_state, definition)
@@ -2925,19 +3443,34 @@ func _next_encounter_node() -> Dictionary:
 func _update_next_encounter_button() -> void:
 	if next_encounter_button == null: return
 	var next_node := _next_encounter_node()
-	next_encounter_button.visible = not next_node.is_empty()
+	var next_visible := not next_node.is_empty() and _coord_is_in_player_vision(_encounter_coord(next_node))
+	next_encounter_button.visible = next_visible
 	next_encounter_button.disabled = moving or turn_transitioning or next_node.is_empty()
-	if next_node.is_empty(): return
+	if not next_visible: return
 	var stage_id := str(next_node.get("stage_id", ""))
 	next_encounter_button.text = "다음 조우  ·  %s" % stage_display_text(stage_id, true, SettingsService.is_developer_mode())
 
 func _select_next_encounter() -> void:
 	var next_node := _next_encounter_node()
 	if next_node.is_empty(): return
+	if not _coord_is_in_player_vision(_encounter_coord(next_node)):
+		_show_map_notice("다음 조우는 안개 너머에 있습니다 · 노란 이동 범위로 전진하세요")
+		return
 	_select_node(next_node)
 
 func _select_node(node: Dictionary) -> void:
 	if moving or turn_transitioning or map_simulation_paused: return
+	var node_id := str(node.get("node_id", ""))
+	var stage_id := str(node.get("stage_id", ""))
+	# A completed encounter remains as a route-history badge, but it is never a
+	# new destination.  Letting it take focus again made a nearby yellow hex look
+	# unclickable after a battle return because the stale marker stole the tap.
+	if not stage_id.is_empty() and (MapExplorationServiceScript.encounter_cleared(map_state, node_id) or int(AppState.profile.stage_stars.get(stage_id, 0)) > 0):
+		_show_map_notice("완료한 작전입니다 · 노란 이동 가능 칸이나 다음 조우를 선택하세요")
+		return
+	if not _coord_is_in_player_vision(_encounter_coord(node)):
+		_show_map_notice("시야 밖의 조우입니다 · 현재 시야 안으로 접근하세요")
+		return
 	selected_treasure = {}
 	selected_relay = {}
 	selected_event = {}
@@ -2945,19 +3478,15 @@ func _select_node(node: Dictionary) -> void:
 	live_encounter_replans = 0
 	AppState.selected_map_node_id = str(node.node_id)
 	map_state.last_selected_node = str(node.node_id)
-	var allowed := _path_reveal_allowlist()
+	var allowed := _traversal_allowlist()
 	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), _encounter_coord(node), allowed)
-	# Selection itself proves that this is a visible, unlocked gameplay target.
-	# Fog may conceal scenery, but it must never turn a visible mob/objective into
-	# an unreachable button. Fall back to the shared traversable grid, then reveal
-	# only the confirmed route through the movement allowlist below.
-	if preview_path.is_empty():
-		preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), _encounter_coord(node))
+	# Selection proves visibility; the shared physical grid proves reachability.
+	# Fog must never delete an intermediate step from that grid.
 	preview_path = _truncate_at_first_unresolved_encounter(preview_path)
 	if not preview_path.is_empty() and preview_path[-1] != _encounter_coord(node):
 		selected_node = _node_at_coord(preview_path[-1])
 		AppState.selected_map_node_id = str(selected_node.get("node_id", ""))
-	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path)
+	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path, _player_vision_radius())
 	_update_route_mesh()
 	# Frame both the squad and the hostile pawn while retaining enough route
 	# context to make movement legible.  This keeps a selected N01 from being
@@ -2969,6 +3498,9 @@ func _select_node(node: Dictionary) -> void:
 
 func _select_treasure(treasure: Dictionary) -> void:
 	if moving or turn_transitioning or map_simulation_paused: return
+	var treasure_coord := Vector2i(int(treasure.get("q", 0)), int(treasure.get("r", 0)))
+	if not _coord_is_in_player_vision(treasure_coord):
+		return
 	var treasure_id := str(treasure.get("treasure_id", ""))
 	# A hint is an environmental observation, not a navigable treasure marker.
 	# The player may discover it while traversing the map; only REVEALED opens
@@ -2983,40 +3515,44 @@ func _select_treasure(treasure: Dictionary) -> void:
 	# Do not restrict this route to currently revealed tiles: otherwise a hinted
 	# side branch can be visible but unreachable. Unresolved encounters still
 	# cut the route below, so this never lets a treasure selection bypass battle.
-	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), Vector2i(int(treasure.q), int(treasure.r)))
+	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), treasure_coord, _traversal_allowlist())
 	preview_path = _truncate_at_first_unresolved_encounter(preview_path)
 	_retarget_truncated_path_to_encounter(Vector2i(int(treasure.q), int(treasure.r)))
-	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path)
+	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path, _player_vision_radius())
 	_update_route_mesh()
 	_focus_preview_route()
 	_update_panel()
 
 func _select_relay(relay: Dictionary) -> void:
 	if moving or turn_transitioning or map_simulation_paused: return
+	var relay_coord := Vector2i(int(relay.get("q", 0)), int(relay.get("r", 0)))
+	if not _coord_is_in_player_vision(relay_coord):
+		return
 	selected_node = {}
 	selected_treasure = {}
 	selected_event = {}
 	selected_relay = relay
-	var relay_coord := Vector2i(int(relay.get("q", 0)), int(relay.get("r", 0)))
-	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), relay_coord)
+	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), relay_coord, _traversal_allowlist())
 	preview_path = _truncate_at_first_unresolved_encounter(preview_path)
 	_retarget_truncated_path_to_encounter(relay_coord)
-	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path)
+	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path, _player_vision_radius())
 	_update_route_mesh()
 	_focus_preview_route()
 	_update_panel()
 
 func _select_event(event: Dictionary) -> void:
 	if moving or turn_transitioning or map_simulation_paused: return
+	var event_coord := Vector2i(int(event.get("q", 0)), int(event.get("r", 0)))
+	if not _coord_is_in_player_vision(event_coord):
+		return
 	selected_node = {}
 	selected_treasure = {}
 	selected_relay = {}
 	selected_event = event
-	var event_coord := Vector2i(int(event.get("q", 0)), int(event.get("r", 0)))
-	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), event_coord)
+	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), event_coord, _traversal_allowlist())
 	preview_path = _truncate_at_first_unresolved_encounter(preview_path)
 	_retarget_truncated_path_to_encounter(event_coord)
-	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path)
+	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path, _player_vision_radius())
 	_update_route_mesh()
 	_focus_preview_route()
 	_update_panel()
@@ -3130,6 +3666,25 @@ func _show_map_notice(text_value: String) -> void:
 func _wait_pulse() -> void:
 	if moving or turn_transitioning or map_simulation_paused: return
 	_complete_player_turn("대기")
+
+func _resume_post_reward_turn() -> void:
+	if not is_inside_tree():
+		return
+	var persisted_reward_edge := bool(map_state.get(POST_REWARD_TURN_PENDING_KEY, false))
+	var pending_encounter: Dictionary = map_state.get("pending_encounter", {})
+	var exhausted_legacy_edge: bool = MapExplorationServiceScript.movement_remaining(map_state, definition) <= 0 and pending_encounter.is_empty()
+	if not persisted_reward_edge and not exhausted_legacy_edge:
+		return
+	if moving or turn_transitioning or map_simulation_paused:
+		# Initial world construction and a browser focus hand-off both pause map
+		# authority briefly. Retry on the next process frame instead of dropping the
+		# persisted turn edge and leaving movement at zero forever.
+		await get_tree().process_frame
+		if is_inside_tree():
+			call_deferred("_resume_post_reward_turn")
+		return
+	map_state[POST_REWARD_TURN_PENDING_KEY] = false
+	await _complete_player_turn("보물 획득")
 
 func _complete_player_turn(action_label: String) -> void:
 	if map_simulation_paused:
@@ -3414,7 +3969,7 @@ func _activate_selected_route_from_pointer() -> void:
 		return
 	var current := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
 	var target := _selected_target_coord()
-	_show_map_notice("현재 위치입니다 · 다른 노란 칸을 선택하세요" if current == target else "현재 공개된 경로로 연결되지 않습니다 · 노란 이동 가능 칸을 선택하세요")
+	_show_map_notice("현재 위치입니다 · 다른 노란 칸을 선택하세요" if current == target else "통행 가능한 경로가 없습니다 · 노란 이동 가능 칸을 선택하세요")
 
 func _confirm_move() -> void:
 	if moving or turn_transitioning or map_simulation_paused: return
@@ -3445,7 +4000,7 @@ func _set_direct_hex_route(coord: Vector2i) -> bool:
 			if _encounter_coord(node) == coord:
 				_select_node(node)
 				return preview_path.size() > 1
-	var path := HexPathfinderScript.find_path(grid, current, coord, _path_reveal_allowlist())
+	var path := HexPathfinderScript.find_path(grid, current, coord, _traversal_allowlist())
 	if path.size() <= 1:
 		return false
 	selected_node = {}
@@ -3453,7 +4008,7 @@ func _set_direct_hex_route(coord: Vector2i) -> bool:
 	selected_relay = {}
 	selected_event = {}
 	preview_path = path
-	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path)
+	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path, _player_vision_radius())
 	_update_route_mesh()
 	_focus_preview_route()
 	_update_panel()
@@ -3478,6 +4033,7 @@ func _selected_target_coord() -> Vector2i:
 	return Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
 
 func _path_reveal_allowlist() -> Dictionary:
+	# Presentation-only visibility list. Never pass this to movement/pathfinding.
 	# "스테이지 전체 해금" is a Development-only navigation aid.  It must
 	# not mutate canonical fog/reveal data or a player save, but debug encounters
 	# still need a real traversable route to exercise the existing battle loop.
@@ -3485,10 +4041,14 @@ func _path_reveal_allowlist() -> Dictionary:
 	var allowed: Dictionary = {}
 	if AppState.debug_unlock_all_enabled():
 		for tile in definition.get("tiles", []):
-			allowed["%d,%d" % [int(tile.get("q", 0)), int(tile.get("r", 0))]] = true
+			var debug_coord := Vector2i(int(tile.get("q", 0)), int(tile.get("r", 0)))
+			if _coord_is_in_player_vision(debug_coord):
+				allowed[HexCoordScript.key(debug_coord)] = true
 		return allowed
 	for key in map_state.get("revealed_tiles", []):
-		allowed[str(key)] = true
+		var coord := HexCoordScript.from_key(str(key))
+		if _coord_is_in_player_vision(coord):
+			allowed[str(key)] = true
 	return allowed
 
 func _rebuild_selected_preview() -> void:
@@ -3497,14 +4057,9 @@ func _rebuild_selected_preview() -> void:
 	if current == target:
 		preview_path = [current]
 	else:
-		var allowed: Dictionary = {}
-		# Treasure detours remain routable once revealed; other interactions use
-		# the discovered route authority.
-		if selected_treasure.is_empty():
-			allowed = _path_reveal_allowlist()
-		preview_path = HexPathfinderScript.find_path(grid, current, target, allowed)
+		preview_path = HexPathfinderScript.find_path(grid, current, target, _traversal_allowlist())
 		preview_path = _truncate_at_first_unresolved_encounter(preview_path)
-	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path)
+	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path, _player_vision_radius())
 	_update_route_mesh()
 
 func _activate_selected_relay() -> void:
@@ -3547,7 +4102,6 @@ func _move_along(path: Array[Vector2i]) -> void:
 		var coord := path[index]
 		var prior_coord := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
 		map_state.last_pre_contact_hex = [prior_coord.x, prior_coord.y]
-		_stream_visible_tiles(coord)
 		var target := HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.14)
 		_set_pawn_facing(pawn.position, target)
 		_spawn_pawn_step_trail(pawn.position)
@@ -3570,11 +4124,15 @@ func _move_along(path: Array[Vector2i]) -> void:
 		ChapterMapProgressScript.mark_visited(map_state, [coord])
 		var proximity_changes := MapExplorationServiceScript.update_proximity(map_state, definition, coord)
 		if not proximity_changes.is_empty(): _refresh_state_visuals()
-		var contacts := MapSimulationScript.contacts_at_party_coord(map_state, definition, grid, coord)
+		var contacts := MapSimulationScript.contacts_at_party_coord(map_state, definition, grid, coord, _player_vision_radius())
 		if not contacts.is_empty():
 			_start_patrol_contact(str(contacts[0]), prior_coord)
 			return
 	var arrival := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
+	# Rebuild fog, infill and streamed terrain once at the final hex. Rebuilding
+	# the whole visible district on every intermediate step caused the repeated
+	# freezes reported during ordinary three-cell movement.
+	await _stream_visible_tiles(arrival, false, true)
 	map_state.last_selected_node = str(selected_node.get("node_id", ""))
 	if not _arrival_resolution_owns_save(arrival):
 		SaveService.save_game()
@@ -3636,8 +4194,14 @@ func _resolve_arrival(path: Array[Vector2i]) -> String:
 	if not selected_treasure.is_empty() and arrival == Vector2i(int(selected_treasure.q), int(selected_treasure.r)):
 		var report := MapExplorationServiceScript.claim_treasure(map_state, definition, str(selected_treasure.treasure_id))
 		if report.ok:
+			# The reward presentation temporarily destroys this map screen. Record
+			# that the player action still owes an enemy phase before changing screens;
+			# the returning map consumes it exactly once.
+			map_state[POST_REWARD_TURN_PENDING_KEY] = true
 			SaveService.save_game()
 			treasure_reward_requested.emit(report.value)
+			if is_inside_tree():
+				call_deferred("_resume_post_reward_turn")
 			return "TRANSITION"
 	if not selected_relay.is_empty() and arrival == Vector2i(int(selected_relay.get("q", 0)), int(selected_relay.get("r", 0))):
 		_activate_selected_relay()
@@ -3687,14 +4251,14 @@ func _continue_live_encounter_pursuit(arrival: Vector2i, live_enemy_coord: Vecto
 		return false
 	if live_encounter_replans >= MAX_LIVE_ENCOUNTER_REPLANS:
 		return false
-	var allowed := _path_reveal_allowlist()
+	var allowed := _traversal_allowlist()
 	var pursuit_path := MapSimulationScript.pursuit_path(map_state, definition, grid, arrival, node_id, allowed)
 	pursuit_path = _truncate_at_first_unresolved_encounter(pursuit_path)
 	if pursuit_path.size() <= 1 or pursuit_path[-1] != live_enemy_coord:
 		return false
 	live_encounter_replans += 1
 	preview_path = pursuit_path
-	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, pursuit_path)
+	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, pursuit_path, _player_vision_radius())
 	_update_route_mesh()
 	_refresh_state_visuals()
 	_show_map_notice("순찰 적 재포착 · 경로 갱신 %d/%d" % [live_encounter_replans, MAX_LIVE_ENCOUNTER_REPLANS])
@@ -3802,11 +4366,32 @@ func _focus_full_map() -> void:
 	map_state.camera_zoom = camera_zoom
 	_stream_visible_tiles(HexCoordScript.world_to_axial(camera_target, TILE_SIZE))
 
+func _clamp_camera_candidate_to_vision(candidate: Vector3) -> Vector3:
+	var requested_coord := HexCoordScript.world_to_axial(candidate, TILE_SIZE)
+	if _coord_is_in_player_vision(requested_coord):
+		return candidate
+	var center := _player_map_coord()
+	var closest := HexCoordScript.axial_to_world(center, TILE_SIZE)
+	var closest_distance := INF
+	var vision_radius := _player_vision_radius()
+	for dq in range(-vision_radius, vision_radius + 1):
+		for dr in range(-vision_radius, vision_radius + 1):
+			var coord := center + Vector2i(dq, dr)
+			if HexCoordScript.distance(center, coord) > vision_radius or not grid.traversable(coord):
+				continue
+			var world := HexCoordScript.axial_to_world(coord, TILE_SIZE)
+			var distance := Vector2(world.x, world.z).distance_squared_to(Vector2(candidate.x, candidate.z))
+			if distance < closest_distance:
+				closest_distance = distance
+				closest = world
+	return Vector3(closest.x, candidate.y, closest.z)
+
 func _clamp_camera_target_to_terrain(candidate: Vector3) -> Vector3:
 	# Camera navigation is constrained by the generated traversable land itself,
 	# not by the former broad hard-coded world rectangle. This preserves smooth
 	# pan along the 96-hex route while preventing a drag or legacy camera value
 	# from centring the viewport in empty ocean where a pawn can look detached.
+	candidate = _clamp_camera_candidate_to_vision(candidate)
 	if grid.traversable(HexCoordScript.world_to_axial(candidate, TILE_SIZE)):
 		return candidate
 	var origin := HexCoordScript.world_to_axial(candidate, TILE_SIZE)
@@ -3872,7 +4457,15 @@ func _on_map_input(event: InputEvent) -> void:
 				var completed_click: bool = dragging and event.position.distance_to(drag_origin) <= 18.0 * _portrait_ui_scale(_runtime_layout_size())
 				var activate_route := direct_move_pending
 				if completed_click:
-					_select_node_near_screen(event.position, activate_route)
+					# Repeating a preview must activate the exact route that was just
+					# shown, rather than re-picking the screen after the focus camera
+					# has shifted its projection.  The old re-pick made a visible route
+					# look blocked because the second click could resolve to a different
+					# hex or nothing at all.
+					if activate_route and preview_path.size() > 1:
+						_activate_selected_route_from_pointer()
+					else:
+						_select_node_near_screen(event.position, activate_route)
 					if not activate_route:
 						last_map_pointer_click_valid = true
 						last_map_pointer_click_msec = Time.get_ticks_msec()
@@ -3911,6 +4504,12 @@ func _select_node_near_screen(screen_position: Vector2, activate_route := false)
 			closest = ChapterMapLoaderScript.node_by_id(definition, str(node_id))
 			closest_kind = "NODE"
 	for node in definition.get("nodes", []):
+		var node_id := str(node.get("node_id", ""))
+		var stage_id := str(node.get("stage_id", ""))
+		# The checkmark badge is informational only.  It must not win the hit test
+		# over an adjacent reachable hex after the operation has been cleared.
+		if not stage_id.is_empty() and (MapExplorationServiceScript.encounter_cleared(map_state, node_id) or int(AppState.profile.stage_stars.get(stage_id, 0)) > 0):
+			continue
 		var node_button: Button = node_buttons.get(str(node.get("node_id", "")))
 		if node_button == null or not node_button.visible: continue
 		var projected := _overlay_position_from_world(_node_overlay_anchor(node))
@@ -3964,28 +4563,40 @@ func _select_node_near_screen(screen_position: Vector2, activate_route := false)
 		if activate_route:
 			_activate_selected_route_from_pointer()
 		return true
-	if activate_route:
-		var reachable_coord := Vector2i(999999, 999999)
-		var reachable_distance := INF
-		var current := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
-		for key_value in movement_range_reachable.keys():
-			var coord := HexCoordScript.from_key(str(key_value))
-			if coord == current:
-				continue
-			var surface_y := float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.14
-			var projected := camera.unproject_position(HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y)) * surface_scale
-			var distance := projected.distance_to(screen_position)
-			if distance < reachable_distance:
-				reachable_distance = distance
-				reachable_coord = coord
-		if reachable_distance <= hit_radius and _set_direct_hex_route(reachable_coord):
+	# A yellow movement cell is a first-class target. The old flow only looked
+	# for it on the *second* desktop click, so the initial click supplied neither
+	# a route nor a message and read as a blocked path. Preview immediately;
+	# keep the second click/touch confirmation contract for the actual move.
+	var reachable_coord := Vector2i(999999, 999999)
+	var reachable_distance := INF
+	var current := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
+	for key_value in movement_range_reachable.keys():
+		var coord := HexCoordScript.from_key(str(key_value))
+		if coord == current:
+			continue
+		var surface_y := float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.14
+		var projected := camera.unproject_position(HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y)) * surface_scale
+		var distance := projected.distance_to(screen_position)
+		if distance < reachable_distance:
+			reachable_distance = distance
+			reachable_coord = coord
+	# The visible yellow hex is wider than the old desktop label hit radius.
+	# Keep portrait touch targets unchanged, while accepting the actual body of a
+	# desktop hex instead of requiring an artificial centre-pixel click.
+	var reachable_hit_radius := maxf(hit_radius, 58.0)
+	if reachable_distance <= reachable_hit_radius and _set_direct_hex_route(reachable_coord):
+		if activate_route:
 			_activate_selected_route_from_pointer()
-			return true
+		else:
+			_show_map_notice("경로 미리보기 · 같은 노란 칸을 한 번 더 클릭하면 이동합니다")
+		return true
 	return false
 
 func _process(delta: float) -> void:
 	if camera == null: return
+	_process_pending_dressing()
 	_refresh_environment_presentation()
+	_sync_web_pawn_front_overlay()
 	pawn_motion_phase += delta * (8.5 if pawn_motion_state == "WALK" else 3.0)
 	if pawn_visual != null:
 		# Motion is authored in the atlas. Moving/scaling the entire cutout would
@@ -4055,10 +4666,12 @@ func _process(delta: float) -> void:
 	# cliff faces occupy enough screen space to communicate elevation.
 	camera.position = camera_target + Vector3(9.2, 14.2, 8.8)
 	camera.look_at(camera_target, Vector3.UP)
+	_update_screen_fog_overlay()
 	if environment_fx != null:
 		environment_fx.set_camera_phase(camera_target)
 	var camera_coord := HexCoordScript.world_to_axial(camera_target, TILE_SIZE)
-	_stream_visible_tiles(camera_coord)
+	if not moving and not turn_transitioning:
+		_stream_visible_tiles(camera_coord)
 	# Rendering is streamed, but patrol state never is: offscreen hostiles retain
 	# only their tiny logical state and wake visually when the camera returns.
 	for node_id in enemy_pawns:
@@ -4069,7 +4682,7 @@ func _process(delta: float) -> void:
 		var unlocked := stage_id != "" and AppState.is_stage_unlocked(stage_id)
 		var cleared := MapExplorationServiceScript.encounter_cleared(map_state, str(node_id)) or int(AppState.profile.stage_stars.get(stage_id, 0)) > 0
 		var encounter_coord := _encounter_coord(node)
-		root.visible = unlocked and not cleared and _map_entity_is_locally_renderable(encounter_coord, camera_coord, STREAM_RADIUS + 2) and (not stage_id.contains("-H") or hard_overlay)
+		root.visible = unlocked and not cleared and _coord_is_in_player_vision(encounter_coord) and _map_entity_is_locally_renderable(encounter_coord, camera_coord, STREAM_RADIUS + 2) and (not stage_id.contains("-H") or hard_overlay)
 	# The render target grows on responsive layouts.  Scaling node controls from
 	# the original 1280×720 constant displaced labels from their actual 3D
 	# encounter markers after a resize; use the live SubViewport size instead.
@@ -4082,8 +4695,9 @@ func _process(delta: float) -> void:
 		if button == null: continue
 		var stage_id := str(node.get("stage_id", ""))
 		var revealed: bool = navigation_reveal.has("%d,%d" % [int(node.get("q", 0)), int(node.get("r", 0))])
-		var semantic_visible: bool = bool(revealed and (stage_id == "" or hard_overlay == stage_id.contains("-H")))
-		var node_coord := Vector2i(int(node.get("q", 0)), int(node.get("r", 0)))
+		var unlocked := stage_id == "" or AppState.is_stage_unlocked(stage_id)
+		var node_coord := _encounter_coord(node)
+		var semantic_visible: bool = bool(_coord_is_in_player_vision(node_coord) and (revealed or (not stage_id.is_empty() and unlocked)) and (stage_id == "" or hard_overlay == stage_id.contains("-H")))
 		# A world-space encounter label is permitted only when its associated
 		# streamed terrain cap is present and visible.  This keeps both the label
 		# and the enemy pawn attached to real local ground at long-map boundaries.
@@ -4107,4 +4721,9 @@ func _refresh_environment_presentation() -> void:
 		return
 	# Environment is a derived, transient grade based on canonical axial
 	# position. It never writes that coordinate, its save payload or simulation.
-	environment_fx.set_transient_map_context(Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0))), hard_overlay)
+	var current_coord := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
+	if current_coord == environment_context_coord and hard_overlay == environment_context_hard:
+		return
+	environment_context_coord = current_coord
+	environment_context_hard = hard_overlay
+	environment_fx.set_transient_map_context(current_coord, hard_overlay)

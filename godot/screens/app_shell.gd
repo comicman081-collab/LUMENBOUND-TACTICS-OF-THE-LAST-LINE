@@ -14,6 +14,9 @@ const COMPACT_LANDSCAPE_MAX_WIDTH := 980.0
 const MIN_TOUCH_CSS_PX := 56.0
 const SPECIAL_EVENT_CONTACT_DURATION := 1.85
 const BOSS_ENCOUNTER_CARD_DURATION := 0.82
+const INTRO_VIDEO_PATH := "res://assets/video/lumenbound_intro_full.ogv"
+const INTRO_VIDEO_DURATION_SECONDS := 56.166667
+const INTRO_VIDEO_FINISH_GUARD_SECONDS := 0.75
 var content: VBoxContainer
 var footer_status: Label
 var safe_margin: MarginContainer
@@ -104,6 +107,13 @@ var home_tutorial_skip_button: Button
 var home_tutorial_progress_label: Label
 var home_tutorial_step := 0
 var home_menu_buttons: Dictionary = {}
+var intro_video_layer: CanvasLayer
+var intro_video_player: VideoStreamPlayer
+var intro_video_active := false
+var intro_video_generation := 0
+# Keep the title-card tween owned by the intro lifecycle. Skipping the movie
+# used to free its layer while this local-capture callback was still pending.
+var intro_title_tween: Tween
 
 func _ready() -> void:
 	_build_root()
@@ -119,7 +129,128 @@ func _ready() -> void:
 	# still atomic and reported by its own action feedback, but Release screens
 	# must not expose a bottom-right implementation status.
 	footer_status.visible = false
+	_show_intro_video()
+
+func _show_intro_video() -> void:
+	intro_video_active = true
+	intro_video_generation += 1
+	var active_generation := intro_video_generation
+	intro_video_layer = CanvasLayer.new()
+	intro_video_layer.name = "StartupIntroVideoLayer"
+	intro_video_layer.layer = 500
+	add_child(intro_video_layer)
+
+	var surface := Control.new()
+	surface.name = "StartupIntroVideoSurface"
+	surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	intro_video_layer.add_child(surface)
+
+	var black := ColorRect.new()
+	black.color = Color.BLACK
+	black.mouse_filter = Control.MOUSE_FILTER_STOP
+	black.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	surface.add_child(black)
+	var video_frame := AspectRatioContainer.new()
+	video_frame.name = "StartupIntroAspectFrame"
+	video_frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	video_frame.ratio = 16.0 / 9.0
+	video_frame.stretch_mode = AspectRatioContainer.STRETCH_FIT
+	video_frame.alignment_horizontal = AspectRatioContainer.ALIGNMENT_CENTER
+	video_frame.alignment_vertical = AspectRatioContainer.ALIGNMENT_CENTER
+	video_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	surface.add_child(video_frame)
+
+	intro_video_player = VideoStreamPlayer.new()
+	intro_video_player.name = "StartupIntroVideoPlayer"
+	intro_video_player.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	intro_video_player.expand = true
+	intro_video_player.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	intro_video_player.volume_db = -80.0 if not bool(SettingsService.values.get("audio_enabled", true)) else linear_to_db(clampf(float(SettingsService.values.get("master_volume", 0.8)), 0.01, 1.0))
+	intro_video_player.finished.connect(_finish_intro_video)
+	video_frame.add_child(intro_video_player)
+
+	var title_center := CenterContainer.new()
+	title_center.name = "StartupIntroTitleCenter"
+	title_center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	title_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	surface.add_child(title_center)
+	var title_lockup := PanelContainer.new()
+	title_lockup.name = "StartupIntroTitleLockup"
+	var intro_ui_scale := _responsive_control_scale()
+	var intro_portrait := _is_portrait_layout()
+	title_lockup.custom_minimum_size = (Vector2(340.0, 128.0) * intro_ui_scale) if intro_portrait else Vector2(920.0, 270.0)
+	title_lockup.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var title_panel_style := StyleBoxFlat.new()
+	title_panel_style.bg_color = Color("02060bc2")
+	title_panel_style.border_color = Color("d8b75caa")
+	title_panel_style.set_border_width_all(roundi(2.0 * intro_ui_scale))
+	title_panel_style.set_corner_radius_all(roundi(12.0 * intro_ui_scale))
+	title_panel_style.content_margin_left = 30.0 * intro_ui_scale
+	title_panel_style.content_margin_right = 30.0 * intro_ui_scale
+	title_panel_style.content_margin_top = 18.0 * intro_ui_scale
+	title_panel_style.content_margin_bottom = 18.0 * intro_ui_scale
+	title_lockup.add_theme_stylebox_override("panel", title_panel_style)
+	title_center.add_child(title_lockup)
+	var title_logo := TextureRect.new()
+	title_logo.name = "StartupIntroTitleLogo"
+	title_logo.texture = load("res://assets/art/title/title_logo_r1.png") as Texture2D
+	title_logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	title_logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	title_logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	title_lockup.add_child(title_logo)
+	intro_title_tween = create_tween()
+	intro_title_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	intro_title_tween.tween_interval(5.0)
+	intro_title_tween.tween_property(title_lockup, "modulate:a", 0.0, 0.85).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	intro_title_tween.tween_callback(_queue_free_if_valid.bind(title_center))
+
+	var skip := _button("SKIP", _finish_intro_video, false, Vector2(148.0, 64.0))
+	skip.name = "StartupIntroSkipButton"
+	skip.tooltip_text = "인트로 영상 건너뛰기"
+	skip.anchor_left = 1.0
+	skip.anchor_right = 1.0
+	skip.offset_left = -skip.custom_minimum_size.x - (24.0 * intro_ui_scale)
+	skip.offset_top = 24.0 * intro_ui_scale
+	skip.offset_right = -24.0 * intro_ui_scale
+	skip.offset_bottom = skip.offset_top + skip.custom_minimum_size.y
+	skip.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	surface.add_child(skip)
+
+	var stream := load(INTRO_VIDEO_PATH) as VideoStream
+	if stream == null:
+		push_error("Startup intro video could not be loaded: %s" % INTRO_VIDEO_PATH)
+		_finish_intro_video()
+		return
+	intro_video_player.stream = stream
+	intro_video_player.play()
+	# Ogg/Theora reaches its last frame reliably on Web, but some browsers do
+	# not forward VideoStreamPlayer.finished.  This guard runs only after the
+	# complete authored duration plus a safety margin, so it can never shorten
+	# the 1,348-frame intro and still prevents an infinite last-frame hold.
+	get_tree().create_timer(INTRO_VIDEO_DURATION_SECONDS + INTRO_VIDEO_FINISH_GUARD_SECONDS, true, false, true).timeout.connect(func():
+		if intro_video_active and active_generation == intro_video_generation:
+			_finish_intro_video()
+	)
+
+func _finish_intro_video() -> void:
+	if not intro_video_active:
+		return
+	intro_video_active = false
+	intro_video_generation += 1
+	if intro_title_tween != null and intro_title_tween.is_valid():
+		intro_title_tween.kill()
+	intro_title_tween = null
+	if intro_video_player != null:
+		intro_video_player.stop()
+	intro_video_player = null
+	if intro_video_layer != null:
+		intro_video_layer.queue_free()
+	intro_video_layer = null
 	_show_screen("TITLE")
+
+func _queue_free_if_valid(node: Node) -> void:
+	if is_instance_valid(node):
+		node.queue_free()
 
 func _build_root() -> void:
 	var background := ColorRect.new()

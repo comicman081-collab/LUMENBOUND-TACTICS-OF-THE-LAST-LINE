@@ -1,6 +1,8 @@
 import sys
 from pathlib import Path
 
+INTRO_CUT_SECONDS = 53.0
+
 import bpy
 
 
@@ -28,9 +30,13 @@ scene.render.resolution_percentage = 100
 scene.render.fps = round(clip.fps)
 scene.render.fps_base = 1.0
 scene.frame_start = 1
-scene.frame_end = clip.frame_duration
-movie.frame_final_duration = clip.frame_duration
-sound.frame_final_duration = clip.frame_duration
+# The source MV concludes with a third-party Flow Music end card.  The game
+# intro ends cleanly at the final gameplay frame immediately before that card
+# fades in, so the runtime asset must never inherit the source's last seconds.
+cut_frame = min(clip.frame_duration, round(clip.fps * INTRO_CUT_SECONDS))
+scene.frame_end = cut_frame
+movie.frame_final_duration = cut_frame
+sound.frame_final_duration = cut_frame
 
 scene.render.image_settings.file_format = "FFMPEG"
 scene.render.ffmpeg.format = "OGG"
@@ -49,6 +55,7 @@ print(
         "fps": scene.render.fps,
         "frames": scene.frame_end,
         "duration_seconds": scene.frame_end / scene.render.fps,
+        "source_cut_seconds": INTRO_CUT_SECONDS,
     },
 )
 bpy.ops.render.render(animation=True)

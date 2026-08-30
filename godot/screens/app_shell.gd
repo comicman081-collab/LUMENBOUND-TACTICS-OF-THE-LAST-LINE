@@ -15,7 +15,7 @@ const MIN_TOUCH_CSS_PX := 56.0
 const SPECIAL_EVENT_CONTACT_DURATION := 1.85
 const BOSS_ENCOUNTER_CARD_DURATION := 0.82
 const INTRO_VIDEO_PATH := "res://assets/video/lumenbound_intro_full.ogv"
-const INTRO_VIDEO_DURATION_SECONDS := 56.166667
+const INTRO_VIDEO_DURATION_SECONDS := 53.0
 const INTRO_VIDEO_FINISH_GUARD_SECONDS := 0.75
 var content: VBoxContainer
 var footer_status: Label
@@ -226,7 +226,7 @@ func _show_intro_video() -> void:
 	# Ogg/Theora reaches its last frame reliably on Web, but some browsers do
 	# not forward VideoStreamPlayer.finished.  This guard runs only after the
 	# complete authored duration plus a safety margin, so it can never shorten
-	# the 1,348-frame intro and still prevents an infinite last-frame hold.
+	# the 1,272-frame game intro and still prevents an infinite last-frame hold.
 	get_tree().create_timer(INTRO_VIDEO_DURATION_SECONDS + INTRO_VIDEO_FINISH_GUARD_SECONDS, true, false, true).timeout.connect(func():
 		if intro_video_active and active_generation == intro_video_generation:
 			_finish_intro_video()
@@ -1037,7 +1037,11 @@ func _scroll_box() -> VBoxContainer:
 	return box
 
 func _show_title() -> void:
-	AudioService.play_bgm("audio_bgm_title_en")
+	# The authored MV owns the complete startup soundscape.  Do not append the
+	# generated title-loop music the instant its final frame clears: the title
+	# screen intentionally starts silent, while lobby/battle/story BGM remains
+	# selected by their own screen transitions.
+	AudioService.stop_bgm()
 	var portrait := _is_portrait_layout()
 	# Portrait is a composed title canvas, not a desktop title squeezed into a
 	# handset.  The canvas itself still uses the project-wide 1920×1080 logical

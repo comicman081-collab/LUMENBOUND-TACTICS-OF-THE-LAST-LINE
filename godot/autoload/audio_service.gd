@@ -3,14 +3,14 @@ extends Node
 const PHASE_AUDIO_ENABLED := true
 const AUDIO_MANIFEST_PATH := "res://assets/audio/audio_manifest.json"
 const SFX_POOL_SIZE := 8
-const START_VERIFY_DELAY_SECONDS := 0.12
-const BGM_WATCHDOG_INTERVAL_SECONDS := 0.5
+const START_VERIFY_DELAY_SECONDS := 0.35
+const BGM_WATCHDOG_INTERVAL_SECONDS := 1.0
 const BGM_ATTEMPT_MIN_INTERVAL_MSEC := 500
 const BGM_CIRCUIT_FAILURE_THRESHOLD := 4
 const BGM_CIRCUIT_COOLDOWN_MSEC := 5000
-# Compact source excerpts do not necessarily end on a musical loop point.
-# A second local player provides a short presentation-only crossfade at the
-# boundary rather than exposing a hard restart in WebAudio.
+# Desktop may bridge compact source excerpts with a second local player. Web
+# uses the stream's native loop: swapping AudioStreamPlayers near the boundary
+# can suspend WebAudio during a busy single-threaded map/battle frame.
 const BGM_LOOP_CROSSFADE_SECONDS := 1.8
 const BGM_CROSSFADE_SILENCE_DB := -80.0
 
@@ -336,6 +336,11 @@ func _music_has_active_playback() -> bool:
 	return _player_has_active_playback(music_player) or (bgm_crossfade_active and _player_has_active_playback(music_crossfade_player))
 
 func _update_bgm_loop_crossfade() -> void:
+	# Browser audio remains on one native-looped stream for the entire scene.
+	# This prevents the repeated stop/start/crossfade recovery that presented as
+	# music cutting out together with map and battle frame stalls.
+	if OS.has_feature("web"):
+		return
 	if bgm_crossfade_active or not _can_play_now() or music_player == null or music_crossfade_player == null:
 		return
 	if not _player_has_active_playback(music_player) or current_bgm_id.is_empty():
@@ -505,7 +510,8 @@ func _start_bgm(asset_id: String) -> bool:
 	_apply_mix()
 	var entry: Dictionary = entries_by_id.get(asset_id, {})
 	_configure_music_loop(resource, bool(entry.get("loop", false)))
-	_prepare_music_crossfade(resource)
+	if not OS.has_feature("web"):
+		_prepare_music_crossfade(resource)
 	bgm_crossfade_active = false
 	bgm_crossfade_asset_id = ""
 	if music_crossfade_player != null:
@@ -585,7 +591,7 @@ func runtime_status() -> Dictionary:
 		"music_loop_mode": music_loop_mode,
 		"music_loop_begin": music_loop_begin,
 		"music_loop_end": music_loop_end,
-		"music_crossfade_enabled": BGM_LOOP_CROSSFADE_SECONDS > 0.0,
+		"music_crossfade_enabled": BGM_LOOP_CROSSFADE_SECONDS > 0.0 and not OS.has_feature("web"),
 		"music_crossfade_active": bgm_crossfade_active,
 		"music_crossfade_seconds": BGM_LOOP_CROSSFADE_SECONDS,
 		"music_crossfade_asset": bgm_crossfade_asset_id,

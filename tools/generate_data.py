@@ -1322,7 +1322,11 @@ def localization(characters, enemies, stages, skills, weapons, items, scenarios)
         fallback_names = dict(zip(("NORMAL", "PASSIVE", "ULTIMATE"), role_skill_names[str(owner["role"])]))
         loc[s["name_key"]] = (skill_names.get(code, fallback_names)[suffix], f"{code.title()} {suffix.title()} Skill")
     for e in enemies:
-        loc[e["name_key"]] = (enemy_names.get(e["id"], e["id"]), f"Echoform {e['id']}")
+        # Player-facing English copy must remain stable even when the database
+        # identifier changes; exposing ENM###/BOSS### made later waves look like
+        # unregistered placeholder enemies.
+        english_enemy_name = str(e["name_key"]).removeprefix("ENEMY_").replace("_", " ").title()
+        loc[e["name_key"]] = (enemy_names.get(e["id"], e["id"]), f"Echoform {english_enemy_name}")
     for s in stages:
         chapter_number = int(str(s["chapter_id"]).replace("CH", ""))
         loc[s["name_key"]] = (f"제{chapter_number}장 {s['mode']} {s['stage_number']}", f"Chapter {chapter_number} {s['mode']} {s['stage_number']}")

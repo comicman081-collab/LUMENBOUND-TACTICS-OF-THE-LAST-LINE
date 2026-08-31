@@ -459,6 +459,12 @@ func _test_full_chapter_transaction_route() -> void:
 	# This fixture is about the one-shot transaction and unlock authority, not
 	# about stamina economy. The live player-facing E2E uses ordinary stamina.
 	AppState.profile.account.stamina = 99999
+	# Runtime atlas validation ahead of this route can exceed one natural stamina
+	# recovery interval on slower Web/export machines.  A recovery tick clamps
+	# over-cap stamina to the live account maximum, which used to make this
+	# transaction-only fixture fail at CH20-H03 despite valid progression. Keep
+	# the synthetic reserve stable for the duration of this isolated route.
+	AppState.profile.account.stamina_updated_at = int(Time.get_unix_time_from_system()) + 86400
 	AppState.refresh_chapter_map_reveal("CH01_MAP")
 	var shell := AppShellScript.new()
 	var committed := true

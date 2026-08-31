@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - '.deploy/REQUEST'
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -25,21 +24,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - name: Checkout
+      - name: Checkout current source
         uses: actions/checkout@v4
-        with:
-          lfs: true
 
-      - name: Verify production art donor PCK
-        shell: bash
-        run: |
-          set -euo pipefail
-          PCK="$GITHUB_WORKSPACE/builds/web_release/index.pck"
-          test -s "$PCK"
-          echo "6ae8374b15e1af6dbf1de35745f3eb7274b52d240347f529b95ac20737902df6  $PCK" | sha256sum --check --strict
-          test "$(stat -c%s "$PCK")" -eq 218741320
-
-      - name: Install Godot 4.7.1
+      - name: Install verified Godot 4.7.1
         shell: bash
         run: |
           set -euo pipefail
@@ -52,83 +40,67 @@ jobs:
           mkdir -p "$GODOT_DIR"
           unzip -q "$GODOT_ZIP" -d "$GODOT_DIR"
           chmod +x "$GODOT_DIR/Godot_v4.7.1-stable_linux.x86_64"
+          test -s "$GODOT_DIR/LICENSE.txt"
           echo "GODOT_BIN=$GODOT_DIR/Godot_v4.7.1-stable_linux.x86_64" >> "$GITHUB_ENV"
+          echo "GODOT_LICENSE=$GODOT_DIR/LICENSE.txt" >> "$GITHUB_ENV"
 
-      - name: Install Godot PCK Tool 2.3
+      - name: Install verified official Web export templates
         shell: bash
         run: |
           set -euo pipefail
-          PCK_TOOL="$RUNNER_TEMP/godotpcktool"
-          curl --fail --location --retry 3 --retry-delay 2 \
-            --output "$PCK_TOOL" \
-            "https://github.com/hhyyrylainen/GodotPckTool/releases/download/v2.3/godotpcktool"
-          echo "1add2c22aeacdd7a8372288c885ed0ff4d2f673787aed924c54522a0f000d655  $PCK_TOOL" | sha256sum --check --strict
-          chmod +x "$PCK_TOOL"
-          echo "PCK_TOOL=$PCK_TOOL" >> "$GITHUB_ENV"
+          XDG_ROOT="$RUNNER_TEMP/godot-data"
+          TEMPLATE_DIR="$XDG_ROOT/godot/export_templates/4.7.1.stable"
+          TEMPLATE_MANIFEST="$RUNNER_TEMP/godot-web-templates.json"
+          mkdir -p "$TEMPLATE_DIR"
+          python3 tools/install_godot_web_templates.py \
+            --destination "$TEMPLATE_DIR" \
+            --manifest "$TEMPLATE_MANIFEST"
+          python3 - "$TEMPLATE_MANIFEST" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
 
-      - name: Export complete current source pack
+          manifest = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          records = {record["file"]: record for record in manifest["records"]}
+          expected = "b7b7d7da29fc6cc2f4934fdd26cc571a40e7af57f716ea3eb7e18da720dae28a"
+          actual = records.get("web_nothreads_release.zip", {}).get("sha256")
+          if actual != expected:
+              raise SystemExit(f"Godot Web release template SHA mismatch: {actual}")
+          print(f"GODOT_WEB_RELEASE_TEMPLATE_SHA256={actual}")
+          PY
+          echo "XDG_DATA_HOME=$XDG_ROOT" >> "$GITHUB_ENV"
+
+      - name: Validate and configure current Web source
         shell: bash
         run: |
           set -euo pipefail
-          CURRENT_PCK="$RUNNER_TEMP/current_source_full.pck"
+          python3 tools/web/configure_runtime_web_imports.py
+          python3 tools/validate_static.py
+
+      - name: Export one complete current Web release
+        shell: bash
+        run: |
+          set -euo pipefail
+          WEB_STAGE="$RUNNER_TEMP/lumenbound-web-release"
+          mkdir -p "$WEB_STAGE"
           "$GODOT_BIN" --headless \
             --path "$GITHUB_WORKSPACE/godot" \
-            --export-pack "Web HTML Release" \
-            "$CURRENT_PCK"
-          test -s "$CURRENT_PCK"
-          echo "CURRENT_PCK=$CURRENT_PCK" >> "$GITHUB_ENV"
+            --export-release "Web HTML Release" \
+            "$WEB_STAGE/index.html"
+          test -s "$WEB_STAGE/index.html"
+          test -s "$WEB_STAGE/index.js"
+          test -s "$WEB_STAGE/index.wasm"
+          test -s "$WEB_STAGE/index.pck"
+          echo "WEB_STAGE=$WEB_STAGE" >> "$GITHUB_ENV"
 
-      - name: Merge current runtime into production art and repack cleanly
+      - name: Smoke current exported PCK in mobile portrait
         shell: bash
         run: |
           set -euo pipefail
-          DONOR_PCK="$GITHUB_WORKSPACE/builds/web_release/index.pck"
-          DONOR_DIR="$RUNNER_TEMP/production_donor"
-          CURRENT_DIR="$RUNNER_TEMP/current_source"
-          MERGED_DIR="$RUNNER_TEMP/merged_release"
-          MERGED_PCK="$RUNNER_TEMP/index.merged.pck"
-
-          mkdir -p "$DONOR_DIR" "$CURRENT_DIR" "$MERGED_DIR"
-          "$PCK_TOOL" "$DONOR_PCK" -a e -o "$DONOR_DIR"
-          "$PCK_TOOL" "$CURRENT_PCK" -a e -o "$CURRENT_DIR"
-
-          cp -a "$DONOR_DIR"/. "$MERGED_DIR"/
-          cp -a "$CURRENT_DIR"/. "$MERGED_DIR"/
-
-          test -s "$MERGED_DIR/project.binary"
-          test -s "$MERGED_DIR/autoload/mobile_portrait_hotfix_v2.gdc"
-          test -s "$MERGED_DIR/autoload/mobile_portrait_hotfix_v2.gd.remap"
-          test -s "$MERGED_DIR/screens/app_shell.gdc"
-          test -s "$MERGED_DIR/chapter_map/runtime/chapter_map_screen.gdc"
-          test -s "$MERGED_DIR/assets/art/asset_manifest.json"
-          test -s "$MERGED_DIR/assets/art/backgrounds/BG_STORY_RELAY/bg_story_relay_1920x1080.png.import"
-          test -s "$MERGED_DIR/assets/runtime_web/runtime_asset_manifest.json"
-          strings "$MERGED_DIR/project.binary" | grep -F 'mobile_portrait_hotfix_v2' >/dev/null
-
-          rm -f "$MERGED_PCK"
-          "$PCK_TOOL" "$MERGED_PCK" -a a "$MERGED_DIR" \
-            --remove-prefix "$MERGED_DIR" \
-            --set-godot-version 4.7.1
-          test -s "$MERGED_PCK"
-          test "$(stat -c%s "$MERGED_PCK")" -gt 150000000
-          mv "$MERGED_PCK" "$DONOR_PCK"
-
-          "$PCK_TOOL" "$DONOR_PCK" > "$RUNNER_TEMP/final_pck_contents.txt"
-          grep -F 'res://autoload/mobile_portrait_hotfix_v2.gdc' "$RUNNER_TEMP/final_pck_contents.txt"
-          grep -F 'res://screens/app_shell.gdc' "$RUNNER_TEMP/final_pck_contents.txt"
-          grep -F 'res://chapter_map/runtime/chapter_map_screen.gdc' "$RUNNER_TEMP/final_pck_contents.txt"
-          grep -F 'assets/art/backgrounds/BG_STORY_RELAY' "$RUNNER_TEMP/final_pck_contents.txt" | head -5
-          grep -F 'assets/runtime_web/runtime_asset_manifest.json' "$RUNNER_TEMP/final_pck_contents.txt"
-
-      - name: Smoke final PCK with portrait layout active
-        shell: bash
-        run: |
-          set -euo pipefail
-          PCK="$GITHUB_WORKSPACE/builds/web_release/index.pck"
-          LOG="$RUNNER_TEMP/final_pck_smoke.log"
+          LOG="$RUNNER_TEMP/current-web-pck-smoke.log"
           set +e
           timeout 30s env LUMENBOUND_FORCE_PORTRAIT_QA=1 \
-            "$GODOT_BIN" --headless --main-pack "$PCK" --quit-after 120 >"$LOG" 2>&1
+            "$GODOT_BIN" --headless --main-pack "$WEB_STAGE/index.pck" --quit-after 120 >"$LOG" 2>&1
           STATUS=$?
           set -e
           tail -120 "$LOG" || true
@@ -136,113 +108,38 @@ jobs:
           grep -F 'LUMENBOUND_MOBILE_PORTRAIT_V2_READY' "$LOG"
           grep -F 'LUMENBOUND_MOBILE_PORTRAIT_V2_ACTIVE screen=TITLE size=390x844' "$LOG"
 
-      - name: Rotate caches, stamp build and sync PCK size
+      - name: Compress current WASM and finalize public staging
         shell: bash
         run: |
           set -euo pipefail
-          python3 - <<'PY'
-          from pathlib import Path
-          from datetime import datetime, timezone
-          import hashlib
-          import json
-          import os
-          import re
+          cp tools/web/pako_inflate.min.js "$WEB_STAGE/pako_inflate.min.js"
+          python3 tools/web/compress_web_wasm.py "$WEB_STAGE"
+          python3 tools/web/instrument_web_soak.py "$WEB_STAGE"
+          python3 tools/web/finalize_public_web.py "$WEB_STAGE" \
+            --project-root "$GITHUB_WORKSPACE" \
+            --godot-license "$GODOT_LICENSE" \
+            --source-commit "$GITHUB_SHA"
 
-          root = Path(os.environ["GITHUB_WORKSPACE"]) / "builds" / "web_release"
-          sha = os.environ["GITHUB_SHA"]
-          pck = root / "index.pck"
-          pck_hash = hashlib.sha256(pck.read_bytes()).hexdigest()
-          pck_size = pck.stat().st_size
-
-          worker_path = root / "index.service.worker.js"
-          worker = worker_path.read_text(encoding="utf-8")
-          replacement = f"const CACHE_VERSION = 'portrait_v2_{sha[:16]}';"
-          worker, count = re.subn(r"const CACHE_VERSION = '[^']+';", replacement, worker, count=1)
-          if count != 1:
-              raise SystemExit("Could not rotate Godot PWA CACHE_VERSION")
-          if "self.skipWaiting()" not in worker or "self.clients.claim()" not in worker:
-              raise SystemExit("Release service worker lost immediate-update policy")
-          worker_path.write_text(worker, encoding="utf-8")
-
-          html_path = root / "index.html"
-          html = html_path.read_text(encoding="utf-8")
-          html, size_count = re.subn(
-              r'("index\.pck"\s*:\s*)\d+',
-              lambda m: m.group(1) + str(pck_size),
-              html,
-              count=1,
-          )
-          if size_count != 1:
-              raise SystemExit("Could not synchronize index.pck file size in index.html")
-
-          marker = "const engine = new Engine(GODOT_CONFIG);"
-          if marker not in html:
-              raise SystemExit("Godot engine bootstrap marker missing")
-          boot_lines = [
-              marker,
-              f"const LUMENBOUND_BUILD_ID = '{sha}';",
-              "const LUMENBOUND_ORIGINAL_START_GAME = engine.startGame.bind(engine);",
-              "async function lumenboundFreshBoot() {",
-              "  if (!('serviceWorker' in navigator) || !('caches' in window)) return;",
-              "  const key = 'lumenbound-active-build';",
-              "  let previous = null;",
-              "  try { previous = localStorage.getItem(key); } catch (_) {}",
-              "  if (previous === LUMENBOUND_BUILD_ID) {",
-              "    try {",
-              "      const registration = await navigator.serviceWorker.getRegistration();",
-              "      if (registration) registration.update().catch(() => {});",
-              "    } catch (_) {}",
-              "    return;",
-              "  }",
-              "  try {",
-              "    const registrations = await navigator.serviceWorker.getRegistrations();",
-              "    await Promise.all(registrations.map((registration) => registration.unregister()));",
-              "    const cacheKeys = await caches.keys();",
-              "    await Promise.all(cacheKeys",
-              "      .filter((name) => name.startsWith('LUMENBOUND-TACTICS-sw-cache-'))",
-              "      .map((name) => caches.delete(name)));",
-              "  } catch (err) {",
-              "    console.warn('LUMENBOUND fresh-build cache reset warning', err);",
-              "  }",
-              "  try { localStorage.setItem(key, LUMENBOUND_BUILD_ID); } catch (_) {}",
-              "}",
-              "engine.startGame = (options) => lumenboundFreshBoot().then(() => LUMENBOUND_ORIGINAL_START_GAME(options));",
-          ]
-          html = html.replace(marker, "\n".join(boot_lines), 1)
-          html_path.write_text(html, encoding="utf-8")
-
-          version_path = root / "VERSION.json"
-          version = json.loads(version_path.read_text(encoding="utf-8"))
-          version["pck_sha256"] = pck_hash
-          version["pck_size"] = pck_size
-          version["source_commit"] = sha
-          version["mobile_portrait_fix"] = True
-          version["mobile_portrait_revision"] = 2
-          version["release_pack_mode"] = "clean_repack_production_art_plus_current_runtime"
-          version["production_art_donor_sha256"] = "6ae8374b15e1af6dbf1de35745f3eb7274b52d240347f529b95ac20737902df6"
-          version["created_utc"] = datetime.now(timezone.utc).isoformat()
-          version_path.write_text(json.dumps(version, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-
-          (root / "DEPLOY_SHA.txt").write_text(
-              f"source_commit={sha}\n"
-              f"pck_sha256={pck_hash}\n"
-              f"pck_size={pck_size}\n"
-              "release_pack_mode=clean_repack_production_art_plus_current_runtime\n"
-              "mobile_portrait_revision=2\n"
-              "mobile_portrait_fix=story_header,story_controls,story_art,story_dialogue,map_header,map_toolbar,map_overlay,map_detail,map_tutorial\n",
-              encoding="utf-8",
-          )
-          PY
+      - name: Verify staged release is current and self-contained
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(find "$WEB_STAGE" -maxdepth 1 -type f -name '*.pck' | wc -l)" -eq 1
+          test "$(find "$WEB_STAGE" -maxdepth 1 -type f -name '*.wasm' | wc -l)" -eq 1
+          grep -F 'release_pack_mode=fresh_full_web_export' "$WEB_STAGE/DEPLOY_SHA.txt"
+          grep -F "source_commit=$GITHUB_SHA" "$WEB_STAGE/DEPLOY_SHA.txt"
+          grep -F "const CACHE_PREFIX = 'LUMENBOUND-TACTICS-sw-cache-';" "$WEB_STAGE/index.service.worker.js"
+          grep -F 'Navigation network error; using cached LUMENBOUND shell.' "$WEB_STAGE/index.service.worker.js"
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
 
-      - name: Upload Web build
+      - name: Upload current Web staging
         uses: actions/upload-pages-artifact@v3
         with:
-          path: builds/web_release
+          path: ${{ env.WEB_STAGE }}
 
       - name: Deploy to GitHub Pages
         id: deployment

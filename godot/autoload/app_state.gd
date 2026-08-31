@@ -17,6 +17,16 @@ var selected_character_id := "CHR001"
 var active_scenario_id := "SCN_PROLOGUE"
 var battle_seed := 170817
 var debug_options := {"unlock_all": false, "invincible": false, "enemy_multiplier": 1.0}
+var chapter_map_definition_cache: Dictionary = {}
+
+func _chapter_map_definition(map_id: String) -> Dictionary:
+	# Loader.load_map deliberately deep-copies its canonical cache for public
+	# runtime callers. AppState never mutates definitions, so retain one private
+	# read-only copy instead of duplicating thousands of tile dictionaries during
+	# every movement-overlay/state refresh.
+	if not chapter_map_definition_cache.has(map_id):
+		chapter_map_definition_cache[map_id] = ChapterMapLoaderScript.load_map(map_id)
+	return chapter_map_definition_cache.get(map_id, {})
 
 func _ready() -> void:
 	new_game()
@@ -45,7 +55,7 @@ func new_game() -> void:
 	inventory["WEAPON_CHIP_M"] = 10
 	var initial_chapter_id := _initial_chapter_id()
 	var initial_map_id := map_id_for_chapter(initial_chapter_id)
-	var map_definition := ChapterMapLoaderScript.load_map(initial_map_id)
+	var map_definition := _chapter_map_definition(initial_map_id)
 	var initial_map_state := ChapterMapProgressScript.create_default(map_definition)
 	MapExplorationServiceScript.ensure_state(initial_map_state, map_definition)
 	var chapter_progress: Dictionary = {}
@@ -109,10 +119,10 @@ func apply_loaded(loaded: Dictionary) -> void:
 		var chapter_id := str(chapter.get("id", ""))
 		var map_id := map_id_for_chapter(chapter_id)
 		if bool(_chapter_progress_state(chapter_id).get("unlocked", false)) and not profile.chapter_map.has(map_id):
-			profile.chapter_map[map_id] = ChapterMapProgressScript.migrate_from_profile(profile, ChapterMapLoaderScript.load_map(map_id))
+			profile.chapter_map[map_id] = ChapterMapProgressScript.migrate_from_profile(profile, _chapter_map_definition(map_id))
 	for map_id_value in profile.chapter_map.keys():
 		var map_id := str(map_id_value)
-		var definition := ChapterMapLoaderScript.load_map(map_id)
+		var definition := _chapter_map_definition(map_id)
 		if definition.is_empty(): continue
 		var map_state: Dictionary = profile.chapter_map[map_id]
 		MapExplorationServiceScript.ensure_state(map_state, definition)
@@ -322,7 +332,7 @@ func begin_battle_transaction(stage_id: String) -> bool:
 
 func prepare_map_encounter(stage_id: String, node_id: String, return_coord: Vector2i, map_id := "CH01_MAP") -> bool:
 	var state := chapter_map_state(map_id)
-	var definition := ChapterMapLoaderScript.load_map(map_id)
+	var definition := _chapter_map_definition(map_id)
 	MapExplorationServiceScript.ensure_state(state, definition)
 	if not state.get("pending_encounter", {}).is_empty(): return false
 	var map_node := ChapterMapLoaderScript.node_by_id(definition, node_id)
@@ -436,7 +446,7 @@ func abandon_pending_map_encounter(map_id := "CH01_MAP") -> void:
 	if not pending.is_empty():
 		var return_coord := Vector2i(int(pending.get("return_q", state.current_q)), int(pending.get("return_r", state.current_r)))
 		set_chapter_map_position(return_coord, "", map_id)
-		MapSimulationScript.disengage_after_battle(state, ChapterMapLoaderScript.load_map(map_id), str(pending.get("node_id", "")), return_coord)
+		MapSimulationScript.disengage_after_battle(state, _chapter_map_definition(map_id), str(pending.get("node_id", "")), return_coord)
 	state.pending_encounter = {}
 	pending_battle_token = ""
 
@@ -459,7 +469,7 @@ func record_stage_clear(stage_id: String, stars: int) -> bool:
 	elif str(stage.get("mode", "")) == "HARD" and int(stage.get("stage_number", 0)) == chapter.get("hard_stage_ids", []).size():
 		_unlock_next_chapter(chapter_id)
 	refresh_chapter_map_reveal(map_id)
-	for character_id in MapExplorationServiceScript.resolve_deferred_recruitments(map_state, ChapterMapLoaderScript.load_map(map_id), stage_id):
+	for character_id in MapExplorationServiceScript.resolve_deferred_recruitments(map_state, _chapter_map_definition(map_id), stage_id):
 		unlock_character(character_id, stage_id)
 	# Canonical stage/reveal state is authoritative immediately.  The small
 	# presentation payload is a persisted one-shot derived from that transition;
@@ -556,7 +566,7 @@ func map_id_for_stage(stage_id: String) -> String:
 	return map_id_for_chapter(str(stage.get("chapter_id", "CH01")))
 
 func chapter_id_for_map(map_id: String) -> String:
-	var definition: Dictionary = ChapterMapLoaderScript.load_map(map_id)
+	var definition: Dictionary = _chapter_map_definition(map_id)
 	if not definition.is_empty(): return str(definition.get("chapter_id", "CH01"))
 	return map_id.trim_suffix("_MAP")
 
@@ -646,15 +656,29 @@ func _story_trigger_priority(trigger_id: String) -> int:
 
 func chapter_map_state(map_id := "CH01_MAP") -> Dictionary:
 	if not profile.has("chapter_map"): profile["chapter_map"] = {}
+	var definition := _chapter_map_definition(map_id)
 	if not profile.chapter_map.has(map_id):
-		profile.chapter_map[map_id] = ChapterMapProgressScript.migrate_from_profile(profile, ChapterMapLoaderScript.load_map(map_id))
+		profile.chapter_map[map_id] = ChapterMapProgressScript.migrate_from_profile(profile, definition)
 	var state: Dictionary = profile.chapter_map[map_id]
-	MapExplorationServiceScript.ensure_state(state, ChapterMapLoaderScript.load_map(map_id))
+	MapExplorationServiceScript.ensure_state(state, definition)
+	# Stage progression is the durable victory authority.  A previously shipped
+	# result order could persist stars before the map's encounter arrays, which
+	# made a cleared pawn look resurrected after a treasure detour/visibility
+	# refresh.  Reconcile that split on every map-state access so cached views,
+	# save reloads and duplicate result callbacks all converge on one clear state.
+	for node_value in definition.get("nodes", []):
+		var node: Dictionary = node_value
+		var stage_id := str(node.get("stage_id", ""))
+		var node_id := str(node.get("node_id", ""))
+		if stage_id.is_empty() or node_id.is_empty():
+			continue
+		if int(profile.get("stage_stars", {}).get(stage_id, 0)) > 0 and not MapExplorationServiceScript.encounter_cleared(state, node_id):
+			MapExplorationServiceScript.mark_encounter_cleared(state, node_id)
 	return state
 
 func refresh_chapter_map_reveal(map_id := "CH01_MAP") -> void:
 	var state := chapter_map_state(map_id)
-	var definition: Dictionary = ChapterMapLoaderScript.load_map(map_id)
+	var definition: Dictionary = _chapter_map_definition(map_id)
 	var chapter_id := str(definition.get("chapter_id", chapter_id_for_map(map_id)))
 	var progress := _chapter_progress_state(chapter_id)
 	var normal_highest := int(progress.get("normal_highest", 0))
@@ -679,7 +703,7 @@ func set_chapter_map_position(coord: Vector2i, node_id := "", map_id := "CH01_MA
 		selected_map_node_id = node_id
 
 func apply_battle_result_to_map(stage_id: String, victory: bool, map_id := "CH01_MAP") -> bool:
-	var definition: Dictionary = ChapterMapLoaderScript.load_map(map_id)
+	var definition: Dictionary = _chapter_map_definition(map_id)
 	var node: Dictionary = ChapterMapLoaderScript.node_for_stage(definition, stage_id)
 	if node.is_empty(): return false
 	var state := chapter_map_state(map_id)

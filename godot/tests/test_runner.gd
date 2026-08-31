@@ -23,6 +23,7 @@ func _run() -> void:
 	_test_settings_policy()
 	_test_input_transition_edges()
 	_test_responsive_ui_contracts()
+	_test_stage_preload_contracts()
 	_test_combat_art_contracts()
 	_test_card_audio_contracts()
 	_test_battle()
@@ -68,6 +69,23 @@ func _test_settings_policy() -> void:
 	SceneRouter.history.clear()
 	SceneRouter.go("DEBUG", {"tampered": true})
 	check(SceneRouter.current_screen == "HOME" and SceneRouter.history.is_empty() and AppState.route_payload.is_empty(), "direct DEBUG routing is rejected when developer mode is inactive")
+	SceneRouter.current_screen = "HOME"
+	SceneRouter.history.clear()
+	SceneRouter.go("STAGE_SELECT")
+	SceneRouter.go("STORY", {"after": "STAGE_SELECT", "origin": "CHAPTER_MAP"})
+	SceneRouter.go("STAGE_SELECT", {"story_return": true})
+	check(SceneRouter.current_screen == "STAGE_SELECT" and SceneRouter.history == ["HOME"] and not SceneRouter.history.has("STORY"), "chapter-map story return consumes its caller frame instead of creating a map/story Back loop")
+	SceneRouter.back("HOME")
+	check(SceneRouter.current_screen == "HOME" and SceneRouter.history.is_empty(), "chapter-map Back returns directly to Home after its entry story completes")
+	SceneRouter.current_screen = "HOME"
+	SceneRouter.history.clear()
+	SceneRouter.go("STAGE_SELECT")
+	SceneRouter.go("BATTLE")
+	SceneRouter.go("RESULT")
+	SceneRouter.go("STAGE_SELECT", {"result_return": true})
+	check(SceneRouter.current_screen == "STAGE_SELECT" and SceneRouter.history == ["HOME"] and not SceneRouter.history.has("BATTLE") and not SceneRouter.history.has("RESULT"), "battle result return consumes the terminal battle frames instead of creating a result/map Back loop")
+	SceneRouter.back("HOME")
+	check(SceneRouter.current_screen == "HOME" and SceneRouter.history.is_empty(), "chapter-map Back returns directly to Home after a completed battle result")
 	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
 	check(shell_source.contains("if not SceneRouter.screen_allowed(screen_id, SettingsService.is_developer_mode()):") and shell_source.contains("func _show_debug() -> void:\n\tif not SettingsService.is_developer_mode():") and shell_source.contains("func _debug_unlock_chapter_hard() -> void:\n\t# This capability exists only in the development-authorized screen") and shell_source.contains("\tif not SettingsService.is_developer_mode():\n\t\treturn\n\tAppState.profile.chapter_progress.CH01.normal_highest = 20"), "direct app-shell DEBUG rendering and HARD QA mutation are independently guarded")
 	SettingsService.values.developer_mode = true
@@ -98,6 +116,66 @@ func _read_json(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path): return {}
 	var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
 	return parsed if parsed is Dictionary else {}
+
+func _source_function_body(source: String, function_name: String) -> String:
+	var start := source.find("func %s(" % function_name)
+	if start < 0:
+		return ""
+	var next := source.find("\nfunc ", start + 6)
+	return source.substr(start) if next < 0 else source.substr(start, next - start)
+
+func _test_stage_preload_contracts() -> void:
+	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
+	var map_source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd")
+	var cache_source := FileAccess.get_file_as_string("res://autoload/stage_asset_cache.gd")
+	var battle_view_source := FileAccess.get_file_as_string("res://battle/view/battle_view.gd")
+	var begin_loading := _source_function_body(shell_source, "_begin_transition_loading")
+	var finish_loading := _source_function_body(shell_source, "_finish_transition_loading")
+	var prepare_loading := _source_function_body(shell_source, "_prepare_transition_loading_for_screen")
+	var map_loading_policy := _source_function_body(shell_source, "_should_show_map_transition_loading")
+	var show_map := _source_function_body(shell_source, "_show_chapter_map")
+	var show_battle := _source_function_body(shell_source, "_show_battle")
+	var battle_finished := _source_function_body(shell_source, "_battle_finished")
+	var show_result := _source_function_body(shell_source, "_show_result")
+	var treasure_reward := _source_function_body(shell_source, "_map_treasure_reward_requested")
+	var close_reward := _source_function_body(shell_source, "_dispose_map_reward_overlay")
+	var gpu_warm := _source_function_body(shell_source, "_warm_transition_gpu_textures")
+	var loading_title_body := _source_function_body(shell_source, "_transition_loading_title")
+	var loading_initial_body := _source_function_body(shell_source, "_transition_loading_initial_phase")
+	var wait_map_ready := _source_function_body(shell_source, "_wait_for_map_ready_with_deadline")
+	var wait_battle_ready := _source_function_body(shell_source, "_wait_for_battle_assets_with_deadline")
+	var show_loading_failure := _source_function_body(shell_source, "_show_loading_failure_screen")
+	var move_body := _source_function_body(map_source, "_move_along")
+	var enemy_turn_body := _source_function_body(map_source, "_complete_player_turn")
+	var patrol_contact_body := _source_function_body(map_source, "_start_patrol_contact")
+	var treasure_emit_body := _source_function_body(map_source, "_emit_treasure_reward_after_map_callback")
+	var map_idle_body := _source_function_body(map_source, "_map_idle_texture")
+	var korean_pattern := RegEx.new()
+	korean_pattern.compile("[가-힣]")
+	var loading_copy_is_english := korean_pattern.search(loading_title_body + loading_initial_body + gpu_warm) == null
+	for source_line_value in shell_source.split("\n"):
+		var source_line := str(source_line_value)
+		if (source_line.contains("_set_transition_loading_phase(") or source_line.contains("_finish_transition_loading(")) and korean_pattern.search(source_line) != null:
+			loading_copy_is_english = false
+	check(begin_loading.contains("min_value = 0.0") and begin_loading.contains("max_value = 100.0") and begin_loading.contains("value = 0.0") and finish_loading.contains("_set_transition_loading_display_value(100.0)") and finish_loading.contains("create_timer(0.10"), "transition loading paints a literal zero-to-one-hundred bar before disposal")
+	check(loading_copy_is_english and loading_title_body.contains("LOADING — TACTICAL MAP") and loading_title_body.contains("LOADING — BATTLE") and loading_title_body.contains("LOADING — RESULTS") and shell_source.contains("Current transition progress"), "all visible loading titles, phases, completion copy and progress help are English-only")
+	check(prepare_loading.contains("TRANSITION_LOADING_MAP_ENTRY") and prepare_loading.contains("TRANSITION_LOADING_BATTLE_ENTRY") and prepare_loading.contains("TRANSITION_LOADING_BATTLE_RESULT") and map_loading_policy.contains("source_type in [\"TREASURE\", \"EXPLORE\"]"), "blocking loading is scoped to map entry, battle entry and battle result transitions")
+	check(treasure_reward.find("_show_map_reward_overlay()") >= 0 and treasure_reward.find("_show_map_reward_overlay()") < treasure_reward.find("SceneRouter.go(\"RESULT\")") and close_reward.contains("_resume_post_reward_turn"), "treasure reward stays over the live map and resumes its owed enemy turn without scene navigation")
+	check(shell_source.contains("const STAGE_ENTRY_PRELOAD_TARGET_MSEC := 5000") and show_map.contains("await StageAssetCache.warm_map_for_stage_select") and show_map.contains("StageAssetCache.cache_hit_for_map_entry") and show_map.contains("StageAssetCache.gpu_warm_textures") and not show_map.contains("await StageAssetCache.warm_for_stage_select"), "stage entry owns the selected five-second map-only CPU and GPU preload boundary")
+	check(gpu_warm.contains("TextureRect.new()") and gpu_warm.contains("TRANSITION_GPU_WARM_BATCH") and gpu_warm.contains("warm_rects[rect_index].texture = textures[texture_index]") and gpu_warm.contains("await RenderingServer.frame_post_draw") and gpu_warm.contains("warm_rect.queue_free()"), "stage entry paints retained map textures through bounded renderer batches before releasing gameplay")
+	check(show_map.contains("map_screen.map_load_progress.connect(map_load_handler)\n\tcontent.add_child(map_screen)") and show_map.contains("await _wait_for_map_ready_with_deadline") and wait_map_ready.contains("STAGE_ENTRY_PRELOAD_TARGET_MSEC") and show_loading_failure.contains("LOADING COULD NOT FINISH"), "map progress is connected before tree entry and a real five-second owner deadline prevents an infinite loader")
+	check(show_battle.contains("await _wait_for_battle_assets_with_deadline") and wait_battle_ready.contains("BATTLE_ENTRY_PRELOAD_TARGET_MSEC") and show_battle.find("await _wait_for_battle_assets_with_deadline") < show_battle.find("_finish_transition_loading"), "battle entry remains covered until assets attach and fails safely instead of waiting on a lost signal forever")
+	var portrait_ready := show_result.find("RESULT_SCREEN_READY elapsed_ms=%d layout=portrait")
+	var portrait_finish := show_result.find("_finish_transition_loading(loading_token, \"Battle results ready\")", portrait_ready)
+	var landscape_ready := show_result.find("RESULT_SCREEN_READY elapsed_ms=%d layout=landscape")
+	var landscape_finish := show_result.find("_finish_transition_loading(loading_token, \"Battle results ready\")", landscape_ready)
+	check(battle_finished.find("_set_transition_loading_phase(loading_token, \"Opening the results screen\", 96.0") >= 0 and battle_finished.rfind("SceneRouter.go(\"RESULT\")") > battle_finished.find("Opening the results screen") and show_result.contains("_transition_loading_token_for(TRANSITION_LOADING_BATTLE_RESULT)") and not show_result.contains("await get_tree().process_frame") and not show_result.contains("await _finish_transition_loading") and portrait_ready >= 0 and portrait_finish > portrait_ready and landscape_ready > portrait_finish and landscape_finish > landscape_ready, "battle result builds the complete responsive RESULT tree synchronously before asynchronously releasing the 96-percent loader")
+	check(cache_source.contains("_cache = pending # Atomic replacement") and cache_source.contains("await get_tree().process_frame") and cache_source.contains("func gpu_warm_textures"), "stage asset cache commits atomically after cooperative resource loading")
+	check(cache_source.contains("const WARMUP_DEADLINE_MSEC := 5000") and cache_source.contains("_warmup_deadline_exceeded") and shell_source.contains("previous_screen == \"STAGE_SELECT\"") and shell_source.contains("StageAssetCache.cancel_warmup()"), "stage warmup has a hard deadline and is cancelled immediately when its owning screen is left")
+	check(battle_finished.contains("var save_result := SaveService.save_game()") and battle_finished.contains("_present_transaction_save_failure") and map_source.contains("TREASURE PROGRESS NOT SAVED") and map_source.contains("RETRY SAVE") and patrol_contact_body.contains("var encounter_save_result := SaveService.save_game()") and patrol_contact_body.contains("AppState.abandon_pending_map_encounter(map_id)"), "battle, map contact and treasure transaction failures never continue from an unpersisted state")
+	check(battle_view_source.contains("var label_font := battle_font if battle_font != null else ThemeDB.fallback_font") and battle_view_source.contains("draw_string(label_font") and battle_view_source.contains("draw_string(callout_font") and battle_view_source.contains("draw_string(floating_font"), "battle canvas names, callouts and floating text use the packaged Korean font instead of Web tofu glyphs")
+	check(map_idle_body.contains("get_node_or_null(\"StageAssetCache\")") and map_idle_body.contains("call(\"map_idle_pack\", enemy_id)") and map_idle_body.find("map_idle_pack") < map_idle_body.find("FileAccess.file_exists"), "map pawns reuse the retained idle pack before any manifest or texture fallback")
+	check(not move_body.contains("StageAssetCache") and not move_body.contains("_begin_transition_loading") and not enemy_turn_body.contains("StageAssetCache") and not enemy_turn_body.contains("_begin_transition_loading") and not treasure_emit_body.contains("StageAssetCache") and not treasure_emit_body.contains("_begin_transition_loading"), "movement, enemy turns and treasure callbacks cannot acquire resource or blocking-loading work")
 
 func _semi_transparent_chroma_residue_count(path: String) -> int:
 	var texture := load(path) as Texture2D
@@ -216,8 +294,10 @@ func _test_responsive_ui_contracts() -> void:
 		var physical_body := float(shell.story_font_size_for_size(28.0, story_size)) * float(story_metrics.canvas_scale)
 		var physical_speaker := float(shell.story_font_size_for_size(32.0, story_size)) * float(story_metrics.canvas_scale)
 		story_type_hierarchy = story_type_hierarchy and physical_body >= 27.5 and physical_body <= 28.5 and physical_speaker >= 31.5 and physical_speaker <= 32.5
-	story_type_hierarchy = story_type_hierarchy and shell_source.contains("_story_logical_px(28.0)") and shell_source.contains("_story_logical_px(32.0)") and shell_source.contains("if not button.has_meta(\"story_control\"):")
+	story_type_hierarchy = story_type_hierarchy and shell_source.contains("var story_body_css_px := 24.0 if narrow_portrait else 28.0") and shell_source.contains("_story_label(\"\", 28.0 if narrow_portrait else 32.0") and shell_source.contains("value.add_theme_font_size_override(\"font_size\", _story_logical_px(target_css_px))") and shell_source.contains("if not button.has_meta(\"story_control\"):")
 	check(story_type_hierarchy, "story body and speaker hierarchy stays in its rendered-pixel bands while controls retain independent touch targets")
+	var narrow_story_contract := shell_source.contains("var narrow_portrait := portrait and runtime_size.x <= 480.0") and shell_source.contains("runtime_size.x - 20.0") and shell_source.contains("chapter_title.custom_minimum_size.y") and shell_source.contains("348.0 if narrow_portrait else 282.0") and shell_source.contains("30.0 if narrow_portrait else 18.0") and shell_source.contains("var story_body_css_px := 24.0 if narrow_portrait else 28.0") and shell_source.contains("Vector2(0, 58) if _is_portrait_layout() else Vector2(400, 58)")
+	check(narrow_story_contract, "390px prologue header, dialogue body and response buttons fit the portrait safe width without clipping")
 	check(shell_source.contains("compact_landscape == last_compact_landscape_layout") and shell_source.contains("_rebuild_story_presentation()"), "live regular-to-compact resize rebuilds only the story presentation around its retained runner")
 	var sample_story_commands := [
 		{"command": "set_background"},
@@ -250,8 +330,8 @@ func _test_responsive_ui_contracts() -> void:
 			canonical_title_authority_count += 1
 	check(rejected_title_count == 0 and canonical_title_authority_count == title_localization_authorities.size(), "canonical LUMENBOUND title is synchronized across localization sources and generated runtime data", "rejected=%d canonical_authorities=%d/%d" % [rejected_title_count, canonical_title_authority_count, title_localization_authorities.size()])
 	check(shell_source.contains("func _start_title_flow()") and shell_source.contains("PROLOGUE_READ") and shell_source.contains("AppState.active_scenario_id = \"SCN_PROLOGUE\"") and shell_source.contains("{\"after\": \"HOME\", \"origin\": \"TITLE\"}"), "fresh title start enters the authored prologue before home while completed profiles continue normally")
-	var startup_intro_contract := shell_source.contains("INTRO_VIDEO_PATH") and shell_source.contains("INTRO_VIDEO_DURATION_SECONDS := 53.0") and shell_source.contains("INTRO_VIDEO_FINISH_GUARD_SECONDS := 0.75") and shell_source.contains("StartupIntroVideoLayer") and shell_source.contains("StartupIntroAspectFrame") and shell_source.contains("AspectRatioContainer.STRETCH_FIT") and shell_source.contains("StartupIntroVideoPlayer") and shell_source.contains("StartupIntroTitleLockup") and shell_source.contains("StartupIntroTitleLogo") and shell_source.contains("title_tween.tween_interval(5.0)") and shell_source.contains("title_tween.tween_property(title_lockup, \"modulate:a\", 0.0, 0.85)") and shell_source.contains("StartupIntroSkipButton") and shell_source.contains("_button(\"SKIP\", _finish_intro_video") and shell_source.contains("responsive_button_minimum_for_size") and shell_source.contains("intro_video_player.finished.connect(_finish_intro_video)") and shell_source.contains("create_timer(INTRO_VIDEO_DURATION_SECONDS + INTRO_VIDEO_FINISH_GUARD_SECONDS") and shell_source.contains("_show_screen(\"TITLE\")")
-	check(FileAccess.file_exists("res://assets/video/lumenbound_intro_full.ogv") and startup_intro_contract, "engine boot plays the Flow Music-free game intro before title and exposes a top-right skip route")
+	var startup_intro_contract := shell_source.contains("INTRO_VIDEO_PATH") and shell_source.contains("INTRO_VIDEO_DURATION_SECONDS := 53.0") and shell_source.contains("INTRO_VIDEO_FINISH_GUARD_SECONDS := 0.75") and shell_source.contains("StartupIntroVideoLayer") and shell_source.contains("StartupIntroAspectFrame") and shell_source.contains("AspectRatioContainer.STRETCH_FIT") and shell_source.contains("surface.theme = theme") and shell_source.contains("StartupIntroVideoPlayer") and shell_source.contains("StartupIntroTitleLockup") and shell_source.contains("StartupIntroTitleLogo") and shell_source.contains("intro_title_tween.tween_interval(5.0)") and shell_source.contains("intro_title_tween.tween_property(intro_title_lockup, \"modulate:a\", 0.0, 0.85)") and shell_source.contains("StartupIntroSkipButton") and shell_source.contains("_button(\"SKIP\", _finish_intro_video") and shell_source.contains("responsive_button_minimum_for_size") and shell_source.contains("intro_video_player.finished.connect(_finish_intro_video)") and shell_source.contains("create_timer(INTRO_VIDEO_DURATION_SECONDS + INTRO_VIDEO_FINISH_GUARD_SECONDS") and shell_source.contains("StartupIntroAudioGate") and shell_source.contains("소리 켜고 인트로 시작") and shell_source.contains("func _start_intro_video_playback") and shell_source.contains("_show_screen(\"TITLE\")")
+	check(FileAccess.file_exists("res://assets/video/lumenbound_intro_full.ogv") and startup_intro_contract, "engine boot gates Web audio on a trusted click, then plays the Flow Music-free intro from zero before title")
 	var cinematic_prologue_contract := shell_source.contains("PrologueCharacterIllustrations") and shell_source.contains("PrologueTopRightControls") and shell_source.contains("PrologueAutoButton") and shell_source.contains("PrologueSkipButton") and shell_source.contains("대화창 클릭 / 터치로 계속")
 	var story_extension_contract := shell_source.contains("StoryTopRightControls") and shell_source.contains("StoryAutoButton") and shell_source.contains("StorySkipButton") and shell_source.contains("StorySpeakerEyebrow") and shell_source.contains("LUMENBOUND · VOICE LINK") and shell_source.contains("StoryMintSignalRail") and shell_source.contains("StoryPageIndicator") and shell_source.contains("_story_dialogue_style(false)")
 	check(shell_source.contains("ClickablePrologueTextBox") and cinematic_prologue_contract and story_extension_contract and shell_source.contains("func _request_story_text_box_advance") and shell_source.contains("scenario_text.visible_ratio = 1.0"), "story text box keeps click/touch typewriter behavior while both story modes expose the LUMENBOUND dialogue hierarchy and fixed AUTO/SKIP rail")
@@ -259,7 +339,7 @@ func _test_responsive_ui_contracts() -> void:
 	var map_tutorial_flow_contract := map_source.contains("func _advance_first_map_tutorial()") and map_source.contains("tutorial_dismiss_button.text = \"안내 건너뛰기\"") and map_source.contains("tutorial_continue_button.pressed.connect(_advance_first_map_tutorial)") and map_source.contains("tutorial_dismiss_button.pressed.connect(_complete_first_map_tutorial)") and map_source.contains("tutorial_dismiss_button.visible = true") and map_source.contains("get_viewport().set_input_as_handled()")
 	check(map_source.contains("FirstMapTutorialDimmer") and map_source.contains("tutorial_eyebrow.text = \"첫 작전 안내") and map_source.contains("tutorial_progress_label.text") and map_source.contains("map_basics_complete") and map_source.contains("map_basics_revision") and map_source.contains("_select_next_encounter()") and map_tutorial_flow_contract, "first chapter map provides contextual selection, movement and encounter guidance with actual three-step progression and an explicit skip")
 	var app_state_source := FileAccess.get_file_as_string("res://autoload/app_state.gd")
-	var home_onboarding_contract := shell_source.contains("HomeFirstOperationTutorialCanvas") and shell_source.contains("HomeTutorialSkipButton") and shell_source.contains("HomeTutorialContinueButton") and shell_source.contains("home_tutorial_surface.theme = theme") and shell_source.contains("자, 이제 제1장 탐색을 시작합니다") and shell_source.contains("func _complete_home_tutorial_and_launch()") and shell_source.contains("SceneRouter.go(\"STAGE_SELECT\")") and shell_source.contains("HomeFirstOperationButton") and shell_source.contains("home_menu_buttons[\"STAGE\"]") and app_state_source.contains("\"home_basics_complete\": false") and app_state_source.contains("tutorial_progress[\"home_basics_complete\"] = false")
+	var home_onboarding_contract := shell_source.contains("HomeFirstOperationTutorialCanvas") and shell_source.contains("HomeTutorialSkipButton") and shell_source.contains("HomeTutorialContinueButton") and shell_source.contains("home_tutorial_surface.theme = theme") and shell_source.contains("자, 이제 제1장 탐색을 시작합니다") and shell_source.contains("func _complete_home_tutorial_and_launch()") and shell_source.contains("SceneRouter.go(\"STAGE_SELECT\")") and shell_source.contains("call_deferred(\"_commit_first_operation_navigation\")") and shell_source.contains("home_first_operation_navigation_pending") and shell_source.contains("HomeFirstOperationButton") and shell_source.contains("home_menu_buttons[\"STAGE\"]") and shell_source.contains("home_tutorial_resume_step") and shell_source.contains("_set_home_tutorial_step(home_tutorial_resume_step)") and shell_source.contains("home_tutorial_last_advance_msec < 400") and app_state_source.contains("\"home_basics_complete\": false") and app_state_source.contains("tutorial_progress[\"home_basics_complete\"] = false")
 	check(home_onboarding_contract, "first HQ visit explains navigation, exposes Skip, and launches Chapter 1 without an unlabelled menu dead end")
 	var story_skip_contract := shell_source.contains("STORY_SKIP_ALL") and shell_source.contains("현재 이야기 전체 건너뛰기") and shell_source.contains("while not scenario_runner.state.finished and safety < 1000") and shell_source.contains("_finish_story_navigation()")
 	check(story_skip_contract, "player SKIP completes the current story scene instead of advancing only one line")
@@ -267,8 +347,8 @@ func _test_responsive_ui_contracts() -> void:
 	check(mobile_navigation_layout_contract, "title, story choice, formation, stage fallback, roster, growth, inventory and archive routes expose explicit scrollable actions without portrait overflow")
 	check(not shell_source.contains("두둥!") and not map_source.contains("두둥!") and shell_source.contains("_play_special_event_dialogue") and shell_source.contains("PreBattleEventDialog") and shell_source.contains("EventKeyVisual") and shell_source.contains("panel.gui_input.connect") and shell_source.contains("MAP_EVENT_DIALOGUE_SKIP"), "encounter presentation advances a real event dialogue with character/enemy key art instead of rendering a sound-effect caption")
 	check(shell_source.contains("_reward_celebration_queue") and shell_source.contains("RewardCelebrationQueue") and shell_source.contains("RewardCelebrationHalfBodyArt") and shell_source.contains("NEW ALLY JOINED") and shell_source.contains("KEY ACQUISITION") and shell_source.contains("RewardCelebrationSkip") and shell_source.contains("last_reward_report"), "result screen presents a skippable ally/key-item achievement queue from the committed report without creating a second reward grant")
-	check(map_source.contains("EnemyOcclusionSilhouette") and map_source.contains("SquadOcclusionSilhouette") and map_source.contains("no_depth_test = true") and map_source.contains("const PAWN_STEP_DURATION := 0.18") and map_source.contains("func _arrival_resolution_owns_save"), "map pawns retain occlusion silhouettes while movement and arrival persistence use the fast path")
-	var result_exit_guard := shell_source.contains("func _navigate_back_from_header") and shell_source.contains("if current_screen == \"RESULT\":") and shell_source.contains("SceneRouter.go(\"STAGE_SELECT\")")
+	check(map_source.contains("EnemyOcclusionSilhouette") and map_source.contains("SquadOcclusionSilhouette") and map_source.contains("no_depth_test = true") and map_source.contains("const PAWN_STEP_DURATION := 0.28") and map_source.contains("pawn.global_position + Vector3(0.0, 0.15, 0.0)") and map_source.contains("func _arrival_resolution_owns_save"), "map pawns retain occlusion silhouettes while movement and arrival persistence use the natural-speed fast path")
+	var result_exit_guard := shell_source.contains("func _navigate_back_from_header") and shell_source.contains("if current_screen == \"RESULT\":") and shell_source.contains("SceneRouter.go(\"STAGE_SELECT\", {\"result_return\": true})")
 	check(result_exit_guard, "result-to-growth navigation cannot re-enter a committed Battle through generic history")
 	check(shell_source.contains("_debug_prepare_companion_event") and shell_source.contains("SettingsService.is_developer_mode"), "companion-event E2E fixture is developer-gated and excluded from Release authority")
 	var debug_labels := ["모든 재료 999", "전체 동료 해금", "스테이지 전체 해금", "선택 캐릭터 +10레벨", "선택 캐릭터 10/10/5", "무적:", "Seed +1", "적 배율", "계정 Lv.100", "선택 무기 Lv.60/T6", "N20 즉시 선택", "CH01 NORMAL 완료 / HARD QA"]
@@ -379,6 +459,9 @@ func _test_combat_art_contracts() -> void:
 	for folder in ["vfx_chr001_basic", "vfx_chr001_normal", "vfx_chr001_ultimate", "vfx_chr008_basic", "vfx_chr008_normal", "vfx_chr008_ultimate"]:
 		runtime_vfx_valid = runtime_vfx_valid and ResourceLoader.exists("res://assets/runtime_web/vfx/%s/atlas.png" % folder)
 	check(runtime_vfx_valid, "Web authored VFX atlases resolve without art-folder fallback")
+	var battle_view_source := FileAccess.get_file_as_string("res://battle/view/battle_view.gd")
+	var skill_sequence_contract := battle_view_source.contains("var launch_delay := .18 if attack_kind == \"NORMAL\"") and battle_view_source.contains("var travel_key := \"%s_%s\"") and battle_view_source.contains("travel_frames[travel_frame]") and battle_view_source.contains("kind.trim_prefix(\"impact_\")") and battle_view_source.contains("frame = mini(textures.size() - 1, 6 +") and battle_view_source.contains("_spawn_vfx(str(event.source), str(event.target), \"impact_%s\"")
+	check(skill_sequence_contract, "authored skill VFX follow charge, moving signature projectile, contact burst and hit-reaction sequence")
 	var audio_manifest := _read_json("res://assets/audio/audio_manifest.json")
 	var runtime_audio_valid := true
 	var runtime_audio_rights_valid: bool = audio_manifest.get("ownership_declaration", {}).get("ownership_status", "") == "PER_ENTRY_DECLARED"
@@ -409,7 +492,7 @@ func _test_combat_art_contracts() -> void:
 	var mute_override_index := mute_shell_source.find("SettingsService.apply_web_preview_audio_override()")
 	var mute_stop_index := mute_shell_source.find("AudioService.set_enabled(false)")
 	check(settings_source.contains("func apply_web_preview_audio_override()") and settings_source.contains("func web_preview_audio_forced_muted()") and load_index >= 0 and mute_override_index > load_index and mute_stop_index > mute_override_index, "Web QA mute reapplies after the saved preference and stops audio before the title route")
-	check(audio_service_source.contains("MusicCrossfadePlayer") and audio_service_source.contains("BGM_LOOP_CROSSFADE_SECONDS") and audio_service_source.contains("_begin_bgm_loop_crossfade") and audio_service_source.contains("_prepare_music_crossfade") and audio_service_source.contains("_music_has_active_playback"), "BGM uses a two-player pre-end crossfade instead of exposing compact-loop restarts")
+	check(audio_service_source.contains("MusicCrossfadePlayer") and audio_service_source.contains("_begin_bgm_loop_crossfade") and audio_service_source.contains("_prepare_music_crossfade") and audio_service_source.contains("if not OS.has_feature(\"web\"):") and audio_service_source.contains("\"music_crossfade_enabled\": BGM_LOOP_CROSSFADE_SECONDS > 0.0 and not OS.has_feature(\"web\")"), "desktop BGM keeps its loop bridge while Web stays on one native-looped stream")
 	var loop_probe := AudioStreamWAV.new()
 	loop_probe.format = AudioStreamWAV.FORMAT_16_BITS
 	loop_probe.mix_rate = 22050
@@ -449,6 +532,9 @@ func _test_combat_art_contracts() -> void:
 	AudioService.last_bgm_attempt_msec = saved_last_bgm_attempt
 	var web_soak_source := FileAccess.get_file_as_string("res://autoload/web_soak_probe.gd")
 	check(web_soak_source.contains("\"audio\": AudioService.runtime_status()"), "Web soak samples record runtime audio playback state")
+	check(web_soak_source.contains("r7-web-soak-probe") and web_soak_source.contains("sampling_enabled"), "Release Web soak telemetry is explicit opt-in instead of a five-second gameplay hitch")
+	var app_shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
+	check(app_shell_source.contains("WEB_FRAME_RATE_CAP := 60") and app_shell_source.contains("Engine.max_fps = WEB_FRAME_RATE_CAP"), "Web Release caps redundant high-refresh rendering at sixty frames per second")
 
 func _test_card_audio_contracts() -> void:
 	var synthetic_profiles := {
@@ -594,6 +680,12 @@ func _test_data() -> void:
 		for command in scenario.commands:
 			if command.has("text_key"): localization_valid = localization_valid and not LocalizationService.tr_key(command.text_key).begins_with("[")
 	check(localization_valid, "all runtime localization keys exist")
+	var enemy_names_hide_internal_ids := true
+	var english_table: Dictionary = LocalizationService.tables.get("en", {})
+	for enemy in DataRegistry.list_of("enemies"):
+		var english_name := str(english_table.get(str(enemy.name_key), ""))
+		enemy_names_hide_internal_ids = enemy_names_hide_internal_ids and not english_name.is_empty() and english_name.find("ENM") == -1 and english_name.find("BOSS") == -1
+	check(enemy_names_hide_internal_ids, "English enemy names never expose ENM or BOSS database IDs")
 	var assets_resolve := true
 	for character in DataRegistry.list_of("characters"):
 		for key in ["asset_id", "portrait_asset_id", "icon_asset_id"]: assets_resolve = assets_resolve and AssetRegistry.resolve(character[key]) != ""
@@ -658,6 +750,25 @@ func _first_event_difference(left: Array, right: Array) -> String:
 func _test_battle() -> void:
 	var a := _simulation(424242)
 	var b := _simulation(424242)
+	var wave_asset_view := BattleView.new()
+	wave_asset_view.setup(_simulation(424240))
+	var all_wave_asset_ids := wave_asset_view._active_battle_entity_ids()
+	var stage_wave_ids: Array[String] = []
+	for wave_value in wave_asset_view.simulation.stage.get("waves", []):
+		for entity_id_value in wave_value:
+			var entity_id := str(entity_id_value)
+			if not stage_wave_ids.has(entity_id):
+				stage_wave_ids.append(entity_id)
+	var all_reinforcements_registered := true
+	for entity_id in stage_wave_ids:
+		all_reinforcements_registered = all_reinforcements_registered and all_wave_asset_ids.has(entity_id)
+	check(all_reinforcements_registered and stage_wave_ids.size() > wave_asset_view.simulation.state.enemies.size(), "battle asset registration includes every reinforcement wave before frame one")
+	var all_wave_names_localized := true
+	for entity_id in stage_wave_ids:
+		var display_name := BattleView.unit_display_name({"def_id": entity_id, "team": "ENEMY"})
+		all_wave_names_localized = all_wave_names_localized and not display_name.is_empty() and display_name != entity_id and not display_name.begins_with("ENM") and not display_name.begins_with("[")
+	check(all_wave_names_localized, "every reinforcement wave renders localized enemy names instead of ENM database IDs")
+	wave_asset_view.free()
 	var initial_same_seed_state: bool = JSON.stringify(a.state.party + a.state.enemies) == JSON.stringify(b.state.party + b.state.enemies)
 	_run_to_end(a)
 	_run_to_end(b)
@@ -829,7 +940,7 @@ func _test_battle() -> void:
 		pooled_view._spawn_projectile(pool_sim.state.party[0].uid, pool_sim.state.enemies[0].uid, "BASIC")
 		pooled_view._spawn_floating_text({"target": pool_sim.state.enemies[0].uid, "text": str(i), "color": Color.WHITE, "age": 0.0})
 	var reused := pooled_view.pool_diagnostics()
-	check(int(recycled.free_projectiles) == 100 and int(recycled.free_floating_texts) == 100 and int(reused.active_projectiles) == 100 and int(reused.active_floating_texts) == 100 and int(reused.free_projectiles) == 0 and int(reused.free_floating_texts) == 0, "100 projectile and damage-text entries are recycled from pools")
+	check(int(recycled.free_projectiles) >= BattleView.MAX_ACTIVE_PROJECTILES and int(recycled.free_floating_texts) >= BattleView.MAX_ACTIVE_FLOATING_TEXTS and int(reused.active_projectiles) == BattleView.MAX_ACTIVE_PROJECTILES and int(reused.active_floating_texts) == BattleView.MAX_ACTIVE_FLOATING_TEXTS and int(reused.free_projectiles) <= 1 and int(reused.free_floating_texts) <= 1, "presentation pools recycle burst entries while enforcing browser-safe active budgets")
 	pooled_view.free()
 	var phase_sim := _simulation(1715, "CH01-N20")
 	# N20's boss can be in a later wave. The renderer consumes the same STATUS
@@ -1050,12 +1161,14 @@ func _test_relay() -> void:
 	AppState.profile = profile_backup
 
 func _test_save() -> void:
+	var save_service_source := FileAccess.get_file_as_string("res://autoload/save_service.gd")
 	var production_paths := SaveService.save_paths_for(false)
 	var sandbox_paths := SaveService.save_paths_for(true)
 	var isolated_sandbox_paths := SaveService.save_paths_for(true, "growth-e2e-r15")
 	check(str(production_paths.save) == SaveService.SAVE_PATH and str(production_paths.backup) == SaveService.BACKUP_PATH and str(production_paths.temp) == SaveService.TEMP_PATH, "production save namespace remains stable")
 	check(str(sandbox_paths.save).begins_with("user://r15_soak_sandbox/") and str(sandbox_paths.backup).begins_with("user://r15_soak_sandbox/") and str(sandbox_paths.temp).begins_with("user://r15_soak_sandbox/") and str(sandbox_paths.save) != SaveService.SAVE_PATH and str(sandbox_paths.backup) != SaveService.BACKUP_PATH and str(sandbox_paths.temp) != SaveService.TEMP_PATH, "Web soak save namespace is disjoint from production")
 	check(str(isolated_sandbox_paths.save).begins_with("user://r15_soak_sandbox/growth-e2e-r15/") and str(isolated_sandbox_paths.save) != str(sandbox_paths.save) and SaveService.sanitize_sandbox_session("../../production") == "default", "isolated Web soak sessions stay sandboxed and reject traversal")
+	check(save_service_source.contains("p.get('qa')") and save_service_source.contains("p.get('r15-save-sandbox-session') || p.get('qa')"), "every query-labelled Web QA run uses its own sandbox save instead of mutating player progress")
 	check(not SaveService.is_soak_sandbox_enabled(), "headless regression tests do not opt into Web soak sandbox")
 	var sandbox_audit := SaveService.sandbox_audit_summary()
 	check(not bool(sandbox_audit.sandbox_active) and int(sandbox_audit.production_path_resolve_count) == 0 and int(sandbox_audit.production_read_attempt_count) == 0 and int(sandbox_audit.production_write_attempt_count) == 0 and int(sandbox_audit.production_backup_attempt_count) == 0 and int(sandbox_audit.production_reset_attempt_count) == 0, "save sandbox audit defaults to zero production accesses")

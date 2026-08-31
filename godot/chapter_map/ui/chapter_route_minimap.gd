@@ -17,48 +17,70 @@ var selected_coord := Vector2i(-99999, -99999)
 var show_hard := false
 var bounds_min := Vector2.ZERO
 var bounds_max := Vector2.ONE
+var static_route_signature := ""
+var exploration_signature := ""
 
 func configure(map_definition: Dictionary, state: Dictionary, selected: Dictionary, hard_visible: bool) -> void:
-	normal_points.clear()
-	hard_points.clear()
-	relay_points.clear()
-	landmark_points.clear()
-	enemy_points.clear()
-	treasure_points.clear()
-	revealed_coords.clear()
+	var next_static_signature := "%s:%d:%d:%d" % [
+		str(map_definition.get("map_id", "")),
+		hash(map_definition.get("nodes", [])),
+		hash(map_definition.get("normal_route", [])),
+		hash(map_definition.get("hard_route", [])),
+	]
+	if next_static_signature != static_route_signature:
+		static_route_signature = next_static_signature
+		normal_points.clear()
+		hard_points.clear()
+		var nodes_by_stage: Dictionary = {}
+		for raw_node in map_definition.get("nodes", []):
+			var node: Dictionary = raw_node
+			var stage_id := str(node.get("stage_id", ""))
+			if stage_id != "":
+				nodes_by_stage[stage_id] = _axial_point(Vector2i(int(node.get("q", 0)), int(node.get("r", 0))))
+		for stage_id in map_definition.get("normal_route", []):
+			if nodes_by_stage.has(str(stage_id)):
+				normal_points.append(nodes_by_stage[str(stage_id)])
+		for stage_id in map_definition.get("hard_route", []):
+			if nodes_by_stage.has(str(stage_id)):
+				hard_points.append(nodes_by_stage[str(stage_id)])
+	var next_exploration_signature := "%d:%d:%d:%d" % [
+		hash(state.get("revealed_tiles", [])),
+		hash(state.get("relay_states", {})),
+		hash(state.get("cleared_encounters", [])),
+		hash(state.get("treasure_states", {})),
+	]
+	if next_exploration_signature != exploration_signature:
+		exploration_signature = next_exploration_signature
+		relay_points.clear()
+		landmark_points.clear()
+		enemy_points.clear()
+		treasure_points.clear()
+		revealed_coords.clear()
+		for raw_key in state.get("revealed_tiles", []):
+			revealed_coords[str(raw_key)] = true
+		for relay in map_definition.get("relays", []):
+			if str(state.get("relay_states", {}).get(str(relay.get("relay_id", "")), "OFFLINE")) == "ACTIVE":
+				relay_points.append(_axial_point(Vector2i(int(relay.get("q", 0)), int(relay.get("r", 0)))))
+		for landmark in map_definition.get("landmarks", []):
+			if str(landmark.get("kind", "")) == "MAJOR":
+				var coord := Vector2i(int(landmark.get("q", 0)), int(landmark.get("r", 0)))
+				if revealed_coords.has("%d,%d" % [coord.x, coord.y]):
+					landmark_points.append(_axial_point(coord))
+		var cleared_encounters: Array = state.get("cleared_encounters", [])
+		for node in map_definition.get("nodes", []):
+			var node_id := str(node.get("node_id", ""))
+			var stage_id := str(node.get("stage_id", ""))
+			var coord := Vector2i(int(node.get("q", 0)), int(node.get("r", 0)))
+			if stage_id != "" and revealed_coords.has("%d,%d" % [coord.x, coord.y]) and not cleared_encounters.has(node_id):
+				enemy_points.append(_axial_point(coord))
+		for treasure in map_definition.get("treasures", []):
+			var treasure_id := str(treasure.get("treasure_id", ""))
+			var coord := Vector2i(int(treasure.get("q", 0)), int(treasure.get("r", 0)))
+			if str(state.get("treasure_states", {}).get(treasure_id, "UNDISCOVERED")) == "REVEALED":
+				treasure_points.append(_axial_point(coord))
 	show_hard = hard_visible
 	current_coord = Vector2i(int(state.get("current_q", 0)), int(state.get("current_r", 0)))
 	selected_coord = Vector2i(int(selected.get("q", -99999)), int(selected.get("r", -99999))) if not selected.is_empty() else Vector2i(-99999, -99999)
-	for raw_key in state.get("revealed_tiles", []):
-		revealed_coords[str(raw_key)] = true
-	var nodes_by_stage: Dictionary = {}
-	for raw_node in map_definition.get("nodes", []):
-		var node: Dictionary = raw_node
-		var stage_id := str(node.get("stage_id", ""))
-		if stage_id != "":
-			nodes_by_stage[stage_id] = _axial_point(Vector2i(int(node.get("q", 0)), int(node.get("r", 0))))
-	for stage_id in map_definition.get("normal_route", []):
-		if nodes_by_stage.has(str(stage_id)):
-			normal_points.append(nodes_by_stage[str(stage_id)])
-	for stage_id in map_definition.get("hard_route", []):
-		if nodes_by_stage.has(str(stage_id)):
-			hard_points.append(nodes_by_stage[str(stage_id)])
-	for relay in map_definition.get("relays", []):
-		if str(state.get("relay_states", {}).get(str(relay.get("relay_id", "")), "OFFLINE")) == "ACTIVE":
-			relay_points.append(_axial_point(Vector2i(int(relay.get("q", 0)), int(relay.get("r", 0)))))
-	for landmark in map_definition.get("landmarks", []):
-		if str(landmark.get("kind", "")) == "MAJOR":
-			var coord := Vector2i(int(landmark.get("q", 0)), int(landmark.get("r", 0)))
-			if revealed_coords.has("%d,%d" % [coord.x, coord.y]): landmark_points.append(_axial_point(coord))
-	for node in map_definition.get("nodes", []):
-		var node_id := str(node.get("node_id", ""))
-		var stage_id := str(node.get("stage_id", ""))
-		var coord := Vector2i(int(node.get("q", 0)), int(node.get("r", 0)))
-		if stage_id != "" and revealed_coords.has("%d,%d" % [coord.x, coord.y]) and not state.get("cleared_encounters", []).has(node_id): enemy_points.append(_axial_point(coord))
-	for treasure in map_definition.get("treasures", []):
-		var treasure_id := str(treasure.get("treasure_id", ""))
-		var coord := Vector2i(int(treasure.get("q", 0)), int(treasure.get("r", 0)))
-		if str(state.get("treasure_states", {}).get(treasure_id, "UNDISCOVERED")) == "REVEALED": treasure_points.append(_axial_point(coord))
 	_recalculate_bounds()
 	queue_redraw()
 

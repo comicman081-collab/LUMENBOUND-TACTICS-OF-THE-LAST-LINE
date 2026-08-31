@@ -2,6 +2,9 @@ class_name BattleView
 extends Control
 
 signal battle_finished(result: Dictionary)
+## Emitted once every asset required for this battle is attached, whether the
+## stage bundle was already warm or the sliced local fallback completed.
+signal battle_assets_ready
 
 var simulation: BattleSimulation
 var accumulator := 0.0
@@ -28,10 +31,21 @@ var free_skill_callouts: Array = []
 var boss_phase_presentations: Array = []
 var free_boss_phase_presentations: Array = []
 var vfx_frames: Dictionary = {}
+var runtime_vfx_entries: Array = []
+var runtime_vfx_manifest_loaded := false
+var fallback_combat_previews: Dictionary = {}
+var assets_ready := false
+var asset_cache_hit := false
+var asset_warmup_phase := ""
+var asset_input_blocker: Control
 var normal_background: Texture2D
 var boss_background: Texture2D
 var battle_font: Font
 const MAX_PRESENTATION_SPEED := 1.35
+const MAX_EVENTS_PER_FRAME := 48
+const MAX_ACTIVE_PROJECTILES := 24
+const MAX_ACTIVE_FLOATING_TEXTS := 40
+const MAX_ACTIVE_VFX := 32
 const BOSS_PATTERN_CARD_PREFIX := "BOSS_PATTERN"
 const BOSS_PHASE_PRESENTATION := {
 	"PHASE_2": {
@@ -105,20 +119,297 @@ const SIGNAL_BREAKER_ULTIMATE_BASE_KEY := "base_signal_breaker_ultimate"
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Adding BattleView to the scene tree used to synchronously decode every wave's
+	# combat, projectile and VFX atlas before the browser could paint even one
+	# battlefield frame. Keep the deterministic simulation stopped, allow the
+	# responsive shell to paint, then warm one entity at a time on later frames.
+	assets_ready = false
+	asset_warmup_phase = "SHELL"
+	set_process(false)
+	queue_redraw()
+	call_deferred("_warm_battle_assets")
+
+func _warm_battle_assets() -> void:
+	if simulation == null or not is_inside_tree():
+		_finish_asset_warmup()
+		return
+	var current_entity_ids := _current_wave_entity_ids()
+	var reinforcement_entity_ids := _reinforcement_entity_ids(current_entity_ids)
 	var active_entity_ids := _active_battle_entity_ids()
-	# A battle owns only its deployed units. Loading every runtime atlas here used
-	# to synchronously decode 109 combat packs and hundreds of VFX atlases on Web.
-	sprite_pack_ready = sprite_library.load_pack(active_entity_ids)
-	if not sprite_pack_ready and sprite_library.load_error != "MANIFEST_MISSING":
+	_reset_battle_asset_state()
+
+	# Chapter-map entry may have completed the exact same immutable pack already.
+	# Reattach its manifests and atlas-backed frame views before scheduling any
+	# ResourceLoader work, so a map-to-battle handoff never decodes a second copy.
+	if _attach_stage_asset_cache_bundle(active_entity_ids):
+		asset_warmup_phase = "CACHE_READY"
+		_finish_asset_warmup()
+		return
+
+	asset_input_blocker = Control.new()
+	asset_input_blocker.name = "BattleAssetWarmupInputBlocker"
+	asset_input_blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	asset_input_blocker.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(asset_input_blocker)
+
+	# The first await is the important Web entry boundary: app_shell has already
+	# attached the HUD, so the user sees a stable battle shell instead of a frozen
+	# previous screen while PNG/WebP resources decode.
+	await _yield_asset_warmup("SHELL")
+	for entity_id in current_entity_ids:
+		_append_sprite_pack(entity_id)
+		await _yield_asset_warmup("CURRENT_ACTOR:%s" % entity_id)
+	for entity_id in reinforcement_entity_ids:
+		_append_sprite_pack(entity_id)
+		await _yield_asset_warmup("REINFORCEMENT_ACTOR:%s" % entity_id)
+	_load_combat_preview_fallbacks(active_entity_ids)
+	if not sprite_library.load_error.is_empty():
 		push_warning("Battle sprite pack unavailable: %s" % sprite_library.load_error)
-	projectile_pack_ready = projectile_library.load_pack(active_entity_ids)
-	if not projectile_pack_ready:
-		push_warning("Projectile sprite pack unavailable: %s" % projectile_library.load_error)
+
+	# A normal stage can never transition to the boss background. Avoid decoding
+	# that second 1920x1080 texture for all such battles. Every stage with a BOSS
+	# wave carries the canonical `boss` flag and retains both backgrounds.
 	normal_background = load("res://assets/art/backgrounds/BG_BATTLE_GLASS_RAIL/bg_battle_glass_rail_1920x1080.png")
-	boss_background = load("res://assets/art/backgrounds/BG_BOSS_SIGNAL_CATHEDRAL/bg_boss_signal_cathedral_1920x1080.png")
+	if bool(simulation.stage.get("boss", false)):
+		boss_background = load("res://assets/art/backgrounds/BG_BOSS_SIGNAL_CATHEDRAL/bg_boss_signal_cathedral_1920x1080.png")
+	else:
+		boss_background = null
 	battle_font = load("res://assets/fonts/NotoSansKR-VF.ttf") as Font
-	_load_runtime_vfx(active_entity_ids)
+	await _yield_asset_warmup("BATTLE_SHELL")
+
+	for entity_id in current_entity_ids:
+		_append_projectile_pack(entity_id)
+		await _yield_asset_warmup("CURRENT_PROJECTILE:%s" % entity_id)
+	for entity_id in reinforcement_entity_ids:
+		_append_projectile_pack(entity_id)
+		await _yield_asset_warmup("REINFORCEMENT_PROJECTILE:%s" % entity_id)
+	if not projectile_library.load_error.is_empty():
+		push_warning("Projectile sprite pack unavailable: %s" % projectile_library.load_error)
+
+	var reset_vfx := true
+	for entity_id in current_entity_ids:
+		var current_vfx_ids: Array[String] = [entity_id]
+		_load_runtime_vfx(current_vfx_ids, reset_vfx)
+		reset_vfx = false
+		await _yield_asset_warmup("CURRENT_VFX:%s" % entity_id)
+	for entity_id in reinforcement_entity_ids:
+		var reinforcement_vfx_ids: Array[String] = [entity_id]
+		_load_runtime_vfx(reinforcement_vfx_ids, reset_vfx)
+		reset_vfx = false
+		await _yield_asset_warmup("REINFORCEMENT_VFX:%s" % entity_id)
+
+	# No load occurs after this gate. All later SPAWN events only register motion
+	# tracks, so reinforcement waves cannot reintroduce a synchronous Web hitch or
+	# fall through to a grey code silhouette.
+	asset_warmup_phase = "READY"
+	_finish_asset_warmup()
+
+func _reset_battle_asset_state() -> void:
+	asset_cache_hit = false
+	sprite_library.manifests.clear()
+	sprite_library.frames.clear()
+	sprite_library.load_error = ""
+	projectile_library.manifests.clear()
+	projectile_library.frames.clear()
+	projectile_library.load_error = ""
+	vfx_frames.clear()
+	runtime_vfx_entries.clear()
+	runtime_vfx_manifest_loaded = false
+	fallback_combat_previews.clear()
+	sprite_pack_ready = false
+	projectile_pack_ready = false
+
+func _finish_asset_warmup() -> void:
+	assets_ready = true
+	if asset_input_blocker != null:
+		asset_input_blocker.queue_free()
+		asset_input_blocker = null
 	set_process(true)
+	queue_redraw()
+	battle_assets_ready.emit()
+
+func _attach_stage_asset_cache_bundle(active_entity_ids: Array[String]) -> bool:
+	if simulation == null:
+		return false
+	# Resolve dynamically so the direct/debug path stays parser-safe in editor
+	# contexts that intentionally omit the optional StageAssetCache autoload.
+	var cache := get_tree().root.get_node_or_null("StageAssetCache")
+	if cache == null or not cache.has_method("has_battle_assets") or not cache.has_method("battle_bundle"):
+		return false
+	var require_boss := bool(simulation.stage.get("boss", false))
+	if not bool(cache.call("has_battle_assets", active_entity_ids, require_boss)):
+		return false
+	var bundle_value = cache.call("battle_bundle", active_entity_ids, require_boss)
+	if not bundle_value is Dictionary:
+		return false
+	var bundle: Dictionary = bundle_value
+	if not _attach_cached_actor_frames(bundle.get("actor_manifests", {}), bundle.get("actor_frames", {}), active_entity_ids):
+		_reset_battle_asset_state()
+		return false
+	if not _attach_cached_projectile_frames(bundle.get("projectile_manifests", {}), bundle.get("projectile_frames", {}), active_entity_ids):
+		_reset_battle_asset_state()
+		return false
+	if not _attach_cached_vfx_frames(bundle.get("vfx_frames", {}), active_entity_ids):
+		_reset_battle_asset_state()
+		return false
+	var normal_value = bundle.get("normal_background")
+	var font_value = bundle.get("battle_font")
+	if not normal_value is Texture2D or not font_value is Font:
+		_reset_battle_asset_state()
+		return false
+	var cached_boss_background = bundle.get("boss_background")
+	if require_boss and not cached_boss_background is Texture2D:
+		_reset_battle_asset_state()
+		return false
+	normal_background = normal_value
+	boss_background = cached_boss_background if cached_boss_background is Texture2D else null
+	battle_font = font_value
+	var cached_fallbacks = bundle.get("fallback_previews", {})
+	if cached_fallbacks is Dictionary:
+		for entity_id in cached_fallbacks:
+			var preview = cached_fallbacks[entity_id]
+			if preview is Texture2D:
+				fallback_combat_previews[str(entity_id)] = preview
+	runtime_vfx_manifest_loaded = true
+	asset_cache_hit = true
+	return true
+
+func _attach_cached_actor_frames(manifests_value, frames_value, active_entity_ids: Array[String]) -> bool:
+	if not manifests_value is Dictionary or not frames_value is Dictionary:
+		return false
+	var staged_manifests: Dictionary = {}
+	var staged_frames: Dictionary = {}
+	for entity_id in active_entity_ids:
+		var manifest_value = manifests_value.get(entity_id, {})
+		var character_frames_value = frames_value.get(entity_id, {})
+		if not manifest_value is Dictionary or not character_frames_value is Dictionary:
+			return false
+		var manifest: Dictionary = manifest_value
+		var character_frames: Dictionary = character_frames_value
+		var animations_value = manifest.get("animations", {})
+		if not animations_value is Dictionary or animations_value.is_empty():
+			return false
+		for animation_name_value in animations_value:
+			var textures_value = character_frames.get(str(animation_name_value), [])
+			if not textures_value is Array or textures_value.is_empty():
+				return false
+			for texture_value in textures_value:
+				if not texture_value is Texture2D:
+					return false
+		staged_manifests[entity_id] = manifest.duplicate(true)
+		# AtlasTexture resources are immutable cached inputs. Copy the containers,
+		# retain those already-built frame resources, and never decode another atlas.
+		staged_frames[entity_id] = character_frames.duplicate(true)
+	sprite_library.manifests = staged_manifests
+	sprite_library.frames = staged_frames
+	sprite_pack_ready = not staged_manifests.is_empty()
+	return sprite_pack_ready
+
+func _attach_cached_projectile_frames(manifests_value, frames_value, active_entity_ids: Array[String]) -> bool:
+	if not manifests_value is Dictionary or not frames_value is Dictionary:
+		return false
+	var staged_manifests: Dictionary = {}
+	var staged_frames: Dictionary = {}
+	for entity_id in active_entity_ids:
+		var manifest_value = manifests_value.get(entity_id, {})
+		var textures_value = frames_value.get(entity_id, [])
+		if not manifest_value is Dictionary or not textures_value is Array or textures_value.size() != 8:
+			return false
+		for texture_value in textures_value:
+			if not texture_value is Texture2D:
+				return false
+		staged_manifests[entity_id] = (manifest_value as Dictionary).duplicate(true)
+		staged_frames[entity_id] = (textures_value as Array).duplicate(true)
+	projectile_library.manifests = staged_manifests
+	projectile_library.frames = staged_frames
+	projectile_pack_ready = not staged_manifests.is_empty()
+	return projectile_pack_ready
+
+func _attach_cached_vfx_frames(frames_value, active_entity_ids: Array[String]) -> bool:
+	if not frames_value is Dictionary:
+		return false
+	var staged_frames: Dictionary = {}
+	for key_value in frames_value:
+		var textures_value = frames_value[key_value]
+		if not textures_value is Array or textures_value.size() != 12:
+			return false
+		for texture_value in textures_value:
+			if not texture_value is Texture2D:
+				return false
+		staged_frames[str(key_value)] = (textures_value as Array).duplicate(true)
+	if not staged_frames.has(SIGNAL_BREAKER_ULTIMATE_BASE_KEY):
+		return false
+	for entity_id in active_entity_ids:
+		for kind in ["basic", "normal", "ultimate"]:
+			if not staged_frames.has("%s_%s" % [entity_id.to_lower(), kind]):
+				return false
+	vfx_frames = staged_frames
+	return true
+
+func _yield_asset_warmup(phase: String) -> void:
+	asset_warmup_phase = phase
+	queue_redraw()
+	await get_tree().process_frame
+
+func _asset_warmup_display_label() -> String:
+	if asset_warmup_phase.begins_with("CURRENT_ACTOR"):
+		return "선발 부대 배치"
+	if asset_warmup_phase.begins_with("REINFORCEMENT_ACTOR"):
+		return "증원 경로 계산"
+	if asset_warmup_phase.contains("PROJECTILE"):
+		return "탄도 데이터 준비"
+	if asset_warmup_phase.contains("VFX"):
+		return "전술 효과 준비"
+	return "전장 구성"
+
+func _append_sprite_pack(entity_id: String) -> void:
+	var batch := BattleSpriteLibrary.new()
+	var required_ids: Array[String] = [entity_id]
+	batch.load_pack(required_ids)
+	for loaded_id in batch.manifests:
+		sprite_library.manifests[loaded_id] = batch.manifests[loaded_id]
+	for loaded_id in batch.frames:
+		sprite_library.frames[loaded_id] = batch.frames[loaded_id]
+	if not batch.load_error.is_empty():
+		sprite_library.load_error = _join_load_error(sprite_library.load_error, batch.load_error)
+	sprite_pack_ready = not sprite_library.manifests.is_empty()
+
+func _append_projectile_pack(entity_id: String) -> void:
+	var batch := ProjectileSpriteLibrary.new()
+	var required_ids: Array[String] = [entity_id]
+	batch.load_pack(required_ids)
+	for loaded_id in batch.manifests:
+		projectile_library.manifests[loaded_id] = batch.manifests[loaded_id]
+	for loaded_id in batch.frames:
+		projectile_library.frames[loaded_id] = batch.frames[loaded_id]
+	if not batch.load_error.is_empty():
+		projectile_library.load_error = _join_load_error(projectile_library.load_error, batch.load_error)
+	projectile_pack_ready = not projectile_library.manifests.is_empty()
+
+func _join_load_error(existing: String, incoming: String) -> String:
+	if existing.is_empty():
+		return incoming
+	if incoming.is_empty():
+		return existing
+	return "%s;%s" % [existing, incoming]
+
+func _current_wave_entity_ids() -> Array[String]:
+	var result: Array[String] = []
+	if simulation == null:
+		return result
+	for unit_value in simulation.state.party + simulation.state.enemies:
+		var unit: Dictionary = unit_value
+		var entity_id := str(unit.get("def_id", ""))
+		if not entity_id.is_empty() and not result.has(entity_id):
+			result.append(entity_id)
+	return result
+
+func _reinforcement_entity_ids(current_entity_ids: Array[String]) -> Array[String]:
+	var result: Array[String] = []
+	for entity_id in _active_battle_entity_ids():
+		if not current_entity_ids.has(entity_id):
+			result.append(entity_id)
+	return result
 
 func _active_battle_entity_ids() -> Array[String]:
 	var result: Array[String] = []
@@ -129,6 +420,20 @@ func _active_battle_entity_ids() -> Array[String]:
 		var entity_id := str(unit.get("def_id", ""))
 		if not entity_id.is_empty() and not result.has(entity_id):
 			result.append(entity_id)
+	# state.enemies contains only the currently active wave.  Loading from that
+	# list alone made wave 2+ enemies fall through to the grey code silhouette
+	# even though their authored atlases were present in the Web package.  A stage
+	# battle owns every enemy declared by all of its waves, so register those few
+	# IDs before the first simulation frame.  This also removes the mid-battle
+	# decode hitch that used to occur when reinforcements arrived.
+	for wave_value in simulation.stage.get("waves", []):
+		if not wave_value is Array:
+			continue
+		var wave: Array = wave_value
+		for entity_id_value in wave:
+			var entity_id := str(entity_id_value)
+			if not entity_id.is_empty() and not result.has(entity_id):
+				result.append(entity_id)
 	return result
 
 func setup(value: BattleSimulation) -> void:
@@ -209,9 +514,11 @@ func _process(delta: float) -> void:
 		battle_finished.emit(simulation.result_snapshot())
 
 func _consume_events() -> void:
-	while consumed_events < simulation.event_log.size():
+	var processed_this_frame := 0
+	while consumed_events < simulation.event_log.size() and processed_this_frame < MAX_EVENTS_PER_FRAME:
 		var event: Dictionary = simulation.event_log[consumed_events]
 		consumed_events += 1
+		processed_this_frame += 1
 		if event.type == BattleEvent.DAMAGE:
 			_spawn_floating_text({"target": event.target, "text": "MISS" if int(event.value) == 0 else ("CRIT %d" % event.value if event.extra.get("crit", false) else str(event.value)), "color": Color("ffd166") if event.extra.get("crit", false) else Color.WHITE, "age": 0.0})
 			unit_flash[event.target] = .14
@@ -229,7 +536,8 @@ func _consume_events() -> void:
 				# ground even though the model correctly killed it.
 				if damage_source in ["NORMAL", "ULTIMATE"] and _action_source_is_presentable(str(event.source)):
 					_spawn_projectile(str(event.source), str(event.target), damage_source)
-					_spawn_vfx(str(event.source), str(event.target), "impact_%s" % damage_source.to_lower(), .18 if damage_source == "NORMAL" else .28)
+					# Contact starts only after charge plus the complete projectile flight.
+					_spawn_vfx(str(event.source), str(event.target), "impact_%s" % damage_source.to_lower(), .50 if damage_source == "NORMAL" else .72)
 				var damaged := simulation.find_unit(str(event.target))
 				if not damaged.is_empty() and UnitState.alive(damaged): _play_animation(str(event.target), "hit")
 		elif event.type == BattleEvent.HEAL:
@@ -288,6 +596,7 @@ func _spawn_projectile(source_uid: String, target_uid: String, attack_kind: Stri
 	# visible long enough to read their travel and endpoint impact.
 	if attack_kind == "NORMAL": duration = maxf(duration, .28)
 	elif attack_kind == "ULTIMATE": duration = maxf(duration, .42)
+	var launch_delay := .18 if attack_kind == "NORMAL" else (.28 if attack_kind == "ULTIMATE" else .04)
 	var projectile: Dictionary = free_projectiles.pop_back() if not free_projectiles.is_empty() else {}
 	projectile.clear()
 	projectile.merge({
@@ -296,14 +605,19 @@ func _spawn_projectile(source_uid: String, target_uid: String, attack_kind: Stri
 		"source_id": source_id,
 		"attack_kind": attack_kind,
 		"age": 0.0,
+		"delay": launch_delay,
 		"duration": maxf(.05, duration),
 	})
+	if projectiles.size() >= MAX_ACTIVE_PROJECTILES:
+		free_projectiles.append(projectiles.pop_front())
 	projectiles.append(projectile)
 
 func _spawn_floating_text(data: Dictionary) -> void:
 	var item: Dictionary = free_floating_texts.pop_back() if not free_floating_texts.is_empty() else {}
 	item.clear()
 	item.merge(data)
+	if floating_texts.size() >= MAX_ACTIVE_FLOATING_TEXTS:
+		free_floating_texts.append(floating_texts.pop_front())
 	floating_texts.append(item)
 
 func _spawn_vfx(source_uid: String, target_uid: String, kind: String, delay := 0.0) -> void:
@@ -318,19 +632,22 @@ func _spawn_vfx(source_uid: String, target_uid: String, kind: String, delay := 0
 		var base_tint := primary.lerp(Color.WHITE, .46)
 		base_tint.a = .82
 		_append_vfx_presentation(source_uid, target_uid, "ultimate_base", SIGNAL_BREAKER_ULTIMATE_BASE_KEY, delay, profile, base_tint, false)
-	var key := "%s_%s" % [str(source.get("def_id", "")).to_lower(), kind]
+	var asset_kind := kind.trim_prefix("impact_") if kind.begins_with("impact_") else kind
+	var key := "%s_%s" % [str(source.get("def_id", "")).to_lower(), asset_kind]
 	_append_vfx_presentation(source_uid, target_uid, kind, key, delay, profile, Color.WHITE, kind in ["normal", "ultimate"])
 
 func _append_vfx_presentation(source_uid: String, target_uid: String, kind: String, key: String, delay: float, profile: Dictionary, tint: Color, draw_accent: bool) -> void:
 	var presentation: Dictionary = free_vfx_presentations.pop_back() if not free_vfx_presentations.is_empty() else {}
 	presentation.clear()
 	var duration := 0.40
-	if kind == "normal": duration = 0.72
-	elif kind in ["ultimate", "ultimate_base"]: duration = 1.00
-	elif kind == "impact_normal": duration = .46
-	elif kind == "impact_ultimate": duration = .68
+	if kind == "normal": duration = 0.24
+	elif kind in ["ultimate", "ultimate_base"]: duration = .32
+	elif kind == "impact_normal": duration = .34
+	elif kind == "impact_ultimate": duration = .48
 	elif kind in ["heal", "shield"]: duration = .56
 	presentation.merge({"source": source_uid, "target": target_uid, "kind": kind, "key": key, "textured": vfx_frames.has(key), "age": 0.0, "delay": delay, "duration": duration, "profile": profile, "tint": tint, "draw_accent": draw_accent})
+	if vfx_presentations.size() >= MAX_ACTIVE_VFX:
+		free_vfx_presentations.append(vfx_presentations.pop_front())
 	vfx_presentations.append(presentation)
 
 func _vfx_profile_for(source: Dictionary) -> Dictionary:
@@ -379,7 +696,7 @@ func _recycle_expired_presentations() -> void:
 			free_floating_texts.append(floating_texts[index])
 			floating_texts.remove_at(index)
 	for index in range(projectiles.size() - 1, -1, -1):
-		if float(projectiles[index].age) >= float(projectiles[index].get("duration", .4)):
+		if float(projectiles[index].age) >= float(projectiles[index].get("delay", 0.0)) + float(projectiles[index].get("duration", .4)):
 			free_projectiles.append(projectiles[index])
 			projectiles.remove_at(index)
 	for index in range(vfx_presentations.size() - 1, -1, -1):
@@ -411,16 +728,22 @@ func boss_phase_presentation_snapshot() -> Array:
 		})
 	return result
 
-func _load_runtime_vfx(active_entity_ids: Array[String] = []) -> void:
-	vfx_frames.clear()
-	var manifest_path := "res://assets/runtime_web/runtime_combat_manifest.json"
-	if not FileAccess.file_exists(manifest_path): return
-	var parsed = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
-	if not parsed is Dictionary: return
-	for entry in parsed.get("vfx", []):
+func _load_runtime_vfx(active_entity_ids: Array[String] = [], reset_frames := true) -> void:
+	if reset_frames:
+		vfx_frames.clear()
+	if not runtime_vfx_manifest_loaded:
+		runtime_vfx_manifest_loaded = true
+		var manifest_path := "res://assets/runtime_web/runtime_combat_manifest.json"
+		if FileAccess.file_exists(manifest_path):
+			var parsed = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
+			if parsed is Dictionary:
+				runtime_vfx_entries = parsed.get("vfx", [])
+	for entry in runtime_vfx_entries:
 		var folder := str(entry.get("folder", ""))
 		if not folder.begins_with("vfx_"): continue
 		var key := folder.trim_prefix("vfx_")
+		if vfx_frames.has(key):
+			continue
 		if not active_entity_ids.is_empty() and not key.begins_with("base_"):
 			var belongs_to_active_unit := false
 			for entity_id in active_entity_ids:
@@ -438,6 +761,22 @@ func _load_runtime_vfx(active_entity_ids: Array[String] = []) -> void:
 				texture.region = Rect2(float(frame % 4) * 112.0, float(frame / 4) * 112.0, 112.0, 112.0)
 				textures.append(texture)
 		if textures.size() == 12: vfx_frames[key] = textures
+
+func _load_combat_preview_fallbacks(active_entity_ids: Array[String]) -> void:
+	# A partially loaded pack used to count as success and silently sent every
+	# failed ENM/BOSS to the grey code placeholder. Keep the exact authored entity
+	# preview as a last-resort Web render and report a hard asset error if neither
+	# the animation atlas nor its preview can be decoded.
+	fallback_combat_previews.clear()
+	for entity_id in active_entity_ids:
+		if sprite_library.supports_character(entity_id):
+			continue
+		var preview_path := "res://assets/runtime_web/combat/%s/preview.png" % entity_id
+		var preview := _load_runtime_texture(preview_path)
+		if preview != null:
+			fallback_combat_previews[entity_id] = preview
+		else:
+			push_error("COMBAT_ART_MISSING:%s" % entity_id)
 
 func _load_runtime_texture(path: String) -> Texture2D:
 	if ResourceLoader.exists(path):
@@ -485,6 +824,13 @@ func _draw() -> void:
 	if background != null: draw_texture_rect(background, rect, false)
 	else: draw_rect(rect, Color("101b35"))
 	draw_rect(rect, Color(0.02, 0.04, 0.09, 0.16))
+	if not assets_ready:
+		# Keep the first painted shell honest: actors are not drawn as temporary
+		# silhouettes while their immutable atlases are still being registered.
+		var warmup_font := battle_font if battle_font != null else ThemeDB.fallback_font
+		var warmup_text := "LUMENBOUND · %s" % _asset_warmup_display_label()
+		draw_string(warmup_font, Vector2(0, size.y * .54), warmup_text, HORIZONTAL_ALIGNMENT_CENTER, size.x, 18, Color("9ddfd4"))
+		return
 	if simulation == null:
 		return
 	for unit in simulation.state.party + simulation.state.enemies:
@@ -493,8 +839,11 @@ func _draw() -> void:
 		var source := simulation.find_unit(projectile.source)
 		var target := simulation.find_unit(projectile.target)
 		if source.is_empty() or target.is_empty(): continue
+		var launch_delay := float(projectile.get("delay", 0.0))
+		if float(projectile.age) < launch_delay:
+			continue
 		var duration := float(projectile.get("duration", .4))
-		var t := clampf(float(projectile.age) / maxf(.01, duration), 0, 1)
+		var t := clampf((float(projectile.age) - launch_delay) / maxf(.01, duration), 0, 1)
 		var source_position := _projectile_origin(source)
 		var target_position := _projectile_target(target)
 		var position := source_position.lerp(target_position, t) + Vector2(0, -24.0 * sin(t * PI))
@@ -506,6 +855,15 @@ func _draw() -> void:
 			trail_color.a = .82
 			draw_line(source_position, position, trail_color.darkened(.20), 8.0 if attack_kind == "ULTIMATE" else 5.0, true)
 			draw_line(source_position, position, Color(0.92, 1.0, 1.0, .88), 2.0 if attack_kind == "ULTIMATE" else 1.2, true)
+			# The authored skill signature now travels with the projectile. Frames 2-9
+			# carry the active energy body; charge frames stay at the caster and the
+			# final frames are reserved for the contact burst below.
+			var travel_key := "%s_%s" % [source_id.to_lower(), attack_kind.to_lower()]
+			var travel_frames: Array = vfx_frames.get(travel_key, [])
+			if not travel_frames.is_empty():
+				var travel_frame := mini(travel_frames.size() - 1, 2 + int(floor(t * 7.0)))
+				var travel_size := Vector2(112, 112) if attack_kind == "ULTIMATE" else Vector2(82, 82)
+				draw_texture_rect(travel_frames[travel_frame], Rect2(position - travel_size * .5, travel_size), false, Color(1.0, 1.0, 1.0, .76))
 		if texture != null:
 			var projectile_size := projectile_library.runtime_size(source_id)
 			if attack_kind == "ULTIMATE": projectile_size *= 1.24
@@ -522,26 +880,40 @@ func _draw() -> void:
 		if float(presentation.age) < delay: continue
 		var progress := clampf((float(presentation.age) - delay) / maxf(0.01, float(presentation.duration)), 0.0, 0.999)
 		var kind := str(presentation.get("kind", "basic"))
-		var anchor_unit := target if kind.begins_with("impact_") or kind in ["heal", "shield"] else (target if not target.is_empty() else source)
-		var position := _unit_pos(anchor_unit) + _entry_offset(anchor_unit) + Vector2(0, -82)
+		var targets_contact := kind.begins_with("impact_") or kind in ["heal", "shield"]
+		var anchor_unit := target if targets_contact and not target.is_empty() else source
+		var position := _unit_pos(anchor_unit) + _entry_offset(anchor_unit) + Vector2(0, -72)
+		if not targets_contact:
+			# Cast light belongs to the weapon/ground of the acting unit; it must not
+			# appear as a full-image sticker over the unit being attacked.
+			var cast_direction := 1.0 if str(source.get("team", "")) == "PLAYER" else -1.0
+			position = _unit_pos(source) + _entry_offset(source) + Vector2(cast_direction * 34.0, -38.0)
 		if not textures.is_empty():
 			var frame := mini(textures.size() - 1, int(floor(progress * textures.size())))
-			var vfx_size := Vector2(150, 150)
+			if kind.begins_with("impact_"):
+				frame = mini(textures.size() - 1, 6 + int(floor(progress * maxi(1, textures.size() - 6))))
+			elif kind in ["normal", "ultimate", "ultimate_base"]:
+				frame = mini(textures.size() - 1, int(floor(progress * min(6, textures.size()))))
+			var vfx_size := Vector2(104, 104)
 			# Premium signatures put their energy in the outer third of the atlas.
 			# Keep enough scale for bloom and directional streaks while preserving at
 			# least half of the actor/weapon or boss core at the peak frame.
-			if kind == "normal": vfx_size = Vector2(226, 226)
-			elif kind == "ultimate": vfx_size = Vector2(324, 324)
-			elif kind == "ultimate_base": vfx_size = Vector2(356, 356)
+			if kind == "normal": vfx_size = Vector2(118, 118)
+			elif kind == "ultimate": vfx_size = Vector2(154, 154)
+			elif kind == "ultimate_base": vfx_size = Vector2(166, 166)
+			elif kind == "impact_ultimate": vfx_size = Vector2(144, 144)
+			elif kind == "impact_normal": vfx_size = Vector2(112, 112)
 			var tint: Color = presentation.get("tint", Color.WHITE)
+			tint.a = minf(tint.a, .82)
 			draw_texture_rect(textures[frame], Rect2(position - vfx_size * 0.5, vfx_size), false, tint)
 			if bool(presentation.get("draw_accent", false)):
 				_draw_vfx_signature_accent(position, kind, progress, presentation.get("profile", {}))
 		else:
-			# Explicit visual fallback for characters whose authored PNG VFX packs
-			# are still pending.  It preserves a legible multi-stage skill read; it
-			# is not reported as a replacement for authored character VFX.
+			# Pooled vector stages remain below the actor silhouette and connect the
+			# cast, projectile trail, endpoint contact and hit reaction visibly.
 			_draw_runtime_skill_vfx(position, source, kind, progress)
+			if bool(presentation.get("draw_accent", false)):
+				_draw_vfx_signature_accent(position, kind, progress, presentation.get("profile", {}))
 	for callout in skill_callouts:
 		var caster := simulation.find_unit(str(callout.source))
 		if caster.is_empty(): continue
@@ -551,14 +923,16 @@ func _draw() -> void:
 		callout_color.a = alpha
 		draw_rect(Rect2(callout_position, Vector2(62, 24)), Color(0.03, 0.08, 0.15, alpha * .88), true)
 		draw_rect(Rect2(callout_position, Vector2(62, 24)), callout_color, false, 1.5)
-		draw_string(ThemeDB.fallback_font, callout_position + Vector2(8, 18), str(callout.label), HORIZONTAL_ALIGNMENT_CENTER, 46, 16, callout_color)
+		var callout_font := battle_font if battle_font != null else ThemeDB.fallback_font
+		draw_string(callout_font, callout_position + Vector2(8, 18), str(callout.label), HORIZONTAL_ALIGNMENT_CENTER, 46, 16, callout_color)
 	for presentation in boss_phase_presentations:
 		_draw_boss_phase_presentation(presentation)
 	for text in floating_texts:
 		var target := simulation.find_unit(text.target)
 		if target.is_empty(): continue
 		var position := _unit_pos(target) + Vector2(-34, -125 - float(text.age) * 40)
-		draw_string(ThemeDB.fallback_font, position, text.text, HORIZONTAL_ALIGNMENT_CENTER, 72, 24, text.color)
+		var floating_font := battle_font if battle_font != null else ThemeDB.fallback_font
+		draw_string(floating_font, position, text.text, HORIZONTAL_ALIGNMENT_CENTER, 72, 24, text.color)
 
 func _draw_boss_phase_presentation(presentation: Dictionary) -> void:
 	var duration := maxf(.01, float(presentation.duration))
@@ -633,7 +1007,7 @@ func _draw_runtime_skill_vfx(position: Vector2, source: Dictionary, kind: String
 		draw_polyline(hex + PackedVector2Array([hex[0]]), Color(.50, .90, 1.0, .96 * fade), 3.4, true)
 		return
 	# Cast phase: a role-coloured ground seal, rotating glyph and energy spikes.
-	var radius := 42.0 + 34.0 * impact + (44.0 if ultimate else 0.0)
+	var radius := 30.0 + 22.0 * impact + (20.0 if ultimate else 0.0)
 	var glow := Color(color.r, color.g, color.b, (.26 if ultimate else .19) * fade)
 	var core := Color(color.r, color.g, color.b, .92 * fade)
 	draw_circle(position + Vector2(0, 18), radius * .84, glow)
@@ -848,6 +1222,20 @@ func _boss_present() -> bool:
 		if str(enemy.get("rank", "")) == "BOSS" and UnitState.alive(enemy): return true
 	return false
 
+static func unit_display_name(unit: Dictionary) -> String:
+	var definition_id := str(unit.get("def_id", ""))
+	var definition := DataRegistry.character(definition_id)
+	if definition.is_empty():
+		definition = DataRegistry.enemy(definition_id)
+	var name_key := str(definition.get("name_key", ""))
+	if not name_key.is_empty():
+		var localized := LocalizationService.tr_key(name_key).replace(" (DEV)", "")
+		if not localized.is_empty() and not localized.begins_with("["):
+			return localized
+	# Release combat must never expose ENMxxx/CHRxxx database identifiers. Keep a
+	# readable localized fallback if a future data row is temporarily incomplete.
+	return "아군" if str(unit.get("team", "")) == "PLAYER" else "적 유닛"
+
 func _draw_unit(unit: Dictionary) -> void:
 	var p := _unit_pos(unit)
 	var player: bool = str(unit.team) == "PLAYER"
@@ -856,7 +1244,11 @@ func _draw_unit(unit: Dictionary) -> void:
 	if not alive: color = color.darkened(.65)
 	if unit_flash.has(unit.uid): color = Color.WHITE
 	p += _entry_offset(unit)
-	var generated_sprite := sprite_pack_ready and sprite_library.supports_character(str(unit.def_id))
+	if unit_flash.has(unit.uid):
+		var hit_phase := clampf(float(unit_flash[unit.uid]) / .14, 0.0, 1.0)
+		p.x += (-9.0 if player else 9.0) * sin(hit_phase * PI)
+		p.y -= 3.0 * sin(hit_phase * PI)
+	var generated_sprite := (sprite_pack_ready and sprite_library.supports_character(str(unit.def_id))) or fallback_combat_previews.has(str(unit.def_id))
 	var bob := sin(Time.get_ticks_msec() / 180.0 + int(unit.slot)) * 3.0 if alive and not generated_sprite else 0.0
 	p.y += bob
 	# Generated CHR001 frames contain their own motion. Every remaining
@@ -889,16 +1281,18 @@ func _draw_unit(unit: Dictionary) -> void:
 	if int(unit.shield) > 0:
 		var shield_ratio := minf(1.0, float(unit.shield) / maxf(1.0, float(unit.max_hp)))
 		draw_rect(Rect2(bar_origin + Vector2(0, 12), Vector2(bar_width * shield_ratio, 5)), Color("6ecfff"))
-	var label: String = str(unit.def_id)
-	draw_string(ThemeDB.fallback_font, p + Vector2(-55, 46), label, HORIZONTAL_ALIGNMENT_CENTER, 110, 16, Color("dbe9ff"))
+	var label := unit_display_name(unit)
+	var label_font := battle_font if battle_font != null else ThemeDB.fallback_font
+	draw_string(label_font, p + Vector2(-55, 46), label, HORIZONTAL_ALIGNMENT_CENTER, 110, 16, Color("dbe9ff"))
 
 func _draw_combat_sprite(unit: Dictionary, p: Vector2, alive: bool) -> bool:
-	if not sprite_pack_ready or not sprite_library.supports_character(str(unit.def_id)):
+	var character_id := str(unit.def_id)
+	var has_animation_pack := sprite_pack_ready and sprite_library.supports_character(character_id)
+	if not has_animation_pack and not fallback_combat_previews.has(character_id):
 		return false
 	var track: Dictionary = animation_tracks.get(unit.uid, {"name": "idle", "elapsed": 0.0})
 	var animation_name := "down" if not alive else str(track.get("name", "idle"))
-	var character_id := str(unit.def_id)
-	var texture := sprite_library.texture_at(character_id, animation_name, float(track.get("elapsed", 0.0)))
+	var texture: Texture2D = sprite_library.texture_at(character_id, animation_name, float(track.get("elapsed", 0.0))) if has_animation_pack else fallback_combat_previews.get(character_id)
 	if texture == null:
 		return false
 	var scale := 0.44 if str(unit.team) == "PLAYER" else 0.42
@@ -909,7 +1303,7 @@ func _draw_combat_sprite(unit: Dictionary, p: Vector2, alive: bool) -> bool:
 	var top_left := p - Vector2(256.0 * scale, 512.0 * .88 * scale)
 	var modulate := Color(1.0, .72, .72, 1.0) if unit_flash.has(unit.uid) else Color.WHITE
 	var desired_faces_right := str(unit.team) == "PLAYER"
-	var source_faces_right := sprite_library.source_faces_right(character_id)
+	var source_faces_right := sprite_library.source_faces_right(character_id) if has_animation_pack else character_id.begins_with("CHR")
 	if desired_faces_right != source_faces_right:
 		# Mirror around the immutable foot anchor, then immediately restore the
 		# canvas transform so HP bars, labels and later units are never reversed.

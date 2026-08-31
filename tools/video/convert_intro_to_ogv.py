@@ -2,6 +2,8 @@ import sys
 from pathlib import Path
 
 INTRO_CUT_SECONDS = 53.0
+VIDEO_BITRATE_KBPS = 2200
+AUDIO_BITRATE_KBPS = 128
 
 import bpy
 
@@ -41,9 +43,13 @@ sound.frame_final_duration = cut_frame
 scene.render.image_settings.file_format = "FFMPEG"
 scene.render.ffmpeg.format = "OGG"
 scene.render.ffmpeg.codec = "THEORA"
-scene.render.ffmpeg.constant_rate_factor = "MEDIUM"
+# The prior CRF-only encode occupied 39 MiB inside the startup PCK. A bounded
+# 720p rate preserves fast battle motion without restoring that cold-launch
+# penalty; 2200 kbps is the quality floor for this high-motion intro.
+scene.render.ffmpeg.constant_rate_factor = "NONE"
+scene.render.ffmpeg.video_bitrate = VIDEO_BITRATE_KBPS
 scene.render.ffmpeg.audio_codec = "VORBIS"
-scene.render.ffmpeg.audio_bitrate = 192
+scene.render.ffmpeg.audio_bitrate = AUDIO_BITRATE_KBPS
 scene.render.filepath = output_path
 
 print(
@@ -56,6 +62,8 @@ print(
         "frames": scene.frame_end,
         "duration_seconds": scene.frame_end / scene.render.fps,
         "source_cut_seconds": INTRO_CUT_SECONDS,
+        "video_bitrate_kbps": VIDEO_BITRATE_KBPS,
+        "audio_bitrate_kbps": AUDIO_BITRATE_KBPS,
     },
 )
 bpy.ops.render.render(animation=True)

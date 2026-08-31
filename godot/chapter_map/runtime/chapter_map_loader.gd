@@ -9,13 +9,17 @@ static var cached_maps: Dictionary = {}
 
 static func load_map(map_id: String) -> Dictionary:
 	if cached_maps.has(map_id):
-		return cached_maps[map_id]
+		# Runtime exploration removes cleared encounters and patrols from its own
+		# definition.  Never hand that mutable instance back to the cache: the
+		# shell validates the canonical map again when returning from battle, and a
+		# shared dictionary made a legitimate clear look like a corrupt 19-node map.
+		return (cached_maps[map_id] as Dictionary).duplicate(true)
 	var path := COMPILED_ROOT + map_id + ".json"
 	if not FileAccess.file_exists(path): return {}
 	var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
 	var definition := MacroWorldGeneratorScript.expand(parsed) if parsed is Dictionary else {}
-	cached_maps[map_id] = definition
-	return definition
+	cached_maps[map_id] = definition.duplicate(true)
+	return definition.duplicate(true)
 
 static func validate(definition: Dictionary) -> Array[String]:
 	var errors: Array[String] = []

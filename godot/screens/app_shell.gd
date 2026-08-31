@@ -1,5 +1,7 @@
 extends Control
 
+const WEB_FRAME_RATE_CAP := 60
+
 const BattleViewScene := preload("res://battle/scenes/battle_root.tscn")
 const ChapterMapScene := preload("res://chapter_map/view/chapter_map_root.tscn")
 const ChapterMapLoaderScript := preload("res://chapter_map/runtime/chapter_map_loader.gd")
@@ -9,6 +11,7 @@ const HexCoordScript := preload("res://chapter_map/model/hex_coord.gd")
 const GrowthAffordabilityAnalyzerScript := preload("res://progression/growth_affordability_analyzer.gd")
 const GrowthPlanBuilderScript := preload("res://progression/growth_plan_builder.gd")
 const RelayServiceScript := preload("res://relay/relay_service.gd")
+const GameUI := preload("res://ui/game_ui_tokens.gd")
 const DESIGN_VIEWPORT_SIZE := Vector2(1920.0, 1080.0)
 const COMPACT_LANDSCAPE_MAX_WIDTH := 980.0
 const MIN_TOUCH_CSS_PX := 56.0
@@ -17,10 +20,37 @@ const BOSS_ENCOUNTER_CARD_DURATION := 0.82
 const INTRO_VIDEO_PATH := "res://assets/video/lumenbound_intro_full.ogv"
 const INTRO_VIDEO_DURATION_SECONDS := 53.0
 const INTRO_VIDEO_FINISH_GUARD_SECONDS := 0.75
+const TRANSITION_LOADING_MAP_ENTRY := "MAP_ENTRY"
+const TRANSITION_LOADING_BATTLE_ENTRY := "BATTLE_ENTRY"
+const TRANSITION_LOADING_BATTLE_RESULT := "BATTLE_RESULT"
+const TRANSITION_LOADING_MAX_PHASE_VALUE := 96.0
+const STAGE_ENTRY_PRELOAD_TARGET_MSEC := 5000
+const BATTLE_ENTRY_PRELOAD_TARGET_MSEC := 5000
+const TRANSITION_GPU_WARM_BATCH := 4
+const TRANSITION_LOADING_ART_PATH := "res://assets/art/backgrounds/BG_STORY_RELAY/bg_story_relay_1920x1080.png"
+const TRANSITION_LOADING_LOGO_PATH := "res://assets/art/title/title_logo_r1.png"
 var content: VBoxContainer
 var footer_status: Label
 var safe_margin: MarginContainer
 var current_screen := "TITLE"
+var transition_loading_layer: CanvasLayer
+var transition_loading_surface: Control
+var transition_loading_panel: PanelContainer
+var transition_loading_progress_bar: ProgressBar
+var transition_loading_percent_label: Label
+var transition_loading_phase_label: Label
+var transition_loading_title_label: Label
+var transition_loading_generation := 0
+var last_stage_preload_elapsed_msec := 0
+var last_stage_preload_texture_count := 0
+var last_stage_preload_cache_hit := false
+var transition_loading_active_token := 0
+var transition_loading_kind := ""
+var transition_loading_phase_start_value := 0.0
+var transition_loading_phase_target_value := 0.0
+var transition_loading_phase_started_msec := 0
+var transition_loading_phase_duration_msec := 1
+var transaction_save_failure_layer: CanvasLayer
 var stage_mode := "NORMAL"
 var formation_slot := 0
 var scenario_runner: ScenarioRunner
@@ -39,6 +69,10 @@ var story_auto_button: Button
 var story_skip_button: Button
 var story_is_prologue := false
 var active_chapter_map_screen: Control
+var chapter_map_cache_host: Control
+var cached_chapter_map_screen: Control
+var cached_chapter_map_id := ""
+var chapter_map_show_generation := 0
 var story_auto := false
 var story_auto_left := 0.0
 var story_ui_hidden := false
@@ -65,6 +99,9 @@ var compact_touch_probe_left := 0.0
 var last_battle_result: Dictionary = {}
 var last_rewards: Dictionary = {}
 var last_reward_report: Dictionary = {}
+var map_reward_layer: CanvasLayer
+var map_reward_surface: Control
+var map_reward_panel: PanelContainer
 var last_growth_plan_actions: Array = []
 var last_growth_plan_report: Dictionary = {}
 var battle_party_ids: Array[String] = []
@@ -92,6 +129,7 @@ var transition_edge_last_action := ""
 var transition_edge_last_source := ""
 var story_checkpoint_dirty := false
 var story_checkpoint_save_scheduled := false
+var story_navigation_pending := false
 const TRANSITION_EDGE_DEBOUNCE_MSEC := 220
 # The first visit to HQ is a guided handoff, not an unlabelled menu landing.
 # Keep its presentation separate from map/tutorial ownership so a resize or
@@ -106,19 +144,34 @@ var home_tutorial_continue_button: Button
 var home_tutorial_skip_button: Button
 var home_tutorial_progress_label: Label
 var home_tutorial_step := 0
+# Presentation reflow may rebuild the HOME tree after the browser reports its
+# final CSS viewport. Keep the player's logical tutorial progress outside that
+# disposable tree so a valid button press can never be reset to step 1/4.
+var home_tutorial_resume_step := 1
+var home_tutorial_last_advance_msec := -100000
+var home_first_operation_navigation_pending := false
 var home_menu_buttons: Dictionary = {}
 var intro_video_layer: CanvasLayer
 var intro_video_player: VideoStreamPlayer
 var intro_video_active := false
 var intro_video_generation := 0
+var intro_start_gate: Control
+var intro_title_lockup: Control
 # Keep the title-card tween owned by the intro lifecycle. Skipping the movie
 # used to free its layer while this local-capture callback was still pending.
 var intro_title_tween: Tween
 
 func _ready() -> void:
+	# Browser displays commonly report 100/120/144 Hz. Rendering the tactical
+	# SubViewport at that rate doubled CPU/GPU work without adding authored
+	# animation frames and made WebAudio underruns much more likely during map
+	# streaming. Preserve any lower user/platform cap, otherwise use stable 60 Hz.
+	if OS.has_feature("web") and (Engine.max_fps <= 0 or Engine.max_fps > WEB_FRAME_RATE_CAP):
+		Engine.max_fps = WEB_FRAME_RATE_CAP
 	_build_root()
 	EventBus.screen_changed.connect(_show_screen)
-	SaveService.load_game()
+	var load_result := SaveService.load_game()
+	print("SAVE_LOAD_SOURCE source=%s sandbox=%s session=%s" % [str(load_result.value) if load_result.ok else "new", str(SaveService.is_soak_sandbox_enabled()), str(SaveService.soak_sandbox_session)])
 	# SaveService restores the player's normal preference after autoloads have
 	# entered the tree. Re-apply the URL-only visual-QA mute here so a saved
 	# audio-enabled value cannot restart BGM in the explicitly silent preview.
@@ -143,6 +196,10 @@ func _show_intro_video() -> void:
 	var surface := Control.new()
 	surface.name = "StartupIntroVideoSurface"
 	surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	# CanvasLayer breaks the ordinary Control theme ancestry. Bind the project
+	# Noto Sans KR theme here so the Web audio gate never falls back to missing
+	# browser glyphs for its Korean label and action.
+	surface.theme = theme
 	intro_video_layer.add_child(surface)
 
 	var black := ColorRect.new()
@@ -176,19 +233,19 @@ func _show_intro_video() -> void:
 	surface.add_child(title_center)
 	var title_lockup := PanelContainer.new()
 	title_lockup.name = "StartupIntroTitleLockup"
+	intro_title_lockup = title_lockup
 	var intro_ui_scale := _responsive_control_scale()
 	var intro_portrait := _is_portrait_layout()
 	title_lockup.custom_minimum_size = (Vector2(340.0, 128.0) * intro_ui_scale) if intro_portrait else Vector2(920.0, 270.0)
 	title_lockup.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var title_panel_style := StyleBoxFlat.new()
-	title_panel_style.bg_color = Color("02060bc2")
-	title_panel_style.border_color = Color("d8b75caa")
-	title_panel_style.set_border_width_all(roundi(2.0 * intro_ui_scale))
-	title_panel_style.set_corner_radius_all(roundi(12.0 * intro_ui_scale))
-	title_panel_style.content_margin_left = 30.0 * intro_ui_scale
-	title_panel_style.content_margin_right = 30.0 * intro_ui_scale
-	title_panel_style.content_margin_top = 18.0 * intro_ui_scale
-	title_panel_style.content_margin_bottom = 18.0 * intro_ui_scale
+	var title_panel_style := GameUI.panel_style(
+		Color("050a11b8"),
+		Color("e7bf6899"),
+		roundi(1.0 * intro_ui_scale),
+		roundi(float(GameUI.RADIUS_PANEL) * intro_ui_scale),
+		Vector4(30.0, 18.0, 30.0, 18.0) * intro_ui_scale,
+		10
+	)
 	title_lockup.add_theme_stylebox_override("panel", title_panel_style)
 	title_center.add_child(title_lockup)
 	var title_logo := TextureRect.new()
@@ -198,12 +255,6 @@ func _show_intro_video() -> void:
 	title_logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	title_logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	title_lockup.add_child(title_logo)
-	intro_title_tween = create_tween()
-	intro_title_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	intro_title_tween.tween_interval(5.0)
-	intro_title_tween.tween_property(title_lockup, "modulate:a", 0.0, 0.85).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	intro_title_tween.tween_callback(_queue_free_if_valid.bind(title_center))
-
 	var skip := _button("SKIP", _finish_intro_video, false, Vector2(148.0, 64.0))
 	skip.name = "StartupIntroSkipButton"
 	skip.tooltip_text = "인트로 영상 건너뛰기"
@@ -222,7 +273,65 @@ func _show_intro_video() -> void:
 		_finish_intro_video()
 		return
 	intro_video_player.stream = stream
+	var web_audio_needs_gesture := OS.has_feature("web") and bool(SettingsService.values.get("audio_enabled", true)) and not SettingsService.web_preview_audio_forced_muted()
+	if web_audio_needs_gesture:
+		_build_intro_audio_gate(active_generation, surface)
+	else:
+		_start_intro_video_playback(active_generation)
+
+func _build_intro_audio_gate(active_generation: int, surface: Control) -> void:
+	# Browsers intentionally block audible autoplay. Starting the movie muted and
+	# trying to resume it later loses the opening soundtrack. Hold frame zero until
+	# one trusted click/tap, unlock WebAudio in that callback, then start both video
+	# and audio together from the beginning.
+	intro_start_gate = PanelContainer.new()
+	intro_start_gate.name = "StartupIntroAudioGate"
+	intro_start_gate.anchor_left = 0.5
+	intro_start_gate.anchor_right = 0.5
+	intro_start_gate.anchor_top = 0.72
+	intro_start_gate.anchor_bottom = 0.72
+	intro_start_gate.offset_left = -300.0
+	intro_start_gate.offset_right = 300.0
+	intro_start_gate.offset_top = -72.0
+	intro_start_gate.offset_bottom = 72.0
+	intro_start_gate.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	intro_start_gate.grow_vertical = Control.GROW_DIRECTION_BOTH
+	intro_start_gate.mouse_filter = Control.MOUSE_FILTER_STOP
+	intro_start_gate.add_theme_stylebox_override("panel", GameUI.panel_style(Color("071521f2"), Color("74e1d4c8"), 1, GameUI.RADIUS_MODAL, Vector4(24.0, 18.0, 24.0, 18.0), 12))
+	surface.add_child(intro_start_gate)
+	var gate_box := VBoxContainer.new()
+	gate_box.alignment = BoxContainer.ALIGNMENT_CENTER
+	gate_box.add_theme_constant_override("separation", 10)
+	intro_start_gate.add_child(gate_box)
+	var gate_label := Label.new()
+	gate_label.name = "StartupIntroAudioGateLabel"
+	gate_label.text = "SOUND ON  ·  인트로는 0초부터 시작됩니다"
+	gate_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	gate_label.add_theme_color_override("font_color", GameUI.TEXT_MUTED)
+	gate_label.add_theme_font_size_override("font_size", 20)
+	gate_box.add_child(gate_label)
+	var start_button := _button("소리 켜고 인트로 시작", _start_intro_video_playback.bind(active_generation), false, Vector2(420.0, 64.0))
+	start_button.name = "StartupIntroAudioStartButton"
+	GameUI.apply_button(start_button, "primary")
+	start_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	gate_box.add_child(start_button)
+	start_button.grab_focus()
+
+func _start_intro_video_playback(active_generation: int) -> void:
+	if not intro_video_active or active_generation != intro_video_generation or intro_video_player == null:
+		return
+	AudioService.unlock_from_user_gesture()
+	if intro_start_gate != null and is_instance_valid(intro_start_gate):
+		intro_start_gate.queue_free()
+	intro_start_gate = null
 	intro_video_player.play()
+	if intro_title_lockup != null and is_instance_valid(intro_title_lockup):
+		var title_parent := intro_title_lockup.get_parent()
+		intro_title_tween = create_tween()
+		intro_title_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+		intro_title_tween.tween_interval(5.0)
+		intro_title_tween.tween_property(intro_title_lockup, "modulate:a", 0.0, 0.85).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		intro_title_tween.tween_callback(_queue_free_if_valid.bind(title_parent))
 	# Ogg/Theora reaches its last frame reliably on Web, but some browsers do
 	# not forward VideoStreamPlayer.finished.  This guard runs only after the
 	# complete authored duration plus a safety margin, so it can never shorten
@@ -240,6 +349,8 @@ func _finish_intro_video() -> void:
 	if intro_title_tween != null and intro_title_tween.is_valid():
 		intro_title_tween.kill()
 	intro_title_tween = null
+	intro_title_lockup = null
+	intro_start_gate = null
 	if intro_video_player != null:
 		intro_video_player.stop()
 	intro_video_player = null
@@ -281,6 +392,15 @@ func _build_root() -> void:
 	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_theme_constant_override("separation", 16)
 	safe_margin.add_child(content)
+	# Keep the expensive 3D chapter world alive while battle and reward UI are
+	# shown.  The cache host is hidden and processing-disabled, so it costs no draw
+	# work; returning to the map reuses the existing terrain/props instead of
+	# destroying and reconstructing hundreds of Web nodes.
+	chapter_map_cache_host = Control.new()
+	chapter_map_cache_host.name = "ChapterMapCacheHost"
+	chapter_map_cache_host.visible = false
+	chapter_map_cache_host.process_mode = Node.PROCESS_MODE_DISABLED
+	add_child(chapter_map_cache_host)
 	get_window().size_changed.connect(_on_window_size_changed)
 	_apply_safe_area()
 	# Browser viewport changes do not always emit Godot's window-size signal.
@@ -299,8 +419,482 @@ func _build_root() -> void:
 	theme = _make_theme()
 	_build_viewport_gate()
 
+func _begin_transition_loading(kind_value: String) -> int:
+	# This overlay belongs to screen-owner replacement only. ChapterMap never
+	# calls it for pawn movement, enemy turns, or treasure presentation, so those
+	# responsive interactions cannot accidentally acquire a loading gate.
+	_dispose_transition_loading()
+	transition_loading_generation += 1
+	transition_loading_active_token = transition_loading_generation
+	transition_loading_kind = kind_value
+	transition_loading_phase_start_value = 0.0
+	transition_loading_phase_target_value = 0.0
+	transition_loading_phase_started_msec = Time.get_ticks_msec()
+	transition_loading_phase_duration_msec = 1
+
+	transition_loading_layer = CanvasLayer.new()
+	transition_loading_layer.name = "TransitionLoadingLayer"
+	transition_loading_layer.layer = 400
+	add_child(transition_loading_layer)
+	transition_loading_surface = Control.new()
+	transition_loading_surface.name = "TransitionLoadingSurface"
+	transition_loading_surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	transition_loading_surface.mouse_filter = Control.MOUSE_FILTER_STOP
+	# CanvasLayer does not inherit AppShell's project font/theme automatically.
+	# Explicit inheritance keeps Korean status copy identical on desktop and Web.
+	transition_loading_surface.theme = theme
+	transition_loading_surface.set_meta("transition_kind", kind_value)
+	transition_loading_surface.set_meta("transition_token", transition_loading_active_token)
+	transition_loading_layer.add_child(transition_loading_surface)
+
+	var art := TextureRect.new()
+	art.name = "TransitionLoadingArtwork"
+	art.texture = load(TRANSITION_LOADING_ART_PATH) as Texture2D
+	art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	art.modulate = Color(0.48, 0.63, 0.70, 0.88)
+	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	transition_loading_surface.add_child(art)
+	var scrim := ColorRect.new()
+	scrim.name = "TransitionLoadingScrim"
+	scrim.color = Color("030811c7")
+	scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	transition_loading_surface.add_child(scrim)
+
+	transition_loading_panel = PanelContainer.new()
+	transition_loading_panel.name = "TransitionLoadingPanel"
+	transition_loading_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	transition_loading_panel.add_theme_stylebox_override("panel", GameUI.panel_style(
+		Color("07131fe8"),
+		Color("79e7d5c8"),
+		1,
+		GameUI.RADIUS_MODAL,
+		Vector4(30.0, 22.0, 30.0, 24.0),
+		16
+	))
+	transition_loading_surface.add_child(transition_loading_panel)
+	var column := VBoxContainer.new()
+	column.name = "LoadingColumn"
+	column.alignment = BoxContainer.ALIGNMENT_CENTER
+	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	transition_loading_panel.add_child(column)
+
+	var logo := TextureRect.new()
+	logo.name = "BrandLogo"
+	logo.texture = load(TRANSITION_LOADING_LOGO_PATH) as Texture2D
+	logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	logo.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	column.add_child(logo)
+	transition_loading_title_label = Label.new()
+	transition_loading_title_label.name = "TransitionLoadingTitle"
+	transition_loading_title_label.text = _transition_loading_title(kind_value)
+	transition_loading_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	transition_loading_title_label.add_theme_color_override("font_color", GameUI.TEXT)
+	var title_font := GameUI.weighted_font(interface_font, 720.0, 0.04)
+	if title_font != null:
+		transition_loading_title_label.add_theme_font_override("font", title_font)
+	column.add_child(transition_loading_title_label)
+	transition_loading_phase_label = Label.new()
+	transition_loading_phase_label.name = "TransitionLoadingPhase"
+	transition_loading_phase_label.text = _transition_loading_initial_phase(kind_value)
+	transition_loading_phase_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	transition_loading_phase_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	transition_loading_phase_label.add_theme_color_override("font_color", GameUI.TEXT_MUTED)
+	column.add_child(transition_loading_phase_label)
+
+	transition_loading_progress_bar = ProgressBar.new()
+	transition_loading_progress_bar.name = "TransitionLoadingProgressBar"
+	transition_loading_progress_bar.min_value = 0.0
+	transition_loading_progress_bar.max_value = 100.0
+	transition_loading_progress_bar.value = 0.0
+	transition_loading_progress_bar.show_percentage = false
+	transition_loading_progress_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	transition_loading_progress_bar.tooltip_text = "Current transition progress"
+	var bar_background := StyleBoxFlat.new()
+	bar_background.bg_color = Color("020810")
+	bar_background.border_color = Color("8aaabd55")
+	bar_background.set_border_width_all(1)
+	bar_background.set_corner_radius_all(GameUI.RADIUS_CONTROL)
+	var bar_fill := StyleBoxFlat.new()
+	bar_fill.bg_color = GameUI.SIGNAL
+	bar_fill.border_color = Color("c9fff5")
+	bar_fill.set_border_width_all(1)
+	bar_fill.set_corner_radius_all(GameUI.RADIUS_CONTROL)
+	transition_loading_progress_bar.add_theme_stylebox_override("background", bar_background)
+	transition_loading_progress_bar.add_theme_stylebox_override("fill", bar_fill)
+	column.add_child(transition_loading_progress_bar)
+	transition_loading_percent_label = Label.new()
+	transition_loading_percent_label.name = "TransitionLoadingPercent"
+	transition_loading_percent_label.text = "0%"
+	transition_loading_percent_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	transition_loading_percent_label.add_theme_color_override("font_color", GameUI.OBJECTIVE)
+	var percent_font := GameUI.weighted_font(interface_font, 680.0, 0.03)
+	if percent_font != null:
+		transition_loading_percent_label.add_theme_font_override("font", percent_font)
+	column.add_child(transition_loading_percent_label)
+	_apply_transition_loading_layout()
+	_set_transition_loading_display_value(0.0)
+	return transition_loading_active_token
+
+func _transition_loading_title(kind_value: String) -> String:
+	match kind_value:
+		TRANSITION_LOADING_BATTLE_ENTRY:
+			return "LOADING — BATTLE"
+		TRANSITION_LOADING_BATTLE_RESULT:
+			return "LOADING — RESULTS"
+		_:
+			return "LOADING — TACTICAL MAP"
+
+func _transition_loading_initial_phase(kind_value: String) -> String:
+	match kind_value:
+		TRANSITION_LOADING_BATTLE_ENTRY:
+			return "Preparing combat data"
+		TRANSITION_LOADING_BATTLE_RESULT:
+			return "Preparing battle report"
+		_:
+			return "Preparing stage data"
+
+func _apply_transition_loading_layout() -> void:
+	if transition_loading_panel == null or not is_instance_valid(transition_loading_panel):
+		return
+	var metrics := responsive_ui_metrics_for_size(_runtime_layout_size())
+	var portrait := bool(metrics.portrait)
+	var compact_landscape := bool(metrics.compact_landscape)
+	var ui_scale := float(metrics.ui_scale)
+	# Anchor-based bounds follow the same expanded 1920 canvas contract as the
+	# rest of AppShell. Portrait gets a wide lower card, compact landscape gets
+	# extra vertical reading room, and desktop stays deliberately restrained.
+	transition_loading_panel.anchor_left = 0.055 if portrait else (0.10 if compact_landscape else 0.26)
+	transition_loading_panel.anchor_right = 0.945 if portrait else (0.90 if compact_landscape else 0.74)
+	transition_loading_panel.anchor_top = 0.54 if portrait else (0.43 if compact_landscape else 0.59)
+	transition_loading_panel.anchor_bottom = 0.90 if portrait else (0.93 if compact_landscape else 0.90)
+	transition_loading_panel.offset_left = 0.0
+	transition_loading_panel.offset_right = 0.0
+	transition_loading_panel.offset_top = 0.0
+	transition_loading_panel.offset_bottom = 0.0
+	transition_loading_panel.custom_minimum_size = Vector2.ZERO
+	var column := transition_loading_panel.get_node_or_null("LoadingColumn") as VBoxContainer
+	if column != null:
+		column.add_theme_constant_override("separation", roundi(10.0 * ui_scale))
+		var logo := column.get_node_or_null("BrandLogo") as TextureRect
+		if logo != null:
+			logo.custom_minimum_size = Vector2(270.0, 66.0) * ui_scale
+	if transition_loading_title_label != null:
+		transition_loading_title_label.add_theme_font_size_override("font_size", roundi(30.0 * ui_scale))
+	if transition_loading_phase_label != null:
+		transition_loading_phase_label.add_theme_font_size_override("font_size", roundi(18.0 * ui_scale))
+	if transition_loading_progress_bar != null:
+		transition_loading_progress_bar.custom_minimum_size = Vector2(0.0, 18.0 * ui_scale)
+	if transition_loading_percent_label != null:
+		transition_loading_percent_label.add_theme_font_size_override("font_size", roundi(17.0 * ui_scale))
+
+func _transition_loading_token_for(kind_value: String) -> int:
+	if transition_loading_kind != kind_value or not _transition_loading_token_is_valid(transition_loading_active_token):
+		return 0
+	return transition_loading_active_token
+
+func _transition_loading_token_is_valid(token: int) -> bool:
+	return token > 0 \
+		and token == transition_loading_active_token \
+		and transition_loading_layer != null \
+		and is_instance_valid(transition_loading_layer) \
+		and transition_loading_surface != null \
+		and is_instance_valid(transition_loading_surface)
+
+func _set_transition_loading_phase(token: int, phase_text: String, target_value: float, duration_seconds := 0.24) -> void:
+	if not _transition_loading_token_is_valid(token):
+		return
+	# Reaching this call means the prior real setup phase completed. Commit its
+	# target before opening the next timed segment; progress is therefore a true
+	# sequence of completed work, with time-based fill only inside that segment.
+	_set_transition_loading_display_value(transition_loading_phase_target_value)
+	transition_loading_phase_start_value = transition_loading_phase_target_value
+	transition_loading_phase_target_value = clampf(maxf(transition_loading_phase_start_value, target_value), 0.0, TRANSITION_LOADING_MAX_PHASE_VALUE)
+	transition_loading_phase_started_msec = Time.get_ticks_msec()
+	transition_loading_phase_duration_msec = maxi(1, roundi(duration_seconds * 1000.0))
+	if transition_loading_phase_label != null and is_instance_valid(transition_loading_phase_label):
+		transition_loading_phase_label.text = phase_text
+
+func _update_transition_loading_progress() -> void:
+	if not _transition_loading_token_is_valid(transition_loading_active_token) or transition_loading_progress_bar == null:
+		return
+	var elapsed_msec := maxi(0, Time.get_ticks_msec() - transition_loading_phase_started_msec)
+	var phase_ratio := clampf(float(elapsed_msec) / float(transition_loading_phase_duration_msec), 0.0, 1.0)
+	# Ease only the visual readout; targets are raised exclusively by completed
+	# setup phases, so the bar never loops or pretends an unfinished phase passed.
+	var eased_ratio := phase_ratio * phase_ratio * (3.0 - 2.0 * phase_ratio)
+	_set_transition_loading_display_value(lerpf(transition_loading_phase_start_value, transition_loading_phase_target_value, eased_ratio))
+
+func _set_transition_loading_display_value(value: float) -> void:
+	if transition_loading_progress_bar == null or not is_instance_valid(transition_loading_progress_bar):
+		return
+	var clamped_value := clampf(value, 0.0, 100.0)
+	transition_loading_progress_bar.value = clamped_value
+	if transition_loading_percent_label != null and is_instance_valid(transition_loading_percent_label):
+		transition_loading_percent_label.text = "%d%%" % roundi(clamped_value)
+
+func _stage_asset_cache_phase_text(phase: String) -> String:
+	if phase.begins_with("MAP_ACTOR_MANIFEST"):
+		return "Reading map character animation data"
+	if phase.begins_with("MAP_ACTOR_ATLAS"):
+		return "Caching map character animations"
+	if phase == "MAP_READY":
+		return "Map character cache ready"
+	if phase.begins_with("ACTOR_MANIFEST"):
+		return "Reading character animation data"
+	if phase.begins_with("ACTOR_ATLAS"):
+		return "Caching character animations"
+	if phase.begins_with("PROJECTILE_MANIFEST"):
+		return "Reading skill projectile data"
+	if phase.begins_with("PROJECTILE_ATLAS"):
+		return "Caching skill projectiles"
+	if phase.begins_with("PREVIEW"):
+		return "Preparing combat fallback art"
+	if phase.begins_with("VFX"):
+		return "Caching cast, travel, and impact effects"
+	if phase in ["BATTLE_BACKGROUND", "BOSS_BACKGROUND"]:
+		return "Preparing battle environments"
+	if phase == "BATTLE_FONT":
+		return "Preparing battle interface type"
+	if phase == "READY":
+		return "Combat resource cache ready"
+	return "Planning stage resources"
+
+func _on_stage_asset_cache_progress(value: float, phase: String, token: int) -> void:
+	if not _transition_loading_token_is_valid(token):
+		return
+	var target := lerpf(14.0, 48.0, clampf(value, 0.0, 1.0))
+	_set_transition_loading_phase(token, _stage_asset_cache_phase_text(phase), target, 0.08)
+
+func _map_load_phase_text(phase: String) -> String:
+	match phase:
+		"map_data":
+			return "Restoring map progress"
+		"shell":
+			return "Building the tactical map interface"
+		"terrain":
+			return "Building terrain and elevation"
+		"terrain_dressing":
+			return "Placing forests, roads, walls, and rocks"
+		"map_presentation":
+			return "Placing treasures, encounters, and landmarks"
+		"unlocked_enemies":
+			return "Deploying unlocked enemies and patrols"
+		"route_water":
+			return "Finishing rivers, coasts, and routes"
+		"ready":
+			return "Enabling tactical map controls"
+		_:
+			return "Building the tactical map"
+
+func _on_chapter_map_load_progress(value: float, phase: String, token: int, show_generation: int) -> void:
+	if current_screen != "STAGE_SELECT" or show_generation != chapter_map_show_generation:
+		return
+	if not _transition_loading_token_is_valid(token):
+		return
+	var target := lerpf(56.0, 96.0, clampf(value, 0.0, 1.0))
+	_set_transition_loading_phase(token, _map_load_phase_text(phase), target, 0.10)
+
+func _warm_transition_gpu_textures(token: int, textures: Array[Texture2D]) -> int:
+	# ResourceLoader keeps decoded images alive, but WebGL performs the first GPU
+	# upload only when a texture is actually drawn. Paint one tiny, non-interactive
+	# sample per renderer frame under the already-visible loading layer so movement,
+	# treasure pickup and combat never inherit that upload hitch later.
+	if textures.is_empty() or not _transition_loading_token_is_valid(token):
+		return 0
+	# Submit a small texture batch in each draw instead of forcing one complete
+	# renderer frame per backing image. The former 58-frame pass added a full
+	# second of artificial loading even on an otherwise idle browser.
+	var warm_rects: Array[TextureRect] = []
+	for rect_index in range(mini(TRANSITION_GPU_WARM_BATCH, textures.size())):
+		var warm_rect := TextureRect.new()
+		warm_rect.name = "TransitionGpuWarmTexture_%02d" % rect_index
+		warm_rect.position = Vector2(float(rect_index) * 2.0, 0.0)
+		warm_rect.size = Vector2(2.0, 2.0)
+		warm_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		warm_rect.stretch_mode = TextureRect.STRETCH_SCALE
+		warm_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		warm_rect.modulate = Color(1.0, 1.0, 1.0, 0.015)
+		transition_loading_surface.add_child(warm_rect)
+		warm_rects.append(warm_rect)
+	var warmed := 0
+	for batch_start in range(0, textures.size(), TRANSITION_GPU_WARM_BATCH):
+		if not _transition_loading_token_is_valid(token):
+			break
+		var batch_end := mini(batch_start + TRANSITION_GPU_WARM_BATCH, textures.size())
+		for rect_index in range(warm_rects.size()):
+			var texture_index := batch_start + rect_index
+			warm_rects[rect_index].texture = textures[texture_index] if texture_index < batch_end else null
+			warm_rects[rect_index].queue_redraw()
+		await RenderingServer.frame_post_draw
+		warmed = batch_end
+		var ratio := float(warmed) / float(maxi(1, textures.size()))
+		_set_transition_loading_phase(token, "Uploading map character textures", lerpf(48.0, 56.0, ratio), 0.04)
+	for warm_rect in warm_rects:
+		if is_instance_valid(warm_rect):
+			warm_rect.queue_free()
+	return warmed
+
+func _finish_transition_loading(token: int, final_phase := "Ready") -> void:
+	if not _transition_loading_token_is_valid(token):
+		return
+	if transition_loading_phase_label != null and is_instance_valid(transition_loading_phase_label):
+		transition_loading_phase_label.text = final_phase
+	transition_loading_phase_start_value = 100.0
+	transition_loading_phase_target_value = 100.0
+	_set_transition_loading_display_value(100.0)
+	# Hold the completed state briefly so 100% is actually painted before the
+	# owner layer closes. This delay occurs only after the new screen is ready.
+	await get_tree().create_timer(0.10, true, false, true).timeout
+	if _transition_loading_token_is_valid(token):
+		_dispose_transition_loading()
+
+func _cancel_transition_loading(token := 0) -> void:
+	if token > 0 and token != transition_loading_active_token:
+		return
+	transition_loading_generation += 1
+	_dispose_transition_loading()
+
+func _dispose_transition_loading() -> void:
+	if transition_loading_layer != null and is_instance_valid(transition_loading_layer):
+		transition_loading_layer.visible = false
+		transition_loading_layer.queue_free()
+	transition_loading_layer = null
+	transition_loading_surface = null
+	transition_loading_panel = null
+	transition_loading_progress_bar = null
+	transition_loading_percent_label = null
+	transition_loading_phase_label = null
+	transition_loading_title_label = null
+	transition_loading_active_token = 0
+	transition_loading_kind = ""
+	transition_loading_phase_start_value = 0.0
+	transition_loading_phase_target_value = 0.0
+
+func _wait_for_map_ready_with_deadline(map_screen: Control, started_msec: int, show_generation: int) -> bool:
+	while map_screen != null and is_instance_valid(map_screen) \
+		and current_screen == "STAGE_SELECT" and show_generation == chapter_map_show_generation:
+		if bool(map_screen.get("map_ready_complete")):
+			return true
+		if Time.get_ticks_msec() - started_msec >= STAGE_ENTRY_PRELOAD_TARGET_MSEC:
+			return false
+		await get_tree().process_frame
+	return false
+
+func _wait_for_battle_assets_with_deadline(view: BattleView, started_msec: int) -> bool:
+	while view != null and is_instance_valid(view) and current_screen == "BATTLE":
+		if view.assets_ready:
+			return true
+		if Time.get_ticks_msec() - started_msec >= BATTLE_ENTRY_PRELOAD_TARGET_MSEC:
+			return false
+		await get_tree().process_frame
+	return false
+
+func _show_loading_failure_screen(title_text: String, detail_text: String, retry_screen: String, allow_safe_list := false) -> void:
+	StageAssetCache.cancel_warmup()
+	_cancel_transition_loading()
+	_clear()
+	_title(title_text, detail_text)
+	var panel := PanelContainer.new()
+	panel.name = "LoadingFailurePanel"
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	panel.add_theme_stylebox_override("panel", GameUI.panel_style(Color("07131ff2"), Color("f1c75b"), 1, GameUI.RADIUS_MODAL, Vector4(28, 24, 28, 28), 14))
+	content.add_child(panel)
+	var column := VBoxContainer.new()
+	column.alignment = BoxContainer.ALIGNMENT_CENTER
+	column.add_theme_constant_override("separation", 18)
+	panel.add_child(column)
+	column.add_child(_label("LOADING COULD NOT FINISH", 34, Color("f1c75b")))
+	column.add_child(_label(detail_text, 22, GameUI.TEXT_MUTED))
+	column.add_child(_button("RETRY", func(): _show_screen(retry_screen), false, Vector2(280, 68)))
+	if allow_safe_list:
+		column.add_child(_button("OPEN SAFE STAGE LIST", func(): SceneRouter.go("STAGE_LIST_FALLBACK"), false, Vector2(360, 68)))
+	elif retry_screen == "BATTLE":
+		column.add_child(_button("RETURN TO TACTICAL MAP", func(): SceneRouter.go("STAGE_SELECT"), false, Vector2(360, 68)))
+
+func _dispose_transaction_save_failure() -> void:
+	if transaction_save_failure_layer != null and is_instance_valid(transaction_save_failure_layer):
+		transaction_save_failure_layer.queue_free()
+	transaction_save_failure_layer = null
+
+func _present_transaction_save_failure(title_text: String, error_text: String, after_saved: Callable) -> void:
+	_dispose_transaction_save_failure()
+	transaction_save_failure_layer = CanvasLayer.new()
+	transaction_save_failure_layer.name = "TransactionSaveFailureLayer"
+	transaction_save_failure_layer.layer = 430
+	add_child(transaction_save_failure_layer)
+	var surface := Control.new()
+	surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	surface.mouse_filter = Control.MOUSE_FILTER_STOP
+	surface.theme = theme
+	transaction_save_failure_layer.add_child(surface)
+	var dimmer := ColorRect.new()
+	dimmer.color = Color("020710e8")
+	dimmer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	dimmer.mouse_filter = Control.MOUSE_FILTER_STOP
+	surface.add_child(dimmer)
+	var panel := PanelContainer.new()
+	panel.anchor_left = 0.18
+	panel.anchor_right = 0.82
+	panel.anchor_top = 0.28
+	panel.anchor_bottom = 0.72
+	panel.add_theme_stylebox_override("panel", GameUI.panel_style(Color("081725fa"), Color("f1c75b"), 1, GameUI.RADIUS_MODAL, Vector4(30, 26, 30, 28), 16))
+	surface.add_child(panel)
+	var column := VBoxContainer.new()
+	column.alignment = BoxContainer.ALIGNMENT_CENTER
+	column.add_theme_constant_override("separation", 18)
+	panel.add_child(column)
+	column.add_child(_label(title_text, 34, Color("f1c75b")))
+	var detail := _label("Progress is still held in memory. Retry the save before leaving this screen.\n%s" % error_text, 20, GameUI.TEXT_MUTED)
+	detail.name = "TransactionSaveFailureDetail"
+	column.add_child(detail)
+	column.add_child(_button("RETRY SAVE", func() -> void:
+		var retry_result := SaveService.save_game()
+		if retry_result.ok:
+			_dispose_transaction_save_failure()
+			if after_saved.is_valid():
+				after_saved.call()
+		else:
+			detail.text = "Progress is still held in memory. Retry the save before leaving this screen.\n%s" % retry_result.error
+	, false, Vector2(300, 70)))
+
+func _should_show_map_transition_loading(previous_screen: String) -> bool:
+	if previous_screen == "STAGE_SELECT":
+		return false
+	if previous_screen == "RESULT":
+		# Treasure/result presentation is lightweight and intentionally continuous:
+		# it must return to the map without ever constructing this blocking layer.
+		var source_type := str(last_reward_report.get("source_type", "")).to_upper()
+		if source_type in ["TREASURE", "EXPLORE"]:
+			return false
+	return true
+
+func _prepare_transition_loading_for_screen(previous_screen: String, next_screen: String) -> void:
+	match next_screen:
+		"STAGE_SELECT":
+			if _should_show_map_transition_loading(previous_screen):
+				if _transition_loading_token_for(TRANSITION_LOADING_MAP_ENTRY) == 0:
+					_begin_transition_loading(TRANSITION_LOADING_MAP_ENTRY)
+			elif transition_loading_active_token > 0:
+				_cancel_transition_loading()
+		"BATTLE":
+			if _transition_loading_token_for(TRANSITION_LOADING_BATTLE_ENTRY) == 0:
+				_begin_transition_loading(TRANSITION_LOADING_BATTLE_ENTRY)
+		"RESULT":
+			# Only a finished live battle owns BATTLE_RESULT. Treasure and sweep
+			# routes arrive without a token and therefore never instantiate an overlay.
+			if _transition_loading_token_for(TRANSITION_LOADING_BATTLE_RESULT) == 0 and transition_loading_active_token > 0:
+				_cancel_transition_loading()
+		_:
+			if transition_loading_active_token > 0:
+				_cancel_transition_loading()
+
 func _make_theme() -> Theme:
-	var value := Theme.new()
 	var ui_scale := _responsive_control_scale()
 	# The earlier subset deliberately reduced the Web payload, but it omitted
 	# glyphs introduced by localized reward names.  Use the project-owned OFL
@@ -308,77 +902,7 @@ func _make_theme() -> Theme:
 	var bundled_font := load("res://assets/fonts/NotoSansKR-VF.ttf") as Font
 	if bundled_font != null:
 		interface_font = bundled_font
-		value.default_font = bundled_font
-	value.default_font_size = roundi(28.0 * ui_scale)
-	# Text-heavy Korean flows need their narrative to lead the hierarchy. Keep
-	# touch targets at their existing physical size while lowering default button
-	# type below body text; touch size and type size are deliberately independent.
-	# Labels carry the primary reading task. Keep generic controls comfortably
-	# tappable, but do not let their type compete with Korean narrative copy.
-	value.set_font_size("font_size", "Button", roundi(24.0 * ui_scale))
-	value.set_font_size("font_size", "Label", roundi(28.0 * ui_scale))
-	value.set_color("font_color", "Label", Color("f4f7fb"))
-	value.set_color("font_color", "Button", Color("f4f7fb"))
-	value.set_color("font_hover_color", "Button", Color("f4f7fb"))
-	value.set_color("font_pressed_color", "Button", Color("f4f7fb"))
-	value.set_color("font_disabled_color", "Button", Color("8f9caf"))
-	value.set_color("font_focus_color", "Button", Color("f4f7fb"))
-	var normal := StyleBoxFlat.new()
-	normal.bg_color = Color("151c2b")
-	normal.border_width_left = 1
-	normal.border_width_top = 1
-	normal.border_width_right = 1
-	normal.border_width_bottom = 1
-	normal.border_color = Color("ffffff18")
-	normal.corner_radius_top_left = 10
-	normal.corner_radius_top_right = 10
-	normal.corner_radius_bottom_left = 10
-	normal.corner_radius_bottom_right = 10
-	normal.content_margin_left = 18
-	normal.content_margin_right = 18
-	normal.content_margin_top = 12
-	normal.content_margin_bottom = 12
-	var hover := normal.duplicate()
-	hover.bg_color = Color("1b2536")
-	hover.border_color = Color("78e6d080")
-	var pressed := normal.duplicate()
-	pressed.bg_color = Color("0e1320")
-	pressed.border_color = Color("78e6d0")
-	pressed.content_margin_top = 13
-	pressed.content_margin_bottom = 11
-	var focus := normal.duplicate()
-	focus.border_width_left = 2
-	focus.border_width_top = 2
-	focus.border_width_right = 2
-	focus.border_width_bottom = 2
-	focus.border_color = Color("78e6d0cc")
-	var disabled := normal.duplicate()
-	disabled.bg_color = Color("0e1320")
-	disabled.border_color = Color("ffffff0d")
-	value.set_stylebox("normal", "Button", normal)
-	value.set_stylebox("hover", "Button", hover)
-	value.set_stylebox("pressed", "Button", pressed)
-	value.set_stylebox("focus", "Button", focus)
-	value.set_stylebox("disabled", "Button", disabled)
-	var panel := StyleBoxFlat.new()
-	panel.bg_color = Color("0e1320f2")
-	panel.border_width_left = 1
-	panel.border_width_top = 1
-	panel.border_width_right = 1
-	panel.border_width_bottom = 1
-	panel.border_color = Color("ffffff18")
-	panel.shadow_color = Color("00000066")
-	panel.shadow_size = 12
-	panel.corner_radius_top_left = 16
-	panel.corner_radius_top_right = 16
-	panel.corner_radius_bottom_left = 16
-	panel.corner_radius_bottom_right = 16
-	panel.content_margin_left = 20
-	panel.content_margin_right = 20
-	panel.content_margin_top = 16
-	panel.content_margin_bottom = 16
-	value.set_stylebox("panel", "PanelContainer", panel)
-	return value
+	return GameUI.build_theme(bundled_font, ui_scale)
 
 func _build_viewport_gate() -> void:
 	viewport_gate = ColorRect.new()
@@ -439,14 +963,14 @@ func _on_window_size_changed() -> void:
 
 func _refresh_responsive_shell_metrics() -> void:
 	_apply_safe_area()
+	_apply_transition_loading_layout()
 	if theme != null:
 		var ui_scale := _responsive_control_scale()
-		theme.default_font_size = roundi(28.0 * ui_scale)
-		# Keep the narrative-first hierarchy after a resize/orientation reflow.
-		# Button hit targets are managed separately, so they do not need to regain
-		# the old, oversized 20px type here.
-		theme.set_font_size("font_size", "Button", roundi(24.0 * ui_scale))
-		theme.set_font_size("font_size", "Label", roundi(28.0 * ui_scale))
+		theme.default_font_size = roundi(22.0 * ui_scale)
+		theme.set_font_size("font_size", "Button", roundi(20.0 * ui_scale))
+		theme.set_font_size("font_size", "Label", roundi(22.0 * ui_scale))
+		theme.set_font_size("normal_font_size", "RichTextLabel", roundi(21.0 * ui_scale))
+		theme.set_font_size("bold_font_size", "RichTextLabel", roundi(21.0 * ui_scale))
 
 func _queue_orientation_reflow_if_needed(portrait := _is_portrait_layout(), compact_landscape := _is_compact_landscape_layout()) -> void:
 	if (portrait == last_portrait_layout and compact_landscape == last_compact_landscape_layout) or layout_refresh_queued:
@@ -475,10 +999,17 @@ func _refresh_orientation_layout() -> void:
 	if current_screen == "STORY" and scenario_runner != null:
 		_rebuild_story_presentation()
 		return
+	# ChapterMap owns a live SubViewport and streamed terrain. Rebuilding the whole
+	# screen on a phone rotation caused a second map load and visible transition
+	# hitch; its own responsive method can reflow the same instance safely.
+	if current_screen == "STAGE_SELECT" and active_chapter_map_screen != null and is_instance_valid(active_chapter_map_screen):
+		active_chapter_map_screen.call("_apply_responsive_layout")
+		_apply_chapter_map_shell_overrides()
+		return
 	# The chapter map stores only stable map state in AppState/SaveService, so it
 	# can be rebuilt on a rotation without changing traversal, rewards, or battle
 	# state. Rebuilding clears portrait-only control overrides before landscape.
-	if current_screen in ["HOME", "TITLE", "RESULT", "ROSTER", "GROWTH", "CHARACTER_DETAIL", "INVENTORY", "ARCHIVE", "SETTINGS", "DEBUG", "LICENSE", "STAGE_SELECT", "STAGE_DETAIL", "FORMATION"]:
+	if current_screen in ["HOME", "TITLE", "RESULT", "ROSTER", "GROWTH", "CHARACTER_DETAIL", "INVENTORY", "ARCHIVE", "SETTINGS", "DEBUG", "LICENSE", "STAGE_DETAIL", "FORMATION"]:
 		_show_screen(current_screen)
 
 func _is_portrait_layout() -> bool:
@@ -669,6 +1200,7 @@ func _apply_safe_area() -> void:
 	safe_margin.add_theme_constant_override("margin_bottom", maxi(base_margin, int((window_size.y - area.end.y) * scale_y)))
 
 func _process(delta: float) -> void:
+	_update_transition_loading_progress()
 	# Some mobile Web engines update window.innerWidth/innerHeight without
 	# forwarding a Godot resize event. Poll infrequently to avoid per-frame JS
 	# bridge work while still preserving the current battle simulation.
@@ -693,11 +1225,21 @@ func _process(delta: float) -> void:
 		_update_battle_hud()
 
 func _clear() -> void:
+	chapter_map_show_generation += 1
+	_dispose_transaction_save_failure()
+	_dispose_map_reward_overlay(false)
 	_free_home_tutorial()
 	home_menu_buttons.clear()
 	for child in content.get_children():
 		content.remove_child(child)
-		child.queue_free()
+		# Compatibility Web must not retain a live SubViewport under a hidden,
+		# PROCESS_MODE_DISABLED parent. Release builds can leave its renderer callback
+		# pointing at a freed object and return as a black canvas with audio still
+		# playing. Native builds may keep the fast scene cache.
+		if child == active_chapter_map_screen and is_instance_valid(child) and not OS.has_feature("web"):
+			_cache_chapter_map_screen(child)
+		else:
+			child.queue_free()
 	battle_view = null
 	battle_hud = null
 	ultimate_buttons.clear()
@@ -721,11 +1263,54 @@ func _clear() -> void:
 	story_is_prologue = false
 	active_chapter_map_screen = null
 
+func _cache_chapter_map_screen(screen: Control) -> void:
+	if screen == null or not is_instance_valid(screen) or chapter_map_cache_host == null:
+		return
+	if cached_chapter_map_screen != null and is_instance_valid(cached_chapter_map_screen) and cached_chapter_map_screen != screen:
+		cached_chapter_map_screen.queue_free()
+	cached_chapter_map_screen = screen
+	cached_chapter_map_id = str(screen.get("map_id"))
+	screen.visible = false
+	screen.process_mode = Node.PROCESS_MODE_DISABLED
+	chapter_map_cache_host.add_child(screen)
+
+func _take_cached_chapter_map(map_id_value: String) -> Control:
+	if OS.has_feature("web"):
+		if cached_chapter_map_screen != null and is_instance_valid(cached_chapter_map_screen):
+			cached_chapter_map_screen.queue_free()
+		cached_chapter_map_screen = null
+		cached_chapter_map_id = ""
+		return null
+	if cached_chapter_map_screen == null or not is_instance_valid(cached_chapter_map_screen):
+		cached_chapter_map_screen = null
+		cached_chapter_map_id = ""
+		return null
+	if cached_chapter_map_id != map_id_value:
+		cached_chapter_map_screen.queue_free()
+		cached_chapter_map_screen = null
+		cached_chapter_map_id = ""
+		return null
+	var screen := cached_chapter_map_screen
+	cached_chapter_map_screen = null
+	cached_chapter_map_id = ""
+	chapter_map_cache_host.remove_child(screen)
+	screen.process_mode = Node.PROCESS_MODE_INHERIT
+	screen.visible = true
+	return screen
+
 func _show_screen(screen_id: String) -> void:
+	var previous_screen := current_screen
 	if not SceneRouter.screen_allowed(screen_id, SettingsService.is_developer_mode()):
 		screen_id = "HOME"
 		SceneRouter.current_screen = "HOME"
 		AppState.route_payload = {}
+	# StageAssetCache is an autoload and therefore outlives the disposable map
+	# screen.  Relinquish its work immediately when the owning screen is left;
+	# otherwise a cancelled stage entry can keep decoding at full CPU in the
+	# background while HOME or another screen is already visible.
+	if previous_screen == "STAGE_SELECT" and screen_id != "STAGE_SELECT" and StageAssetCache.warming:
+		StageAssetCache.cancel_warmup()
+	_prepare_transition_loading_for_screen(previous_screen, screen_id)
 	current_screen = screen_id
 	_clear()
 	match screen_id:
@@ -772,25 +1357,29 @@ func _title(text_value: String, subtitle := "") -> void:
 	title_label.text = text_value
 	title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title_label.custom_minimum_size.x = 0.0
-	title_label.add_theme_font_size_override("font_size", roundi((34.0 if portrait else 42.0) * ui_scale))
+	title_label.add_theme_font_size_override("font_size", roundi((32.0 if portrait else 40.0) * ui_scale))
+	var title_font := GameUI.weighted_font(interface_font, 720.0, 0.05)
+	if title_font != null: title_label.add_theme_font_override("font", title_font)
+	title_label.add_theme_color_override("font_color", GameUI.TEXT)
 	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	labels.add_child(title_label)
 	if subtitle != "":
 		var sub := Label.new()
 		sub.text = subtitle
-		sub.modulate = Color("91aac8")
+		sub.modulate = GameUI.TEXT_MUTED
+		sub.add_theme_font_size_override("font_size", roundi((18.0 if portrait else 20.0) * ui_scale))
 		sub.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		labels.add_child(sub)
 	var accent := ColorRect.new()
-	accent.color = Color("57d4c1")
-	accent.custom_minimum_size = Vector2(0, 3)
+	accent.color = GameUI.SIGNAL
+	accent.custom_minimum_size = Vector2(0, 2)
 	accent.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_child(accent)
 
 func _navigate_back_from_header() -> void:
 	if current_screen == "RESULT":
-		SceneRouter.go("STAGE_SELECT")
+		SceneRouter.go("STAGE_SELECT", {"result_return": true})
 	else:
 		SceneRouter.back("HOME")
 
@@ -802,6 +1391,7 @@ func _button(text_value: String, callback: Callable, disabled := false, minimum 
 	if bool(metrics.portrait) or bool(metrics.compact_landscape):
 		button.add_theme_font_size_override("font_size", roundi(19.0 * float(metrics.ui_scale)))
 	button.disabled = disabled
+	GameUI.apply_button(button)
 	# WebAudio must be resumed in the same call stack as a real button press.
 	# Keeping this wrapper at the shared button factory covers title, map,
 	# formation, growth and settings without duplicating platform branches.
@@ -876,33 +1466,7 @@ func _apply_chapter_map_shell_overrides() -> void:
 		next_button.custom_minimum_size.y = maxf(next_button.custom_minimum_size.y, compact_touch_height)
 
 func _make_primary_button(button: Button) -> void:
-	var normal := StyleBoxFlat.new()
-	normal.bg_color = Color("78e6d0")
-	normal.border_width_left = 1
-	normal.border_width_top = 1
-	normal.border_width_right = 1
-	normal.border_width_bottom = 1
-	normal.border_color = Color("c8fff4")
-	normal.corner_radius_top_left = 10
-	normal.corner_radius_top_right = 10
-	normal.corner_radius_bottom_left = 10
-	normal.corner_radius_bottom_right = 10
-	normal.content_margin_left = 20
-	normal.content_margin_right = 20
-	normal.content_margin_top = 12
-	normal.content_margin_bottom = 12
-	var hover := normal.duplicate()
-	hover.bg_color = Color("9af0de")
-	var pressed := normal.duplicate()
-	pressed.bg_color = Color("5cc9b5")
-	pressed.content_margin_top = 13
-	pressed.content_margin_bottom = 11
-	button.add_theme_stylebox_override("normal", normal)
-	button.add_theme_stylebox_override("hover", hover)
-	button.add_theme_stylebox_override("pressed", pressed)
-	button.add_theme_color_override("font_color", Color("080b12"))
-	button.add_theme_color_override("font_hover_color", Color("080b12"))
-	button.add_theme_color_override("font_pressed_color", Color("080b12"))
+	GameUI.apply_button(button, "primary")
 
 func _label(text_value: String, size_value := 21, color := Color("dcecff")) -> Label:
 	var value := Label.new()
@@ -913,12 +1477,25 @@ func _label(text_value: String, size_value := 21, color := Color("dcecff")) -> L
 	value.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	return value
 
+func _story_label(text_value: String, target_css_px: float, color := GameUI.TEXT) -> Label:
+	# Story sizes are already converted from rendered CSS pixels to the retained
+	# 1920x1080 logical canvas. Passing them through `_label()` multiplied them by
+	# the portrait compensation a second time and produced clipped 100px+ type.
+	var value := Label.new()
+	value.text = text_value
+	value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	value.add_theme_font_size_override("font_size", _story_logical_px(target_css_px))
+	value.modulate = color
+	value.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	return value
+
 func _panel() -> VBoxContainer:
 	return _panel_box(content)
 
 func _panel_box(parent: Node) -> VBoxContainer:
 	var panel := PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.add_theme_stylebox_override("panel", GameUI.panel_style())
 	parent.add_child(panel)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 12)
@@ -957,22 +1534,7 @@ func _character_art_frame_style() -> StyleBoxFlat:
 	# legacy art share this same presentation card.  This is deliberately a UI
 	# contract, not a per-character backdrop, so the lineup cannot look like a
 	# mixture of cutouts and temporary blue image tiles.
-	var frame := StyleBoxFlat.new()
-	frame.bg_color = Color(0.018, 0.035, 0.075, 1.0)
-	frame.border_width_left = 1
-	frame.border_width_top = 1
-	frame.border_width_right = 1
-	frame.border_width_bottom = 1
-	frame.border_color = Color("77d8d442")
-	frame.corner_radius_top_left = 8
-	frame.corner_radius_top_right = 8
-	frame.corner_radius_bottom_left = 8
-	frame.corner_radius_bottom_right = 8
-	frame.content_margin_left = 4
-	frame.content_margin_right = 4
-	frame.content_margin_top = 4
-	frame.content_margin_bottom = 4
-	return frame
+	return GameUI.panel_style(Color("08121f"), Color("6ce6d042"), 1, GameUI.RADIUS_CONTROL, Vector4(4.0, 4.0, 4.0, 4.0), 0)
 
 func _art_rect(asset_id: String, minimum: Vector2, mode := TextureRect.STRETCH_KEEP_ASPECT_CENTERED) -> PanelContainer:
 	var frame := PanelContainer.new()
@@ -1029,6 +1591,7 @@ func _scroll_box() -> VBoxContainer:
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	content.add_child(scroll)
 	var box := VBoxContainer.new()
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1156,31 +1719,18 @@ func _start_title_flow() -> void:
 	SceneRouter.go("STORY", {"after": "HOME", "origin": "TITLE"})
 
 func _make_title_start_button(button: Button) -> void:
-	var normal := StyleBoxFlat.new()
-	normal.bg_color = Color("07101eea")
-	normal.border_color = Color("e3b862")
-	normal.set_border_width_all(2)
-	normal.set_corner_radius_all(4)
-	normal.shadow_color = Color("000000aa")
-	normal.shadow_size = 12
-	normal.content_margin_top = 16
-	normal.content_margin_bottom = 16
-	normal.content_margin_left = 28
-	normal.content_margin_right = 28
-	var hover := normal.duplicate()
-	hover.bg_color = Color("18273aeF")
-	hover.border_color = Color("ffe0a0")
-	var pressed := normal.duplicate()
-	pressed.bg_color = Color("030812f2")
-	pressed.border_color = Color("78e6d0")
-	button.add_theme_stylebox_override("normal", normal)
-	button.add_theme_stylebox_override("hover", hover)
-	button.add_theme_stylebox_override("pressed", pressed)
-	button.add_theme_color_override("font_color", Color("fff0c4"))
-	button.add_theme_color_override("font_hover_color", Color("ffffff"))
-	button.add_theme_color_override("font_pressed_color", Color("9df6e4"))
-	button.add_theme_constant_override("outline_size", 2)
-	button.add_theme_color_override("font_outline_color", Color("271407"))
+	GameUI.apply_button(button, "objective")
+	for state in ["normal", "hover", "pressed", "focus"]:
+		var style := button.get_theme_stylebox(state).duplicate() as StyleBoxFlat
+		style.content_margin_left = 28.0
+		style.content_margin_right = 28.0
+		style.content_margin_top = 16.0
+		style.content_margin_bottom = 16.0
+		if state == "normal":
+			style.shadow_color = Color("00000080")
+			style.shadow_size = 10
+			style.shadow_offset = Vector2(0.0, 4.0)
+		button.add_theme_stylebox_override(state, style)
 
 func _home_tutorial_active() -> bool:
 	var tutorial_value = AppState.profile.get("tutorial_progress", {})
@@ -1239,13 +1789,7 @@ func _build_home_tutorial() -> void:
 	home_tutorial_panel.anchor_right = 0.945 if portrait else 0.86
 	home_tutorial_panel.anchor_top = 0.38 if portrait else 0.51
 	home_tutorial_panel.anchor_bottom = 0.94
-	var panel_style := StyleBoxFlat.new()
-	panel_style.bg_color = Color("09111df5")
-	panel_style.border_color = Color("e3c270")
-	panel_style.set_border_width_all(2)
-	panel_style.set_corner_radius_all(14)
-	panel_style.shadow_color = Color("000000bb")
-	panel_style.shadow_size = 20
+	var panel_style := GameUI.panel_style(GameUI.SURFACE, Color("e7bf68d9"), 1, GameUI.RADIUS_MODAL, Vector4.ZERO, 14)
 	home_tutorial_panel.add_theme_stylebox_override("panel", panel_style)
 	home_tutorial_surface.add_child(home_tutorial_panel)
 	var margin := MarginContainer.new()
@@ -1262,7 +1806,7 @@ func _build_home_tutorial() -> void:
 	home_tutorial_eyebrow = Label.new()
 	home_tutorial_eyebrow.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	home_tutorial_eyebrow.add_theme_font_size_override("font_size", roundi(18.0 * ui_scale))
-	home_tutorial_eyebrow.add_theme_color_override("font_color", Color("8fe9d9"))
+	home_tutorial_eyebrow.add_theme_color_override("font_color", GameUI.SIGNAL)
 	header.add_child(home_tutorial_eyebrow)
 	home_tutorial_skip_button = _button("안내 건너뛰기", _complete_home_tutorial_and_launch, false, Vector2(172, 50))
 	home_tutorial_skip_button.name = "HomeTutorialSkipButton"
@@ -1271,25 +1815,31 @@ func _build_home_tutorial() -> void:
 	home_tutorial_title = Label.new()
 	home_tutorial_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	home_tutorial_title.add_theme_font_size_override("font_size", roundi((28.0 if portrait else 34.0) * ui_scale))
-	home_tutorial_title.add_theme_color_override("font_color", Color("ffe6a2"))
+	home_tutorial_title.add_theme_color_override("font_color", GameUI.OBJECTIVE_SOFT)
 	home_tutorial_title.add_theme_color_override("font_outline_color", Color("02060b"))
 	home_tutorial_title.add_theme_constant_override("outline_size", 3)
 	box.add_child(home_tutorial_title)
 	var divider := ColorRect.new()
-	divider.color = Color("6ee7d077")
+	divider.color = Color("6ce6d070")
 	divider.custom_minimum_size = Vector2(0, 2)
 	box.add_child(divider)
+	var home_tutorial_scroll := ScrollContainer.new()
+	home_tutorial_scroll.name = "HomeTutorialBodyScroll"
+	home_tutorial_scroll.custom_minimum_size.y = roundi((92.0 if portrait else 106.0) * ui_scale)
+	home_tutorial_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	home_tutorial_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	box.add_child(home_tutorial_scroll)
 	home_tutorial_body = RichTextLabel.new()
 	home_tutorial_body.bbcode_enabled = true
 	home_tutorial_body.fit_content = true
 	home_tutorial_body.scroll_active = false
-	home_tutorial_body.custom_minimum_size.y = roundi((92.0 if portrait else 106.0) * ui_scale)
+	home_tutorial_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	home_tutorial_body.add_theme_font_size_override("normal_font_size", roundi((20.0 if portrait else 22.0) * ui_scale))
 	home_tutorial_body.add_theme_font_size_override("bold_font_size", roundi((20.0 if portrait else 22.0) * ui_scale))
 	home_tutorial_body.add_theme_constant_override("line_separation", roundi(7.0 * ui_scale))
-	home_tutorial_body.add_theme_color_override("default_color", Color("f2f6fb"))
+	home_tutorial_body.add_theme_color_override("default_color", GameUI.TEXT)
 	home_tutorial_body.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	box.add_child(home_tutorial_body)
+	home_tutorial_scroll.add_child(home_tutorial_body)
 	var footer: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
 	footer.add_theme_constant_override("separation", roundi(12.0 * ui_scale))
 	box.add_child(footer)
@@ -1297,13 +1847,13 @@ func _build_home_tutorial() -> void:
 	home_tutorial_progress_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	home_tutorial_progress_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	home_tutorial_progress_label.add_theme_font_size_override("font_size", roundi(18.0 * ui_scale))
-	home_tutorial_progress_label.add_theme_color_override("font_color", Color("aabbd0"))
+	home_tutorial_progress_label.add_theme_color_override("font_color", GameUI.TEXT_MUTED)
 	footer.add_child(home_tutorial_progress_label)
 	home_tutorial_continue_button = _button("다음 안내", _advance_home_tutorial, false, Vector2(250, 58))
 	home_tutorial_continue_button.name = "HomeTutorialContinueButton"
 	_make_primary_button(home_tutorial_continue_button)
 	footer.add_child(home_tutorial_continue_button)
-	_set_home_tutorial_step(1)
+	_set_home_tutorial_step(home_tutorial_resume_step)
 
 func _start_home_tutorial() -> void:
 	if current_screen != "HOME" or not _home_tutorial_active():
@@ -1314,6 +1864,7 @@ func _set_home_tutorial_step(step: int) -> void:
 	if home_tutorial_panel == null or not is_instance_valid(home_tutorial_panel):
 		return
 	home_tutorial_step = clampi(step, 1, 4)
+	home_tutorial_resume_step = home_tutorial_step
 	home_tutorial_eyebrow.text = "첫 방문 안내  ·  %d / 4" % home_tutorial_step
 	home_tutorial_progress_label.text = "%d / 4  ·  하단 버튼을 눌러 계속" % home_tutorial_step
 	match home_tutorial_step:
@@ -1338,25 +1889,55 @@ func _set_home_tutorial_step(step: int) -> void:
 				_make_primary_button(stage_button as Button)
 
 func _advance_home_tutorial() -> void:
+	# A Web resize/reflow can replace the pressed Button between pointer-down and
+	# pointer-up. Reject duplicate release events from that one physical gesture;
+	# otherwise a single tap can consume several steps or launch the map directly.
+	var now_msec := Time.get_ticks_msec()
+	if now_msec - home_tutorial_last_advance_msec < 400:
+		return
+	home_tutorial_last_advance_msec = now_msec
 	if home_tutorial_step >= 4:
 		_complete_home_tutorial_and_launch()
 		return
 	_set_home_tutorial_step(home_tutorial_step + 1)
 
 func _complete_home_tutorial_and_launch() -> void:
+	if home_first_operation_navigation_pending:
+		return
 	if AppState.profile.get("tutorial_progress", null) is Dictionary:
 		AppState.profile.tutorial_progress["home_basics_complete"] = true
 	SaveService.save_game()
-	_free_home_tutorial()
-	SceneRouter.go("STAGE_SELECT")
+	home_tutorial_resume_step = 1
+	home_tutorial_last_advance_msec = -100000
+	_defer_first_operation_navigation()
 
 func _launch_first_operation() -> void:
+	if home_first_operation_navigation_pending:
+		return
 	if _home_tutorial_active():
 		_complete_home_tutorial_and_launch()
+		return
+	_defer_first_operation_navigation()
+
+func _defer_first_operation_navigation() -> void:
+	if home_first_operation_navigation_pending or current_screen != "HOME":
+		return
+	home_first_operation_navigation_pending = true
+	# The pressed HOME button/tutorial CanvasLayer is part of the active canvas
+	# traversal. Clearing it synchronously from its own callback can return through
+	# a freed Callable on Web Release and leave a black root with BGM still alive.
+	call_deferred("_commit_first_operation_navigation")
+
+func _commit_first_operation_navigation() -> void:
+	if not home_first_operation_navigation_pending:
+		return
+	home_first_operation_navigation_pending = false
+	if current_screen != "HOME":
 		return
 	SceneRouter.go("STAGE_SELECT")
 
 func _show_home() -> void:
+	home_first_operation_navigation_pending = false
 	AudioService.play_bgm("audio_bgm_lobby")
 	AppState.refresh_stamina()
 	_title("랜턴라인 본부", "오프라인 싱글플레이 버티컬 슬라이스")
@@ -1375,19 +1956,29 @@ func _show_home() -> void:
 	first_operation.name = "HomeFirstOperationButton"
 	_make_primary_button(first_operation)
 	operation_row.add_child(first_operation)
+	var home_scroll := ScrollContainer.new()
+	home_scroll.name = "HomeContentScroll"
+	home_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	home_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	home_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	content.add_child(home_scroll)
+	var home_flow := VBoxContainer.new()
+	home_flow.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	home_flow.add_theme_constant_override("separation", 14)
+	home_scroll.add_child(home_flow)
 	var body: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
 	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_theme_constant_override("separation", 18)
-	content.add_child(body)
+	home_flow.add_child(body)
 	var menu := GridContainer.new()
 	menu.columns = 2 if portrait else 3
 	menu.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	menu.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(menu)
-	# Four portrait rows must leave room for the featured character and the
-	# persistent save action.  72 physical px remains comfortably above the
-	# 56 logical-px touch target while avoiding a clipped last row.
+	# Portrait owns five menu rows. The whole body is scrollable so all actions,
+	# the featured pilot and the persistent save control remain reachable on a
+	# 320–390px handset without shrinking the 56px touch contract.
 	var menu_height := 72.0 if portrait else 108.0
 	var main_story_button := _button("메인 스토리", func(): AppState.active_scenario_id = "SCN_PROLOGUE"; SceneRouter.go("STORY", {"after": "HOME"}), false, Vector2(235, menu_height))
 	main_story_button.name = "HomeMainStoryButton"
@@ -1402,7 +1993,11 @@ func _show_home() -> void:
 	menu.add_child(_button("인벤토리", func(): SceneRouter.go("INVENTORY"), false, Vector2(235, menu_height)))
 	menu.add_child(_button("스토리 아카이브", func(): SceneRouter.go("ARCHIVE"), false, Vector2(235, menu_height)))
 	menu.add_child(_button("설정 / 라이선스", func(): SceneRouter.go("SETTINGS"), false, Vector2(235, menu_height)))
-	menu.add_child(_button("개발자 도구", func(): SceneRouter.go("DEBUG"), not SettingsService.is_developer_mode(), Vector2(235, menu_height)))
+	if SettingsService.is_developer_mode():
+		menu.add_child(_button("개발자 도구", func(): SceneRouter.go("DEBUG"), false, Vector2(235, menu_height)))
+	for menu_item in menu.get_children():
+		if menu_item is Button:
+			(menu_item as Button).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var pilot := PanelContainer.new()
 	pilot.custom_minimum_size = Vector2(0, (140.0 if portrait else 430.0) * _portrait_ui_scale())
 	body.add_child(pilot)
@@ -1423,7 +2018,7 @@ func _show_home() -> void:
 	featured_role.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	(featured_copy if portrait else pilot_box).add_child(featured_role)
 	var row: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
-	content.add_child(row)
+	home_flow.add_child(row)
 	row.add_child(_button("즉시 저장", func(): _report_result(SaveService.save_game()), false, Vector2(180, 58)))
 	var party_names: Array[String] = []
 	for character_id in AppState.get_party():
@@ -1556,6 +2151,7 @@ func _request_relay_battle_start() -> void:
 	SceneRouter.go("BATTLE")
 
 func _show_story(reuse_runtime_state := false) -> void:
+	story_navigation_pending = false
 	AudioService.play_bgm("audio_bgm_story")
 	var portrait := _is_portrait_layout()
 	var ui_scale := _portrait_ui_scale()
@@ -1625,6 +2221,8 @@ func _build_standard_story_presentation(portrait: bool, ui_scale: float) -> void
 	_build_story_dialogue_content(dialogue, portrait, false)
 
 func _build_prologue_story_presentation(portrait: bool, ui_scale: float, story_header: Dictionary) -> void:
+	var runtime_size := _runtime_layout_size()
+	var narrow_portrait := portrait and runtime_size.x <= 480.0
 	var stage := PanelContainer.new()
 	stage.name = "PrologueCinematicStage"
 	stage.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1675,17 +2273,27 @@ func _build_prologue_story_presentation(portrait: bool, ui_scale: float, story_h
 	chapter_plate.anchor_bottom = 0.0
 	chapter_plate.offset_left = float(_story_logical_px(20.0))
 	chapter_plate.offset_top = float(_story_logical_px(18.0))
-	chapter_plate.offset_right = float(_story_logical_px(344.0 if portrait else 506.0))
-	chapter_plate.offset_bottom = float(_story_logical_px(116.0 if portrait else 88.0))
+	# Use the available portrait width instead of pinning phones and tablets to the
+	# same 324 CSS-pixel card.  The old fixed width wrapped the Korean title to two
+	# lines and then clipped that second line inside a 98px-high plate.
+	var chapter_plate_right_css := minf(506.0, maxf(300.0, runtime_size.x - 20.0)) if portrait else 506.0
+	chapter_plate.offset_right = float(_story_logical_px(chapter_plate_right_css))
+	chapter_plate.offset_bottom = float(_story_logical_px(124.0 if narrow_portrait else (116.0 if portrait else 88.0)))
 	chapter_plate.add_theme_stylebox_override("panel", _prologue_plate_style(ui_scale))
 	canvas.add_child(chapter_plate)
 	var chapter_copy := VBoxContainer.new()
 	chapter_copy.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	chapter_plate.add_child(chapter_copy)
-	var eyebrow := _label("PROLOGUE · THE LAST LINE", _story_logical_px(13.0), Color("78e6d0"))
+	var eyebrow := _story_label("PROLOGUE · THE LAST LINE", 13.0, GameUI.SIGNAL)
 	eyebrow.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	chapter_copy.add_child(eyebrow)
-	var chapter_title := _label(str(story_header.title), _story_logical_px(30.0), Color("f4f7ff"))
+	var chapter_title := _story_label(str(story_header.title), 24.0 if narrow_portrait else 30.0, GameUI.TEXT)
+	# Godot can initially allocate an autowrapped Label zero vertical space inside
+	# this anchored PanelContainer on narrow Web canvases.  The title is known to
+	# fit on one line at the responsive sizes above, so reserve that line explicitly.
+	chapter_title.autowrap_mode = TextServer.AUTOWRAP_OFF
+	chapter_title.custom_minimum_size.y = float(_story_logical_px(34.0 if narrow_portrait else 40.0))
+	chapter_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	chapter_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	chapter_copy.add_child(chapter_title)
 
@@ -1712,10 +2320,11 @@ func _build_prologue_story_presentation(portrait: bool, ui_scale: float, story_h
 	dialogue_margin.anchor_top = 1.0
 	dialogue_margin.anchor_right = 1.0
 	dialogue_margin.anchor_bottom = 1.0
-	dialogue_margin.offset_left = float(_story_logical_px(18.0 if portrait else 100.0))
-	dialogue_margin.offset_top = -float(_story_logical_px(282.0))
-	dialogue_margin.offset_right = -float(_story_logical_px(18.0 if portrait else 100.0))
-	dialogue_margin.offset_bottom = -float(_story_logical_px(18.0))
+	var dialogue_inset_css := 12.0 if narrow_portrait else (18.0 if portrait else 100.0)
+	dialogue_margin.offset_left = float(_story_logical_px(dialogue_inset_css))
+	dialogue_margin.offset_top = -float(_story_logical_px(348.0 if narrow_portrait else 282.0))
+	dialogue_margin.offset_right = -float(_story_logical_px(dialogue_inset_css))
+	dialogue_margin.offset_bottom = -float(_story_logical_px(30.0 if narrow_portrait else 18.0))
 	canvas.add_child(dialogue_margin)
 	var dialogue := PanelContainer.new()
 	dialogue.add_theme_stylebox_override("panel", _story_dialogue_style(true))
@@ -1759,7 +2368,8 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	# AUTO/SKIP live in the fixed top-right rail. The reading surface retains only
 	# the secondary navigation that is useful beside the current line.
 	var compact := _is_compact_landscape_layout()
-	dialogue.custom_minimum_size.y = float(_story_logical_px(244.0 if cinematic else (220.0 if compact else 284.0)))
+	var narrow_portrait := portrait and _runtime_layout_size().x <= 480.0
+	dialogue.custom_minimum_size.y = float(_story_logical_px(304.0 if narrow_portrait else (244.0 if cinematic else (220.0 if compact else 284.0))))
 	var dialogue_frame := HBoxContainer.new()
 	dialogue_frame.name = "StoryDialogueFrame"
 	dialogue_frame.add_theme_constant_override("separation", _story_logical_px(18.0))
@@ -1772,9 +2382,9 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	dialogue_frame.add_child(signal_rail)
 	var dialogue_box := VBoxContainer.new()
 	dialogue_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	dialogue_box.add_theme_constant_override("separation", _story_logical_px(4.0 if compact else 8.0))
+	dialogue_box.add_theme_constant_override("separation", _story_logical_px(5.0 if narrow_portrait else (4.0 if compact else 8.0)))
 	dialogue_frame.add_child(dialogue_box)
-	story_speaker_eyebrow = _label("LUMENBOUND · VOICE LINK", _story_logical_px(14.0), Color("9af2df"))
+	story_speaker_eyebrow = _story_label("LUMENBOUND · VOICE LINK", 14.0, GameUI.SIGNAL_SOFT)
 	story_speaker_eyebrow.name = "StorySpeakerEyebrow"
 	story_speaker_eyebrow.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	story_speaker_eyebrow.add_theme_color_override("font_outline_color", Color("01050a"))
@@ -1785,7 +2395,7 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	if story_meta_font != null:
 		story_speaker_eyebrow.add_theme_font_override("font", story_meta_font)
 	dialogue_box.add_child(story_speaker_eyebrow)
-	scenario_speaker = _label("", _story_logical_px(32.0), Color("f6d383"))
+	scenario_speaker = _story_label("", 28.0 if narrow_portrait else 32.0, GameUI.OBJECTIVE_SOFT)
 	scenario_speaker.add_theme_color_override("font_outline_color", Color("01050a"))
 	scenario_speaker.add_theme_color_override("font_shadow_color", Color("000000b8"))
 	scenario_speaker.add_theme_constant_override("outline_size", _story_logical_px(2.0))
@@ -1799,20 +2409,21 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	scenario_text.fit_content = true
 	scenario_text.scroll_active = false
 	scenario_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	scenario_text.custom_minimum_size.y = float(_story_logical_px(44.0 if compact else (96.0 if cinematic else 88.0)))
+	scenario_text.custom_minimum_size.y = float(_story_logical_px(112.0 if narrow_portrait else (44.0 if compact else (96.0 if cinematic else 88.0))))
 	scenario_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	# Render body copy at 28px and the speaker at 32px, independent of the authored
 	# 1920x1080 canvas. These values remain inside the requested 25-30 / 28-34px
 	# reading bands at 1280x720, compact landscape and portrait.
-	scenario_text.add_theme_font_size_override("normal_font_size", _story_logical_px(28.0))
-	scenario_text.add_theme_font_size_override("bold_font_size", _story_logical_px(28.0))
+	var story_body_css_px := 24.0 if narrow_portrait else 28.0
+	scenario_text.add_theme_font_size_override("normal_font_size", _story_logical_px(story_body_css_px))
+	scenario_text.add_theme_font_size_override("bold_font_size", _story_logical_px(story_body_css_px))
 	scenario_text.add_theme_color_override("default_color", Color("fffaf0"))
 	# The opaque dialogue plate already provides contrast. Preserve the full white
 	# face of Korean glyphs instead of shrinking it with a dark pixel outline.
 	scenario_text.add_theme_constant_override("outline_size", 0)
 	scenario_text.add_theme_constant_override("shadow_offset_x", 0)
 	scenario_text.add_theme_constant_override("shadow_offset_y", 0)
-	scenario_text.add_theme_constant_override("line_separation", _story_logical_px(8.0))
+	scenario_text.add_theme_constant_override("line_separation", _story_logical_px(5.0 if narrow_portrait else 8.0))
 	if story_body_font != null:
 		scenario_text.add_theme_font_override("normal_font", story_body_font)
 	if story_title_font != null:
@@ -1830,7 +2441,7 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	story_footer.name = "StoryProgressFooter"
 	story_footer.mouse_filter = Control.MOUSE_FILTER_PASS
 	dialogue_box.add_child(story_footer)
-	story_click_hint = _label("대화창 클릭 / 터치로 계속  >", _story_logical_px(16.0), Color("9af2df"))
+	story_click_hint = _story_label("대화창 클릭 / 터치로 계속  >", 14.0 if narrow_portrait else 16.0, GameUI.SIGNAL_SOFT)
 	story_click_hint.name = "StoryClickAdvanceHint"
 	story_click_hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	story_click_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -1838,7 +2449,7 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	if story_meta_font != null:
 		story_click_hint.add_theme_font_override("font", story_meta_font)
 	story_footer.add_child(story_click_hint)
-	story_page_indicator = _label("PAGE · -- / --", _story_logical_px(16.0), Color("b9d4dc"))
+	story_page_indicator = _story_label("PAGE · -- / --", 14.0 if narrow_portrait else 16.0, GameUI.TEXT_MUTED)
 	story_page_indicator.name = "StoryPageIndicator"
 	story_page_indicator.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	story_page_indicator.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -1858,70 +2469,35 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	if SettingsService.is_developer_mode(): story_secondary_controls.add_child(_story_button("DEV 전체 스킵", _dev_skip_story, false, Vector2(160, 58)))
 
 func _prologue_stage_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.008, 0.016, 0.042, 0.96)
-	style.border_width_left = 1
-	style.border_width_top = 1
-	style.border_width_right = 1
-	style.border_width_bottom = 1
-	style.border_color = Color("4f8ea877")
-	style.corner_radius_top_left = 18
-	style.corner_radius_top_right = 18
-	style.corner_radius_bottom_left = 18
-	style.corner_radius_bottom_right = 18
-	return style
+	return GameUI.panel_style(Color("050a11f5"), Color("526f8777"), 1, GameUI.RADIUS_MODAL, Vector4.ZERO, 8)
 
 func _prologue_plate_style(ui_scale: float) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.018, 0.036, 0.082, 0.76)
-	style.border_width_left = max(1, roundi(ui_scale))
-	style.border_color = Color("62d8c8")
-	style.corner_radius_top_right = roundi(12.0 * ui_scale)
-	style.corner_radius_bottom_right = roundi(12.0 * ui_scale)
-	style.content_margin_left = 18.0 * ui_scale
-	style.content_margin_right = 20.0 * ui_scale
-	style.content_margin_top = 10.0 * ui_scale
-	style.content_margin_bottom = 10.0 * ui_scale
-	return style
+	return GameUI.panel_style(
+		Color("0a1723d6"),
+		GameUI.SIGNAL,
+		maxi(1, roundi(ui_scale)),
+		roundi(float(GameUI.RADIUS_PANEL) * ui_scale),
+		Vector4(18.0, 10.0, 20.0, 10.0) * ui_scale,
+		0
+	)
 
 func _story_dialogue_style(cinematic: bool) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.009, 0.021, 0.052, 0.93 if cinematic else 0.90)
 	var border_width := maxi(1, _story_logical_px(1.25))
-	style.border_width_left = border_width
-	style.border_width_top = border_width
-	style.border_width_right = border_width
-	style.border_width_bottom = border_width
-	style.border_color = Color("d7b967cc")
 	var radius := _story_logical_px(14.0)
-	style.corner_radius_top_left = radius
-	style.corner_radius_top_right = radius
-	style.corner_radius_bottom_left = radius
-	style.corner_radius_bottom_right = radius
-	style.content_margin_left = float(_story_logical_px(22.0))
-	style.content_margin_right = float(_story_logical_px(24.0))
-	style.content_margin_top = float(_story_logical_px(18.0))
-	style.content_margin_bottom = float(_story_logical_px(16.0))
-	style.shadow_color = Color(0.0, 0.0, 0.0, 0.34)
-	style.shadow_size = _story_logical_px(8.0)
-	return style
+	return GameUI.panel_style(
+		Color(0.009, 0.021, 0.052, 0.93 if cinematic else 0.90),
+		Color("e7bf68cc"),
+		border_width,
+		radius,
+		Vector4(float(_story_logical_px(22.0)), float(_story_logical_px(18.0)), float(_story_logical_px(24.0)), float(_story_logical_px(16.0))),
+		_story_logical_px(8.0)
+	)
 
 func _style_story_overlay_button(button: Button, accent: Color) -> void:
-	var normal := StyleBoxFlat.new()
-	normal.bg_color = Color(0.009, 0.025, 0.061, 0.95)
 	var border_width := maxi(1, _story_logical_px(1.25))
-	normal.border_width_left = border_width
-	normal.border_width_top = border_width
-	normal.border_width_right = border_width
-	normal.border_width_bottom = border_width
-	normal.border_color = accent
 	var radius := _story_logical_px(9.0)
-	normal.corner_radius_top_left = radius
-	normal.corner_radius_top_right = radius
-	normal.corner_radius_bottom_left = radius
-	normal.corner_radius_bottom_right = radius
-	normal.content_margin_left = float(_story_logical_px(14.0))
-	normal.content_margin_right = float(_story_logical_px(14.0))
+	var margins := Vector4(float(_story_logical_px(14.0)), 0.0, float(_story_logical_px(14.0)), 0.0)
+	var normal := GameUI.panel_style(Color("081522f2"), accent, border_width, radius, margins, 0)
 	var hover := normal.duplicate()
 	hover.bg_color = Color(accent.r * 0.16, accent.g * 0.16, accent.b * 0.16, 0.96)
 	var pressed := normal.duplicate()
@@ -1931,7 +2507,7 @@ func _style_story_overlay_button(button: Button, accent: Color) -> void:
 	button.add_theme_stylebox_override("pressed", pressed)
 	button.add_theme_stylebox_override("focus", hover)
 	button.add_theme_font_size_override("font_size", _story_logical_px(17.0))
-	button.add_theme_color_override("font_color", Color("f4f7ff"))
+	button.add_theme_color_override("font_color", GameUI.TEXT)
 	button.add_theme_color_override("font_hover_color", accent.lightened(0.28))
 
 func _on_story_text_box_input(event: InputEvent) -> void:
@@ -1997,7 +2573,9 @@ func _restore_story_view_after_reflow() -> void:
 		scenario_text.text = "아래 응답 중 하나를 선택해 기록을 시작하세요."
 		for i in range(command.get("choices", []).size()):
 			var choice: Dictionary = command.choices[i]
-			scenario_choices.add_child(_story_button(LocalizationService.tr_key(choice.text_key), func(index := i): _request_story_choice(index, "button:choice"), false, Vector2(400, 58)))
+			var choice_button := _story_button(LocalizationService.tr_key(choice.text_key), func(index := i): _request_story_choice(index, "button:choice"), false, Vector2(0, 58) if _is_portrait_layout() else Vector2(400, 58))
+			choice_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			scenario_choices.add_child(choice_button)
 	else:
 		scenario_text.text = ""
 	_refresh_story_dialogue_chrome("choice" if scenario_runner.state.waiting_for_choice else type)
@@ -2088,7 +2666,9 @@ func _advance_story() -> void:
 			_refresh_story_dialogue_chrome(type)
 			for i in range(command.get("choices", []).size()):
 				var choice: Dictionary = command.choices[i]
-				scenario_choices.add_child(_button(LocalizationService.tr_key(choice.text_key), func(index := i): _request_story_choice(index, "button:choice"), false, Vector2(400, 58)))
+				var choice_button := _story_button(LocalizationService.tr_key(choice.text_key), func(index := i): _request_story_choice(index, "button:choice"), false, Vector2(0, 58) if _is_portrait_layout() else Vector2(400, 58))
+				choice_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+				scenario_choices.add_child(choice_button)
 			return
 		if type == "start_battle":
 			AppState.selected_stage_id = command.stage_id
@@ -2301,6 +2881,8 @@ func _dev_skip_story() -> void:
 	_finish_story_navigation()
 
 func _finish_story_navigation() -> void:
+	if story_navigation_pending or current_screen != "STORY":
+		return
 	# STORY is entered from the home/archive as well as the chapter-map
 	# progression queue. Preserve the caller's stable return contract so a
 	# mandatory post-battle scene cannot strand the player in Formation.
@@ -2308,7 +2890,22 @@ func _finish_story_navigation() -> void:
 	if destination not in ["HOME", "ARCHIVE", "FORMATION", "STAGE_DETAIL", "STAGE_SELECT"]:
 		destination = "FORMATION"
 	story_checkpoint_dirty = false
+	story_navigation_pending = true
 	SaveService.save_game()
+	# Do not clear the Story controls from inside their own pressed/gui_input
+	# callback. On Web this could invalidate the active canvas-item traversal and
+	# leave only the root background rendered while AudioService kept the BGM
+	# alive. Commit the route on the following process frame, after the input edge
+	# and pending story tweens have left the current callback stack.
+	call_deferred("_commit_story_navigation", destination)
+
+func _commit_story_navigation(destination: String) -> void:
+	if not story_navigation_pending:
+		return
+	story_navigation_pending = false
+	if current_screen != "STORY":
+		return
+	scenario_runner = null
 	SceneRouter.go(destination, {"story_return": true})
 
 func _show_story_log() -> void:
@@ -2431,11 +3028,18 @@ func _show_stage_select() -> void:
 		grid.add_child(_button("%s%s\n권장 Lv.%d\n%s" % [stage_name, boss, stage.recommended_level, "★".repeat(stars) + "☆".repeat(3 - stars)], func(stage_id: String = str(stage.id)): AppState.selected_stage_id = stage_id; SceneRouter.go("STAGE_DETAIL"), not unlocked, Vector2(300 if portrait else 235, 120)))
 
 func _show_chapter_map() -> void:
+	var show_generation := chapter_map_show_generation
+	var loading_token := _transition_loading_token_for(TRANSITION_LOADING_MAP_ENTRY)
+	var stage_preload_started_msec := Time.get_ticks_msec()
+	last_stage_preload_elapsed_msec = 0
+	last_stage_preload_texture_count = 0
+	last_stage_preload_cache_hit = false
 	var selected_stage: Dictionary = DataRegistry.stage(AppState.selected_stage_id)
 	var chapter_id := str(selected_stage.get("chapter_id", "CH01"))
 	AppState.queue_story_event("MAP_ENTER", "", chapter_id)
 	var pending_story := AppState.next_pending_story_trigger(chapter_id)
 	if not pending_story.is_empty():
+		_cancel_transition_loading(loading_token)
 		AppState.active_scenario_id = str(pending_story.get("scenario_id", ""))
 		SaveService.save_game()
 		SceneRouter.go("STORY", {"after": "STAGE_SELECT", "origin": "CHAPTER_MAP"})
@@ -2444,40 +3048,104 @@ func _show_chapter_map() -> void:
 	var chapter: Dictionary = DataRegistry.chapter(chapter_id)
 	var map_id := AppState.map_id_for_chapter(chapter_id)
 	_title(LocalizationService.tr_key(str(chapter.get("name_key", ""))), "탐색 경로를 따라 조우를 선택하고, 기존 실시간 전투에 진입합니다.")
-	var loading_label := _label("전술 지도를 전개하는 중…", 24, Color("8de7d1"))
+	var loading_label := _label("Building tactical map…", 24, Color("8de7d1"))
 	loading_label.name = "ChapterMapLoadingFeedback"
 	content.add_child(loading_label)
 	# Let Web paint immediate feedback before terrain meshes and map pawns are
 	# constructed. Without this yield, a valid build looked like a crashed tab.
 	await get_tree().process_frame
+	_set_transition_loading_phase(loading_token, "Checking chapter and exploration records", 12.0, 0.20)
 	await get_tree().process_frame
-	if current_screen != "STAGE_SELECT":
+	if current_screen != "STAGE_SELECT" or show_generation != chapter_map_show_generation:
+		_cancel_transition_loading(loading_token)
 		return
+	# A preserved chapter-map already owns the validated definition and every
+	# terrain/atlas batch. Reuse it before touching the macro loader: loading here
+	# deep-copied and validated the entire expanded world on every battle/reward
+	# return, even though the cached screen was used a few lines later.
+	var map_screen: Control = _take_cached_chapter_map(map_id)
+	if map_screen != null:
+		_set_transition_loading_phase(loading_token, "Restoring the retained tactical map", 88.0, 0.22)
+		content.add_child(map_screen)
+		active_chapter_map_screen = map_screen
+		map_screen.call("resume_from_cache")
+		if is_instance_valid(loading_label):
+			loading_label.queue_free()
+		_apply_chapter_map_shell_overrides()
+		_finish_transition_loading(loading_token, "Tactical map ready")
+		return
+	_set_transition_loading_phase(loading_token, "Loading the map definition", 28.0, 0.24)
 	var definition: Dictionary = ChapterMapLoaderScript.load_map(map_id)
+	_set_transition_loading_phase(loading_token, "Validating routes and encounters", 44.0, 0.24)
 	var errors: Array[String] = ChapterMapLoaderScript.validate(definition)
 	if not errors.is_empty():
 		content.add_child(_label("맵 데이터 검증 실패\n" + "\n".join(errors), 22, Color("ff7f8a")))
 		content.add_child(_button("목록형 fail-safe 열기", func(): SceneRouter.go("STAGE_LIST_FALLBACK"), false, Vector2(260, 64)))
+		_finish_transition_loading(loading_token, "Map validation needs attention")
 		return
-	var map_screen = ChapterMapScene.instantiate()
+	# Web owns one explicit stage-entry preload boundary for the tactical world and
+	# its visible character atlases. Projectile/VFX/background resources are kept
+	# behind the separately permitted BATTLE loading boundary so map entry stays
+	# within five seconds without pushing decode work into movement or treasure.
+	if OS.has_feature("web"):
+		var party_ids: Array = AppState.get_party()
+		last_stage_preload_cache_hit = StageAssetCache.cache_hit_for_map_entry(map_id, definition, party_ids, AppState.selected_stage_id, [])
+		var cache_progress_handler := Callable(self, "_on_stage_asset_cache_progress").bind(loading_token)
+		if not StageAssetCache.warmup_progress_changed.is_connected(cache_progress_handler):
+			StageAssetCache.warmup_progress_changed.connect(cache_progress_handler)
+		var cache_warm_ok: bool = await StageAssetCache.warm_map_for_stage_select(map_id, definition, party_ids, AppState.selected_stage_id, [])
+		if StageAssetCache.warmup_progress_changed.is_connected(cache_progress_handler):
+			StageAssetCache.warmup_progress_changed.disconnect(cache_progress_handler)
+		if current_screen != "STAGE_SELECT" or show_generation != chapter_map_show_generation:
+			StageAssetCache.cancel_warmup()
+			_cancel_transition_loading(loading_token)
+			return
+		if not cache_warm_ok:
+			print("STAGE_ENTRY_PRELOAD_TIMEOUT map=%s phase=asset_cache elapsed_ms=%d" % [map_id, Time.get_ticks_msec() - stage_preload_started_msec])
+			_show_loading_failure_screen("TACTICAL MAP UNAVAILABLE", "Stage assets did not become ready within 5 seconds.", "STAGE_SELECT", true)
+			return
+		elif not last_stage_preload_cache_hit:
+			var gpu_textures: Array[Texture2D] = StageAssetCache.gpu_warm_textures()
+			last_stage_preload_texture_count = await _warm_transition_gpu_textures(loading_token, gpu_textures)
+	_set_transition_loading_phase(loading_token, "Building the tactical map interface", 56.0, 0.18)
+	map_screen = ChapterMapScene.instantiate()
 	map_screen.map_id = map_id
+	# Pass the already validated definition into the screen. `_ready()` only
+	# falls back to the loader when instantiated outside AppShell (tests/tools).
+	map_screen.definition = definition
 	map_screen.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	map_screen.battle_requested.connect(_map_battle_requested)
 	map_screen.formation_requested.connect(func(): SceneRouter.go("FORMATION"))
 	map_screen.fallback_requested.connect(func(): SceneRouter.go("STAGE_LIST_FALLBACK"))
 	map_screen.sweep_requested.connect(_map_sweep_requested)
 	map_screen.treasure_reward_requested.connect(_map_treasure_reward_requested)
+	var map_load_handler := Callable(self, "_on_chapter_map_load_progress").bind(loading_token, show_generation)
+	map_screen.map_load_progress.connect(map_load_handler)
 	content.add_child(map_screen)
 	active_chapter_map_screen = map_screen
 	_apply_chapter_map_shell_overrides()
+	_set_transition_loading_phase(loading_token, "Placing terrain, routes, and objectives", 94.0, 1.65)
 	# Keep explicit feedback visible until the cooperatively-built world confirms
 	# that terrain, pawns and input authority are all ready. The map now yields
 	# between build batches so this label and the interface remain paintable.
-	await map_screen.map_ready
-	if current_screen != "STAGE_SELECT" or not is_instance_valid(map_screen):
+	var map_ready_ok := await _wait_for_map_ready_with_deadline(map_screen, stage_preload_started_msec, show_generation)
+	if not map_ready_ok:
+		if is_instance_valid(map_screen) and map_screen.map_load_progress.is_connected(map_load_handler):
+			map_screen.map_load_progress.disconnect(map_load_handler)
+		print("STAGE_ENTRY_PRELOAD_TIMEOUT map=%s phase=map_ready elapsed_ms=%d" % [map_id, Time.get_ticks_msec() - stage_preload_started_msec])
+		_show_loading_failure_screen("TACTICAL MAP UNAVAILABLE", "The tactical map did not become ready within 5 seconds.", "STAGE_SELECT", true)
 		return
-	loading_label.queue_free()
+	if current_screen != "STAGE_SELECT" or show_generation != chapter_map_show_generation or not is_instance_valid(map_screen):
+		_cancel_transition_loading(loading_token)
+		return
+	if map_screen.map_load_progress.is_connected(map_load_handler):
+		map_screen.map_load_progress.disconnect(map_load_handler)
+	if is_instance_valid(loading_label):
+		loading_label.queue_free()
 	_apply_chapter_map_shell_overrides()
+	last_stage_preload_elapsed_msec = maxi(0, Time.get_ticks_msec() - stage_preload_started_msec)
+	print("STAGE_ENTRY_PRELOAD_COMPLETE map=%s elapsed_ms=%d target_ms=%d within_target=%s cache_hit=%s gpu_textures=%d" % [map_id, last_stage_preload_elapsed_msec, STAGE_ENTRY_PRELOAD_TARGET_MSEC, str(last_stage_preload_elapsed_msec <= STAGE_ENTRY_PRELOAD_TARGET_MSEC), str(last_stage_preload_cache_hit), last_stage_preload_texture_count])
+	_finish_transition_loading(loading_token, "Tactical map ready")
 
 func _map_battle_requested(stage_id: String) -> void:
 	_request_battle_start("map:encounter", stage_id)
@@ -2490,7 +3158,100 @@ func _map_treasure_reward_requested(report: Dictionary) -> void:
 	last_rewards = report.get("rewards", {}).duplicate(true)
 	last_reward_report = report.duplicate(true)
 	last_battle_result = {"victory": true, "time": 0.0, "survivors": 5, "seed": AppState.battle_seed, "event_hash": "%s:%s" % [str(report.get("source_type", "EXPLORE")), str(report.get("source_id", ""))], "damage": {}, "healing": {}, "source_type": str(report.get("source_type", "TREASURE"))}
+	# A treasure pickup is an in-map interaction, not a screen-owner transition.
+	# Destroying and rebuilding the Web SubViewport here forced the complete macro
+	# map through its entry path after every chest. Present the same authoritative
+	# reward report over the live map, then resume the owed enemy phase in place.
+	# No loading layer, resource warmup, terrain rebuild, or BGM switch is allowed.
+	if current_screen == "STAGE_SELECT" and active_chapter_map_screen != null and is_instance_valid(active_chapter_map_screen):
+		_show_map_reward_overlay()
+		return
+	# Defensive fallback for tools that emit a reward without an attached map.
 	SceneRouter.go("RESULT")
+
+func _show_map_reward_overlay() -> void:
+	_dispose_map_reward_overlay(false)
+	map_reward_layer = CanvasLayer.new()
+	map_reward_layer.name = "MapRewardOverlayLayer"
+	map_reward_layer.layer = 360
+	add_child(map_reward_layer)
+	map_reward_surface = Control.new()
+	map_reward_surface.name = "MapRewardOverlaySurface"
+	map_reward_surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	map_reward_surface.mouse_filter = Control.MOUSE_FILTER_STOP
+	map_reward_surface.theme = theme
+	map_reward_layer.add_child(map_reward_surface)
+	var dimmer := ColorRect.new()
+	dimmer.name = "MapRewardDimmer"
+	dimmer.color = Color("020710d6")
+	dimmer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	dimmer.mouse_filter = Control.MOUSE_FILTER_STOP
+	map_reward_surface.add_child(dimmer)
+
+	map_reward_panel = PanelContainer.new()
+	map_reward_panel.name = "MapRewardPanel"
+	map_reward_panel.add_theme_stylebox_override("panel", GameUI.panel_style(
+		Color("081725f5"), Color("79e7d5c8"), 1, GameUI.RADIUS_MODAL,
+		Vector4(32.0, 26.0, 32.0, 28.0), 18
+	))
+	map_reward_surface.add_child(map_reward_panel)
+	var metrics := responsive_ui_metrics_for_size(_runtime_layout_size())
+	var portrait := bool(metrics.portrait)
+	var panel_size := Vector2(1660.0, 860.0) if portrait else Vector2(1040.0, 790.0)
+	map_reward_panel.anchor_left = 0.5
+	map_reward_panel.anchor_right = 0.5
+	map_reward_panel.anchor_top = 0.5
+	map_reward_panel.anchor_bottom = 0.5
+	map_reward_panel.offset_left = -panel_size.x * 0.5
+	map_reward_panel.offset_right = panel_size.x * 0.5
+	map_reward_panel.offset_top = -panel_size.y * 0.5
+	map_reward_panel.offset_bottom = panel_size.y * 0.5
+	map_reward_panel.custom_minimum_size = panel_size
+
+	var column := VBoxContainer.new()
+	column.name = "MapRewardColumn"
+	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	column.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_theme_constant_override("separation", 12)
+	map_reward_panel.add_child(column)
+	var eyebrow := _label("FIELD ACQUISITION · 탐색은 중단되지 않습니다", 18, GameUI.SIGNAL)
+	eyebrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(eyebrow)
+	var title := _label("탐색 보급품 확보", 34, GameUI.OBJECTIVE)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(title)
+	var separator := HSeparator.new()
+	separator.modulate = Color("79e7d588")
+	column.add_child(separator)
+	var report_scroll := ScrollContainer.new()
+	report_scroll.name = "MapRewardReportScroll"
+	report_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	report_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	report_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(report_scroll)
+	var report_box := VBoxContainer.new()
+	report_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	report_box.add_theme_constant_override("separation", 10)
+	report_scroll.add_child(report_box)
+	_add_reward_clarity(report_box, 19 if portrait else 21)
+	var continue_button := _button("보상 확인 · 지도 계속", _close_map_reward_overlay, false, Vector2(420.0 if portrait else 360.0, 72.0))
+	continue_button.name = "MapRewardContinueButton"
+	continue_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_make_primary_button(continue_button)
+	column.add_child(continue_button)
+	continue_button.grab_focus()
+
+func _close_map_reward_overlay() -> void:
+	_dispose_map_reward_overlay(true)
+
+func _dispose_map_reward_overlay(resume_map_turn: bool) -> void:
+	if map_reward_layer != null and is_instance_valid(map_reward_layer):
+		map_reward_layer.queue_free()
+	map_reward_layer = null
+	map_reward_surface = null
+	map_reward_panel = null
+	if resume_map_turn and current_screen == "STAGE_SELECT" and active_chapter_map_screen != null and is_instance_valid(active_chapter_map_screen):
+		active_chapter_map_screen.call_deferred("_resume_post_reward_turn")
 
 func _show_stage_detail() -> void:
 	var stage := DataRegistry.stage(AppState.selected_stage_id)
@@ -2544,6 +3305,18 @@ func _start_battle() -> bool:
 	_play_map_battle_transition()
 	return true
 
+func _route_to_battle_with_loading() -> void:
+	# Authored contact/dialogue stays visible in `_play_map_battle_transition`.
+	# Start the loading owner only after that interaction has resolved, exactly
+	# where the map scene is about to be replaced by the realtime battle owner.
+	var loading_token := _begin_transition_loading(TRANSITION_LOADING_BATTLE_ENTRY)
+	await get_tree().process_frame
+	if not battle_transition_active or current_screen not in ["STAGE_SELECT", "STAGE_DETAIL"]:
+		_cancel_transition_loading(loading_token)
+		return
+	_set_transition_loading_phase(loading_token, "Connecting combat data", 10.0, 0.18)
+	SceneRouter.go("BATTLE")
+
 func _play_map_battle_transition() -> void:
 	var veil := ColorRect.new()
 	veil.name = "R7HexSignalTransition"
@@ -2582,7 +3355,7 @@ func _play_map_battle_transition() -> void:
 	if not special_event.is_empty():
 		await _play_special_event_dialogue(veil, special_event, focus)
 		veil.queue_free()
-		SceneRouter.go("BATTLE")
+		await _route_to_battle_with_loading()
 		return
 	var boss_card: PanelContainer
 	if str(encounter_presentation.get("transition_style", "")) == "BOSS":
@@ -2592,18 +3365,13 @@ func _play_map_battle_transition() -> void:
 		boss_card = PanelContainer.new()
 		boss_card.name = "BossEncounterTitleCard"
 		boss_card.set_anchors_preset(Control.PRESET_CENTER)
-		boss_card.position = Vector2(-330, 64)
-		boss_card.size = Vector2(660, 144)
+		var portrait_boss_layout := _is_portrait_layout()
+		var boss_card_size := Vector2(1580, 620) if portrait_boss_layout else Vector2(660, 144)
+		boss_card.position = -boss_card_size * 0.5 if portrait_boss_layout else Vector2(-330, 64)
+		boss_card.size = boss_card_size
+		boss_card.custom_minimum_size = boss_card_size
 		boss_card.modulate = Color(1.0, 1.0, 1.0, 0.0)
-		var boss_style := StyleBoxFlat.new()
-		boss_style.bg_color = Color("17172ae8")
-		boss_style.border_color = Color("e6a85a")
-		boss_style.set_border_width_all(2)
-		boss_style.set_corner_radius_all(16)
-		boss_style.content_margin_left = 24
-		boss_style.content_margin_right = 24
-		boss_style.content_margin_top = 14
-		boss_style.content_margin_bottom = 14
+		var boss_style := GameUI.panel_style(Color("211a18ee"), GameUI.OBJECTIVE, 1, GameUI.RADIUS_MODAL, Vector4(24.0, 14.0, 24.0, 14.0), 12)
 		boss_card.add_theme_stylebox_override("panel", boss_style)
 		veil.add_child(boss_card)
 		var boss_copy := VBoxContainer.new()
@@ -2762,7 +3530,7 @@ func _play_map_battle_transition() -> void:
 		tween.parallel().tween_property(boss_card, "modulate", Color("ffffff00"), outro_duration)
 	await tween.finished
 	veil.queue_free()
-	SceneRouter.go("BATTLE")
+	await _route_to_battle_with_loading()
 
 func _event_dialogue_speaker_name(page: Dictionary) -> String:
 	var speaker_kind := str(page.get("speaker_kind", "COMMAND"))
@@ -3064,6 +3832,18 @@ func _play_special_event_dialogue(veil: ColorRect, special_event: Dictionary, fo
 
 func _show_battle() -> void:
 	battle_transition_active = false
+	var battle_preload_started_msec := Time.get_ticks_msec()
+	var loading_token := _transition_loading_token_for(TRANSITION_LOADING_BATTLE_ENTRY)
+	if loading_token == 0:
+		# Direct/debug battle routes still receive the same screen-owner loading
+		# contract; ordinary map encounters have already created this token.
+		loading_token = _begin_transition_loading(TRANSITION_LOADING_BATTLE_ENTRY)
+	await get_tree().process_frame
+	if current_screen != "BATTLE":
+		_cancel_transition_loading(loading_token)
+		return
+	_set_transition_loading_phase(loading_token, "Connecting battle rules and audio", 22.0, 0.18)
+	await get_tree().process_frame
 	var stage := DataRegistry.stage(AppState.selected_stage_id)
 	AudioService.play_bgm("audio_bgm_boss" if bool(stage.boss) else "audio_bgm_battle")
 	var simulation := BattleSimulation.new()
@@ -3075,13 +3855,20 @@ func _show_battle() -> void:
 	var selected_party_ids: Array = AppState.relay_current_squad() if AppState.relay_active() else AppState.get_party()
 	for party_id_value in selected_party_ids:
 		battle_party_ids.append(str(party_id_value))
+	_set_transition_loading_phase(loading_token, "Checking party formation and enemy waves", 42.0, 0.20)
+	await get_tree().process_frame
 	var party_snapshot := AppState.relay_party_snapshot() if AppState.relay_active() else AppState.create_party_snapshot()
 	if party_snapshot.size() != 5:
 		footer_status.text = "전투 편성 데이터가 유효하지 않습니다."
+		_cancel_transition_loading(loading_token)
 		SceneRouter.go("RELAY" if AppState.relay_active() else "FORMATION")
 		return
+	_set_transition_loading_phase(loading_token, "Initializing the real-time battle simulation", 64.0, 0.32)
+	await get_tree().process_frame
 	simulation.setup(party_snapshot, stage, AppState.battle_seed, DataRegistry.data, AppState.effective_battle_debug_options())
 	simulation.auto_enabled = bool(SettingsService.values.battle_auto)
+	_set_transition_loading_phase(loading_token, "Deploying combatants and effects", 82.0, 0.26)
+	await get_tree().process_frame
 	battle_view = BattleViewScene.instantiate()
 	# BattleView is a canvas-drawn Control.  A VBoxContainer only grants it the
 	# full combat width when it participates in the horizontal expand contract;
@@ -3095,7 +3882,23 @@ func _show_battle() -> void:
 	battle_view.speed = int(SettingsService.values.battle_speed)
 	battle_view.battle_finished.connect(_battle_finished)
 	content.add_child(battle_view)
+	_set_transition_loading_phase(loading_token, "Attaching the battle cache and graphics", 90.0, 0.18)
 	_build_battle_overlay()
+	# Cached bundles signal immediately on the deferred warmup turn; a direct/debug
+	# route may use BattleView's sliced fallback. In both cases the blocking layer
+	# remains authoritative until all waves, projectiles and VFX are attached.
+	var battle_assets_ok := battle_view.assets_ready
+	if not battle_assets_ok:
+		battle_assets_ok = await _wait_for_battle_assets_with_deadline(battle_view, battle_preload_started_msec)
+	if not battle_assets_ok:
+		print("BATTLE_ENTRY_PRELOAD_TIMEOUT stage=%s elapsed_ms=%d" % [AppState.selected_stage_id, Time.get_ticks_msec() - battle_preload_started_msec])
+		_show_loading_failure_screen("BATTLE UNAVAILABLE", "Battle assets did not become ready within 5 seconds.", "BATTLE")
+		return
+	if current_screen != "BATTLE" or battle_view == null or not is_instance_valid(battle_view):
+		_cancel_transition_loading(loading_token)
+		return
+	_set_transition_loading_phase(loading_token, "Preparing battle controls", 96.0, 0.10)
+	_finish_transition_loading(loading_token, "Battle ready")
 
 func _rebuild_battle_overlay() -> void:
 	if battle_view == null or battle_view.simulation == null: return
@@ -3255,16 +4058,7 @@ func _boss_phase_hud_label(phase_id: String) -> String:
 		_: return LocalizationService.tr_key("BATTLE_BOSS_PHASE_1_HUD")
 
 func _battle_party_status_style() -> StyleBoxFlat:
-	var card := StyleBoxFlat.new()
-	card.bg_color = Color("071522d8")
-	card.border_color = Color("2c6079cc")
-	card.set_border_width_all(1)
-	card.set_corner_radius_all(7)
-	card.content_margin_left = 8
-	card.content_margin_right = 8
-	card.content_margin_top = 3
-	card.content_margin_bottom = 3
-	return card
+	return GameUI.panel_style(Color("071522d8"), Color("526f8799"), 1, GameUI.RADIUS_CONTROL, Vector4(8.0, 3.0, 8.0, 3.0), 0)
 
 func _toggle_battle_auto() -> void:
 	if battle_view == null or battle_view.simulation == null: return
@@ -3332,12 +4126,26 @@ func _battle_finished(result: Dictionary) -> void:
 	if AppState.relay_active():
 		_relay_battle_finished(result)
 		return
+	var loading_token := 0
+	# Frame yields exist only to paint the Web loader. The progression transaction
+	# itself must also run deterministically when invoked by headless recovery and
+	# save/refresh tests where this shell is deliberately not inside a SceneTree.
+	if is_inside_tree():
+		loading_token = _begin_transition_loading(TRANSITION_LOADING_BATTLE_RESULT)
+		await get_tree().process_frame
+		if current_screen != "BATTLE":
+			_cancel_transition_loading(loading_token)
+			return
+	_set_transition_loading_phase(loading_token, "Finalizing battle and survivor records", 18.0, 0.20)
 	last_battle_result = result
 	last_rewards = {}
 	last_reward_report = {}
-	var pre_profile := AppState.profile.duplicate(true)
+	var pre_profile := _reward_profile_snapshot()
 	var battle_map_id := AppState.map_id_for_stage(AppState.selected_stage_id)
 	var pending_special_event := AppState.pending_map_special_event(battle_map_id)
+	_set_transition_loading_phase(loading_token, "Checking rewards and campaign progress", 38.0, 0.24)
+	if is_inside_tree():
+		await get_tree().process_frame
 	var first := false
 	var story_queued := false
 	var stage_chapter_id := ""
@@ -3355,8 +4163,11 @@ func _battle_finished(result: Dictionary) -> void:
 			AccountProgression.grant_stage_xp(int(stage.stamina_cost), 20 if first else 0)
 			for character_id in AppState.get_party(): RelationshipService.grant(character_id, 10)
 			story_queued = AppState.queue_story_event("STAGE_CLEAR", str(stage.id))
+	_set_transition_loading_phase(loading_token, "Applying rewards and growth updates", 68.0, 0.30)
+	if is_inside_tree():
+		await get_tree().process_frame
 	AppState.apply_battle_result_to_map(AppState.selected_stage_id, bool(result.get("victory", false)), battle_map_id)
-	var post_profile := AppState.profile.duplicate(true)
+	var post_profile := _reward_profile_snapshot()
 	var pending_story := AppState.next_pending_story_trigger() if story_queued else {}
 	last_reward_report = {
 		"source_type": "BATTLE",
@@ -3374,25 +4185,45 @@ func _battle_finished(result: Dictionary) -> void:
 			"newly_recruited_characters": _newly_recruited_character_ids(pre_profile, post_profile),
 		},
 	}
-	SaveService.save_game()
+	_set_transition_loading_phase(loading_token, "Saving the battle result", 92.0, 0.26)
+	if is_inside_tree():
+		await get_tree().process_frame
+	var save_result := SaveService.save_game()
+	if not save_result.ok:
+		_cancel_transition_loading(loading_token)
+		_present_transaction_save_failure("BATTLE RESULT NOT SAVED", save_result.error, func(): SceneRouter.go("RESULT"))
+		return
+	_set_transition_loading_phase(loading_token, "Opening the results screen", 96.0, 0.18)
 	SceneRouter.go("RESULT")
 
 func _relay_battle_finished(result: Dictionary) -> void:
+	var loading_token := 0
+	if is_inside_tree():
+		loading_token = _begin_transition_loading(TRANSITION_LOADING_BATTLE_RESULT)
+		await get_tree().process_frame
+		if current_screen != "BATTLE":
+			_cancel_transition_loading(loading_token)
+			return
+	_set_transition_loading_phase(loading_token, "Finalizing relay battle records", 20.0, 0.20)
 	last_battle_result = result.duplicate(true)
 	last_rewards = {}
 	last_reward_report = {}
-	var pre_profile := AppState.profile.duplicate(true)
+	var pre_profile := _reward_profile_snapshot()
 	var relay_id := str(RelayServiceScript.active_run(AppState.profile).get("relay_id", ""))
 	var outcome := RelayServiceScript.record_segment_result(AppState.profile, result)
 	if not bool(outcome.get("ok", false)):
 		footer_status.text = "릴레이 결과 반영 실패: %s" % str(outcome.get("error", "UNKNOWN"))
+		_cancel_transition_loading(loading_token)
 		SceneRouter.go("RELAY")
 		return
+	_set_transition_loading_phase(loading_token, "Applying relay rewards and next segment", 62.0, 0.30)
+	if is_inside_tree():
+		await get_tree().process_frame
 	if bool(result.get("victory", false)):
 		for character_id in battle_party_ids:
 			RelationshipService.grant(character_id, 10)
 	last_rewards = (outcome.get("rewards", {}) as Dictionary).duplicate(true)
-	var post_profile := AppState.profile.duplicate(true)
+	var post_profile := _reward_profile_snapshot()
 	last_reward_report = {
 		"source_type": "RELAY",
 		"source_id": relay_id,
@@ -3410,7 +4241,15 @@ func _relay_battle_finished(result: Dictionary) -> void:
 			"next_segment": int(outcome.get("segment_index", -1)) + 1,
 		},
 	}
-	SaveService.save_game()
+	_set_transition_loading_phase(loading_token, "Saving the relay result", 92.0, 0.24)
+	if is_inside_tree():
+		await get_tree().process_frame
+	var save_result := SaveService.save_game()
+	if not save_result.ok:
+		_cancel_transition_loading(loading_token)
+		_present_transaction_save_failure("RELAY RESULT NOT SAVED", save_result.error, func(): SceneRouter.go("RESULT"))
+		return
+	_set_transition_loading_phase(loading_token, "Opening the results screen", 96.0, 0.18)
 	SceneRouter.go("RESULT")
 
 func _abandon_battle() -> void:
@@ -3426,6 +4265,21 @@ func _display_item_name(item_id: String) -> String:
 	var item := DataRegistry.by_id("items", item_id)
 	var fallback := item_id.replace("_", " ")
 	return LocalizationService.tr_key(str(item.get("name_key", fallback))).replace(" (DEV)", "")
+
+func _reward_profile_snapshot() -> Dictionary:
+	# Reward/result analysis never reads live map traversal, patrol, fog, scenario
+	# queues or settings. Copying the complete profile cloned those large nested
+	# structures twice at battle completion and caused a visible/audio hitch.
+	var source: Dictionary = AppState.profile
+	return {
+		"account": source.get("account", {}).duplicate(true),
+		"inventory": source.get("inventory", {}).duplicate(true),
+		"roster": source.get("roster", {}).duplicate(true),
+		"weapons": source.get("weapons", {}).duplicate(true),
+		"chapter_progress": source.get("chapter_progress", {}).duplicate(true),
+		"stage_stars": source.get("stage_stars", {}).duplicate(true),
+		"first_clear": source.get("first_clear", {}).duplicate(true),
+	}
 
 func _display_character_name(character_id: String) -> String:
 	var definition := DataRegistry.character(character_id)
@@ -3613,15 +4467,7 @@ func _reward_item_card(parent: Node, item_name: String, amount: int, before: int
 	var card := PanelContainer.new()
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	card.custom_minimum_size = Vector2(0.0, 92.0 * _portrait_ui_scale())
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color("142b3d")
-	style.border_color = Color("3e8f91")
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(10)
-	style.content_margin_left = 18
-	style.content_margin_right = 18
-	style.content_margin_top = 9
-	style.content_margin_bottom = 9
+	var style := GameUI.panel_style(GameUI.SURFACE_RAISED, Color("6ce6d066"), 1, GameUI.RADIUS_CONTROL, Vector4(18.0, 9.0, 18.0, 9.0), 0)
 	card.add_theme_stylebox_override("panel", style)
 	parent.add_child(card)
 	var body := VBoxContainer.new()
@@ -3641,15 +4487,7 @@ func _reward_item_card(parent: Node, item_name: String, amount: int, before: int
 func _reward_summary_card(parent: VBoxContainer, text_value: String, font_size: int) -> void:
 	var card := PanelContainer.new()
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color("1e2737")
-	style.border_color = Color("8c7a3f")
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(10)
-	style.content_margin_left = 18
-	style.content_margin_right = 18
-	style.content_margin_top = 11
-	style.content_margin_bottom = 11
+	var style := GameUI.panel_style(Color("2a251d"), Color("e7bf6877"), 1, GameUI.RADIUS_CONTROL, Vector4(18.0, 11.0, 18.0, 11.0), 0)
 	card.add_theme_stylebox_override("panel", style)
 	parent.add_child(card)
 	card.add_child(_label(text_value, font_size, Color("e6edf8")))
@@ -3837,11 +4675,7 @@ func _add_reward_celebration(parent: Node, font_size: int, compact := false) -> 
 	parent.add_child(card)
 	var backdrop := Panel.new()
 	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var card_style := StyleBoxFlat.new()
-	card_style.bg_color = Color("0a2331f2")
-	card_style.border_color = Color("81e9d5")
-	card_style.set_border_width_all(2)
-	card_style.set_corner_radius_all(16)
+	var card_style := GameUI.panel_style(Color("0a1d29f2"), GameUI.SIGNAL, 1, GameUI.RADIUS_MODAL, Vector4.ZERO, 8)
 	backdrop.add_theme_stylebox_override("panel", card_style)
 	card.add_child(backdrop)
 	# The translucent right-side half-body is a non-interactive presentation
@@ -3955,15 +4789,29 @@ func result_feature_character_for_report(report: Dictionary, party: Array) -> Di
 	return DataRegistry.character(str(party[0])) if not party.is_empty() else {}
 
 func _show_result() -> void:
-	AudioService.play_bgm("audio_bgm_lobby")
+	var loading_token := _transition_loading_token_for(TRANSITION_LOADING_BATTLE_RESULT)
+	var result_build_started_msec := Time.get_ticks_msec()
+	print("RESULT_BUILD_TRACE step=start")
+	_set_transition_loading_phase(loading_token, "Building the battle report", 97.0, 0.10)
 	var result_header := result_header_data(last_reward_report)
 	_title(str(result_header.title), str(result_header.subtitle))
+	print("RESULT_BUILD_TRACE step=header")
+	# `_show_screen()` is intentionally synchronous.  Suspending this owner at a
+	# process-frame boundary lets the Web screen dispatcher return while RESULT
+	# owns only its header; a later layout refresh can then clear that partial tree
+	# and leave the canvas behind the 96% loader empty.  Result controls are cheap
+	# and their textures are already in the retained battle cache, so construct the
+	# complete tree in this call and release the loader asynchronously afterwards.
 	# A desktop-side illustration/report split spills past a 390 px portrait
 	# viewport.  Keep the complete report scrollable, but reserve a separate
 	# bottom action rail inside the device safe area so map return is never
 	# stranded below the fold.
 	if _is_portrait_layout():
 		_show_result_portrait()
+		_set_transition_loading_phase(loading_token, "Finalizing result actions", 99.0, 0.08)
+		AudioService.play_bgm("audio_bgm_lobby")
+		print("RESULT_SCREEN_READY elapsed_ms=%d layout=portrait" % maxi(0, Time.get_ticks_msec() - result_build_started_msec))
+		_finish_transition_loading(loading_token, "Battle results ready")
 		return
 	# Keep the full report scrollable independently from the action rail.  The
 	# former expanding HBox consumed the complete landscape height and could
@@ -3980,23 +4828,37 @@ func _show_result() -> void:
 	hero.add_theme_constant_override("separation", 18)
 	report_scroll.add_child(hero)
 	var lead := _result_feature_character()
+	print("RESULT_BUILD_TRACE step=lead id=%s" % str(lead.get("id", "")))
 	var art_panel := PanelContainer.new()
 	art_panel.custom_minimum_size = Vector2(220, 360) if compact_landscape else Vector2(260, 500)
 	hero.add_child(art_panel)
 	art_panel.add_child(_art_rect(str(lead.portrait_asset_id), Vector2(200, 330) if compact_landscape else Vector2(240, 470)))
+	print("RESULT_BUILD_TRACE step=art")
 	var box := _panel_box(hero)
 	box.add_child(_label("VICTORY" if last_battle_result.get("victory", false) else "DEFEAT", 52, Color("f1d77a") if last_battle_result.get("victory", false) else Color("ff7f8a")))
 	box.add_child(_label("시간 %.2fs  ·  생존 %d" % [last_battle_result.get("time", 0), last_battle_result.get("survivors", 0)], 26))
 	_add_reward_celebration(box, 20)
+	print("RESULT_BUILD_TRACE step=celebration")
 	_add_reward_clarity(box, 23)
+	print("RESULT_BUILD_TRACE step=clarity")
 	box.add_child(_label("가한 피해\n%s\n\n회복\n%s" % [_format_counts(last_battle_result.get("damage", {})), _format_counts(last_battle_result.get("healing", {}))], 19, Color("cdd5e3")))
+	print("RESULT_BUILD_TRACE step=counts")
 	var actions := HBoxContainer.new()
 	content.add_child(actions)
 	var result_is_relay := str(last_reward_report.get("source_type", "")) == "RELAY"
-	var growth_party := battle_party_ids if result_is_relay and not battle_party_ids.is_empty() else AppState.get_party()
+	# `battle_party_ids` is Array[String] while `AppState.get_party()` returns a
+	# generic Array.  Let the result rail own the common Array type explicitly;
+	# otherwise Godot infers Array[String] from the relay branch and aborts the
+	# RESULT tree at 96% when an ordinary map battle supplies the generic branch.
+	var growth_party: Array = battle_party_ids if result_is_relay and not battle_party_ids.is_empty() else AppState.get_party()
 	actions.add_child(_button("권장 파티 성장", func(party := growth_party): AppState.selected_character_id = str(party[0]); SceneRouter.go("GROWTH"), false, Vector2(220, 66)))
-	actions.add_child(_button("릴레이 작전으로" if result_is_relay else "챕터 맵으로", func(): SceneRouter.go("RELAY" if result_is_relay else "STAGE_SELECT"), false, Vector2(220, 66)))
+	actions.add_child(_button("릴레이 작전으로" if result_is_relay else "챕터 맵으로", func(): SceneRouter.go("RELAY" if result_is_relay else "STAGE_SELECT", {"result_return": true}), false, Vector2(220, 66)))
 	actions.add_child(_button("홈", func(): SceneRouter.go("HOME"), false, Vector2(160, 66)))
+	print("RESULT_BUILD_TRACE step=actions")
+	_set_transition_loading_phase(loading_token, "Finalizing result actions", 99.0, 0.08)
+	AudioService.play_bgm("audio_bgm_lobby")
+	print("RESULT_SCREEN_READY elapsed_ms=%d layout=landscape" % maxi(0, Time.get_ticks_msec() - result_build_started_msec))
+	_finish_transition_loading(loading_token, "Battle results ready")
 
 func _show_result_portrait() -> void:
 	var ui_scale := _portrait_ui_scale()
@@ -4027,18 +4889,18 @@ func _show_result_portrait() -> void:
 	actions.add_theme_constant_override("separation", roundi(7.0 * ui_scale))
 	content.add_child(actions)
 	var result_is_relay := str(last_reward_report.get("source_type", "")) == "RELAY"
-	var growth_party := battle_party_ids if result_is_relay and not battle_party_ids.is_empty() else AppState.get_party()
+	var growth_party: Array = battle_party_ids if result_is_relay and not battle_party_ids.is_empty() else AppState.get_party()
 	actions.add_child(_button("권장 파티 성장", func(party := growth_party): AppState.selected_character_id = str(party[0]); SceneRouter.go("GROWTH"), false, Vector2(320, 52)))
-	actions.add_child(_button("릴레이 작전으로" if result_is_relay else "챕터 맵으로", func(): SceneRouter.go("RELAY" if result_is_relay else "STAGE_SELECT"), false, Vector2(320, 52)))
+	actions.add_child(_button("릴레이 작전으로" if result_is_relay else "챕터 맵으로", func(): SceneRouter.go("RELAY" if result_is_relay else "STAGE_SELECT", {"result_return": true}), false, Vector2(320, 52)))
 	actions.add_child(_button("홈", func(): SceneRouter.go("HOME"), false, Vector2(320, 52)))
 
 func _sweep(count: int) -> void:
-	var pre_profile := AppState.profile.duplicate(true)
+	var pre_profile := _reward_profile_snapshot()
 	var result := RewardService.sweep(AppState.selected_stage_id, count, AppState.battle_seed + count)
 	if result.ok:
 		last_battle_result = {"victory": true, "time": 0.0, "survivors": 5, "seed": AppState.battle_seed + count, "event_hash": "SWEEP_USES_REWARD_RESOLVER", "damage": {}, "healing": {}}
 		last_rewards = result.value
-		var post_profile := AppState.profile.duplicate(true)
+		var post_profile := _reward_profile_snapshot()
 		last_reward_report = {
 			"source_type": "SWEEP", "source_id": AppState.selected_stage_id,
 			"rewards": last_rewards.duplicate(true),
@@ -4289,6 +5151,7 @@ func _show_debug() -> void:
 	grid.add_child(_button("N04 카드 프리뷰 QA (8초 홀드)", _debug_preview_companion_card, false, Vector2(280, 72)))
 	grid.add_child(_button("N08 지연 합류 QA", func(): _debug_prepare_companion_event("NODE_N08"); SceneRouter.go("STAGE_SELECT"), false, Vector2(280, 72)))
 	grid.add_child(_button("N10 보스 조우 QA", func(): _debug_prepare_map_contact("NODE_N10"); SceneRouter.go("STAGE_SELECT"), false, Vector2(280, 72)))
+	grid.add_child(_button("N20 최종 보스 접촉 QA", func(): _debug_prepare_map_contact("NODE_N20"); SceneRouter.go("STAGE_SELECT"), false, Vector2(280, 72)))
 	grid.add_child(_button("저장 내보내기(user://)", _export_save, false, Vector2(280, 72)))
 	grid.add_child(_button("헤드리스 테스트 안내", func(): footer_status.text = "tools/powershell/RUN_HEADLESS_TESTS.ps1", false, Vector2(280, 72)))
 	grid.add_child(_button("저장 초기화 " + ("확정" if debug_reset_armed else "(재확인 필요)"), _debug_reset, false, Vector2(280, 72)))

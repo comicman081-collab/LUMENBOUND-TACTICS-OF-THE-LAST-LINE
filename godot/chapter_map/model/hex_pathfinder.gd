@@ -3,7 +3,7 @@ extends RefCounted
 
 const HexCoordScript := preload("res://chapter_map/model/hex_coord.gd")
 
-static func find_path(grid, start: Vector2i, goal: Vector2i, allowed: Dictionary = {}) -> Array[Vector2i]:
+static func find_path(grid, start: Vector2i, goal: Vector2i, allowed: Dictionary = {}, blocked: Dictionary = {}) -> Array[Vector2i]:
 	if not grid.traversable(start) or not grid.traversable(goal):
 		return []
 	if not allowed.is_empty() and (not allowed.has(HexCoordScript.key(start)) or not allowed.has(HexCoordScript.key(goal))):
@@ -25,7 +25,10 @@ static func find_path(grid, start: Vector2i, goal: Vector2i, allowed: Dictionary
 		next_coords.sort_custom(func(left: Vector2i, right: Vector2i) -> bool: return left.x < right.x or (left.x == right.x and left.y < right.y))
 		for next_coord in next_coords:
 			var next_key := HexCoordScript.key(next_coord)
-			if (not allowed.is_empty() and not allowed.has(next_key)) or not grid.can_step(current, next_coord):
+			# A live hostile occupies real ground. It may be the requested terminal
+			# goal (which triggers contact), but a route to some other destination
+			# must detour instead of silently walking through that pawn.
+			if (blocked.has(next_key) and next_coord != goal) or (not allowed.is_empty() and not allowed.has(next_key)) or not grid.can_step(current, next_coord):
 				continue
 			var new_cost: int = int(cost_so_far[HexCoordScript.key(current)]) + grid.movement_cost(next_coord)
 			if not cost_so_far.has(next_key) or new_cost < int(cost_so_far[next_key]):

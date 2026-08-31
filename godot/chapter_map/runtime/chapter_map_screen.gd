@@ -7,10 +7,14 @@ signal fallback_requested
 signal sweep_requested(stage_id: String, count: int)
 signal treasure_reward_requested(report: Dictionary)
 signal map_ready
+# Stage entry is a real preload boundary on Web.  The shell can keep its loader
+# paintable from this signal without ever presenting an interactive map whose
+# later movement will synchronously construct resources.
+signal map_load_progress(value: float, phase: String)
 
 const DEFAULT_MAP_ID := "CH01_MAP"
 const TILE_SIZE := 1.08
-const ELEVATION_STEP := 0.64
+const ELEVATION_STEP := 0.86
 const VIEWPORT_SIZE := Vector2i(1280, 720)
 # The panel-aware orthographic framing can expose almost eighteen axial cells
 # along its long diagonal.  A radius of fourteen still showed the edge of the
@@ -26,11 +30,30 @@ const BASE_PLAYER_VISION_RADIUS := 8
 const MAX_PLAYER_VISION_RADIUS := 13
 const FOG_COVER_RADIUS := 20
 const STREAM_RADIUS := MAX_PLAYER_VISION_RADIUS + 1
+const WEB_STREAM_PREFETCH_MARGIN := 4
+const WEB_STREAM_BUILD_BATCH := 24
+# SurfaceTool commits and MultiMesh uploads are both synchronous on WebGL. Keep
+# each frame's upload bounded, while retaining only one persistent MultiMesh draw
+# per prop family after construction.
+const WEB_INFILL_TILE_BATCH := 16
+const WEB_DRESSING_TRANSFORM_SLICE := 24
+# Entry builds cover the entire campaign map once.  They deliberately use
+# larger *spatial* chunks than the small fallback stream, keeping a 3,600-tile
+# map under the five-second target without making every later movement frame
+# submit a world-sized mesh or MultiMesh.
+const WEB_ENTRY_TERRAIN_TILE_BATCH := 72
+const WEB_ENTRY_TERRAIN_CHUNK_SPAN := 12
+const WEB_ENTRY_DRESSING_CHUNK_SPAN := 14
+const WEB_ENTRY_DRESSING_TRANSFORM_SLICE := 128
+const WEB_ENTRY_SLICE_BUDGET_USEC := 10000
 const OCEAN_SURFACE_Y := -1.55
 const CAMERA_TERRAIN_MARGIN := 2.8
 const CAMERA_TERRAIN_SEARCH_RADIUS := 16
 const PAWN_VISUAL_BASE_Y := 0.18
-const PAWN_STEP_DURATION := 0.18
+const PAWN_STEP_DURATION := 0.28
+const PAWN_CAMERA_SETTLE_DURATION := 0.20
+const PAWN_ARRIVE_HOLD_DURATION := 0.16
+const WEB_LAYOUT_PROBE_INTERVAL_MSEC := 250
 const DIRECT_DOUBLE_CLICK_WINDOW_MSEC := 460
 const MAP_TUTORIAL_REVISION := 2
 # A moving patrol may leave its authored node while the squad is walking toward
@@ -47,9 +70,11 @@ const MapExplorationServiceScript := preload("res://chapter_map/model/map_explor
 const MapSimulationScript := preload("res://chapter_map/model/map_simulation.gd")
 const MacroWorldGeneratorScript := preload("res://chapter_map/model/macro_world_generator.gd")
 const EnvironmentFXControllerScript := preload("res://chapter_map/presentation/environment_fx_controller.gd")
+const WebMovementOverlayScript := preload("res://chapter_map/runtime/web_movement_overlay.gd")
 const EnvironmentWaterShader := preload("res://chapter_map/shaders/water_environment.gdshader")
 const FogOfWarShader := preload("res://chapter_map/shaders/fog_of_war.gdshader")
 const FogOfWarScreenShader := preload("res://chapter_map/shaders/fog_of_war_screen.gdshader")
+const GameUI := preload("res://ui/game_ui_tokens.gd")
 
 var definition: Dictionary
 var grid = HexGridScript.new()
@@ -68,14 +93,18 @@ var camera_zoom := 1.0
 var world_root: Node3D
 var pawn: Node3D
 var pawn_visual: Node3D
+var pawn_grounding_terrace: MeshInstance3D
 var pawn_banner: MeshInstance3D
 var pawn_sprite: Sprite3D
 var pawn_occlusion_silhouette: Sprite3D
 var pawn_front_overlay: TextureRect
 var pawn_animation_pack: Dictionary = {}
 var pawn_motion_state := "IDLE"
+var pawn_motion_epoch_msec := 0
 var pawn_motion_phase := 0.0
+var pawn_last_atlas_frame := -1
 var pawn_last_position := Vector3.ZERO
+var pawn_facing_right := true
 var node_buttons: Dictionary = {}
 var node_markers: Dictionary = {}
 var enemy_pawns: Dictionary = {}
@@ -95,19 +124,46 @@ var streamed_ground_keys: Dictionary = {}
 var pending_dressing_keys: Dictionary = {}
 var web_detail_assets_ready := true
 var web_detail_build_started := false
+var web_detail_build_complete := false
+var web_stage_entry_preload_active := false
+var web_content_build_active := false
+var web_enemy_stream_active := false
+var web_stage_entry_preload_complete := false
+## Authoritative shell-facing completion state.  Signals are edge notifications;
+## this level state lets the owner enforce a real deadline without risking a
+## missed `map_ready` edge between frames.
+var map_ready_complete := false
+var web_entry_last_yield_usec := 0
 var terrain_surface: MeshInstance3D
 var terrain_material: StandardMaterial3D
 var terrain_cap_material_cache: Dictionary = {}
+var runtime_material_cache: Dictionary = {}
+var movement_overlay_material_cache: Dictionary = {}
+var route_overlay_material_cache: Dictionary = {}
+var node_style_cache: Dictionary = {}
+var responsive_layout_signature := ""
+var path_reveal_cache_signature := ""
+var path_reveal_cache: Dictionary = {}
 var fog_of_war_material: ShaderMaterial
 var fog_cover_instance: MeshInstance3D
 var streamed_infill_instance: MeshInstance3D
+var streamed_infill_root: Node3D
 var streamed_infill_material: StandardMaterial3D
+var web_tactical_dressing_root: Node3D
+var web_render_retire_queue: Array[Dictionary] = []
+var web_dressing_mesh_cache: Dictionary = {}
+var web_dressing_anchor := Vector2i(999999, 999999)
+var web_pending_dressing_wanted: Dictionary = {}
+var web_pending_dressing_anchor := Vector2i(999999, 999999)
+var web_stream_in_progress := false
 var map_world_environment: Environment
 var map_water_material: ShaderMaterial
 var map_sun: DirectionalLight3D
 var map_fill: DirectionalLight3D
 var environment_fx: EnvironmentFXController
 var stream_anchor := Vector2i(999999, 999999)
+var web_stream_geometry_center := Vector2i(999999, 999999)
+var web_stream_geometry_radius := -1
 var environment_context_coord := Vector2i(999999, 999999)
 var environment_context_hard := false
 var blender_mesh_library: Dictionary = {}
@@ -115,7 +171,30 @@ var movement_range_fill: MeshInstance3D
 var movement_range_grid: MeshInstance3D
 var movement_range_boundary: MeshInstance3D
 var movement_range_reachable: Dictionary = {}
+var movement_range_render_generation := 0
+var web_movement_overlay
+var web_movement_visible_keys: Array[String] = []
+var web_movement_projection_camera := Vector3(1.0e20, 1.0e20, 1.0e20)
+var web_movement_projection_size := Vector2(-1.0, -1.0)
+var web_movement_projection_camera_size := -1.0
+var web_movement_projection_origin_screen := Vector2.ZERO
 var route_mesh: MeshInstance3D
+var web_route_overlay: Control
+var web_route_rects: Array[ColorRect] = []
+var web_route_projection_camera := Vector3(1.0e20, 1.0e20, 1.0e20)
+var web_route_projection_size := Vector2(-1.0, -1.0)
+var web_route_projection_camera_size := -1.0
+var web_route_projection_origin_screen := Vector2(1.0e20, 1.0e20)
+var web_selected_overlay: Control
+var web_selected_rects: Array[ColorRect] = []
+var web_selected_projection_camera := Vector3(1.0e20, 1.0e20, 1.0e20)
+var web_selected_projection_size := Vector2(-1.0, -1.0)
+var web_selected_projection_camera_size := -1.0
+var web_selected_projection_origin_screen := Vector2(1.0e20, 1.0e20)
+var web_entity_projection_dirty := true
+var web_entity_projection_size := Vector2(-1.0, -1.0)
+var runtime_layout_cached_size := Vector2.ZERO
+var runtime_layout_cache_msec := -100000
 var route_segments: Array[MeshInstance3D] = []
 var route_nodes: Array[MeshInstance3D] = []
 var selected_ring: MeshInstance3D
@@ -142,7 +221,13 @@ var movement_generation := 0
 var live_encounter_replans := 0
 var active_movement_path: Array[Vector2i] = []
 var pawn_step_trails: Array[MeshInstance3D] = []
-var movement_camera_tween: Tween
+var pawn_step_trail_mesh: CylinderMesh
+var movement_camera_goal := Vector3.ZERO
+var movement_camera_follow_active := false
+var movement_camera_settle_active := false
+var movement_camera_settle_from := Vector3.ZERO
+var movement_camera_settle_goal := Vector3.ZERO
+var movement_camera_settle_elapsed := 0.0
 var preview_camera_tween: Tween
 var movement_skip_requested := false
 var turn_transitioning := false
@@ -191,14 +276,79 @@ var tutorial_pointer_tap_valid := false
 var tutorial_pointer_origin := Vector2.ZERO
 var tutorial_pointer_started_msec := -100000
 var leader_selector_layer: Control
+var treasure_save_failure_layer: CanvasLayer
+
+func _web_async_owner_alive() -> bool:
+	# Web builders yield across many browser frames. Once navigation removes this
+	# screen, no resumed continuation may touch its retired SubViewport children.
+	return not OS.has_feature("web") or is_inside_tree()
+
+func _finish_web_build_slice(tag: String, started_usec: int) -> void:
+	var before_yield_usec := Time.get_ticks_usec()
+	if OS.has_feature("web") and SettingsService.is_developer_mode():
+		var synchronous_msec := float(before_yield_usec - started_usec) / 1000.0
+		if synchronous_msec >= 16.0:
+			print("WEB_SYNC_TASK %s %.2fms" % [tag, synchronous_msec])
+	# Entry construction has many tiny chunks. Yielding a complete renderer frame
+	# after every one turned inexpensive work into hundreds of mandatory 16.7 ms
+	# waits. Keep each synchronous slice below a ten-millisecond budget instead.
+	if OS.has_feature("web") and web_stage_entry_preload_active \
+		and web_entry_last_yield_usec > 0 \
+		and before_yield_usec - web_entry_last_yield_usec < WEB_ENTRY_SLICE_BUDGET_USEC:
+		return
+	await get_tree().process_frame
+	web_entry_last_yield_usec = Time.get_ticks_usec()
+	if not _web_async_owner_alive():
+		return
+	if not OS.has_feature("web") or not SettingsService.is_developer_mode():
+		return
+	var elapsed_msec := float(Time.get_ticks_usec() - started_usec) / 1000.0
+	if elapsed_msec >= 33.0:
+		print("WEB_FRAME_GAP %s %.2fms" % [tag, elapsed_msec])
+
+func _retire_web_render_root(root: Node3D) -> void:
+	if root == null or not is_instance_valid(root):
+		return
+	root.visible = false
+	# Never leave a detached coroutine removing renderer-owned children over
+	# several Web frames. A screen transition can invalidate that continuation;
+	# the resulting ClassDB p_object=null failure kills the canvas while audio
+	# keeps playing. Retire whole hidden roots from `_process()` after the renderer
+	# has observed a few complete frames, with no captured child Callables.
+	for entry in web_render_retire_queue:
+		if entry.get("root") == root:
+			return
+	web_render_retire_queue.append({"root": root, "frames": 3})
+
+func _process_web_render_retire_queue() -> void:
+	if web_render_retire_queue.is_empty():
+		return
+	var entry: Dictionary = web_render_retire_queue[0]
+	var root: Node3D = entry.get("root")
+	if root == null or not is_instance_valid(root):
+		web_render_retire_queue.pop_front()
+		return
+	var frames_left := int(entry.get("frames", 0))
+	if frames_left > 0:
+		entry["frames"] = frames_left - 1
+		web_render_retire_queue[0] = entry
+		return
+	root.queue_free()
+	web_render_retire_queue.pop_front()
 
 func _ready() -> void:
+	map_ready_complete = false
 	map_simulation_paused = true
+	_emit_map_load_progress(0.0, "map_data")
 	if map_id.is_empty():
 		map_id = AppState.map_id_for_stage(AppState.selected_stage_id)
-	if ChapterMapLoaderScript.load_map(map_id).is_empty():
+	var loaded_definition: Dictionary = definition
+	if loaded_definition.is_empty():
+		loaded_definition = ChapterMapLoaderScript.load_map(map_id)
+	if loaded_definition.is_empty():
 		map_id = DEFAULT_MAP_ID
-	definition = ChapterMapLoaderScript.load_map(map_id)
+		loaded_definition = ChapterMapLoaderScript.load_map(map_id)
+	definition = loaded_definition
 	grid.load_tiles(definition.get("tiles", []))
 	map_state = AppState.chapter_map_state(map_id)
 	# A battle return creates a fresh map screen. Restore the route layer from the
@@ -207,24 +357,36 @@ func _ready() -> void:
 	# back to N01 even though H02 was just unlocked.
 	hard_overlay = _hard_overlay_from_state(map_state, definition)
 	var repaired_map_state := MapExplorationServiceScript.ensure_state(map_state, definition, grid)
-	MapExplorationServiceScript.update_proximity(map_state, definition, Vector2i(int(map_state.current_q), int(map_state.current_r)))
+	MapExplorationServiceScript.update_proximity(map_state, definition, Vector2i(int(map_state.current_q), int(map_state.current_r)), grid)
 	# Persist a one-time legacy patrol repair before the player can navigate or
 	# refresh.  This is map state migration, not a view-side fallback.
 	if repaired_map_state:
 		SaveService.save_game()
 	camera_zoom = clampf(float(map_state.get("camera_zoom", 1.0)), 0.72, 1.55)
 	_build_interface()
+	_emit_map_load_progress(0.06, "shell")
 	# Web must be allowed to present the shell before any terrain work begins.
 	# This also turns map construction into a cooperative coroutine instead of a
 	# single long main-thread task that browsers report as a frozen/crashed tab.
 	await get_tree().process_frame
+	if not _web_async_owner_alive():
+		return
 	await _build_world()
+	if not _web_async_owner_alive():
+		return
+	# Web must finish the static stage footprint before exposing input.  In
+	# particular, do not defer `_build_web_map_detail`: ordinary movement and the
+	# enemy phase are transform/fog work only after this boundary.
+	if OS.has_feature("web"):
+		await _build_web_map_detail()
+		if not _web_async_owner_alive():
+			return
 	_refresh_state_visuals()
 	_focus_current(true)
 	map_simulation_paused = false
+	_emit_map_load_progress(1.0, "ready")
+	map_ready_complete = true
 	map_ready.emit()
-	if OS.has_feature("web"):
-		call_deferred("_build_web_map_detail")
 	# Treasure rewards temporarily leave the map for the result presentation.
 	# Persist the unfinished player-turn edge so returning to a freshly-created
 	# map screen can never strand the squad at movement 0/max with every action
@@ -236,25 +398,193 @@ func _ready() -> void:
 		call_deferred("_start_first_map_tutorial")
 	call_deferred("_present_pending_reveal_once")
 
+func resume_from_cache() -> void:
+	# Battle/result mutate the canonical dictionary while this preserved view is
+	# hidden. Rebind and repaint only stateful overlays/pawns; do not rebuild the
+	# 3D world, terrain batches or imported art on every reward return.
+	map_simulation_paused = true
+	map_state = AppState.chapter_map_state(map_id)
+	var repaired_map_state := MapExplorationServiceScript.ensure_state(map_state, definition, grid)
+	hard_overlay = _hard_overlay_from_state(map_state, definition)
+	MapExplorationServiceScript.update_proximity(map_state, definition, _player_map_coord(), grid)
+	moving = false
+	movement_camera_follow_active = false
+	turn_transitioning = false
+	movement_skip_requested = false
+	active_movement_path.clear()
+	preview_path.clear()
+	selected_node.clear()
+	selected_treasure.clear()
+	selected_relay.clear()
+	selected_event.clear()
+	_prune_cleared_enemy_pawns()
+	var current := _player_map_coord()
+	if stream_anchor != current:
+		_focus_current(true)
+	else:
+		var current_world := HexCoordScript.axial_to_world(current, TILE_SIZE, float(grid.tile(current).get("elevation", 0)) * ELEVATION_STEP)
+		camera_target = _clamp_camera_target_to_terrain(current_world)
+	_refresh_state_visuals()
+	_apply_responsive_layout()
+	map_simulation_paused = false
+	if repaired_map_state:
+		SaveService.save_game()
+	if OS.has_feature("web") and not web_detail_build_complete and not web_detail_build_started:
+		call_deferred("_build_web_map_detail")
+	if bool(map_state.get(POST_REWARD_TURN_PENDING_KEY, false)) or MapExplorationServiceScript.movement_remaining(map_state, definition) <= 0:
+		call_deferred("_resume_post_reward_turn")
+	call_deferred("_present_pending_reveal_once")
+
+func _emit_map_load_progress(value: float, phase: String) -> void:
+	map_load_progress.emit(clampf(value, 0.0, 1.0), phase)
+
+func _all_map_tile_coverage() -> Dictionary:
+	# A single immutable coverage set is deliberately wider than the current
+	# vision disk.  It covers every authored destination the grid can later make
+	# legal, so movement never asks the renderer to build a new district.
+	var coverage: Dictionary = {}
+	for tile_value in definition.get("tiles", []):
+		var tile: Dictionary = tile_value
+		coverage[HexCoordScript.key(Vector2i(int(tile.get("q", 0)), int(tile.get("r", 0))))] = tile
+	return coverage
+
+func _web_stage_render_coverage() -> Dictionary:
+	# The generated chapter definition contains thousands of blocked interior
+	# forest cells whose only purpose is to give the campaign a broad silhouette.
+	# Uploading geometry for all of them before the first playable frame made the
+	# Web stage-entry loader exceed fifteen seconds. Every legal squad/enemy/
+	# treasure coordinate is traversable, so preload that complete gameplay
+	# footprint plus one blocked neighbour ring for real forest, ruin, wall and
+	# elevation boundaries. The whole definition stays resident as gameplay data;
+	# only renderer work outside every possible route is omitted.
+	var tile_lookup := _all_map_tile_coverage()
+	var coverage: Dictionary = {}
+	for key_value in tile_lookup.keys():
+		var key := str(key_value)
+		var tile: Dictionary = tile_lookup[key]
+		var coord := Vector2i(int(tile.get("q", 0)), int(tile.get("r", 0)))
+		if not grid.traversable(coord):
+			continue
+		coverage[key] = tile
+		for neighbor_coord in HexCoordScript.neighbors(coord):
+			var neighbor_key := HexCoordScript.key(neighbor_coord)
+			if tile_lookup.has(neighbor_key):
+				coverage[neighbor_key] = tile_lookup[neighbor_key]
+	return coverage
+
+static func _web_spatial_chunk_key(coord: Vector2i, span: int) -> String:
+	return "%d,%d" % [floori(float(coord.x) / float(span)), floori(float(coord.y) / float(span))]
+
+func _append_web_dressing_chunk_transform(
+		batches: Dictionary,
+		family: String,
+		coord: Vector2i,
+		position: Vector3,
+		scale_value: Vector3,
+		rotation_y: float
+	) -> void:
+	var chunk_key := _web_spatial_chunk_key(coord, WEB_ENTRY_DRESSING_CHUNK_SPAN)
+	if not batches.has(chunk_key):
+		batches[chunk_key] = {}
+	var chunk_batches: Dictionary = batches[chunk_key]
+	if not chunk_batches.has(family):
+		# An untyped [] cannot be assigned back to Array[Transform3D] in exported
+		# GDScript. The failure left every family present but empty, which explains
+		# the Web log `chunks>0 instances=0` and the missing forest/rocks/walls.
+		var first_transforms: Array[Transform3D] = []
+		chunk_batches[family] = first_transforms
+	var transforms: Array[Transform3D] = chunk_batches[family]
+	# Do not route this through a second typed-Array parameter. In the Web export
+	# that extra boundary retained the newly-created family key but lost the first
+	# appended transform, producing valid chunks with zero visible instances.
+	var basis := Basis.IDENTITY.rotated(Vector3.UP, rotation_y).scaled(scale_value)
+	transforms.append(Transform3D(basis, position))
+	chunk_batches[family] = transforms
+	batches[chunk_key] = chunk_batches
+
 func _build_web_map_detail() -> void:
-	# This deliberately runs outside the stage-entry critical path. The map is
-	# already interactive when this begins; encounter affordances arrive one
-	# bounded frame at a time instead of holding a black SubViewport hostage.
-	if not OS.has_feature("web") or web_detail_build_started or not is_inside_tree():
+	# This is intentionally inside the stage-entry preload boundary.  Work is
+	# cooperatively sliced so browser frames remain paintable, but completion means
+	# all static presentation and future movement terrain are already resident.
+	if not OS.has_feature("web") or web_detail_build_complete or web_detail_build_started or not is_inside_tree():
 		return
 	web_detail_build_started = true
+	web_stage_entry_preload_active = true
+	web_entry_last_yield_usec = Time.get_ticks_usec()
+	_emit_map_load_progress(0.20, "terrain")
 	await get_tree().process_frame
 	if not is_inside_tree():
+		web_detail_build_started = false
+		web_stage_entry_preload_active = false
 		return
+	var all_tiles := _all_map_tile_coverage()
+	var render_tiles := _web_stage_render_coverage()
+	if SettingsService.is_developer_mode():
+		print("WEB_STAGE_RENDER_COVERAGE render=%d total=%d" % [render_tiles.size(), all_tiles.size()])
+	# Terrain is spatially chunked (bounded SurfaceTool uploads) and dressing is
+	# one compact MultiMesh draw per prop family. Every legal route is resident,
+	# while blocked presentation-only forest beyond its boundary ring stays data-
+	# resident without wasting WebGL upload time or draw-list memory.
+	await _refresh_clear_ground_infill(Vector2i.ZERO, -1, true, true, render_tiles)
+	if not is_inside_tree():
+		web_detail_build_started = false
+		web_stage_entry_preload_active = false
+		return
+	streamed_ground_keys.clear()
+	for key_value in render_tiles.keys():
+		var coverage_tile: Dictionary = render_tiles[key_value]
+		if str(coverage_tile.get("terrain_type", "")) not in ["SHALLOW_WATER", "DEEP_WATER"]:
+			streamed_ground_keys[str(key_value)] = true
+	web_stream_geometry_center = _player_map_coord()
+	web_stream_geometry_radius = 1000000
+	stream_anchor = _player_map_coord()
+	_emit_map_load_progress(0.47, "terrain_dressing")
+	await _rebuild_web_tactical_dressing(render_tiles)
+	if not is_inside_tree():
+		web_detail_build_started = false
+		web_stage_entry_preload_active = false
+		return
+	web_dressing_anchor = _player_map_coord()
+	web_pending_dressing_wanted.clear()
+	_emit_map_load_progress(0.64, "map_presentation")
 	await _build_map_content_visuals()
 	if not is_inside_tree():
+		web_detail_build_started = false
+		web_stage_entry_preload_active = false
 		return
-	# Importing the 3D authoring kit instantiates over a thousand meshes in one
-	# Web main-thread burst. Keep the desktop authored kit intact, but let the
-	# Web version use its already-visible combined terrain, route tint, fog and
-	# SD encounter art instead. This removes the delayed 5-FPS hitch that used
-	# to fire just after a seemingly successful stage entry.
+	_emit_map_load_progress(0.77, "unlocked_enemies")
+	await _build_web_unlocked_enemy_pawns()
+	if not is_inside_tree():
+		web_detail_build_started = false
+		web_stage_entry_preload_active = false
+		return
+	_emit_map_load_progress(0.88, "route_water")
+	await _create_boundary_coastline()
+	if not is_inside_tree():
+		web_detail_build_started = false
+		web_stage_entry_preload_active = false
+		return
+	await get_tree().process_frame
+	if not is_inside_tree():
+		web_detail_build_started = false
+		web_stage_entry_preload_active = false
+		return
+	await _create_signal_causeways()
+	if not is_inside_tree():
+		web_detail_build_started = false
+		web_stage_entry_preload_active = false
+		return
+	await _create_signal_waterway()
+	if not is_inside_tree():
+		web_detail_build_started = false
+		web_stage_entry_preload_active = false
+		return
 	web_detail_assets_ready = true
+	web_detail_build_complete = true
+	web_stage_entry_preload_complete = true
+	web_stage_entry_preload_active = false
+	web_entry_last_yield_usec = 0
+	web_detail_build_started = false
 	_refresh_state_visuals()
 
 static func _hard_overlay_from_state(state: Dictionary, map_definition: Dictionary) -> bool:
@@ -373,7 +703,7 @@ func _build_interface() -> void:
 	map_frame.clip_contents = true
 	# The map is the primary product surface, not a developer canvas.  Keep the
 	# frame as a dark vignette without a persistent cyan debug-outline.
-	map_frame.add_theme_stylebox_override("panel", _panel_style(Color("071b2cdd"), Color("17384b"), 0, 15))
+	map_frame.add_theme_stylebox_override("panel", GameUI.panel_style(Color("07111bf2"), Color("2f485b"), 1, GameUI.RADIUS_PANEL, Vector4(6.0, 6.0, 6.0, 6.0), 6))
 	map_area.add_child(map_frame)
 	presentation_layer = Control.new()
 	presentation_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -411,6 +741,41 @@ func _build_interface() -> void:
 	# a marker yet never reach the mathematical nearest-node selector.
 	overlay.gui_input.connect(_on_map_input)
 	presentation_layer.add_child(overlay)
+	if OS.has_feature("web"):
+		web_movement_overlay = WebMovementOverlayScript.new()
+		web_movement_overlay.name = "WebMovementAuthorityOverlay"
+		web_movement_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		web_movement_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		web_movement_overlay.visible = false
+		overlay.add_child(web_movement_overlay)
+		# Both a new 3D ribbon and Godot's first Line2D draw compile a browser-only
+		# pipeline on the selection frame. Reuse the already-live ColorRect canvas
+		# pipeline instead, and pre-pool enough segments for normal macro routes so
+		# clicking a destination creates no nodes, shaders or draw resource types.
+		web_route_overlay = Control.new()
+		web_route_overlay.name = "WebRoutePreview"
+		web_route_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		web_route_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		web_route_overlay.visible = false
+		overlay.add_child(web_route_overlay)
+		for _segment_index in range(48):
+			var segment := ColorRect.new()
+			segment.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			segment.visible = false
+			web_route_overlay.add_child(segment)
+			web_route_rects.append(segment)
+		web_selected_overlay = Control.new()
+		web_selected_overlay.name = "WebSelectedTargetRing"
+		web_selected_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		web_selected_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		web_selected_overlay.visible = false
+		overlay.add_child(web_selected_overlay)
+		for _edge_index in range(6):
+			var edge := ColorRect.new()
+			edge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			edge.visible = false
+			web_selected_overlay.add_child(edge)
+			web_selected_rects.append(edge)
 	# Environment FX is inserted between the SubViewport and actual map controls.
 	# It affects only world presentation and can never tint/map-block HUD input.
 	environment_fx = EnvironmentFXControllerScript.new()
@@ -427,9 +792,9 @@ func _build_interface() -> void:
 	status_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	status_label.clip_text = false
 	status_label.add_theme_font_size_override("font_size", 28)
-	status_label.add_theme_color_override("font_color", Color("f2fffc"))
+	status_label.add_theme_color_override("font_color", GameUI.TEXT)
 	status_label.add_theme_color_override("font_outline_color", Color("02080f"))
-	status_label.add_theme_constant_override("outline_size", 5)
+	status_label.add_theme_constant_override("outline_size", 2)
 	status_label.add_theme_color_override("font_shadow_color", Color("031018"))
 	status_label.add_theme_constant_override("shadow_offset_x", 3)
 	status_label.add_theme_constant_override("shadow_offset_y", 3)
@@ -444,7 +809,7 @@ func _build_interface() -> void:
 	status_backplate.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	status_backplate.position = Vector2(-8, -5)
 	status_backplate.size = status_label.size + Vector2(16, 10)
-	status_backplate.add_theme_stylebox_override("panel", _panel_style(Color("05131eef"), Color("456f82"), 1, 8))
+	status_backplate.add_theme_stylebox_override("panel", GameUI.panel_style(Color("07111bea"), Color("526d83aa"), 1, GameUI.RADIUS_CONTROL, Vector4(10.0, 6.0, 10.0, 6.0), 0))
 	status_label.add_child(status_backplate)
 	overlay.add_child(status_label)
 	# A macro chapter map deliberately places upcoming encounters outside the
@@ -453,24 +818,17 @@ func _build_interface() -> void:
 	# confirmation, stamina transaction, and battle entry remain unchanged.
 	next_encounter_button = _button("다음 조우", _select_next_encounter, Vector2(248, 52))
 	next_encounter_button.tooltip_text = "현재 공개된 다음 조우로 카메라 이동"
-	next_encounter_button.add_theme_color_override("font_color", Color("fff4cf"))
-	next_encounter_button.add_theme_color_override("font_hover_color", Color("ffffff"))
-	next_encounter_button.add_theme_color_override("font_pressed_color", Color("fff1b5"))
-	next_encounter_button.add_theme_color_override("font_outline_color", Color("030a11"))
-	next_encounter_button.add_theme_constant_override("outline_size", 4)
-	next_encounter_button.add_theme_stylebox_override("normal", _panel_style(Color("071827f2"), Color("e3b85e"), 2, 10))
-	next_encounter_button.add_theme_stylebox_override("hover", _panel_style(Color("123b4d"), Color("86f2dc"), 2, 10))
-	next_encounter_button.add_theme_stylebox_override("pressed", _panel_style(Color("102d43"), Color("ffe099"), 2, 10))
+	GameUI.apply_button(next_encounter_button, "objective")
 	overlay.add_child(next_encounter_button)
 	legend_card = PanelContainer.new()
 	legend_card.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	legend_card.position = Vector2(18, -58)
-	legend_card.add_theme_stylebox_override("panel", _panel_style(Color("071421d9"), Color("315369"), 1, 9))
+	legend_card.add_theme_stylebox_override("panel", GameUI.panel_style(Color("07111bd9"), Color("3b566c99"), 1, GameUI.RADIUS_CONTROL, Vector4(12.0, 8.0, 12.0, 8.0), 0))
 	overlay.add_child(legend_card)
 	legend_label = Label.new()
 	legend_label.text = "◆ 현재 부대   ▰ 반투명 노랑: 이번 턴 이동 가능   더블클릭/터치: 즉시 이동   ✓ 클리어   ★ 완전 클리어   🔒 잠김"
 	legend_label.add_theme_font_size_override("font_size", 20)
-	legend_label.modulate = Color("d4def0")
+	legend_label.modulate = GameUI.TEXT_MUTED
 	legend_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	legend_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	legend_card.add_child(legend_label)
@@ -480,7 +838,7 @@ func _build_interface() -> void:
 	route_minimap.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	overlay.add_child(route_minimap)
 	detail_panel = PanelContainer.new()
-	var detail_panel_style := _panel_style(Color("0c1b2af7"), Color("64d7c2"), 2, 16)
+	var detail_panel_style := GameUI.panel_style(GameUI.SURFACE, Color("6ce6d0a6"), 1, GameUI.RADIUS_PANEL, Vector4(20.0, 18.0, 20.0, 18.0), 10)
 	detail_panel_style.content_margin_bottom = 20.0
 	detail_panel.add_theme_stylebox_override("panel", detail_panel_style)
 	map_area.add_child(detail_panel)
@@ -494,27 +852,25 @@ func _build_interface() -> void:
 	detail_scroll.add_child(detail_box)
 	detail_title = Label.new()
 	detail_title.add_theme_font_size_override("font_size", 34)
-	detail_title.add_theme_color_override("font_color", Color("e9fff9"))
+	detail_title.add_theme_color_override("font_color", GameUI.TEXT)
+	var detail_title_font := GameUI.weighted_font(get_theme_default_font(), 700.0, 0.04)
+	if detail_title_font != null: detail_title.add_theme_font_override("font", detail_title_font)
 	detail_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	detail_box.add_child(detail_title)
 	detail_body = RichTextLabel.new()
 	detail_body.bbcode_enabled = true
 	detail_body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	detail_body.add_theme_font_size_override("normal_font_size", 24)
-	detail_body.add_theme_color_override("default_color", Color("edf6fb"))
+	detail_body.add_theme_color_override("default_color", GameUI.TEXT)
 	detail_body.custom_minimum_size = Vector2(350, 278)
 	detail_box.add_child(detail_body)
 	move_button = _button("경로를 따라 이동", _confirm_move)
-	move_button.add_theme_color_override("font_color", Color("fff2c6"))
-	move_button.add_theme_color_override("font_hover_color", Color("ffffff"))
-	move_button.add_theme_color_override("font_outline_color", Color("030a11"))
-	move_button.add_theme_constant_override("outline_size", 3)
-	move_button.add_theme_stylebox_override("normal", _panel_style(Color("123448"), Color("d7ab50"), 2, 11))
-	move_button.add_theme_stylebox_override("hover", _panel_style(Color("1a4b5d"), Color("8af3dc"), 2, 11))
+	GameUI.apply_button(move_button, "objective")
 	detail_box.add_child(move_button)
 	fast_travel_button = _button("클리어 지점 빠른 이동", _fast_travel)
 	detail_box.add_child(fast_travel_button)
 	battle_button = _button("기존 실시간 전투 시작", _request_battle)
+	GameUI.apply_button(battle_button, "primary")
 	detail_box.add_child(battle_button)
 	var sweep_row := HBoxContainer.new()
 	detail_box.add_child(sweep_row)
@@ -564,7 +920,7 @@ func _build_first_map_tutorial() -> void:
 	tutorial_canvas_layer.add_child(tutorial_surface)
 	tutorial_dimmer = ColorRect.new()
 	tutorial_dimmer.name = "FirstMapTutorialDimmer"
-	tutorial_dimmer.color = Color("01050bcc")
+	tutorial_dimmer.color = Color("03070db8")
 	tutorial_dimmer.mouse_filter = Control.MOUSE_FILTER_STOP
 	tutorial_dimmer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	tutorial_dimmer.z_index = 90
@@ -573,7 +929,7 @@ func _build_first_map_tutorial() -> void:
 	tutorial_panel.name = "FirstMapTutorial"
 	tutorial_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	tutorial_panel.z_index = 91
-	var outer_style := _panel_style(Color("07121bfc"), Color("e8c878"), 2, 16)
+	var outer_style := GameUI.panel_style(Color("07111bfc"), Color("e7bf68d9"), 1, GameUI.RADIUS_MODAL, Vector4(5.0, 5.0, 5.0, 5.0), 14)
 	outer_style.content_margin_left = 6.0
 	outer_style.content_margin_right = 6.0
 	outer_style.content_margin_top = 6.0
@@ -581,7 +937,7 @@ func _build_first_map_tutorial() -> void:
 	tutorial_panel.add_theme_stylebox_override("panel", outer_style)
 	tutorial_surface.add_child(tutorial_panel)
 	tutorial_inner_frame = PanelContainer.new()
-	var inner_style := _panel_style(Color("091722fa"), Color("806b3e"), 1, 12)
+	var inner_style := GameUI.panel_style(GameUI.SURFACE, Color("8aa2b633"), 1, GameUI.RADIUS_PANEL, Vector4.ZERO, 0)
 	inner_style.content_margin_left = 0.0
 	inner_style.content_margin_right = 0.0
 	inner_style.content_margin_top = 0.0
@@ -599,7 +955,7 @@ func _build_first_map_tutorial() -> void:
 	tutorial_eyebrow = Label.new()
 	tutorial_eyebrow.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	tutorial_eyebrow.add_theme_font_size_override("font_size", 22)
-	tutorial_eyebrow.add_theme_color_override("font_color", Color("9af2df"))
+	tutorial_eyebrow.add_theme_color_override("font_color", GameUI.SIGNAL)
 	tutorial_eyebrow.add_theme_color_override("font_outline_color", Color("02070c"))
 	tutorial_eyebrow.add_theme_constant_override("outline_size", 3)
 	if briefing_meta_font != null:
@@ -610,16 +966,16 @@ func _build_first_map_tutorial() -> void:
 	tutorial_dismiss_button.tooltip_text = "첫 작전 안내를 마치고 바로 지도를 조작합니다"
 	tutorial_dismiss_button.custom_minimum_size = Vector2(138, 44)
 	tutorial_dismiss_button.add_theme_font_size_override("font_size", 19)
-	tutorial_dismiss_button.add_theme_color_override("font_color", Color("e8d29b"))
 	if briefing_meta_font != null:
 		tutorial_dismiss_button.add_theme_font_override("font", briefing_meta_font)
-	tutorial_dismiss_button.add_theme_stylebox_override("normal", _panel_style(Color("0c2230"), Color("806b3e"), 1, 8))
-	tutorial_dismiss_button.add_theme_stylebox_override("hover", _panel_style(Color("143848"), Color("9cebd8"), 1, 8))
+	GameUI.apply_button(tutorial_dismiss_button)
+	tutorial_dismiss_button.add_theme_color_override("font_color", GameUI.TEXT_MUTED)
+	tutorial_dismiss_button.add_theme_color_override("font_hover_color", GameUI.TEXT)
 	tutorial_dismiss_button.pressed.connect(_complete_first_map_tutorial)
 	tutorial_header.add_child(tutorial_dismiss_button)
 	tutorial_title = Label.new()
 	tutorial_title.add_theme_font_size_override("font_size", 38)
-	tutorial_title.add_theme_color_override("font_color", Color("f6d383"))
+	tutorial_title.add_theme_color_override("font_color", GameUI.OBJECTIVE_SOFT)
 	tutorial_title.add_theme_color_override("font_outline_color", Color("02070c"))
 	tutorial_title.add_theme_constant_override("outline_size", 4)
 	if briefing_title_font != null:
@@ -628,7 +984,7 @@ func _build_first_map_tutorial() -> void:
 	tutorial_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tutorial_box.add_child(tutorial_title)
 	var divider := HSeparator.new()
-	divider.modulate = Color("b7955299")
+	divider.modulate = Color("71899f70")
 	divider.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tutorial_box.add_child(divider)
 	tutorial_scroll = ScrollContainer.new()
@@ -644,7 +1000,7 @@ func _build_first_map_tutorial() -> void:
 	tutorial_body.add_theme_font_size_override("normal_font_size", 25)
 	tutorial_body.add_theme_font_size_override("bold_font_size", 25)
 	tutorial_body.add_theme_constant_override("line_separation", 10)
-	tutorial_body.add_theme_color_override("default_color", Color("fffaf0"))
+	tutorial_body.add_theme_color_override("default_color", GameUI.TEXT)
 	# The body sits on an opaque navy reading surface. A black outline reduced the
 	# visible white stroke area at 1280x720 and made the copy look gray; keep the
 	# semibold glyph face clean and reserve outlines for the gold display title.
@@ -662,25 +1018,19 @@ func _build_first_map_tutorial() -> void:
 	tutorial_footer.add_theme_constant_override("separation", 2)
 	tutorial_box.add_child(tutorial_footer)
 	tutorial_continue_button = Button.new()
-	tutorial_continue_button.flat = true
+	tutorial_continue_button.flat = false
 	tutorial_continue_button.custom_minimum_size = Vector2(420, 46)
 	tutorial_continue_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	tutorial_continue_button.add_theme_font_size_override("font_size", 23)
-	tutorial_continue_button.add_theme_color_override("font_color", Color("9af2df"))
-	tutorial_continue_button.add_theme_color_override("font_hover_color", Color("c2fff0"))
-	tutorial_continue_button.add_theme_color_override("font_pressed_color", Color("f3d68a"))
-	tutorial_continue_button.add_theme_color_override("font_outline_color", Color("02070c"))
-	tutorial_continue_button.add_theme_constant_override("outline_size", 2)
+	GameUI.apply_button(tutorial_continue_button, "primary")
 	if briefing_meta_font != null:
 		tutorial_continue_button.add_theme_font_override("font", briefing_meta_font)
-	tutorial_continue_button.add_theme_stylebox_override("normal", _panel_style(Color("07131f00"), Color("07131f00"), 0, 6))
-	tutorial_continue_button.add_theme_stylebox_override("hover", _panel_style(Color("12303b99"), Color("6fcbb8"), 1, 6))
 	tutorial_continue_button.pressed.connect(_advance_first_map_tutorial)
 	tutorial_footer.add_child(tutorial_continue_button)
 	tutorial_progress_label = Label.new()
 	tutorial_progress_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	tutorial_progress_label.add_theme_font_size_override("font_size", 19)
-	tutorial_progress_label.add_theme_color_override("font_color", Color("b4c8d3"))
+	tutorial_progress_label.add_theme_color_override("font_color", GameUI.TEXT_FAINT)
 	tutorial_progress_label.add_theme_color_override("font_outline_color", Color("02070c"))
 	tutorial_progress_label.add_theme_constant_override("outline_size", 2)
 	if briefing_meta_font != null:
@@ -699,7 +1049,7 @@ func _input(event: InputEvent) -> void:
 	var threshold := 18.0 * _portrait_ui_scale(_runtime_layout_size())
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
-			if _tutorial_skip_contains(event.position):
+			if _tutorial_control_contains(event.position):
 				_reset_tutorial_pointer()
 				return
 			tutorial_pointer_active = true
@@ -717,7 +1067,7 @@ func _input(event: InputEvent) -> void:
 			tutorial_pointer_tap_valid = false
 	elif event is InputEventScreenTouch and event.index == 0:
 		if event.pressed:
-			if _tutorial_skip_contains(event.position):
+			if _tutorial_control_contains(event.position):
 				_reset_tutorial_pointer()
 				return
 			tutorial_pointer_active = true
@@ -737,8 +1087,14 @@ func _input(event: InputEvent) -> void:
 static func tutorial_short_tap_policy(origin: Vector2, released_at: Vector2, elapsed_msec: int, canceled: bool, movement_threshold: float, duration_limit_msec: int) -> bool:
 	return not canceled and elapsed_msec >= 0 and elapsed_msec <= duration_limit_msec and released_at.distance_to(origin) <= movement_threshold
 
-func _tutorial_skip_contains(point: Vector2) -> bool:
-	return tutorial_dismiss_button != null and tutorial_dismiss_button.visible and tutorial_dismiss_button.get_global_rect().has_point(point)
+func _tutorial_control_contains(point: Vector2) -> bool:
+	# Buttons already own their pressed edge. Letting the full-screen pointer
+	# bridge consume the same release advanced two pages at once and could leave
+	# the guide apparently frozen on page 2 while delayed map work ran behind it.
+	for control in [tutorial_dismiss_button, tutorial_continue_button]:
+		if control != null and control.visible and control.get_global_rect().has_point(point):
+			return true
+	return false
 
 func _reset_tutorial_pointer() -> void:
 	tutorial_pointer_active = false
@@ -805,6 +1161,7 @@ func _complete_first_map_tutorial() -> void:
 	AppState.profile.tutorial_progress["map_basics_revision"] = MAP_TUTORIAL_REVISION
 	_hide_first_map_tutorial_modal()
 	SaveService.save_game()
+	_queue_web_enemy_pawn_stream()
 
 func _apply_tutorial_layout(size: Vector2, portrait: bool, compact: bool, ui_scale: float) -> void:
 	if tutorial_panel == null:
@@ -813,15 +1170,26 @@ func _apply_tutorial_layout(size: Vector2, portrait: bool, compact: bool, ui_sca
 		tutorial_dimmer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		# Keep the tutorial's focus, but let the player read the real map beneath
 		# it on a phone instead of turning the first interaction into a dark wall.
-		tutorial_dimmer.color = Color("01050b96") if portrait else Color("01050bcc")
+		tutorial_dimmer.color = Color("03070d8f") if portrait else Color("03070db8")
 	# Landscape keeps the broad briefing card.  On portrait phones this becomes a
 	# compact lower instruction sheet: the map, reachable yellow cells and the
 	# highlighted encounter must remain visible while the tutorial explains them.
 	# Long copy stays scrollable instead of claiming the entire viewport.
-	tutorial_panel.anchor_left = 0.10
-	tutorial_panel.anchor_right = 0.90
-	tutorial_panel.anchor_top = 0.48 if portrait else 0.105
-	tutorial_panel.anchor_bottom = 0.955 if portrait else 0.96
+	if portrait:
+		tutorial_panel.anchor_left = 0.04
+		tutorial_panel.anchor_right = 0.96
+		tutorial_panel.anchor_top = 0.46
+		tutorial_panel.anchor_bottom = 0.97
+	elif compact:
+		tutorial_panel.anchor_left = 0.08
+		tutorial_panel.anchor_right = 0.92
+		tutorial_panel.anchor_top = 0.15
+		tutorial_panel.anchor_bottom = 0.88
+	else:
+		tutorial_panel.anchor_left = 0.16
+		tutorial_panel.anchor_right = 0.84
+		tutorial_panel.anchor_top = 0.20
+		tutorial_panel.anchor_bottom = 0.80
 	tutorial_panel.offset_left = 0.0
 	tutorial_panel.offset_right = 0.0
 	tutorial_panel.offset_top = 0.0
@@ -876,9 +1244,25 @@ func _tutorial_weighted_font(base_font: Font, weight: float, embolden: float) ->
 
 func _apply_responsive_layout() -> void:
 	if detail_panel == null or map_frame == null: return
+	# A real viewport resize must bypass the short Web bridge cache immediately.
+	# Ordinary moving-frame readers reuse the cache and never synchronously query
+	# window.innerWidth/innerHeight dozens of times per second.
+	runtime_layout_cache_msec = -100000
 	var size := _runtime_layout_size()
 	var portrait := size.y > size.x
 	var compact := portrait or size.x <= 980.0
+	var has_selection := not selected_node.is_empty() or not selected_treasure.is_empty() or not selected_relay.is_empty() or not selected_event.is_empty()
+	# This routine walks every encounter button and descendant action control.
+	# State refreshes used to repeat the exact same theme/layout assignments two
+	# or three times per move. Re-run only when viewport class, selection drawer,
+	# node population or tutorial visibility actually changes.
+	var next_layout_signature := "%d:%d:%d:%d:%d:%d" % [
+		roundi(size.x), roundi(size.y), int(compact), int(has_selection),
+		node_buttons.size(), int(_first_map_tutorial_active())
+	]
+	if responsive_layout_signature == next_layout_signature:
+		return
+	responsive_layout_signature = next_layout_signature
 	# The project keeps a 1920x1080 logical canvas.  On a 915x412 phone the
 	# canvas scale is only about 0.38, so a 56-logical-pixel control would become
 	# a 21 CSS-pixel target.  Compact landscape needs the same physical touch
@@ -906,7 +1290,11 @@ func _apply_responsive_layout() -> void:
 	if toolbar_spacer != null:
 		toolbar_spacer.visible = not compact
 	if status_label != null:
-		status_label.position = Vector2(14.0, 14.0) * ui_scale if compact else Vector2(22, 18)
+		# Portrait reserves the first row for the objective shortcut. Keeping the
+		# operation/movement readout on a real second row prevents address-bar resize
+		# events from reintroducing the old status/button overlap.
+		var status_top := 14.0 + (56.0 + 8.0 if portrait else 0.0)
+		status_label.position = Vector2(14.0, status_top) * ui_scale if compact else Vector2(22, 18)
 		status_label.size = Vector2((360.0 if portrait else 430.0) * ui_scale, 36.0 * ui_scale) if compact else Vector2(560, 38)
 		status_label.add_theme_font_size_override("font_size", roundi((21.0 if portrait else 24.0) * ui_scale) if compact else 29)
 		if status_backplate != null:
@@ -955,7 +1343,6 @@ func _apply_responsive_layout() -> void:
 			node_button.custom_minimum_size = Vector2(92.0, 42.0)
 			node_button.size = Vector2(92.0, 42.0)
 			node_button.add_theme_font_size_override("font_size", 21)
-	var has_selection := not selected_node.is_empty() or not selected_treasure.is_empty() or not selected_relay.is_empty() or not selected_event.is_empty()
 	if compact:
 		# A real mobile bottom sheet reserves the top status strip and bottom safe
 		# area before it takes map space. It is not a desktop right panel scaled down.
@@ -1010,6 +1397,10 @@ func _runtime_layout_width() -> float:
 	return _runtime_layout_size().x
 
 func _runtime_layout_size() -> Vector2:
+	var now_msec := Time.get_ticks_msec()
+	if OS.has_feature("web") and runtime_layout_cached_size.x > 0.0 \
+			and now_msec - runtime_layout_cache_msec < WEB_LAYOUT_PROBE_INTERVAL_MSEC:
+		return runtime_layout_cached_size
 	var window_size := DisplayServer.window_get_size()
 	var width := float(window_size.x)
 	var height := float(window_size.y)
@@ -1023,7 +1414,9 @@ func _runtime_layout_size() -> Vector2:
 			width = float(browser_width)
 		if browser_height is int or browser_height is float:
 			height = float(browser_height)
-	return Vector2(width, height)
+	runtime_layout_cached_size = Vector2(width, height)
+	runtime_layout_cache_msec = now_msec
+	return runtime_layout_cached_size
 
 func _portrait_ui_scale(runtime_size: Vector2) -> float:
 	if runtime_size.y <= runtime_size.x: return 1.0
@@ -1037,16 +1430,8 @@ func _compact_ui_scale(runtime_size: Vector2) -> float:
 	return 1.0
 
 func _panel_style(fill: Color, border: Color, border_width: int, radius: int) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = fill
-	style.border_color = border
-	style.set_border_width_all(border_width)
-	style.set_corner_radius_all(radius)
-	style.content_margin_left = 14.0
-	style.content_margin_right = 14.0
-	style.content_margin_top = 12.0
-	style.content_margin_bottom = 12.0
-	return style
+	var normalized_radius := GameUI.RADIUS_CONTROL if radius <= 10 else (GameUI.RADIUS_PANEL if radius <= 16 else GameUI.RADIUS_MODAL)
+	return GameUI.panel_style(fill, border, border_width, normalized_radius, Vector4(16.0, 13.0, 16.0, 13.0), 0)
 
 func _button(text_value: String, callback: Callable, minimum := Vector2(350, 58)) -> Button:
 	var button := Button.new()
@@ -1054,10 +1439,8 @@ func _button(text_value: String, callback: Callable, minimum := Vector2(350, 58)
 	var runtime_size := _runtime_layout_size()
 	var ui_scale := _portrait_ui_scale(runtime_size)
 	button.custom_minimum_size = Vector2(minf(minimum.x * ui_scale, 840.0), minimum.y * ui_scale) if runtime_size.y > runtime_size.x else minimum
-	button.add_theme_font_size_override("font_size", roundi(24.0 * ui_scale))
-	button.add_theme_stylebox_override("normal", _panel_style(Color("102d43"), Color("3f7798"), 1, 11))
-	button.add_theme_stylebox_override("hover", _panel_style(Color("1b5369"), Color("84f2db"), 2, 11))
-	button.add_theme_stylebox_override("pressed", _panel_style(Color("17485d"), Color("ffd17b"), 2, 11))
+	button.add_theme_font_size_override("font_size", roundi(21.0 * ui_scale))
+	GameUI.apply_button(button)
 	button.pressed.connect(callback)
 	return button
 
@@ -1122,28 +1505,44 @@ func _build_world() -> void:
 		_load_blender_kit()
 		_load_terrain_relief()
 	await get_tree().process_frame
+	if not _web_async_owner_alive():
+		return
 	_create_world_backdrop()
 	_create_world_island_shelf()
 	await get_tree().process_frame
+	if not _web_async_owner_alive():
+		return
 	# Streamed Blender caps are the Web ground authority. Building a second
 	# full-map SurfaceTool mesh synchronously traversed the entire macro world
 	# before a local tile appeared and caused the reported 20-second blank map.
 	if not OS.has_feature("web"):
 		_create_connected_terrain_surface()
 	await get_tree().process_frame
+	if not _web_async_owner_alive():
+		return
 	if not OS.has_feature("web"):
-		_create_boundary_coastline()
+		await _create_boundary_coastline()
+		if not _web_async_owner_alive():
+			return
 	await get_tree().process_frame
+	if not _web_async_owner_alive():
+		return
 	if not OS.has_feature("web"):
-		_create_signal_causeways()
+		await _create_signal_causeways()
+		if not _web_async_owner_alive():
+			return
 	await get_tree().process_frame
+	if not _web_async_owner_alive():
+		return
 	map_sun = DirectionalLight3D.new()
 	map_sun.rotation_degrees = Vector3(-42, -38, 0)
 	map_sun.light_color = Color("ffeac4")
 	map_sun.light_energy = 0.98
-	# A single bounded compatibility shadow makes terrain height and pawn contact
-	# readable without adding a multi-light shadow budget to mobile Web.
-	map_sun.shadow_enabled = true
+	# Keep the authored light, normals, cliff faces and contact sockets on every
+	# target. Directional shadow maps are native-only: on single-threaded WebGL
+	# they are redrawn while the orthographic camera follows every hex, which was
+	# the remaining 50-75ms movement spike and starved the WebAudio pump.
+	map_sun.shadow_enabled = not OS.has_feature("web")
 	map_sun.directional_shadow_max_distance = 34.0
 	map_sun.directional_shadow_fade_start = 0.72
 	map_sun.light_angular_distance = 1.8
@@ -1154,7 +1553,29 @@ func _build_world() -> void:
 	map_fill.light_energy = 0.48
 	map_fill.shadow_enabled = false
 	world_root.add_child(map_fill)
+	# Make the gameplay camera current before cooperative terrain construction.
+	# Creating it after every chunk was ready deferred shader/buffer preparation
+	# until the first visible map frame, producing three 100ms+ frames and an
+	# audible BGM underrun even though the CPU builder itself yielded correctly.
+	camera_target = HexCoordScript.axial_to_world(
+		Vector2i(int(map_state.current_q), int(map_state.current_r)),
+		TILE_SIZE,
+		float(grid.tile(Vector2i(int(map_state.current_q), int(map_state.current_r))).get("elevation", 0)) * ELEVATION_STEP
+	)
+	camera = Camera3D.new()
+	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+	camera.size = 13.2 / camera_zoom
+	camera.near = 0.1
+	camera.far = 100.0
+	camera.position = camera_target + Vector3(9.2, 14.2, 8.8)
+	world_root.add_child(camera)
+	# Node3D.look_at requires an in-tree transform. Doing this before add_child
+	# emitted a Web runtime error on every fresh stage-to-map transition.
+	camera.look_at(camera_target, Vector3.UP)
+	camera.make_current()
 	await _stream_visible_tiles(Vector2i(int(map_state.current_q), int(map_state.current_r)), true, true)
+	if not _web_async_owner_alive():
+		return
 	movement_range_fill = MeshInstance3D.new()
 	movement_range_fill.name = "MovementRangeYellowFill"
 	movement_range_fill.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -1184,13 +1605,6 @@ func _build_world() -> void:
 	# stage button, which is exactly the long blank "deploying tactical map"
 	# frame reported in QA.
 	_create_pawn()
-	camera = Camera3D.new()
-	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-	camera.size = 13.2 / camera_zoom
-	camera.near = 0.1
-	camera.far = 100.0
-	world_root.add_child(camera)
-	camera.make_current()
 	_create_web_pawn_front_overlay()
 	if environment_fx != null:
 		environment_fx.bind_world(map_world_environment, terrain_material, map_water_material, map_sun, map_fill)
@@ -1198,38 +1612,118 @@ func _build_world() -> void:
 	if OS.has_feature("web"):
 		return
 	await _build_map_content_visuals()
+	if not _web_async_owner_alive():
+		return
 
 func _build_map_content_visuals() -> void:
-	# Static desktop builds can afford this as part of construction. Web calls the
-	# exact same routine after map_ready, so tactical authority never waits on
-	# marker labels, enemy portraits, treasure props or landmark ornaments.
-	if not node_markers.is_empty():
+	# This is part of the Web entry boundary as well as the desktop build.  Never
+	# hydrate a marker/treasure/landmark in response to a later movement step.
+	if not OS.has_feature("web") and not node_markers.is_empty():
 		return
+	if OS.has_feature("web") and web_content_build_active:
+		return
+	if OS.has_feature("web"):
+		web_content_build_active = true
 	var node_build_index := 0
 	for node in definition.get("nodes", []):
+		if node_markers.has(str(node.get("node_id", ""))):
+			continue
+		var node_started_usec := Time.get_ticks_usec()
 		_create_node_marker(node)
 		_create_node_button(node)
-		if str(node.get("stage_id", "")) != "":
+		# Browser builds present the playable map and tutorial first. Combat atlas
+		# decoding is streamed after that trusted input boundary so one enemy image
+		# can never stall the entire stage transition or the tutorial's audio.
+		if not OS.has_feature("web") and str(node.get("stage_id", "")) != "":
 			_create_enemy_pawn(node)
 		node_build_index += 1
 		# Web is single-threaded.  Creating several enemy portraits, labels and
 		# materials in one frame made the lobby -> map transition look frozen even
 		# though loading eventually completed. Keep each browser frame bounded.
-		var node_batch_size := 1 if OS.has_feature("web") else 4
-		if node_build_index % node_batch_size == 0:
+		if OS.has_feature("web"):
+			await _finish_web_build_slice("map_node_%02d" % node_build_index, node_started_usec)
+		elif node_build_index % 4 == 0:
 			await get_tree().process_frame
+		if not _web_async_owner_alive():
+			web_content_build_active = false
+			return
 	for treasure in definition.get("treasures", []):
+		var treasure_id := str(treasure.get("treasure_id", ""))
+		if treasure_visuals.has(treasure_id):
+			continue
+		var treasure_started_usec := Time.get_ticks_usec()
 		_create_treasure_visual(treasure)
+		if OS.has_feature("web"):
+			await _finish_web_build_slice("map_treasure", treasure_started_usec)
+			if not _web_async_owner_alive():
+				web_content_build_active = false
+				return
 	for relay in definition.get("relays", []):
+		var relay_id := str(relay.get("relay_id", ""))
+		if relay_visuals.has(relay_id):
+			continue
+		var relay_started_usec := Time.get_ticks_usec()
 		_create_relay_visual(relay)
+		if OS.has_feature("web"):
+			await _finish_web_build_slice("map_relay", relay_started_usec)
+			if not _web_async_owner_alive():
+				web_content_build_active = false
+				return
 	for event in definition.get("map_events", []):
+		var event_id := str(event.get("event_id", ""))
+		if event_visuals.has(event_id):
+			continue
+		var event_started_usec := Time.get_ticks_usec()
 		_create_event_visual(event)
+		if OS.has_feature("web"):
+			await _finish_web_build_slice("map_event", event_started_usec)
+			if not _web_async_owner_alive():
+				web_content_build_active = false
+				return
 	for landmark in definition.get("landmarks", []):
+		var landmark_id := str(landmark.get("landmark_id", ""))
+		if landmark_visuals.has(landmark_id):
+			continue
+		var landmark_started_usec := Time.get_ticks_usec()
 		_create_landmark_visual(landmark)
+		if OS.has_feature("web"):
+			await _finish_web_build_slice("map_landmark", landmark_started_usec)
+			if not _web_async_owner_alive():
+				web_content_build_active = false
+				return
 	await get_tree().process_frame
+	if not _web_async_owner_alive():
+		web_content_build_active = false
+		return
+	if not OS.has_feature("web"):
+		_queue_web_enemy_pawn_stream()
+	web_entity_projection_dirty = true
+	if OS.has_feature("web"):
+		web_content_build_active = false
 	# Nodes are created after the initial interface reflow. Apply the active
 	# viewport profile once more so first-load portrait controls are touch-sized.
 	_apply_responsive_layout()
+
+func _build_web_unlocked_enemy_pawns() -> void:
+	# Decode every currently unlocked encounter atlas before map_ready.  A later
+	# turn only changes root transforms/visibility; it never reads packaged art.
+	if not OS.has_feature("web"):
+		return
+	var built_count := 0
+	for node_value in definition.get("nodes", []):
+		var node: Dictionary = node_value
+		var node_id := str(node.get("node_id", ""))
+		var stage_id := str(node.get("stage_id", ""))
+		if node_id.is_empty() or stage_id.is_empty() or enemy_pawns.has(node_id):
+			continue
+		if not AppState.is_stage_unlocked(stage_id) or _node_encounter_cleared(node):
+			continue
+		var enemy_started_usec := Time.get_ticks_usec()
+		_create_enemy_pawn(node)
+		built_count += 1
+		await _finish_web_build_slice("map_enemy_%02d" % built_count, enemy_started_usec)
+		if not _web_async_owner_alive():
+			return
 
 func _material(color: Color, emission := Color.BLACK) -> StandardMaterial3D:
 	var material := StandardMaterial3D.new()
@@ -1244,6 +1738,22 @@ func _material(color: Color, emission := Color.BLACK) -> StandardMaterial3D:
 		material.emission_enabled = true
 		material.emission = emission
 		material.emission_energy_multiplier = 1.4
+	return material
+
+func _cached_material(color: Color, emission := Color.BLACK) -> StandardMaterial3D:
+	# Runtime state refreshes reuse a very small, immutable palette. Creating a
+	# fresh StandardMaterial3D for every pawn ring/step made Compatibility Web
+	# compile and upload the same shader state during ordinary movement.
+	var key := "%s|%s" % [color.to_html(true), emission.to_html(true)]
+	if runtime_material_cache.has(key):
+		return runtime_material_cache[key]
+	if OS.has_feature("web") and WebSoakProbe.has_method("web_render_resource"):
+		var warmed_material = WebSoakProbe.web_render_resource("runtime_material:%s" % key)
+		if warmed_material is StandardMaterial3D:
+			runtime_material_cache[key] = warmed_material
+			return warmed_material
+	var material := _material(color, emission)
+	runtime_material_cache[key] = material
 	return material
 
 func _add_route_accent_light(parent: Node3D, local_position: Vector3, energy: float) -> void:
@@ -1271,8 +1781,14 @@ func _create_world_backdrop() -> void:
 	# Keep it well below the lowest generated terrain socket so the production
 	# depth pass can correctly show a grounded squad, hostile, shadow and ring.
 	water.position = Vector3(1.8, OCEAN_SURFACE_Y, -1.8)
-	var water_material := ShaderMaterial.new()
-	water_material.shader = EnvironmentWaterShader
+	var water_material: ShaderMaterial = null
+	if OS.has_feature("web") and WebSoakProbe.has_method("web_render_resource"):
+		var warmed_water = WebSoakProbe.web_render_resource("water_material")
+		if warmed_water is ShaderMaterial:
+			water_material = warmed_water
+	if water_material == null:
+		water_material = ShaderMaterial.new()
+		water_material.shader = EnvironmentWaterShader
 	# Water is a backdrop. Draw it before all physical terrain, route and pawn
 	# meshes so it contributes only where the map has no nearer world surface.
 	water_material.render_priority = -127
@@ -1293,15 +1809,17 @@ func _terrain_surface_color(tile: Dictionary) -> Color:
 	# moss/olive land, burnished route, cool slate ruins and blue water must still
 	# survive mist and rain without collapsing back into the old teal board.
 	var coord := Vector2i(int(tile.get("q", 0)), int(tile.get("r", 0)))
-	var phase: int = abs(coord.x * 13 + coord.y * 19) % 4
-	var noise := (float(phase) - 1.5) * 0.018
-	var base := Color("2f4c25")
+	var phase: int = abs(coord.x * 13 + coord.y * 19) % 5
+	# Per-hex colour jumps made the continuous mesh read like a painted board.
+	# Keep only a very small deterministic value drift inside each terrain family;
+	# cliffs, vegetation masses, roads and water now carry the visual structure.
+	var noise := (float(phase) - 2.0) * 0.004
+	var base := Color("354a3e")
 	match str(tile.get("terrain_type", "FOREST")):
-		"FOREST":
-			base = [Color("294923"), Color("36552a"), Color("415d2d"), Color("2f4d2c")][phase]
-		"ROAD": base = [Color("674020"), Color("7a4e24"), Color("5d3d23"), Color("855829")][phase]
-		"RUINS": base = [Color("3d4652"), Color("48515d"), Color("36434f"), Color("515966")][phase]
-		"SHALLOW_WATER": base = [Color("1b4c79"), Color("20598b"), Color("174368"), Color("296394")][phase]
+		"FOREST": base = Color("354a3e")
+		"ROAD": base = Color("735f40")
+		"RUINS": base = Color("4b545e")
+		"SHALLOW_WATER": base = Color("2d6970")
 	return Color(clampf(base.r + noise, 0.0, 1.0), clampf(base.g + noise, 0.0, 1.0), clampf(base.b + noise, 0.0, 1.0), 1.0)
 
 func _terrain_corner_key(point: Vector3) -> String:
@@ -1385,8 +1903,14 @@ func _create_boundary_coastline() -> void:
 	shallow_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	shallow_material.albedo_color.a = 0.82
 	shallow_material.emission_energy_multiplier = 0.34
-	shallow_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, shallow_material)
+	var shallow_started := false
+	var coastline_tile_count := 0
 	for raw_tile in definition.get("tiles", []):
+		coastline_tile_count += 1
+		if OS.has_feature("web") and coastline_tile_count % WEB_STREAM_BUILD_BATCH == 0:
+			await _finish_web_build_slice("coastline_scan", Time.get_ticks_usec())
+			if not _web_async_owner_alive():
+				return
 		var tile: Dictionary = raw_tile
 		if bool(tile.get("movement_blocked", false)):
 			continue
@@ -1410,8 +1934,16 @@ func _create_boundary_coastline() -> void:
 			var inner_right := inner_center + tangent * TILE_SIZE * 0.60
 			var outer_left := outer_center - tangent * TILE_SIZE * 0.74
 			var outer_right := outer_center + tangent * TILE_SIZE * 0.74
+			if not shallow_started:
+				shallow_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, shallow_material)
+				shallow_started = true
 			for vertex in [inner_left, outer_left, outer_right, inner_left, outer_right, inner_right]:
 				shallow_mesh.surface_add_vertex(vertex)
+			# The continuous ribbon is the Web coastline authority. Hundreds of
+			# individual foam/cliff nodes added no gameplay information and made the
+			# deferred detail pass interrupt movement and audio.
+			if OS.has_feature("web"):
+				continue
 			# Sparse, deterministic selection avoids a repeated once-per-hex foam
 			# ring while ensuring every route district gets some coastal structure.
 			var signature: int = absi(coord.x * 31 + coord.y * 17 + direction_index * 7)
@@ -1423,7 +1955,8 @@ func _create_boundary_coastline() -> void:
 			_spawn_kit_components("PROP_COAST_FOAM", edge, 0.70 + float(signature % 3) * 0.13, yaw)
 			if signature % 10 == 0:
 				_spawn_kit_component("PROP_CLIFF_FACET_B", edge + Vector3(0.10, 0.10, -0.08), 0.38, yaw)
-	shallow_mesh.surface_end()
+	if shallow_started:
+		shallow_mesh.surface_end()
 	if shallow_mesh.get_surface_count() > 0:
 		var shallow_instance := MeshInstance3D.new()
 		shallow_instance.name = "ContinuousShallowCoastline"
@@ -1449,17 +1982,18 @@ func _create_signal_causeways() -> void:
 	# legible where the macro route crosses a coastal cut, so a squad is never
 	# visually stranded on a featureless water field while its logical hex is
 	# correctly traversable.
-	shoulder_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, _material(Color("385c47")))
+	shoulder_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, _material(Color("5b4c35")))
 	# Encounter clearings are deliberately larger, organic terrain terraces. They
 	# give a moving hostile a readable ground contact even while it patrols one
 	# cell away from its authored stage node; this avoids the visual impression of
 	# a pawn hovering over the ocean between two macro districts.
 	landing_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, _material(Color("3f7057")))
 	landing_edge_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, _material(Color("1d3e35")))
-	base_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, _material(Color("4d5943"), Color("182e2a")))
-	inlay_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, _material(Color("68bcb0"), Color("21635d")))
+	base_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, _material(Color("8a724b"), Color("382a19")))
+	inlay_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, _material(Color("d0ac61"), Color("5c4724")))
 	var landing_cells: Dictionary = {}
 	var route_sets: Array = [definition.get("normal_route", []), definition.get("hard_route", [])]
+	var causeway_segment_count := 0
 	for route_index in range(route_sets.size()):
 		var route: Array = route_sets[route_index]
 		var previous := Vector2i(int(definition.get("start_hex", {}).get("q", 0)), int(definition.get("start_hex", {}).get("r", 0)))
@@ -1484,6 +2018,11 @@ func _create_signal_causeways() -> void:
 				_add_causeway_segment(shoulder_mesh, from + Vector3(0.0, 0.034, 0.0), to + Vector3(0.0, 0.034, 0.0), tangent, 0.48)
 				_add_causeway_segment(base_mesh, from, to, tangent, 0.36)
 				_add_causeway_segment(inlay_mesh, from + Vector3(0.0, 0.012, 0.0), to + Vector3(0.0, 0.012, 0.0), tangent, 0.055)
+				causeway_segment_count += 1
+				if OS.has_feature("web") and causeway_segment_count % WEB_STREAM_BUILD_BATCH == 0:
+					await _finish_web_build_slice("causeway_segments", Time.get_ticks_usec())
+					if not _web_async_owner_alive():
+						return
 			landing_cells[HexCoordScript.key(target)] = target
 			previous = target
 	# Selected encounter coordinates can move along their authored patrol route.
@@ -1532,6 +2071,141 @@ func _create_signal_causeways() -> void:
 		inlay_instance.name = "SignalRouteInlay"
 		inlay_instance.mesh = inlay_mesh
 		world_root.add_child(inlay_instance)
+
+func _normal_route_polyline() -> Array[Vector2i]:
+	var route_points: Array[Vector2i] = []
+	var previous := Vector2i(int(definition.get("start_hex", {}).get("q", 0)), int(definition.get("start_hex", {}).get("r", 0)))
+	route_points.append(previous)
+	for stage_id_value in definition.get("normal_route", []):
+		var node := ChapterMapLoaderScript.node_for_stage(definition, str(stage_id_value))
+		if node.is_empty():
+			continue
+		var target := Vector2i(int(node.get("q", 0)), int(node.get("r", 0)))
+		var segment: Array[Vector2i] = MacroWorldGeneratorScript.route_line(previous, target)
+		# Consecutive authored stage segments share one endpoint. Keep it once so the
+		# visual river has one continuous vertex authority across stage boundaries.
+		for segment_index in range(1, segment.size()):
+			var coord: Vector2i = segment[segment_index]
+			if route_points.back() != coord:
+				route_points.append(coord)
+		previous = target
+	return route_points
+
+func _waterway_surface_y(world_position: Vector3) -> float:
+	var coord := HexCoordScript.world_to_axial(world_position, TILE_SIZE)
+	var tile: Dictionary = grid.tile(coord)
+	# Web's exact-footprint terrain sits at elevation + 0.018.  A 0.052 offset
+	# leaves the water at least 0.034 above that surface, preventing the former
+	# presentation strip from being buried while leaving movement data untouched.
+	return float(tile.get("elevation", 0)) * ELEVATION_STEP + 0.052
+
+func _create_signal_waterway() -> void:
+	# This is presentation-only: it follows the complete NORMAL route beside the
+	# expedition spine but never adds, removes or changes a traversable tile.  The
+	# old strip sat at y=-0.24 inside the four-cell land corridor, so almost all of
+	# it was hidden below terrain and only a cyan fragment survived at screen edge.
+	var water_mesh := ImmediateMesh.new()
+	var bank_mesh := ImmediateMesh.new()
+	var glint_mesh := ImmediateMesh.new()
+	water_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, _material(Color("287f88"), Color("13565f")))
+	bank_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, _material(Color("59604a"), Color("2b352d")))
+	var glint_started := false
+	var route_coords := _normal_route_polyline()
+	var route_world: Array[Vector3] = []
+	for coord in route_coords:
+		route_world.append(HexCoordScript.axial_to_world(coord, TILE_SIZE))
+	var river_points: Array[Vector3] = []
+	var river_sides: Array[Vector3] = []
+	var previous_side := Vector3.ZERO
+	for point_index in range(route_world.size()):
+		var current: Vector3 = route_world[point_index]
+		var incoming: Vector3 = (route_world[point_index] - route_world[point_index - 1]) if point_index > 0 else (route_world[mini(1, route_world.size() - 1)] - current)
+		var outgoing: Vector3 = (route_world[point_index + 1] - current) if point_index < route_world.size() - 1 else incoming
+		incoming.y = 0.0
+		outgoing.y = 0.0
+		if incoming.length_squared() <= 0.0001:
+			incoming = outgoing
+		if outgoing.length_squared() <= 0.0001:
+			outgoing = incoming
+		incoming = incoming.normalized()
+		outgoing = outgoing.normalized()
+		var incoming_side := Vector3(-incoming.z, 0.0, incoming.x)
+		var outgoing_side := Vector3(-outgoing.z, 0.0, outgoing.x)
+		# Preserve one bank side through every greedy-route turn. Without this sign
+		# continuity, a local tangent can flip and jump the river across the route.
+		if previous_side != Vector3.ZERO:
+			if incoming_side.dot(previous_side) < 0.0:
+				incoming_side = -incoming_side
+			if outgoing_side.dot(previous_side) < 0.0:
+				outgoing_side = -outgoing_side
+		var side := incoming_side + outgoing_side
+		if side.length_squared() <= 0.0001:
+			side = previous_side if previous_side != Vector3.ZERO else incoming_side
+		side = side.normalized()
+		if previous_side != Vector3.ZERO and side.dot(previous_side) < 0.0:
+			side = -side
+		previous_side = side
+		var alignment := maxf(0.78, minf(absf(side.dot(incoming_side)), absf(side.dot(outgoing_side))))
+		var meander := sin(float(point_index) * 0.41 + float(route_coords[point_index].x) * 0.071 - float(route_coords[point_index].y) * 0.113) * 0.26
+		var lateral_offset := clampf((2.72 + meander) / alignment, 2.45, 3.35)
+		var river_point := current + side * lateral_offset
+		river_point.y = _waterway_surface_y(river_point)
+		river_points.append(river_point)
+		river_sides.append(side)
+	var water_half_width := 0.74
+	var bank_half_width := 0.12
+	var bank_offset := water_half_width + bank_half_width + 0.02
+	for point_index in range(maxi(0, river_points.size() - 1)):
+		var river_from: Vector3 = river_points[point_index]
+		var river_to: Vector3 = river_points[point_index + 1]
+		var horizontal_direction := river_to - river_from
+		horizontal_direction.y = 0.0
+		if horizontal_direction.length_squared() <= 0.0001:
+			continue
+		horizontal_direction = horizontal_direction.normalized()
+		var tangent := Vector3(-horizontal_direction.z, 0.0, horizontal_direction.x)
+		_add_causeway_segment(water_mesh, river_from, river_to, tangent, water_half_width)
+		_add_causeway_segment(bank_mesh, river_from + tangent * bank_offset + Vector3(0.0, .028, 0.0), river_to + tangent * bank_offset + Vector3(0.0, .028, 0.0), tangent, bank_half_width)
+		_add_causeway_segment(bank_mesh, river_from - tangent * bank_offset + Vector3(0.0, .028, 0.0), river_to - tangent * bank_offset + Vector3(0.0, .028, 0.0), tangent, bank_half_width)
+		if OS.has_feature("web") and point_index > 0 and point_index % WEB_STREAM_BUILD_BATCH == 0:
+			await _finish_web_build_slice("waterway_segments", Time.get_ticks_usec())
+			if not _web_async_owner_alive():
+				return
+		if point_index % 4 == 1:
+			if not glint_started:
+				glint_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES, _material(Color("6fc7c4"), Color("236f73")))
+				glint_started = true
+			_add_causeway_segment(glint_mesh, river_from + Vector3(0.0, .012, 0.0), river_to + Vector3(0.0, .012, 0.0), tangent, .042)
+		if point_index <= 0 or point_index >= river_points.size() - 1:
+			continue
+		var previous_direction := river_points[point_index] - river_points[point_index - 1]
+		var next_direction := river_points[point_index + 1] - river_points[point_index]
+		previous_direction.y = 0.0
+		next_direction.y = 0.0
+		if previous_direction.normalized().dot(next_direction.normalized()) >= 0.998:
+			continue
+		# Caps live in the existing three batches, so bends close without adding a
+		# MeshInstance or draw call and the strip reads as one river rather than tiles.
+		_add_route_landing(water_mesh, river_points[point_index] + Vector3(0.0, .001, 0.0), water_half_width)
+		_add_route_landing(bank_mesh, river_points[point_index] + river_sides[point_index] * bank_offset + Vector3(0.0, .028, 0.0), bank_half_width)
+		_add_route_landing(bank_mesh, river_points[point_index] - river_sides[point_index] * bank_offset + Vector3(0.0, .028, 0.0), bank_half_width)
+	water_mesh.surface_end()
+	bank_mesh.surface_end()
+	if glint_started:
+		glint_mesh.surface_end()
+	for entry in [
+		{"name": "ContinuousRouteRiver", "mesh": water_mesh},
+		{"name": "ContinuousRiverBanks", "mesh": bank_mesh},
+		{"name": "RiverCurrentGlints", "mesh": glint_mesh},
+	]:
+		var mesh: ImmediateMesh = entry.mesh
+		if mesh.get_surface_count() <= 0:
+			continue
+		var instance := MeshInstance3D.new()
+		instance.name = str(entry.name)
+		instance.mesh = mesh
+		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		world_root.add_child(instance)
 
 func _add_causeway_segment(mesh: ImmediateMesh, from: Vector3, to: Vector3, tangent: Vector3, half_width: float) -> void:
 	var from_left := from - tangent * half_width
@@ -1786,10 +2460,10 @@ func _terrain_cap_top_material(terrain: String, coord: Vector2i) -> StandardMate
 	var key := "%s_%d" % [terrain, phase]
 	if terrain_cap_material_cache.has(key):
 		return terrain_cap_material_cache[key]
-	var colors: Array[Color] = [Color("263d22"), Color("314723"), Color("3c4f28"), Color("29412a")]
+	var colors: Array[Color] = [Color("30463b"), Color("354c40"), Color("3a5143"), Color("2d4339")]
 	match terrain:
-		"ROAD": colors = [Color("62401f"), Color("704923"), Color("543a22"), Color("79522a")]
-		"RUINS": colors = [Color("39424d"), Color("454c57"), Color("303c47"), Color("4d5360")]
+		"ROAD": colors = [Color("6d5b3d"), Color("786544"), Color("625239"), Color("806c49")]
+		"RUINS": colors = [Color("464f5b"), Color("505864"), Color("3f4955"), Color("59616b")]
 	var material := _material(colors[phase])
 	material.roughness = 0.88
 	terrain_cap_material_cache[key] = material
@@ -1823,23 +2497,31 @@ func _fog_material() -> ShaderMaterial:
 
 func _streamed_infill_material() -> StandardMaterial3D:
 	if streamed_infill_material == null:
-		streamed_infill_material = StandardMaterial3D.new()
-		streamed_infill_material.vertex_color_use_as_albedo = true
-		streamed_infill_material.roughness = 0.94
-		# Compatibility/Web can disagree on generated X/Z fan winding. This mesh is
-		# a ground-only seam seal, so render both faces and never expose black holes.
-		streamed_infill_material.cull_mode = BaseMaterial3D.CULL_DISABLED
+		if OS.has_feature("web") and WebSoakProbe.has_method("web_render_resource"):
+			var warmed_terrain = WebSoakProbe.web_render_resource("terrain_material")
+			if warmed_terrain is StandardMaterial3D:
+				streamed_infill_material = warmed_terrain
+		if streamed_infill_material == null:
+			streamed_infill_material = StandardMaterial3D.new()
+			streamed_infill_material.vertex_color_use_as_albedo = true
+			streamed_infill_material.roughness = 0.94
+			# Compatibility/Web can disagree on generated X/Z fan winding. This mesh is
+			# a ground-only seam seal, so render both faces and never expose black holes.
+			streamed_infill_material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	return streamed_infill_material
 
 func _update_screen_fog_overlay() -> void:
-	if fog_screen_overlay == null or fog_screen_material == null or camera == null or viewport == null:
+	if fog_screen_overlay == null or not is_instance_valid(fog_screen_overlay) or fog_screen_material == null or camera == null or not is_instance_valid(camera) or viewport == null or not is_instance_valid(viewport):
 		return
 	var overlay_size := fog_screen_overlay.size
 	if overlay_size.x <= 1.0 or overlay_size.y <= 1.0:
 		return
 	var viewport_size := Vector2(viewport.size)
 	var surface_scale := overlay_size / viewport_size
-	var squad_world := _pawn_world_position()
+	# Follow the actual tweened pawn instead of the discrete saved hex. The old
+	# logical projection made the circular vision mask jump once per cell even
+	# while the character and camera moved continuously.
+	var squad_world := pawn.global_position if pawn != null and is_instance_valid(pawn) else _pawn_world_position()
 	var sight_edge_world := squad_world + Vector3(sqrt(3.0) * TILE_SIZE * float(_player_vision_radius()), 0.0, 0.0)
 	var squad_px := camera.unproject_position(squad_world) * surface_scale
 	var edge_px := camera.unproject_position(sight_edge_world) * surface_scale
@@ -1848,46 +2530,157 @@ func _update_screen_fog_overlay() -> void:
 	fog_screen_material.set_shader_parameter("reveal_radius_px", maxf(42.0, squad_px.distance_to(edge_px)))
 	fog_screen_material.set_shader_parameter("feather_px", clampf(overlay_size.x * 0.035, 24.0, 64.0))
 
-func _refresh_clear_ground_infill(center: Vector2i) -> void:
-	# Web intentionally skips the expensive 96-hex connected macro surface. A
-	# single lightweight streamed mesh closes the remaining black seams between
-	# authored hex caps without rebuilding distant terrain or changing collision.
-	var surface_tool := SurfaceTool.new()
-	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var vision_radius := _player_vision_radius()
-	for tile_value in definition.get("tiles", []):
+func _append_clear_ground_infill_tile(surface_tool: SurfaceTool, tile: Dictionary, visible_land: Dictionary) -> void:
+	var coord := Vector2i(int(tile.get("q", 0)), int(tile.get("r", 0)))
+	var surface_y := float(tile.get("elevation", 0)) * ELEVATION_STEP + 0.018
+	var hex_center := HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y)
+	var tint := _terrain_surface_color(tile)
+	# Exact pointy-top hex fan. Neighbouring top faces meet on the same edge;
+	# no enlarged cap is allowed to overlap another height level.
+	for corner_index in range(6):
+		var next_index := (corner_index + 1) % 6
+		var angle_a := PI / 6.0 + float(corner_index) * PI / 3.0
+		var angle_b := PI / 6.0 + float(next_index) * PI / 3.0
+		var point_a := hex_center + Vector3(cos(angle_a) * TILE_SIZE, 0.0, sin(angle_a) * TILE_SIZE)
+		var point_b := hex_center + Vector3(cos(angle_b) * TILE_SIZE, 0.0, sin(angle_b) * TILE_SIZE)
+		for vertex in [hex_center, point_a, point_b]:
+			surface_tool.set_color(tint)
+			surface_tool.set_normal(Vector3.UP)
+			surface_tool.add_vertex(vertex)
+	# Only the higher tile authors a shared cliff. Coast/vision edges receive a
+	# deeper skirt down towards the ocean, producing an island silhouette rather
+	# than black holes or stacks of disconnected cylinders.
+	for neighbor_coord in HexCoordScript.neighbors(coord):
+		var neighbor_key := HexCoordScript.key(neighbor_coord)
+		var neighbor_tile: Dictionary = visible_land.get(neighbor_key, {})
+		var neighbor_is_land := not neighbor_tile.is_empty()
+		var neighbor_y := float(neighbor_tile.get("elevation", 0)) * ELEVATION_STEP + 0.018 if neighbor_is_land else maxf(OCEAN_SURFACE_Y + 0.16, surface_y - 1.05)
+		if neighbor_is_land and surface_y <= neighbor_y + 0.001:
+			continue
+		var neighbor_center := HexCoordScript.axial_to_world(neighbor_coord, TILE_SIZE, surface_y)
+		var outward := Vector3(neighbor_center.x - hex_center.x, 0.0, neighbor_center.z - hex_center.z).normalized()
+		var tangent := Vector3(-outward.z, 0.0, outward.x)
+		var edge_center := (hex_center + neighbor_center) * 0.5
+		var edge_a_top := edge_center + tangent * (TILE_SIZE * 0.5)
+		var edge_b_top := edge_center - tangent * (TILE_SIZE * 0.5)
+		var edge_a_bottom := Vector3(edge_a_top.x, neighbor_y, edge_a_top.z)
+		var edge_b_bottom := Vector3(edge_b_top.x, neighbor_y, edge_b_top.z)
+		var cliff_tint := tint.darkened(0.30 if neighbor_is_land else 0.42)
+		for vertex in [edge_a_top, edge_b_bottom, edge_b_top, edge_a_top, edge_a_bottom, edge_b_bottom]:
+			surface_tool.set_color(cliff_tint)
+			surface_tool.set_normal(outward)
+			surface_tool.add_vertex(vertex)
+
+func _refresh_clear_ground_infill(center: Vector2i, radius_override := -1, cooperative := false, full_map := false, coverage_override := {}) -> void:
+	# Web owns one continuous, exact-footprint terrain mesh. The former 1.10x fan
+	# overlapped neighbouring cells and visually flattened every ridge into a
+	# checkerboard. Exact shared edges plus vertical cliff faces preserve the real
+	# authored elevation while retaining a single draw call and grid-authoritative
+	# movement/collision.
+	var vision_radius := radius_override if radius_override >= 0 else _player_vision_radius()
+	var visible_land: Dictionary = {}
+	var scanned_count := 0
+	var source_tiles: Array = coverage_override.values() if not coverage_override.is_empty() else definition.get("tiles", [])
+	for tile_value in source_tiles:
+		scanned_count += 1
+		if cooperative and scanned_count % (WEB_STREAM_BUILD_BATCH * 4) == 0:
+			await _finish_web_build_slice("infill_scan", Time.get_ticks_usec())
+			if not _web_async_owner_alive():
+				return
 		var tile: Dictionary = tile_value
 		var coord := Vector2i(int(tile.get("q", 0)), int(tile.get("r", 0)))
-		if HexCoordScript.distance(center, coord) > vision_radius:
+		if not full_map and HexCoordScript.distance(center, coord) > vision_radius:
 			continue
 		if str(tile.get("terrain_type", "")) in ["SHALLOW_WATER", "DEEP_WATER"]:
 			continue
-		# Sit just above the authored cap top. Placing this below the cap left the
-		# cap's near-black side wall visible in every seam at the gameplay camera.
-		# Route overlays, pawns and props all remain higher than this 0.018 surface.
-		var surface_y := float(tile.get("elevation", 0)) * ELEVATION_STEP + 0.018
-		var hex_center := HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y)
-		var tint := _terrain_surface_color(tile)
-		for corner_index in range(6):
-			var next_index := (corner_index + 1) % 6
-			var angle_a := PI / 6.0 + float(corner_index) * PI / 3.0
-			var angle_b := PI / 6.0 + float(next_index) * PI / 3.0
-			var point_a := hex_center + Vector3(cos(angle_a) * TILE_SIZE * 1.10, 0.0, sin(angle_a) * TILE_SIZE * 1.10)
-			var point_b := hex_center + Vector3(cos(angle_b) * TILE_SIZE * 1.10, 0.0, sin(angle_b) * TILE_SIZE * 1.10)
-			for vertex in [hex_center, point_a, point_b]:
-				surface_tool.set_color(tint)
-				surface_tool.set_normal(Vector3.UP)
-				surface_tool.add_vertex(vertex)
+		visible_land[HexCoordScript.key(coord)] = tile
+	# On Web, committing one 250+ tile SurfaceTool and assigning it to the renderer
+	# still formed one 100ms+ frame even though vertex generation itself yielded.
+	# Register bounded mesh chunks while the replacement root is hidden and already
+	# inside the scene tree; the browser can upload each chunk on a separate frame.
+	if cooperative and OS.has_feature("web"):
+		var next_root := Node3D.new()
+		next_root.name = "StreamedContinuousTerrainNext"
+		# Keep it render-active a hair below the previous surface. Hidden/off-camera
+		# geometry was uploaded lazily on the final reveal; visible in-tree chunks are
+		# prepared as they arrive while the old surface prevents any partial-map gap.
+		next_root.position = Vector3(0.0, -0.002, 0.0)
+		world_root.add_child(next_root)
+		# Full entry coverage must remain spatial for frustum culling.  Dictionary
+		# order would mix opposite ends of the campaign into every mesh, making a
+		# supposedly chunked map behave like one giant always-visible draw.
+		var spatial_chunks: Dictionary = {}
+		for visible_key_value in visible_land.keys():
+			var visible_key := str(visible_key_value)
+			var visible_coord := HexCoordScript.from_key(visible_key)
+			var spatial_key := _web_spatial_chunk_key(visible_coord, WEB_ENTRY_TERRAIN_CHUNK_SPAN) if full_map else "local"
+			if not spatial_chunks.has(spatial_key):
+				spatial_chunks[spatial_key] = []
+			var chunk_keys: Array = spatial_chunks[spatial_key]
+			chunk_keys.append(visible_key)
+			spatial_chunks[spatial_key] = chunk_keys
+		var spatial_chunk_keys: Array = spatial_chunks.keys()
+		spatial_chunk_keys.sort()
+		var first_instance: MeshInstance3D
+		var chunk_index := 0
+		var tile_batch_size := WEB_ENTRY_TERRAIN_TILE_BATCH if full_map else WEB_INFILL_TILE_BATCH
+		for spatial_key_value in spatial_chunk_keys:
+			var spatial_key := str(spatial_key_value)
+			var visible_keys: Array = spatial_chunks[spatial_key]
+			visible_keys.sort()
+			for chunk_start in range(0, visible_keys.size(), tile_batch_size):
+				var chunk_started_usec := Time.get_ticks_usec()
+				var surface_tool := SurfaceTool.new()
+				surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+				var chunk_end := mini(chunk_start + tile_batch_size, visible_keys.size())
+				for tile_index in range(chunk_start, chunk_end):
+					_append_clear_ground_infill_tile(surface_tool, visible_land[visible_keys[tile_index]], visible_land)
+				var infill_mesh := surface_tool.commit()
+				var chunk_instance := MeshInstance3D.new()
+				chunk_instance.name = "StreamedContinuousTerrain_%s_%02d" % [spatial_key.replace(",", "_"), chunk_index]
+				chunk_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+				chunk_instance.material_override = _streamed_infill_material()
+				chunk_instance.mesh = infill_mesh
+				next_root.add_child(chunk_instance)
+				if first_instance == null:
+					first_instance = chunk_instance
+				chunk_index += 1
+				await _finish_web_build_slice("infill_chunk_%02d" % (chunk_index - 1), chunk_started_usec)
+				if not _web_async_owner_alive():
+					return
+		var previous_root := streamed_infill_root
+		var previous_instance := streamed_infill_instance
+		streamed_infill_root = next_root
+		streamed_infill_root.name = "StreamedContinuousTerrain"
+		streamed_infill_instance = first_instance
+		streamed_infill_root.position = Vector3.ZERO
+		if previous_root != null and is_instance_valid(previous_root):
+			_retire_web_render_root(previous_root)
+		elif previous_instance != null and is_instance_valid(previous_instance) and previous_instance != first_instance:
+			previous_instance.queue_free()
+		return
+	var surface_tool := SurfaceTool.new()
+	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for key_value in visible_land.keys():
+		_append_clear_ground_infill_tile(surface_tool, visible_land[key_value], visible_land)
 	var infill_mesh := surface_tool.commit()
 	if streamed_infill_instance == null or not is_instance_valid(streamed_infill_instance):
 		streamed_infill_instance = MeshInstance3D.new()
-		streamed_infill_instance.name = "StreamedHexGapInfill"
+		streamed_infill_instance.name = "StreamedContinuousTerrain"
 		streamed_infill_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		streamed_infill_instance.material_override = _streamed_infill_material()
 		world_root.add_child(streamed_infill_instance)
 	streamed_infill_instance.mesh = infill_mesh
 
 func _refresh_fog_cover(center: Vector2i) -> void:
+	if OS.has_feature("web"):
+		# Web already owns the squad-centred screen shader and gates every pawn,
+		# marker and click target with the same vision radius. Rebuilding an ~20-ring
+		# 3D annulus (tens of thousands of vertices) after each move was redundant
+		# and caused the long single-frame stalls reported on mobile browsers.
+		if fog_cover_instance != null and is_instance_valid(fog_cover_instance):
+			fog_cover_instance.visible = false
+		return
 	# One mesh covers the complete 11..18 hex annulus. This is both more legible
 	# and cheaper than hundreds of individual fog nodes: the player sees a real
 	# mist boundary even when the orthographic viewport extends well past ring 11.
@@ -2048,7 +2841,7 @@ func _process_pending_dressing() -> void:
 	_create_terrain_dressing(entry.get("tile", {}), entry.get("position", Vector3.ZERO), entry.get("coord", Vector2i.ZERO))
 	active_dressing_root = null
 
-func _stream_web_visible_ground(wanted: Dictionary) -> void:
+func _stream_web_visible_ground(wanted: Dictionary, requested_anchor: Vector2i) -> void:
 	# The old Web path created one bevelled MeshInstance per clear hex, then a
 	# second combined surface below it. That doubled draw/node work on every
 	# stage entry and reward return. The combined infill already closes and tints
@@ -2058,14 +2851,17 @@ func _stream_web_visible_ground(wanted: Dictionary) -> void:
 		if is_instance_valid(obsolete):
 			obsolete.queue_free()
 	tile_meshes.clear()
+	# The browser never hydrates the heavyweight Blender dressing queue. Keeping
+	# one dead entry per visible hex caused needless allocation on every move and
+	# made long sessions progressively rougher, so Web owns one compact MultiMesh
+	# presentation instead.
+	pending_dressing_tiles.clear()
+	pending_dressing_keys.clear()
 	for key in tile_dressing_roots.keys():
-		if wanted.has(str(key)):
-			continue
 		var stale_root: Node3D = tile_dressing_roots[key]
 		if is_instance_valid(stale_root):
 			stale_root.queue_free()
-		tile_dressing_roots.erase(key)
-		pending_dressing_keys.erase(key)
+	tile_dressing_roots.clear()
 	streamed_ground_keys.clear()
 	for key_value in wanted.keys():
 		var key := str(key_value)
@@ -2073,35 +2869,445 @@ func _stream_web_visible_ground(wanted: Dictionary) -> void:
 		if str(tile.get("terrain_type", "")) in ["SHALLOW_WATER", "DEEP_WATER"]:
 			continue
 		streamed_ground_keys[key] = true
-		if tile_dressing_roots.has(key) or pending_dressing_keys.has(key):
+	web_pending_dressing_wanted = wanted.duplicate(true)
+	web_pending_dressing_anchor = requested_anchor
+	if not web_detail_assets_ready:
+		return
+	# Terrain/fog follows the squad immediately, while decorative MultiMeshes use
+	# a three-cell hysteresis window. Rebuilding hundreds of tree transforms both
+	# at move start and move end was a visible main-thread hitch on Web.
+	if web_tactical_dressing_root == null or not is_instance_valid(web_tactical_dressing_root) or HexCoordScript.distance(web_dressing_anchor, requested_anchor) >= 3:
+		await _rebuild_web_tactical_dressing(wanted)
+		if not _web_async_owner_alive():
+			return
+		web_dressing_anchor = requested_anchor
+		if web_pending_dressing_anchor == requested_anchor:
+			web_pending_dressing_wanted.clear()
+
+func _append_web_dressing_transform(
+		transforms: Array[Transform3D],
+		position: Vector3,
+		scale_value: Vector3,
+		rotation_y: float
+	) -> void:
+	var basis := Basis.IDENTITY.rotated(Vector3.UP, rotation_y).scaled(scale_value)
+	transforms.append(Transform3D(basis, position))
+
+func _web_dressing_transform_aabb(mesh: Mesh, transforms: Array[Transform3D]) -> AABB:
+	# WebGL can retain the tiny source-mesh bounds after MultiMesh transforms are
+	# uploaded in slices.  Supply the actual chunk-local bounds explicitly; this
+	# fixes false frustum culling without falling back to one world-sized batch.
+	var source_bounds := mesh.get_aabb()
+	var bounds := AABB()
+	var has_bounds := false
+	for transform in transforms:
+		for x in [source_bounds.position.x, source_bounds.end.x]:
+			for y in [source_bounds.position.y, source_bounds.end.y]:
+				for z in [source_bounds.position.z, source_bounds.end.z]:
+					var point := transform * Vector3(x, y, z)
+					if not has_bounds:
+						bounds = AABB(point, Vector3.ZERO)
+						has_bounds = true
+					else:
+						bounds = bounds.expand(point)
+	return bounds.grow(0.18) if has_bounds else AABB(Vector3.ZERO, Vector3.ONE)
+
+func _add_web_dressing_batch(name_value: String, mesh: Mesh, material: Material, transforms: Array[Transform3D], parent_root: Node3D = null) -> void:
+	var target_root := parent_root if parent_root != null else web_tactical_dressing_root
+	if transforms.is_empty() or target_root == null:
+		return
+	# Allocate one persistent draw per prop family *inside one spatial chunk*.
+	# This keeps its AABB cullable; creating one MultiMesh per upload slice would
+	# instead leave hundreds of permanent draw calls. Entry-only slices are larger
+	# than fallback streaming, but still bounded to keep Web frames paintable.
+	var multimesh := MultiMesh.new()
+	multimesh.transform_format = MultiMesh.TRANSFORM_3D
+	multimesh.mesh = mesh
+	multimesh.instance_count = transforms.size()
+	multimesh.visible_instance_count = 0
+	# Do this before the first visible slice.  A chunk keeps its own compact AABB,
+	# so near-map foliage/ruins cannot disappear while distant chunks remain
+	# culled instead of becoming a world-wide draw.
+	multimesh.custom_aabb = _web_dressing_transform_aabb(mesh, transforms)
+	var instance := MultiMeshInstance3D.new()
+	instance.name = name_value
+	instance.multimesh = multimesh
+	instance.material_override = material
+	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	instance.extra_cull_margin = 1.5
+	target_root.add_child(instance)
+	var slice_index := 0
+	var transform_slice := WEB_ENTRY_DRESSING_TRANSFORM_SLICE if web_stage_entry_preload_active else WEB_DRESSING_TRANSFORM_SLICE
+	for slice_start in range(0, transforms.size(), transform_slice):
+		var slice_started_usec := Time.get_ticks_usec()
+		var slice_end := mini(slice_start + transform_slice, transforms.size())
+		for transform_index in range(slice_start, slice_end):
+			multimesh.set_instance_transform(transform_index, transforms[transform_index])
+		multimesh.visible_instance_count = slice_end
+		await _finish_web_build_slice("dressing_%s_%02d" % [name_value, slice_index], slice_started_usec)
+		if not _web_async_owner_alive():
+			return
+		slice_index += 1
+
+static func _web_grove_field(coord: Vector2i) -> float:
+	# Low-frequency deterministic waves make several neighbouring hexes agree on
+	# grove versus clearing. A per-cell modulo produced evenly scattered holes and
+	# made every remaining forest cell read as an independent round prop marker.
+	return (
+		sin(float(coord.x) * 0.48 + float(coord.y) * 0.21) * 0.72
+		+ cos(float(coord.x) * 0.18 - float(coord.y) * 0.43) * 0.58
+		+ sin(float(coord.x + coord.y) * 0.13) * 0.18
+	)
+
+func _web_road_axis(coord: Vector2i, fallback_angle: float) -> Vector3:
+	var center := HexCoordScript.axial_to_world(coord, TILE_SIZE)
+	var neighbor_directions: Array[Vector3] = []
+	for neighbor_coord in HexCoordScript.neighbors(coord):
+		var neighbor_tile: Dictionary = grid.tile(neighbor_coord)
+		if str(neighbor_tile.get("terrain_type", "")) != "ROAD":
+			continue
+		var direction := HexCoordScript.axial_to_world(neighbor_coord, TILE_SIZE) - center
+		direction.y = 0.0
+		if direction.length_squared() > 0.0001:
+			neighbor_directions.append(direction.normalized())
+	if neighbor_directions.is_empty():
+		return Vector3(cos(fallback_angle), 0.0, sin(fallback_angle))
+	if neighbor_directions.size() == 1:
+		return neighbor_directions[0]
+	# At a bend or junction, the most opposed neighbour pair describes the route
+	# through the cell. This keeps sleepers aligned even at the streamed boundary.
+	var best_axis: Vector3 = neighbor_directions[0]
+	var best_dot := 2.0
+	for left_index in range(neighbor_directions.size() - 1):
+		for right_index in range(left_index + 1, neighbor_directions.size()):
+			var pair_dot := neighbor_directions[left_index].dot(neighbor_directions[right_index])
+			if pair_dot >= best_dot:
+				continue
+			best_dot = pair_dot
+			best_axis = (neighbor_directions[right_index] - neighbor_directions[left_index]).normalized()
+	return best_axis
+
+func _ensure_web_dressing_mesh_cache() -> void:
+	# Primitive meshes are immutable presentation templates. Recreating all eight
+	# RIDs on every three-cell dressing refresh forced Compatibility/Web to upload
+	# and validate the same vertex formats while the squad was moving.
+	if not web_dressing_mesh_cache.is_empty():
+		return
+	var trunk_mesh: CylinderMesh = null
+	var sleeper_mesh: BoxMesh = null
+	if OS.has_feature("web") and WebSoakProbe.has_method("web_render_resource"):
+		var warmed_trunk = WebSoakProbe.web_render_resource("dressing_mesh:trunk")
+		var warmed_sleeper = WebSoakProbe.web_render_resource("dressing_mesh:sleeper")
+		if warmed_trunk is CylinderMesh:
+			trunk_mesh = warmed_trunk
+		if warmed_sleeper is BoxMesh:
+			sleeper_mesh = warmed_sleeper
+	if trunk_mesh == null:
+		trunk_mesh = CylinderMesh.new()
+		trunk_mesh.top_radius = 0.055
+		trunk_mesh.bottom_radius = 0.075
+		trunk_mesh.height = 0.28
+		trunk_mesh.radial_segments = 5
+	var canopy_mesh := SphereMesh.new()
+	canopy_mesh.radius = 0.25
+	canopy_mesh.height = 0.44
+	canopy_mesh.radial_segments = 6
+	canopy_mesh.rings = 4
+	if sleeper_mesh == null:
+		sleeper_mesh = BoxMesh.new()
+		sleeper_mesh.size = Vector3(0.54, 0.055, 0.10)
+	var ruin_mesh := BoxMesh.new()
+	ruin_mesh.size = Vector3(0.20, 0.44, 0.20)
+	var grass_mesh := CylinderMesh.new()
+	grass_mesh.top_radius = 0.012
+	grass_mesh.bottom_radius = 0.052
+	grass_mesh.height = 0.22
+	grass_mesh.radial_segments = 3
+	var boulder_mesh := SphereMesh.new()
+	boulder_mesh.radius = 0.17
+	boulder_mesh.height = 0.25
+	boulder_mesh.radial_segments = 6
+	boulder_mesh.rings = 4
+	var wall_mesh := BoxMesh.new()
+	wall_mesh.size = Vector3(0.72, 0.43, 0.15)
+	web_dressing_mesh_cache = {
+		"trunk": trunk_mesh,
+		"canopy": canopy_mesh,
+		"sleeper": sleeper_mesh,
+		"ruin": ruin_mesh,
+		"grass": grass_mesh,
+		"boulder": boulder_mesh,
+		"wall": wall_mesh,
+	}
+
+func _rebuild_web_tactical_dressing(wanted: Dictionary) -> void:
+	# Deterministic MultiMesh batches restore terrain identity without
+	# importing the authored GLB kit or creating hundreds of scene nodes during
+	# stage entry. Gameplay, movement and fog remain data/grid-authoritative.
+	# Keep the replacement render-active a hair below the previous dressing while
+	# it is built. Visibility=false caused lazy GPU upload on the final reveal;
+	# visible in-tree batches register on their own frames instead.
+	var next_root := Node3D.new()
+	next_root.name = "WebTacticalTerrainDressingNext"
+	next_root.position = Vector3(0.0, -0.02, 0.0)
+	world_root.add_child(next_root)
+	# One world-sized MultiMesh has a world-sized AABB and therefore keeps every
+	# off-camera tree alive in the Web draw list.  Partition stable axial regions
+	# first, then prop family, so renderer frustum culling works before drawing.
+	var spatial_dressing_batches: Dictionary = {}
+	var dressing_tile_count := 0
+	for key_value in wanted.keys():
+		var tile: Dictionary = wanted[key_value]
+		var terrain := str(tile.get("terrain_type", "FOREST"))
+		if terrain in ["SHALLOW_WATER", "DEEP_WATER"]:
 			continue
 		var coord := Vector2i(int(tile.get("q", 0)), int(tile.get("r", 0)))
-		var surface_y := float(tile.get("elevation", 0)) * ELEVATION_STEP + 0.018
-		pending_dressing_tiles.append({
-			"tile": tile,
-			"position": HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y),
-			"coord": coord,
-			"key": key,
-		})
-		pending_dressing_keys[key] = true
+		var phase: int = absi(coord.x * 17 + coord.y * 29)
+		var angle := float(phase % 12) * TAU / 12.0
+		var movement_blocked := bool(tile.get("movement_blocked", false))
+		var surface_y := float(tile.get("elevation", 0)) * ELEVATION_STEP + 0.035
+		var center := HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y)
+		match terrain:
+			"FOREST":
+				var grove_field := _web_grove_field(coord)
+				var grove_thinning := grove_field < -0.42
+				var adjacent_to_road := false
+				var away_from_road := Vector3.ZERO
+				for neighbor_coord in HexCoordScript.neighbors(coord):
+					if str(grid.tile(neighbor_coord).get("terrain_type", "")) == "ROAD":
+						adjacent_to_road = true
+						var road_delta := center - HexCoordScript.axial_to_world(neighbor_coord, TILE_SIZE)
+						road_delta.y = 0.0
+						away_from_road += road_delta.normalized()
+				if not away_from_road.is_zero_approx():
+					away_from_road = away_from_road.normalized()
+				# The generator owns collision authority: blocked FOREST is the broad grove
+				# wall, while passable FOREST is part of the continuous route clearing. A
+				# low-frequency field only thins the wall, so neighbouring cells agree on
+				# grove/open rhythm without ever making a blocked tile look traversable.
+				var tree_count := 0
+				if movement_blocked:
+					# Two broad, overlapping canopy masses read as a dense continuous
+					# forest wall at gameplay scale without uploading fourteen meshes per
+					# blocked cell during the stage-entry boundary.
+					tree_count = 1 if grove_thinning else 2
+				elif adjacent_to_road:
+					tree_count = 1
+				else:
+					tree_count = 1
+				for tree_index in range(tree_count):
+					var tree_angle := angle + float(tree_index) * 2.17 + float(tree_index % 2) * .37
+					var forest_radius := 0.30 + float((phase + tree_index * 2) % 5) * 0.14
+					var tree_scale := 0.80 + float((phase + tree_index * 3) % 4) * 0.08
+					if not movement_blocked:
+						# A lone shoulder tree stays near the edge; the hex centre remains an
+						# unmistakable open lane for both pointer targeting and route reading.
+						forest_radius = 0.74 + float((phase + tree_index) % 3) * 0.06
+						tree_scale = 0.58 + float((phase + tree_index) % 3) * 0.04
+					var forest_offset := Vector3(cos(tree_angle), 0.0, sin(tree_angle)) * forest_radius
+					if movement_blocked and adjacent_to_road:
+						forest_offset += away_from_road * 0.18
+					_append_web_dressing_chunk_transform(spatial_dressing_batches, "ForestTrunks", coord, center + forest_offset + Vector3(0.0, 0.15 * tree_scale, 0.0), Vector3(tree_scale * .62, tree_scale, tree_scale * .62), tree_angle)
+					var canopy_family := "ForestCanopiesLight" if (phase + tree_index) % 4 == 0 else "ForestCanopies"
+					var canopy_x := (2.12 + float((phase + tree_index) % 3) * 0.12) if movement_blocked else 1.12
+					var canopy_z := (1.52 + float((phase + tree_index * 2) % 3) * 0.10) if movement_blocked else 0.98
+					_append_web_dressing_chunk_transform(spatial_dressing_batches, canopy_family, coord, center + forest_offset + Vector3(0.0, 0.47 * tree_scale, 0.0), Vector3(tree_scale * canopy_x, tree_scale * .78, tree_scale * canopy_z), tree_angle)
+				var grass_count := 2
+				for grass_index in range(grass_count):
+					var grass_angle := angle + float(grass_index) * 2.12 + .8
+					var grass_offset := Vector3(cos(grass_angle), 0.0, sin(grass_angle)) * (0.28 + float(grass_index) * .11)
+					var grass_scale := 0.76 if movement_blocked else 0.66
+					_append_web_dressing_chunk_transform(spatial_dressing_batches, "GroundGrassTufts", coord, center + grass_offset + Vector3(0.0, .07, 0.0), Vector3(grass_scale, .84, grass_scale), grass_angle)
+				# Every real blocked/open boundary receives a low earth/stone retaining
+				# ridge. This makes the pathfinder boundary readable as terrain rather
+				# than an arbitrary missing yellow hex while keeping the walk lane clear.
+				if movement_blocked:
+					for neighbor_coord in HexCoordScript.neighbors(coord):
+						if not grid.traversable(neighbor_coord):
+							continue
+						var neighbor_center := HexCoordScript.axial_to_world(neighbor_coord, TILE_SIZE, surface_y)
+						var open_direction := neighbor_center - center
+						open_direction.y = 0.0
+						if open_direction.is_zero_approx():
+							continue
+						open_direction = open_direction.normalized()
+						var ridge_tangent := Vector3(-open_direction.z, 0.0, open_direction.x)
+						var ridge_angle := atan2(ridge_tangent.z, ridge_tangent.x)
+						_append_web_dressing_chunk_transform(spatial_dressing_batches, "ForestBoundaryRidges", coord, center + open_direction * (TILE_SIZE * .57) + Vector3(0.0, .18, 0.0), Vector3(1.34, .86, 1.0), ridge_angle)
+			"ROAD":
+				# Sleepers follow actual neighbouring ROAD cells, never a per-tile hash
+				# angle. The long mesh axis is perpendicular to the route like a real tie.
+				var road_axis := _web_road_axis(coord, angle)
+				var road_angle := atan2(road_axis.z, road_axis.x)
+				var sleeper_angle := road_angle + PI * .5
+				for sleeper_index in range(2):
+					var along := road_axis * (-.24 if sleeper_index == 0 else .24)
+					_append_web_dressing_chunk_transform(spatial_dressing_batches, "RoadSignalSleepers", coord, center + along + Vector3(0.0, 0.045, 0.0), Vector3(0.74, 1.0, 1.0), sleeper_angle)
+				if phase % 3 == 0:
+					var roadside := Vector3(-road_axis.z, 0.0, road_axis.x) * .50
+					_append_web_dressing_chunk_transform(spatial_dressing_batches, "GroundGrassTufts", coord, center + roadside + Vector3(0.0, .07, 0.0), Vector3(.62, .74, .62), road_angle)
+			"RUINS":
+				if movement_blocked:
+					var ruin_offset := Vector3(cos(angle), 0.0, sin(angle)) * 0.26
+					_append_web_dressing_chunk_transform(spatial_dressing_batches, "RuinSignalMarkers", coord, center + ruin_offset + Vector3(0.0, 0.25, 0.0), Vector3(0.90, 1.0 + float(phase % 3) * 0.18, 0.90), angle)
+					# Broken L/U walls are reserved for authored blocked RUINS. Their visible
+					# footprint now agrees with the pathfinder instead of sealing an open lane.
+					for wall_index in range(2 + phase % 2):
+						var wall_angle := angle + float(wall_index) * (PI * .47)
+						var wall_offset := Vector3(cos(wall_angle), 0.0, sin(wall_angle)) * (.30 + float(wall_index % 2) * .08)
+						_append_web_dressing_chunk_transform(spatial_dressing_batches, "BrokenRuinWalls", coord, center + wall_offset + Vector3(0.0, .22, 0.0), Vector3(1.12 + float((phase + wall_index) % 2) * .30, 1.05, .90), wall_angle)
+					if phase % 2 == 0:
+						_append_web_dressing_chunk_transform(spatial_dressing_batches, "RidgeBoulders", coord, center + Vector3(cos(angle + 1.3), .10, sin(angle + 1.3)) * .34, Vector3(.82, .66, .94), angle)
+				else:
+					# Passable ruins keep one low edge fragment as identity, never a wall or
+					# central boulder. The clear centre matches its movement metadata.
+					var rubble_offset := Vector3(cos(angle), 0.0, sin(angle)) * 0.68
+					_append_web_dressing_chunk_transform(spatial_dressing_batches, "RuinSignalMarkers", coord, center + rubble_offset + Vector3(0.0, 0.11, 0.0), Vector3(0.56, 0.42, 0.56), angle)
+		if movement_blocked and int(tile.get("elevation", 0)) > 0 and phase % 3 == 1:
+			var ridge_offset := Vector3(cos(angle + .45), 0.0, sin(angle + .45)) * .46
+			_append_web_dressing_chunk_transform(spatial_dressing_batches, "RidgeBoulders", coord, center + ridge_offset + Vector3(0.0, .11, 0.0), Vector3(.86, .70, 1.02), angle)
+		dressing_tile_count += 1
+		var dressing_scan_batch := WEB_ENTRY_TERRAIN_TILE_BATCH if web_stage_entry_preload_active else WEB_STREAM_BUILD_BATCH
+		if dressing_tile_count % dressing_scan_batch == 0:
+			await _finish_web_build_slice("dressing_scan", Time.get_ticks_usec())
+			if not _web_async_owner_alive():
+				return
+	_ensure_web_dressing_mesh_cache()
+	var trunk_mesh: Mesh = web_dressing_mesh_cache.trunk
+	var canopy_mesh: Mesh = web_dressing_mesh_cache.canopy
+	var sleeper_mesh: Mesh = web_dressing_mesh_cache.sleeper
+	var ruin_mesh: Mesh = web_dressing_mesh_cache.ruin
+	var grass_mesh: Mesh = web_dressing_mesh_cache.grass
+	var boulder_mesh: Mesh = web_dressing_mesh_cache.boulder
+	var wall_mesh: Mesh = web_dressing_mesh_cache.wall
+	var family_resources: Dictionary = {
+		"ForestTrunks": [trunk_mesh, _cached_material(Color("4a3a2d"))],
+		"ForestCanopies": [canopy_mesh, _cached_material(Color("315b46"))],
+		"ForestCanopiesLight": [canopy_mesh, _cached_material(Color("52765a"))],
+		"RoadSignalSleepers": [sleeper_mesh, _cached_material(Color("c9a45d"), Color("302714"))],
+		"RuinSignalMarkers": [ruin_mesh, _cached_material(Color("7b8791"))],
+		"GroundGrassTufts": [grass_mesh, _cached_material(Color("617c48"))],
+		"RidgeBoulders": [boulder_mesh, _cached_material(Color("68727a"))],
+		"BrokenRuinWalls": [wall_mesh, _cached_material(Color("737c84"))],
+		"ForestBoundaryRidges": [wall_mesh, _cached_material(Color("4d4938"), Color("171b12"))],
+	}
+	var spatial_chunk_keys: Array = spatial_dressing_batches.keys()
+	spatial_chunk_keys.sort()
+	var dressing_instance_count := 0
+	for chunk_key_value in spatial_chunk_keys:
+		var chunk_key := str(chunk_key_value)
+		var chunk_root := Node3D.new()
+		chunk_root.name = "WebDressingChunk_%s" % chunk_key.replace(",", "_")
+		next_root.add_child(chunk_root)
+		var chunk_batches: Dictionary = spatial_dressing_batches[chunk_key]
+		var family_names: Array = chunk_batches.keys()
+		family_names.sort()
+		for family_name_value in family_names:
+			var family_name := str(family_name_value)
+			var resource_pair: Array = family_resources[family_name]
+			dressing_instance_count += (chunk_batches[family_name] as Array).size()
+			await _add_web_dressing_batch("%s_%s" % [family_name, chunk_key.replace(",", "_")], resource_pair[0], resource_pair[1], chunk_batches[family_name], chunk_root)
+			if not _web_async_owner_alive():
+				return
+			await _finish_web_build_slice("dressing_family_%s" % family_name, Time.get_ticks_usec())
+			if not _web_async_owner_alive():
+				return
+	var previous_root := web_tactical_dressing_root
+	web_tactical_dressing_root = next_root
+	web_tactical_dressing_root.name = "WebTacticalTerrainDressing"
+	web_tactical_dressing_root.position = Vector3.ZERO
+	if previous_root != null and is_instance_valid(previous_root):
+		_retire_web_render_root(previous_root)
+	if OS.has_feature("web"):
+		print("WEB_MAP_DRESSING_READY tiles=%d chunks=%d instances=%d" % [dressing_tile_count, spatial_chunk_keys.size(), dressing_instance_count])
+
+func _web_stream_covers(center: Vector2i, radius: int) -> bool:
+	if streamed_infill_instance == null or not is_instance_valid(streamed_infill_instance):
+		return false
+	# The previous implementation scanned every authored tile after every pawn
+	# step just to prove that the prefetched disk still covered the new sight
+	# disk. On the macro map that O(world-size) check produced the reported
+	# rhythmic hitch once per hex. Hex disks obey the triangle inequality, so one
+	# exact centre/radius containment check is the same authority in constant time.
+	if web_stream_geometry_radius < radius:
+		return false
+	return HexCoordScript.distance(web_stream_geometry_center, center) + radius <= web_stream_geometry_radius
 
 func _stream_visible_tiles(_requested_center: Vector2i, force := false, incremental := false) -> void:
 	# Camera panning must never become a scouting exploit. Rendering follows the
 	# logical squad hex exclusively; the camera may only inspect this clear area.
 	var center := _player_map_coord()
+	if OS.has_feature("web") and web_stage_entry_preload_complete:
+		# The Web entry preload owns an all-map terrain/dressing coverage set.  Do
+		# not turn an ordinary step, enemy turn or treasure result into resource IO
+		# or a SurfaceTool/MultiMesh rebuild; fog/visibility refresh is sufficient.
+		stream_anchor = center
+		_refresh_fog_cover(center)
+		return
 	if not force and stream_anchor == center:
 		return
-	stream_anchor = center
-	_refresh_fog_cover(center)
-	_refresh_clear_ground_infill(center)
-	var wanted: Dictionary = {}
 	var vision_radius := _player_vision_radius()
+	if OS.has_feature("web") and not force and _web_stream_covers(center, vision_radius):
+		# The prefetched mesh already contains the complete new sight circle. Advance
+		# the logical anchor so `_process()` does not rescan the macro definition on
+		# every subsequent frame merely because the squad crossed one hex.
+		stream_anchor = center
+		return
+	if OS.has_feature("web") and web_stream_in_progress:
+		# Per-frame camera probes may coalesce, but an awaited arrival/build request
+		# must not pretend that terrain is ready while an older district is still
+		# uploading. Wait, then verify coverage for the latest logical pawn hex.
+		if incremental:
+			while web_stream_in_progress and is_inside_tree():
+				await get_tree().process_frame
+			if not is_inside_tree():
+				return
+			if _web_stream_covers(center, vision_radius):
+				stream_anchor = center
+				return
+			await _stream_visible_tiles(center, force, true)
+			if not _web_async_owner_alive():
+				web_stream_in_progress = false
+				return
+		return
+	if OS.has_feature("web"):
+		web_stream_in_progress = true
+	var stream_started_usec := Time.get_ticks_usec()
+	_refresh_fog_cover(center)
+	var wanted: Dictionary = {}
+	var build_radius := vision_radius + WEB_STREAM_PREFETCH_MARGIN if OS.has_feature("web") else vision_radius
+	var wanted_scan_count := 0
 	for tile in definition.get("tiles", []):
 		var coord := Vector2i(int(tile.q), int(tile.r))
-		if HexCoordScript.distance(center, coord) <= vision_radius:
+		if HexCoordScript.distance(center, coord) <= build_radius:
 			wanted[HexCoordScript.key(coord)] = tile
+		wanted_scan_count += 1
+		# This full macro scan happens only when the four-cell prefetched disk no
+		# longer covers the requested squad position (normally initial/re-entry
+		# loading). Bound it cooperatively on Web; ordinary 3-4 cell pawn movement
+		# keeps the constant-time coverage fast path above and never reaches this.
+		if OS.has_feature("web") and incremental and wanted_scan_count % (WEB_STREAM_BUILD_BATCH * 8) == 0:
+			await get_tree().process_frame
+			if not _web_async_owner_alive():
+				web_stream_in_progress = false
+				return
+	await _refresh_clear_ground_infill(center, build_radius, OS.has_feature("web"))
+	if not _web_async_owner_alive():
+		if OS.has_feature("web"):
+			web_stream_in_progress = false
+		return
 	if OS.has_feature("web"):
-		_stream_web_visible_ground(wanted)
+		await _stream_web_visible_ground(wanted, center)
+		if not _web_async_owner_alive():
+			web_stream_in_progress = false
+			return
+		web_stream_geometry_center = center
+		web_stream_geometry_radius = build_radius
+		stream_anchor = center
+		web_stream_in_progress = false
+		if SettingsService.is_developer_mode():
+			var elapsed_msec := float(Time.get_ticks_usec() - stream_started_usec) / 1000.0
+			print("WEB_COOPERATIVE_TASK terrain_stream %.2fms frames_yielded=true tiles=%d" % [elapsed_msec, wanted.size()])
 		return
 	for key in tile_meshes.keys():
 		var stale: MeshInstance3D = tile_meshes[key]
@@ -2131,6 +3337,8 @@ func _stream_visible_tiles(_requested_center: Vector2i, force := false, incremen
 			var stream_batch_size := 4 if OS.has_feature("web") else 18
 			if incremental and created_count % stream_batch_size == 0:
 				await get_tree().process_frame
+				if not _web_async_owner_alive():
+					return
 
 func _kit_component(prefix: String) -> Dictionary:
 	for key in blender_mesh_library:
@@ -2268,6 +3476,11 @@ func _terrain_color(terrain: String, revealed: bool) -> Color:
 
 func _create_node_button(node: Dictionary) -> void:
 	var button := Button.new()
+	# Web map construction is cooperative. Keep a newly-created control out of
+	# layout/draw until the final state refresh has assigned its real text,
+	# position and reachability; otherwise every placeholder button is submitted
+	# once while the builder yields between nodes.
+	button.visible = false
 	button.custom_minimum_size = Vector2(92, 42)
 	button.size = Vector2(92, 42)
 	button.add_theme_font_size_override("font_size", 21)
@@ -2287,6 +3500,7 @@ func _create_node_button(node: Dictionary) -> void:
 	button.gui_input.connect(_on_node_button_input.bind(node_snapshot))
 	overlay.add_child(button)
 	node_buttons[str(node.node_id)] = button
+	web_entity_projection_dirty = true
 
 func _on_node_button_input(event: InputEvent, node: Dictionary) -> void:
 	if moving or turn_transitioning or map_simulation_paused:
@@ -2323,6 +3537,10 @@ func _on_node_button_input(event: InputEvent, node: Dictionary) -> void:
 func _create_node_marker(node: Dictionary) -> void:
 	var marker_root := Node3D.new()
 	marker_root.name = "EncounterMarker_%s" % str(node.node_id)
+	# The marker becomes visible from _refresh_state_visuals once its semantic
+	# state is known. This avoids compiling/drawing all encounter variants during
+	# the streamed construction frames, including nodes still outside fog.
+	marker_root.visible = false
 	var coord := Vector2i(int(node.q), int(node.r))
 	marker_root.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.18)
 	# A thin locally-authored signal socket gives the encounter beacon and its
@@ -2333,16 +3551,22 @@ func _create_node_marker(node: Dictionary) -> void:
 	# inlay, and local props keep it part of the world surface.
 	var socket := MeshInstance3D.new()
 	socket.name = "SignalSocketGround"
-	var socket_mesh := CylinderMesh.new()
-	socket_mesh.top_radius = 1.18
-	socket_mesh.bottom_radius = 1.28
-	socket_mesh.height = 0.085
-	socket_mesh.radial_segments = 12
+	var socket_mesh: CylinderMesh = null
+	if OS.has_feature("web") and WebSoakProbe.has_method("web_render_resource"):
+		var warmed_socket = WebSoakProbe.web_render_resource("signal_socket_mesh")
+		if warmed_socket is CylinderMesh:
+			socket_mesh = warmed_socket
+	if socket_mesh == null:
+		socket_mesh = CylinderMesh.new()
+		socket_mesh.top_radius = 1.18
+		socket_mesh.bottom_radius = 1.28
+		socket_mesh.height = 0.085
+		socket_mesh.radial_segments = 12
 	socket.mesh = socket_mesh
 	socket.position.y = -0.138
 	socket.rotation_degrees.y = 15.0
 	var socket_tile: Dictionary = grid.tile(coord)
-	socket.material_override = _material(_terrain_surface_color(socket_tile).lightened(0.08))
+	socket.material_override = _cached_material(_terrain_surface_color(socket_tile).lightened(0.08))
 	marker_root.add_child(socket)
 	var hard_stage := str(node.get("stage_id", "")).contains("-H")
 	var stage_id := str(node.get("stage_id", ""))
@@ -2359,14 +3583,20 @@ func _create_node_marker(node: Dictionary) -> void:
 	var marker_parts := _spawn_kit_components(marker_prefix, Vector3.ZERO, 1.04, 0.0, marker_root)
 	if marker_parts.is_empty():
 		var fallback := MeshInstance3D.new()
-		var fallback_mesh := CylinderMesh.new()
-		fallback_mesh.top_radius = 0.42
-		fallback_mesh.bottom_radius = 0.54
-		fallback_mesh.height = 0.15
-		fallback_mesh.radial_segments = 6
+		var fallback_mesh: CylinderMesh = null
+		if OS.has_feature("web") and WebSoakProbe.has_method("web_render_resource"):
+			var warmed_marker = WebSoakProbe.web_render_resource("fallback_marker_mesh")
+			if warmed_marker is CylinderMesh:
+				fallback_mesh = warmed_marker
+		if fallback_mesh == null:
+			fallback_mesh = CylinderMesh.new()
+			fallback_mesh.top_radius = 0.42
+			fallback_mesh.bottom_radius = 0.54
+			fallback_mesh.height = 0.15
+			fallback_mesh.radial_segments = 6
 		fallback.mesh = fallback_mesh
 		fallback.name = "FallbackMarkerSymbol"
-		fallback.material_override = _material(Color("78eed9"), Color("319f92"))
+		fallback.material_override = _cached_material(Color("78eed9"), Color("319f92"))
 		marker_root.add_child(fallback)
 	# Three persistent visual anchors make it clear this is a long broken relay
 	# route, even when the streamed local terrain hides far-away node labels.
@@ -2374,10 +3604,16 @@ func _create_node_marker(node: Dictionary) -> void:
 		_spawn_kit_components("PROP_SIGNAL_TOWER", Vector3(0.62, 0.06, -0.30), 0.76 if stage_id.ends_with("N03") else 1.0, 0.18, marker_root)
 	elif stage_id.ends_with("H05") or stage_id.ends_with("H10"):
 		_spawn_kit_components("PROP_SIGNAL_BEACON", Vector3(0.56, 0.05, -0.30), 0.92, -0.30, marker_root)
-	if not hard_stage:
+	if not hard_stage and not OS.has_feature("web"):
+		# Compatibility/Web rebuilt its clustered-light buffers when the first two
+		# encounter roots registered their decorative OmniLights. Those two uploads
+		# produced repeatable 110-150ms frames and audible BGM starvation on every
+		# first map entry. Web markers already own an emissive symbol and readable
+		# socket; reserve per-marker point lights for native builds.
 		_add_route_accent_light(marker_root, Vector3(0.0, 0.72, 0.0), 1.05 if stage_id.ends_with("N20") else 0.48)
 	world_root.add_child(marker_root)
 	node_markers[str(node.node_id)] = marker_root
+	web_entity_projection_dirty = true
 
 func _node_overlay_anchor(node: Dictionary) -> Vector3:
 	# Stage UI must follow the actual world marker that was instantiated for this
@@ -2395,7 +3631,7 @@ func _overlay_position_from_world(world_position: Vector3) -> Vector2:
 	# Camera3D returns pixels in its 1280×720 SubViewport. The sibling overlay
 	# lives in the stretched parent map frame, so this single conversion is
 	# necessary and must not be repeated by individual label call sites.
-	if camera == null or viewport == null or overlay == null:
+	if camera == null or not is_instance_valid(camera) or viewport == null or not is_instance_valid(viewport) or overlay == null or not is_instance_valid(overlay):
 		return Vector2.ZERO
 	var viewport_size := Vector2(viewport.size)
 	if viewport_size.x <= 0.0 or viewport_size.y <= 0.0:
@@ -2409,7 +3645,7 @@ func _overlay_anchor_is_visible(world_position: Vector3, control_size: Vector2) 
 	# view frustum.  The map never turns hidden/offscreen markers into floating
 	# overlay targets: the actual 3D marker remains the source of truth and the
 	# `next encounter` navigation action can deliberately focus it.
-	if camera == null or overlay == null or camera.is_position_behind(world_position):
+	if camera == null or not is_instance_valid(camera) or overlay == null or not is_instance_valid(overlay) or camera.is_position_behind(world_position):
 		return false
 	var projected := _overlay_position_from_world(world_position)
 	var padding := control_size * 0.68
@@ -2440,6 +3676,15 @@ func _event_encounter_for_node(node_id: String) -> Dictionary:
 	return MapExplorationServiceScript.event_encounter_for_node(definition, node_id)
 
 func _map_idle_texture(enemy_id: String) -> Dictionary:
+	# AppShell warms the same immutable combat atlas before this screen enters the
+	# tree. Reuse its already-built idle pack so constructing map pawns performs no
+	# manifest read, raw PNG fallback, or AtlasTexture slicing of its own.
+	var tree := get_tree() if is_inside_tree() else null
+	var stage_cache := tree.root.get_node_or_null("StageAssetCache") if tree != null else null
+	if stage_cache != null and stage_cache.has_method("map_idle_pack"):
+		var cached_pack_value = stage_cache.call("map_idle_pack", enemy_id)
+		if cached_pack_value is Dictionary and not cached_pack_value.is_empty():
+			return cached_pack_value
 	var manifest_path := "res://assets/runtime_web/combat/%s/animation_manifest.json" % enemy_id
 	if not FileAccess.file_exists(manifest_path): return {}
 	var parsed = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
@@ -2476,6 +3721,75 @@ static func _sprite_center_y_for_foot(contact_y: float, parent_base_y: float, fr
 	# Sprite3D is centred on its frame. Reconstruct the centre from the authored
 	# normalized foot anchor so every frame keeps the same physical contact point.
 	return contact_y - parent_base_y + (foot_anchor_y - 0.5) * frame_height * pixel_size
+
+func _node_encounter_cleared(node: Dictionary) -> bool:
+	var node_id := str(node.get("node_id", ""))
+	var stage_id := str(node.get("stage_id", ""))
+	return (not node_id.is_empty() and MapExplorationServiceScript.encounter_cleared(map_state, node_id)) \
+		or (not stage_id.is_empty() and int(AppState.profile.get("stage_stars", {}).get(stage_id, 0)) > 0)
+
+func _prune_cleared_enemy_pawns() -> void:
+	# Cached map views retain Node3Ds while a battle/result screen is visible.
+	# Remove the defeated instance itself before visibility streaming resumes;
+	# merely hiding it allowed a later Web stream to reuse stale pawn ownership.
+	for node_id_value in enemy_pawns.keys():
+		var node_id := str(node_id_value)
+		var node := ChapterMapLoaderScript.node_by_id(definition, node_id)
+		if node.is_empty() or not _node_encounter_cleared(node):
+			continue
+		var root: Node3D = enemy_pawns.get(node_id)
+		if root != null and is_instance_valid(root):
+			root.queue_free()
+		enemy_pawns.erase(node_id)
+		enemy_animation_packs.erase(node_id)
+
+func _web_enemy_pawn_should_exist(node: Dictionary) -> bool:
+	var stage_id := str(node.get("stage_id", ""))
+	if stage_id.is_empty() or not AppState.is_stage_unlocked(stage_id):
+		return false
+	var node_id := str(node.get("node_id", ""))
+	if node_id.is_empty() or _node_encounter_cleared(node):
+		return false
+	return _coord_is_in_player_vision(_encounter_coord(node))
+
+func _queue_web_enemy_pawn_stream() -> void:
+	# All currently unlocked roots are decoded during `_build_web_map_detail`.
+	# A fresh Web map is created after battle/reward return, so there is no legal
+	# in-place unlock that needs movement-time atlas IO.
+	if not OS.has_feature("web") or web_stage_entry_preload_complete or web_enemy_stream_active or not is_inside_tree():
+		return
+	var missing_visible_pawn := false
+	for node_value in definition.get("nodes", []):
+		var node: Dictionary = node_value
+		if not enemy_pawns.has(str(node.get("node_id", ""))) and _web_enemy_pawn_should_exist(node):
+			missing_visible_pawn = true
+			break
+	if not missing_visible_pawn:
+		return
+	web_enemy_stream_active = true
+	call_deferred("_stream_web_enemy_pawns")
+
+func _stream_web_enemy_pawns() -> void:
+	# One locally relevant authored enemy atlas per browser frame. This keeps map
+	# input, BGM and tutorial animation responsive while preserving exact ENM/BOSS
+	# ownership; no generic or grey placeholder is inserted in this path.
+	await get_tree().process_frame
+	if not _web_async_owner_alive():
+		web_enemy_stream_active = false
+		return
+	for node_value in definition.get("nodes", []):
+		var node: Dictionary = node_value
+		var node_id := str(node.get("node_id", ""))
+		if enemy_pawns.has(node_id) or not _web_enemy_pawn_should_exist(node):
+			continue
+		_create_enemy_pawn(node)
+		await get_tree().process_frame
+		if not _web_async_owner_alive():
+			web_enemy_stream_active = false
+			return
+	if is_inside_tree():
+		_refresh_state_visuals()
+	web_enemy_stream_active = false
 
 static func _animation_indices(pack: Dictionary, animation_name: String) -> Array:
 	var animation: Dictionary = pack.get("animations", {}).get(animation_name, {})
@@ -2813,6 +4127,9 @@ func _create_landmark_visual(landmark: Dictionary) -> void:
 	landmark_visuals[landmark_id] = root
 
 func _node_style(fill: Color, border: Color) -> StyleBoxFlat:
+	var cache_key := "%s:%s" % [fill.to_html(true), border.to_html(true)]
+	if node_style_cache.has(cache_key):
+		return node_style_cache[cache_key]
 	var style := StyleBoxFlat.new()
 	style.bg_color = fill
 	style.border_color = border
@@ -2822,6 +4139,7 @@ func _node_style(fill: Color, border: Color) -> StyleBoxFlat:
 	style.shadow_size = 7
 	style.content_margin_left = 5.0
 	style.content_margin_right = 5.0
+	node_style_cache[cache_key] = style
 	return style
 
 func _create_pawn() -> void:
@@ -2847,6 +4165,7 @@ func _create_pawn() -> void:
 	var party_tile: Dictionary = grid.tile(party_coord)
 	grounding_patch.material_override = _material(_terrain_surface_color(party_tile).lightened(0.05))
 	pawn.add_child(grounding_patch)
+	pawn_grounding_terrace = grounding_patch
 	var contact_shadow := MeshInstance3D.new()
 	var shadow_mesh := CylinderMesh.new()
 	shadow_mesh.top_radius = 0.54
@@ -2926,6 +4245,7 @@ func _create_pawn() -> void:
 	pawn_banner.material_override = _material(Color("f1b864"), Color("dc8f39"))
 	pawn_banner.position = Vector3(0.0, 1.05, 0.0)
 	pawn_visual.add_child(pawn_banner)
+	_set_pawn_motion_state("IDLE")
 	pawn_last_position = pawn.position
 
 func _create_web_pawn_front_overlay() -> void:
@@ -2938,20 +4258,26 @@ func _create_web_pawn_front_overlay() -> void:
 		return
 	pawn_front_overlay = TextureRect.new()
 	pawn_front_overlay.name = "SquadPawnTopLayer"
-	pawn_front_overlay.texture = pawn_sprite.texture
+	if pawn_front_overlay.texture != pawn_sprite.texture:
+		pawn_front_overlay.texture = pawn_sprite.texture
 	pawn_front_overlay.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	pawn_front_overlay.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	pawn_front_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	pawn_front_overlay.z_index = 48
 	pawn_front_overlay.show_behind_parent = false
 	overlay.add_child(pawn_front_overlay)
+	_apply_pawn_facing()
 	# The UI copy is the Web presentation authority. Keep the physical base,
 	# contact shadow and socket in 3D, but avoid a translucent double cutout.
 	pawn_sprite.visible = false
 	_sync_web_pawn_front_overlay()
 
 func _sync_web_pawn_front_overlay() -> void:
-	if pawn_front_overlay == null or pawn_sprite == null or camera == null or overlay == null or pawn == null:
+	if pawn_front_overlay == null or not is_instance_valid(pawn_front_overlay) \
+		or pawn_sprite == null or not is_instance_valid(pawn_sprite) \
+		or camera == null or not is_instance_valid(camera) \
+		or overlay == null or not is_instance_valid(overlay) \
+		or pawn == null or not is_instance_valid(pawn):
 		return
 	if pawn_sprite.texture == null or overlay.size.y <= 1.0:
 		pawn_front_overlay.visible = false
@@ -2961,9 +4287,13 @@ func _sync_web_pawn_front_overlay() -> void:
 	var foot_anchor: Vector2 = pawn_animation_pack.get("foot_anchor", Vector2(0.5, 0.88))
 	var screen_pixels_per_world := overlay.size.y / maxf(0.001, camera.size)
 	var token_size := frame_size * pawn_sprite.pixel_size * screen_pixels_per_world
-	var contact := _overlay_position_from_world(_pawn_world_position() + Vector3(0.0, 0.15, 0.0))
+	# Web hides the world Sprite3D and presents this UI copy instead. Project the
+	# actual tweened pawn transform; projecting the logical map hex made the only
+	# visible character stay still for the whole tween and snap at cell arrival.
+	var contact := _overlay_position_from_world(pawn.global_position + Vector3(0.0, 0.15, 0.0))
 	pawn_front_overlay.size = token_size
 	pawn_front_overlay.position = contact - Vector2(token_size.x * foot_anchor.x, token_size.y * foot_anchor.y)
+	pawn_front_overlay.flip_h = not pawn_facing_right
 	pawn_front_overlay.visible = _coord_is_in_player_vision(_player_map_coord())
 
 func _map_leader_selection_unlocked() -> bool:
@@ -3074,6 +4404,9 @@ func _pawn_world_position() -> Vector3:
 	return HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.14)
 
 func _movement_overlay_material(color: Color, emission := Color.BLACK, always_on_top := false) -> StandardMaterial3D:
+	var key := "%s|%s|%s" % [color.to_html(true), emission.to_html(true), str(always_on_top)]
+	if movement_overlay_material_cache.has(key):
+		return movement_overlay_material_cache[key]
 	var material := StandardMaterial3D.new()
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	material.albedo_color = color
@@ -3087,13 +4420,25 @@ func _movement_overlay_material(color: Color, emission := Color.BLACK, always_on
 		material.emission_enabled = true
 		material.emission = emission
 		material.emission_energy_multiplier = 1.0
+	movement_overlay_material_cache[key] = material
 	return material
 
 func _route_overlay_material(color: Color, emission := Color.BLACK) -> StandardMaterial3D:
-	var material := _material(color, emission)
+	var key := "%s|%s" % [color.to_html(true), emission.to_html(true)]
+	if route_overlay_material_cache.has(key):
+		return route_overlay_material_cache[key]
+	var material := StandardMaterial3D.new()
+	material.albedo_color = color
+	material.roughness = 0.82
+	material.cull_mode = BaseMaterial3D.CULL_BACK
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	material.no_depth_test = true
 	material.render_priority = 92
+	if emission != Color.BLACK:
+		material.emission_enabled = true
+		material.emission = emission
+		material.emission_energy_multiplier = 1.4
+	route_overlay_material_cache[key] = material
 	return material
 
 func _movement_hex_corners(coord: Vector2i, surface_y: float) -> Array[Vector3]:
@@ -3114,7 +4459,9 @@ func _unresolved_encounter_stop_hexes() -> Dictionary:
 		var node: Dictionary = node_value
 		var stage_id := str(node.get("stage_id", ""))
 		var node_id := str(node.get("node_id", ""))
-		if stage_id.is_empty() or MapExplorationServiceScript.encounter_cleared(map_state, node_id) or int(AppState.profile.stage_stars.get(stage_id, 0)) > 0:
+		# Locked future operations and cleared markers are not physical blockers.
+		# Only an active hostile owns a terminal contact hex.
+		if stage_id.is_empty() or not AppState.is_stage_unlocked(stage_id) or MapExplorationServiceScript.encounter_cleared(map_state, node_id) or int(AppState.profile.stage_stars.get(stage_id, 0)) > 0:
 			continue
 		stop_hexes[HexCoordScript.key(_encounter_coord(node))] = true
 	return stop_hexes
@@ -3131,8 +4478,13 @@ func _movement_range_allowlist() -> Dictionary:
 
 func _traversal_allowlist() -> Dictionary:
 	# An empty allowlist is HexPathfinder's explicit "all authored traversable
-	# tiles" contract.  Player and enemy pathfinding must share this physical grid.
+	# tiles" contract.  The generated grid now carries the actual road/clearing
+	# lanes and blocked dense-forest/cliff barriers, so fog never becomes movement
+	# authority and decorative terrain never becomes globally walkable.
 	return {}
+
+func _find_player_path(start: Vector2i, goal: Vector2i) -> Array[Vector2i]:
+	return HexPathfinderScript.find_path(grid, start, goal, _traversal_allowlist(), _unresolved_encounter_stop_hexes())
 
 func _append_range_triangle(vertices: Array[Vector3], a: Vector3, b: Vector3, c: Vector3) -> void:
 	# ImmediateMesh reports an engine error when surface_end closes a surface that
@@ -3179,20 +4531,127 @@ func _append_range_edge_ribbon(vertices: Array[Vector3], from: Vector3, to: Vect
 	_append_range_triangle(vertices, a, c, d)
 
 func _clear_movement_range_overlay() -> void:
+	movement_range_render_generation += 1
 	movement_range_reachable.clear()
+	web_movement_visible_keys.clear()
+	web_movement_projection_camera = Vector3(1.0e20, 1.0e20, 1.0e20)
+	web_movement_projection_size = Vector2(-1.0, -1.0)
+	web_movement_projection_camera_size = -1.0
+	web_movement_projection_origin_screen = Vector2.ZERO
+	if web_movement_overlay != null:
+		web_movement_overlay.position = Vector2.ZERO
+		web_movement_overlay.clear_geometry()
 	movement_range_fill.mesh = null
 	movement_range_grid.mesh = null
 	movement_range_boundary.mesh = null
+	movement_range_grid.visible = true
+	movement_range_boundary.visible = true
+
+func _apply_web_movement_range_details(generation: int, cell_grid_mesh: ImmediateMesh, boundary_mesh: ImmediateMesh) -> void:
+	# Assigning three dynamic 3D buffers in the same browser frame caused the
+	# post-step 50-70ms pause. The gold fill is immediate authority; its internal
+	# seams and outer edge arrive on the next two frames, each below one frame's
+	# upload budget. A generation token prevents stale turn geometry from landing.
+	await get_tree().process_frame
+	if not _web_async_owner_alive() or movement_range_grid == null or not is_instance_valid(movement_range_grid) or generation != movement_range_render_generation:
+		return
+	movement_range_grid.mesh = cell_grid_mesh if cell_grid_mesh.get_surface_count() > 0 else null
+	movement_range_grid.visible = true
+	await get_tree().process_frame
+	if not _web_async_owner_alive() or movement_range_boundary == null or not is_instance_valid(movement_range_boundary) or generation != movement_range_render_generation:
+		return
+	movement_range_boundary.mesh = boundary_mesh if boundary_mesh.get_surface_count() > 0 else null
+	movement_range_boundary.visible = true
+
+func _update_web_movement_range_projection(force_projection := false) -> void:
+	if not OS.has_feature("web") or web_movement_overlay == null or not is_instance_valid(web_movement_overlay):
+		return
+	if web_movement_visible_keys.is_empty() \
+		or camera == null or not is_instance_valid(camera) \
+		or viewport == null or not is_instance_valid(viewport) \
+		or overlay == null or not is_instance_valid(overlay):
+		web_movement_overlay.clear_geometry()
+		return
+	if not force_projection \
+		and camera_target.distance_squared_to(web_movement_projection_camera) <= 0.000001 \
+		and overlay.size.is_equal_approx(web_movement_projection_size) \
+		and is_equal_approx(camera.size, web_movement_projection_camera_size):
+		return
+	if not force_projection \
+		and web_movement_projection_camera.x < 1.0e19 \
+		and overlay.size.is_equal_approx(web_movement_projection_size) \
+		and is_equal_approx(camera.size, web_movement_projection_camera_size):
+		# With a fixed orthographic angle and zoom, camera translation applies one
+		# common screen delta to every highlighted hex. Move the overlay Control as
+		# a unit instead of rebuilding every polygon and edge on every walk frame.
+		var current_origin_screen := _overlay_position_from_world(Vector3.ZERO)
+		web_movement_overlay.position = current_origin_screen - web_movement_projection_origin_screen
+		web_movement_projection_camera = camera_target
+		return
+	web_movement_overlay.position = Vector2.ZERO
+	var cells: Array[PackedVector2Array] = []
+	var grid_segments := PackedVector2Array()
+	var boundary_segments := PackedVector2Array()
+	var emitted_edges: Dictionary = {}
+	for key in web_movement_visible_keys:
+		var coord := HexCoordScript.from_key(key)
+		var surface_y := float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.105
+		var world_corners := _movement_hex_corners(coord, surface_y)
+		var polygon := PackedVector2Array()
+		for corner in world_corners:
+			polygon.append(_overlay_position_from_world(corner))
+		cells.append(polygon)
+		for direction_index in range(HexCoordScript.DIRECTIONS.size()):
+			var neighbour := coord + HexCoordScript.DIRECTIONS[direction_index]
+			var neighbour_key := HexCoordScript.key(neighbour)
+			var edge_parts := [key, neighbour_key]
+			edge_parts.sort()
+			var edge_key := "%s|%s" % [edge_parts[0], edge_parts[1]]
+			if emitted_edges.has(edge_key):
+				continue
+			emitted_edges[edge_key] = true
+			var edge_indices := _movement_boundary_corner_indices(direction_index)
+			var from := polygon[edge_indices.x]
+			var to := polygon[edge_indices.y]
+			grid_segments.append(from)
+			grid_segments.append(to)
+			if not movement_range_reachable.has(neighbour_key):
+				boundary_segments.append(from)
+				boundary_segments.append(to)
+	web_movement_overlay.set_geometry(cells, grid_segments, boundary_segments)
+	web_movement_projection_camera = camera_target
+	web_movement_projection_size = overlay.size
+	web_movement_projection_camera_size = camera.size
+	web_movement_projection_origin_screen = _overlay_position_from_world(Vector3.ZERO)
 
 func _update_movement_range_overlay() -> void:
 	if movement_range_fill == null or movement_range_grid == null or movement_range_boundary == null:
 		return
+	movement_range_render_generation += 1
+	var render_generation := movement_range_render_generation
 	var movement_points := MapExplorationServiceScript.movement_remaining(map_state, definition)
-	if moving or turn_transitioning or movement_points <= 0:
+	# During a pawn tween the starting range remains the player's movement
+	# authority and route context. Do not erase it between pointer confirmation
+	# and arrival; input is already locked by `moving`.
+	if moving:
+		return
+	if turn_transitioning or movement_points <= 0:
 		_clear_movement_range_overlay()
 		return
 	var current := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
 	movement_range_reachable = HexPathfinderScript.reachable_within(grid, current, movement_points, _movement_range_allowlist(), _unresolved_encounter_stop_hexes())
+	# Keep the visual/input authority explicitly bounded even if a migrated or
+	# externally authored pathfinder payload is ever contaminated. Account growth
+	# may raise 3 -> 4, but neither the gold overlay nor direct movement can expand
+	# to seven cells from a four-point turn.
+	var bounded_reachable: Dictionary = {}
+	for key_value in movement_range_reachable.keys():
+		var key := str(key_value)
+		var coord := HexCoordScript.from_key(key)
+		var required_steps := int(movement_range_reachable[key_value])
+		if required_steps <= movement_points and HexCoordScript.distance(current, coord) <= movement_points:
+			bounded_reachable[key] = required_steps
+	movement_range_reachable = bounded_reachable
 	var reachable_keys: Array = movement_range_reachable.keys()
 	reachable_keys.sort()
 	if reachable_keys.is_empty():
@@ -3203,9 +4662,24 @@ func _update_movement_range_overlay() -> void:
 	# destination and must not tint the squad art yellow.
 	var visible_range_keys: Array = reachable_keys.filter(func(key_value): return HexCoordScript.from_key(str(key_value)) != current)
 	if visible_range_keys.is_empty():
+		web_movement_visible_keys.clear()
+		if web_movement_overlay != null:
+			web_movement_overlay.clear_geometry()
 		movement_range_fill.mesh = null
 		movement_range_grid.mesh = null
 		movement_range_boundary.mesh = null
+		return
+	if OS.has_feature("web"):
+		web_movement_visible_keys.clear()
+		for key_value in visible_range_keys:
+			web_movement_visible_keys.append(str(key_value))
+		movement_range_fill.mesh = null
+		movement_range_grid.mesh = null
+		movement_range_boundary.mesh = null
+		movement_range_fill.visible = false
+		movement_range_grid.visible = false
+		movement_range_boundary.visible = false
+		_update_web_movement_range_projection(true)
 		return
 	var fill_vertices: Array[Vector3] = []
 	for key_value in visible_range_keys:
@@ -3217,7 +4691,6 @@ func _update_movement_range_overlay() -> void:
 			# Match the Compatibility renderer's clockwise top-face authority.
 			_append_range_triangle(fill_vertices, center, corners[corner_index], corners[(corner_index + 1) % 6])
 	var fill_mesh := _movement_triangle_mesh(fill_vertices, _movement_overlay_material(Color("f6b93f68"), Color("9a5f12")))
-	movement_range_fill.mesh = fill_mesh if fill_mesh.get_surface_count() > 0 else null
 	# Every reachable cell keeps a subtle translucent seam. Shared edges are
 	# emitted once so adjacent highlights remain individually countable without
 	# becoming brighter than the rest of the grid.
@@ -3239,7 +4712,6 @@ func _update_movement_range_overlay() -> void:
 			var edge_indices := _movement_boundary_corner_indices(direction_index)
 			_append_range_edge_ribbon(cell_grid_vertices, corners[edge_indices.x], corners[edge_indices.y], 0.030)
 	var cell_grid_mesh := _movement_triangle_mesh(cell_grid_vertices, _movement_overlay_material(Color("ffd36ba8"), Color("b57618")))
-	movement_range_grid.mesh = cell_grid_mesh if cell_grid_mesh.get_surface_count() > 0 else null
 	var boundary_vertices: Array[Vector3] = []
 	for key_value in visible_range_keys:
 		var coord := HexCoordScript.from_key(str(key_value))
@@ -3256,7 +4728,123 @@ func _update_movement_range_overlay() -> void:
 			var to: Vector3 = corners[edge_indices.y]
 			_append_range_edge_ribbon(boundary_vertices, from, to, 0.070)
 	var boundary_mesh := _movement_triangle_mesh(boundary_vertices, _movement_overlay_material(Color("fff0a6f5"), Color("ffb52b"), true))
-	movement_range_boundary.mesh = boundary_mesh if boundary_mesh.get_surface_count() > 0 else null
+	movement_range_fill.mesh = fill_mesh if fill_mesh.get_surface_count() > 0 else null
+	if OS.has_feature("web"):
+		movement_range_grid.visible = false
+		movement_range_boundary.visible = false
+		call_deferred("_apply_web_movement_range_details", render_generation, cell_grid_mesh, boundary_mesh)
+	else:
+		movement_range_grid.mesh = cell_grid_mesh if cell_grid_mesh.get_surface_count() > 0 else null
+		movement_range_boundary.mesh = boundary_mesh if boundary_mesh.get_surface_count() > 0 else null
+
+func _place_web_overlay_segment(segment: ColorRect, from: Vector2, to: Vector2, width: float, color: Color) -> void:
+	var delta := to - from
+	var length := delta.length()
+	if length <= 0.01:
+		segment.visible = false
+		return
+	segment.color = color
+	segment.size = Vector2(length, width)
+	segment.position = (from + to) * 0.5 - segment.size * 0.5
+	segment.pivot_offset = segment.size * 0.5
+	segment.rotation = delta.angle()
+	segment.visible = true
+
+func _ensure_web_route_rect_count(required_count: int) -> void:
+	while web_route_rects.size() < required_count:
+		var segment := ColorRect.new()
+		segment.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		segment.visible = false
+		web_route_overlay.add_child(segment)
+		web_route_rects.append(segment)
+
+func _update_web_route_line(force_projection := false) -> void:
+	if not OS.has_feature("web") or web_route_overlay == null or not is_instance_valid(web_route_overlay):
+		return
+	if preview_path.size() < 2 \
+		or camera == null or not is_instance_valid(camera) \
+		or viewport == null or not is_instance_valid(viewport) \
+		or overlay == null or not is_instance_valid(overlay):
+		web_route_overlay.visible = false
+		web_route_overlay.position = Vector2.ZERO
+		web_route_projection_camera = Vector3(1.0e20, 1.0e20, 1.0e20)
+		web_route_projection_size = Vector2(-1.0, -1.0)
+		web_route_projection_camera_size = -1.0
+		web_route_projection_origin_screen = Vector2(1.0e20, 1.0e20)
+		return
+	var geometry_changed := force_projection \
+		or not overlay.size.is_equal_approx(web_route_projection_size) \
+		or not is_equal_approx(camera.size, web_route_projection_camera_size)
+	if not geometry_changed and web_route_projection_origin_screen.x < 1.0e19:
+		# Orthographic camera panning is a common screen-space translation. Move the
+		# pooled Control once instead of reprojecting every route point and querying
+		# browser layout on every movement frame.
+		var current_origin_screen := _overlay_position_from_world(Vector3.ZERO)
+		web_route_overlay.position = current_origin_screen - web_route_projection_origin_screen
+		web_route_projection_camera = camera_target
+		return
+	web_route_overlay.position = Vector2.ZERO
+	var route_color := Color("4fd3c2") if preview_risk == "SAFE" else (Color("e7bd63") if preview_risk == "WATCHED" else Color("e87972"))
+	var movement_points := MapExplorationServiceScript.movement_remaining(map_state, definition)
+	_ensure_web_route_rect_count(preview_path.size() - 1)
+	var projected_points := PackedVector2Array()
+	for coord in preview_path:
+		var surface_y := float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.57
+		projected_points.append(_overlay_position_from_world(HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y)))
+	var segment_width := 7.0 * _portrait_ui_scale(_runtime_layout_size())
+	for segment_index in range(web_route_rects.size()):
+		var segment := web_route_rects[segment_index]
+		if segment_index >= projected_points.size() - 1:
+			segment.visible = false
+			continue
+		var segment_color := route_color.lightened(0.18) if segment_index < movement_points else Color("657989")
+		_place_web_overlay_segment(segment, projected_points[segment_index], projected_points[segment_index + 1], segment_width, segment_color)
+	web_route_overlay.visible = true
+	web_route_projection_camera = camera_target
+	web_route_projection_size = overlay.size
+	web_route_projection_camera_size = camera.size
+	web_route_projection_origin_screen = _overlay_position_from_world(Vector3.ZERO)
+
+func _update_web_selected_ring(force_projection := false) -> void:
+	if not OS.has_feature("web") or web_selected_overlay == null or not is_instance_valid(web_selected_overlay):
+		return
+	var selected_target: Dictionary = selected_node if not selected_node.is_empty() else (selected_treasure if not selected_treasure.is_empty() else (selected_relay if not selected_relay.is_empty() else selected_event))
+	if selected_target.is_empty() \
+		or camera == null or not is_instance_valid(camera) \
+		or viewport == null or not is_instance_valid(viewport) \
+		or overlay == null or not is_instance_valid(overlay):
+		web_selected_overlay.visible = false
+		web_selected_overlay.position = Vector2.ZERO
+		web_selected_projection_camera = Vector3(1.0e20, 1.0e20, 1.0e20)
+		web_selected_projection_size = Vector2(-1.0, -1.0)
+		web_selected_projection_camera_size = -1.0
+		web_selected_projection_origin_screen = Vector2(1.0e20, 1.0e20)
+		return
+	var geometry_changed := force_projection \
+		or not overlay.size.is_equal_approx(web_selected_projection_size) \
+		or not is_equal_approx(camera.size, web_selected_projection_camera_size)
+	if not geometry_changed and web_selected_projection_origin_screen.x < 1.0e19:
+		var current_origin_screen := _overlay_position_from_world(Vector3.ZERO)
+		web_selected_overlay.position = current_origin_screen - web_selected_projection_origin_screen
+		web_selected_projection_camera = camera_target
+		return
+	web_selected_overlay.position = Vector2.ZERO
+	var selected_coord := Vector2i(int(selected_target.get("q", 0)), int(selected_target.get("r", 0)))
+	var surface_y := float(grid.tile(selected_coord).get("elevation", 0)) * ELEVATION_STEP + 0.18
+	var ring_center := HexCoordScript.axial_to_world(selected_coord, TILE_SIZE, surface_y)
+	var projected_points := PackedVector2Array()
+	for point_index in range(6):
+		var angle := PI / 6.0 + TAU * float(point_index) / 6.0
+		var world_point := ring_center + Vector3(cos(angle) * 0.66, 0.0, sin(angle) * 0.66)
+		projected_points.append(_overlay_position_from_world(world_point))
+	var edge_width := 4.0 * _portrait_ui_scale(_runtime_layout_size())
+	for edge_index in range(6):
+		_place_web_overlay_segment(web_selected_rects[edge_index], projected_points[edge_index], projected_points[(edge_index + 1) % 6], edge_width, Color("fff0a6f0"))
+	web_selected_overlay.visible = true
+	web_selected_projection_camera = camera_target
+	web_selected_projection_size = overlay.size
+	web_selected_projection_camera_size = camera.size
+	web_selected_projection_origin_screen = _overlay_position_from_world(Vector3.ZERO)
 
 func _update_route_mesh() -> void:
 	for segment in route_segments: segment.queue_free()
@@ -3264,53 +4852,76 @@ func _update_route_mesh() -> void:
 	route_segments.clear()
 	route_nodes.clear()
 	selected_ring.visible = false
-	var immediate := ImmediateMesh.new()
+	var immediate: ImmediateMesh = null
+	if not OS.has_feature("web"):
+		immediate = ImmediateMesh.new()
 	var route_color := Color("4fd3c2") if preview_risk == "SAFE" else (Color("e7bd63") if preview_risk == "WATCHED" else Color("e87972"))
 	var movement_points := MapExplorationServiceScript.movement_remaining(map_state, definition)
 	var route_exceeds_pulse := preview_path.size() - 1 > movement_points
 	if preview_path.size() >= 2:
 		var guide_color := Color("657989") if route_exceeds_pulse else route_color.lightened(0.18)
-		immediate.surface_begin(Mesh.PRIMITIVE_LINE_STRIP, _route_overlay_material(guide_color, guide_color.darkened(0.18)))
-		for coord in preview_path:
-			immediate.surface_add_vertex(HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.54))
-		immediate.surface_end()
-		for index in range(preview_path.size() - 1):
-			var segment_color := route_color if index < movement_points else Color("516471")
-			var from := HexCoordScript.axial_to_world(preview_path[index], TILE_SIZE, float(grid.tile(preview_path[index]).get("elevation", 0)) * ELEVATION_STEP + 0.57)
-			var to := HexCoordScript.axial_to_world(preview_path[index + 1], TILE_SIZE, float(grid.tile(preview_path[index + 1]).get("elevation", 0)) * ELEVATION_STEP + 0.57)
-			var ribbon := MeshInstance3D.new()
-			var ribbon_mesh := BoxMesh.new()
-			ribbon_mesh.size = Vector3(0.18, 0.045, from.distance_to(to))
-			ribbon.mesh = ribbon_mesh
-			ribbon.material_override = _route_overlay_material(segment_color, segment_color.darkened(0.05))
-			ribbon.position = (from + to) * 0.5
-			world_root.add_child(ribbon)
-			ribbon.look_at(to, Vector3.UP)
-			route_segments.append(ribbon)
-			var pulse := MeshInstance3D.new()
-			var pulse_mesh := CylinderMesh.new()
-			pulse_mesh.top_radius = 0.12
-			pulse_mesh.bottom_radius = 0.15
-			pulse_mesh.height = 0.055
-			pulse_mesh.radial_segments = 6
-			pulse.mesh = pulse_mesh
-			pulse.material_override = _route_overlay_material(Color("f5bc62") if index < movement_points else Color("667580"), Color("f3a83e") if index < movement_points else Color("34424c"))
-			pulse.position = to + Vector3(0.0, 0.035, 0.0)
-			world_root.add_child(pulse)
-			route_nodes.append(pulse)
+		if OS.has_feature("web"):
+			_update_web_route_line(true)
+		else:
+			immediate.surface_begin(Mesh.PRIMITIVE_LINE_STRIP, _route_overlay_material(guide_color, guide_color.darkened(0.18)))
+			for coord in preview_path:
+				immediate.surface_add_vertex(HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.54))
+			immediate.surface_end()
+			for index in range(preview_path.size() - 1):
+				var segment_color := route_color if index < movement_points else Color("516471")
+				var from := HexCoordScript.axial_to_world(preview_path[index], TILE_SIZE, float(grid.tile(preview_path[index]).get("elevation", 0)) * ELEVATION_STEP + 0.57)
+				var to := HexCoordScript.axial_to_world(preview_path[index + 1], TILE_SIZE, float(grid.tile(preview_path[index + 1]).get("elevation", 0)) * ELEVATION_STEP + 0.57)
+				var ribbon := MeshInstance3D.new()
+				var ribbon_mesh := BoxMesh.new()
+				ribbon_mesh.size = Vector3(0.18, 0.045, from.distance_to(to))
+				ribbon.mesh = ribbon_mesh
+				ribbon.material_override = _route_overlay_material(segment_color, segment_color.darkened(0.05))
+				ribbon.position = (from + to) * 0.5
+				world_root.add_child(ribbon)
+				ribbon.look_at(to, Vector3.UP)
+				route_segments.append(ribbon)
+				var pulse := MeshInstance3D.new()
+				var pulse_mesh := CylinderMesh.new()
+				pulse_mesh.top_radius = 0.12
+				pulse_mesh.bottom_radius = 0.15
+				pulse_mesh.height = 0.055
+				pulse_mesh.radial_segments = 6
+				pulse.mesh = pulse_mesh
+				pulse.material_override = _route_overlay_material(Color("f5bc62") if index < movement_points else Color("667580"), Color("f3a83e") if index < movement_points else Color("34424c"))
+				pulse.position = to + Vector3(0.0, 0.035, 0.0)
+				world_root.add_child(pulse)
+				route_nodes.append(pulse)
 	var selected_target: Dictionary = selected_node if not selected_node.is_empty() else (selected_treasure if not selected_treasure.is_empty() else (selected_relay if not selected_relay.is_empty() else selected_event))
 	if not selected_target.is_empty():
-		var selected_coord := Vector2i(int(selected_target.get("q", 0)), int(selected_target.get("r", 0)))
-		selected_ring.position = HexCoordScript.axial_to_world(selected_coord, TILE_SIZE, float(grid.tile(selected_coord).get("elevation", 0)) * ELEVATION_STEP + 0.18)
-		selected_ring.visible = true
-	route_mesh.mesh = immediate
-	_update_movement_range_overlay()
+		if OS.has_feature("web"):
+			_update_web_selected_ring(true)
+		else:
+			var selected_coord := Vector2i(int(selected_target.get("q", 0)), int(selected_target.get("r", 0)))
+			selected_ring.position = HexCoordScript.axial_to_world(selected_coord, TILE_SIZE, float(grid.tile(selected_coord).get("elevation", 0)) * ELEVATION_STEP + 0.18)
+			selected_ring.visible = true
+	elif OS.has_feature("web"):
+		_update_web_selected_ring(true)
+	if OS.has_feature("web"):
+		if preview_path.size() < 2:
+			_update_web_route_line(true)
+		route_mesh.mesh = null
+	else:
+		route_mesh.mesh = immediate
+	# Route selection does not change the party coordinate or movement budget.
+	# Rebuilding all three yellow authority meshes here made a double-click create
+	# and upload them twice (selection, then turn completion), producing a 130ms
+	# WebGL stall before the pawn even started walking. State/turn refreshes own
+	# the movement overlay exactly once.
 
-func _refresh_state_visuals() -> void:
+func _refresh_state_visuals(refresh_movement_range := true) -> void:
 	if definition.is_empty(): return
-	AppState.refresh_chapter_map_reveal(map_id)
+	web_entity_projection_dirty = true
+	# Canonical route reveal changes at progression boundaries, not while painting
+	# a frame. Recomputing it here nested every revealed node against every macro
+	# tile and sorted the result on ordinary movement, selection and turn refreshes.
 	var revealed := _path_reveal_allowlist()
-	_update_movement_range_overlay()
+	if refresh_movement_range:
+		_update_movement_range_overlay()
 	for key in tile_meshes:
 		var instance: MeshInstance3D = tile_meshes[key]
 		var tile: Dictionary = instance.get_meta("tile")
@@ -3319,8 +4930,15 @@ func _refresh_state_visuals() -> void:
 		# the broad continuous landscape crosses a long-map district boundary.
 		instance.visible = true
 	for node in definition.get("nodes", []):
-		var button: Button = node_buttons[str(node.node_id)]
-		var marker_root: Node3D = node_markers.get(str(node.node_id))
+		var node_id := str(node.get("node_id", ""))
+		var button_value = node_buttons.get(node_id, null)
+		# Web presents the playable terrain one frame before deferred encounter
+		# markers are built. The initial refresh must tolerate that intentional gap;
+		# `_build_web_map_detail()` refreshes again as soon as every marker exists.
+		if not button_value is Button:
+			continue
+		var button := button_value as Button
+		var marker_root: Node3D = node_markers.get(node_id)
 		var stage_id := str(node.get("stage_id", ""))
 		var is_hard := stage_id.contains("-H")
 		var key := "%d,%d" % [int(node.q), int(node.r)]
@@ -3353,10 +4971,10 @@ func _refresh_state_visuals() -> void:
 			if stage_id == "": marker_color = Color("f0c56e")
 			for marker_child in marker_root.get_children():
 				if marker_child is MeshInstance3D and (str(marker_child.name).contains("SYMBOL") or str(marker_child.name).contains("FallbackMarker")):
-					(marker_child as MeshInstance3D).material_override = _material(marker_color, marker_color.darkened(0.18))
+					(marker_child as MeshInstance3D).material_override = _cached_material(marker_color, marker_color.darkened(0.18))
 		var enemy_root: Node3D = enemy_pawns.get(str(node.node_id))
 		if enemy_root != null:
-			var cleared := MapExplorationServiceScript.encounter_cleared(map_state, str(node.node_id)) or stars > 0
+			var cleared := _node_encounter_cleared(node)
 			var encounter_coord := _encounter_coord(node)
 			var camera_coord := HexCoordScript.world_to_axial(camera_target, TILE_SIZE)
 			enemy_root.visible = button.visible and _coord_is_in_player_vision(encounter_coord) and not cleared and unlocked and _map_entity_is_locally_renderable(encounter_coord, camera_coord, STREAM_RADIUS + 2)
@@ -3391,7 +5009,7 @@ func _refresh_state_visuals() -> void:
 		relay_root.visible = _coord_is_in_player_vision(relay_coord) and (relay_active or revealed.has(relay_key))
 		var relay_signal = relay_root.get_meta("signal", null)
 		if relay_signal is MeshInstance3D:
-			(relay_signal as MeshInstance3D).material_override = _material(Color("71f7d3") if relay_active else Color("4c6876"), Color("48f4d1") if relay_active else Color("183744"))
+			(relay_signal as MeshInstance3D).material_override = _cached_material(Color("71f7d3") if relay_active else Color("4c6876"), Color("48f4d1") if relay_active else Color("183744"))
 		var relay_label = relay_root.get_meta("label", null)
 		if relay_label is Label3D:
 			(relay_label as Label3D).text = "활성 릴레이" if relay_active else "고장 난 릴레이"
@@ -3419,9 +5037,11 @@ func _refresh_state_visuals() -> void:
 		var status_mode := ("위험" if hard_overlay else "일반") if compact_status else ("위험 작전" if hard_overlay else "일반 작전")
 		status_label.text = status_template % [status_mode, int(map_state.get("movement_points", 0)), int(map_state.get("movement_points_max", 0)), int(completion.get("percent", 0))]
 	if wait_button != null: wait_button.disabled = moving or turn_transitioning or map_simulation_paused
-	_update_route_minimap()
 	_update_next_encounter_button()
+	# `_update_panel()` owns responsive layout and minimap configuration. Calling
+	# the minimap here as well duplicated a full route traversal every refresh.
 	_update_panel()
+	_queue_web_enemy_pawn_stream()
 
 func _update_route_minimap() -> void:
 	if route_minimap == null: return
@@ -3479,7 +5099,7 @@ func _select_node(node: Dictionary) -> void:
 	AppState.selected_map_node_id = str(node.node_id)
 	map_state.last_selected_node = str(node.node_id)
 	var allowed := _traversal_allowlist()
-	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), _encounter_coord(node), allowed)
+	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), _encounter_coord(node), allowed, _unresolved_encounter_stop_hexes())
 	# Selection proves visibility; the shared physical grid proves reachability.
 	# Fog must never delete an intermediate step from that grid.
 	preview_path = _truncate_at_first_unresolved_encounter(preview_path)
@@ -3515,7 +5135,7 @@ func _select_treasure(treasure: Dictionary) -> void:
 	# Do not restrict this route to currently revealed tiles: otherwise a hinted
 	# side branch can be visible but unreachable. Unresolved encounters still
 	# cut the route below, so this never lets a treasure selection bypass battle.
-	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), treasure_coord, _traversal_allowlist())
+	preview_path = _find_player_path(Vector2i(int(map_state.current_q), int(map_state.current_r)), treasure_coord)
 	preview_path = _truncate_at_first_unresolved_encounter(preview_path)
 	_retarget_truncated_path_to_encounter(Vector2i(int(treasure.q), int(treasure.r)))
 	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path, _player_vision_radius())
@@ -3532,7 +5152,7 @@ func _select_relay(relay: Dictionary) -> void:
 	selected_treasure = {}
 	selected_event = {}
 	selected_relay = relay
-	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), relay_coord, _traversal_allowlist())
+	preview_path = _find_player_path(Vector2i(int(map_state.current_q), int(map_state.current_r)), relay_coord)
 	preview_path = _truncate_at_first_unresolved_encounter(preview_path)
 	_retarget_truncated_path_to_encounter(relay_coord)
 	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path, _player_vision_radius())
@@ -3549,7 +5169,7 @@ func _select_event(event: Dictionary) -> void:
 	selected_treasure = {}
 	selected_relay = {}
 	selected_event = event
-	preview_path = HexPathfinderScript.find_path(grid, Vector2i(int(map_state.current_q), int(map_state.current_r)), event_coord, _traversal_allowlist())
+	preview_path = _find_player_path(Vector2i(int(map_state.current_q), int(map_state.current_r)), event_coord)
 	preview_path = _truncate_at_first_unresolved_encounter(preview_path)
 	_retarget_truncated_path_to_encounter(event_coord)
 	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path, _player_vision_radius())
@@ -3568,15 +5188,17 @@ func _focus_preview_route() -> void:
 
 func _truncate_at_first_unresolved_encounter(path: Array[Vector2i]) -> Array[Vector2i]:
 	if path.size() <= 1: return path
+	var active_hostile_hexes := _unresolved_encounter_stop_hexes()
 	for index in range(1, path.size()):
 		var coord := path[index]
+		if not active_hostile_hexes.has(HexCoordScript.key(coord)):
+			continue
 		for node in definition.get("nodes", []):
 			if str(node.get("stage_id", "")).is_empty(): continue
 			if _encounter_coord(node) != coord: continue
-			if not MapExplorationServiceScript.encounter_cleared(map_state, str(node.get("node_id", ""))) and int(AppState.profile.stage_stars.get(str(node.get("stage_id", "")), 0)) <= 0:
-				var truncated: Array[Vector2i] = []
-				truncated.assign(path.slice(0, index + 1))
-				return truncated
+			var truncated: Array[Vector2i] = []
+			truncated.assign(path.slice(0, index + 1))
+			return truncated
 	return path
 
 func _node_at_coord(coord: Vector2i) -> Dictionary:
@@ -3603,7 +5225,7 @@ func _retarget_truncated_path_to_encounter(requested_target: Vector2i) -> bool:
 func _encounter_coord(node: Dictionary) -> Vector2i:
 	var node_id := str(node.get("node_id", ""))
 	var authored_coord := Vector2i(int(node.get("q", 0)), int(node.get("r", 0)))
-	if not MapSimulationScript.patrol_definition(definition, node_id).is_empty() and not MapExplorationServiceScript.encounter_cleared(map_state, node_id):
+	if not MapSimulationScript.patrol_definition(definition, node_id).is_empty() and not _node_encounter_cleared(node):
 		return MapSimulationScript.render_coord_or_authored(map_state, definition, grid, node_id, authored_coord)
 	return authored_coord
 
@@ -3634,11 +5256,23 @@ func _update_enemy_pawn_from_simulation(node_id: String, animate := false) -> vo
 	var ring = root.get_meta("threat_ring", null)
 	if ring is MeshInstance3D:
 		var warning := Color("e96871") if awareness_state == MapSimulationScript.ALERT else (Color("e4bd62") if awareness_state == MapSimulationScript.SUSPICIOUS else Color("a95762"))
-		(ring as MeshInstance3D).material_override = _material(warning, warning.darkened(0.14))
+		(ring as MeshInstance3D).material_override = _cached_material(warning, warning.darkened(0.14))
+	# Enemy-turn presentation changes several roots in one synchronous batch.
+	# Mark the shared Web label projection once; `_process()` consumes this dirty
+	# bit instead of reprojecting every encounter on every transition frame.
+	web_entity_projection_dirty = true
 
 func _spawn_patrol_step_cue(from: Vector3, to: Vector3) -> void:
 	# A concise, diegetic after-signal makes WAIT visibly causal without drawing
 	# a permanent debug patrol line across the release map.
+	# Compatibility Web owns an UPDATE_ALWAYS SubViewport. Creating a temporary
+	# TorusMesh/Tween here and queue-freeing its render object from the callback
+	# occasionally leaves the single-threaded renderer with a stale property
+	# target (ClassDB p_object=null). The hostile pawn already moves and advances
+	# its authored atlas, so this disposable cue adds no gameplay information on
+	# Web and must not trade stability for a third transient animation layer.
+	if OS.has_feature("web"):
+		return
 	var cue := MeshInstance3D.new()
 	var cue_mesh := TorusMesh.new()
 	cue_mesh.inner_radius = 0.18
@@ -3647,7 +5281,7 @@ func _spawn_patrol_step_cue(from: Vector3, to: Vector3) -> void:
 	cue_mesh.ring_segments = 14
 	cue.mesh = cue_mesh
 	cue.position = from + Vector3(0.0, 0.12, 0.0)
-	cue.material_override = _material(Color("e5ba65"), Color("e0953f"))
+	cue.material_override = _cached_material(Color("e5ba65"), Color("e0953f"))
 	world_root.add_child(cue)
 	var cue_tween := create_tween()
 	cue_tween.set_parallel(true)
@@ -3675,7 +5309,13 @@ func _resume_post_reward_turn() -> void:
 	var exhausted_legacy_edge: bool = MapExplorationServiceScript.movement_remaining(map_state, definition) <= 0 and pending_encounter.is_empty()
 	if not persisted_reward_edge and not exhausted_legacy_edge:
 		return
-	if moving or turn_transitioning or map_simulation_paused:
+	# Treasure arrival deliberately locks the map before AppShell presents the
+	# in-place reward overlay. Closing that overlay is the owner hand-off that
+	# releases this exact transition; treating its own lock as an unrelated busy
+	# state deferred forever and left the visible map unable to accept input until
+	# a full page reload. Keep real movement/pause guards, then release the owned
+	# transition immediately before running the owed enemy phase.
+	if moving or map_simulation_paused:
 		# Initial world construction and a browser focus hand-off both pause map
 		# authority briefly. Retry on the next process frame instead of dropping the
 		# persisted turn edge and leaving movement at zero forever.
@@ -3683,6 +5323,19 @@ func _resume_post_reward_turn() -> void:
 		if is_inside_tree():
 			call_deferred("_resume_post_reward_turn")
 		return
+	# The reward overlay is presented in-place, so this screen can still own the
+	# treasure route that has just been claimed.  Keeping that now-invalid
+	# selection leaves the details drawer focused on a missing treasure and can
+	# keep the next-encounter affordance visually stale until a full reload.
+	# Release every route-selection field before the owed enemy phase repaints the
+	# map, exactly as a freshly-created map screen would.
+	selected_node.clear()
+	selected_treasure.clear()
+	selected_relay.clear()
+	selected_event.clear()
+	preview_path.clear()
+	preview_risk = "SAFE"
+	turn_transitioning = false
 	map_state[POST_REWARD_TURN_PENDING_KEY] = false
 	await _complete_player_turn("보물 획득")
 
@@ -3697,36 +5350,47 @@ func _complete_player_turn(action_label: String) -> void:
 		return
 	turn_transitioning = true
 	moving = false
+	web_entity_projection_dirty = true
 	movement_skip_requested = false
 	active_movement_path.clear()
 	_show_map_notice("%s · 적 턴 진행 중" % action_label)
-	_refresh_state_visuals()
+	# Transition entry only needs to remove the yellow authority mesh and lock
+	# controls. A full repaint here was immediately discarded by the final turn
+	# repaint and doubled minimap, style and movement-mesh work.
+	_clear_movement_range_overlay()
 	if move_button != null: move_button.disabled = true
 	if wait_button != null: wait_button.disabled = true
 	if next_encounter_button != null: next_encounter_button.disabled = true
+	for node_button_value in node_buttons.values():
+		if node_button_value is Button:
+			(node_button_value as Button).disabled = true
 	var party_coord := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
 	var update := MapExplorationServiceScript.complete_player_move_turn(map_state, definition, grid, party_coord)
-	# Present the enemy phase as an actual turn. Follow each mobile enemy to its
-	# destination in deterministic order, then return the camera to the squad.
-	for move_value in update.get("moves", []):
+	# Present visible enemies as one concise simultaneous phase. The previous
+	# implementation focused and waited 0.34 seconds for every moving patrol; on
+	# the macro map that serialized dozens of camera sweeps through fog and made a
+	# single turn look frozen. Simulation remains deterministic, while all live
+	# pawn tweens now share one 0.24-second presentation budget.
+	var presented_moves: Array = update.get("moves", [])
+	if not presented_moves.is_empty():
+		_show_map_notice("적 턴 · 시야 내 순찰 %d체 이동" % presented_moves.size())
+	for move_value in presented_moves:
 		var move: Dictionary = move_value
 		var node_id := str(move.get("encounter_id", ""))
 		var destination_value: Array = move.get("to", [])
 		if destination_value.size() == 2:
-			var destination := Vector2i(int(destination_value[0]), int(destination_value[1]))
-			var node := ChapterMapLoaderScript.node_by_id(definition, node_id)
-			_show_map_notice("적 턴 · %s가 아군 방향으로 이동" % stage_display_text(str(node.get("stage_id", "")), true, false))
-			_focus_coord(destination, false)
-		_update_enemy_pawn_from_simulation(node_id, true)
-		await get_tree().create_timer(0.34).timeout
+			_update_enemy_pawn_from_simulation(node_id, true)
+	if not presented_moves.is_empty():
+		await get_tree().create_timer(0.24).timeout
 		if not is_inside_tree():
 			return
 	for node_id in update.get("awareness", {}).keys():
 		_update_enemy_pawn_from_simulation(str(node_id))
 	if not is_inside_tree():
 		return
+	# The camera never left the squad during the simultaneous enemy phase.
 	_focus_current(false)
-	SaveService.save_game()
+	SaveService.request_save_game()
 	pending_turn_completion = false
 	pending_turn_label = ""
 	if not update.get("contacts", []).is_empty():
@@ -3737,26 +5401,49 @@ func _complete_player_turn(action_label: String) -> void:
 	_rebuild_selected_preview()
 	_refresh_state_visuals()
 	_show_map_notice("적 턴 완료 · 다음 아군 턴 · 이동 %d/%d · 순찰 %d체 이동" % [int(map_state.get("movement_points", 0)), int(map_state.get("movement_points_max", 0)), int(update.get("changed", []).size())])
+	if OS.has_feature("web"):
+		print("MAP_TURN_READY movement=%d/%d moving=%s transitioning=%s paused=%s" % [int(map_state.get("movement_points", 0)), int(map_state.get("movement_points_max", 0)), str(moving), str(turn_transitioning), str(map_simulation_paused)])
 
 func _start_patrol_contact(node_id: String, return_coord: Vector2i, movement_refilled := false) -> void:
 	if not map_state.get("pending_encounter", {}).is_empty(): return
 	var node := ChapterMapLoaderScript.node_by_id(definition, node_id)
 	if node.is_empty() or not AppState.is_stage_unlocked(str(node.get("stage_id", ""))): return
 	if MapExplorationServiceScript.encounter_cleared(map_state, node_id): return
+	_begin_movement_camera_settle(pawn.global_position)
+	_set_pawn_motion_state("ARRIVE")
 	movement_generation += 1
 	moving = false
+	movement_camera_follow_active = false
 	turn_transitioning = false
 	movement_skip_requested = false
 	live_encounter_replans = 0
 	active_movement_path.clear()
 	if not movement_refilled:
-		MapExplorationServiceScript.refill_movement(map_state, definition)
+		MapExplorationServiceScript.refill_movement(map_state, definition, grid)
 	if map_state.get("patrol_states", {}).has(node_id):
 		map_state.patrol_states[node_id].patrol_state = MapSimulationScript.PATROL_ENGAGED
 	if AppState.prepare_map_encounter(str(node.get("stage_id", "")), node_id, return_coord, map_id):
 		_complete_first_map_tutorial()
-		SaveService.save_game()
-		battle_requested.emit(str(node.get("stage_id", "")))
+		var encounter_save_result := SaveService.save_game()
+		if not encounter_save_result.ok:
+			# Never enter combat from a state the browser failed to persist. Restore
+			# the exact pre-contact hex and patrol state so the player can retry.
+			AppState.abandon_pending_map_encounter(map_id)
+			pawn.position = _pawn_world_position()
+			_set_pawn_motion_state("IDLE")
+			turn_transitioning = false
+			_focus_current(false)
+			_refresh_state_visuals()
+			_show_map_notice("전투 진입 저장 실패 · 다시 시도하세요")
+			push_error("Map encounter save failed before battle entry: %s" % encounter_save_result.error)
+			return
+		turn_transitioning = true
+		call_deferred("_emit_battle_request_after_map_callback", str(node.get("stage_id", "")))
+
+func _emit_battle_request_after_map_callback(stage_id: String) -> void:
+	if not is_inside_tree():
+		return
+	battle_requested.emit(stage_id)
 
 func _update_panel() -> void:
 	if detail_title == null: return
@@ -4000,7 +5687,7 @@ func _set_direct_hex_route(coord: Vector2i) -> bool:
 			if _encounter_coord(node) == coord:
 				_select_node(node)
 				return preview_path.size() > 1
-	var path := HexPathfinderScript.find_path(grid, current, coord, _traversal_allowlist())
+	var path := _find_player_path(current, coord)
 	if path.size() <= 1:
 		return false
 	selected_node = {}
@@ -4038,18 +5725,27 @@ func _path_reveal_allowlist() -> Dictionary:
 	# not mutate canonical fog/reveal data or a player save, but debug encounters
 	# still need a real traversable route to exercise the existing battle loop.
 	# Release builds continue to use only the persisted reveal authority.
+	var center := _player_map_coord()
+	var revealed_tiles: Array = map_state.get("revealed_tiles", [])
+	var next_signature := "%d,%d:%d:%s" % [center.x, center.y, hash(revealed_tiles), str(AppState.debug_unlock_all_enabled())]
+	if next_signature == path_reveal_cache_signature:
+		return path_reveal_cache
 	var allowed: Dictionary = {}
 	if AppState.debug_unlock_all_enabled():
 		for tile in definition.get("tiles", []):
 			var debug_coord := Vector2i(int(tile.get("q", 0)), int(tile.get("r", 0)))
 			if _coord_is_in_player_vision(debug_coord):
 				allowed[HexCoordScript.key(debug_coord)] = true
-		return allowed
-	for key in map_state.get("revealed_tiles", []):
+		path_reveal_cache_signature = next_signature
+		path_reveal_cache = allowed
+		return path_reveal_cache
+	for key in revealed_tiles:
 		var coord := HexCoordScript.from_key(str(key))
 		if _coord_is_in_player_vision(coord):
 			allowed[str(key)] = true
-	return allowed
+	path_reveal_cache_signature = next_signature
+	path_reveal_cache = allowed
+	return path_reveal_cache
 
 func _rebuild_selected_preview() -> void:
 	var current := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
@@ -4057,7 +5753,7 @@ func _rebuild_selected_preview() -> void:
 	if current == target:
 		preview_path = [current]
 	else:
-		preview_path = HexPathfinderScript.find_path(grid, current, target, _traversal_allowlist())
+		preview_path = _find_player_path(current, target)
 		preview_path = _truncate_at_first_unresolved_encounter(preview_path)
 	preview_risk = MapSimulationScript.risk_for_path(map_state, definition, grid, preview_path, _player_vision_radius())
 	_update_route_mesh()
@@ -4083,21 +5779,34 @@ func _move_along(path: Array[Vector2i]) -> void:
 	if path.size() <= 1 or moving or turn_transitioning or map_simulation_paused:
 		return
 	moving = true
+	movement_camera_follow_active = true
+	movement_camera_settle_active = false
+	movement_camera_goal = _pawn_camera_goal(pawn.global_position)
 	movement_skip_requested = false
-	pawn_motion_state = "WALK"
+	_set_pawn_motion_state("WALK")
 	movement_generation += 1
 	var generation := movement_generation
 	active_movement_path = path.duplicate()
 	var traveled_path: Array[Vector2i] = [Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))]
 	if preview_camera_tween != null and preview_camera_tween.is_valid():
 		preview_camera_tween.kill()
-	_refresh_state_visuals()
-	_focus_current(true)
-	await get_tree().create_timer(0.03).timeout
+	# Preserve the yellow authority range while the pawn walks so the player can
+	# still read the selected route and its remaining local context. Input is
+	# locked by `moving`; the overlay is rebuilt once on arrival/turn completion.
+	if move_button != null: move_button.disabled = true
+	if wait_button != null: wait_button.disabled = true
+	if next_encounter_button != null: next_encounter_button.disabled = true
+	if OS.has_feature("web"):
+		# Projected encounter labels are world annotations, not movement authority.
+		# Hide them once during transit; otherwise every camera sub-step performs a
+		# full label/visibility projection pass and synchronous browser-size reads.
+		for button_value in node_buttons.values():
+			if button_value is Button and is_instance_valid(button_value):
+				(button_value as Button).visible = false
 	for index in range(1, path.size()):
 		if generation != movement_generation:
 			return
-		if not MapExplorationServiceScript.spend_movement(map_state, definition, 1):
+		if not MapExplorationServiceScript.spend_movement(map_state, definition, 1, grid):
 			break
 		var coord := path[index]
 		var prior_coord := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
@@ -4105,25 +5814,32 @@ func _move_along(path: Array[Vector2i]) -> void:
 		var target := HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.14)
 		_set_pawn_facing(pawn.position, target)
 		_spawn_pawn_step_trail(pawn.position)
+		# Start the camera glide with the pawn, not after it has already crossed the
+		# cell. Updating every cell retains velocity continuity and avoids the old
+		# one-cell-late camera snap.
+		_follow_moving_pawn(target)
 		if movement_skip_requested:
 			pawn.position = target
 		else:
-			var tween := create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-			tween.tween_property(pawn, "position", target, PAWN_STEP_DURATION)
+			# Per-cell sine easing forced velocity to zero at every hex boundary. The
+			# atlas owns foot cadence, so constant spatial velocity reads as one walk
+			# instead of three separate starts and stops.
+			var tween := create_tween().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
+			# Preserve one world-space walking speed on slopes. Elevation adds a small,
+			# proportional amount of time instead of making an uphill cell visibly snap.
+			tween.tween_property(pawn, "position", target, _pawn_step_duration(pawn.position, target))
 			await tween.finished
 		if generation != movement_generation: return
 		pawn_last_position = target
 		traveled_path.append(coord)
-		# Keep a small amount of the route in frame instead of locking the camera
-		# exactly to every footstep; this makes travelled distance immediately legible.
-		if index == 1 or index % 3 == 0 or index == path.size() - 1:
-			_follow_moving_pawn(target)
 		# Logical party position advances on the same discrete hex boundary that
 		# the pawn animation reaches.  The map simulation may then interrupt this
 		# route, but never reads tween progress or rendered Node3D coordinates.
 		ChapterMapProgressScript.mark_visited(map_state, [coord])
-		var proximity_changes := MapExplorationServiceScript.update_proximity(map_state, definition, coord)
-		if not proximity_changes.is_empty(): _refresh_state_visuals()
+		web_entity_projection_dirty = true
+		# Proximity state is authoritative immediately; its presentation is painted
+		# once at arrival instead of rebuilding every UI/mesh layer between footsteps.
+		MapExplorationServiceScript.update_proximity(map_state, definition, coord, grid)
 		var contacts := MapSimulationScript.contacts_at_party_coord(map_state, definition, grid, coord, _player_vision_radius())
 		if not contacts.is_empty():
 			_start_patrol_contact(str(contacts[0]), prior_coord)
@@ -4134,40 +5850,65 @@ func _move_along(path: Array[Vector2i]) -> void:
 	# freezes reported during ordinary three-cell movement.
 	await _stream_visible_tiles(arrival, false, true)
 	map_state.last_selected_node = str(selected_node.get("node_id", ""))
-	if not _arrival_resolution_owns_save(arrival):
-		SaveService.save_game()
 	moving = false
-	pawn_motion_state = "ARRIVE"
-	await get_tree().create_timer(0.06).timeout
-	pawn_motion_state = "IDLE"
+	movement_camera_follow_active = false
+	_begin_movement_camera_settle(pawn.global_position)
+	_set_pawn_motion_state("ARRIVE")
+	await get_tree().create_timer(PAWN_ARRIVE_HOLD_DURATION).timeout
+	_set_pawn_motion_state("IDLE")
 	active_movement_path.clear()
 	movement_skip_requested = false
 	var arrival_outcome := _resolve_arrival(traveled_path)
-	_rebuild_selected_preview()
-	_refresh_state_visuals()
 	if arrival_outcome == "STAY" and is_inside_tree():
-		_complete_player_turn("이동 완료")
+		if OS.has_feature("web") and not web_stage_entry_preload_complete:
+			# Schedule local marker hydration only when this screen actually remains
+			# the map owner. A treasure/battle arrival destroys the Web screen; the
+			# old ordering left a deferred builder targeting that retired SubViewport.
+			call_deferred("_build_map_content_visuals")
+		await _complete_player_turn("이동 완료")
 	# Do not snap to the destination after walking: the stepped follow camera has
 	# already kept the squad in view and retains surrounding terrain context.
 
 func _follow_moving_pawn(position: Vector3) -> void:
-	var follow_strength := clampf(float(SettingsService.values.get("map_camera_follow_strength", 0.72)), 0.0, 1.0)
-	var desired := position - Vector3(0.0, 0.46, 0.0)
-	var next_target := camera_target.lerp(desired, maxf(0.24, follow_strength * 0.58))
-	if movement_camera_tween != null and movement_camera_tween.is_valid():
-		movement_camera_tween.kill()
-	movement_camera_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	movement_camera_tween.tween_method(func(value: Vector3): camera_target = value, camera_target, next_target, 0.32)
+	# The camera follows one persistent goal in `_process()`. Killing and creating
+	# a SINE tween for every hex forced its velocity back to zero at every boundary
+	# and also pulled the look target below raised terrain.
+	movement_camera_goal = _pawn_camera_goal(position)
+	movement_camera_follow_active = true
+
+func _pawn_step_duration(from: Vector3, to: Vector3) -> float:
+	# Adjacent flat hexes are sqrt(3) * TILE_SIZE apart. Scaling the authored
+	# cadence by the actual 3D segment length keeps speed constant across cliffs.
+	var nominal_step_distance := maxf(0.001, sqrt(3.0) * TILE_SIZE)
+	var duration := PAWN_STEP_DURATION * from.distance_to(to) / nominal_step_distance
+	return clampf(duration, PAWN_STEP_DURATION * 0.82, PAWN_STEP_DURATION * 1.55)
+
+func _pawn_camera_goal(position: Vector3) -> Vector3:
+	# Pawn positions include the 0.14 contact lift. Track the underlying terrain
+	# height so the camera rises and falls with shelves without looking above feet.
+	return Vector3(position.x, position.y - 0.14, position.z)
+
+func _begin_movement_camera_settle(position: Vector3) -> void:
+	movement_camera_settle_from = camera_target
+	movement_camera_settle_goal = _clamp_camera_target_to_terrain(_pawn_camera_goal(position))
+	movement_camera_settle_elapsed = 0.0
+	movement_camera_settle_active = not movement_camera_settle_from.is_equal_approx(movement_camera_settle_goal)
 
 func _spawn_pawn_step_trail(position: Vector3) -> void:
+	# Creating and freeing a MeshInstance plus two Tweens for every crossed cell
+	# adds allocator/GC spikes in Web builds. The authored pawn atlas already
+	# communicates motion; keep this cosmetic trail on native targets only.
+	if OS.has_feature("web"):
+		return
 	var marker := MeshInstance3D.new()
-	var mesh := CylinderMesh.new()
-	mesh.top_radius = 0.13
-	mesh.bottom_radius = 0.20
-	mesh.height = 0.025
-	mesh.radial_segments = 6
-	marker.mesh = mesh
-	marker.material_override = _material(Color("4cd9d0"), Color("64fff0"))
+	if pawn_step_trail_mesh == null:
+		pawn_step_trail_mesh = CylinderMesh.new()
+		pawn_step_trail_mesh.top_radius = 0.13
+		pawn_step_trail_mesh.bottom_radius = 0.20
+		pawn_step_trail_mesh.height = 0.025
+		pawn_step_trail_mesh.radial_segments = 6
+	marker.mesh = pawn_step_trail_mesh
+	marker.material_override = _cached_material(Color("4cd9d0"), Color("64fff0"))
 	marker.position = position + Vector3(0.0, 0.035, 0.0)
 	world_root.add_child(marker)
 	pawn_step_trails.append(marker)
@@ -4188,9 +5929,9 @@ func skip_movement() -> void:
 func _resolve_arrival(path: Array[Vector2i]) -> String:
 	if path.is_empty(): return "STAY"
 	var arrival := path[-1]
-	var proximity_changes := MapExplorationServiceScript.update_proximity(map_state, definition, arrival)
-	if not proximity_changes.is_empty():
-		_refresh_state_visuals()
+	# Every crossed coordinate, including this final one, was resolved immediately
+	# in `_move_along()`. Repeating proximity here performed the same treasure/event
+	# scan twice on every successful route without changing authoritative state.
 	if not selected_treasure.is_empty() and arrival == Vector2i(int(selected_treasure.q), int(selected_treasure.r)):
 		var report := MapExplorationServiceScript.claim_treasure(map_state, definition, str(selected_treasure.treasure_id))
 		if report.ok:
@@ -4198,10 +5939,12 @@ func _resolve_arrival(path: Array[Vector2i]) -> String:
 			# that the player action still owes an enemy phase before changing screens;
 			# the returning map consumes it exactly once.
 			map_state[POST_REWARD_TURN_PENDING_KEY] = true
-			SaveService.save_game()
-			treasure_reward_requested.emit(report.value)
-			if is_inside_tree():
-				call_deferred("_resume_post_reward_turn")
+			var save_result := SaveService.save_game()
+			if not save_result.ok:
+				_present_treasure_save_failure(report.value, save_result.error)
+				return "TRANSITION"
+			turn_transitioning = true
+			call_deferred("_emit_treasure_reward_after_map_callback", report.value)
 			return "TRANSITION"
 	if not selected_relay.is_empty() and arrival == Vector2i(int(selected_relay.get("q", 0)), int(selected_relay.get("r", 0))):
 		_activate_selected_relay()
@@ -4228,6 +5971,66 @@ func _resolve_arrival(path: Array[Vector2i]) -> String:
 	map_state.last_pre_contact_hex = [return_coord.x, return_coord.y]
 	_start_patrol_contact(node_id, return_coord)
 	return "TRANSITION"
+
+func _emit_treasure_reward_after_map_callback(report: Dictionary) -> void:
+	if not is_inside_tree():
+		return
+	treasure_reward_requested.emit(report)
+
+func _present_treasure_save_failure(report: Dictionary, error_text: String) -> void:
+	turn_transitioning = true
+	map_simulation_paused = true
+	if treasure_save_failure_layer != null and is_instance_valid(treasure_save_failure_layer):
+		treasure_save_failure_layer.queue_free()
+	treasure_save_failure_layer = CanvasLayer.new()
+	treasure_save_failure_layer.name = "TreasureSaveFailureLayer"
+	treasure_save_failure_layer.layer = 450
+	add_child(treasure_save_failure_layer)
+	var surface := Control.new()
+	surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	surface.mouse_filter = Control.MOUSE_FILTER_STOP
+	surface.theme = theme
+	treasure_save_failure_layer.add_child(surface)
+	var dimmer := ColorRect.new()
+	dimmer.color = Color("020710e8")
+	dimmer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	dimmer.mouse_filter = Control.MOUSE_FILTER_STOP
+	surface.add_child(dimmer)
+	var panel := PanelContainer.new()
+	panel.anchor_left = 0.16
+	panel.anchor_right = 0.84
+	panel.anchor_top = 0.28
+	panel.anchor_bottom = 0.72
+	panel.add_theme_stylebox_override("panel", GameUI.panel_style(Color("081725fa"), Color("f1c75b"), 1, GameUI.RADIUS_MODAL, Vector4(30, 26, 30, 28), 16))
+	surface.add_child(panel)
+	var column := VBoxContainer.new()
+	column.alignment = BoxContainer.ALIGNMENT_CENTER
+	column.add_theme_constant_override("separation", 18)
+	panel.add_child(column)
+	var title := Label.new()
+	title.text = "TREASURE PROGRESS NOT SAVED"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 32)
+	title.add_theme_color_override("font_color", Color("f1c75b"))
+	column.add_child(title)
+	var detail := Label.new()
+	detail.text = "The reward is held in memory. Retry the save before continuing.\n%s" % error_text
+	detail.name = "TreasureSaveFailureDetail"
+	detail.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	detail.add_theme_font_size_override("font_size", 20)
+	detail.add_theme_color_override("font_color", GameUI.TEXT_MUTED)
+	column.add_child(detail)
+	column.add_child(_button("RETRY SAVE", func() -> void:
+		var retry_result := SaveService.save_game()
+		if retry_result.ok:
+			if treasure_save_failure_layer != null and is_instance_valid(treasure_save_failure_layer):
+				treasure_save_failure_layer.queue_free()
+			treasure_save_failure_layer = null
+			call_deferred("_emit_treasure_reward_after_map_callback", report)
+		else:
+			detail.text = "The reward is held in memory. Retry the save before continuing.\n%s" % retry_result.error
+	, Vector2(320, 70)))
 
 func _arrival_resolution_owns_save(arrival: Vector2i) -> bool:
 	# Avoid two complete Web filesystem transactions at the same destination.
@@ -4298,6 +6101,7 @@ func _fast_travel() -> void:
 		SaveService.save_game()
 		preview_path = [Vector2i(int(selected_relay.get("q", 0)), int(selected_relay.get("r", 0)))]
 		_update_route_mesh()
+		_update_movement_range_overlay()
 		_update_panel()
 		return
 	if selected_node.is_empty(): return
@@ -4305,12 +6109,14 @@ func _fast_travel() -> void:
 	if int(AppState.profile.stage_stars.get(stage_id, 0)) <= 0: return
 	AppState.set_chapter_map_position(Vector2i(int(selected_node.q), int(selected_node.r)), str(selected_node.node_id), map_id)
 	pawn.position = _pawn_world_position()
-	pawn_motion_state = "ARRIVE"
+	_begin_movement_camera_settle(pawn.global_position)
+	_set_pawn_motion_state("ARRIVE")
 	await get_tree().create_timer(0.04).timeout
-	pawn_motion_state = "IDLE"
+	_set_pawn_motion_state("IDLE")
 	SaveService.save_game()
 	preview_path = [Vector2i(int(selected_node.q), int(selected_node.r))]
 	_update_route_mesh()
+	_update_movement_range_overlay()
 	_update_panel()
 
 func _request_battle() -> void:
@@ -4336,6 +6142,48 @@ func _set_pawn_facing(from: Vector3, to: Vector3) -> void:
 	direction.y = 0.0
 	if direction.length_squared() < 0.0001: return
 	pawn.rotation.y = atan2(direction.x, direction.z)
+	# Billboard rotation cannot communicate left/right. Resolve facing in screen
+	# space and retain the previous side for near-vertical motion to prevent a
+	# distracting one-frame flip on steep/diagonal routes.
+	var horizontal_delta := direction.x
+	var vertical_threshold := maxf(0.06, direction.length() * 0.12)
+	if camera != null and is_instance_valid(camera) \
+			and not camera.is_position_behind(from) and not camera.is_position_behind(to):
+		var screen_delta := camera.unproject_position(to) - camera.unproject_position(from)
+		horizontal_delta = screen_delta.x
+		vertical_threshold = maxf(2.0, screen_delta.length() * 0.12)
+	if absf(horizontal_delta) <= vertical_threshold:
+		return
+	pawn_facing_right = horizontal_delta > 0.0
+	_apply_pawn_facing()
+
+func _apply_pawn_facing() -> void:
+	if pawn_sprite != null and is_instance_valid(pawn_sprite):
+		pawn_sprite.flip_h = not pawn_facing_right
+	if pawn_front_overlay != null and is_instance_valid(pawn_front_overlay):
+		pawn_front_overlay.flip_h = not pawn_facing_right
+
+func _set_pawn_motion_state(next_state: String) -> void:
+	# Each state owns a fresh epoch. Using raw process uptime as the atlas phase
+	# made every click begin on an arbitrary walk/victory frame.
+	pawn_motion_state = next_state
+	pawn_motion_epoch_msec = Time.get_ticks_msec()
+	pawn_motion_phase = 0.0
+	pawn_last_atlas_frame = -1
+	_set_pawn_grounding_terrace_walking(next_state == "WALK")
+
+func _set_pawn_grounding_terrace_walking(is_walking: bool) -> void:
+	if pawn_grounding_terrace == null or not is_instance_valid(pawn_grounding_terrace):
+		return
+	if is_walking:
+		# The socket belongs to a settled hex; carrying it between elevations reads
+		# as a floating platform. Keep the shadow/pedestal, hide only this terrace.
+		pawn_grounding_terrace.visible = false
+		return
+	var coord := _player_map_coord()
+	if grid.has(coord):
+		pawn_grounding_terrace.material_override = _material(_terrain_surface_color(grid.tile(coord)).lightened(0.05))
+	pawn_grounding_terrace.visible = true
 
 func _focus_current(immediate: bool) -> void:
 	_focus_coord(Vector2i(int(map_state.current_q), int(map_state.current_r)), immediate)
@@ -4345,7 +6193,7 @@ func _focus_coord(coord: Vector2i, immediate: bool) -> void:
 	if immediate or bool(SettingsService.values.get("map_instant_focus", false)):
 		# An immediate focus changes districts in one frame, so its local detail
 		# terrain must be ready before the camera is moved.
-		_stream_visible_tiles(coord, true)
+		_stream_visible_tiles(coord, stream_anchor != coord)
 		camera_target = _clamp_camera_target_to_terrain(next_target)
 	else:
 		# Do not evict the current district before this tween begins. _process()
@@ -4563,28 +6411,25 @@ func _select_node_near_screen(screen_position: Vector2, activate_route := false)
 		if activate_route:
 			_activate_selected_route_from_pointer()
 		return true
-	# A yellow movement cell is a first-class target. The old flow only looked
-	# for it on the *second* desktop click, so the initial click supplied neither
-	# a route nor a message and read as a blocked path. Preview immediately;
-	# keep the second click/touch confirmation contract for the actual move.
-	var reachable_coord := Vector2i(999999, 999999)
-	var reachable_distance := INF
+	# Pick the actual visible ground cell first, including blocked cells. Looking
+	# only through reachable cells snapped a click on a wall/river to the nearest
+	# yellow neighbour and made decorative barriers behave as walkable terrain.
 	var current := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
-	for key_value in movement_range_reachable.keys():
-		var coord := HexCoordScript.from_key(str(key_value))
-		if coord == current:
-			continue
-		var surface_y := float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.14
-		var projected := camera.unproject_position(HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y)) * surface_scale
-		var distance := projected.distance_to(screen_position)
-		if distance < reachable_distance:
-			reachable_distance = distance
-			reachable_coord = coord
+	var vision_radius := _player_vision_radius()
+	var ground_pick := _pick_ground_coord_from_screen(screen_position, surface_scale, current, vision_radius)
+	var ground_coord: Vector2i = ground_pick.get("coord", Vector2i(999999, 999999))
+	var ground_distance := float(ground_pick.get("distance", INF))
 	# The visible yellow hex is wider than the old desktop label hit radius.
 	# Keep portrait touch targets unchanged, while accepting the actual body of a
 	# desktop hex instead of requiring an artificial centre-pixel click.
-	var reachable_hit_radius := maxf(hit_radius, 58.0)
-	if reachable_distance <= reachable_hit_radius and _set_direct_hex_route(reachable_coord):
+	var ground_hit_radius := maxf(hit_radius, 58.0)
+	if ground_distance <= ground_hit_radius:
+		var ground_key := HexCoordScript.key(ground_coord)
+		if ground_coord == current or not movement_range_reachable.has(ground_key):
+			_show_map_notice("통행 불가 지형입니다 · 길과 열린 지형으로 이동하세요")
+			return true
+		if not _set_direct_hex_route(ground_coord):
+			return true
 		if activate_route:
 			_activate_selected_route_from_pointer()
 		else:
@@ -4592,25 +6437,97 @@ func _select_node_near_screen(screen_position: Vector2, activate_route := false)
 		return true
 	return false
 
+func _pick_ground_coord_from_screen(screen_position: Vector2, surface_scale: Vector2, current: Vector2i, vision_radius: int) -> Dictionary:
+	# The old picker projected every visible cell on every press/release. At a
+	# ten-cell sight radius that meant up to 441 Camera3D projections per pointer
+	# event and produced a repeatable ~80ms Web frame before movement even began.
+	# Invert the projection instead: intersect the camera ray with each possible
+	# terrain-height plane, then compare only the guessed hex and its six neighbours.
+	# This still sees blocked river/wall cells first, so it never snaps an invalid
+	# click onto a nearby yellow tile.
+	if is_zero_approx(surface_scale.x) or is_zero_approx(surface_scale.y):
+		return {}
+	var viewport_position := screen_position / surface_scale
+	var ray_origin := camera.project_ray_origin(viewport_position)
+	var ray_direction := camera.project_ray_normal(viewport_position)
+	if is_zero_approx(ray_direction.y):
+		return {}
+	var candidate_keys: Dictionary = {}
+	# Macro terrain currently occupies elevation levels 0..4. Include one plane
+	# below and above that authored range so legacy/repaired edge tiles remain
+	# selectable without falling back to a world-size scan.
+	for elevation_index in range(-1, 6):
+		var plane_y := float(elevation_index) * ELEVATION_STEP + 0.14
+		var ray_distance := (plane_y - ray_origin.y) / ray_direction.y
+		if ray_distance <= 0.0:
+			continue
+		var world_hit := ray_origin + ray_direction * ray_distance
+		var guessed := HexCoordScript.world_to_axial(world_hit, TILE_SIZE)
+		candidate_keys[HexCoordScript.key(guessed)] = guessed
+		for neighbor in HexCoordScript.neighbors(guessed):
+			candidate_keys[HexCoordScript.key(neighbor)] = neighbor
+	var closest_coord := Vector2i(999999, 999999)
+	var closest_distance := INF
+	for candidate_value in candidate_keys.values():
+		var coord: Vector2i = candidate_value
+		if HexCoordScript.distance(current, coord) > vision_radius or not grid.has(coord):
+			continue
+		var surface_y := float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.14
+		var world_position := HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y)
+		if camera.is_position_behind(world_position):
+			continue
+		var projected := camera.unproject_position(world_position) * surface_scale
+		var distance := projected.distance_to(screen_position)
+		if distance < closest_distance:
+			closest_distance = distance
+			closest_coord = coord
+	return {"coord": closest_coord, "distance": closest_distance}
+
 func _process(delta: float) -> void:
-	if camera == null: return
+	if camera == null or not is_instance_valid(camera) or viewport == null or not is_instance_valid(viewport):
+		return
+	_process_web_render_retire_queue()
+	# Never print one console line per slow Web frame. A single hitch used to start
+	# a feedback loop where DevTools transport and string formatting caused the
+	# following frame to miss its budget as well. WebSoakProbe already reports a
+	# bounded five-second aggregate with max/33/50/100 ms counters.
 	_process_pending_dressing()
-	_refresh_environment_presentation()
-	_sync_web_pawn_front_overlay()
+	if environment_fx != null and is_instance_valid(environment_fx):
+		_refresh_environment_presentation()
+	if moving and movement_camera_follow_active and pawn != null and is_instance_valid(pawn):
+		# Follow the pawn's continuous transform with a frame-rate-independent
+		# exponential response. This preserves velocity across hex boundaries and
+		# avoids allocating/interrupting a camera Tween for every single step.
+		movement_camera_goal = _pawn_camera_goal(pawn.global_position)
+		var follow_strength := clampf(float(SettingsService.values.get("map_camera_follow_strength", 0.72)), 0.0, 1.0)
+		var follow_rate := lerpf(5.5, 11.0, follow_strength)
+		var follow_weight := 1.0 - exp(-follow_rate * maxf(delta, 0.0))
+		camera_target = _clamp_camera_target_to_terrain(camera_target.lerp(movement_camera_goal, follow_weight))
+	elif movement_camera_settle_active:
+		# One bounded, allocation-free settle absorbs the follow lag after the final
+		# cell. It always reaches the exact elevated pawn target within 0.20 seconds.
+		movement_camera_settle_elapsed = minf(PAWN_CAMERA_SETTLE_DURATION, movement_camera_settle_elapsed + maxf(delta, 0.0))
+		var settle_ratio := movement_camera_settle_elapsed / PAWN_CAMERA_SETTLE_DURATION
+		var settle_weight := settle_ratio * settle_ratio * (3.0 - 2.0 * settle_ratio)
+		camera_target = _clamp_camera_target_to_terrain(movement_camera_settle_from.lerp(movement_camera_settle_goal, settle_weight))
+		if movement_camera_settle_elapsed >= PAWN_CAMERA_SETTLE_DURATION:
+			camera_target = movement_camera_settle_goal
+			movement_camera_settle_active = false
 	pawn_motion_phase += delta * (8.5 if pawn_motion_state == "WALK" else 3.0)
-	if pawn_visual != null:
+	if pawn_visual != null and is_instance_valid(pawn_visual):
 		# Motion is authored in the atlas. Moving/scaling the entire cutout would
 		# lift its foot anchor from the terrace and make the pawn look airborne.
 		pawn_visual.position.y = PAWN_VISUAL_BASE_Y
 		pawn_visual.scale = Vector3.ONE
-	if pawn_banner != null:
+	if pawn_banner != null and is_instance_valid(pawn_banner):
 		pawn_banner.rotation.y = sin(pawn_motion_phase * 0.5) * 0.14
-	if selected_ring != null and selected_ring.visible:
+	if selected_ring != null and is_instance_valid(selected_ring) and selected_ring.visible:
 		var pulse := 1.0 + sin(pawn_motion_phase * 1.4) * 0.08
 		selected_ring.scale = Vector3(pulse, 1.0, pulse)
+	var animation_now_msec := Time.get_ticks_msec()
 	for node_id in enemy_animation_packs:
 		var root: Node3D = enemy_pawns.get(node_id)
-		if root == null or not root.visible: continue
+		if root == null or not is_instance_valid(root) or not root.visible: continue
 		var pack: Dictionary = enemy_animation_packs[node_id]
 		var sprite: Sprite3D = null
 		for child in root.get_children():
@@ -4620,9 +6537,12 @@ func _process(delta: float) -> void:
 		if sprite == null or not sprite.texture is AtlasTexture: continue
 		var atlas_texture := sprite.texture as AtlasTexture
 		var frame_size: Vector2 = pack.get("frame_size", Vector2(104, 104))
-		var animation_name := "move" if Time.get_ticks_msec() < int(root.get_meta("patrol_motion_until_msec", 0)) else "idle"
-		var frame := _animation_frame(pack, animation_name, Time.get_ticks_msec())
-		atlas_texture.region = Rect2(float(frame % int(pack.get("columns", 1))) * frame_size.x, float(frame / int(pack.get("columns", 1))) * frame_size.y, frame_size.x, frame_size.y)
+		var animation_name := "move" if animation_now_msec < int(root.get_meta("patrol_motion_until_msec", 0)) else "idle"
+		var frame := _animation_frame(pack, animation_name, animation_now_msec)
+		var frame_token := "%s:%d" % [animation_name, frame]
+		if str(root.get_meta("last_atlas_frame_token", "")) != frame_token:
+			atlas_texture.region = Rect2(float(frame % int(pack.get("columns", 1))) * frame_size.x, float(frame / int(pack.get("columns", 1))) * frame_size.y, frame_size.x, frame_size.y)
+			root.set_meta("last_atlas_frame_token", frame_token)
 		for child in root.get_children():
 			if not child is Sprite3D or child == sprite:
 				continue
@@ -4632,84 +6552,112 @@ func _process(delta: float) -> void:
 			var secondary_pack: Dictionary = secondary_pack_value
 			var secondary_texture := (child as Sprite3D).texture as AtlasTexture
 			var secondary_size: Vector2 = secondary_pack.get("frame_size", Vector2(104, 104))
-			var secondary_frame := _animation_frame(secondary_pack, "idle", Time.get_ticks_msec() + int(child.get_meta("animation_phase_msec", 0)))
-			secondary_texture.region = Rect2(float(secondary_frame % int(secondary_pack.get("columns", 1))) * secondary_size.x, float(secondary_frame / int(secondary_pack.get("columns", 1))) * secondary_size.y, secondary_size.x, secondary_size.y)
+			var secondary_frame := _animation_frame(secondary_pack, "idle", animation_now_msec + int(child.get_meta("animation_phase_msec", 0)))
+			if int(child.get_meta("last_atlas_frame", -1)) != secondary_frame:
+				secondary_texture.region = Rect2(float(secondary_frame % int(secondary_pack.get("columns", 1))) * secondary_size.x, float(secondary_frame / int(secondary_pack.get("columns", 1))) * secondary_size.y, secondary_size.x, secondary_size.y)
+				child.set_meta("last_atlas_frame", secondary_frame)
 		if bool(root.get_meta("event_contact", false)):
 			var marker_phase := float(root.get_meta("event_marker_phase", 0.0))
 			var event_marker = root.get_meta("event_marker", null)
-			if event_marker is Label3D:
+			if event_marker is Label3D and is_instance_valid(event_marker):
 				(event_marker as Label3D).position.y = float(root.get_meta("event_marker_base_y", 1.0)) + sin(pawn_motion_phase * 1.7 + marker_phase) * 0.09
 			var event_ring = root.get_meta("threat_ring", null)
-			if event_ring is MeshInstance3D:
+			if event_ring is MeshInstance3D and is_instance_valid(event_ring):
 				var marker_pulse := 1.0 + sin(pawn_motion_phase * 1.35 + marker_phase) * 0.07
 				(event_ring as MeshInstance3D).scale = Vector3(marker_pulse, 1.0, marker_pulse)
-	if pawn_sprite != null and pawn_sprite.texture is AtlasTexture and not pawn_animation_pack.is_empty():
+	if pawn_sprite != null and is_instance_valid(pawn_sprite) and pawn_sprite.texture is AtlasTexture and not pawn_animation_pack.is_empty():
 		var leader_atlas := pawn_sprite.texture as AtlasTexture
 		var leader_frame_size: Vector2 = pawn_animation_pack.get("frame_size", Vector2(104, 104))
 		var leader_columns := maxi(1, int(pawn_animation_pack.get("columns", 1)))
 		var leader_animation := "move" if pawn_motion_state == "WALK" else ("victory" if pawn_motion_state == "ARRIVE" else "idle")
-		var leader_frame := _animation_frame(pawn_animation_pack, leader_animation, Time.get_ticks_msec())
-		leader_atlas.region = Rect2(float(leader_frame % leader_columns) * leader_frame_size.x, float(leader_frame / leader_columns) * leader_frame_size.y, leader_frame_size.x, leader_frame_size.y)
+		var leader_elapsed_msec := maxi(0, animation_now_msec - pawn_motion_epoch_msec)
+		var leader_frame := _animation_frame(pawn_animation_pack, leader_animation, leader_elapsed_msec)
+		var leader_frame_token := leader_frame + (["idle", "move", "victory"].find(leader_animation) + 1) * 10000
+		if pawn_last_atlas_frame != leader_frame_token:
+			leader_atlas.region = Rect2(float(leader_frame % leader_columns) * leader_frame_size.x, float(leader_frame / leader_columns) * leader_frame_size.y, leader_frame_size.x, leader_frame_size.y)
+			pawn_last_atlas_frame = leader_frame_token
 	for treasure_id in treasure_visuals:
 		var root: Node3D = treasure_visuals[treasure_id]
-		if root == null or not root.visible: continue
+		if root == null or not is_instance_valid(root) or not root.visible: continue
 		var glow = root.get_meta("glow", null)
-		if glow != null and glow.visible:
+		if glow != null and is_instance_valid(glow) and glow.visible:
 			var pulse := 1.0 + sin(pawn_motion_phase * 1.5 + float(treasure_id.hash() % 9)) * 0.08
 			glow.scale = Vector3(pulse, 1.0, pulse)
-	camera.size = 13.2 / camera_zoom
+	var desired_camera_size := 13.2 / camera_zoom
+	var desired_camera_position := camera_target + Vector3(9.2, 14.2, 8.8)
+	var camera_changed := not is_equal_approx(camera.size, desired_camera_size) or not camera.position.is_equal_approx(desired_camera_position)
+	if camera_changed:
+		camera.size = desired_camera_size
 	# A higher orthographic angle keeps a distant shelf or ridge from visually
 	# covering a valid route pawn while preserving the 2.5D chapter-map read.
 	# The simulation still owns X/Z; this only improves the production camera's
 	# depth separation of terrain, sockets and map pawns.
 	# The R8 camera is intentionally lower than the old tactical-board angle so
 	# cliff faces occupy enough screen space to communicate elevation.
-	camera.position = camera_target + Vector3(9.2, 14.2, 8.8)
-	camera.look_at(camera_target, Vector3.UP)
-	_update_screen_fog_overlay()
-	if environment_fx != null:
+		camera.position = desired_camera_position
+		camera.look_at(camera_target, Vector3.UP)
+	var projection_size_changed := overlay != null and is_instance_valid(overlay) and web_entity_projection_size != overlay.size
+	if camera_changed or moving or web_entity_projection_dirty or projection_size_changed:
+		_sync_web_pawn_front_overlay()
+	if OS.has_feature("web") and web_route_overlay != null and is_instance_valid(web_route_overlay) and web_route_overlay.visible:
+		_update_web_route_line()
+	if OS.has_feature("web") and web_selected_overlay != null and is_instance_valid(web_selected_overlay) and web_selected_overlay.visible:
+		_update_web_selected_ring()
+	if OS.has_feature("web") and web_movement_overlay != null and is_instance_valid(web_movement_overlay) and web_movement_overlay.visible:
+		_update_web_movement_range_projection()
+	if camera_changed or moving or web_entity_projection_dirty or projection_size_changed:
+		_update_screen_fog_overlay()
+	if environment_fx != null and is_instance_valid(environment_fx) and camera_changed:
 		environment_fx.set_camera_phase(camera_target)
 	var camera_coord := HexCoordScript.world_to_axial(camera_target, TILE_SIZE)
 	if not moving and not turn_transitioning:
 		_stream_visible_tiles(camera_coord)
 	# Rendering is streamed, but patrol state never is: offscreen hostiles retain
 	# only their tiny logical state and wake visually when the camera returns.
+	# Web transit keeps labels hidden and refreshes them once on arrival. Repeating
+	# the whole node projection loop for every camera sub-step was one of the last
+	# sources of movement-frame spikes and made BGM underruns more noticeable.
+	var entity_projection_changed := not OS.has_feature("web") \
+		or projection_size_changed \
+		or (not moving and (camera_changed or web_entity_projection_dirty))
+	if entity_projection_changed:
+		_refresh_projected_map_entities(camera_coord)
+		web_entity_projection_dirty = false
+		if overlay != null and is_instance_valid(overlay):
+			web_entity_projection_size = overlay.size
+
+func _refresh_projected_map_entities(camera_coord: Vector2i) -> void:
+	# Visibility and label projection depend on camera/player/layout state, not on
+	# every idle frame. Compatibility Web previously repeated these world-to-screen
+	# conversions for every authored operation even while absolutely nothing moved.
+	if camera == null or not is_instance_valid(camera) or overlay == null or not is_instance_valid(overlay):
+		return
 	for node_id in enemy_pawns:
 		var root: Node3D = enemy_pawns[node_id]
 		var node := ChapterMapLoaderScript.node_by_id(definition, str(node_id))
-		if root == null or node.is_empty(): continue
+		if root == null or not is_instance_valid(root) or node.is_empty(): continue
 		var stage_id := str(node.get("stage_id", ""))
 		var unlocked := stage_id != "" and AppState.is_stage_unlocked(stage_id)
-		var cleared := MapExplorationServiceScript.encounter_cleared(map_state, str(node_id)) or int(AppState.profile.stage_stars.get(stage_id, 0)) > 0
+		var cleared := _node_encounter_cleared(node)
 		var encounter_coord := _encounter_coord(node)
 		root.visible = unlocked and not cleared and _coord_is_in_player_vision(encounter_coord) and _map_entity_is_locally_renderable(encounter_coord, camera_coord, STREAM_RADIUS + 2) and (not stage_id.contains("-H") or hard_overlay)
-	# The render target grows on responsive layouts.  Scaling node controls from
-	# the original 1280×720 constant displaced labels from their actual 3D
-	# encounter markers after a resize; use the live SubViewport size instead.
 	var runtime_size := _runtime_layout_size()
 	var portrait := runtime_size.y > runtime_size.x
 	var ui_scale := _portrait_ui_scale(runtime_size)
 	var navigation_reveal := _path_reveal_allowlist()
 	for node in definition.get("nodes", []):
 		var button: Button = node_buttons.get(str(node.node_id))
-		if button == null: continue
+		if button == null or not is_instance_valid(button): continue
 		var stage_id := str(node.get("stage_id", ""))
 		var revealed: bool = navigation_reveal.has("%d,%d" % [int(node.get("q", 0)), int(node.get("r", 0))])
 		var unlocked := stage_id == "" or AppState.is_stage_unlocked(stage_id)
 		var node_coord := _encounter_coord(node)
 		var semantic_visible: bool = bool(_coord_is_in_player_vision(node_coord) and (revealed or (not stage_id.is_empty() and unlocked)) and (stage_id == "" or hard_overlay == stage_id.contains("-H")))
-		# A world-space encounter label is permitted only when its associated
-		# streamed terrain cap is present and visible.  This keeps both the label
-		# and the enemy pawn attached to real local ground at long-map boundaries.
-		# Do not let the orthographic camera project a distant marker into the
-		# middle of the current district.  The streamed tile radius is the render
-		# authority, so labels outside its interior remain on the minimap until the
-		# player focuses or travels to that district.
 		var label_in_local_stream: bool = HexCoordScript.distance(node_coord, camera_coord) <= STREAM_RADIUS - 2
 		var anchor := _node_overlay_anchor(node)
 		button.visible = semantic_visible and label_in_local_stream and _has_streamed_ground(node_coord) and _overlay_anchor_is_visible(anchor, button.size)
 		var stage_marker: Node3D = node_markers.get(str(node.get("node_id", "")))
-		if stage_marker != null:
+		if stage_marker != null and is_instance_valid(stage_marker):
 			stage_marker.visible = button.visible
 		if not button.visible: continue
 		var projected := _overlay_position_from_world(anchor)
@@ -4717,7 +6665,7 @@ func _process(delta: float) -> void:
 		button.position = projected - button.size * 0.5 + label_offset
 
 func _refresh_environment_presentation() -> void:
-	if environment_fx == null:
+	if environment_fx == null or not is_instance_valid(environment_fx):
 		return
 	# Environment is a derived, transient grade based on canonical axial
 	# position. It never writes that coordinate, its save payload or simulation.

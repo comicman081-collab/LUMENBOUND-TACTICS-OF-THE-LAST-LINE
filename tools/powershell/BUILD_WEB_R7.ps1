@@ -9,8 +9,11 @@ $godot = Find-Godot471
 Set-ProjectGodotUserPaths $root
 Copy-GodotWebTemplatesToProjectProfile $root
 $runtimeCombatBuilder = Join-Path $root 'tools\web\build_runtime_combat_packs.py'
+$runtimeImportConfigurator = Join-Path $root 'tools\web\configure_runtime_web_imports.py'
 if (-not (Test-Path -LiteralPath $runtimeCombatBuilder -PathType Leaf)) { throw "Runtime combat pack builder missing: $runtimeCombatBuilder" }
+if (-not (Test-Path -LiteralPath $runtimeImportConfigurator -PathType Leaf)) { throw "Runtime Web import configurator missing: $runtimeImportConfigurator" }
 Invoke-Checked 'python' @($runtimeCombatBuilder)
+Invoke-Checked 'python' @($runtimeImportConfigurator)
 
 if ($Tag -notmatch '^[a-z0-9_]+$') { throw "Invalid Web build tag: $Tag" }
 $development = Join-Path $root "builds\web_${Tag}_development"
@@ -66,6 +69,27 @@ function ConvertTo-HashedR7RuntimeArtifacts([string]$Directory) {
     if ($html -notmatch [regex]::Escape($engineBootstrap)) { throw 'Failed to add the compatible Godot Web bootstrap.' }
     $html = $html.Replace('const missing = Engine.getMissingFeatures({', 'const missing = GameEngine.getMissingFeatures({')
     Set-Content -LiteralPath $htmlPath -Value $html -Encoding UTF8
+
+    # Godot derives AudioWorklet URLs from GODOT_CONFIG.executable.  Only the
+    # large PCK/WASM pair is content-hashed here; the exported worklet files keep
+    # their stable index.* names.  Without this mapping every cold start first
+    # requests two nonexistent r7_current_<hash>.audio.* files and logs an
+    # AbortError before falling back.
+    $loaderPath = Join-Path $Directory 'index.js'
+    $loader = Get-Content -LiteralPath $loaderPath -Raw
+    $audioWorkletOld = 'return `${loadPath}.audio.worklet.js`;'
+    $audioWorkletNew = 'return "index.audio.worklet.js";'
+    $positionWorkletOld = 'return `${loadPath}.audio.position.worklet.js`;'
+    $positionWorkletNew = 'return "index.audio.position.worklet.js";'
+    if (-not $loader.Contains($audioWorkletOld) -or -not $loader.Contains($positionWorkletOld)) {
+        throw 'Godot Web loader no longer matches the AudioWorklet URL contract.'
+    }
+    $loader = $loader.Replace($audioWorkletOld, $audioWorkletNew)
+    $loader = $loader.Replace($positionWorkletOld, $positionWorkletNew)
+    if ($loader.Contains($audioWorkletOld) -or $loader.Contains($positionWorkletOld)) {
+        throw 'Failed to pin stable AudioWorklet URLs in the hashed R7 runtime.'
+    }
+    Set-Content -LiteralPath $loaderPath -Value $loader -Encoding UTF8
 
     $workerPath = Join-Path $Directory 'index.service.worker.js'
     $worker = Get-Content -LiteralPath $workerPath -Raw

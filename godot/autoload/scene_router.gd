@@ -9,7 +9,24 @@ static func screen_allowed(screen_id: String, developer_mode: bool) -> bool:
 func go(screen_id: String, payload: Dictionary = {}) -> void:
 	var target_screen := screen_id if screen_allowed(screen_id, SettingsService.is_developer_mode()) else "HOME"
 	var target_payload := payload if target_screen == screen_id else {}
-	if current_screen != target_screen:
+	# RESULT is a terminal owner for the finished battle. Returning to its map or
+	# relay must consume both the disposable BATTLE entry and the earlier target
+	# entry, otherwise Back immediately reopens the completed RESULT screen and
+	# traps the player in a RESULT <-> map loop.
+	var is_result_return := current_screen == "RESULT" and bool(target_payload.get("result_return", false))
+	# A completed story returns to the caller that is already at the top of the
+	# history stack. Treating that return like a new forward navigation leaves
+	# STORY behind the destination and creates a STORY <-> map Back-button loop.
+	var is_story_return := current_screen == "STORY" and bool(target_payload.get("story_return", false))
+	if is_result_return:
+		while not history.is_empty() and history.back() in ["BATTLE", "RESULT"]:
+			history.pop_back()
+		if not history.is_empty() and history.back() == target_screen:
+			history.pop_back()
+	elif is_story_return:
+		if not history.is_empty() and history.back() == target_screen:
+			history.pop_back()
+	elif current_screen != target_screen:
 		history.append(current_screen)
 	current_screen = target_screen
 	AppState.route_payload = target_payload

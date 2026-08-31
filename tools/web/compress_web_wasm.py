@@ -3,8 +3,11 @@
 The Sites connector limits each uploaded member to 25 MiB. Godot's standard
 WASM template is larger than that, so the build keeps the stable `.wasm` name
 but stores gzip bytes and adds a tiny DecompressionStream path to the generated
-loader. This is build-time packaging only; the browser still receives a normal
-WASM Response before WebAssembly instantiation.
+loader. The decoded stream is fully materialized before Godot clones it for
+progress tracking and instantiation; forwarding the live decompression stream
+through that clone chain can expose the gzip header to `instantiateStreaming`
+in Chromium. This is build-time packaging only; the browser still receives a
+normal WASM Response before WebAssembly instantiation.
 """
 from __future__ import annotations
 
@@ -18,7 +21,9 @@ LOADER_NEEDLE = "return fetch(file).then(function (response) {"
 LOADER_PATCH = """return fetch(file).then(async function (response) {
 \t\t\tif (file.endsWith('.wasm') && response.ok) {
 \t\t\t\tif (typeof DecompressionStream !== 'undefined') {
-\t\t\t\t\tconst decoded = response.body.pipeThrough(new DecompressionStream('gzip'));
+\t\t\t\t\tconst decoded = await new Response(
+\t\t\t\t\t\tresponse.body.pipeThrough(new DecompressionStream('gzip'))
+\t\t\t\t\t).arrayBuffer();
 \t\t\t\t\tresponse = new Response(decoded, {status: response.status, headers: {'content-type': 'application/wasm'}});
 \t\t\t\t} else if (globalThis.pako?.ungzip) {
 \t\t\t\t\tconst decoded = globalThis.pako.ungzip(new Uint8Array(await response.arrayBuffer()));
@@ -43,7 +48,7 @@ EMSCRIPTEN_INSTANTIATE_PATCH = (
     'var response=await fetch(binaryFile,{credentials:"same-origin"});'
     'if(/\\.wasm(?:[?#]|$)/.test(binaryFile)&&response.ok){'
     'if(typeof DecompressionStream!=="undefined"){'
-    'const decoded=response.body.pipeThrough(new DecompressionStream("gzip"));'
+    'const decoded=await new Response(response.body.pipeThrough(new DecompressionStream("gzip"))).arrayBuffer();'
     'response=new Response(decoded,{status:response.status,headers:{"content-type":"application/wasm"}});'
     '}else if(globalThis.pako?.ungzip){'
     'const decoded=globalThis.pako.ungzip(new Uint8Array(await response.arrayBuffer()));'

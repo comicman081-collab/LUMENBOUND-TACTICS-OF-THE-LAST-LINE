@@ -6,6 +6,7 @@ const GrowthAnalyzerScript := preload("res://progression/growth_affordability_an
 const MapSimulationScript := preload("res://chapter_map/model/map_simulation.gd")
 const BASE_PLAYER_VISION_RADIUS := 8
 const INITIAL_PLAYER_MOVE_POINTS := 3
+const INITIAL_MOVEMENT_REPAIR_REVISION := 1
 
 static func ensure_state(state: Dictionary, definition: Dictionary, grid = null) -> bool:
 	var changed := false
@@ -119,6 +120,26 @@ static func ensure_state(state: Dictionary, definition: Dictionary, grid = null)
 		if prior_movement_max <= 0 or (int(state.get("exploration_pulse", 0)) == 0 and int(state.movement_points) >= prior_movement_max):
 			state.movement_points = movement_max
 		changed = true
+	# A short-lived Web deployment persisted `1/3` on an otherwise untouched
+	# starting map. Repair only that unmistakable initial state; an ordinary
+	# in-progress turn at 1/3 keeps its exact remaining movement.
+	if int(state.get("initial_movement_repair_revision", 0)) < INITIAL_MOVEMENT_REPAIR_REVISION:
+		var start: Dictionary = definition.get("start_hex", {"q": 0, "r": 0})
+		var start_coord := Vector2i(int(start.get("q", 0)), int(start.get("r", 0)))
+		var current_coord := Vector2i(int(state.get("current_q", 0)), int(state.get("current_r", 0)))
+		var visited: Array = state.get("visited_tiles", [])
+		var untouched_start: bool = current_coord == start_coord \
+			and visited.size() <= 1 \
+			and (visited.is_empty() or visited.has(HexCoordScript.key(start_coord))) \
+			and int(state.get("exploration_pulse", 0)) == 0 \
+			and int(state.get("map_simulation_state", {}).get("tick", 0)) == 0 \
+			and state.get("cleared_nodes", []).is_empty() \
+			and state.get("cleared_encounters", []).is_empty()
+		if untouched_start and int(state.get("movement_points", 0)) < movement_max:
+			state.movement_points_max = movement_max
+			state.movement_points = movement_max
+		state.initial_movement_repair_revision = INITIAL_MOVEMENT_REPAIR_REVISION
+		changed = true
 	if MapSimulationScript.ensure_state(state, definition, grid):
 		changed = true
 	return changed
@@ -143,8 +164,41 @@ static func player_vision_radius(profile: Dictionary, definition: Dictionary) ->
 	# Every permanent movement-capacity increase reveals exactly one extra ring.
 	return BASE_PLAYER_VISION_RADIUS + maxi(0, movement_capacity(profile, definition) - INITIAL_PLAYER_MOVE_POINTS)
 
-static func refill_movement(state: Dictionary, definition: Dictionary) -> void:
-	ensure_state(state, definition)
+static func _movement_state_initialized(state: Dictionary) -> bool:
+	# Movement/UI hot paths run many times per click and once per crossed hex. A
+	# canonical live map already owns these fields; rebuilding a validation
+	# HexGrid just to read or decrement one integer blocks the Web main thread.
+	if not state.has("movement_points") \
+		or not state.has("movement_points_max") \
+		or not state.has("exploration_pulse") \
+		or int(state.get("initial_movement_repair_revision", 0)) < INITIAL_MOVEMENT_REPAIR_REVISION:
+		return false
+	var maximum := int(state.get("movement_points_max", 0))
+	var remaining := int(state.get("movement_points", -1))
+	return maximum > 0 and remaining >= 0 and remaining <= maximum
+
+static func _proximity_state_initialized(state: Dictionary, definition: Dictionary) -> bool:
+	if not state.has("treasure_states") \
+		or not state.has("revealed_treasures") \
+		or not state.has("claimed_treasures") \
+		or not state.has("map_event_states") \
+		or not state.has("exploration_completion"):
+		return false
+	for treasure_value in definition.get("treasures", []):
+		var treasure: Dictionary = treasure_value
+		var treasure_id := str(treasure.get("treasure_id", ""))
+		if not treasure_id.is_empty() and not state.treasure_states.has(treasure_id):
+			return false
+	for event_value in definition.get("map_events", []):
+		var event: Dictionary = event_value
+		var event_id := str(event.get("event_id", ""))
+		if not event_id.is_empty() and not state.map_event_states.has(event_id):
+			return false
+	return true
+
+static func refill_movement(state: Dictionary, definition: Dictionary, grid = null) -> void:
+	if not _movement_state_initialized(state):
+		ensure_state(state, definition, grid)
 	state.exploration_pulse = int(state.get("exploration_pulse", 0)) + 1
 	state.movement_points_max = movement_capacity(AppState.profile, definition)
 	state.movement_points = int(state.movement_points_max)
@@ -159,7 +213,7 @@ static func complete_player_move_turn(state: Dictionary, definition: Dictionary,
 	# One player action owns one enemy action. The former WAIT helper expanded one
 	# turn into several ticks and let enemies move repeatedly behind one caption.
 	var update: Dictionary = MapSimulationScript.advance_ticks(state, definition, grid, party_coord, 1, player_vision_radius(AppState.profile, definition))
-	refill_movement(state, definition)
+	refill_movement(state, definition, grid)
 	update.tick_before = tick_before
 	update.tick_after = int(state.get("map_simulation_state", {}).get("tick", 0))
 	update.pulse_before = pulse_before
@@ -167,15 +221,20 @@ static func complete_player_move_turn(state: Dictionary, definition: Dictionary,
 	update.movement_points = int(state.get("movement_points", 0))
 	return update
 
-static func spend_movement(state: Dictionary, definition: Dictionary, steps: int) -> bool:
-	ensure_state(state, definition)
+static func spend_movement(state: Dictionary, definition: Dictionary, steps: int, grid = null) -> bool:
+	if not _movement_state_initialized(state):
+		ensure_state(state, definition, grid)
 	if steps <= 0 or int(state.get("movement_points", 0)) < steps:
 		return false
 	state.movement_points = int(state.movement_points) - steps
 	return true
 
-static func movement_remaining(state: Dictionary, definition: Dictionary) -> int:
-	ensure_state(state, definition)
+static func movement_remaining(state: Dictionary, definition: Dictionary, grid = null) -> int:
+	# Once migration has initialized movement, this is deliberately a pure getter.
+	# Legacy/malformed payloads still take the canonical repair path exactly once.
+	if _movement_state_initialized(state):
+		return int(state.get("movement_points", 0))
+	ensure_state(state, definition, grid)
 	return int(state.get("movement_points", 0))
 
 static func event_encounter_for_node(definition: Dictionary, node_id: String) -> Dictionary:
@@ -307,8 +366,9 @@ static func mark_encounter_cleared(state: Dictionary, node_id: String) -> void:
 		state.cleared_nodes.append(node_id)
 	state.encounter_states[node_id] = "CLEARED"
 
-static func update_hidden_proximity(state: Dictionary, definition: Dictionary, current: Vector2i) -> Array[String]:
-	ensure_state(state, definition)
+static func update_hidden_proximity(state: Dictionary, definition: Dictionary, current: Vector2i, grid = null) -> Array[String]:
+	if not _proximity_state_initialized(state, definition):
+		ensure_state(state, definition, grid)
 	var changed: Array[String] = []
 	for treasure in definition.get("treasures", []):
 		if str(treasure.get("visibility", "VISIBLE")) != "HIDDEN":
@@ -350,11 +410,11 @@ static func claim_treasure(state: Dictionary, definition: Dictionary, treasure_i
 		return GameResult.failure("TREASURE_NOT_REVEALED")
 	if state.claimed_treasures.has(treasure_id):
 		return GameResult.failure("TREASURE_ALREADY_CLAIMED")
-	var pre_profile := AppState.profile.duplicate(true)
+	var pre_profile := _growth_profile_snapshot()
 	var rewards: Dictionary = RewardService.resolve_direct(treasure.get("rewards", {}))
 	state.treasure_states[treasure_id] = "CLAIMED"
 	state.claimed_treasures.append(treasure_id)
-	var post_profile := AppState.profile.duplicate(true)
+	var post_profile := _growth_profile_snapshot()
 	return GameResult.success({
 		"source_type": "TREASURE",
 		"source_id": treasure_id,
@@ -397,8 +457,9 @@ static func can_fast_travel_between(state: Dictionary, definition: Dictionary, o
 	# relay can never expose a future region as a progression bypass.
 	return state.get("visited_tiles", []).has(HexCoordScript.key(Vector2i(int(destination.get("q", 0)), int(destination.get("r", 0)))))
 
-static func discover_event(state: Dictionary, definition: Dictionary, event_id: String) -> bool:
-	ensure_state(state, definition)
+static func discover_event(state: Dictionary, definition: Dictionary, event_id: String, grid = null) -> bool:
+	if not _proximity_state_initialized(state, definition):
+		ensure_state(state, definition, grid)
 	if _event(definition, event_id).is_empty() or str(state.map_event_states.get(event_id, "UNDISCOVERED")) != "UNDISCOVERED":
 		return false
 	state.map_event_states[event_id] = "DISCOVERED"
@@ -422,7 +483,7 @@ static func resolve_event(state: Dictionary, definition: Dictionary, event_id: S
 			break
 	if choice.is_empty():
 		return GameResult.failure("UNKNOWN_EVENT_CHOICE")
-	var pre_profile := AppState.profile.duplicate(true)
+	var pre_profile := _growth_profile_snapshot()
 	var rewards: Dictionary = RewardService.resolve_direct(choice.get("rewards", {}))
 	state.map_event_states[event_id] = "RESOLVED"
 	var effects: Dictionary = choice.get("effects", {})
@@ -437,7 +498,7 @@ static func resolve_event(state: Dictionary, definition: Dictionary, event_id: S
 	if intel_id != "":
 		state.intel_states[intel_id] = "DISCOVERED"
 	_update_completion(state, definition)
-	var post_profile := AppState.profile.duplicate(true)
+	var post_profile := _growth_profile_snapshot()
 	return GameResult.success({
 		"source_type": "MAP_EVENT", "source_id": event_id, "choice_id": choice_id,
 		"rewards": rewards, "pre_inventory": pre_profile.get("inventory", {}).duplicate(true),
@@ -445,14 +506,26 @@ static func resolve_event(state: Dictionary, definition: Dictionary, event_id: S
 		"growth": GrowthAnalyzerScript.analyze(pre_profile, post_profile),
 	})
 
-static func update_proximity(state: Dictionary, definition: Dictionary, current: Vector2i) -> Array[String]:
-	var changed := update_hidden_proximity(state, definition, current)
+static func _growth_profile_snapshot() -> Dictionary:
+	# Growth affordability reads only these four branches. Excluding chapter-map
+	# traversal/patrol/fog state prevents treasure and map-event pickups from
+	# cloning the expanded world twice before opening the result screen.
+	var source: Dictionary = AppState.profile
+	return {
+		"account": source.get("account", {}).duplicate(true),
+		"inventory": source.get("inventory", {}).duplicate(true),
+		"roster": source.get("roster", {}).duplicate(true),
+		"weapons": source.get("weapons", {}).duplicate(true),
+	}
+
+static func update_proximity(state: Dictionary, definition: Dictionary, current: Vector2i, grid = null) -> Array[String]:
+	var changed := update_hidden_proximity(state, definition, current, grid)
 	for event in definition.get("map_events", []):
 		var event_id := str(event.get("event_id", ""))
 		if event_id == "" or event_state(state, event_id) != "UNDISCOVERED":
 			continue
 		if HexCoordScript.distance(current, Vector2i(int(event.get("q", 0)), int(event.get("r", 0)))) <= int(event.get("discover_radius", 1)):
-			if discover_event(state, definition, event_id):
+			if discover_event(state, definition, event_id, grid):
 				changed.append(event_id)
 	_update_completion(state, definition)
 	return changed

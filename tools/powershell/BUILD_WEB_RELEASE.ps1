@@ -11,15 +11,18 @@ Copy-GodotWebTemplatesToProjectProfile $root
 
 $dataGenerator = Join-Path $root 'tools\generate_data.py'
 $runtimeBuilder = Join-Path $root 'tools\web\build_runtime_combat_packs.py'
+$runtimeImportConfigurator = Join-Path $root 'tools\web\configure_runtime_web_imports.py'
 $staticValidator = Join-Path $root 'tools\validate_static.py'
 $audioBuilder = Join-Path $root 'tools\audio\build_audio_pack.py'
 if (-not (Test-Path -LiteralPath $dataGenerator -PathType Leaf)) { throw "Data generator missing: $dataGenerator" }
 if (-not (Test-Path -LiteralPath $runtimeBuilder -PathType Leaf)) { throw "Runtime combat pack builder missing: $runtimeBuilder" }
+if (-not (Test-Path -LiteralPath $runtimeImportConfigurator -PathType Leaf)) { throw "Runtime Web import configurator missing: $runtimeImportConfigurator" }
 if (-not (Test-Path -LiteralPath $staticValidator -PathType Leaf)) { throw "Static validator missing: $staticValidator" }
 if (-not (Test-Path -LiteralPath $audioBuilder -PathType Leaf)) { throw "Audio builder missing: $audioBuilder" }
 Invoke-Checked $python @($audioBuilder)
 Invoke-Checked $python @($dataGenerator)
 Invoke-Checked $python @($runtimeBuilder)
+Invoke-Checked $python @($runtimeImportConfigurator)
 Invoke-Checked $python @($staticValidator)
 
 $buildRoot = [IO.Path]::GetFullPath((Join-Path $root 'builds'))

@@ -13,11 +13,12 @@ const SOAK_SANDBOX_SAVE_PATH := "user://r15_soak_sandbox/save_v1.json"
 const SOAK_SANDBOX_BACKUP_PATH := "user://r15_soak_sandbox/save_v1.backup.json"
 const SOAK_SANDBOX_TEMP_PATH := "user://r15_soak_sandbox/save_v1.tmp.json"
 
-# The Web soak harness is opt-in and deliberately uses its own user:// tree.
-# It must never load, migrate, overwrite, back up, hash, or reset the user's
-# production save files.  The query flag is read only in Web builds.
+# Automated Web QA and the soak harness deliberately use their own user://
+# trees. They must never load, migrate, overwrite, back up, hash, or reset the
+# player's production save files. Query flags are read only in Web builds.
 var soak_sandbox_enabled := false
 var soak_sandbox_session := "default"
+var deferred_save_generation := 0
 var soak_sandbox_audit := {
 	"sandbox_active": false,
 	"sandbox_session": "default",
@@ -95,16 +96,35 @@ func _detect_web_soak_sandbox() -> bool:
 	# and headless execution while keeping URL parsing out of gameplay systems.
 	# Godot's Web bridge marshals URLSearchParams results reliably as strings;
 	# a JavaScript boolean can otherwise arrive as a non-bool Variant.
-	var value = JavaScriptBridge.eval("new URLSearchParams(window.location.search).get('r15-save-sandbox')", true)
+	var value = JavaScriptBridge.eval("(() => { const p = new URLSearchParams(window.location.search); return p.get('r15-save-sandbox') === '1' || (p.get('qa') || '').length > 0 ? '1' : '0'; })()", true)
 	return str(value) == "1"
 
 func _detect_web_soak_sandbox_session() -> String:
 	if not OS.has_feature("web") or not soak_sandbox_enabled:
 		return "default"
-	var value = JavaScriptBridge.eval("new URLSearchParams(window.location.search).get('r15-save-sandbox-session')", true)
+	var value = JavaScriptBridge.eval("(() => { const p = new URLSearchParams(window.location.search); return p.get('r15-save-sandbox-session') || p.get('qa') || 'default'; })()", true)
 	return sanitize_sandbox_session(value)
 
+func request_save_game(delay_seconds := 0.9) -> void:
+	# Ordinary exploration turns can occur in quick succession. Coalesce them and
+	# move the synchronous Web filesystem/checksum work away from pawn arrival,
+	# enemy movement and yellow-range regeneration. Transaction boundaries such as
+	# battle entry and rewards still call save_game() directly.
+	deferred_save_generation += 1
+	var generation := deferred_save_generation
+	_flush_requested_save(generation, maxf(0.0, delay_seconds))
+
+func _flush_requested_save(generation: int, delay_seconds: float) -> void:
+	if delay_seconds > 0.0:
+		await get_tree().create_timer(delay_seconds, true, false, true).timeout
+	if generation != deferred_save_generation:
+		return
+	save_game()
+
 func save_game() -> GameResult:
+	# Any immediate transactional save supersedes an older idle request.
+	deferred_save_generation += 1
+	var save_started_usec := Time.get_ticks_usec()
 	if not _ensure_active_save_directory():
 		return _finish(false, "save sandbox directory could not be created")
 	var paths := _active_paths("write")
@@ -112,20 +132,30 @@ func save_game() -> GameResult:
 	var backup_path := str(paths.backup)
 	var temp_path := str(paths.temp)
 	AppState.profile.settings = SettingsService.persisted_values()
-	var payload: Dictionary = AppState.profile.duplicate(true)
+	# Only the top-level dictionary is mutated below. A recursive duplicate made
+	# every ordinary map step clone the complete profile before the checksum pass
+	# immediately traversed the same data again.
+	var payload: Dictionary = AppState.profile.duplicate(false)
 	payload.erase("checksum")
 	var checksum := _checksum_for(payload)
 	payload["checksum"] = checksum
-	var encoded := JSON.stringify(payload, "  ")
+	# Saves are machine-owned. Pretty printing adds bytes and a second large
+	# allocation without improving recovery or compatibility.
+	var encoded := JSON.stringify(payload)
 	var temp := FileAccess.open(temp_path, FileAccess.WRITE)
 	if temp == null:
 		return _finish(false, "temporary save could not be opened")
 	temp.store_string(encoded)
 	temp.flush()
 	temp.close()
-	var verified := _read_valid(temp_path)
-	if not verified.ok:
-		return _finish(false, "temporary save verification failed: %s" % verified.error)
+	# Desktop keeps the defensive read-back. Browser FileAccess is synchronous on
+	# the main thread; parsing and canonicalising the just-written payload again
+	# starved both frames and the WebAudio pump. The atomic temp-file rename and
+	# checksum used by load_game remain unchanged.
+	if not OS.has_feature("web"):
+		var verified := _read_valid(temp_path)
+		if not verified.ok:
+			return _finish(false, "temporary save verification failed: %s" % verified.error)
 	var save_abs := ProjectSettings.globalize_path(save_path)
 	var backup_abs := ProjectSettings.globalize_path(backup_path)
 	var temp_abs := ProjectSettings.globalize_path(temp_path)
@@ -137,6 +167,10 @@ func save_game() -> GameResult:
 	var rename_error := DirAccess.rename_absolute(temp_abs, save_abs)
 	if rename_error != OK:
 		return _finish(false, "atomic rename failed: %s" % error_string(rename_error))
+	if OS.has_feature("web") and SettingsService.is_developer_mode():
+		var elapsed_msec := float(Time.get_ticks_usec() - save_started_usec) / 1000.0
+		if elapsed_msec >= 16.0:
+			print("WEB_LONG_TASK save_game %.2fms bytes=%d" % [elapsed_msec, encoded.length()])
 	return _finish(true, "saved")
 
 func load_game() -> GameResult:

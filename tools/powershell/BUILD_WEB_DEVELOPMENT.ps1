@@ -3,10 +3,13 @@ $root = Get-ProjectRoot
 $godot = Find-Godot471
 $python = Find-LocalPython
 $audioBuilder = Join-Path $root 'tools\audio\build_audio_pack.py'
+$runtimeImportConfigurator = Join-Path $root 'tools\web\configure_runtime_web_imports.py'
 if (-not (Test-Path -LiteralPath $audioBuilder -PathType Leaf)) { throw "Audio builder missing: $audioBuilder" }
+if (-not (Test-Path -LiteralPath $runtimeImportConfigurator -PathType Leaf)) { throw "Runtime Web import configurator missing: $runtimeImportConfigurator" }
 Set-ProjectGodotUserPaths $root
 Copy-GodotWebTemplatesToProjectProfile $root
 Invoke-Checked $python @($audioBuilder)
+Invoke-Checked $python @($runtimeImportConfigurator)
 $output = Join-Path $root 'builds\web_development'
 $resolvedRoot = [IO.Path]::GetFullPath($root).TrimEnd('\')
 $resolvedOutput = [IO.Path]::GetFullPath($output).TrimEnd('\')

@@ -399,13 +399,23 @@ static func advance_ticks(state: Dictionary, definition: Dictionary, grid, party
 					contact_suppressed = false
 			var awareness := UNAWARE if contact_suppressed else awareness_for(patrol, runtime, party_coord, grid, definition, vision_radius)
 			runtime.awareness = awareness
-			if awareness != UNAWARE:
+			var inside_live_vision := HexCoordScript.distance(previous, party_coord) <= maxi(1, vision_radius)
+			if not inside_live_vision:
+				# Fog, pawn visibility and enemy activation share one authority. Moving
+				# every encounter on the twenty-district macro map made one player turn
+				# update and present dozens of invisible pawns, including long camera
+				# sweeps through empty fog. Off-screen enemies retain their deterministic
+				# saved patrol state until the squad brings them into live sight.
+				runtime.awareness = UNAWARE
+				runtime.patrol_state = PATROL_IDLE
+			elif awareness != UNAWARE:
 				runtime.patrol_state = PATROL_ALERT
 				runtime = _advance_chase(runtime, patrol, party_coord, grid)
 			else:
-				# Unaware enemies hold position. Once the party is recognized, every
-				# mobile enemy action advances toward the party instead of wandering.
+				# A contact-suppressed but visible ordinary enemy may resume its authored
+				# local patrol. Unseen enemies are filtered above and never consume a turn.
 				runtime.patrol_state = PATROL_IDLE
+				runtime = _advance_patrol(runtime, patrol, grid, tick)
 			var current := Vector2i(int(runtime.get("q", 0)), int(runtime.get("r", 0)))
 			state.patrol_states[encounter_id] = runtime
 			state.patrol_positions[encounter_id] = [current.x, current.y]

@@ -22,128 +22,140 @@ jobs:
       name: lumenbound-public
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 15
     steps:
-      - name: Checkout current source
+      - name: Checkout verified Web payload
         uses: actions/checkout@v4
+        with:
+          lfs: true
 
-      - name: Install verified Godot 4.7.1
+      - name: Verify and stamp Web payload
         shell: bash
         run: |
           set -euo pipefail
-          GODOT_ZIP="$RUNNER_TEMP/Godot_v4.7.1-stable_linux.x86_64.zip"
-          GODOT_DIR="$RUNNER_TEMP/godot-4.7.1"
-          curl --fail --location --retry 3 --retry-delay 2 \
-            --output "$GODOT_ZIP" \
-            "https://github.com/godotengine/godot/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip"
-          echo "c7ff14fd28472c8d4f193043de30278dcf7e5241a1dcf7566b02e27addaa33ba  $GODOT_ZIP" | sha256sum --check --strict
-          mkdir -p "$GODOT_DIR"
-          unzip -q "$GODOT_ZIP" -d "$GODOT_DIR"
-          chmod +x "$GODOT_DIR/Godot_v4.7.1-stable_linux.x86_64"
-          GODOT_LICENSE="$RUNNER_TEMP/Godot_LICENSE.txt"
-          curl --fail --location --retry 3 --retry-delay 2 \
-            --output "$GODOT_LICENSE" \
-            "https://raw.githubusercontent.com/godotengine/godot/4.7.1-stable/LICENSE.txt"
-          echo "b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80  $GODOT_LICENSE" | sha256sum --check --strict
-          echo "GODOT_BIN=$GODOT_DIR/Godot_v4.7.1-stable_linux.x86_64" >> "$GITHUB_ENV"
-          echo "GODOT_LICENSE=$GODOT_LICENSE" >> "$GITHUB_ENV"
-
-      - name: Install verified official Web export templates
-        shell: bash
-        run: |
-          set -euo pipefail
-          XDG_ROOT="$RUNNER_TEMP/godot-data"
-          TEMPLATE_DIR="$XDG_ROOT/godot/export_templates/4.7.1.stable"
-          TEMPLATE_MANIFEST="$RUNNER_TEMP/godot-web-templates.json"
-          mkdir -p "$TEMPLATE_DIR"
-          python3 tools/install_godot_web_templates.py \
-            --destination "$TEMPLATE_DIR" \
-            --manifest "$TEMPLATE_MANIFEST"
-          python3 - "$TEMPLATE_MANIFEST" <<'PY'
+          WEB_ROOT="$GITHUB_WORKSPACE/builds/web_release"
+          python3 - "$WEB_ROOT" "$GITHUB_SHA" <<'PY'
+          import hashlib
           import json
+          import re
           import sys
+          from datetime import datetime, timezone
           from pathlib import Path
 
-          manifest = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-          records = {record["file"]: record for record in manifest["records"]}
-          expected = "b7b7d7da29fc6cc2f4934fdd26cc571a40e7af57f716ea3eb7e18da720dae28a"
-          actual = records.get("web_nothreads_release.zip", {}).get("sha256")
-          if actual != expected:
-              raise SystemExit(f"Godot Web release template SHA mismatch: {actual}")
-          print(f"GODOT_WEB_RELEASE_TEMPLATE_SHA256={actual}")
+          root = Path(sys.argv[1]).resolve()
+          deployment_commit = sys.argv[2]
+          required = (
+              "index.html", "index.js", "index.wasm", "index.pck",
+              "index.service.worker.js", "index.manifest.json", "index.offline.html",
+              "index.png", "index.icon.png", "index.apple-touch-icon.png",
+              "index.144x144.png", "index.180x180.png", "index.512x512.png",
+              "index.audio.worklet.js", "index.audio.position.worklet.js",
+              "LICENSES.md", "README_HTML.md", "VERSION.json",
+          )
+
+          def fail(message: str) -> None:
+              raise SystemExit(message)
+
+          def digest(path: Path) -> str:
+              value = hashlib.sha256()
+              with path.open("rb") as handle:
+                  for block in iter(lambda: handle.read(1024 * 1024), b""):
+                      value.update(block)
+              return value.hexdigest()
+
+          if not root.is_dir():
+              fail(f"Web payload directory is missing: {root}")
+          missing = [name for name in required if not (root / name).is_file() or (root / name).stat().st_size <= 0]
+          if missing:
+              fail("Web payload is incomplete: " + ", ".join(missing))
+
+          pck = root / "index.pck"
+          wasm = root / "index.wasm"
+          pck_size = pck.stat().st_size
+          wasm_size = wasm.stat().st_size
+          if not 100_000_000 < pck_size < 180_000_000:
+              fail(f"Unexpected PCK size or unresolved LFS pointer: {pck_size}")
+          with wasm.open("rb") as handle:
+              if handle.read(4) != b"\x00asm":
+                  fail("WebAssembly payload does not have the raw WASM magic")
+
+          version_path = root / "VERSION.json"
+          version = json.loads(version_path.read_text(encoding="utf-8"))
+          pck_hash = digest(pck)
+          wasm_hash = digest(wasm)
+          if version.get("pck_sha256") != pck_hash or version.get("pck_size") != pck_size:
+              fail("PCK hash/size does not match VERSION.json")
+          if version.get("wasm_sha256") != wasm_hash or version.get("wasm_size") != wasm_size:
+              fail("WASM hash/size does not match VERSION.json")
+          runtime_source_commit = version.get("source_commit", "")
+          if not re.fullmatch(r"[0-9a-f]{40}", runtime_source_commit):
+              fail("VERSION.json has no exact runtime source commit")
+
+          html_path = root / "index.html"
+          html = html_path.read_text(encoding="utf-8")
+          config_match = re.search(r"const GODOT_CONFIG = (\{.*?\});", html)
+          if not config_match:
+              fail("Godot Web configuration is missing from index.html")
+          config = json.loads(config_match.group(1))
+          if config.get("fileSizes", {}).get("index.pck") != pck_size:
+              fail("index.html PCK size is stale")
+          if config.get("fileSizes", {}).get("index.wasm") != wasm_size:
+              fail("index.html WASM size is stale")
+          if "LOADING LUMENBOUND TACTICAL DATA" not in html or "전술 기록을 불러오는 중" in html:
+              fail("The public loading label must be English")
+
+          manifest = json.loads((root / "index.manifest.json").read_text(encoding="utf-8"))
+          if manifest.get("orientation") != "any":
+              fail(f"Desktop/mobile orientation contract failed: {manifest.get('orientation')!r}")
+          worker_path = root / "index.service.worker.js"
+          worker = worker_path.read_text(encoding="utf-8")
+          for token in (
+              "const CACHE_PREFIX = 'LUMENBOUND-TACTICS-sw-cache-';",
+              "self.skipWaiting()", "self.clients.claim()",
+              "Navigation network error; using cached LUMENBOUND shell.",
+          ):
+              if token not in worker:
+                  fail(f"Service-worker contract is missing: {token}")
+          cache_digest = hashlib.sha256(
+              "|".join(digest(path) for path in (pck, wasm, root / "index.js", html_path)).encode("utf-8")
+          ).hexdigest()
+          expected_cache_version = f"r7_{cache_digest[:16]}"
+          if f"const CACHE_VERSION = '{expected_cache_version}';" not in worker:
+              fail(f"Service-worker cache version is stale; expected {expected_cache_version}")
+
+          version["deployment_commit"] = deployment_commit
+          version["deployed_utc"] = datetime.now(timezone.utc).isoformat()
+          version_path.write_text(
+              json.dumps(version, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8", newline="\n",
+          )
+          (root / "DEPLOY_SHA.txt").write_text(
+              f"deployment_commit={deployment_commit}\n"
+              f"runtime_source_commit={runtime_source_commit}\n"
+              f"pck_sha256={pck_hash}\n"
+              f"pck_size={pck_size}\n"
+              f"wasm_sha256={wasm_hash}\n"
+              f"wasm_size={wasm_size}\n"
+              "release_pack_mode=verified_prebuilt_full_web_export\n",
+              encoding="utf-8", newline="\n",
+          )
+          print(f"WEB_PAYLOAD_PCK_SHA256={pck_hash}")
+          print(f"WEB_PAYLOAD_PCK_BYTES={pck_size}")
+          print(f"WEB_PAYLOAD_RUNTIME_SOURCE={runtime_source_commit}")
+          print(f"WEB_PAYLOAD_DEPLOYMENT_COMMIT={deployment_commit}")
+          print("WEB_PAYLOAD_VERIFY=PASS")
           PY
-          echo "XDG_DATA_HOME=$XDG_ROOT" >> "$GITHUB_ENV"
-
-      - name: Validate and configure current Web source
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 tools/web/configure_runtime_web_imports.py
-          python3 tools/validate_static.py
-
-      - name: Export one complete current Web release
-        shell: bash
-        run: |
-          set -euo pipefail
-          WEB_STAGE="$RUNNER_TEMP/lumenbound-web-release"
-          mkdir -p "$WEB_STAGE"
-          "$GODOT_BIN" --headless \
-            --path "$GITHUB_WORKSPACE/godot" \
-            --export-release "Web HTML Release" \
-            "$WEB_STAGE/index.html"
-          test -s "$WEB_STAGE/index.html"
-          test -s "$WEB_STAGE/index.js"
-          test -s "$WEB_STAGE/index.wasm"
-          test -s "$WEB_STAGE/index.pck"
-          echo "WEB_STAGE=$WEB_STAGE" >> "$GITHUB_ENV"
-
-      - name: Smoke current exported PCK in mobile portrait
-        shell: bash
-        run: |
-          set -euo pipefail
-          LOG="$RUNNER_TEMP/current-web-pck-smoke.log"
-          set +e
-          timeout 30s env LUMENBOUND_FORCE_PORTRAIT_QA=1 \
-            "$GODOT_BIN" --headless --main-pack "$WEB_STAGE/index.pck" --quit-after 120 >"$LOG" 2>&1
-          STATUS=$?
-          set -e
-          tail -120 "$LOG" || true
-          test "$STATUS" -ne 124
-          grep -F 'LUMENBOUND_MOBILE_PORTRAIT_V2_READY' "$LOG"
-          grep -F 'LUMENBOUND_MOBILE_PORTRAIT_V2_ACTIVE screen=TITLE size=390x844' "$LOG"
-
-      - name: Compress current WASM and finalize public staging
-        shell: bash
-        run: |
-          set -euo pipefail
-          cp tools/web/pako_inflate.min.js "$WEB_STAGE/pako_inflate.min.js"
-          python3 tools/web/compress_web_wasm.py "$WEB_STAGE"
-          python3 tools/web/instrument_web_soak.py "$WEB_STAGE"
-          python3 tools/web/finalize_public_web.py "$WEB_STAGE" \
-            --project-root "$GITHUB_WORKSPACE" \
-            --godot-license "$GODOT_LICENSE" \
-            --source-commit "$GITHUB_SHA"
-
-      - name: Verify staged release is current and self-contained
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$(find "$WEB_STAGE" -maxdepth 1 -type f -name '*.pck' | wc -l)" -eq 1
-          test "$(find "$WEB_STAGE" -maxdepth 1 -type f -name '*.wasm' | wc -l)" -eq 1
-          grep -F 'release_pack_mode=fresh_full_web_export' "$WEB_STAGE/DEPLOY_SHA.txt"
-          grep -F "source_commit=$GITHUB_SHA" "$WEB_STAGE/DEPLOY_SHA.txt"
-          grep -F "const CACHE_PREFIX = 'LUMENBOUND-TACTICS-sw-cache-';" "$WEB_STAGE/index.service.worker.js"
-          grep -F 'Navigation network error; using cached LUMENBOUND shell.' "$WEB_STAGE/index.service.worker.js"
+          echo "WEB_ROOT=$WEB_ROOT" >> "$GITHUB_ENV"
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
 
-      - name: Upload current Web staging
+      - name: Upload verified Web payload
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ env.WEB_STAGE }}
+          path: ${{ env.WEB_ROOT }}
 
       - name: Deploy to GitHub Pages
         id: deployment

@@ -40,9 +40,13 @@ jobs:
           mkdir -p "$GODOT_DIR"
           unzip -q "$GODOT_ZIP" -d "$GODOT_DIR"
           chmod +x "$GODOT_DIR/Godot_v4.7.1-stable_linux.x86_64"
-          test -s "$GODOT_DIR/LICENSE.txt"
+          GODOT_LICENSE="$RUNNER_TEMP/Godot_LICENSE.txt"
+          curl --fail --location --retry 3 --retry-delay 2 \
+            --output "$GODOT_LICENSE" \
+            "https://raw.githubusercontent.com/godotengine/godot/4.7.1-stable/LICENSE.txt"
+          echo "b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80  $GODOT_LICENSE" | sha256sum --check --strict
           echo "GODOT_BIN=$GODOT_DIR/Godot_v4.7.1-stable_linux.x86_64" >> "$GITHUB_ENV"
-          echo "GODOT_LICENSE=$GODOT_DIR/LICENSE.txt" >> "$GITHUB_ENV"
+          echo "GODOT_LICENSE=$GODOT_LICENSE" >> "$GITHUB_ENV"
 
       - name: Install verified official Web export templates
         shell: bash

@@ -133,13 +133,19 @@ if ($workerText -notmatch "const CACHE_PREFIX = 'LUMENBOUND-TACTICS-sw-cache-';"
 # future Godot template change fails visibly instead of changing cache policy.
 $installNeedle = "event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CACHED_FILES)));"
 $installReplacement = "event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CACHED_FILES)).then(() => self.skipWaiting()));"
-if (-not $workerText.Contains($installNeedle)) { throw 'Unexpected Godot service-worker install block; cannot apply safe update policy.' }
-$workerText = $workerText.Replace($installNeedle, $installReplacement)
+if ($workerText.Contains($installNeedle)) {
+    $workerText = $workerText.Replace($installNeedle, $installReplacement)
+} elseif (-not $workerText.Contains($installReplacement)) {
+    throw 'Unexpected Godot service-worker install block; cannot apply safe update policy.'
+}
 
 $activateNeedle = "return ('navigationPreload' in self.registration) ? self.registration.navigationPreload.enable() : Promise.resolve();"
 $activateReplacement = "return (('navigationPreload' in self.registration) ? self.registration.navigationPreload.enable() : Promise.resolve()).then(() => self.clients.claim());"
-if (-not $workerText.Contains($activateNeedle)) { throw 'Unexpected Godot service-worker activate block; cannot apply safe update policy.' }
-$workerText = $workerText.Replace($activateNeedle, $activateReplacement)
+if ($workerText.Contains($activateNeedle)) {
+    $workerText = $workerText.Replace($activateNeedle, $activateReplacement)
+} elseif (-not $workerText.Contains($activateReplacement)) {
+    throw 'Unexpected Godot service-worker activate block; cannot apply safe update policy.'
+}
 
 $navigationPattern = '(?s)\t\t\t\tif \(isNavigate\) \{.*?\n\t\t\t\t\}\n\t\t\t\tlet cached'
 $navigationReplacement = @'
@@ -157,9 +163,11 @@ $navigationReplacement = @'
 				}
 				let cached
 '@
-$navigationWorker = [regex]::Replace($workerText, $navigationPattern, $navigationReplacement, 1)
-if ($navigationWorker -eq $workerText) { throw 'Unexpected Godot service-worker navigation block; cannot apply safe update policy.' }
-$workerText = $navigationWorker
+if ($workerText -notlike '*Navigation network error; using cached LUMENBOUND shell.*') {
+    $navigationWorker = [regex]::Replace($workerText, $navigationPattern, $navigationReplacement, 1)
+    if ($navigationWorker -eq $workerText) { throw 'Unexpected Godot service-worker navigation block; cannot apply safe update policy.' }
+    $workerText = $navigationWorker
+}
 Set-Content -LiteralPath $workerPath -Value $workerText -Encoding UTF8
 
 # Keep the public R7 filenames fixed while rotating Godot's PWA cache from the

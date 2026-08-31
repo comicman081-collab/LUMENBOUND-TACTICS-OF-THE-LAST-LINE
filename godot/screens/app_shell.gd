@@ -1017,6 +1017,12 @@ func _is_portrait_layout() -> bool:
 	return size.y > size.x
 
 func _runtime_layout_size() -> Vector2:
+	# Keep the AppShell and the portrait repair pass on the same coordinate
+	# authority during the isolated mobile regression scene.  Without this,
+	# headless QA built a landscape story tree and then applied portrait-only
+	# geometry to it, which cannot prove touch placement on a real phone canvas.
+	if OS.get_environment("LUMENBOUND_FORCE_PORTRAIT_QA") == "1":
+		return Vector2(390.0, 844.0)
 	var window_size := DisplayServer.window_get_size()
 	var width := float(window_size.x)
 	var height := float(window_size.y)
@@ -1589,9 +1595,16 @@ func _format_reward_entries(entries: Array) -> String:
 
 func _scroll_box() -> VBoxContainer:
 	var scroll := ScrollContainer.new()
+	# Every menu below the header shares one explicit scroll contract.  The
+	# portrait repair pass can therefore give a Web phone a visible scroll rail
+	# and a real drag deadzone instead of relying on the desktop defaults.
+	scroll.name = "PrimaryContentScroll"
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	scroll.follow_focus = true
+	scroll.mouse_filter = Control.MOUSE_FILTER_STOP
 	content.add_child(scroll)
 	var box := VBoxContainer.new()
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -2363,6 +2376,9 @@ func _build_story_top_right_controls(parent: Control, portrait: bool, cinematic:
 func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cinematic: bool) -> void:
 	story_dialogue_panel = dialogue
 	dialogue.name = "ClickablePrologueTextBox" if story_is_prologue else "ClickableStoryTextBox"
+	# The outer plate is the one deliberate non-button tap target.  Its internal
+	# layout containers must not become opaque input sinks on touch devices.
+	dialogue.mouse_filter = Control.MOUSE_FILTER_STOP
 	dialogue.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	dialogue.gui_input.connect(_on_story_text_box_input)
 	# AUTO/SKIP live in the fixed top-right rail. The reading surface retains only
@@ -2372,6 +2388,7 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	dialogue.custom_minimum_size.y = float(_story_logical_px(304.0 if narrow_portrait else (244.0 if cinematic else (220.0 if compact else 284.0))))
 	var dialogue_frame := HBoxContainer.new()
 	dialogue_frame.name = "StoryDialogueFrame"
+	dialogue_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	dialogue_frame.add_theme_constant_override("separation", _story_logical_px(18.0))
 	dialogue.add_child(dialogue_frame)
 	var signal_rail := ColorRect.new()
@@ -2381,6 +2398,10 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	signal_rail.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	dialogue_frame.add_child(signal_rail)
 	var dialogue_box := VBoxContainer.new()
+	# Labels and reading copy are intentionally non-interactive.  Let a tap on
+	# any non-button part of the text box bubble to `dialogue`; real choice and
+	# navigation buttons still receive their own direct input.
+	dialogue_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	dialogue_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	dialogue_box.add_theme_constant_override("separation", _story_logical_px(5.0 if narrow_portrait else (4.0 if compact else 8.0)))
 	dialogue_frame.add_child(dialogue_box)
@@ -4863,7 +4884,11 @@ func _show_result() -> void:
 func _show_result_portrait() -> void:
 	var ui_scale := _portrait_ui_scale()
 	var report_scroll := ScrollContainer.new()
+	report_scroll.name = "PrimaryContentScroll"
 	report_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	report_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	report_scroll.follow_focus = true
+	report_scroll.mouse_filter = Control.MOUSE_FILTER_STOP
 	report_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	report_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(report_scroll)
@@ -4950,6 +4975,8 @@ func _show_growth() -> void:
 		return
 	var level_preview := CharacterProgression.preview(cid, "TRAINING_NOTE_L", 1)
 	summary.add_child(_label("레벨업 예상: Lv.%d / EXP %d • 크레딧 %s • 잉여 EXP %d" % [level_preview.level, level_preview.xp, MathUtil.comma(int(level_preview.credit_cost)), level_preview.unused_xp], 18, Color("f1d77a") if int(level_preview.unused_xp) > 0 else Color("8fe0b6")))
+	var weapon_id := str(progress.equipped_weapon_id)
+	var weapon_state: Dictionary = AppState.profile.weapons[weapon_id]
 	var party_selector: Container = GridContainer.new() if portrait else HBoxContainer.new()
 	if party_selector is GridContainer:
 		(party_selector as GridContainer).columns = 2
@@ -4958,6 +4985,40 @@ func _show_growth() -> void:
 	for party_id_variant in AppState.get_party():
 		var party_id := str(party_id_variant)
 		party_selector.add_child(_button(_display_character_name(party_id), func(value: String = party_id): AppState.selected_character_id = value; _show_screen("GROWTH"), party_id == cid, Vector2(156, 52)))
+	if portrait:
+		# Result -> Growth must not make a phone player hunt through a long
+		# character dossier before the two progression actions they just earned.
+		# Keep one compact, real-action rail above the detailed report; the full
+		# material and skill controls remain below for deliberate comparison.
+		var quick_box := _panel_box(growth_content)
+		quick_box.name = "MobileGrowthQuickActions"
+		quick_box.add_child(_label("바로 성장", 20, Color("f1d77a")))
+		var quick_grid := GridContainer.new()
+		quick_grid.columns = 2
+		quick_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		quick_grid.add_theme_constant_override("h_separation", 8)
+		quick_grid.add_theme_constant_override("v_separation", 8)
+		quick_box.add_child(quick_grid)
+		var quick_level_preview := CharacterProgression.preview(cid, "TRAINING_NOTE_L", 1)
+		var quick_level_disabled := AppState.inventory_count("TRAINING_NOTE_L") < 1 or AppState.inventory_count("CREDIT") < int(quick_level_preview.credit_cost) or int(quick_level_preview.unused_xp) > 0 or int(progress.level) >= CharacterProgression.level_cap(progress)
+		quick_grid.add_child(_button("레벨업\n%s · Lv.%d" % [_display_item_name("TRAINING_NOTE_L"), int(quick_level_preview.level)], func(): _report_result(CharacterProgression.use_material(cid, "TRAINING_NOTE_L", 1)); _show_screen("GROWTH"), quick_level_disabled, Vector2(152, 64)))
+		var quick_weapon_preview := WeaponUpgradeService.preview(weapon_id, "WEAPON_CHIP_M", 1)
+		var quick_weapon_disabled := AppState.inventory_count("WEAPON_CHIP_M") < 1 or not quick_weapon_preview.ok or int(quick_weapon_preview.value.get("unused_xp", 0)) > 0
+		quick_grid.add_child(_button("무기 강화\nLv.%d · T%d" % [int(weapon_state.level), int(weapon_state.tier)], func(): _report_result(WeaponUpgradeService.use_material(weapon_id, "WEAPON_CHIP_M", 1)); _show_screen("GROWTH"), quick_weapon_disabled, Vector2(152, 64)))
+		quick_grid.add_child(_button("무기 티어업", func(): _report_result(WeaponUpgradeService.tier_up(weapon_id)); _show_screen("GROWTH"), int(weapon_state.tier) >= 6, Vector2(152, 58)))
+		quick_grid.add_child(_button("보유 장비 보기", func(): SceneRouter.go("INVENTORY"), false, Vector2(152, 58)))
+		var equipment_box := _panel_box(growth_content)
+		equipment_box.name = "MobileEquipmentChoices"
+		equipment_box.add_child(_label("장비 교체", 19, Color("91aac8")))
+		var equipment_grid := GridContainer.new()
+		equipment_grid.columns = 2
+		equipment_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		equipment_grid.add_theme_constant_override("h_separation", 8)
+		equipment_grid.add_theme_constant_override("v_separation", 8)
+		equipment_box.add_child(equipment_grid)
+		for weapon in DataRegistry.list_of("weapons"):
+			if weapon.weapon_class == definition.weapon_class:
+				equipment_grid.add_child(_button("%s 장착" % _display_runtime_name(str(weapon.id)), func(value: String = str(weapon.id)): progress.equipped_weapon_id = value; SaveService.save_game(); _show_screen("GROWTH"), weapon.id == weapon_id, Vector2(152, 56)))
 	var next_plan_action: Dictionary = GrowthPlanBuilderScript.next_legal_action(AppState.get_party())
 	var plan_preview: Dictionary = GrowthPlanBuilderScript.preview_recommended_batch(AppState.get_party(), 12) if not next_plan_action.is_empty() else {}
 	var plan_box := _panel_box(growth_content)
@@ -5004,8 +5065,6 @@ func _show_growth() -> void:
 		var skill_button := _button("%s Lv.%d/%d\n%s" % [LocalizationService.tr_key(str(skill.get("name_key", slot.to_upper()))).replace(" (DEV)", ""), progress.skills[slot], max_level, next_text], func(value: String = str(slot)): _report_result(SkillUpgradeService.upgrade(cid, value)); _show_screen("GROWTH"), comparison.max, Vector2(290, 98))
 		_apply_skill_icon(skill_button, skill, 64)
 		grid.add_child(skill_button)
-	var weapon_id := str(progress.equipped_weapon_id)
-	var weapon_state: Dictionary = AppState.profile.weapons[weapon_id]
 	var weapon_preview := WeaponUpgradeService.preview(weapon_id, "WEAPON_CHIP_M", 1)
 	var weapon_level_disabled: bool = AppState.inventory_count("WEAPON_CHIP_M") < 1 or not weapon_preview.ok or int(weapon_preview.value.get("unused_xp", 0)) > 0
 	grid.add_child(_button("%s 강화\nLv.%d T%d" % [_display_runtime_name(weapon_id), weapon_state.level, weapon_state.tier], func(): _report_result(WeaponUpgradeService.use_material(weapon_id, "WEAPON_CHIP_M", 1)); _show_screen("GROWTH"), weapon_level_disabled, Vector2(290, 86)))
@@ -5021,12 +5080,13 @@ func _show_growth() -> void:
 	detail_lines.append("무기 강화: %s 1/%d • 현재 추가 %s" % [_display_item_name("WEAPON_CHIP_M"), AppState.inventory_count("WEAPON_CHIP_M"), _format_counts(WeaponUpgradeService.flat_stats_for(weapon_id, weapon_state), false)])
 	detail_lines.append("무기 티어업 요구: %s" % _cost_detail(WeaponUpgradeService.tier_up_cost(weapon_id)))
 	detail_box.add_child(_label("\n".join(detail_lines), 17, Color("b8cae0")))
-	var compatible: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
-	growth_content.add_child(compatible)
-	compatible.add_child(_label("호환 %s:" % definition.weapon_class, 19, Color("91aac8")))
-	for weapon in DataRegistry.list_of("weapons"):
-		if weapon.weapon_class == definition.weapon_class:
-			compatible.add_child(_button("%s 장착" % _display_runtime_name(str(weapon.id)), func(value: String = str(weapon.id)): progress.equipped_weapon_id = value; SaveService.save_game(); _show_screen("GROWTH"), weapon.id == weapon_id, Vector2(150, 58)))
+	if not portrait:
+		var compatible: BoxContainer = HBoxContainer.new()
+		growth_content.add_child(compatible)
+		compatible.add_child(_label("호환 %s:" % definition.weapon_class, 19, Color("91aac8")))
+		for weapon in DataRegistry.list_of("weapons"):
+			if weapon.weapon_class == definition.weapon_class:
+				compatible.add_child(_button("%s 장착" % _display_runtime_name(str(weapon.id)), func(value: String = str(weapon.id)): progress.equipped_weapon_id = value; SaveService.save_game(); _show_screen("GROWTH"), weapon.id == weapon_id, Vector2(150, 58)))
 	var missing_items: Array[String] = []
 	var current_costs: Array = [BreakthroughService.next_cost(cid), SkillUpgradeService.next_cost(cid, "normal"), SkillUpgradeService.next_cost(cid, "passive"), SkillUpgradeService.next_cost(cid, "ultimate"), WeaponUpgradeService.tier_up_cost(weapon_id)]
 	for cost in current_costs:

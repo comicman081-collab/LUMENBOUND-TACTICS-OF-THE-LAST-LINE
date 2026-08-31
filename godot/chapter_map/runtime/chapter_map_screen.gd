@@ -5366,12 +5366,20 @@ func _complete_player_turn(action_label: String) -> void:
 			(node_button_value as Button).disabled = true
 	var party_coord := Vector2i(int(map_state.get("current_q", 0)), int(map_state.get("current_r", 0)))
 	var update := MapExplorationServiceScript.complete_player_move_turn(map_state, definition, grid, party_coord)
-	# Present visible enemies as one concise simultaneous phase. The previous
-	# implementation focused and waited 0.34 seconds for every moving patrol; on
-	# the macro map that serialized dozens of camera sweeps through fog and made a
-	# single turn look frozen. Simulation remains deterministic, while all live
-	# pawn tweens now share one 0.24-second presentation budget.
-	var presented_moves: Array = update.get("moves", [])
+	# The simulation advances every ordinary patrol once per player action, but a
+	# Web map only animates the roots already inside the player's live sight. This
+	# makes the exchanged turn readable without rebuilding or tweening a distant
+	# macro district, which was the source of the previous map/BGM hitches.
+	var presented_moves: Array = []
+	for move_value in update.get("moves", []):
+		var move: Dictionary = move_value
+		var move_node_id := str(move.get("encounter_id", ""))
+		var destination_value: Array = move.get("to", [])
+		if destination_value.size() != 2 or not enemy_pawns.has(move_node_id):
+			continue
+		var destination := Vector2i(int(destination_value[0]), int(destination_value[1]))
+		if _coord_is_in_player_vision(destination):
+			presented_moves.append(move)
 	if not presented_moves.is_empty():
 		_show_map_notice("적 턴 · 시야 내 순찰 %d체 이동" % presented_moves.size())
 	for move_value in presented_moves:
@@ -5384,8 +5392,13 @@ func _complete_player_turn(action_label: String) -> void:
 		await get_tree().create_timer(0.24).timeout
 		if not is_inside_tree():
 			return
-	for node_id in update.get("awareness", {}).keys():
-		_update_enemy_pawn_from_simulation(str(node_id))
+	for node_id_value in update.get("awareness", {}).keys():
+		var awareness_node_id := str(node_id_value)
+		if not enemy_pawns.has(awareness_node_id):
+			continue
+		var node := ChapterMapLoaderScript.node_by_id(definition, awareness_node_id)
+		if not node.is_empty() and _coord_is_in_player_vision(_encounter_coord(node)):
+			_update_enemy_pawn_from_simulation(awareness_node_id)
 	if not is_inside_tree():
 		return
 	# The camera never left the squad during the simultaneous enemy phase.

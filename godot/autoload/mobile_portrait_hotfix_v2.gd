@@ -47,6 +47,8 @@ func _apply() -> void:
 			_fix_story(runtime_size)
 		"STAGE_SELECT", "STAGE_DETAIL":
 			_fix_map(runtime_size)
+		"RESULT", "GROWTH", "INVENTORY", "ROSTER", "ARCHIVE", "SETTINGS", "DEBUG", "LICENSE":
+			_fix_progression_scroll(runtime_size)
 		_:
 			pass
 
@@ -250,6 +252,19 @@ func _fix_story_dialogue(size: Vector2) -> void:
 		margin.offset_right = -_px(8.0, size)
 		margin.offset_top = -_px(dialogue_css, size)
 		margin.offset_bottom = -_px(8.0, size)
+	else:
+		# Chapter-story scenes (including the N05 clear story) use the standard
+		# VBox presentation rather than PrologueDialogueMargin.  The previous
+		# portrait pass resized only its text children, leaving the actual touch
+		# plate at an inherited/ambiguous height.  Give that plate a stable mobile
+		# reading band before touching its typography.
+		var standard_dialogue_value = _shell.get("story_dialogue_panel")
+		if standard_dialogue_value is PanelContainer:
+			var standard_dialogue := standard_dialogue_value as PanelContainer
+			var standard_dialogue_css := 380.0 if choice_mode else 304.0
+			standard_dialogue.custom_minimum_size.y = _px(standard_dialogue_css, size)
+			standard_dialogue.mouse_filter = Control.MOUSE_FILTER_STOP
+			standard_dialogue.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 
 	var eyebrow_value = _shell.get("story_speaker_eyebrow")
 	if eyebrow_value is Label:
@@ -285,6 +300,31 @@ func _fix_story_dialogue(size: Vector2) -> void:
 		var page := page_value as Label
 		_set_label(page, 10.0, size)
 		page.visible = not choice_mode
+
+func _fix_progression_scroll(size: Vector2) -> void:
+	# These screens share AppShell's named primary ScrollContainer.  Prior mobile
+	# layouts scaled their controls but left the scrollbar in AUTO/default mode,
+	# so a player who had just earned a level or weapon could easily miss that
+	# there was more content below the fold.  Keep the vertical rail discoverable,
+	# preserve horizontal lock, and make an intentional finger drag win over a
+	# button press without turning a small tap into accidental scrolling.
+	_safe_margin(size, 6.0)
+	var scroll_value := _shell.find_child("PrimaryContentScroll", true, false)
+	if not scroll_value is ScrollContainer:
+		return
+	var scroll := scroll_value as ScrollContainer
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_ALWAYS
+	scroll.follow_focus = true
+	scroll.scroll_deadzone = roundi(_px(12.0, size))
+	scroll.mouse_filter = Control.MOUSE_FILTER_STOP
+	var rail := scroll.get_v_scroll_bar()
+	if rail != null:
+		rail.custom_minimum_size.x = _px(10.0, size)
+		rail.add_theme_constant_override("grabber_min_size", roundi(_px(36.0, size)))
+		if not rail.has_meta("mobile_progression_scroll_style"):
+			rail.add_theme_color_override("font_color", Color("8fe9d9"))
+			rail.set_meta("mobile_progression_scroll_style", true)
 
 func _fix_map(size: Vector2) -> void:
 	_safe_margin(size, 6.0)

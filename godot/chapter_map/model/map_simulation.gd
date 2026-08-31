@@ -401,13 +401,15 @@ static func advance_ticks(state: Dictionary, definition: Dictionary, grid, party
 			runtime.awareness = awareness
 			var inside_live_vision := HexCoordScript.distance(previous, party_coord) <= maxi(1, vision_radius)
 			if not inside_live_vision:
-				# Fog, pawn visibility and enemy activation share one authority. Moving
-				# every encounter on the twenty-district macro map made one player turn
-				# update and present dozens of invisible pawns, including long camera
-				# sweeps through empty fog. Off-screen enemies retain their deterministic
-				# saved patrol state until the squad brings them into live sight.
+				# A turn is global even when a patrol is outside the current fog radius:
+				# ordinary hostiles keep their short, deterministic local routes alive so
+				# the player never spends several pulses apparently taking every turn
+				# alone.  They remain UNAWARE and cannot chase or contact through fog;
+				# ChapterMapScreen presents only the in-sight subset, avoiding off-screen
+				# pawn tweens and the Web frame spikes those used to cause.
 				runtime.awareness = UNAWARE
 				runtime.patrol_state = PATROL_IDLE
+				runtime = _advance_patrol(runtime, patrol, grid, tick)
 			elif awareness != UNAWARE:
 				runtime.patrol_state = PATROL_ALERT
 				runtime = _advance_chase(runtime, patrol, party_coord, grid)

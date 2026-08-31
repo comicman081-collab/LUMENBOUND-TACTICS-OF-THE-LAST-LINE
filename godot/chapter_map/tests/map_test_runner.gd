@@ -984,7 +984,7 @@ func _test_dynamic_exploration() -> void:
 	MapSimulationScript.ensure_state(fog_hold_state, fog_hold_definition, ten_hex_grid)
 	var fog_hold_before := MapSimulationScript.coord_for(fog_hold_state, "FOG_HOLD")
 	var fog_hold_result := MapSimulationScript.advance_ticks(fog_hold_state, fog_hold_definition, ten_hex_grid, Vector2i(11, 0), 1)
-	check(MapSimulationScript.coord_for(fog_hold_state, "FOG_HOLD") == fog_hold_before and str(fog_hold_result.get("awareness", {}).get("FOG_HOLD", "")) == MapSimulationScript.UNAWARE, "AWARENESS_03C enemies beyond the live player vision remain stationary during the enemy phase")
+	check(MapSimulationScript.coord_for(fog_hold_state, "FOG_HOLD") != fog_hold_before and str(fog_hold_result.get("awareness", {}).get("FOG_HOLD", "")) == MapSimulationScript.UNAWARE and fog_hold_result.get("contacts", []).is_empty(), "AWARENESS_03C fog-hidden enemies continue one local patrol step without gaining awareness, chase, or contact through player fog")
 	var detour_grid := HexGridScript.new()
 	detour_grid.load_tiles([
 		{"q":0,"r":0,"elevation":0}, {"q":0,"r":1,"elevation":0},
@@ -1012,6 +1012,22 @@ func _test_dynamic_exploration() -> void:
 	var n02_visible_target := Vector2i(int(n02_visible_target_data.get("q", 0)), int(n02_visible_target_data.get("r", 0)))
 	var n02_motion := MapSimulationScript.advance_ticks(n02_motion_state, definition, grid, n02_visible_target, 1)
 	check(n02_patrol_def.get("patrol_route_hexes", []).size() > 1 and MapSimulationScript.coord_for(n02_motion_state, "NODE_N02") != n02_before and n02_motion.get("changed", []).has("NODE_N02"), "ENEMY_TURN_02 previously static N02 now advances one legal patrol step during the enemy phase")
+	# N05 is the first Chapter 1 clear that returns through a standard (not
+	# prologue) story scene.  Keep the following map turn explicit: a player
+	# action must hand one turn to this ordinary patrol and the result must report
+	# that move, rather than letting the squad traverse alone toward later nodes.
+	var n05_patrol_def := MapSimulationScript.patrol_definition(definition, "NODE_N05")
+	var n05_motion_state := ProgressScript.create_default(definition)
+	ExplorationScript.ensure_state(n05_motion_state, definition, grid)
+	var n05_before := MapSimulationScript.coord_for(n05_motion_state, "NODE_N05")
+	var n05_route: Array = n05_patrol_def.get("patrol_route_hexes", [])
+	var n05_party := n05_before
+	if n05_route.size() > 1:
+		var n05_visible_target: Dictionary = n05_route.back()
+		n05_party = Vector2i(int(n05_visible_target.get("q", n05_before.x)), int(n05_visible_target.get("r", n05_before.y)))
+	var n05_tick_before := int(n05_motion_state.get("map_simulation_state", {}).get("tick", 0))
+	var n05_motion := ExplorationScript.complete_player_move_turn(n05_motion_state, definition, grid, n05_party)
+	check(bool(n05_patrol_def.get("patrol_enabled", false)) and n05_route.size() > 1 and MapSimulationScript.coord_for(n05_motion_state, "NODE_N05") != n05_before and n05_motion.get("changed", []).has("NODE_N05") and int(n05_motion.get("tick_after", -1)) == n05_tick_before + 1, "ENEMY_TURN_N05_01 normal N05 patrol visibly advances during the one enemy phase granted by a player move")
 	var no_contact := MapSimulationScript.advance_ticks(first, definition, grid, Vector2i(-30, 30), 1)
 	check(no_contact.get("contacts", []).is_empty(), "AWARENESS_04 player not touching creates no battle contact")
 	var contact_state := ProgressScript.create_default(definition)

@@ -100,7 +100,7 @@ $indexHtml = $indexHtml.Replace(
 )
 $indexHtml = $indexHtml.Replace(
     "`t`t`t<img id=`"status-splash`" class=`"show-image--true fullsize--true use-filter--true`" src=`"index.png`" alt=`"`">",
-    "`t`t`t<img id=`"status-splash`" class=`"show-image--true fullsize--true use-filter--true`" src=`"index.png`" alt=`"`">`n`t`t`t<div id=`"status-copy`">LUMENBOUND 전술 기록을 불러오는 중 · <span id=`"status-percent`">0%</span></div>"
+    "`t`t`t<img id=`"status-splash`" class=`"show-image--true fullsize--true use-filter--true`" src=`"index.png`" alt=`"`">`n`t`t`t<div id=`"status-copy`">LOADING LUMENBOUND TACTICAL DATA · <span id=`"status-percent`">0%</span></div>"
 )
 $indexHtml = $indexHtml.Replace(
     "`tconst statusProgress = document.getElementById('status-progress');",

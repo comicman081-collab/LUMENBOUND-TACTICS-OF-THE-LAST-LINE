@@ -211,6 +211,10 @@ Production approval remains pending explicit user review.
     target = 'Web HTML Release'
     revision = 'R7'
     pck_sha256 = $pckHash
+    pck_size = (Get-Item -LiteralPath $pck).Length
+    wasm_sha256 = Get-FileSha256 (Join-Path $output 'index.wasm')
+    wasm_size = (Get-Item -LiteralPath (Join-Path $output 'index.wasm')).Length
+    source_commit = (git -C $root rev-parse HEAD).Trim()
     battle_contract = 'deterministic real-time SD battle preserved'
     mobile_orientation = 'landscape_and_portrait'
     production_approved = $false

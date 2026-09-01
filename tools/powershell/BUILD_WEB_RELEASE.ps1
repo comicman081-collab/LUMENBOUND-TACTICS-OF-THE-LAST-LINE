@@ -171,11 +171,27 @@ if ($workerText -notlike '*Navigation network error; using cached LUMENBOUND she
 Set-Content -LiteralPath $workerPath -Value $workerText -Encoding UTF8
 
 # Keep the public R7 filenames fixed while rotating Godot's PWA cache from the
-# final post-processed runtime bytes.  The loader URL remains exactly
-# `index.js`, matching CACHED_FILES so an installed build still works offline.
+# final post-processed runtime bytes.  GitHub Actions checks out text files
+# with LF line endings, while Windows authoring can use CRLF. Normalize only
+# text cache inputs before hashing so the cache version represents the exact
+# payload that Pages will serve. The loader URL remains exactly `index.js`,
+# matching CACHED_FILES so an installed build still works offline.
+function Get-ReleaseCacheInputSha256([string]$Path) {
+    $extension = [IO.Path]::GetExtension($Path).ToLowerInvariant()
+    if ($extension -notin @('.html', '.js')) { return Get-FileSha256 $Path }
+
+    $content = [IO.File]::ReadAllText($Path, [Text.UTF8Encoding]::new($false, $true))
+    $canonicalBytes = [Text.UTF8Encoding]::new($false).GetBytes($content.Replace("`r`n", "`n"))
+    $hasher = [Security.Cryptography.SHA256]::Create()
+    try {
+        return (($hasher.ComputeHash($canonicalBytes) | ForEach-Object { $_.ToString('x2') }) -join '')
+    } finally {
+        $hasher.Dispose()
+    }
+}
 $cacheInputNames = @('index.pck', 'index.wasm', 'index.js', 'index.html')
 $cacheInputHashes = foreach ($name in $cacheInputNames) {
-    Get-FileSha256 (Join-Path $output $name)
+    Get-ReleaseCacheInputSha256 (Join-Path $output $name)
 }
 $cacheBytes = [Text.Encoding]::UTF8.GetBytes(($cacheInputHashes -join '|'))
 $cacheHasher = [Security.Cryptography.SHA256]::Create()

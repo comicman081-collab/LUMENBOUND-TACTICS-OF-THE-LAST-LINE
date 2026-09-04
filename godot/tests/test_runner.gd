@@ -4,6 +4,7 @@ var passed := 0
 var failed := 0
 var failures: Array[String] = []
 const RelayServiceScript := preload("res://relay/relay_service.gd")
+const BattlePresentationDirectorScript := preload("res://battle/view/battle_presentation_director.gd")
 
 func _ready() -> void:
 	call_deferred("_run")
@@ -173,7 +174,7 @@ func _test_stage_preload_contracts() -> void:
 	check(cache_source.contains("_cache = pending # Atomic replacement") and cache_source.contains("await get_tree().process_frame") and cache_source.contains("func gpu_warm_textures"), "stage asset cache commits atomically after cooperative resource loading")
 	check(cache_source.contains("const WARMUP_DEADLINE_MSEC := 5000") and cache_source.contains("_warmup_deadline_exceeded") and shell_source.contains("previous_screen == \"STAGE_SELECT\"") and shell_source.contains("StageAssetCache.cancel_warmup()"), "stage warmup has a hard deadline and is cancelled immediately when its owning screen is left")
 	check(battle_finished.contains("var save_result := SaveService.save_game()") and battle_finished.contains("_present_transaction_save_failure") and map_source.contains("TREASURE PROGRESS NOT SAVED") and map_source.contains("RETRY SAVE") and patrol_contact_body.contains("var encounter_save_result := SaveService.save_game()") and patrol_contact_body.contains("AppState.abandon_pending_map_encounter(map_id)"), "battle, map contact and treasure transaction failures never continue from an unpersisted state")
-	check(battle_view_source.contains("var label_font := battle_font if battle_font != null else ThemeDB.fallback_font") and battle_view_source.contains("draw_string(label_font") and battle_view_source.contains("draw_string(callout_font") and battle_view_source.contains("draw_string(floating_font"), "battle canvas names, callouts and floating text use the packaged Korean font instead of Web tofu glyphs")
+	check(battle_view_source.contains("var label_font := battle_font if battle_font != null else ThemeDB.fallback_font") and battle_view_source.contains("draw_string(label_font") and battle_view_source.contains("draw_circle(callout_position") and not battle_view_source.contains("draw_string(callout_font") and battle_view_source.contains("draw_string(floating_font"), "battle canvas names and floating text use the packaged Korean font while skill cues remain text-free circular markers")
 	check(map_idle_body.contains("get_node_or_null(\"StageAssetCache\")") and map_idle_body.contains("call(\"map_idle_pack\", enemy_id)") and map_idle_body.find("map_idle_pack") < map_idle_body.find("FileAccess.file_exists"), "map pawns reuse the retained idle pack before any manifest or texture fallback")
 	check(not move_body.contains("StageAssetCache") and not move_body.contains("_begin_transition_loading") and not enemy_turn_body.contains("StageAssetCache") and not enemy_turn_body.contains("_begin_transition_loading") and not treasure_emit_body.contains("StageAssetCache") and not treasure_emit_body.contains("_begin_transition_loading"), "movement, enemy turns and treasure callbacks cannot acquire resource or blocking-loading work")
 
@@ -283,7 +284,7 @@ func _test_responsive_ui_contracts() -> void:
 	var portrait_debug_width := portrait_debug_button.x * float(portrait_metrics.canvas_scale) * 2.0
 	check(portrait_debug_width <= 354.0, "portrait DEBUG two-column buttons fit the 390px safe content width", str(portrait_debug_width))
 	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
-	var responsive_structure := shell_source.contains("grid.columns = 2 if _is_portrait_layout() else 3") and shell_source.contains("(party_row as GridContainer).columns = 3") and shell_source.contains("(bottom as GridContainer).columns = 3") and shell_source.contains("actions.columns = 2") and shell_source.contains("status.position.y = (14.0 + MIN_TOUCH_CSS_PX + 8.0) * ui_scale")
+	var responsive_structure := shell_source.contains("grid.columns = 2 if _is_portrait_layout() else 3") and shell_source.contains("var battle_actions := HBoxContainer.new()") and shell_source.contains("(bottom as GridContainer).columns = 5") and shell_source.contains("Vector2(64 if portrait else 126, 64 if portrait else 126)") and shell_source.contains("Character health and shield are deliberately represented only at their") and not shell_source.contains("var party_row:") and not shell_source.contains("HP %d%% · SH") and shell_source.contains("status.position.y = (14.0 + MIN_TOUCH_CSS_PX + 8.0) * ui_scale")
 	check(responsive_structure, "portrait DEBUG, battle HUD, result rail and chapter status use compact non-overlapping structures")
 	# Story type is specified in rendered pixels and converted back to the 1920px
 	# authored canvas. Validate the actual physical hierarchy at all three target
@@ -335,6 +336,8 @@ func _test_responsive_ui_contracts() -> void:
 	var cinematic_prologue_contract := shell_source.contains("PrologueCharacterIllustrations") and shell_source.contains("PrologueTopRightControls") and shell_source.contains("PrologueAutoButton") and shell_source.contains("PrologueSkipButton") and shell_source.contains("대화창 클릭 / 터치로 계속")
 	var story_extension_contract := shell_source.contains("StoryTopRightControls") and shell_source.contains("StoryAutoButton") and shell_source.contains("StorySkipButton") and shell_source.contains("StorySpeakerEyebrow") and shell_source.contains("LUMENBOUND · VOICE LINK") and shell_source.contains("StoryMintSignalRail") and shell_source.contains("StoryPageIndicator") and shell_source.contains("_story_dialogue_style(false)")
 	check(shell_source.contains("ClickablePrologueTextBox") and cinematic_prologue_contract and story_extension_contract and shell_source.contains("func _request_story_text_box_advance") and shell_source.contains("scenario_text.visible_ratio = 1.0"), "story text box keeps click/touch typewriter behavior while both story modes expose the LUMENBOUND dialogue hierarchy and fixed AUTO/SKIP rail")
+	var story_typewriter_lifecycle := shell_source.contains("var story_typewriter_tween: Tween") and shell_source.contains("func _cancel_story_typewriter()") and shell_source.contains("func _complete_story_typewriter_reveal()") and shell_source.contains("story_typewriter_tween.kill()") and shell_source.contains("story_typewriter_tween = create_tween()") and shell_source.contains("_complete_story_typewriter_reveal()") and shell_source.contains("_cancel_story_typewriter()")
+	check(story_typewriter_lifecycle, "MOBILE_N05_STORY_02 completes or replaces a typewriter tween without letting a stale partial fraction clip the active line")
 	var portrait_hotfix_source := FileAccess.get_file_as_string("res://autoload/mobile_portrait_hotfix_v2.gd")
 	var standard_story_touch_contract := shell_source.contains("dialogue.mouse_filter = Control.MOUSE_FILTER_STOP") and shell_source.contains("dialogue_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE") and shell_source.contains("dialogue_box.mouse_filter = Control.MOUSE_FILTER_IGNORE") and portrait_hotfix_source.contains("var standard_dialogue_value = _shell.get(\"story_dialogue_panel\")") and portrait_hotfix_source.contains("var standard_dialogue_css := 380.0 if choice_mode else 304.0")
 	check(standard_story_touch_contract, "MOBILE_N05_STORY_01 standard-story text plate owns the full tap surface and receives a dedicated portrait height, not only prologue geometry")
@@ -450,6 +453,275 @@ func _test_combat_art_contracts() -> void:
 	var active_runtime_sprites := BattleSpriteLibrary.new()
 	var active_sprite_ids: Array[String] = ["CHR001", "CHR002", "ENM001"]
 	check(active_runtime_sprites.load_pack(active_sprite_ids) and active_runtime_sprites.manifests.size() == active_sprite_ids.size() and active_runtime_sprites.supports_character("CHR001") and not active_runtime_sprites.supports_character("CHR044"), "Web battle startup loads only active combatant sprite atlases")
+	# The HD reference slice is intentionally a separately approved, bounded
+	# runtime pack. The active revision retains the immutable 384px logical canvas but alpha-tight
+	# packs transparent margins. Verify source lineage, logical placement, atlas
+	# hashes and all four states before BattleView may draw it.
+	var signature_sprites := BattleSpriteLibrary.new()
+	var signature_ids: Array[String] = ["CHR001", "CHR002", "CHR003", "CHR004", "CHR005", "CHR008", "BOSS001", "ENM001"]
+	var signature_revision := BattleSpriteLibrary.SIGNATURE_REVISION
+	var signature_loaded := signature_sprites.load_signature_core_pack(signature_ids)
+	var signature_approval := _read_json("res://assets/runtime_web/combat_signature/%s/promotion_approval.json" % signature_revision)
+	var signature_hashes: Dictionary = signature_approval.get("manifest_sha256_by_character", {})
+	var signature_technical_gate_for_chroma: Dictionary = signature_approval.get("technical_gate", {})
+	var declared_chroma_remaster_entities: Array = Array(signature_technical_gate_for_chroma.get("chroma_remaster_entities", []))
+	var signature_states := ["idle", "ultimate", "hit", "down"]
+	var signature_contract_valid := signature_loaded and signature_sprites.signature_load_error.is_empty() and str(signature_approval.get("signature_revision", "")) == signature_revision
+	var signature_diagnostics: Array[String] = ["loaded=%s" % signature_loaded, "error=%s" % signature_sprites.signature_load_error, "approval=%s" % str(signature_approval.get("approval_status", ""))]
+	var chroma_derivative_contract := true
+	var chroma_derivative_diagnostics: Array[String] = []
+	var signature_ultimate_pages_valid := true
+	for entity_id in signature_ids:
+		# Full artifact inspection must still exercise every ultimate page, but
+		# the resident runtime contract is core + one transient page. Loading the
+		# seven full sheets together would deliberately exceed the mobile cap.
+		signature_ultimate_pages_valid = signature_ultimate_pages_valid and signature_sprites.ensure_signature_ultimate_loaded(entity_id)
+		var signature_root := "res://assets/runtime_web/combat_signature/%s/%s" % [signature_revision, entity_id]
+		var signature_manifest_path := signature_root + "/signature_manifest.json"
+		var signature_manifest: Dictionary = signature_sprites.signature_manifests.get(entity_id, {})
+		var source_size: Array = signature_manifest.get("source_frame_size", [])
+		var runtime_size: Array = signature_manifest.get("runtime_frame_size", [])
+		var signature_animations: Dictionary = signature_manifest.get("animations", {})
+		var chroma_provenance: Dictionary = signature_manifest.get("chroma_key_provenance", {})
+		signature_diagnostics.append("%s:manifest=%s states=%d source=%s runtime=%s" % [entity_id, not signature_manifest.is_empty(), signature_animations.size(), source_size, runtime_size])
+		signature_contract_valid = signature_contract_valid and FileAccess.file_exists(signature_manifest_path) and FileAccess.get_sha256(signature_manifest_path) == str(signature_hashes.get(entity_id, ""))
+		var source_dimensions_valid := source_size.size() == 2 and int(source_size[0]) == 512 and int(source_size[1]) == 512
+		var runtime_dimensions_valid := runtime_size.size() == 2 and int(runtime_size[0]) == 384 and int(runtime_size[1]) == 384
+		signature_contract_valid = signature_contract_valid and source_dimensions_valid and runtime_dimensions_valid and bool(signature_manifest.get("no_source_mutation", false)) and str(signature_manifest.get("generation", "")) == "deterministic_resize_alpha_tight_atlas_only"
+		for animation_name in signature_states:
+			var signature_definition: Dictionary = signature_animations.get(animation_name, {})
+			var signature_atlas_path := signature_root + "/" + str(signature_definition.get("atlas_path", ""))
+			var signature_atlas := Image.load_from_file(signature_atlas_path)
+			var atlas_qc: Dictionary = signature_definition.get("atlas_qc", {})
+			var packed_definition: Dictionary = signature_definition.get("packing", {})
+			var frame_info := signature_sprites.signature_frame_info_at(entity_id, animation_name, .31)
+			var logical_rect = frame_info.get("logical_rect", null)
+			var logical_canvas = frame_info.get("logical_canvas_size", null)
+			signature_contract_valid = signature_contract_valid and signature_sprites.has_signature_animation(entity_id, animation_name) and signature_sprites.signature_texture_at(entity_id, animation_name, .31) != null and logical_rect is Rect2 and logical_canvas is Vector2
+			signature_contract_valid = signature_contract_valid and FileAccess.file_exists(signature_atlas_path) and FileAccess.get_sha256(signature_atlas_path) == str(signature_definition.get("atlas_sha256", ""))
+			var logical_frame_size = signature_definition.get("logical_frame_size", [])
+			var packed_bytes := int(packed_definition.get("packed_rgba_bytes", 0))
+			var logical_bytes := int(packed_definition.get("logical_rgba_bytes", 0))
+			signature_contract_valid = signature_contract_valid and signature_atlas != null and signature_atlas.get_width() > 0 and signature_atlas.get_width() <= 2048 and signature_atlas.get_height() > 0 and signature_atlas.get_height() <= 2048 and logical_frame_size is Array and logical_frame_size.size() == 2 and int(logical_frame_size[0]) == 384 and int(logical_frame_size[1]) == 384 and str(packed_definition.get("mode", "")) == "ALPHA_TIGHT_SHELF_R1" and packed_bytes > 0 and logical_bytes > packed_bytes and int(atlas_qc.get("visible_exact_green_pixels", -1)) == 0
+		# Any source declared in this candidate's green-master/keyed-RGBA list must
+		# retain both artifacts and their QC evidence. This stays data-driven so a
+		# new white-matte repair such as R13 CHR004 cannot silently bypass the
+		# same contract previously used by CHR002 and ENM001.
+		if declared_chroma_remaster_entities.has(entity_id):
+			var derivative_manifest_path := str(chroma_provenance.get("derivative_manifest", ""))
+			var derivative_resource_path := "res://../" + derivative_manifest_path
+			var derivative_manifest := _read_json(derivative_resource_path)
+			var derivative_records: Array = derivative_manifest.get("records", [])
+			var expected_derivative_records := 0
+			for derivative_animation_name in signature_states:
+				var derivative_animation: Dictionary = signature_animations.get(derivative_animation_name, {})
+				expected_derivative_records += int(derivative_animation.get("frame_count", 0))
+			chroma_derivative_contract = chroma_derivative_contract and not derivative_manifest_path.is_empty() and FileAccess.file_exists(derivative_resource_path) and str(derivative_manifest.get("status", "")) == "LOCAL_QA_ONLY_CHROMA_KEY_DERIVATIVE" and derivative_records.size() == expected_derivative_records
+			for record_value in derivative_records:
+				var record: Dictionary = record_value
+				var master_path := "res://../" + str(record.get("green_master_path", ""))
+				var keyed_path := "res://../" + str(record.get("keyed_rgba_path", ""))
+				var key_qc: Dictionary = record.get("key_qc", {})
+				var keyed_qc: Dictionary = record.get("keyed_qc", {})
+				var white_before := int(key_qc.get("white_external_edge_pixels_before", 0))
+				var white_after := int(key_qc.get("white_external_edge_pixels_after", -1))
+				var rim_before := int(key_qc.get("white_exterior_rim_pixels_before", 0))
+				var rim_after := int(key_qc.get("white_exterior_rim_pixels_after", -1))
+				var master_exists := FileAccess.file_exists(master_path)
+				var keyed_exists := FileAccess.file_exists(keyed_path)
+				var master_hash_ok := master_exists and FileAccess.get_sha256(master_path) == str(record.get("green_master_sha256", ""))
+				var keyed_hash_ok := keyed_exists and FileAccess.get_sha256(keyed_path) == str(record.get("keyed_rgba_sha256", ""))
+				var alpha_extrema: Array = Array(keyed_qc.get("alpha_extrema", []))
+				var alpha_ok := alpha_extrema.size() == 2 and int(alpha_extrema[0]) == 0 and int(alpha_extrema[1]) == 255
+				var green_ok := int(keyed_qc.get("visible_exact_green_pixels", -1)) == 0
+				var white_ok := white_before == 0 or white_after < white_before
+				var rim_ok := rim_before == 0 or rim_after < rim_before
+				var record_ok := master_hash_ok and keyed_hash_ok and alpha_ok and green_ok and white_ok and rim_ok
+				chroma_derivative_contract = chroma_derivative_contract and record_ok
+				if not record_ok:
+					chroma_derivative_diagnostics.append("%s master=%s/%s keyed=%s/%s alpha=%s green=%s white=%d>%d rim=%d>%d" % [str(record.get("source_path", "")), master_exists, master_hash_ok, keyed_exists, keyed_hash_ok, alpha_ok, green_ok, white_before, white_after, rim_before, rim_after])
+			chroma_derivative_diagnostics.append("%s records=%d/%d path=%s" % [entity_id, derivative_records.size(), expected_derivative_records, derivative_manifest_path])
+		signature_sprites.release_signature_transient_ultimate()
+	var enm001_signature_manifest: Dictionary = signature_sprites.signature_manifests.get("ENM001", {})
+	var enm001_animations: Dictionary = enm001_signature_manifest.get("animations", {})
+	var enm001_frame_selection_valid := int((enm001_animations.get("idle", {}) as Dictionary).get("frame_count", 0)) == 4 and int((enm001_animations.get("ultimate", {}) as Dictionary).get("frame_count", 0)) == 12 and int((enm001_animations.get("hit", {}) as Dictionary).get("frame_count", 0)) == 4 and int((enm001_animations.get("down", {}) as Dictionary).get("frame_count", 0)) == 8
+	signature_contract_valid = signature_contract_valid and enm001_frame_selection_valid
+	var signature_technical_gate: Dictionary = signature_approval.get("technical_gate", {})
+	var signature_core_bytes := int(signature_technical_gate.get("estimated_core_resident_atlas_bytes_for_all_selected", -1))
+	var signature_peak_bytes := int(signature_technical_gate.get("estimated_peak_transient_resident_atlas_bytes", -1))
+	var signature_full_preload_bytes := int(signature_technical_gate.get("estimated_full_preload_atlas_bytes_for_all_selected", -1))
+	var signature_budget_bytes := int(signature_technical_gate.get("runtime_memory_budget_mib", 0)) * 1024 * 1024
+	signature_contract_valid = signature_contract_valid and signature_ultimate_pages_valid and str(signature_technical_gate.get("residency_model", "")) == "core_idle_hit_down_plus_one_caster_ultimate_transient" and signature_core_bytes == signature_sprites.signature_resident_atlas_bytes and signature_core_bytes <= signature_budget_bytes and signature_peak_bytes <= signature_budget_bytes and signature_full_preload_bytes >= signature_peak_bytes
+	check(signature_contract_valid, "starting-party, alternate-party and enemy signature actors retain pinned 384px art through a core-plus-one-ultimate mobile residency contract", " | ".join(signature_diagnostics))
+	if signature_revision in ["r6", "r7", "r10", "r12", "r13"]:
+		check(chroma_derivative_contract, "every declared chroma-remastered signature source retains an opaque #00FF00 master and hash-pinned keyed RGBA derivative with no visible green or exterior white matte", " | ".join(chroma_derivative_diagnostics))
+	var encounter_signature_sprites := BattleSpriteLibrary.new()
+	var encounter_signature_ids: Array[String] = ["CHR001"]
+	var encounter_signature_loaded := encounter_signature_sprites.load_signature_core_pack(encounter_signature_ids) and encounter_signature_sprites.ensure_signature_ultimate_loaded("CHR001")
+	var encounter_signature_residency: Dictionary = encounter_signature_sprites.signature_residency_snapshot()
+	var encounter_signature_isolated: bool = encounter_signature_loaded and Array(encounter_signature_residency.get("entity_ids", [])).size() == 1 and Array(encounter_signature_residency.get("entity_ids", []))[0] == "CHR001" and encounter_signature_sprites.has_signature_animation("CHR001", "ultimate") and not encounter_signature_sprites.has_signature_animation("CHR008", "ultimate") and int(encounter_signature_residency.get("resident_atlas_bytes", 0)) > 0 and int(encounter_signature_residency.get("resident_atlas_bytes", 0)) < signature_sprites.signature_resident_atlas_bytes
+	check(encounter_signature_isolated, "high-density actor pages are leased to the current caster instead of globally preloading every signature candidate")
+	var rejected_signature_load := BattleSpriteLibrary.new()
+	check(not rejected_signature_load.load_signature_core_pack(["CHR001", "UNAPPROVED_TEST_ID"]) and rejected_signature_load.signature_manifests.is_empty() and not rejected_signature_load.signature_load_error.is_empty(), "signature pack rejects a partial or unapproved character set instead of silently mixing candidates")
+	# Projectile and ultimate VFX resolution must rise with the actor signature
+	# slice.  Keep the effect atlas candidate separately pinned: a valid PNG is
+	# not enough to replace release effects without its manifest/hash/budget gate.
+	var signature_effects := EffectSignatureLibrary.new()
+	var signature_effect_ids: Array[String] = signature_ids.duplicate()
+	var signature_effect_revision := EffectSignatureLibrary.SIGNATURE_REVISION
+	var signature_effect_loaded := signature_effects.load_signature_core_pack(signature_effect_ids)
+	var signature_effect_approval := _read_json("res://assets/runtime_web/effect_signature/%s/promotion_approval.json" % signature_effect_revision)
+	var signature_effect_hashes: Dictionary = signature_effect_approval.get("manifest_sha256_by_entity", {})
+	var signature_effect_contract_valid := signature_effect_loaded and signature_effects.signature_load_error.is_empty() and str(signature_effect_approval.get("effect_signature_revision", "")) == signature_effect_revision
+	var signature_effect_diagnostics: Array[String] = ["loaded=%s" % signature_effect_loaded, "error=%s" % signature_effects.signature_load_error, "approval=%s" % str(signature_effect_approval.get("approval_status", ""))]
+	var signature_effect_ultimate_pages_valid := true
+	for entity_id in signature_effect_ids:
+		signature_effect_ultimate_pages_valid = signature_effect_ultimate_pages_valid and signature_effects.ensure_signature_ultimate_loaded(entity_id)
+		var profile_id := signature_effects.signature_profile_for(entity_id)
+		var effect_root := "res://assets/runtime_web/effect_signature/%s/%s" % [signature_effect_revision, profile_id]
+		var effect_manifest_path := effect_root + "/effect_signature_manifest.json"
+		var effect_manifest: Dictionary = signature_effects.manifests.get(profile_id, {})
+		var projectile_effect: Dictionary = effect_manifest.get("projectile", {})
+		var ultimate_effect: Dictionary = effect_manifest.get("ultimate", {})
+		signature_effect_diagnostics.append("%s:manifest=%s projectile=%s ultimate=%s" % [entity_id, not effect_manifest.is_empty(), projectile_effect.get("frame_size", []), ultimate_effect.get("frame_size", [])])
+		signature_effect_contract_valid = signature_effect_contract_valid and not profile_id.is_empty() and FileAccess.file_exists(effect_manifest_path) and FileAccess.get_sha256(effect_manifest_path) == str(signature_effect_hashes.get(profile_id, ""))
+		signature_effect_contract_valid = signature_effect_contract_valid and bool(effect_manifest.get("no_source_mutation", false)) and str(effect_manifest.get("generation", "")) == "deterministic_lanczos_upscale_only"
+		for effect_definition in [projectile_effect, ultimate_effect]:
+			var effect_atlas_path := effect_root + "/" + str(effect_definition.get("atlas_path", ""))
+			var effect_atlas := Image.load_from_file(effect_atlas_path)
+			var effect_qc: Dictionary = effect_definition.get("runtime_qc", {})
+			signature_effect_contract_valid = signature_effect_contract_valid and FileAccess.file_exists(effect_atlas_path) and FileAccess.get_sha256(effect_atlas_path) == str(effect_definition.get("atlas_sha256", "")) and effect_atlas != null and int(effect_qc.get("visible_exact_green_pixels", -1)) == 0
+		var projectile_frame_size = projectile_effect.get("frame_size", [])
+		var ultimate_frame_size = ultimate_effect.get("frame_size", [])
+		var effect_scale := float(effect_manifest.get("scale_factor", 0.0))
+		var expected_projectile_edge := int(round(96.0 * effect_scale))
+		var expected_ultimate_edge := int(round(112.0 * effect_scale))
+		var projectile_dimensions_valid: bool = effect_scale > 1.0 and projectile_frame_size is Array and projectile_frame_size.size() == 2 and int(projectile_frame_size[0]) == expected_projectile_edge and int(projectile_frame_size[1]) == expected_projectile_edge and expected_projectile_edge > 96
+		var ultimate_dimensions_valid: bool = effect_scale > 1.0 and ultimate_frame_size is Array and ultimate_frame_size.size() == 2 and int(ultimate_frame_size[0]) == expected_ultimate_edge and int(ultimate_frame_size[1]) == expected_ultimate_edge and expected_ultimate_edge > 112
+		signature_effect_contract_valid = signature_effect_contract_valid and projectile_dimensions_valid and int(projectile_effect.get("frames", 0)) == 8 and ultimate_dimensions_valid and int(ultimate_effect.get("frames", 0)) == 12
+		signature_effect_contract_valid = signature_effect_contract_valid and signature_effects.projectile_texture_at(entity_id, .06) != null and signature_effects.ultimate_texture_at(entity_id, .42) != null
+		signature_effects.release_signature_transient_ultimate()
+	var signature_effect_technical_gate: Dictionary = signature_effect_approval.get("technical_gate", {})
+	var signature_effect_core_bytes := int(signature_effect_technical_gate.get("estimated_core_resident_atlas_bytes_for_all_selected", -1))
+	var signature_effect_peak_bytes := int(signature_effect_technical_gate.get("estimated_peak_transient_resident_atlas_bytes", -1))
+	var signature_effect_full_preload_bytes := int(signature_effect_technical_gate.get("estimated_full_preload_atlas_bytes_for_all_selected", -1))
+	var signature_effect_budget_bytes := int(signature_effect_technical_gate.get("runtime_memory_budget_mib", 0)) * 1024 * 1024
+	signature_effect_contract_valid = signature_effect_contract_valid and signature_effect_ultimate_pages_valid and str(signature_effect_technical_gate.get("residency_model", "")) == "projectile_core_plus_one_caster_ultimate_transient" and signature_effect_core_bytes == signature_effects.signature_resident_atlas_bytes and signature_effect_core_bytes <= signature_effect_budget_bytes and signature_effect_peak_bytes <= signature_effect_budget_bytes and signature_effect_full_preload_bytes >= signature_effect_peak_bytes
+	check(signature_effect_contract_valid and signature_effects.uses_borrowed_profile("CHR002"), "the complete starting-party, reviewed alternate-party and current-enemy group uses pinned upscale projectile/ultimate effects through one-caster transient residency", " | ".join(signature_effect_diagnostics))
+	# This group contains the actual starting five, reviewed CHR008 alternate
+	# party member, current boss and common enemy in core form, while CHR002
+	# intentionally reuses CHR001's VFX profile. Check the decoded
+	# resident snapshot, not just the manifest estimate, so a later loader cannot
+	# silently revert to a full ultimate preload.
+	var concurrent_actor_residency: Dictionary = signature_sprites.signature_residency_snapshot()
+	var concurrent_effect_residency: Dictionary = signature_effects.signature_residency_snapshot()
+	var concurrent_actor_ids: Array = Array(concurrent_actor_residency.get("entity_ids", []))
+	var concurrent_effect_ids: Array = Array(concurrent_effect_residency.get("entity_ids", []))
+	var concurrent_effect_profiles: Array = Array(concurrent_effect_residency.get("profile_ids", []))
+	var concurrent_actor_state_map: Dictionary = concurrent_actor_residency.get("animation_ids_by_entity", {})
+	var concurrent_effect_state_map: Dictionary = concurrent_effect_residency.get("effect_ids_by_profile", {})
+	var concurrent_core_states_valid := true
+	for entity_id in signature_ids:
+		concurrent_core_states_valid = concurrent_core_states_valid and Array(concurrent_actor_state_map.get(entity_id, [])) == ["idle", "hit", "down"]
+	for profile_id in ["CHR001", "CHR003", "CHR004", "CHR005", "CHR008", "BOSS001", "ENM001"]:
+		concurrent_core_states_valid = concurrent_core_states_valid and Array(concurrent_effect_state_map.get(profile_id, [])) == ["projectile"]
+	var concurrent_signature_contract := concurrent_actor_ids == signature_ids and concurrent_effect_ids == signature_effect_ids and concurrent_effect_profiles == ["CHR001", "CHR003", "CHR004", "CHR005", "CHR008", "BOSS001", "ENM001"] and concurrent_core_states_valid and int(concurrent_actor_residency.get("resident_atlas_bytes", -1)) <= int(concurrent_actor_residency.get("budget_bytes", 0)) and int(concurrent_effect_residency.get("resident_atlas_bytes", -1)) <= int(concurrent_effect_residency.get("budget_bytes", 0))
+	check(concurrent_signature_contract, "starting-party, alternate-party and current-enemy HD cores stay within 72MiB actor and 12MiB effect ceilings without a hidden full-ultimate preload", "actors=%s effects=%s profiles=%s" % [JSON.stringify(concurrent_actor_residency), JSON.stringify(concurrent_effect_residency), JSON.stringify(concurrent_effect_profiles)])
+	# Runtime entry intentionally has a smaller resident contract than full-pack
+	# artifact QA: every present actor keeps idle/hit/down and every present effect
+	# keeps its projectile, but only the currently casting unit may own an ultimate
+	# page. Exercise two different casters so a stale first page cannot hide in the
+	# resident map while the second one is acquired.
+	var paged_signature_sprites := BattleSpriteLibrary.new()
+	var paged_signature_effects := EffectSignatureLibrary.new()
+	var paged_actor_core_loaded := paged_signature_sprites.load_signature_core_pack(signature_ids)
+	var paged_effect_core_loaded := paged_signature_effects.load_signature_core_pack(signature_effect_ids)
+	var paged_actor_core: Dictionary = paged_signature_sprites.signature_residency_snapshot()
+	var paged_effect_core: Dictionary = paged_signature_effects.signature_residency_snapshot()
+	var paged_actor_state_map: Dictionary = paged_actor_core.get("animation_ids_by_entity", {})
+	var paged_effect_state_map: Dictionary = paged_effect_core.get("effect_ids_by_profile", {})
+	var paged_core_states_valid := paged_actor_core_loaded and paged_effect_core_loaded and int(paged_actor_core.get("resident_atlas_bytes", -1)) == int(paged_actor_core.get("core_resident_atlas_bytes", -2)) and int(paged_effect_core.get("resident_atlas_bytes", -1)) == int(paged_effect_core.get("core_resident_atlas_bytes", -2)) and int(paged_actor_core.get("resident_atlas_bytes", 0)) < signature_full_preload_bytes and int(paged_effect_core.get("resident_atlas_bytes", 0)) < signature_effect_full_preload_bytes
+	for entity_id in signature_ids:
+		var paged_actor_states: Array = Array(paged_actor_state_map.get(entity_id, []))
+		paged_core_states_valid = paged_core_states_valid and paged_actor_states == ["idle", "hit", "down"] and not paged_signature_sprites.has_signature_animation(entity_id, "ultimate") and paged_signature_effects.supports_projectile_source(entity_id) and not paged_signature_effects.supports_ultimate_source(entity_id)
+	var paged_first_ultimate_loaded := paged_signature_sprites.ensure_signature_ultimate_loaded("CHR001") and paged_signature_effects.ensure_signature_ultimate_loaded("CHR001")
+	var paged_after_first_actor: Dictionary = paged_signature_sprites.signature_residency_snapshot()
+	var paged_after_first_effect: Dictionary = paged_signature_effects.signature_residency_snapshot()
+	var paged_second_ultimate_loaded := paged_signature_sprites.ensure_signature_ultimate_loaded("ENM001") and paged_signature_effects.ensure_signature_ultimate_loaded("ENM001")
+	var paged_after_second_actor: Dictionary = paged_signature_sprites.signature_residency_snapshot()
+	var paged_after_second_effect: Dictionary = paged_signature_effects.signature_residency_snapshot()
+	var paged_second_actor_states: Dictionary = paged_after_second_actor.get("animation_ids_by_entity", {})
+	var paged_second_effect_states: Dictionary = paged_after_second_effect.get("effect_ids_by_profile", {})
+	var paged_transition_valid := paged_first_ultimate_loaded and paged_second_ultimate_loaded and str(paged_after_first_actor.get("transient_ultimate_entity_id", "")) == "CHR001" and str(paged_after_first_effect.get("transient_ultimate_profile_id", "")) == "CHR001" and str(paged_after_second_actor.get("transient_ultimate_entity_id", "")) == "ENM001" and str(paged_after_second_effect.get("transient_ultimate_profile_id", "")) == "ENM001" and paged_signature_sprites.has_signature_animation("ENM001", "ultimate") and not paged_signature_sprites.has_signature_animation("CHR001", "ultimate") and paged_signature_effects.supports_ultimate_source("ENM001") and not paged_signature_effects.supports_ultimate_source("CHR001") and Array(paged_second_actor_states.get("CHR001", [])) == ["idle", "hit", "down"] and Array(paged_second_actor_states.get("ENM001", [])) == ["idle", "hit", "down", "ultimate"] and Array(paged_second_effect_states.get("CHR001", [])) == ["projectile"] and Array(paged_second_effect_states.get("ENM001", [])) == ["projectile", "ultimate"] and int(paged_after_second_actor.get("resident_atlas_bytes", -1)) <= int(paged_after_second_actor.get("budget_bytes", 0)) and int(paged_after_second_effect.get("resident_atlas_bytes", -1)) <= int(paged_after_second_effect.get("budget_bytes", 0))
+	paged_signature_sprites.release_signature_transient_ultimate()
+	paged_signature_effects.release_signature_transient_ultimate()
+	var paged_after_release_actor: Dictionary = paged_signature_sprites.signature_residency_snapshot()
+	var paged_after_release_effect: Dictionary = paged_signature_effects.signature_residency_snapshot()
+	var paged_release_valid := str(paged_after_release_actor.get("transient_ultimate_entity_id", "")) == "" and str(paged_after_release_effect.get("transient_ultimate_profile_id", "")) == "" and int(paged_after_release_actor.get("resident_atlas_bytes", -1)) == int(paged_after_release_actor.get("core_resident_atlas_bytes", -2)) and int(paged_after_release_effect.get("resident_atlas_bytes", -1)) == int(paged_after_release_effect.get("core_resident_atlas_bytes", -2)) and not paged_signature_sprites.has_signature_animation("ENM001", "ultimate") and not paged_signature_effects.supports_ultimate_source("ENM001")
+	check(paged_core_states_valid and paged_transition_valid and paged_release_valid, "five-combatant HD runtime keeps core motion/projectiles resident and leases one caster ultimate atomically under both mobile ceilings", "core_actor=%s core_effect=%s second_actor=%s second_effect=%s release_actor=%s release_effect=%s" % [JSON.stringify(paged_actor_core), JSON.stringify(paged_effect_core), JSON.stringify(paged_after_second_actor), JSON.stringify(paged_after_second_effect), JSON.stringify(paged_after_release_actor), JSON.stringify(paged_after_release_effect)])
+	# The reviewed CHR008 alternate remains in the immutable candidate manifest,
+	# but it must consume no actor/effect/HUD-face residency in the actual initial
+	# five-player encounter. Exercise the BattleView-facing snapshot rather than
+	# only a loader in isolation so a later UI warm-up cannot quietly reintroduce
+	# a non-party face crop.
+	var initial_residency_sim := _simulation(17231)
+	var initial_residency_party: Array = []
+	for party_slot in range(5):
+		var initial_character_id := "CHR%03d" % (party_slot + 1)
+		var initial_character := DataRegistry.character(initial_character_id)
+		initial_residency_party.append(initial_residency_sim._make_player(initial_character, party_slot))
+	initial_residency_sim.state.party = initial_residency_party
+	initial_residency_sim.state.enemies = [initial_residency_sim._make_enemy("ENM001", 0), initial_residency_sim._make_enemy("BOSS001", 0)]
+	var initial_residency_view := BattleView.new()
+	initial_residency_view.setup(initial_residency_sim)
+	var initial_runtime_resident_ids: Array[String] = ["CHR001", "CHR002", "CHR003", "CHR004", "CHR005", "BOSS001", "ENM001"]
+	var initial_runtime_actor_loaded := initial_residency_view.sprite_library.load_signature_core_pack(initial_runtime_resident_ids)
+	var initial_runtime_effect_loaded := initial_residency_view.effect_signature_library.load_signature_core_pack(initial_runtime_resident_ids)
+	initial_residency_view.signature_sprite_pack_ready = initial_runtime_actor_loaded
+	initial_residency_view.effect_signature_pack_ready = initial_runtime_effect_loaded
+	initial_residency_view.signature_residency_target_ids = initial_runtime_resident_ids.duplicate()
+	var initial_runtime_faces_ready := true
+	for initial_character_id in ["CHR001", "CHR002", "CHR003", "CHR004", "CHR005"]:
+		initial_runtime_faces_ready = initial_runtime_faces_ready and initial_residency_view.ultimate_orb_texture_for(initial_character_id, null) != null
+	var initial_runtime_snapshot: Dictionary = initial_residency_view.signature_runtime_residency_snapshot()
+	var initial_runtime_active_ids: Array = Array(initial_runtime_snapshot.get("active_encounter_ids", []))
+	var initial_runtime_actor_ids: Array = Array(initial_runtime_snapshot.get("resident_actor_ids", []))
+	var initial_runtime_effect_ids: Array = Array(initial_runtime_snapshot.get("resident_effect_entity_ids", []))
+	var initial_runtime_face_ids: Array = Array(initial_runtime_snapshot.get("face_crop_entity_ids", []))
+	var initial_runtime_face_bytes: Dictionary = initial_runtime_snapshot.get("face_crop_resident_bytes_by_entity", {})
+	var initial_runtime_active_exact := initial_runtime_active_ids.size() == initial_runtime_resident_ids.size()
+	for expected_initial_id in initial_runtime_resident_ids:
+		initial_runtime_active_exact = initial_runtime_active_exact and initial_runtime_active_ids.has(expected_initial_id)
+	var initial_runtime_residency_contract := initial_runtime_actor_loaded and initial_runtime_effect_loaded and initial_runtime_faces_ready and initial_runtime_active_exact and initial_runtime_actor_ids == initial_runtime_resident_ids and initial_runtime_effect_ids == initial_runtime_resident_ids and not initial_runtime_active_ids.has("CHR008") and not initial_runtime_actor_ids.has("CHR008") and not initial_runtime_effect_ids.has("CHR008") and not initial_runtime_face_ids.has("CHR008") and int(initial_runtime_face_bytes.get("CHR008", 0)) == 0 and int(initial_runtime_snapshot.get("face_crop_resident_bytes", 0)) == 5 * 192 * 192 * 4
+	check(initial_runtime_residency_contract, "actual initial five-player HD residency excludes CHR008 actor, effect and HUD face bytes", JSON.stringify(initial_runtime_snapshot))
+	initial_residency_view.free()
+	# Rollover is release-before-acquire: while the old high-density lease is gone,
+	# the ordinary compact actor pack remains valid; the next complete pack is then
+	# accepted as one set. A deliberately invalid request must leave no mixed page.
+	var rollover_actor := BattleSpriteLibrary.new()
+	var rollover_effect := EffectSignatureLibrary.new()
+	var rollover_compact_ready := rollover_actor.load_pack(signature_ids)
+	var rollover_first_ids: Array[String] = ["CHR001", "CHR002", "CHR003", "CHR004", "CHR005"]
+	var rollover_first_loaded := rollover_actor.load_signature_core_pack(rollover_first_ids) and rollover_effect.load_signature_core_pack(rollover_first_ids)
+	rollover_actor.clear_signature_pack()
+	rollover_effect.clear_signature_pack()
+	var rollover_released_actor: Dictionary = rollover_actor.signature_residency_snapshot()
+	var rollover_released_effect: Dictionary = rollover_effect.signature_residency_snapshot()
+	var rollover_compact_fallback := rollover_compact_ready and rollover_actor.supports_character("CHR001") and rollover_actor.supports_character("CHR002") and rollover_actor.supports_character("CHR008") and rollover_actor.supports_character("BOSS001") and rollover_actor.supports_character("ENM001")
+	var rollover_next_loaded := rollover_actor.load_signature_core_pack(signature_ids) and rollover_effect.load_signature_core_pack(signature_effect_ids)
+	var rollover_next_actor: Dictionary = rollover_actor.signature_residency_snapshot()
+	var rollover_next_effect: Dictionary = rollover_effect.signature_residency_snapshot()
+	var rollover_partial_rejected: bool = not rollover_actor.load_signature_core_pack(["CHR001", "UNAPPROVED_TEST_ID"]) and Array(rollover_actor.signature_residency_snapshot().get("entity_ids", [])).is_empty() and int(rollover_actor.signature_residency_snapshot().get("resident_atlas_bytes", -1)) == 0 and not rollover_actor.signature_load_error.is_empty()
+	var rollover_contract: bool = rollover_first_loaded and Array(rollover_released_actor.get("entity_ids", [])).is_empty() and int(rollover_released_actor.get("resident_atlas_bytes", -1)) == 0 and Array(rollover_released_effect.get("entity_ids", [])).is_empty() and int(rollover_released_effect.get("resident_atlas_bytes", -1)) == 0 and rollover_compact_fallback and rollover_next_loaded and Array(rollover_next_actor.get("entity_ids", [])) == signature_ids and Array(rollover_next_effect.get("entity_ids", [])) == signature_effect_ids and int(rollover_next_actor.get("resident_atlas_bytes", -1)) <= int(rollover_next_actor.get("budget_bytes", 0)) and int(rollover_next_effect.get("resident_atlas_bytes", -1)) <= int(rollover_next_effect.get("budget_bytes", 0)) and rollover_partial_rejected
+	check(rollover_contract, "wave residency rollover releases old high-density pages before the next atomic actor+effect lease, preserves compact fallback, and rejects mixed partial pages")
+	var encounter_signature_effects := EffectSignatureLibrary.new()
+	var encounter_signature_effect_ids: Array[String] = ["CHR001"]
+	var encounter_signature_effect_loaded := encounter_signature_effects.load_signature_core_pack(encounter_signature_effect_ids) and encounter_signature_effects.ensure_signature_ultimate_loaded("CHR001")
+	var encounter_signature_effect_residency: Dictionary = encounter_signature_effects.signature_residency_snapshot()
+	var encounter_signature_effect_isolated: bool = encounter_signature_effect_loaded and Array(encounter_signature_effect_residency.get("entity_ids", [])).size() == 1 and Array(encounter_signature_effect_residency.get("entity_ids", []))[0] == "CHR001" and encounter_signature_effects.supports_source("CHR001") and not encounter_signature_effects.supports_source("BOSS001") and int(encounter_signature_effect_residency.get("resident_atlas_bytes", 0)) > 0 and int(encounter_signature_effect_residency.get("resident_atlas_bytes", 0)) < signature_effects.signature_resident_atlas_bytes
+	check(encounter_signature_effect_isolated, "high-density projectile core and one ultimate page are leased per encounter without duplicating every character effect")
+	var rejected_signature_effect_load := EffectSignatureLibrary.new()
+	check(not rejected_signature_effect_load.load_signature_core_pack(["CHR001", "UNAPPROVED_TEST_ID"]) and rejected_signature_effect_load.manifests.is_empty() and not rejected_signature_effect_load.signature_load_error.is_empty(), "effect signature pack rejects a partial or unapproved entity set instead of silently mixing candidates")
 	var runtime_projectiles := ProjectileSpriteLibrary.new()
 	var runtime_projectile_loaded := runtime_projectiles.load_pack()
 	var runtime_projectile_frames_valid := runtime_projectile_loaded
@@ -465,8 +737,8 @@ func _test_combat_art_contracts() -> void:
 		runtime_vfx_valid = runtime_vfx_valid and ResourceLoader.exists("res://assets/runtime_web/vfx/%s/atlas.png" % folder)
 	check(runtime_vfx_valid, "Web authored VFX atlases resolve without art-folder fallback")
 	var battle_view_source := FileAccess.get_file_as_string("res://battle/view/battle_view.gd")
-	var skill_sequence_contract := battle_view_source.contains("var launch_delay := .18 if attack_kind == \"NORMAL\"") and battle_view_source.contains("var travel_key := \"%s_%s\"") and battle_view_source.contains("travel_frames[travel_frame]") and battle_view_source.contains("kind.trim_prefix(\"impact_\")") and battle_view_source.contains("frame = mini(textures.size() - 1, 6 +") and battle_view_source.contains("_spawn_vfx(str(event.source), str(event.target), \"impact_%s\"")
-	check(skill_sequence_contract, "authored skill VFX follow charge, moving signature projectile, contact burst and hit-reaction sequence")
+	var skill_sequence_contract := battle_view_source.contains("var launch_delay := .18 if attack_kind == \"NORMAL\"") and battle_view_source.contains("var travel_key := \"%s_%s\"") and battle_view_source.contains("travel_frames[travel_frame]") and battle_view_source.contains("kind.trim_prefix(\"impact_\")") and battle_view_source.contains("frame = mini(textures.size() - 1, 6 +") and battle_view_source.contains("_spawn_vfx(str(event.source), str(event.target), \"impact_%s\"") and battle_view_source.contains("effect_signature_library.projectile_texture_at") and battle_view_source.contains("effect_signature_library.ultimate_texture_at")
+	check(skill_sequence_contract, "authored skill VFX follow charge, moving high-density signature projectile, contact burst and hit-reaction sequence")
 	var audio_manifest := _read_json("res://assets/audio/audio_manifest.json")
 	var runtime_audio_valid := true
 	var runtime_audio_rights_valid: bool = audio_manifest.get("ownership_declaration", {}).get("ownership_status", "") == "PER_ENTRY_DECLARED"
@@ -640,7 +912,8 @@ func _test_data() -> void:
 	var skill_license_rows: Array = skill_icon_licenses.get("assets", [])
 	check(skill_license_rows.size() == total_skill_defs and skill_license_rows.all(func(row): return row.get("ownership_status", "") == "ORIGINAL_INTERNAL" and bool(row.get("commercial_use", false)) and str(row.get("file_sha256", "")).length() == 64), "all skill icons have original-internal commercial-use lineage and SHA-256")
 	var app_shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
-	check(app_shell_source.contains("_apply_skill_icon(button, skill") and app_shell_source.contains("_apply_skill_icon(skill_button, skill"), "battle ultimate and growth skill controls render SkillDef icons")
+	var ultimate_orb_source := FileAccess.get_file_as_string("res://battle/view/battle_ultimate_orb.gd")
+	check(app_shell_source.contains("BattleUltimateOrbScript.new()") and app_shell_source.contains("portrait_asset_id") and app_shell_source.contains(".set_charge(") and app_shell_source.contains("_apply_skill_icon(skill_button, skill") and ultimate_orb_source.contains("ReadyBadge") and ultimate_orb_source.contains("draw_arc") and ultimate_orb_source.contains("PortraitDisc"), "battle ultimates use portrait-centered circular charge controls with a READY state while growth skill controls retain SkillDef icons")
 	check(DataRegistry.list_of("character_level_curve").size() == 100, "character curve has 100 rows")
 	check(DataRegistry.list_of("account_level_curve").size() == 100, "account curve has 100 rows")
 	check(DataRegistry.list_of("weapon_level_curve").size() == 60, "weapon curve has 60 rows")
@@ -820,6 +1093,217 @@ func _test_battle() -> void:
 	var emitted_skip_matches := skip_results.size() == 1 and JSON.stringify(skip_results[0]) == JSON.stringify(signal_expected.result_snapshot())
 	check(first_skip_started and not duplicate_skip_started and signal_skipped.state.ended and emitted_skip_matches and signal_skipped.event_hash() == signal_expected.event_hash() and skip_view.consumed_events == signal_skipped.event_log.size(), "BattleView skip emits the ordinary terminal result exactly once without replaying presentation backlog", "signals=%d expected_hash=%s actual_hash=%s" % [skip_results.size(), signal_expected.event_hash(), signal_skipped.event_hash()])
 	skip_view.free()
+	var presentation_director = BattlePresentationDirectorScript.new()
+	var director_batch := {"id": "ULT:12:P:CHR001:SK001_U:9", "events": []}
+	var director_started := presentation_director.begin_ultimate(director_batch)
+	var director_before_prep: Dictionary = presentation_director.advance(.57)
+	var director_prep: Dictionary = presentation_director.advance(.02)
+	var director_impact: Dictionary = presentation_director.advance(.54)
+	var director_finished := false
+	for _director_frame in range(20):
+		var director_frame: Dictionary = presentation_director.advance(.10)
+		if bool(director_frame.get("finished", false)):
+			director_finished = true
+			break
+	var forced_director = BattlePresentationDirectorScript.new()
+	forced_director.begin_ultimate(director_batch)
+	var forced_snapshot: Dictionary = forced_director.force_finish()
+	check(director_started and not bool(director_before_prep.get("battlefield_prep", false)) and bool(director_prep.get("battlefield_prep", false)) and bool(director_impact.get("impact_commit", false)) and is_zero_approx(float(director_impact.get("actor_delta", 1.0))) and director_finished and bool(forced_snapshot.get("needs_impact_commit", false)), "ultimate presentation timeline keeps preparation, impact hitstop, recovery, and forced skip completion on a view-only clock")
+	var normal_impact_director = BattlePresentationDirectorScript.new()
+	normal_impact_director.request_combat_impact(.80)
+	normal_impact_director.advance(.03)
+	var normal_impact_visible := normal_impact_director.battlefield_zoom() > 1.0 and normal_impact_director.battlefield_offset().length() > 0.0
+	normal_impact_director.advance(.30)
+	var normal_impact_cleared := is_equal_approx(normal_impact_director.battlefield_zoom(), 1.0) and normal_impact_director.battlefield_offset().length() == 0.0
+	normal_impact_director.request_combat_impact(.80)
+	normal_impact_director.force_finish()
+	var skip_clears_normal_impact := is_equal_approx(normal_impact_director.battlefield_zoom(), 1.0) and normal_impact_director.battlefield_offset().length() == 0.0
+	check(normal_impact_visible and normal_impact_cleared and skip_clears_normal_impact, "ordinary impacts use a bounded local camera pulse and leave no residual zoom or offset after expiry or skip")
+	var directional_focus_director = BattlePresentationDirectorScript.new()
+	directional_focus_director.request_combat_focus(1.0, .82, .60)
+	directional_focus_director.advance(.16)
+	var player_focus_offset := directional_focus_director.battlefield_offset()
+	var player_focus_zoom := directional_focus_director.battlefield_zoom()
+	directional_focus_director.advance(.70)
+	var player_focus_cleared := is_equal_approx(directional_focus_director.battlefield_zoom(), 1.0) and directional_focus_director.battlefield_offset().length() == 0.0
+	directional_focus_director.request_combat_focus(-1.0, .82, .60)
+	directional_focus_director.advance(.16)
+	var enemy_focus_offset := directional_focus_director.battlefield_offset()
+	directional_focus_director.force_finish()
+	var forced_focus_cleared := is_equal_approx(directional_focus_director.battlefield_zoom(), 1.0) and directional_focus_director.battlefield_offset().length() == 0.0
+	check(player_focus_offset.x < 0.0 and player_focus_zoom > 1.0 and enemy_focus_offset.x > 0.0 and player_focus_cleared and forced_focus_cleared, "combat actions use a bounded directional camera follow that mirrors both teams and clears after expiry or skip")
+	var player_windup: Dictionary = BattleView.combat_motion_snapshot("PLAYER", "basic_attack", .10, .75)
+	var player_lunge: Dictionary = BattleView.combat_motion_snapshot("PLAYER", "basic_attack", .38, .75)
+	var enemy_windup: Dictionary = BattleView.combat_motion_snapshot("ENEMY", "basic_attack", .10, .75)
+	var enemy_lunge: Dictionary = BattleView.combat_motion_snapshot("ENEMY", "basic_attack", .38, .75)
+	var player_hit: Dictionary = BattleView.combat_motion_snapshot("PLAYER", "hit", .38, .75)
+	var enemy_hit: Dictionary = BattleView.combat_motion_snapshot("ENEMY", "hit", .38, .75)
+	var player_windup_offset: Vector2 = player_windup.get("offset", Vector2.ZERO)
+	var player_lunge_offset: Vector2 = player_lunge.get("offset", Vector2.ZERO)
+	var enemy_windup_offset: Vector2 = enemy_windup.get("offset", Vector2.ZERO)
+	var enemy_lunge_offset: Vector2 = enemy_lunge.get("offset", Vector2.ZERO)
+	var player_hit_offset: Vector2 = player_hit.get("offset", Vector2.ZERO)
+	var enemy_hit_offset: Vector2 = enemy_hit.get("offset", Vector2.ZERO)
+	check(player_windup_offset.x < 0.0 and player_lunge_offset.x > 0.0 and enemy_windup_offset.x > 0.0 and enemy_lunge_offset.x < 0.0 and player_hit_offset.x < 0.0 and enemy_hit_offset.x > 0.0, "battle motion layer gives both sides readable anticipation, forward strike, recoil, and directional hit response without changing simulation state")
+	var cinematic_sim := _simulation(1721)
+	var cinematic_source: Dictionary = cinematic_sim.state.party[0]
+	cinematic_source.def_id = "CHR001"
+	var cinematic_target: Dictionary = cinematic_sim.state.enemies[0]
+	var cinematic_hp_before := int(cinematic_target.hp)
+	var cinematic_event_start := cinematic_sim.event_log.size()
+	var cinematic_view := BattleView.new()
+	cinematic_view.setup(cinematic_sim)
+	cinematic_sim.event_log.append(BattleEvent.make(cinematic_sim.state.tick, BattleEvent.ULTIMATE, str(cinematic_source.uid), str(cinematic_target.uid), 0, {"skill_id": "SK001_U"}))
+	cinematic_sim.event_log.append(BattleEvent.make(cinematic_sim.state.tick, BattleEvent.DAMAGE, str(cinematic_source.uid), str(cinematic_target.uid), cinematic_hp_before, {"source": "ULTIMATE", "hp_damage": cinematic_hp_before, "shield_damage": 0}))
+	cinematic_sim.event_log.append(BattleEvent.make(cinematic_sim.state.tick, BattleEvent.DOWN, str(cinematic_source.uid), str(cinematic_target.uid), 0, {"cause": "ULTIMATE"}))
+	cinematic_view._consume_events()
+	var cinematic_held: Dictionary = cinematic_view.presentation_cursor_snapshot()
+	var held_director: Dictionary = cinematic_held.get("director", {})
+	var held_target := cinematic_view.presentation_unit_for_uid(str(cinematic_target.uid))
+	var cinematic_impact: Dictionary = cinematic_view.presentation_director.advance(1.13)
+	cinematic_view._handle_presentation_timeline(cinematic_impact)
+	var cinematic_committed: Dictionary = cinematic_view.presentation_cursor_snapshot()
+	var committed_target := cinematic_view.presentation_unit_for_uid(str(cinematic_target.uid))
+	var cinematic_batch_end := cinematic_event_start + 3
+	var batch_is_atomic := int(cinematic_held.get("read_cursor", -1)) == cinematic_batch_end and int(cinematic_held.get("presented_cursor", -1)) == cinematic_event_start and bool(held_director.get("active", false)) and int(held_target.get("hp", -1)) == cinematic_hp_before and bool(cinematic_impact.get("impact_commit", false)) and int(cinematic_committed.get("presented_cursor", -1)) == cinematic_batch_end and int(committed_target.get("hp", -1)) == 0 and not bool(committed_target.get("alive", true))
+	check(batch_is_atomic, "CHR001 ultimate holds related DAMAGE and DOWN display state until one atomic impact commit")
+	cinematic_view._force_finish_active_presentation()
+	cinematic_view.free()
+	# Consecutive signature ULTIMATE cues must be serialised by the presentation
+	# barrier.  The raw asset libraries can replace a transient page by design,
+	# but BattleView must never do that while the previous caster is still in its
+	# recovery window: on a phone this would visibly cut off the first character's
+	# motion/effect and retain an unnecessary second high-density page.
+	var queued_ultimate_sim := _simulation(17211)
+	var queued_first_source: Dictionary = queued_ultimate_sim.state.party[0]
+	var queued_second_source: Dictionary = queued_ultimate_sim.state.party[1]
+	queued_first_source.def_id = "CHR001"
+	queued_second_source.def_id = "CHR003"
+	var queued_target: Dictionary = queued_ultimate_sim.state.enemies[0]
+	var queued_ultimate_start := queued_ultimate_sim.event_log.size()
+	var queued_ultimate_view := BattleView.new()
+	queued_ultimate_view.setup(queued_ultimate_sim)
+	var queued_signature_ids: Array[String] = ["CHR001", "CHR003"]
+	queued_ultimate_view.signature_sprite_pack_ready = queued_ultimate_view.sprite_library.load_signature_core_pack(queued_signature_ids)
+	queued_ultimate_view.effect_signature_pack_ready = queued_ultimate_view.effect_signature_library.load_signature_core_pack(queued_signature_ids)
+	queued_ultimate_view.signature_residency_target_ids = queued_signature_ids.duplicate()
+	queued_ultimate_sim.event_log.append(BattleEvent.make(queued_ultimate_sim.state.tick, BattleEvent.ULTIMATE, str(queued_first_source.uid), str(queued_target.uid), 0, {"skill_id": "SK001_U"}))
+	queued_ultimate_sim.event_log.append(BattleEvent.make(queued_ultimate_sim.state.tick, BattleEvent.ULTIMATE, str(queued_second_source.uid), str(queued_target.uid), 0, {"skill_id": "SK003_U"}))
+	queued_ultimate_view._consume_events()
+	var queued_first_held: Dictionary = queued_ultimate_view.presentation_cursor_snapshot()
+	var queued_first_actor: Dictionary = queued_ultimate_view.sprite_library.signature_residency_snapshot()
+	var queued_first_effect: Dictionary = queued_ultimate_view.effect_signature_library.signature_residency_snapshot()
+	# Even after the impact commit the recovery barrier remains active, so the
+	# second cue cannot replace the first caster's transient actor/effect page.
+	var queued_impact_timeline: Dictionary = queued_ultimate_view.presentation_director.advance(1.13)
+	queued_ultimate_view._handle_presentation_timeline(queued_impact_timeline)
+	queued_ultimate_view._consume_events()
+	var queued_during_recovery: Dictionary = queued_ultimate_view.presentation_cursor_snapshot()
+	var queued_recovery_actor: Dictionary = queued_ultimate_view.sprite_library.signature_residency_snapshot()
+	var queued_recovery_effect: Dictionary = queued_ultimate_view.effect_signature_library.signature_residency_snapshot()
+	# Completing recovery must release both first-caster pages before the next
+	# raw-log cue is consumed.  Capture that boundary directly, then start cue 2.
+	var queued_finish_timeline: Dictionary = queued_ultimate_view.presentation_director.advance(1.00)
+	queued_ultimate_view._handle_presentation_timeline(queued_finish_timeline)
+	var queued_after_release_actor: Dictionary = queued_ultimate_view.sprite_library.signature_residency_snapshot()
+	var queued_after_release_effect: Dictionary = queued_ultimate_view.effect_signature_library.signature_residency_snapshot()
+	queued_ultimate_view._consume_events()
+	var queued_second_held: Dictionary = queued_ultimate_view.presentation_cursor_snapshot()
+	var queued_second_actor: Dictionary = queued_ultimate_view.sprite_library.signature_residency_snapshot()
+	var queued_second_effect: Dictionary = queued_ultimate_view.effect_signature_library.signature_residency_snapshot()
+	var consecutive_ultimate_queue_valid := queued_ultimate_view.signature_sprite_pack_ready and queued_ultimate_view.effect_signature_pack_ready and int(queued_first_held.get("read_cursor", -1)) == queued_ultimate_start + 1 and int(queued_first_held.get("presented_cursor", -1)) == queued_ultimate_start and bool((queued_first_held.get("director", {}) as Dictionary).get("active", false)) and str(queued_first_actor.get("transient_ultimate_entity_id", "")) == "CHR001" and str(queued_first_effect.get("transient_ultimate_profile_id", "")) == "CHR001" and bool(queued_impact_timeline.get("impact_commit", false)) and int(queued_during_recovery.get("read_cursor", -1)) == queued_ultimate_start + 1 and str(queued_recovery_actor.get("transient_ultimate_entity_id", "")) == "CHR001" and str(queued_recovery_effect.get("transient_ultimate_profile_id", "")) == "CHR001" and bool(queued_finish_timeline.get("finished", false)) and str(queued_after_release_actor.get("transient_ultimate_entity_id", "")) == "" and str(queued_after_release_effect.get("transient_ultimate_profile_id", "")) == "" and int(queued_second_held.get("read_cursor", -1)) == queued_ultimate_start + 2 and int(queued_second_held.get("presented_cursor", -1)) == queued_ultimate_start + 1 and bool((queued_second_held.get("director", {}) as Dictionary).get("active", false)) and str(queued_second_actor.get("transient_ultimate_entity_id", "")) == "CHR003" and str(queued_second_effect.get("transient_ultimate_profile_id", "")) == "CHR003"
+	check(consecutive_ultimate_queue_valid, "back-to-back signature ultimates wait through recovery, release the first transient pair, then acquire the next caster pair", "first=%s recovery=%s released_actor=%s released_effect=%s second=%s" % [JSON.stringify(queued_first_held), JSON.stringify(queued_during_recovery), JSON.stringify(queued_after_release_actor), JSON.stringify(queued_after_release_effect), JSON.stringify(queued_second_held)])
+	queued_ultimate_view._force_finish_active_presentation()
+	queued_ultimate_view.free()
+	var cinematic_skip_sim := _simulation(1722)
+	var cinematic_skip_source: Dictionary = cinematic_skip_sim.state.party[0]
+	cinematic_skip_source.def_id = "CHR001"
+	var cinematic_skip_target: Dictionary = cinematic_skip_sim.state.enemies[0]
+	var cinematic_skip_view := BattleView.new()
+	cinematic_skip_view.setup(cinematic_skip_sim)
+	cinematic_skip_sim.event_log.append(BattleEvent.make(cinematic_skip_sim.state.tick, BattleEvent.ULTIMATE, str(cinematic_skip_source.uid), str(cinematic_skip_target.uid), 0, {"skill_id": "SK001_U"}))
+	cinematic_skip_view._consume_events()
+	var cinematic_skip_started := cinematic_skip_view.skip_to_result()
+	var cinematic_skip_cursor: Dictionary = cinematic_skip_view.presentation_cursor_snapshot()
+	check(cinematic_skip_started and not cinematic_skip_view.presentation_director.is_active() and int(cinematic_skip_cursor.get("read_cursor", -1)) == cinematic_skip_sim.event_log.size() and int(cinematic_skip_cursor.get("presented_cursor", -1)) == cinematic_skip_sim.event_log.size(), "skip finalizes an active cinematic batch before exposing the ordinary terminal result")
+	cinematic_skip_view.free()
+	var signature_scope_sim := _simulation(1723)
+	for party_index in range(signature_scope_sim.state.party.size()):
+		# CHR004 is now intentionally part of the starting-party HD group. Use CHR006 as
+		# a non-signature control so this still proves a future BOSS001 wave is not
+		# preloaded merely because it appears in the stage declaration.
+		signature_scope_sim.state.party[party_index].def_id = "CHR006"
+	signature_scope_sim.state.party[0].def_id = "CHR001"
+	for enemy_index in range(signature_scope_sim.state.enemies.size()):
+		signature_scope_sim.state.enemies[enemy_index].def_id = "ENM001"
+	signature_scope_sim.stage["waves"] = [["BOSS001"]]
+	var signature_scope_view := BattleView.new()
+	signature_scope_view.setup(signature_scope_sim)
+	var signature_scope_ids := signature_scope_view._signature_residency_entity_ids()
+	check(signature_scope_ids.size() == 2 and signature_scope_ids[0] == "CHR001" and signature_scope_ids[1] == "ENM001" and not signature_scope_ids.has("BOSS001"), "the current ENM001 encounter is admitted to the high-density lease while a future BOSS001 wave is not preloaded")
+	signature_scope_view.free()
+	var signature_motion_sim := _simulation(1724)
+	for party_index in range(signature_motion_sim.state.party.size()):
+		signature_motion_sim.state.party[party_index].def_id = "CHR002"
+	signature_motion_sim.state.party[0].def_id = "CHR008"
+	var signature_motion_view := BattleView.new()
+	signature_motion_view.setup(signature_motion_sim)
+	signature_motion_view.signature_sprite_pack_ready = signature_motion_view.sprite_library.load_signature_pack(["CHR008"])
+	var signature_motion_uid := str(signature_motion_sim.state.party[0].uid)
+	signature_motion_view.entry_tracks[signature_motion_uid] = 1.0
+	signature_motion_view._play_animation(signature_motion_uid, "ultimate")
+	signature_motion_view._advance_animations(10.0)
+	var signature_motion_track: Dictionary = signature_motion_view.animation_tracks.get(signature_motion_uid, {})
+	check(signature_motion_view.signature_sprite_pack_ready and str(signature_motion_track.get("name", "")) == "idle", "signature-only non-looping motion restores actor and world HP/SH anchor transforms without requiring a compact atlas")
+	signature_motion_view.free()
+	var residual_sim := _simulation(1725)
+	var residual_source: Dictionary = residual_sim.state.party[0]
+	var residual_target: Dictionary = residual_sim.state.enemies[0]
+	var residual_view := BattleView.new()
+	residual_view.setup(residual_sim)
+	residual_view.entry_tracks[str(residual_source.uid)] = 1.0
+	residual_view._spawn_projectile(str(residual_source.uid), str(residual_target.uid), "ULTIMATE")
+	residual_view._spawn_vfx(str(residual_source.uid), str(residual_target.uid), "ultimate")
+	residual_view._spawn_vfx(str(residual_source.uid), str(residual_target.uid), "impact_ultimate")
+	residual_view._spawn_skill_callout(str(residual_source.uid), "ULT", Color("ffd36f"))
+	residual_view._spawn_boss_phase_presentation(str(residual_source.uid), "ENRAGE")
+	residual_view._play_animation(str(residual_source.uid), "ultimate")
+	residual_view.presentation_director.request_combat_impact(.82)
+	residual_view.speed = 3
+	residual_view.paused = true
+	residual_view._process(.20)
+	residual_view.paused = false
+	var residual_before_skip: Dictionary = residual_view.presentation_residual_snapshot()
+	var residual_skip_started := residual_view.skip_to_result()
+	var residual_after_skip: Dictionary = residual_view.presentation_residual_snapshot()
+	check(residual_skip_started and int(residual_before_skip.get("active_effect_count", 0)) >= 5 and not bool(residual_before_skip.get("camera_at_baseline", true)) and residual_view.presentation_residuals_are_clear() and int(residual_after_skip.get("active_effect_count", -1)) == 0, "travel, cast, impact burst, shock-camera, callout and phase layers leave no residual after paused/3x skip", "before=%s after=%s skip=%s" % [JSON.stringify(residual_before_skip), JSON.stringify(residual_after_skip), residual_skip_started])
+	residual_view.free()
+	var terminal_residual_view := BattleView.new()
+	var terminal_residual_sim := _simulation(1726)
+	terminal_residual_view.setup(terminal_residual_sim)
+	var terminal_source: Dictionary = terminal_residual_sim.state.party[0]
+	var terminal_target: Dictionary = terminal_residual_sim.state.enemies[0]
+	terminal_residual_view._spawn_projectile(str(terminal_source.uid), str(terminal_target.uid), "NORMAL")
+	terminal_residual_view._spawn_vfx(str(terminal_source.uid), str(terminal_target.uid), "impact_ultimate")
+	terminal_residual_view.presentation_director.request_combat_impact(.80)
+	terminal_residual_view.consumed_events = terminal_residual_sim.event_log.size()
+	terminal_residual_view.presentation_read_cursor = terminal_residual_sim.event_log.size()
+	terminal_residual_view.presented_cursor = terminal_residual_sim.event_log.size()
+	terminal_residual_sim.state.ended = true
+	terminal_residual_view._process(0.0)
+	check(terminal_residual_view.emitted_finish and terminal_residual_view.presentation_residuals_are_clear(), "normal battle-end terminal cleanup clears active effect records, camera impact, motion offsets and HP/SH anchor offsets")
+	terminal_residual_view.free()
+	var reentry_residual_view := BattleView.new()
+	reentry_residual_view.setup(_simulation(1727))
+	var reentry_source: Dictionary = reentry_residual_view.simulation.state.party[0]
+	var reentry_target: Dictionary = reentry_residual_view.simulation.state.enemies[0]
+	reentry_residual_view._spawn_projectile(str(reentry_source.uid), str(reentry_target.uid), "ULTIMATE")
+	reentry_residual_view._spawn_vfx(str(reentry_source.uid), str(reentry_target.uid), "ultimate")
+	reentry_residual_view.presentation_director.request_combat_impact(.76)
+	reentry_residual_view.setup(_simulation(1728))
+	reentry_residual_view._advance_entries(1.0)
+	check(reentry_residual_view.presentation_residuals_are_clear(), "battle re-entry starts without an earlier encounter's projectile, VFX, camera or actor-anchor residual")
+	reentry_residual_view.free()
 	var rng := DeterministicRng.new(81)
 	var attacker := {"stats": {"ATK": 100, "ACC": 100, "CRIT": 100}, "level": 10, "attack_type": "PHYSICAL", "outgoing_modifier": 1.0, "statuses": {}}
 	var defender := {"stats": {"DEF": 100, "EVA": 100, "CRIT_RES": 100}, "level": 10, "defense_type": "ARMOR", "incoming_modifier": 1.0, "statuses": {}}

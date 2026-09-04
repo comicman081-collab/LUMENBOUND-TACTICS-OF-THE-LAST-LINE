@@ -1,0 +1,1759 @@
+{
+  "schema_version": 1,
+  "candidate_id": "battle_signature_hd_r13_enm001",
+  "status": "RUNTIME_SIGNATURE_CANDIDATE_PENDING_VISUAL_QA",
+  "character_id": "ENM001",
+  "source_asset_id": "sd_enm001_premium_r6p2",
+  "costume_id": "ENM001_RUSH_WISP_R6P2",
+  "source_authority_status": "ART_QA_CANDIDATE_LOCAL_QA_ONLY_NOT_PROMOTABLE",
+  "identity_fingerprint": {
+    "role": "MELEE_RUSH",
+    "adult_classification": "GENDERLESS_NONHUMAN",
+    "signature_palette": "deep navy armored plates + ember-orange crystal fins + cyan joints + orange core",
+    "weapon": "integrated crystal claws and forelimb strike assembly",
+    "silhouette": "low, wide quadruped rush construct with forward orange crystal crest"
+  },
+  "signature_frame_selection": {
+    "idle": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "ultimate": [
+      0,
+      2,
+      3,
+      5,
+      6,
+      8,
+      9,
+      11,
+      12,
+      14,
+      15,
+      17
+    ]
+  },
+  "chroma_key_provenance": {},
+  "source_animation_manifest": "godot/assets/art/enemies/ENM001/animation_manifest.json",
+  "source_animation_manifest_sha256": "0ec616bcd58f0e7ca82083d2d73e6211b6c5600c00588cdb4863e612f8bdceab",
+  "source_frame_size": [
+    512,
+    512
+  ],
+  "runtime_frame_size": [
+    384,
+    384
+  ],
+  "logical_draw_canvas": [
+    512,
+    512
+  ],
+  "foot_anchor": [
+    0.5,
+    0.88
+  ],
+  "head_anchor": [
+    0.5,
+    0.12
+  ],
+  "view": "THREE_QUARTER_LEFT_DOWN_30",
+  "facing_policy": "MIRROR_SAFE",
+  "animations": {
+    "idle": {
+      "fps": 12,
+      "loop": true,
+      "atlas_path": "idle.png",
+      "atlas_sha256": "a6039e1377b7b2cdb651762cd4281a553da9d3506be9a94f62f2ef23e0d6cff7",
+      "atlas_size": [
+        1536,
+        260
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 2359296,
+        "packed_rgba_bytes": 1597440,
+        "saved_rgba_bytes": 761856
+      },
+      "frame_count": 4,
+      "frames": [
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/idle/idle_00.png",
+          "source_sha256": "0cf785628082173c0cde821e365e0eb9cccd8e09c807ec3b8d0efa39bc442e60",
+          "region": [
+            344,
+            0,
+            340,
+            258
+          ],
+          "logical_rect": [
+            22,
+            42,
+            340,
+            258
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              64,
+              474,
+              392
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              48,
+              356,
+              294
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              334,
+              252
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/idle/idle_02.png",
+          "source_sha256": "4b3b1ef1b6a2eba07bdda6d56f432121bffcb9b3128236e525c32507deffb18e",
+          "region": [
+            0,
+            0,
+            341,
+            259
+          ],
+          "logical_rect": [
+            22,
+            41,
+            341,
+            259
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              61,
+              475,
+              391
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              46,
+              356,
+              294
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              5,
+              334,
+              253
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/idle/idle_04.png",
+          "source_sha256": "b486d6172d12e1ffd8a8e7718d27c1e70a866a0423b03a7e3f6532a0984f9481",
+          "region": [
+            684,
+            0,
+            340,
+            258
+          ],
+          "logical_rect": [
+            22,
+            42,
+            340,
+            258
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              65,
+              474,
+              392
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              49,
+              355,
+              294
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              333,
+              252
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/idle/idle_06.png",
+          "source_sha256": "e789fb5d80f462e5aae9c72bd079489dbaffd73ab343d8eb3835c7d747ec94a8",
+          "region": [
+            1024,
+            0,
+            340,
+            257
+          ],
+          "logical_rect": [
+            22,
+            43,
+            340,
+            257
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              66,
+              474,
+              392
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              50,
+              355,
+              294
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              333,
+              251
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          7,
+          5,
+          1357,
+          253
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "ultimate": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "ultimate.png",
+      "atlas_sha256": "f655ef2f0fe48a73795af035c855d6d1fc8aa539f155c0690a285c25e77d4004",
+      "atlas_size": [
+        1024,
+        1268
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 7077888,
+        "packed_rgba_bytes": 5193728,
+        "saved_rgba_bytes": 1884160
+      },
+      "frame_count": 12,
+      "frames": [
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/ultimate/ultimate_00.png",
+          "source_sha256": "a1b1aa937d2a2b21761c99229abb71e842eccc8bfcc391f572e152a5556bdb0b",
+          "region": [
+            640,
+            952,
+            319,
+            310
+          ],
+          "logical_rect": [
+            32,
+            41,
+            319,
+            310
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              51,
+              63,
+              460,
+              459
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              47,
+              345,
+              344
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              313,
+              303
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/ultimate/ultimate_02.png",
+          "source_sha256": "6648bbc82e80006b79c322081ccd3f5a95b6f06ca8068f55b6b0ad8c9554189f",
+          "region": [
+            0,
+            952,
+            320,
+            313
+          ],
+          "logical_rect": [
+            33,
+            39,
+            320,
+            313
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              53,
+              61,
+              463,
+              459
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              40,
+              45,
+              347,
+              344
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              314,
+              305
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/ultimate/ultimate_03.png",
+          "source_sha256": "67f3f48780f1860b63baaca90120300721b624024d0b243c040cde11505a08db",
+          "region": [
+            0,
+            636,
+            322,
+            314
+          ],
+          "logical_rect": [
+            32,
+            38,
+            322,
+            314
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              54,
+              59,
+              464,
+              459
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              40,
+              44,
+              348,
+              344
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              8,
+              6,
+              316,
+              306
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/ultimate/ultimate_05.png",
+          "source_sha256": "8ef5ea7f16e3e32ee6c04dc99223ca20289bfafa13b654903f0f6c4adc4e4357",
+          "region": [
+            328,
+            320,
+            325,
+            315
+          ],
+          "logical_rect": [
+            32,
+            37,
+            325,
+            315
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              56,
+              57,
+              468,
+              460
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              42,
+              43,
+              351,
+              345
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              10,
+              6,
+              319,
+              308
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/ultimate/ultimate_06.png",
+          "source_sha256": "3d27c2b5fc0a4fdad11366edf95b018df405c4bd9fe72f27dcd30852d1572564",
+          "region": [
+            664,
+            0,
+            327,
+            318
+          ],
+          "logical_rect": [
+            32,
+            35,
+            327,
+            318
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              58,
+              56,
+              470,
+              460
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              43,
+              42,
+              352,
+              345
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              11,
+              7,
+              320,
+              310
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/ultimate/ultimate_08.png",
+          "source_sha256": "5be36b0362bec14a8b270b84c9ad945cc4e1b8dd834809bb3cd242a0d98f8852",
+          "region": [
+            0,
+            0,
+            329,
+            318
+          ],
+          "logical_rect": [
+            32,
+            35,
+            329,
+            318
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              58,
+              55,
+              472,
+              460
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              44,
+              41,
+              354,
+              345
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              12,
+              6,
+              322,
+              310
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/ultimate/ultimate_09.png",
+          "source_sha256": "c64a0ed148180e37e676348c601fab08f19832409a1187ee146a168ec9b9ad30",
+          "region": [
+            332,
+            0,
+            329,
+            318
+          ],
+          "logical_rect": [
+            32,
+            35,
+            329,
+            318
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              58,
+              55,
+              472,
+              460
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              44,
+              41,
+              354,
+              345
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              12,
+              6,
+              322,
+              310
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/ultimate/ultimate_11.png",
+          "source_sha256": "cb6dc88586c6cd6a78c726fa218319d6be4f4f085cc2a8bf9e04b1dbbdc39c1f",
+          "region": [
+            0,
+            320,
+            326,
+            316
+          ],
+          "logical_rect": [
+            32,
+            37,
+            326,
+            316
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              58,
+              56,
+              469,
+              460
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              43,
+              42,
+              352,
+              345
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              11,
+              5,
+              320,
+              308
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/ultimate/ultimate_12.png",
+          "source_sha256": "de2ee76639ec9b72f4557d04b5d72aea5fe91c8e11638745ff4e9090e337747a",
+          "region": [
+            656,
+            320,
+            325,
+            315
+          ],
+          "logical_rect": [
+            32,
+            37,
+            325,
+            315
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              56,
+              57,
+              467,
+              460
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              42,
+              43,
+              351,
+              345
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              10,
+              6,
+              319,
+              308
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/ultimate/ultimate_14.png",
+          "source_sha256": "cba87111fea76766e018f084aa5d6249d3c422bf4cadba4243428084e797e2bf",
+          "region": [
+            324,
+            636,
+            320,
+            314
+          ],
+          "logical_rect": [
+            33,
+            38,
+            320,
+            314
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              52,
+              59,
+              464,
+              459
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              39,
+              44,
+              348,
+              344
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              315,
+              306
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/ultimate/ultimate_15.png",
+          "source_sha256": "0333f94dbbf2d2ebdb8990102c514ae280ab30918f54e4520805bd448eb45039",
+          "region": [
+            644,
+            636,
+            321,
+            313
+          ],
+          "logical_rect": [
+            31,
+            39,
+            321,
+            313
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              50,
+              61,
+              462,
+              459
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              45,
+              346,
+              344
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              315,
+              305
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/ultimate/ultimate_17.png",
+          "source_sha256": "f56e82065cef8f1f7abefbd8d03e6db4861778a46c0f6a5c1c7a258926471ea8",
+          "region": [
+            320,
+            952,
+            320,
+            310
+          ],
+          "logical_rect": [
+            29,
+            41,
+            320,
+            310
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              47,
+              63,
+              458,
+              459
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              35,
+              48,
+              344,
+              344
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              315,
+              303
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          7,
+          6,
+          984,
+          1257
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "hit": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "hit.png",
+      "atlas_sha256": "55aa4646a20b85d8997acfa51374ffc2d7c58dc0556a4e2e6e10d2636617bcb2",
+      "atlas_size": [
+        1280,
+        312
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 2359296,
+        "packed_rgba_bytes": 1597440,
+        "saved_rgba_bytes": 761856
+      },
+      "frame_count": 4,
+      "frames": [
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/hit/hit_00.png",
+          "source_sha256": "ffcd4fbf0c274b82e0306a1bc49eb95fb3eb745dedc6af5f86ed43a2a6ed9889",
+          "region": [
+            640,
+            0,
+            311,
+            309
+          ],
+          "logical_rect": [
+            36,
+            41,
+            311,
+            309
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              58,
+              64,
+              452,
+              458
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              44,
+              48,
+              338,
+              344
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              8,
+              7,
+              302,
+              303
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/hit/hit_01.png",
+          "source_sha256": "037f2a092f2707a7603ab1829882976b2e40dff20c49a685c788400417118fc3",
+          "region": [
+            0,
+            0,
+            317,
+            309
+          ],
+          "logical_rect": [
+            29,
+            40,
+            317,
+            309
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              59,
+              62,
+              449,
+              456
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              44,
+              47,
+              336,
+              342
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              15,
+              7,
+              307,
+              302
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/hit/hit_02.png",
+          "source_sha256": "a1d345d76b1f7b000a2bf3eb485caf5b0b67269e607a8a562c647b65b5421f77",
+          "region": [
+            320,
+            0,
+            317,
+            309
+          ],
+          "logical_rect": [
+            29,
+            40,
+            317,
+            309
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              59,
+              63,
+              449,
+              456
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              44,
+              47,
+              336,
+              342
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              15,
+              7,
+              307,
+              302
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/hit/hit_03.png",
+          "source_sha256": "2a3568cc05a07140d11d188f800c201105c9c4a4cf306ba5ab969766ecd6fbcd",
+          "region": [
+            952,
+            0,
+            311,
+            309
+          ],
+          "logical_rect": [
+            36,
+            41,
+            311,
+            309
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              58,
+              64,
+              452,
+              458
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              44,
+              48,
+              338,
+              344
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              8,
+              7,
+              302,
+              303
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          15,
+          7,
+          1254,
+          303
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "down": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "down.png",
+      "atlas_sha256": "83f675352d4c0dd085abd1f24e45be77d63065f34d92c28b00b6e556d5bb21cd",
+      "atlas_size": [
+        768,
+        884
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 4718592,
+        "packed_rgba_bytes": 2715648,
+        "saved_rgba_bytes": 2002944
+      },
+      "frame_count": 8,
+      "frames": [
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/down/down_00.png",
+          "source_sha256": "ce89f51ce6cdfb014147a737381e6dd3971dacdbfa56c0ba4638b459f4cb85d2",
+          "region": [
+            0,
+            0,
+            340,
+            221
+          ],
+          "logical_rect": [
+            22,
+            41,
+            340,
+            221
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              39,
+              64,
+              476,
+              340
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              48,
+              357,
+              255
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              335,
+              214
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/down/down_01.png",
+          "source_sha256": "23160c829cfe8f8b67155c3bde2b547cf9cbcf9fc81421d37e0071cb773ee6e9",
+          "region": [
+            340,
+            0,
+            340,
+            221
+          ],
+          "logical_rect": [
+            22,
+            41,
+            340,
+            221
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              39,
+              65,
+              475,
+              340
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              49,
+              356,
+              255
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              8,
+              334,
+              214
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/down/down_02.png",
+          "source_sha256": "9d769750d7300fc1e8576b4e029b37ef77d963da61d6ba64c2c0748a5a2eb804",
+          "region": [
+            0,
+            224,
+            340,
+            220
+          ],
+          "logical_rect": [
+            22,
+            42,
+            340,
+            220
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              39,
+              66,
+              474,
+              340
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              50,
+              356,
+              255
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              8,
+              334,
+              213
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/down/down_03.png",
+          "source_sha256": "5023eae33de20b9fa2804e85360944631ee05c1f86c45af072a8c8fe435a58be",
+          "region": [
+            340,
+            224,
+            338,
+            219
+          ],
+          "logical_rect": [
+            22,
+            43,
+            338,
+            219
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              39,
+              66,
+              474,
+              340
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              51,
+              355,
+              255
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              8,
+              333,
+              212
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/down/down_04.png",
+          "source_sha256": "0789a6a1ba12bfaa61066dcf1a0ddf87b68dbb0b7b4c0a867aac5a5247773982",
+          "region": [
+            340,
+            444,
+            337,
+            218
+          ],
+          "logical_rect": [
+            22,
+            44,
+            337,
+            218
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              39,
+              68,
+              473,
+              341
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              51,
+              355,
+              256
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              333,
+              212
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/down/down_05.png",
+          "source_sha256": "0e94981e3016cbf7fa71ddbec2c8e8d56997aa296f545d888a607adafb0df483",
+          "region": [
+            0,
+            444,
+            338,
+            218
+          ],
+          "logical_rect": [
+            22,
+            44,
+            338,
+            218
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              39,
+              69,
+              472,
+              341
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              52,
+              354,
+              256
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              8,
+              332,
+              212
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/down/down_06.png",
+          "source_sha256": "fffd080866d50b0fd08a4e141554f94ff6f861b16db92c526b9d62092e142e36",
+          "region": [
+            0,
+            664,
+            337,
+            218
+          ],
+          "logical_rect": [
+            23,
+            45,
+            337,
+            218
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              39,
+              69,
+              471,
+              341
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              52,
+              354,
+              256
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              331,
+              211
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/enemies/ENM001/down/down_07.png",
+          "source_sha256": "35cbc69b5ac41f88d3118630ad332e03e0303ea74cc103bb5374dced6eab0960",
+          "region": [
+            340,
+            664,
+            336,
+            218
+          ],
+          "logical_rect": [
+            22,
+            45,
+            336,
+            218
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              39,
+              70,
+              471,
+              341
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              52,
+              353,
+              256
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              331,
+              211
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          6,
+          7,
+          674,
+          875
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    }
+  },
+  "no_source_mutation": true,
+  "generation": "deterministic_resize_alpha_tight_atlas_only"
+}

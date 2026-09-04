@@ -1,0 +1,2294 @@
+{
+  "schema_version": 1,
+  "candidate_id": "battle_signature_hd_r10_chr002",
+  "status": "RUNTIME_SIGNATURE_CANDIDATE_PENDING_VISUAL_QA",
+  "character_id": "CHR002",
+  "source_asset_id": "sd_chr002_roan_combat_r27_dev_chroma_key_r10",
+  "costume_id": "CHR002_CANONICAL_VANGUARD_R27_DEV_LOCAL_QA",
+  "source_authority_status": "LOCAL_QA_ONLY_CHROMA_KEY_DERIVATIVE_NOT_PROMOTABLE",
+  "identity_fingerprint": {
+    "role": "VANGUARD",
+    "adult_classification": "ADULT",
+    "signature_palette": "coral-red hair + graphite/black armor layers + crimson diamond trim",
+    "weapon": "two-handed broad blade",
+    "silhouette": "adult SD front-line vanguard with swept coral ponytail and forward blade guard"
+  },
+  "signature_frame_selection": {},
+  "chroma_key_provenance": {
+    "derivative_manifest": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/chroma_key_derivative_manifest.json",
+    "derivative_manifest_sha256": "528261ce5124683989f9fda6563096c79c80542548991f6b32a641abcaa6969a",
+    "green_master_root": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/green_master",
+    "keyed_rgba_root": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba",
+    "key_method": "flat_00ff00_master_then_alpha_plate_key_with_external_white_fringe_decontamination_r2"
+  },
+  "source_animation_manifest": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/animation_manifest.json",
+  "source_animation_manifest_sha256": "43a8f2273903bc42b2779da3efe8fa9b500eb672029d389d974661c8d51e1a78",
+  "source_frame_size": [
+    512,
+    512
+  ],
+  "runtime_frame_size": [
+    384,
+    384
+  ],
+  "logical_draw_canvas": [
+    512,
+    512
+  ],
+  "foot_anchor": [
+    0.5,
+    0.88
+  ],
+  "head_anchor": [
+    0.5,
+    0.154296875
+  ],
+  "view": "THREE_QUARTER_RIGHT_DOWN_30",
+  "facing_policy": "SEPARATE_LEFT_RIGHT",
+  "animations": {
+    "idle": {
+      "fps": 12,
+      "loop": true,
+      "atlas_path": "idle.png",
+      "atlas_sha256": "a9379613512dd207a03ecc8515ee9d9fcfb5e5bb2084e08272f654e7cd84d3a3",
+      "atlas_size": [
+        1024,
+        880
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 4718592,
+        "packed_rgba_bytes": 3604480,
+        "saved_rgba_bytes": 1114112
+      },
+      "frame_count": 8,
+      "frames": [
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/idle/idle_000.png",
+          "source_sha256": "9c9d181cb04ce22f5241f6f22c13fb199a2be4e9a425af02aecfa2d505fb8364",
+          "region": [
+            0,
+            296,
+            336,
+            292
+          ],
+          "logical_rect": [
+            24,
+            51,
+            336,
+            292
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              77,
+              471,
+              449
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              57,
+              353,
+              337
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              329,
+              286
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/idle/idle_001.png",
+          "source_sha256": "b47df86ffec4f6d0e333c442126386110d84279d6ffcbde62555c2b5f11adc3d",
+          "region": [
+            0,
+            588,
+            336,
+            291
+          ],
+          "logical_rect": [
+            24,
+            50,
+            336,
+            291
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              40,
+              75,
+              472,
+              447
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              56,
+              354,
+              335
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              330,
+              285
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/idle/idle_002.png",
+          "source_sha256": "9aeb09c0713a88de8483f4b4becb843c6ad4b0d2f025e1231dedc6d520a4c9b2",
+          "region": [
+            672,
+            296,
+            337,
+            291
+          ],
+          "logical_rect": [
+            24,
+            51,
+            337,
+            291
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              40,
+              76,
+              473,
+              448
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              57,
+              355,
+              336
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              331,
+              285
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/idle/idle_003.png",
+          "source_sha256": "ce84e30197033504dab4435ddd778eb9c403803f507c99f8f18d226e870a8f08",
+          "region": [
+            336,
+            588,
+            336,
+            291
+          ],
+          "logical_rect": [
+            24,
+            51,
+            336,
+            291
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              40,
+              77,
+              471,
+              448
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              57,
+              353,
+              336
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              329,
+              285
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/idle/idle_004.png",
+          "source_sha256": "93710426ea55d078c93f2d3379cc424bb2a47b85cbf12dc9387e2d76cf9087e9",
+          "region": [
+            336,
+            0,
+            335,
+            293
+          ],
+          "logical_rect": [
+            25,
+            51,
+            335,
+            293
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              42,
+              77,
+              471,
+              450
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              31,
+              57,
+              353,
+              338
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              328,
+              287
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/idle/idle_005.png",
+          "source_sha256": "474bf0779f24fa80857f3ec8b9d732799b513cf1204a3115dfdd6432bdf97c16",
+          "region": [
+            0,
+            0,
+            333,
+            294
+          ],
+          "logical_rect": [
+            25,
+            51,
+            333,
+            294
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              77,
+              469,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              31,
+              58,
+              352,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              327,
+              288
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/idle/idle_006.png",
+          "source_sha256": "bf6356de0194fb16dfb2b08144a29b2480d95e96bff0b2f2302030235c863ab5",
+          "region": [
+            672,
+            0,
+            334,
+            293
+          ],
+          "logical_rect": [
+            25,
+            52,
+            334,
+            293
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              42,
+              78,
+              470,
+              452
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              31,
+              58,
+              353,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              328,
+              287
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/idle/idle_007.png",
+          "source_sha256": "9c9d181cb04ce22f5241f6f22c13fb199a2be4e9a425af02aecfa2d505fb8364",
+          "region": [
+            336,
+            296,
+            336,
+            292
+          ],
+          "logical_rect": [
+            24,
+            51,
+            336,
+            292
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              77,
+              471,
+              449
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              57,
+              353,
+              337
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              329,
+              286
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          6,
+          6,
+          1003,
+          873
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "ultimate": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "ultimate.png",
+      "atlas_sha256": "19cc7df4cea69742bdaadd3c9d5d8bf9aea2f94b7bceb804db9ca99a1d8e3629",
+      "atlas_size": [
+        1792,
+        1220
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 10616832,
+        "packed_rgba_bytes": 8744960,
+        "saved_rgba_bytes": 1871872
+      },
+      "frame_count": 18,
+      "frames": [
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_000.png",
+          "source_sha256": "b769c948f5c137e2162383028045498e988b8c29804229ac380d2fd7af804316",
+          "region": [
+            1036,
+            916,
+            332,
+            301
+          ],
+          "logical_rect": [
+            31,
+            51,
+            332,
+            301
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              49,
+              77,
+              475,
+              461
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              37,
+              57,
+              357,
+              346
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              326,
+              295
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_001.png",
+          "source_sha256": "ebe2c9a84b1fe48f154c3392cce1d1f84e6da7944bd1358e9d21d0ef26a2d7b4",
+          "region": [
+            344,
+            916,
+            336,
+            302
+          ],
+          "logical_rect": [
+            27,
+            47,
+            336,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              44,
+              71,
+              475,
+              457
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              33,
+              53,
+              357,
+              343
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              330,
+              296
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_002.png",
+          "source_sha256": "1e4df45c4dc7a80f642f77c7a294464e655b872b2cc40b89d77788d5360f937f",
+          "region": [
+            0,
+            916,
+            341,
+            302
+          ],
+          "logical_rect": [
+            22,
+            43,
+            341,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              66,
+              476,
+              452
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              49,
+              357,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              335,
+              296
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_003.png",
+          "source_sha256": "9d844c1c957a0fc085fd72fed994bafba29c6ffc506de9908f6411fbbe7e118a",
+          "region": [
+            1084,
+            0,
+            345,
+            304
+          ],
+          "logical_rect": [
+            18,
+            40,
+            345,
+            304
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              32,
+              62,
+              476,
+              450
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              24,
+              47,
+              357,
+              337
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              339,
+              297
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_004.png",
+          "source_sha256": "673b37e1283029834e5fc97f0f7e97ca84edb34638653ec5c82f94a361649ffa",
+          "region": [
+            1444,
+            308,
+            348,
+            303
+          ],
+          "logical_rect": [
+            15,
+            37,
+            348,
+            303
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              58,
+              475,
+              445
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              21,
+              43,
+              356,
+              334
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              341,
+              297
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_005.png",
+          "source_sha256": "2e0a13da9b2b0b834b3ff9eb951c4115f52d01f752d5d605f5a0a4f341dc6a10",
+          "region": [
+            1432,
+            612,
+            352,
+            302
+          ],
+          "logical_rect": [
+            11,
+            35,
+            352,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              23,
+              54,
+              475,
+              442
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              17,
+              41,
+              356,
+              331
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              345,
+              296
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_006.png",
+          "source_sha256": "4b0cd5c80e6fbc27642ff7cd68e0d82b2332b5d598ed67ec084331901c313e1c",
+          "region": [
+            1088,
+            308,
+            354,
+            303
+          ],
+          "logical_rect": [
+            19,
+            33,
+            354,
+            303
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              34,
+              53,
+              489,
+              440
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              26,
+              40,
+              367,
+              330
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              348,
+              297
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_007.png",
+          "source_sha256": "e5f5b51268c3db9dd9d48c2ef1a813b36e847e26a1b75159ac74f8c3481cb49d",
+          "region": [
+            1076,
+            612,
+            355,
+            302
+          ],
+          "logical_rect": [
+            21,
+            32,
+            355,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              36,
+              51,
+              493,
+              438
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              27,
+              38,
+              370,
+              328
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              349,
+              296
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_008.png",
+          "source_sha256": "e76c13bcb10c2fb0f33cea0bf4f70112e6bf30f4f039397caa2ae7ce06eab507",
+          "region": [
+            720,
+            612,
+            356,
+            302
+          ],
+          "logical_rect": [
+            22,
+            31,
+            356,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              49,
+              496,
+              435
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              37,
+              372,
+              326
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              350,
+              295
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_009.png",
+          "source_sha256": "83bd4d814eb21c77b0b1124b071236df60287e5fbf26a9d5806024932c4f34b2",
+          "region": [
+            0,
+            612,
+            359,
+            302
+          ],
+          "logical_rect": [
+            22,
+            31,
+            359,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              50,
+              500,
+              436
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              37,
+              375,
+              327
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              353,
+              296
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_010.png",
+          "source_sha256": "fbd08ae899714ed8551027801face12fe062aa21fc17f3135d03a4e025157ca7",
+          "region": [
+            0,
+            308,
+            361,
+            303
+          ],
+          "logical_rect": [
+            23,
+            33,
+            361,
+            303
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              39,
+              52,
+              503,
+              440
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              39,
+              377,
+              330
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              354,
+              297
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_011.png",
+          "source_sha256": "4f7a6506ea4cc4b3b2b368cad357b0ea2f29dc7a713215adb1435fc3e1182352",
+          "region": [
+            724,
+            0,
+            360,
+            305
+          ],
+          "logical_rect": [
+            24,
+            34,
+            360,
+            305
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              40,
+              54,
+              505,
+              443
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              40,
+              379,
+              333
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              355,
+              299
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_012.png",
+          "source_sha256": "bf284a835d1c522f15b5c28af4d9c00a8447345c26e9b64bbb8bb52366ef6268",
+          "region": [
+            360,
+            0,
+            362,
+            305
+          ],
+          "logical_rect": [
+            19,
+            36,
+            362,
+            305
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              34,
+              57,
+              500,
+              446
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              25,
+              42,
+              375,
+              335
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              356,
+              299
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_013.png",
+          "source_sha256": "3a10a1741b724712f71fa8553ad6f90d0288ce14a2df36eb2f92921b6c885d6d",
+          "region": [
+            0,
+            0,
+            360,
+            306
+          ],
+          "logical_rect": [
+            15,
+            39,
+            360,
+            306
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              61,
+              492,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              21,
+              46,
+              369,
+              338
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              354,
+              299
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_014.png",
+          "source_sha256": "01dea4fc8b159f343280f8c820cc5ac5d35d5e282350313d212daa2e11a06130",
+          "region": [
+            364,
+            308,
+            361,
+            303
+          ],
+          "logical_rect": [
+            10,
+            45,
+            361,
+            303
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              22,
+              67,
+              486,
+              456
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              16,
+              51,
+              364,
+              342
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              354,
+              297
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_015.png",
+          "source_sha256": "17c8c32d231768868c5b90b055e592c2d765f78904fac72214eec8b7b857b189",
+          "region": [
+            728,
+            308,
+            358,
+            303
+          ],
+          "logical_rect": [
+            7,
+            48,
+            358,
+            303
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              17,
+              72,
+              478,
+              460
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              13,
+              54,
+              359,
+              345
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              352,
+              297
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_016.png",
+          "source_sha256": "259709ac670958ead23cf31d6c4d60162210e2d4ef5916f06f01e7c9d22a455b",
+          "region": [
+            360,
+            612,
+            357,
+            302
+          ],
+          "logical_rect": [
+            3,
+            53,
+            357,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              13,
+              79,
+              471,
+              465
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              9,
+              59,
+              353,
+              349
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              350,
+              296
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/ultimate/ultimate_017.png",
+          "source_sha256": "4898175535a3deed803e043afc3979da6775433ef7c6aa3102d53d24cacdf78c",
+          "region": [
+            680,
+            916,
+            354,
+            301
+          ],
+          "logical_rect": [
+            0,
+            58,
+            354,
+            301
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              8,
+              86,
+              464,
+              470
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              65,
+              348,
+              353
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              348,
+              295
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          6,
+          6,
+          1785,
+          1212
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "hit": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "hit.png",
+      "atlas_sha256": "34f8f489ff069305974038252dd70603cc5253d0004df22babc72dcbcdeb2a2f",
+      "atlas_size": [
+        768,
+        596
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 2359296,
+        "packed_rgba_bytes": 1830912,
+        "saved_rgba_bytes": 528384
+      },
+      "frame_count": 4,
+      "frames": [
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/hit/hit_000.png",
+          "source_sha256": "18715d439d3891a2accf6e6db0c8e726d02272c0db2710335cc206fd57c5842b",
+          "region": [
+            0,
+            304,
+            336,
+            292
+          ],
+          "logical_rect": [
+            24,
+            53,
+            336,
+            292
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              79,
+              471,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              59,
+              353,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              329,
+              286
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/hit/hit_001.png",
+          "source_sha256": "97a257798f0d9cfb9b6dde17b340beed792b10b65164b9cd12a2c48155c5c776",
+          "region": [
+            0,
+            0,
+            331,
+            302
+          ],
+          "logical_rect": [
+            22,
+            54,
+            331,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              80,
+              462,
+              467
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              60,
+              347,
+              350
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              325,
+              296
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/hit/hit_002.png",
+          "source_sha256": "5011095c9b1902e2610da8f4acd4faeea6b0feea43611b4a9e6fa10c89e93d65",
+          "region": [
+            332,
+            0,
+            345,
+            300
+          ],
+          "logical_rect": [
+            6,
+            55,
+            345,
+            300
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              16,
+              81,
+              459,
+              466
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              12,
+              61,
+              344,
+              349
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              338,
+              294
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/hit/hit_003.png",
+          "source_sha256": "18715d439d3891a2accf6e6db0c8e726d02272c0db2710335cc206fd57c5842b",
+          "region": [
+            336,
+            304,
+            336,
+            292
+          ],
+          "logical_rect": [
+            24,
+            53,
+            336,
+            292
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              79,
+              471,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              59,
+              353,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              329,
+              286
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          6,
+          6,
+          670,
+          590
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "down": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "down.png",
+      "atlas_sha256": "739f52175e4340af331eb4771fd6bd57020b2f1d851fa43dd70bd15d797e1283",
+      "atlas_size": [
+        1024,
+        772
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 4718592,
+        "packed_rgba_bytes": 3162112,
+        "saved_rgba_bytes": 1556480
+      },
+      "frame_count": 8,
+      "frames": [
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/down/down_000.png",
+          "source_sha256": "18715d439d3891a2accf6e6db0c8e726d02272c0db2710335cc206fd57c5842b",
+          "region": [
+            684,
+            0,
+            336,
+            292
+          ],
+          "logical_rect": [
+            24,
+            53,
+            336,
+            292
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              79,
+              471,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              59,
+              353,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              329,
+              286
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/down/down_001.png",
+          "source_sha256": "0110b94528d7761db00d063cd48295e0edcf381a24807ad150bf35b573028097",
+          "region": [
+            0,
+            0,
+            346,
+            303
+          ],
+          "logical_rect": [
+            6,
+            63,
+            346,
+            303
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              16,
+              93,
+              461,
+              481
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              12,
+              70,
+              345,
+              360
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              339,
+              297
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/down/down_002.png",
+          "source_sha256": "1c58d6cc0f2e8e40f695afb42b510c80633b23869f3ed846eeb42ba803aab73e",
+          "region": [
+            348,
+            0,
+            333,
+            303
+          ],
+          "logical_rect": [
+            9,
+            81,
+            333,
+            303
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              21,
+              117,
+              447,
+              511
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              15,
+              88,
+              335,
+              383
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              326,
+              302
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/down/down_003.png",
+          "source_sha256": "2bc8628915a9dfbcfacb64f99b9db324624291070230b5411c102be01f9652fe",
+          "region": [
+            0,
+            304,
+            309,
+            279
+          ],
+          "logical_rect": [
+            16,
+            105,
+            309,
+            279
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              148,
+              426,
+              512
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              22,
+              111,
+              319,
+              384
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              303,
+              279
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/down/down_004.png",
+          "source_sha256": "b3e9433deb7b80825dd4f0d035f202278fe46119515ebbffe860dd0e4a9f152d",
+          "region": [
+            312,
+            304,
+            285,
+            252
+          ],
+          "logical_rect": [
+            24,
+            132,
+            285,
+            252
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              185,
+              404,
+              512
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              139,
+              303,
+              384
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              279,
+              252
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/down/down_005.png",
+          "source_sha256": "b0f05c54bacf3cd80b8e2ff35f7c3ebe217856151a16f4d091fd704ebb521441",
+          "region": [
+            600,
+            304,
+            258,
+            219
+          ],
+          "logical_rect": [
+            32,
+            165,
+            258,
+            219
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              51,
+              228,
+              378,
+              512
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              171,
+              283,
+              384
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              251,
+              219
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/down/down_006.png",
+          "source_sha256": "1663b4aeaf3cc353538fea8649c38577ba04d78cf75d9faaaee78e8d977bd107",
+          "region": [
+            0,
+            584,
+            230,
+            185
+          ],
+          "logical_rect": [
+            40,
+            199,
+            230,
+            185
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              62,
+              273,
+              352,
+              512
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              46,
+              205,
+              264,
+              384
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              224,
+              185
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r10/CHR002/keyed_rgba/down/down_007.png",
+          "source_sha256": "8487ef050edc9eba1bb2f6a146e1646434e8530431161a4ded65272acb26923c",
+          "region": [
+            232,
+            584,
+            203,
+            179
+          ],
+          "logical_rect": [
+            47,
+            205,
+            203,
+            179
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              71,
+              281,
+              325,
+              512
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              53,
+              211,
+              244,
+              384
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              197,
+              179
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          6,
+          6,
+          1013,
+          769
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    }
+  },
+  "no_source_mutation": true,
+  "generation": "deterministic_resize_alpha_tight_atlas_only"
+}

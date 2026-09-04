@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "signature_revision": "r7",
+  "approval_status": "LOCAL_QA_ONLY",
+  "approval_scope": "CHR001, CHR002, CHR008, BOSS001 packed 384px signature states: idle, ultimate, hit, down",
+  "release_gate": "PUBLIC_EXPORT_HOLD: local QA, visual review, real mobile browser frame-time, peak-memory, and tab-return checks are all required. A chroma-key derivative remains LOCAL_QA_ONLY until its source identity, alpha/matte, visual, and runtime gates pass. CHR002 remains non-promotable without separate identity/authority approval.",
+  "manifest_sha256_by_character": {
+    "CHR001": "2e4c3242954acca3c0c3464542852f07c7db2689de01fd4a4646aac91b3a7486",
+    "CHR002": "68ec3dce07d79610757efca2f01c476f21893f56f5935c030f07629b0d41bdcb",
+    "CHR008": "984c7791d7d8f02e40c3dea9a3d2778c434c65889aa092756ed2df3ba56e66cd",
+    "BOSS001": "61b0a7b4f4c668fa1e41a8e72a10f37b0d56e271a5a3609053c87b7f0ad20469"
+  },
+  "technical_gate": {
+    "source_manifest_hashes_verified": true,
+    "runtime_atlas_hashes_verified": true,
+    "source_canvas": [
+      512,
+      512
+    ],
+    "runtime_cell": [
+      384,
+      384
+    ],
+    "packing": "ALPHA_TIGHT_SHELF_R1",
+    "visible_chroma_green_pixels": 0,
+    "source_mutation": false,
+    "generation": "deterministic_chroma_key_derivative_then_resize_alpha_tight_atlas_only",
+    "chroma_remaster_entities": [
+      "CHR002"
+    ],
+    "estimated_resident_atlas_bytes_for_all_selected": 62771200,
+    "runtime_memory_budget_mib": 72
+  },
+  "identity_continuity": {
+    "CHR001": {
+      "costume_id": "CHR001_CANONICAL_GUARDIAN_R1",
+      "source_authority_status": "PROJECT_APPROVED_COMBAT_AUTHORITY",
+      "fingerprint": {
+        "role": "GUARDIAN",
+        "adult_classification": "ADULT",
+        "signature_palette": "teal hair + ivory/gold armor + cyan shield lantern",
+        "weapon": "shield and lantern mace",
+        "silhouette": "adult SD guardian with long teal hair and forward shield"
+      }
+    },
+    "CHR002": {
+      "costume_id": "CHR002_CANONICAL_VANGUARD_R27_DEV_LOCAL_QA",
+      "source_authority_status": "LOCAL_QA_ONLY_CHROMA_KEY_DERIVATIVE_NOT_PROMOTABLE",
+      "fingerprint": {
+        "role": "VANGUARD",
+        "adult_classification": "ADULT",
+        "signature_palette": "coral-red hair + graphite/black armor layers + crimson diamond trim",
+        "weapon": "two-handed broad blade",
+        "silhouette": "adult SD front-line vanguard with swept coral ponytail and forward blade guard"
+      }
+    },
+    "CHR008": {
+      "costume_id": "CHR008_MEDIC_SUPPORT_R6P2",
+      "source_authority_status": "R6P2_COMBAT_AUTHORITY",
+      "fingerprint": {
+        "role": "MEDIC",
+        "adult_classification": "ADULT",
+        "signature_palette": "silver-lavender braided hair + ivory/teal medic layers + warm gold trim",
+        "weapon": "handheld support device and circular medical relay",
+        "silhouette": "adult SD rear-line medic with long braid, halo-like headpiece, hand beacon and circular support relay"
+      }
+    },
+    "BOSS001": {
+      "costume_id": "BOSS001_HOLLOW_ENGINE_R6P2",
+      "source_authority_status": "R6P2_COMBAT_AUTHORITY",
+      "fingerprint": {
+        "role": "BOSS_PATTERN",
+        "adult_classification": "GENDERLESS_NONHUMAN",
+        "signature_palette": "weathered iron + cyan core + orange furnace",
+        "weapon": "integrated engine arms and rotating core",
+        "silhouette": "low, broad, quadruped hollow engine with circular sensor core"
+      }
+    }
+  },
+  "failure_retention": "This revision is immutable LOCAL_QA_ONLY. Retain every prior revision and all failed/rejected QA artifacts in quarantine until a verified replacement has completed every required gate."
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "signature_revision": "r3",
+  "approval_status": "LOCAL_QA_ONLY",
+  "approval_scope": "CHR001 and BOSS001 384px signature states: idle, ultimate, hit, down",
+  "release_gate": "Public runtime promotion remains blocked until a real mobile-browser p95 frame-time, peak-memory, and tab-return test passes. The 390x844 viewport QA and requested ChatGPT GPT-5.6 Sol Pro review passed on 2026-09-04, but do not constitute public-release approval.",
+  "manifest_sha256_by_character": {
+    "CHR001": "d6891ba2df7d81f689fa1566c26b68725cc9101dc60b6c4cc330223681010ea1",
+    "BOSS001": "e2239796de43d02131ef8fb5ee7be7b65b1a2bc55033ad87a84dfb38d9a9fcca"
+  },
+  "technical_gate": {
+    "source_manifest_hashes_verified": true,
+    "runtime_atlas_hashes_verified": true,
+    "source_canvas": [512, 512],
+    "runtime_cell": [384, 384],
+    "visible_chroma_green_pixels": 0,
+    "source_mutation": false,
+    "generation": "deterministic_resize_and_atlas_only"
+  },
+  "review_gate": {
+    "viewport_qa": "PASS: 390x844 actual CanvasItem capture at reports/art_qa/battle_signature_hd_r3_viewport_2026-09-04T11-59-53; all four requested states captured with signature_pack_ready=true.",
+    "chatgpt_sol_pro": "FULL APPROVAL on 2026-09-04 for the local QA baseline and next one-character expansion only; no causal, mobile-visibility, performance-memory, or skip-residual blocker was identified in the reviewed scope."
+  },
+  "failure_retention": "R1 remains quarantined. R2 remains retained until the completed R3 batch has passed every final public-runtime gate; neither is deleted by this local-QA approval."
+}

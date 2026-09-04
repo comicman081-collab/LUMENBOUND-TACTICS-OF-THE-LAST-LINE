@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "effect_signature_revision": "r4",
+  "approval_status": "LOCAL_QA_ONLY",
+  "manifest_sha256_by_entity": {
+    "CHR001": "55fb0e619868838377efa6213f5aaa43961666f30fdc6bb456359c8b2c9d071d",
+    "CHR003": "bb973ce5552e7239b5f3c0c2a0890bd4fd946d0616b09aff9afe6b1c9eb74ce7",
+    "CHR004": "35ade67fc86c86b60a9494018b404bf65f0a823e4b5619a95af2daf7f3b5a6e4",
+    "CHR005": "4b572bdaa36e4b890866977c02d7e72eb23c2ac6162273dd4946e67345d36771",
+    "CHR008": "2f538f9ada27b0680b5014e30230bbd279a63d1b2a05183531923040537726c6",
+    "BOSS001": "786bb14c2ff71dbebe3f1c62069f0d7bdeb8f5896fa594aae65fa9a4d5584b48",
+    "ENM001": "b419b48a09d4f64ff4e15438827d163928b09f157a933d6028f07510dd408727"
+  },
+  "technical_gate": {
+    "runtime_memory_budget_mib": 12,
+    "residency_model": "projectile_core_plus_one_caster_ultimate_transient",
+    "estimated_core_resident_atlas_bytes_for_all_selected": 6704096,
+    "ultimate_atlas_bytes_by_profile": {
+      "CHR001": 1958592,
+      "CHR003": 1958592,
+      "CHR004": 1958592,
+      "CHR005": 1958592,
+      "CHR008": 1958592,
+      "BOSS001": 1958592,
+      "ENM001": 1958592
+    },
+    "estimated_peak_transient_resident_atlas_bytes": 8662688,
+    "estimated_full_preload_atlas_bytes_for_all_selected": 20414240,
+    "estimated_resident_atlas_bytes_for_all_selected": 20414240,
+    "selected_profiles": [
+      "CHR001",
+      "CHR003",
+      "CHR004",
+      "CHR005",
+      "CHR008",
+      "BOSS001",
+      "ENM001"
+    ],
+    "scale_factor": 1.8,
+    "projectile_runtime_frame": [
+      173,
+      173
+    ],
+    "ultimate_runtime_frame": [
+      202,
+      202
+    ],
+    "debug_only_candidate": true
+  },
+  "review_gate": "Await real 390x844 viewport capture and the existing ChatGPT web planning-review reply before changing this candidate to APPROVED_FOR_RUNTIME.",
+  "public_release_gate": "HOLD: no public export or deployment is authorized by this local QA record."
+}

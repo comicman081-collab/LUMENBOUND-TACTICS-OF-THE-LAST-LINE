@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "effect_signature_revision": "r2",
+  "approval_status": "LOCAL_QA_ONLY",
+  "manifest_sha256_by_entity": {
+    "CHR001": "d3843e295f3821ea32fe9a096aab746db914ede7e4235fb2bbd49edb713adf3b",
+    "CHR008": "b5584af4682c0440243e381e171ac5ec8b8fd09ad12d244cf6d96169d7826cdc",
+    "BOSS001": "108a4ab6f815ca2c24a9fafefe9989281f38223a6ca980992c0c5a44a3ce2e0c",
+    "ENM001": "116a43a1ca0aee88eafb2934a019fb3b8c590024532b7c9d5b2ab94bf1252c5a"
+  },
+  "technical_gate": {
+    "runtime_memory_budget_mib": 12,
+    "estimated_resident_atlas_bytes_for_all_selected": 11665280,
+    "selected_profiles": [
+      "CHR001",
+      "CHR008",
+      "BOSS001",
+      "ENM001"
+    ],
+    "scale_factor": 1.8,
+    "projectile_runtime_frame": [
+      173,
+      173
+    ],
+    "ultimate_runtime_frame": [
+      202,
+      202
+    ],
+    "debug_only_candidate": true
+  },
+  "review_gate": "Await real 390x844 viewport capture and the existing ChatGPT web planning-review reply before changing this candidate to APPROVED_FOR_RUNTIME.",
+  "public_release_gate": "HOLD: no public export or deployment is authorized by this local QA record."
+}

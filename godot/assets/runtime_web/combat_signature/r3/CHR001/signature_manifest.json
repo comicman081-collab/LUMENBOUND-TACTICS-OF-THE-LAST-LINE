@@ -1,0 +1,1515 @@
+{
+  "schema_version": 1,
+  "candidate_id": "battle_signature_hd_r3_chr001",
+  "status": "RUNTIME_SIGNATURE_CANDIDATE_PENDING_VISUAL_QA",
+  "character_id": "CHR001",
+  "source_asset_id": "sd_chr001_maeru_combat_r8_green_key",
+  "costume_id": "CHR001_CANONICAL_GUARDIAN_R1",
+  "identity_fingerprint": {
+    "role": "GUARDIAN",
+    "adult_classification": "ADULT",
+    "signature_palette": "teal hair + ivory/gold armor + cyan shield lantern",
+    "weapon": "shield and lantern mace",
+    "silhouette": "adult SD guardian with long teal hair and forward shield"
+  },
+  "source_animation_manifest": "godot/assets/art/sd/CHR001/animation_manifest.json",
+  "source_animation_manifest_sha256": "98c2bf0b3f32069aef57c1672c0dacbad674e3cdcf95810a506c993221e2a5b5",
+  "source_frame_size": [
+    512,
+    512
+  ],
+  "runtime_frame_size": [
+    384,
+    384
+  ],
+  "logical_draw_canvas": [
+    512,
+    512
+  ],
+  "foot_anchor": [
+    0.5,
+    0.88
+  ],
+  "head_anchor": [
+    0.5,
+    0.064453125
+  ],
+  "view": "THREE_QUARTER_RIGHT_DOWN_30",
+  "facing_policy": "SEPARATE_LEFT_RIGHT",
+  "animations": {
+    "idle": {
+      "fps": 12,
+      "loop": true,
+      "atlas_path": "idle.png",
+      "atlas_sha256": "b1d39b3257f7ec5d4bb3e87c532bb3228c22750fbd43b4a2e2b29e4ce2e40c77",
+      "atlas_size": [
+        1536,
+        768
+      ],
+      "frame_count": 8,
+      "frames": [
+        {
+          "source_path": "godot/assets/art/sd/CHR001/idle/idle_000.png",
+          "source_sha256": "ea6a70c2b3d90adf49dc1a8c59391c7fe33a5f24f7950f37b488850d9e8b72b2",
+          "region": [
+            0,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              84,
+              31,
+              429,
+              449
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              63,
+              23,
+              322,
+              337
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/idle/idle_001.png",
+          "source_sha256": "2eea0fa155cfa60c0fc7c762d04ab4f0b89e26f9ab364e6839a3c528b3b62e3a",
+          "region": [
+            384,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              83,
+              30,
+              430,
+              447
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              62,
+              22,
+              323,
+              335
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/idle/idle_002.png",
+          "source_sha256": "475f733931b4ced8bbf8e81598a819e29c3eeb6264f1c520feb3e9810ba7e469",
+          "region": [
+            768,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              83,
+              31,
+              431,
+              448
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              62,
+              23,
+              323,
+              336
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/idle/idle_003.png",
+          "source_sha256": "4e1a6342f9eb74086f77cc884cab839bd4795027e885e77198f8b110dce9709d",
+          "region": [
+            1152,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              83,
+              31,
+              429,
+              448
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              62,
+              23,
+              322,
+              336
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/idle/idle_004.png",
+          "source_sha256": "6629913c0e6af7df895fa4dddd571d1a04ca86d783a88c449cbbc24a197d963a",
+          "region": [
+            0,
+            384,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              84,
+              31,
+              430,
+              450
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              63,
+              23,
+              322,
+              338
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/idle/idle_005.png",
+          "source_sha256": "099360936c9bbc1b26d4d9552b765b0b489972b1a77598f4161236be71a80841",
+          "region": [
+            384,
+            384,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              84,
+              31,
+              428,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              63,
+              23,
+              321,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/idle/idle_006.png",
+          "source_sha256": "599e56abbbdf60e49bfa765428586b0f01ef29fe3a160bbbe9484410d039ad30",
+          "region": [
+            768,
+            384,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              84,
+              32,
+              429,
+              452
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              63,
+              24,
+              322,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/idle/idle_007.png",
+          "source_sha256": "ea6a70c2b3d90adf49dc1a8c59391c7fe33a5f24f7950f37b488850d9e8b72b2",
+          "region": [
+            1152,
+            384,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              84,
+              31,
+              429,
+              449
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              63,
+              23,
+              322,
+              337
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          63,
+          22,
+          1474,
+          723
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "ultimate": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "ultimate.png",
+      "atlas_sha256": "d5f074f72eefc07685965e7d3a89b161d9fd692f31909c760f446917b2b37741",
+      "atlas_size": [
+        1536,
+        1920
+      ],
+      "frame_count": 18,
+      "frames": [
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_000.png",
+          "source_sha256": "147cd90c770fc4ce113b58a4fa469e8a98184c349600b318f5caf5795386cc70",
+          "region": [
+            0,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              98,
+              35,
+              458,
+              459
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              74,
+              27,
+              344,
+              344
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_001.png",
+          "source_sha256": "62a74729b6cebf10eebf7c4a001c3aea7b81253a7810bd55375f3da2c33773a2",
+          "region": [
+            384,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              94,
+              28,
+              455,
+              455
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              70,
+              21,
+              341,
+              341
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_002.png",
+          "source_sha256": "78c3857c792ea8dad57685862d7d780a33f8ca6c72d8e24d22c878a20526844c",
+          "region": [
+            768,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              89,
+              22,
+              452,
+              450
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              67,
+              16,
+              339,
+              338
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_003.png",
+          "source_sha256": "c37c496e698f5f36973d9b25fdc715de1c0286cfa7e2f859267407fab85322ed",
+          "region": [
+            1152,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              85,
+              17,
+              448,
+              448
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              63,
+              13,
+              336,
+              336
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_004.png",
+          "source_sha256": "05f558e67cd5ba18835f076e747bf6373946bd1a8772e5760b50b54c0b7d3d38",
+          "region": [
+            0,
+            384,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              81,
+              11,
+              444,
+              444
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              61,
+              8,
+              333,
+              333
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_005.png",
+          "source_sha256": "dd7c77b8d1ec63f1694ca97219f0df229b50adf2ea319e157635f38be8dfed6d",
+          "region": [
+            384,
+            384,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              77,
+              7,
+              440,
+              441
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              58,
+              5,
+              330,
+              331
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_006.png",
+          "source_sha256": "7fb9e259b755224de9812bff3cace05f4d1508bb72aae6b5e36e9ef82c96e3be",
+          "region": [
+            768,
+            384,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              87,
+              5,
+              451,
+              439
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              65,
+              3,
+              338,
+              330
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_007.png",
+          "source_sha256": "275a015377e6f0b02bb8cd37494271253d2c069f14153354162b29a7c31e23bb",
+          "region": [
+            1152,
+            384,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              85,
+              3,
+              452,
+              437
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              64,
+              2,
+              339,
+              328
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_008.png",
+          "source_sha256": "ef3d76ac7361f1dd5cf91dc7142ba64a76954ad877fd4c90a9f4e5ad1fae9327",
+          "region": [
+            0,
+            768,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              84,
+              2,
+              452,
+              435
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              63,
+              1,
+              339,
+              326
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_009.png",
+          "source_sha256": "e4a4b99c3e24378d16cad0e29dbd6af8b1b991dccab32568c140bfea2218ab26",
+          "region": [
+            384,
+            768,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              84,
+              2,
+              453,
+              434
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              63,
+              2,
+              340,
+              326
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_010.png",
+          "source_sha256": "c260b1fa59fed585ddf277f574e6de2734651ec31a46eb4bd68badd98a298ae8",
+          "region": [
+            768,
+            768,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              84,
+              5,
+              454,
+              437
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              63,
+              4,
+              341,
+              328
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_011.png",
+          "source_sha256": "6a9c43eaadb97a9bc59ef517a0853832e7a373b5fa6b1a9561d90e9a5aff9ad4",
+          "region": [
+            1152,
+            768,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              84,
+              8,
+              455,
+              440
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              63,
+              6,
+              341,
+              330
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_012.png",
+          "source_sha256": "66549903b84725cf1bc3aa0a84ce7a8cea1ee46dfb59c2286b78df7c3f08d9cb",
+          "region": [
+            0,
+            1152,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              78,
+              11,
+              449,
+              443
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              58,
+              8,
+              336,
+              332
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_013.png",
+          "source_sha256": "6eda4d15c6c5c3c97c0b057c568d3f4095e33611de128b73b922ab15281656d7",
+          "region": [
+            384,
+            1152,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              71,
+              17,
+              440,
+              447
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              53,
+              12,
+              330,
+              335
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_014.png",
+          "source_sha256": "a2cb52e514c2e63d6d82bba4a625a3d89f3cccb232af0f04471a307cea1985bd",
+          "region": [
+            768,
+            1152,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              65,
+              24,
+              433,
+              452
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              49,
+              18,
+              325,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_015.png",
+          "source_sha256": "f0ced1a583a41c4380b49aef7621c3062fa89c988fba9808368d0cd7775d821e",
+          "region": [
+            1152,
+            1152,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              59,
+              30,
+              425,
+              455
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              45,
+              22,
+              319,
+              341
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_016.png",
+          "source_sha256": "c1714c9b089cc7bff0d9cd578d038a1474e9a87da692017501e7e8d0e2dcc222",
+          "region": [
+            0,
+            1536,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              54,
+              38,
+              417,
+              460
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              28,
+              313,
+              345
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/ultimate/ultimate_017.png",
+          "source_sha256": "ef2f44f091e4bd4e785fec3510c9bcbadcb81c3583bd597d855ea4d8eb0575d0",
+          "region": [
+            384,
+            1536,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              50,
+              46,
+              409,
+              465
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              37,
+              35,
+              307,
+              349
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          41,
+          13,
+          1493,
+          1885
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "hit": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "hit.png",
+      "atlas_sha256": "ba0a65c7f75bb40666fba1ee07cb86e381381204e9da7f8b800e9a96341a571b",
+      "atlas_size": [
+        1536,
+        384
+      ],
+      "frame_count": 4,
+      "frames": [
+        {
+          "source_path": "godot/assets/art/sd/CHR001/hit/hit_000.png",
+          "source_sha256": "d7a1f93556ef65078923e78e692385fac28c364f689d48244cf391352c004b2d",
+          "region": [
+            0,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              84,
+              33,
+              429,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              63,
+              24,
+              322,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/hit/hit_001.png",
+          "source_sha256": "6465b1d00ed5117602b7de99a206c553ebe44ce11ad8b25127a05d797e8ec347",
+          "region": [
+            384,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              86,
+              36,
+              443,
+              463
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              65,
+              27,
+              332,
+              348
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/hit/hit_002.png",
+          "source_sha256": "979ea1f538d83d6fb0561792cab210276d8faa5879679224d16fcebca2c9a335",
+          "region": [
+            768,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              58,
+              37,
+              408,
+              461
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              43,
+              27,
+              306,
+              346
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/hit/hit_003.png",
+          "source_sha256": "d7a1f93556ef65078923e78e692385fac28c364f689d48244cf391352c004b2d",
+          "region": [
+            1152,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              84,
+              33,
+              429,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              63,
+              24,
+              322,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          63,
+          24,
+          1474,
+          348
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "down": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "down.png",
+      "atlas_sha256": "fffdcaa8ea5c5f7f5e05de0f8da68ec6e01fa8d889ea357baaf6e8c35860167e",
+      "atlas_size": [
+        1536,
+        768
+      ],
+      "frame_count": 8,
+      "frames": [
+        {
+          "source_path": "godot/assets/art/sd/CHR001/down/down_000.png",
+          "source_sha256": "55cbb897ae5af68f72755459b59f4c511a19ad6e1192afef418473c5d2a0d470",
+          "region": [
+            0,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              83,
+              33,
+              428,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              62,
+              24,
+              321,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/down/down_001.png",
+          "source_sha256": "3fe73594d59f943257fb95fca86fb35287a422ffc5a6098b0b08bd3cc8550640",
+          "region": [
+            384,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              87,
+              18,
+              434,
+              441
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              65,
+              13,
+              326,
+              331
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/down/down_002.png",
+          "source_sha256": "a352a63eebaa9bc68b0a7c5eb4dec15e4339e0584d25864c146a7f5d5c28c1be",
+          "region": [
+            768,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              89,
+              21,
+              439,
+              437
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              67,
+              16,
+              329,
+              328
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/down/down_003.png",
+          "source_sha256": "5986072749ad72fc78f204be509d0510b004788adfef712c8009d59a9b4c0837",
+          "region": [
+            1152,
+            0,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              93,
+              36,
+              444,
+              432
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              70,
+              27,
+              333,
+              324
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/down/down_004.png",
+          "source_sha256": "8f68c125e8e623acfe7bdf6c9ee98c745dcc39fdc1eeb7abdbfc4806ef8852b7",
+          "region": [
+            0,
+            384,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              92,
+              63,
+              445,
+              428
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              69,
+              47,
+              334,
+              321
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/down/down_005.png",
+          "source_sha256": "166c02a1e4223003410659652873eac77ecd9c7739e42a73ea3417e43d6fa473",
+          "region": [
+            384,
+            384,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              82,
+              76,
+              449,
+              426
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              61,
+              57,
+              337,
+              320
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/down/down_006.png",
+          "source_sha256": "94d6124820db177c66ba6cd3c097de0c264e476b2abe0f48e651ee23b32448fa",
+          "region": [
+            768,
+            384,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              78,
+              89,
+              451,
+              428
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              58,
+              67,
+              338,
+              321
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/sd/CHR001/down/down_007.png",
+          "source_sha256": "69169260902bffa275bfa1693fa60592736236dd1f6b5bd408a854f84165614c",
+          "region": [
+            1152,
+            384,
+            384,
+            384
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              75,
+              116,
+              444,
+              431
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              57,
+              87,
+              333,
+              323
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          62,
+          13,
+          1485,
+          707
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    }
+  },
+  "no_source_mutation": true,
+  "generation": "deterministic_resize_and_atlas_only"
+}

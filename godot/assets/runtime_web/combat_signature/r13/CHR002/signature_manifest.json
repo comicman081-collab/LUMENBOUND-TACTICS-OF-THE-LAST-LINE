@@ -1,0 +1,2288 @@
+{
+  "schema_version": 1,
+  "candidate_id": "battle_signature_hd_r13_chr002",
+  "status": "RUNTIME_SIGNATURE_CANDIDATE_PENDING_VISUAL_QA",
+  "character_id": "CHR002",
+  "source_asset_id": "sd_chr002_roan_combat_r27_dev",
+  "costume_id": "CHR002_CANONICAL_VANGUARD_R27_DEV_LOCAL_QA",
+  "source_authority_status": "PROJECT_DEV_SOURCE_LOCAL_QA_ONLY_NOT_PROMOTABLE",
+  "identity_fingerprint": {
+    "role": "VANGUARD",
+    "adult_classification": "ADULT",
+    "signature_palette": "coral-red hair + graphite/black armor layers + crimson diamond trim",
+    "weapon": "two-handed broad blade",
+    "silhouette": "adult SD front-line vanguard with swept coral ponytail and forward blade guard"
+  },
+  "signature_frame_selection": {},
+  "chroma_key_provenance": {},
+  "source_animation_manifest": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/animation_manifest.json",
+  "source_animation_manifest_sha256": "c3ad18b30d32d6b9385f0b82c6d1a6eb3de669d79a0d3b75ce71998ed228b867",
+  "source_frame_size": [
+    512,
+    512
+  ],
+  "runtime_frame_size": [
+    384,
+    384
+  ],
+  "logical_draw_canvas": [
+    512,
+    512
+  ],
+  "foot_anchor": [
+    0.5,
+    0.88
+  ],
+  "head_anchor": [
+    0.5,
+    0.154296875
+  ],
+  "view": "THREE_QUARTER_RIGHT_DOWN_30",
+  "facing_policy": "SEPARATE_LEFT_RIGHT",
+  "animations": {
+    "idle": {
+      "fps": 12,
+      "loop": true,
+      "atlas_path": "idle.png",
+      "atlas_sha256": "06f44c32f54648200235d0ba134cf3991c1bc38d2ea359994f9940e13cd7e712",
+      "atlas_size": [
+        1024,
+        880
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 4718592,
+        "packed_rgba_bytes": 3604480,
+        "saved_rgba_bytes": 1114112
+      },
+      "frame_count": 8,
+      "frames": [
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/idle/idle_000.png",
+          "source_sha256": "49d429d9d159765c4a72f54cd703deee432be5ca9735f6bc9c5783a24b67784f",
+          "region": [
+            0,
+            296,
+            336,
+            292
+          ],
+          "logical_rect": [
+            24,
+            51,
+            336,
+            292
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              77,
+              471,
+              449
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              57,
+              353,
+              337
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              329,
+              286
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/idle/idle_001.png",
+          "source_sha256": "b916528b019b9441a65de61d4eb1e2cdd9e7ee6f057554f3786eb7b031021c4f",
+          "region": [
+            0,
+            588,
+            336,
+            291
+          ],
+          "logical_rect": [
+            24,
+            50,
+            336,
+            291
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              40,
+              75,
+              472,
+              447
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              56,
+              354,
+              335
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              330,
+              285
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/idle/idle_002.png",
+          "source_sha256": "40679d6a9dcfc168e640c97465b5d39c64aec9fda08fe271cc2102afce62b185",
+          "region": [
+            672,
+            296,
+            337,
+            291
+          ],
+          "logical_rect": [
+            24,
+            51,
+            337,
+            291
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              40,
+              76,
+              473,
+              448
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              57,
+              355,
+              336
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              331,
+              285
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/idle/idle_003.png",
+          "source_sha256": "616b7684302525c07ede3764ae1bd25bd008af9181bb42535ff51c98fbd4b752",
+          "region": [
+            336,
+            588,
+            336,
+            291
+          ],
+          "logical_rect": [
+            24,
+            51,
+            336,
+            291
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              40,
+              77,
+              471,
+              448
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              57,
+              353,
+              336
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              329,
+              285
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/idle/idle_004.png",
+          "source_sha256": "057382beef91642d341965b3d25c53171fabdf6135fda44bd5a5cf50b8351950",
+          "region": [
+            336,
+            0,
+            335,
+            293
+          ],
+          "logical_rect": [
+            25,
+            51,
+            335,
+            293
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              42,
+              77,
+              471,
+              450
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              31,
+              57,
+              353,
+              338
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              328,
+              287
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/idle/idle_005.png",
+          "source_sha256": "725575a682950817233c21bf3de381cb5157567d380f49e81e80df0886b91576",
+          "region": [
+            0,
+            0,
+            333,
+            294
+          ],
+          "logical_rect": [
+            25,
+            51,
+            333,
+            294
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              77,
+              469,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              31,
+              58,
+              352,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              327,
+              288
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/idle/idle_006.png",
+          "source_sha256": "8a7a06617bc0c22d295b6d96e213582cd11463b2109a147a7035346be7335b0b",
+          "region": [
+            672,
+            0,
+            334,
+            293
+          ],
+          "logical_rect": [
+            25,
+            52,
+            334,
+            293
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              42,
+              78,
+              470,
+              452
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              31,
+              58,
+              353,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              328,
+              287
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/idle/idle_007.png",
+          "source_sha256": "49d429d9d159765c4a72f54cd703deee432be5ca9735f6bc9c5783a24b67784f",
+          "region": [
+            336,
+            296,
+            336,
+            292
+          ],
+          "logical_rect": [
+            24,
+            51,
+            336,
+            292
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              77,
+              471,
+              449
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              57,
+              353,
+              337
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              329,
+              286
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          6,
+          6,
+          1003,
+          873
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "ultimate": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "ultimate.png",
+      "atlas_sha256": "d0e96bc09f056acb2a9c0714cb189cbf93b63249766698193933702f12cfd8a8",
+      "atlas_size": [
+        1792,
+        1220
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 10616832,
+        "packed_rgba_bytes": 8744960,
+        "saved_rgba_bytes": 1871872
+      },
+      "frame_count": 18,
+      "frames": [
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_000.png",
+          "source_sha256": "49139389b79589d48ff9d7e78ee19c3bd6832dad5e68e166fd74b6a6345087f4",
+          "region": [
+            1036,
+            916,
+            332,
+            301
+          ],
+          "logical_rect": [
+            31,
+            51,
+            332,
+            301
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              49,
+              77,
+              475,
+              461
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              37,
+              57,
+              357,
+              346
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              326,
+              295
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_001.png",
+          "source_sha256": "1d912bb5d8b5bc8b9c9d804325ad07a9616ef4376868c9586cce07ab8aab3b32",
+          "region": [
+            344,
+            916,
+            336,
+            302
+          ],
+          "logical_rect": [
+            27,
+            47,
+            336,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              44,
+              71,
+              475,
+              457
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              33,
+              53,
+              357,
+              343
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              330,
+              296
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_002.png",
+          "source_sha256": "64459994ee6b60d07bb03515efd28ef1529e54f5ab581dee94f351227ece8743",
+          "region": [
+            0,
+            916,
+            341,
+            302
+          ],
+          "logical_rect": [
+            22,
+            43,
+            341,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              66,
+              476,
+              452
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              49,
+              357,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              335,
+              296
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_003.png",
+          "source_sha256": "b46f339e39e152b80b9e81a51321075303d8c82664ff2230e3afa33e5887c772",
+          "region": [
+            1084,
+            0,
+            345,
+            304
+          ],
+          "logical_rect": [
+            18,
+            40,
+            345,
+            304
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              32,
+              62,
+              476,
+              450
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              24,
+              47,
+              357,
+              337
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              339,
+              297
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_004.png",
+          "source_sha256": "8c122cbe6a170de2ddbc6f7e0c8432a64b78846bb4364f9457a831bb1db0243c",
+          "region": [
+            1444,
+            308,
+            348,
+            303
+          ],
+          "logical_rect": [
+            15,
+            37,
+            348,
+            303
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              58,
+              475,
+              445
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              21,
+              43,
+              356,
+              334
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              341,
+              297
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_005.png",
+          "source_sha256": "067ae44ee96c356df5598022ed2f1b089d935844bf1cfe8125366df44804393b",
+          "region": [
+            1432,
+            612,
+            352,
+            302
+          ],
+          "logical_rect": [
+            11,
+            35,
+            352,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              23,
+              54,
+              475,
+              442
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              17,
+              41,
+              356,
+              331
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              345,
+              296
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_006.png",
+          "source_sha256": "1843682698862630f03e47b36afc1371b6127573f74819fefdfa506954685df2",
+          "region": [
+            1088,
+            308,
+            354,
+            303
+          ],
+          "logical_rect": [
+            19,
+            33,
+            354,
+            303
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              34,
+              53,
+              489,
+              440
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              26,
+              40,
+              367,
+              330
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              348,
+              297
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_007.png",
+          "source_sha256": "152ba038de2b223114e4c5c4b7797ea8fb9d83b469e1152392491b8a879a42c5",
+          "region": [
+            1076,
+            612,
+            355,
+            302
+          ],
+          "logical_rect": [
+            21,
+            32,
+            355,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              36,
+              51,
+              493,
+              438
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              27,
+              38,
+              370,
+              328
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              349,
+              296
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_008.png",
+          "source_sha256": "59252f1072f1ea38dee252d2ce33155ee7b5a7f7d2ca7bd49f8b7c5481077d83",
+          "region": [
+            720,
+            612,
+            356,
+            302
+          ],
+          "logical_rect": [
+            22,
+            31,
+            356,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              49,
+              496,
+              435
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              37,
+              372,
+              326
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              350,
+              295
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_009.png",
+          "source_sha256": "b425a7cd603d8d07b2a2e22f26fb06876a64670aa84617d14f5cabb5094c1306",
+          "region": [
+            0,
+            612,
+            359,
+            302
+          ],
+          "logical_rect": [
+            22,
+            31,
+            359,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              50,
+              500,
+              436
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              37,
+              375,
+              327
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              353,
+              296
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_010.png",
+          "source_sha256": "9a778e9012ce6c33076b58a066e4c76de0b8d91e5fad1e23b15146bc903424b8",
+          "region": [
+            0,
+            308,
+            361,
+            303
+          ],
+          "logical_rect": [
+            23,
+            33,
+            361,
+            303
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              39,
+              52,
+              503,
+              440
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              39,
+              377,
+              330
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              354,
+              297
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_011.png",
+          "source_sha256": "44057f4d27a30d330043b330799290882addd11bd5ab8104dbcd567e33c3b8b9",
+          "region": [
+            724,
+            0,
+            360,
+            305
+          ],
+          "logical_rect": [
+            24,
+            34,
+            360,
+            305
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              40,
+              54,
+              505,
+              443
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              40,
+              379,
+              333
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              355,
+              299
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_012.png",
+          "source_sha256": "18712268b7a4fa7c36ae7e0cd7b61d0f221c7113451ed8b3ed51584f9d9a8ee3",
+          "region": [
+            360,
+            0,
+            362,
+            305
+          ],
+          "logical_rect": [
+            19,
+            36,
+            362,
+            305
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              34,
+              57,
+              500,
+              446
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              25,
+              42,
+              375,
+              335
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              356,
+              299
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_013.png",
+          "source_sha256": "cc69f1d1ec6ce9526061a7a2206cfa4b8497c6e45a085795b09e77e8cc192ac5",
+          "region": [
+            0,
+            0,
+            360,
+            306
+          ],
+          "logical_rect": [
+            15,
+            39,
+            360,
+            306
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              61,
+              492,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              21,
+              46,
+              369,
+              338
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              354,
+              299
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_014.png",
+          "source_sha256": "6fd4155c912a1e4b1f27a00f462359363ec0ba9b445f43c6ffc3a0ec6c8a5540",
+          "region": [
+            364,
+            308,
+            361,
+            303
+          ],
+          "logical_rect": [
+            10,
+            45,
+            361,
+            303
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              22,
+              67,
+              486,
+              456
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              16,
+              51,
+              364,
+              342
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              354,
+              297
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_015.png",
+          "source_sha256": "4da6de95dc968f20ea9ef1154056e6a32cba0ce5cd08c8124ee40d3a081e4420",
+          "region": [
+            728,
+            308,
+            358,
+            303
+          ],
+          "logical_rect": [
+            7,
+            48,
+            358,
+            303
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              17,
+              72,
+              478,
+              460
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              13,
+              54,
+              359,
+              345
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              352,
+              297
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_016.png",
+          "source_sha256": "1823d250fb669c62d33d493727bba8ab3af5f4459558ff5c369ea327c626101b",
+          "region": [
+            360,
+            612,
+            357,
+            302
+          ],
+          "logical_rect": [
+            3,
+            53,
+            357,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              13,
+              79,
+              471,
+              465
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              9,
+              59,
+              353,
+              349
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              350,
+              296
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/ultimate/ultimate_017.png",
+          "source_sha256": "a2edf3e4c9e8cec074214ea6fa23bcfa4a91f320db5ca30ba9fde5e69cc76a36",
+          "region": [
+            680,
+            916,
+            354,
+            301
+          ],
+          "logical_rect": [
+            0,
+            58,
+            354,
+            301
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              8,
+              86,
+              464,
+              470
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              65,
+              348,
+              353
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              348,
+              295
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          6,
+          6,
+          1785,
+          1212
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "hit": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "hit.png",
+      "atlas_sha256": "e8e406d8a9e63e3dcbc506aaca840372a5e9aa419f84050a1c89389186a6bf4a",
+      "atlas_size": [
+        768,
+        596
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 2359296,
+        "packed_rgba_bytes": 1830912,
+        "saved_rgba_bytes": 528384
+      },
+      "frame_count": 4,
+      "frames": [
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/hit/hit_000.png",
+          "source_sha256": "39b75139e4ae9bc2c623697453fe4d7b3e4caaab991fc9ce25ac497140093f38",
+          "region": [
+            0,
+            304,
+            336,
+            292
+          ],
+          "logical_rect": [
+            24,
+            53,
+            336,
+            292
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              79,
+              471,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              59,
+              353,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              329,
+              286
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/hit/hit_001.png",
+          "source_sha256": "e55e4a89acb7f29cc1c0969d2b521e315a5e62f780d017b731bbb5f9318509f4",
+          "region": [
+            0,
+            0,
+            331,
+            302
+          ],
+          "logical_rect": [
+            22,
+            54,
+            331,
+            302
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              80,
+              462,
+              467
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              60,
+              347,
+              350
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              325,
+              296
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/hit/hit_002.png",
+          "source_sha256": "8b1727a6e3f49818db3ecb23a3ff92e15d9d148ec177f1476c6fcbe8b6a000a7",
+          "region": [
+            332,
+            0,
+            345,
+            300
+          ],
+          "logical_rect": [
+            6,
+            55,
+            345,
+            300
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              16,
+              81,
+              459,
+              466
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              12,
+              61,
+              344,
+              349
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              338,
+              294
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/hit/hit_003.png",
+          "source_sha256": "39b75139e4ae9bc2c623697453fe4d7b3e4caaab991fc9ce25ac497140093f38",
+          "region": [
+            336,
+            304,
+            336,
+            292
+          ],
+          "logical_rect": [
+            24,
+            53,
+            336,
+            292
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              79,
+              471,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              59,
+              353,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              329,
+              286
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          6,
+          6,
+          670,
+          590
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "down": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "down.png",
+      "atlas_sha256": "b306aa33eb24f75460819db6f13f72f8db03ad93f76f4ac43c50a6db72b2e04a",
+      "atlas_size": [
+        1024,
+        772
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 4718592,
+        "packed_rgba_bytes": 3162112,
+        "saved_rgba_bytes": 1556480
+      },
+      "frame_count": 8,
+      "frames": [
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/down/down_000.png",
+          "source_sha256": "39b75139e4ae9bc2c623697453fe4d7b3e4caaab991fc9ce25ac497140093f38",
+          "region": [
+            684,
+            0,
+            336,
+            292
+          ],
+          "logical_rect": [
+            24,
+            53,
+            336,
+            292
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              79,
+              471,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              59,
+              353,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              329,
+              286
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/down/down_001.png",
+          "source_sha256": "60789835853ddadbf2865ec457bbbc4f74bac4c1ec1f9a8c12f31509fda9a099",
+          "region": [
+            0,
+            0,
+            346,
+            303
+          ],
+          "logical_rect": [
+            6,
+            63,
+            346,
+            303
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              16,
+              93,
+              461,
+              481
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              12,
+              70,
+              345,
+              360
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              339,
+              297
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/down/down_002.png",
+          "source_sha256": "35294fbcedcde1a84b14d9bbf08bd7331e8a818a63f936a836d0e3117d4e7227",
+          "region": [
+            348,
+            0,
+            333,
+            303
+          ],
+          "logical_rect": [
+            9,
+            81,
+            333,
+            303
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              21,
+              117,
+              447,
+              511
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              15,
+              88,
+              335,
+              383
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              326,
+              302
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/down/down_003.png",
+          "source_sha256": "8edcac2e10524233b2d0ac327bde6977238081cb7758a172088b83ae2c598ac9",
+          "region": [
+            0,
+            304,
+            309,
+            279
+          ],
+          "logical_rect": [
+            16,
+            105,
+            309,
+            279
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              148,
+              426,
+              512
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              22,
+              111,
+              319,
+              384
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              303,
+              279
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/down/down_004.png",
+          "source_sha256": "b527d7916e5648ca72fde2fbf572b7889d7e80bdb57d7872970b634af81f9095",
+          "region": [
+            312,
+            304,
+            285,
+            252
+          ],
+          "logical_rect": [
+            24,
+            132,
+            285,
+            252
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              185,
+              404,
+              512
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              139,
+              303,
+              384
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              279,
+              252
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/down/down_005.png",
+          "source_sha256": "49b2b04560a280644b044c3c4fe9391360f578322148cf2340b3b4b66c8df55a",
+          "region": [
+            600,
+            304,
+            258,
+            219
+          ],
+          "logical_rect": [
+            32,
+            165,
+            258,
+            219
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              51,
+              228,
+              378,
+              512
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              171,
+              283,
+              384
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              251,
+              219
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/down/down_006.png",
+          "source_sha256": "3c911d9f29ad1663ef401a85f1189de0025158165528182e3986d37a3557d580",
+          "region": [
+            0,
+            584,
+            230,
+            185
+          ],
+          "logical_rect": [
+            40,
+            199,
+            230,
+            185
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              62,
+              273,
+              352,
+              512
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              46,
+              205,
+              264,
+              384
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              224,
+              185
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr002_roan_combat_r27_dev/down/down_007.png",
+          "source_sha256": "21551e3e2379022af9d90f12919ac3dea8b5b35ed4274ebdb76890fe32ca64fb",
+          "region": [
+            232,
+            584,
+            203,
+            179
+          ],
+          "logical_rect": [
+            47,
+            205,
+            203,
+            179
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              71,
+              281,
+              325,
+              512
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              53,
+              211,
+              244,
+              384
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              197,
+              179
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          6,
+          6,
+          1013,
+          769
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    }
+  },
+  "no_source_mutation": true,
+  "generation": "deterministic_resize_alpha_tight_atlas_only"
+}

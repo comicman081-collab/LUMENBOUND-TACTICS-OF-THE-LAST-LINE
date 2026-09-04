@@ -1,0 +1,2288 @@
+{
+  "schema_version": 1,
+  "candidate_id": "battle_signature_hd_r13_boss001",
+  "status": "RUNTIME_SIGNATURE_CANDIDATE_PENDING_VISUAL_QA",
+  "character_id": "BOSS001",
+  "source_asset_id": "sd_boss001_premium_r6p2",
+  "costume_id": "BOSS001_HOLLOW_ENGINE_R6P2",
+  "source_authority_status": "R6P2_COMBAT_AUTHORITY",
+  "identity_fingerprint": {
+    "role": "BOSS_PATTERN",
+    "adult_classification": "GENDERLESS_NONHUMAN",
+    "signature_palette": "weathered iron + cyan core + orange furnace",
+    "weapon": "integrated engine arms and rotating core",
+    "silhouette": "low, broad, quadruped hollow engine with circular sensor core"
+  },
+  "signature_frame_selection": {},
+  "chroma_key_provenance": {},
+  "source_animation_manifest": "godot/assets/art/bosses/BOSS001/animation_manifest.json",
+  "source_animation_manifest_sha256": "3050466942cbdc91e97a1398bee75ac14817f2ce31e4c9b10cd9b893baa8e737",
+  "source_frame_size": [
+    512,
+    512
+  ],
+  "runtime_frame_size": [
+    384,
+    384
+  ],
+  "logical_draw_canvas": [
+    512,
+    512
+  ],
+  "foot_anchor": [
+    0.5,
+    0.88
+  ],
+  "head_anchor": [
+    0.5,
+    0.12
+  ],
+  "view": "THREE_QUARTER_LEFT_DOWN_30",
+  "facing_policy": "MIRROR_SAFE",
+  "animations": {
+    "idle": {
+      "fps": 12,
+      "loop": true,
+      "atlas_path": "idle.png",
+      "atlas_sha256": "c036d727ed1a6a18917bbd46e112997ad53e972c085b27727c82419616aea64b",
+      "atlas_size": [
+        1024,
+        820
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 4718592,
+        "packed_rgba_bytes": 3358720,
+        "saved_rgba_bytes": 1359872
+      },
+      "frame_count": 8,
+      "frames": [
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/idle/idle_00.png",
+          "source_sha256": "ac5c2aa1830c18a067b830873a3447de03dbfc2b96b44da5b8c284f1b987776e",
+          "region": [
+            0,
+            276,
+            340,
+            272
+          ],
+          "logical_rect": [
+            22,
+            41,
+            340,
+            272
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              64,
+              474,
+              409
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              48,
+              355,
+              307
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              333,
+              266
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/idle/idle_01.png",
+          "source_sha256": "52ed99375571b0bc14c9f712732849c3f8921d58466f50f40a221548d2c6bf12",
+          "region": [
+            0,
+            0,
+            340,
+            274
+          ],
+          "logical_rect": [
+            22,
+            39,
+            340,
+            274
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              62,
+              474,
+              409
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              46,
+              355,
+              307
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              333,
+              268
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/idle/idle_02.png",
+          "source_sha256": "903eadc6910e198acfffc2f2ce786f27649cc28f1368264a3dfa10bd2d380ce9",
+          "region": [
+            340,
+            0,
+            340,
+            274
+          ],
+          "logical_rect": [
+            22,
+            39,
+            340,
+            274
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              61,
+              474,
+              409
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              45,
+              355,
+              307
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              333,
+              268
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/idle/idle_03.png",
+          "source_sha256": "4ec0a650ac2d315c37bfeb7d365896f736632428f6461ab95a1a14223f11c20d",
+          "region": [
+            680,
+            0,
+            340,
+            273
+          ],
+          "logical_rect": [
+            22,
+            40,
+            340,
+            273
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              62,
+              474,
+              409
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              47,
+              355,
+              307
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              333,
+              267
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/idle/idle_04.png",
+          "source_sha256": "5c5f5e0883ebc0a2beb9d3f7862affc61e38383e1f77f00874915414bd238a00",
+          "region": [
+            0,
+            548,
+            340,
+            271
+          ],
+          "logical_rect": [
+            22,
+            42,
+            340,
+            271
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              65,
+              474,
+              410
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              49,
+              355,
+              307
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              333,
+              265
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/idle/idle_05.png",
+          "source_sha256": "6588012480dd897e0f06ebbd0c50ca230bba636c754bc07baace77eead7288bf",
+          "region": [
+            340,
+            548,
+            340,
+            271
+          ],
+          "logical_rect": [
+            22,
+            43,
+            340,
+            271
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              67,
+              474,
+              410
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              50,
+              355,
+              307
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              333,
+              264
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/idle/idle_06.png",
+          "source_sha256": "f5aeb9d86e60a9a0c5bc02d99d7de6b1de57c554a97539794815816037a34880",
+          "region": [
+            340,
+            276,
+            340,
+            272
+          ],
+          "logical_rect": [
+            22,
+            42,
+            340,
+            272
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              66,
+              474,
+              410
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              50,
+              355,
+              307
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              8,
+              333,
+              265
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/idle/idle_07.png",
+          "source_sha256": "49a597ac03e5943c1b964ccdb3d1b4480b6aa98a52d01bc1e58909a63cbd7112",
+          "region": [
+            680,
+            276,
+            340,
+            272
+          ],
+          "logical_rect": [
+            22,
+            41,
+            340,
+            272
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              64,
+              474,
+              409
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              48,
+              355,
+              307
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              333,
+              266
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          7,
+          6,
+          1013,
+          813
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "ultimate": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "ultimate.png",
+      "atlas_sha256": "1c9b29bf3474d4932e8bc0e756dabf2af1d4565b3ccb676a881b159088885db4",
+      "atlas_size": [
+        1792,
+        992
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 10616832,
+        "packed_rgba_bytes": 7110656,
+        "saved_rgba_bytes": 3506176
+      },
+      "frame_count": 18,
+      "frames": [
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_00.png",
+          "source_sha256": "544a469b13a4ccd2aa0c2e41a85708f4b10d80502aa56d970a2a67f8412b9898",
+          "region": [
+            344,
+            748,
+            340,
+            241
+          ],
+          "logical_rect": [
+            22,
+            39,
+            340,
+            241
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              60,
+              473,
+              365
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              45,
+              355,
+              274
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              333,
+              235
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_01.png",
+          "source_sha256": "3dda33a1433b93f01d04ba8d925927dc72d7affe261b1897e471919bc178750c",
+          "region": [
+            1376,
+            500,
+            341,
+            243
+          ],
+          "logical_rect": [
+            22,
+            38,
+            341,
+            243
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              58,
+              474,
+              366
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              44,
+              356,
+              274
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              334,
+              236
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_02.png",
+          "source_sha256": "ac58e781ebde9bcb64bb1402320ebf182a0304950055ff5016f9c89385eb0bfd",
+          "region": [
+            688,
+            500,
+            343,
+            245
+          ],
+          "logical_rect": [
+            21,
+            36,
+            343,
+            245
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              57,
+              476,
+              366
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              43,
+              357,
+              275
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              336,
+              239
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_03.png",
+          "source_sha256": "e326e5d7d498f462278ca57db2acee9abecf73dd55d6780cba09848cda81dcae",
+          "region": [
+            0,
+            500,
+            344,
+            246
+          ],
+          "logical_rect": [
+            21,
+            35,
+            344,
+            246
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              37,
+              55,
+              476,
+              366
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              41,
+              357,
+              275
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              336,
+              240
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_04.png",
+          "source_sha256": "ffc52f34ac1ac5adcf2e5bde0aa1ce24e18e77cac6c33bca3b6135ca62a3b63d",
+          "region": [
+            1044,
+            252,
+            346,
+            247
+          ],
+          "logical_rect": [
+            21,
+            34,
+            346,
+            247
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              54,
+              478,
+              366
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              40,
+              358,
+              275
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              337,
+              241
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_05.png",
+          "source_sha256": "97c7370ff520c323d17d25851ab11958f3915dfb95b7bc41c9074ad24b90c6f7",
+          "region": [
+            1408,
+            0,
+            347,
+            248
+          ],
+          "logical_rect": [
+            21,
+            33,
+            347,
+            248
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              53,
+              479,
+              367
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              39,
+              359,
+              275
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              338,
+              242
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_06.png",
+          "source_sha256": "0c6c460b0049e98d509422281e3f5f6a399512ab226ec53f314b2bc27a7eb85d",
+          "region": [
+            696,
+            252,
+            347,
+            247
+          ],
+          "logical_rect": [
+            22,
+            34,
+            347,
+            247
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              52,
+              480,
+              367
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              39,
+              360,
+              275
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              5,
+              338,
+              241
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_07.png",
+          "source_sha256": "4b9c37c24ace2a66b620f21ec2a472a3ba5fec54950ea59258e2606833a61405",
+          "region": [
+            0,
+            0,
+            349,
+            249
+          ],
+          "logical_rect": [
+            22,
+            32,
+            349,
+            249
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              51,
+              481,
+              367
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              38,
+              361,
+              275
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              339,
+              243
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_08.png",
+          "source_sha256": "4777c2e2f694b385480bbe6e4252eea60e20e5d105488e3361e7f7d42874383d",
+          "region": [
+            352,
+            0,
+            349,
+            249
+          ],
+          "logical_rect": [
+            22,
+            32,
+            349,
+            249
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              51,
+              481,
+              367
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              38,
+              361,
+              275
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              339,
+              243
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_09.png",
+          "source_sha256": "15389c0d06d081b9882a8844cbd28f82db69eba7d2d11b03421ee2a758c94300",
+          "region": [
+            704,
+            0,
+            349,
+            249
+          ],
+          "logical_rect": [
+            22,
+            32,
+            349,
+            249
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              51,
+              481,
+              367
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              38,
+              361,
+              275
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              339,
+              243
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_10.png",
+          "source_sha256": "eee3fdd0f390a296ec8fddacaa415349c5607e3f1de01ec20c49595cabd70e41",
+          "region": [
+            1056,
+            0,
+            349,
+            249
+          ],
+          "logical_rect": [
+            22,
+            32,
+            349,
+            249
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              51,
+              481,
+              367
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              38,
+              361,
+              275
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              339,
+              243
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_11.png",
+          "source_sha256": "f59c43d9f8e7dfb7a1eab4151dbef4769714fb0b51f399ffc0b7da444bc840d7",
+          "region": [
+            0,
+            252,
+            347,
+            248
+          ],
+          "logical_rect": [
+            22,
+            33,
+            347,
+            248
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              52,
+              480,
+              367
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              29,
+              39,
+              360,
+              275
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              338,
+              242
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_12.png",
+          "source_sha256": "660316610e77dba4185619482ea34e95d62a48cd1bc1378fbf908a4758b23885",
+          "region": [
+            348,
+            252,
+            347,
+            248
+          ],
+          "logical_rect": [
+            21,
+            33,
+            347,
+            248
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              53,
+              479,
+              367
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              39,
+              359,
+              275
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              338,
+              242
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_13.png",
+          "source_sha256": "5c9f64ecca3e1d8b13975434ee4b5ce7faac20455dd8023764355543cc1a9b65",
+          "region": [
+            1392,
+            252,
+            345,
+            247
+          ],
+          "logical_rect": [
+            21,
+            34,
+            345,
+            247
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              54,
+              478,
+              366
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              40,
+              358,
+              275
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              337,
+              241
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_14.png",
+          "source_sha256": "d5283e5b7ee8cbfb460377f52d329f5d420e850f0d734377129ea1029e033459",
+          "region": [
+            344,
+            500,
+            344,
+            246
+          ],
+          "logical_rect": [
+            21,
+            35,
+            344,
+            246
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              55,
+              476,
+              366
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              41,
+              357,
+              275
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              336,
+              240
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_15.png",
+          "source_sha256": "e915554e1ed0577c4324aa89d19be803253d3ea341fc5837c35349c8d62b3c3e",
+          "region": [
+            1032,
+            500,
+            342,
+            245
+          ],
+          "logical_rect": [
+            21,
+            36,
+            342,
+            245
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              37,
+              57,
+              475,
+              366
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              43,
+              356,
+              275
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              335,
+              239
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_16.png",
+          "source_sha256": "9cdb7fb7d2bab8ae4b93ef8434b79a091c2b5f59bdd351c9d664179785bc52c5",
+          "region": [
+            0,
+            748,
+            341,
+            243
+          ],
+          "logical_rect": [
+            21,
+            38,
+            341,
+            243
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              37,
+              58,
+              473,
+              366
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              44,
+              355,
+              274
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              334,
+              236
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/ultimate/ultimate_17.png",
+          "source_sha256": "cc29c779b8ba66d1d5ec0160272a18a80010976d0e40d903902954fecf6e6ee8",
+          "region": [
+            684,
+            748,
+            340,
+            241
+          ],
+          "logical_rect": [
+            21,
+            39,
+            340,
+            241
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              37,
+              60,
+              472,
+              365
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              45,
+              354,
+              274
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              333,
+              235
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          7,
+          6,
+          1746,
+          984
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "hit": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "hit.png",
+      "atlas_sha256": "1e70c9021a129f2d423228099aeed9ac2cb830465197a2baaa794d930030ae92",
+      "atlas_size": [
+        1536,
+        240
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 2359296,
+        "packed_rgba_bytes": 1474560,
+        "saved_rgba_bytes": 884736
+      },
+      "frame_count": 4,
+      "frames": [
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/hit/hit_00.png",
+          "source_sha256": "f5404a6740b3a6566440c412607d98278a6b61889b7bae5accfe862e89fe8af5",
+          "region": [
+            688,
+            0,
+            340,
+            237
+          ],
+          "logical_rect": [
+            22,
+            39,
+            340,
+            237
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              60,
+              473,
+              360
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              45,
+              354,
+              270
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              332,
+              231
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/hit/hit_01.png",
+          "source_sha256": "6857e0c50538a6a74e06e4123a9521bac526efa57d6d18c90c39ac081af580aa",
+          "region": [
+            0,
+            0,
+            342,
+            237
+          ],
+          "logical_rect": [
+            18,
+            38,
+            342,
+            237
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              36,
+              59,
+              468,
+              359
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              27,
+              44,
+              351,
+              269
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              9,
+              6,
+              333,
+              231
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/hit/hit_02.png",
+          "source_sha256": "5e177c509814009e55e650980eb72c5b1893a52470e226d98958fb27e9087295",
+          "region": [
+            344,
+            0,
+            342,
+            237
+          ],
+          "logical_rect": [
+            18,
+            38,
+            342,
+            237
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              36,
+              59,
+              468,
+              359
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              27,
+              44,
+              351,
+              269
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              9,
+              6,
+              333,
+              231
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/hit/hit_03.png",
+          "source_sha256": "9f8d67823fd959870f343d892500a7dfb46ade079210d1eea6cdaf0da9d2101d",
+          "region": [
+            1028,
+            0,
+            340,
+            237
+          ],
+          "logical_rect": [
+            22,
+            39,
+            340,
+            237
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              60,
+              473,
+              360
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              28,
+              45,
+              354,
+              270
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              332,
+              231
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          9,
+          6,
+          1360,
+          231
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "down": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "down.png",
+      "atlas_sha256": "813ff769e3b0973f20b39aefe1d1fd187a85ae8a881ee1f7deb7ef2ad91503f9",
+      "atlas_size": [
+        768,
+        892
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 4718592,
+        "packed_rgba_bytes": 2740224,
+        "saved_rgba_bytes": 1978368
+      },
+      "frame_count": 8,
+      "frames": [
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/down/down_00.png",
+          "source_sha256": "80f790e10c75d5df3af7a0281bc0b2dda656921ee98a77f369747f066195e489",
+          "region": [
+            344,
+            0,
+            342,
+            222
+          ],
+          "logical_rect": [
+            20,
+            41,
+            342,
+            222
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              35,
+              64,
+              474,
+              342
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              26,
+              50,
+              355,
+              256
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              9,
+              335,
+              215
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/down/down_01.png",
+          "source_sha256": "c07e1b74d40a62a17f354cc9465c93b41e9d17c7735e8bb1145ea27634dc040b",
+          "region": [
+            0,
+            0,
+            341,
+            223
+          ],
+          "logical_rect": [
+            20,
+            41,
+            341,
+            223
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              35,
+              67,
+              473,
+              342
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              26,
+              50,
+              355,
+              256
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              9,
+              335,
+              215
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/down/down_02.png",
+          "source_sha256": "42f65170c5aa83a8d4570ce061cfe22511ecb65f3bb6becb477d92c43286d996",
+          "region": [
+            0,
+            224,
+            341,
+            222
+          ],
+          "logical_rect": [
+            20,
+            42,
+            341,
+            222
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              35,
+              67,
+              473,
+              341
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              26,
+              50,
+              354,
+              256
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              8,
+              334,
+              214
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/down/down_03.png",
+          "source_sha256": "9bd9db1b41d324984b01d78b6dfc130f1c6f3c777165d485eb4c3b1700249f94",
+          "region": [
+            344,
+            224,
+            341,
+            221
+          ],
+          "logical_rect": [
+            20,
+            43,
+            341,
+            221
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              35,
+              68,
+              472,
+              341
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              26,
+              51,
+              354,
+              255
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              8,
+              334,
+              212
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/down/down_04.png",
+          "source_sha256": "a00ceaa29cc81b7d14cf3164cfe71c1c1da1ad294b1635b9dc33e21062234417",
+          "region": [
+            0,
+            448,
+            341,
+            221
+          ],
+          "logical_rect": [
+            20,
+            44,
+            341,
+            221
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              35,
+              69,
+              472,
+              341
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              26,
+              52,
+              354,
+              255
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              8,
+              334,
+              211
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/down/down_05.png",
+          "source_sha256": "b9bad79e56b48445abb650b66f50327824773ed0d150c55cb8cfcffa6f1a7614",
+          "region": [
+            344,
+            448,
+            340,
+            221
+          ],
+          "logical_rect": [
+            20,
+            44,
+            340,
+            221
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              35,
+              69,
+              471,
+              341
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              26,
+              52,
+              353,
+              256
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              8,
+              333,
+              212
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/down/down_06.png",
+          "source_sha256": "2a05f698ff6e12678f8226e8f097f59eb43cf99b06b45b01ee5f9979af265e70",
+          "region": [
+            340,
+            672,
+            340,
+            219
+          ],
+          "logical_rect": [
+            20,
+            46,
+            340,
+            219
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              35,
+              71,
+              471,
+              342
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              27,
+              54,
+              353,
+              256
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              8,
+              333,
+              210
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/art/bosses/BOSS001/down/down_07.png",
+          "source_sha256": "7cd8c992bfc6b118494a328e9793810db4234f8331a0281eee97629baaae5752",
+          "region": [
+            0,
+            672,
+            339,
+            220
+          ],
+          "logical_rect": [
+            21,
+            46,
+            339,
+            220
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              36,
+              73,
+              470,
+              342
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              27,
+              55,
+              353,
+              257
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              9,
+              332,
+              211
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          6,
+          9,
+          679,
+          883
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    }
+  },
+  "no_source_mutation": true,
+  "generation": "deterministic_resize_alpha_tight_atlas_only"
+}

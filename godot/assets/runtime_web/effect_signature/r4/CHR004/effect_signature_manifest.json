@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "candidate_id": "battle_effect_signature_r4_chr004",
+  "status": "RUNTIME_EFFECT_SIGNATURE_CANDIDATE_PENDING_VISUAL_QA",
+  "entity_id": "CHR004",
+  "projectile": {
+    "source_path": "godot/assets/runtime_web/projectiles/CHR004/atlas.png",
+    "source_sha256": "964de5ab4d1b3b4781c956a910cd0fe584a791eccd004f7876ea4e3ff7e0c36b",
+    "source_qc": {
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        9,
+        24,
+        748,
+        72
+      ],
+      "visible_exact_green_pixels": 0
+    },
+    "atlas_path": "projectile.png",
+    "atlas_sha256": "060042fd70c8298e887670abd3ef020c3dc6ed83aca07245cb202cd8de718ee0",
+    "atlas_size": [
+      1384,
+      173
+    ],
+    "runtime_qc": {
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        17,
+        43,
+        1349,
+        130
+      ],
+      "visible_exact_green_pixels": 0
+    },
+    "frame_size": [
+      173,
+      173
+    ],
+    "frames": 8,
+    "atlas_columns": 8,
+    "frame_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "flight_duration": 0.09,
+    "draw_size": [
+      100,
+      74
+    ]
+  },
+  "ultimate": {
+    "source_path": "godot/assets/runtime_web/vfx/vfx_chr004_ultimate/atlas.png",
+    "source_sha256": "9d7f0f73da43a07bffd49738ba385627688bd2cc25c5607c2eb5a3fc56b63517",
+    "source_qc": {
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        0,
+        25,
+        448,
+        325
+      ],
+      "visible_exact_green_pixels": 0
+    },
+    "atlas_path": "ultimate.png",
+    "atlas_sha256": "125aa2bb96c34edd8e8d0258e518da2c9630caed928a8ac413c09aa2ef0de931",
+    "atlas_size": [
+      808,
+      606
+    ],
+    "runtime_qc": {
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bounds": [
+        0,
+        44,
+        808,
+        586
+      ],
+      "visible_exact_green_pixels": 0
+    },
+    "frame_size": [
+      202,
+      202
+    ],
+    "frames": 12,
+    "atlas_columns": 4,
+    "frame_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "source_vfx_manifest": "godot/assets/runtime_web/vfx/vfx_chr004_ultimate/vfx_manifest.json",
+    "source_vfx_manifest_sha256": "3c512431aae6c8ee08ba263df4c91f6177afda3ba997da4fa77a5be7a4646dc9",
+    "motion_shape": "lightning",
+    "primary": "#43d7ff",
+    "secondary": "#fff16a"
+  },
+  "generation": "deterministic_lanczos_upscale_only",
+  "scale_factor": 1.8,
+  "no_source_mutation": true,
+  "failure_policy": "If review fails, retain this exact candidate and all provenance under quarantine; do not overwrite or delete it during the batch."
+}

@@ -1,0 +1,1759 @@
+{
+  "schema_version": 1,
+  "candidate_id": "battle_signature_hd_r12_chr003",
+  "status": "RUNTIME_SIGNATURE_CANDIDATE_PENDING_VISUAL_QA",
+  "character_id": "CHR003",
+  "source_asset_id": "sd_chr003_narin_combat_r27_dev",
+  "costume_id": "CHR003_CANONICAL_ASSAULT_R27_DEV_LOCAL_QA",
+  "source_authority_status": "PROJECT_DEV_SOURCE_LOCAL_QA_ONLY_NOT_PROMOTABLE",
+  "identity_fingerprint": {
+    "role": "ASSAULT",
+    "adult_classification": "ADULT",
+    "signature_palette": "silver-blue hair + black tactical base + white/cobalt armor + restrained violet rifle energy",
+    "weapon": "long angular precision rifle with controlled two-hand grip",
+    "silhouette": "adult SD mid-line markswoman with a high left-swept ponytail and stable long-range stance"
+  },
+  "signature_frame_selection": {
+    "idle": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "ultimate": [
+      0,
+      2,
+      3,
+      5,
+      6,
+      8,
+      9,
+      11,
+      12,
+      14,
+      15,
+      17
+    ]
+  },
+  "chroma_key_provenance": {},
+  "source_animation_manifest": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/animation_manifest.json",
+  "source_animation_manifest_sha256": "e5aa931b41432023ab6ad94aee6e1541408dcb6c8461746111956addc323e2fa",
+  "source_frame_size": [
+    512,
+    512
+  ],
+  "runtime_frame_size": [
+    384,
+    384
+  ],
+  "logical_draw_canvas": [
+    512,
+    512
+  ],
+  "foot_anchor": [
+    0.5,
+    0.88
+  ],
+  "head_anchor": [
+    0.5,
+    0.064453125
+  ],
+  "view": "THREE_QUARTER_RIGHT_DOWN_30",
+  "facing_policy": "SEPARATE_LEFT_RIGHT",
+  "animations": {
+    "idle": {
+      "fps": 12,
+      "loop": true,
+      "atlas_path": "idle.png",
+      "atlas_sha256": "ba4e39fb3719b4d901e3171e61f2855dd857fc215054c65cc48cb77148aa3259",
+      "atlas_size": [
+        1280,
+        328
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 2359296,
+        "packed_rgba_bytes": 1679360,
+        "saved_rgba_bytes": 679936
+      },
+      "frame_count": 4,
+      "frames": [
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/idle/idle_000.png",
+          "source_sha256": "17bfec76c6c9eec8a10815236fd98ae1014b7b7a6f3f5c662415f72b3a9ca0a3",
+          "region": [
+            632,
+            0,
+            313,
+            326
+          ],
+          "logical_rect": [
+            36,
+            17,
+            313,
+            326
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              56,
+              31,
+              457,
+              449
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              42,
+              23,
+              343,
+              337
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              307,
+              320
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/idle/idle_002.png",
+          "source_sha256": "be3f8bd7b0bed77938a370b8ebccc31b3281f35873aa8d222298d2698afb4644",
+          "region": [
+            948,
+            0,
+            316,
+            325
+          ],
+          "logical_rect": [
+            35,
+            17,
+            316,
+            325
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              55,
+              31,
+              459,
+              448
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              23,
+              344,
+              336
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              309,
+              319
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/idle/idle_004.png",
+          "source_sha256": "7a8c92496d44f8e0974a1c14600f4805ea4d154c4faf4a780086cb9be47ab3fb",
+          "region": [
+            0,
+            0,
+            313,
+            327
+          ],
+          "logical_rect": [
+            36,
+            17,
+            313,
+            327
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              57,
+              31,
+              457,
+              450
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              42,
+              23,
+              343,
+              338
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              307,
+              321
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/idle/idle_006.png",
+          "source_sha256": "782e26fed7b98c2f8065c00c4cd723aeb38c99b15570e934c345ca5afc61901b",
+          "region": [
+            316,
+            0,
+            313,
+            327
+          ],
+          "logical_rect": [
+            36,
+            18,
+            313,
+            327
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              56,
+              32,
+              457,
+              452
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              42,
+              24,
+              343,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              307,
+              321
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          6,
+          6,
+          1257,
+          321
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "ultimate": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "ultimate.png",
+      "atlas_sha256": "cbfb2db5b123014b2dc632ac8029f165613c9508c3dfb473a8e4de34fe612075",
+      "atlas_size": [
+        1024,
+        1348
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 7077888,
+        "packed_rgba_bytes": 5521408,
+        "saved_rgba_bytes": 1556480
+      },
+      "frame_count": 12,
+      "frames": [
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/ultimate/ultimate_000.png",
+          "source_sha256": "e90b7089cc209f3e1a847e6c9a8d960b5039cca2c30fdef358d78d607b0f6468",
+          "region": [
+            664,
+            0,
+            325,
+            339
+          ],
+          "logical_rect": [
+            51,
+            12,
+            325,
+            339
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              76,
+              24,
+              493,
+              459
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              57,
+              18,
+              370,
+              344
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              319,
+              332
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/ultimate/ultimate_002.png",
+          "source_sha256": "90cb2dc22c8c83bc0706e876192a8de1781f655162bf93042d44a49a6621a22e",
+          "region": [
+            332,
+            0,
+            329,
+            341
+          ],
+          "logical_rect": [
+            42,
+            3,
+            329,
+            341
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              64,
+              12,
+              487,
+              450
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              48,
+              9,
+              365,
+              337
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              323,
+              334
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/ultimate/ultimate_003.png",
+          "source_sha256": "7da563a9371c3e5212138caa1ace348ea13b4addc0ed41f1f04aba0b2a8f3185",
+          "region": [
+            0,
+            0,
+            330,
+            342
+          ],
+          "logical_rect": [
+            38,
+            0,
+            330,
+            342
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              59,
+              9,
+              483,
+              447
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              44,
+              7,
+              362,
+              335
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              324,
+              335
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/ultimate/ultimate_005.png",
+          "source_sha256": "087e8088fb13830dbe60c688ca1b3ce2b59c2a599d0ae090e9b0888e039a9760",
+          "region": [
+            344,
+            344,
+            332,
+            336
+          ],
+          "logical_rect": [
+            30,
+            0,
+            332,
+            336
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              49,
+              1,
+              474,
+              439
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              37,
+              1,
+              356,
+              329
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              1,
+              326,
+              329
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/ultimate/ultimate_006.png",
+          "source_sha256": "2f2c80e5d8452d1d86c1984d69da678f60e5338a72c116de6f9163a55fb3c58f",
+          "region": [
+            0,
+            680,
+            331,
+            334
+          ],
+          "logical_rect": [
+            38,
+            0,
+            331,
+            334
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              59,
+              1,
+              484,
+              437
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              44,
+              1,
+              363,
+              328
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              1,
+              325,
+              328
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/ultimate/ultimate_008.png",
+          "source_sha256": "662d80472934edf4d024888ead14994b4d7686eb50d5eca6e3b366805d633d6c",
+          "region": [
+            664,
+            680,
+            333,
+            333
+          ],
+          "logical_rect": [
+            35,
+            0,
+            333,
+            333
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              55,
+              1,
+              483,
+              436
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              1,
+              362,
+              327
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              1,
+              327,
+              327
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/ultimate/ultimate_009.png",
+          "source_sha256": "3528c4b999fbadda11b335c1de73a2e71d6cd64f2443523f1e6cb9c174220596",
+          "region": [
+            676,
+            344,
+            334,
+            334
+          ],
+          "logical_rect": [
+            33,
+            0,
+            334,
+            334
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              53,
+              3,
+              481,
+              438
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              40,
+              2,
+              361,
+              328
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              2,
+              328,
+              328
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/ultimate/ultimate_011.png",
+          "source_sha256": "7a5a6a81f15c7a5a11a382f13872c2c525fb8c02cf3aa25fdea134d20d7a6b57",
+          "region": [
+            0,
+            344,
+            343,
+            336
+          ],
+          "logical_rect": [
+            33,
+            3,
+            343,
+            336
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              52,
+              13,
+              494,
+              443
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              39,
+              9,
+              370,
+              333
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              337,
+              330
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/ultimate/ultimate_012.png",
+          "source_sha256": "3b231b33e17f57cc845a7984a53c71deadfcc1bd7e2f5b809ddc376557bd5686",
+          "region": [
+            332,
+            680,
+            330,
+            334
+          ],
+          "logical_rect": [
+            27,
+            6,
+            330,
+            334
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              45,
+              17,
+              467,
+              445
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              34,
+              13,
+              350,
+              334
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              7,
+              323,
+              328
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/ultimate/ultimate_014.png",
+          "source_sha256": "ca00e3da51687473b62601a7baa271c9f70df251dbec5c1da097f7a7ca671e05",
+          "region": [
+            0,
+            1016,
+            322,
+            329
+          ],
+          "logical_rect": [
+            17,
+            18,
+            322,
+            329
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              31,
+              33,
+              444,
+              454
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              23,
+              25,
+              333,
+              341
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              316,
+              323
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/ultimate/ultimate_015.png",
+          "source_sha256": "85013b3a01436dd8adaa908dac4b082d8a9100f3f0ae2ebd7b98b32fa8b56305",
+          "region": [
+            324,
+            1016,
+            317,
+            325
+          ],
+          "logical_rect": [
+            13,
+            24,
+            317,
+            325
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              25,
+              40,
+              431,
+              457
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              19,
+              30,
+              323,
+              343
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              310,
+              319
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/ultimate/ultimate_017.png",
+          "source_sha256": "ab90caf1acc472a0f93f41a410be2da3c71dd276db53b32ba7693520113f5185",
+          "region": [
+            644,
+            1016,
+            307,
+            319
+          ],
+          "logical_rect": [
+            5,
+            38,
+            307,
+            319
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              15,
+              59,
+              407,
+              467
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              11,
+              44,
+              305,
+              351
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              300,
+              313
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          6,
+          6,
+          1004,
+          1339
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "hit": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "hit.png",
+      "atlas_sha256": "1153c520f68bc35048899fa75c6fbb6552f19a82ded312c58f341daedd1ed2b0",
+      "atlas_size": [
+        1280,
+        340
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 2359296,
+        "packed_rgba_bytes": 1740800,
+        "saved_rgba_bytes": 618496
+      },
+      "frame_count": 4,
+      "frames": [
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/hit/hit_000.png",
+          "source_sha256": "43f24aef2e405cd74fe8647555c85ac5e523c9f95786f258d1c70219bd667481",
+          "region": [
+            636,
+            0,
+            313,
+            327
+          ],
+          "logical_rect": [
+            36,
+            18,
+            313,
+            327
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              56,
+              33,
+              457,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              42,
+              24,
+              343,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              307,
+              321
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/hit/hit_001.png",
+          "source_sha256": "d20c6431e83bfae184eb572b1ca7d5c75046e0730a5d35118a745607ef481671",
+          "region": [
+            0,
+            0,
+            320,
+            340
+          ],
+          "logical_rect": [
+            43,
+            15,
+            320,
+            340
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              66,
+              28,
+              476,
+              464
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              49,
+              21,
+              357,
+              348
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              314,
+              333
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/hit/hit_002.png",
+          "source_sha256": "47c11da5f44ac6c80bfa48024300ba52566c53ec91bd165a14e775ec1f341488",
+          "region": [
+            320,
+            0,
+            313,
+            329
+          ],
+          "logical_rect": [
+            14,
+            25,
+            313,
+            329
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              27,
+              42,
+              428,
+              464
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              20,
+              31,
+              321,
+              348
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              307,
+              323
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/hit/hit_003.png",
+          "source_sha256": "43f24aef2e405cd74fe8647555c85ac5e523c9f95786f258d1c70219bd667481",
+          "region": [
+            952,
+            0,
+            313,
+            327
+          ],
+          "logical_rect": [
+            36,
+            18,
+            313,
+            327
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              56,
+              33,
+              457,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              42,
+              24,
+              343,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              307,
+              321
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          6,
+          6,
+          1259,
+          333
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    },
+    "down": {
+      "fps": 12,
+      "loop": false,
+      "atlas_path": "down.png",
+      "atlas_sha256": "72006e254c92bec147601b75193fb0f9fe16110ff926e5904142d102ef16f066",
+      "atlas_size": [
+        1280,
+        596
+      ],
+      "logical_frame_size": [
+        384,
+        384
+      ],
+      "packing": {
+        "mode": "ALPHA_TIGHT_SHELF_R1",
+        "padding_px": 4,
+        "alignment_px": 4,
+        "logical_rgba_bytes": 4718592,
+        "packed_rgba_bytes": 3051520,
+        "saved_rgba_bytes": 1667072
+      },
+      "frame_count": 8,
+      "frames": [
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/down/down_000.png",
+          "source_sha256": "43f24aef2e405cd74fe8647555c85ac5e523c9f95786f258d1c70219bd667481",
+          "region": [
+            0,
+            0,
+            313,
+            327
+          ],
+          "logical_rect": [
+            36,
+            18,
+            313,
+            327
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              56,
+              33,
+              457,
+              451
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              42,
+              24,
+              343,
+              339
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              307,
+              321
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/down/down_001.png",
+          "source_sha256": "792519feb4958b996b6e31e6ecb6b04e2aa3ce75f8fb7573f994841e4b0c3ca5",
+          "region": [
+            316,
+            0,
+            305,
+            324
+          ],
+          "logical_rect": [
+            12,
+            39,
+            305,
+            324
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              25,
+              61,
+              415,
+              475
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              19,
+              45,
+              311,
+              356
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              7,
+              6,
+              299,
+              317
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/down/down_002.png",
+          "source_sha256": "82647b5b8b243983e580167a18d662350b8a1874e0eaf7a4fd574fafa437bf04",
+          "region": [
+            624,
+            0,
+            276,
+            312
+          ],
+          "logical_rect": [
+            9,
+            69,
+            276,
+            312
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              21,
+              100,
+              371,
+              500
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              15,
+              75,
+              279,
+              375
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              270,
+              306
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/down/down_003.png",
+          "source_sha256": "312bf49ae24c22dfc592dc38b7ed565a586caa6c2fe1bd3ca9b342053b9d11d3",
+          "region": [
+            900,
+            0,
+            254,
+            280
+          ],
+          "logical_rect": [
+            16,
+            104,
+            254,
+            280
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              147,
+              351,
+              512
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              22,
+              110,
+              264,
+              384
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              248,
+              280
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/down/down_004.png",
+          "source_sha256": "d71024737e92d495afa5f0b600dd6037f5cbac6b7a7661c939abc9d7d52532e3",
+          "region": [
+            0,
+            328,
+            243,
+            267
+          ],
+          "logical_rect": [
+            24,
+            117,
+            243,
+            267
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              41,
+              164,
+              348,
+              512
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              30,
+              123,
+              261,
+              384
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              237,
+              267
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/down/down_005.png",
+          "source_sha256": "4d46fe348a51cb930aa797c25eae8cd7d973f8977d0820002611d4385bebe9b2",
+          "region": [
+            244,
+            328,
+            229,
+            257
+          ],
+          "logical_rect": [
+            32,
+            127,
+            229,
+            257
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              51,
+              178,
+              340,
+              512
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              38,
+              133,
+              255,
+              384
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              223,
+              257
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/down/down_006.png",
+          "source_sha256": "0efa28166d9556918dffe64289772311f9146c32c2c422d406b3d09c255f103f",
+          "region": [
+            476,
+            328,
+            216,
+            242
+          ],
+          "logical_rect": [
+            40,
+            142,
+            216,
+            242
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              62,
+              198,
+              333,
+              512
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              46,
+              149,
+              250,
+              384
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              7,
+              210,
+              242
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        },
+        {
+          "source_path": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/down/down_007.png",
+          "source_sha256": "4948d38877e6e550c3353ec2266129ed643bf934aa9a8e708f869ea984fc3bd5",
+          "region": [
+            692,
+            328,
+            202,
+            219
+          ],
+          "logical_rect": [
+            47,
+            165,
+            202,
+            219
+          ],
+          "source_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              71,
+              228,
+              324,
+              512
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "runtime_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              53,
+              171,
+              243,
+              384
+            ],
+            "visible_exact_green_pixels": 0
+          },
+          "packed_qc": {
+            "alpha_extrema": [
+              0,
+              255
+            ],
+            "alpha_bounds": [
+              6,
+              6,
+              196,
+              219
+            ],
+            "visible_exact_green_pixels": 0
+          }
+        }
+      ],
+      "atlas_qc": {
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "alpha_bounds": [
+          6,
+          6,
+          1148,
+          595
+        ],
+        "visible_exact_green_pixels": 0
+      }
+    }
+  },
+  "no_source_mutation": true,
+  "generation": "deterministic_resize_alpha_tight_atlas_only"
+}

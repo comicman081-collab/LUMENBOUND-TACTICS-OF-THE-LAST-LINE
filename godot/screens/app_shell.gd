@@ -12,6 +12,7 @@ const GrowthAffordabilityAnalyzerScript := preload("res://progression/growth_aff
 const GrowthPlanBuilderScript := preload("res://progression/growth_plan_builder.gd")
 const RelayServiceScript := preload("res://relay/relay_service.gd")
 const GameUI := preload("res://ui/game_ui_tokens.gd")
+const BattleUltimateOrbScript := preload("res://battle/view/battle_ultimate_orb.gd")
 const DESIGN_VIEWPORT_SIZE := Vector2(1920.0, 1080.0)
 const COMPACT_LANDSCAPE_MAX_WIDTH := 980.0
 const MIN_TOUCH_CSS_PX := 56.0
@@ -77,6 +78,7 @@ var story_auto := false
 var story_auto_left := 0.0
 var story_ui_hidden := false
 var story_controls: Control
+var story_typewriter_tween: Tween
 var battle_view: BattleView
 var battle_hud: Label
 var ultimate_buttons: Array[Button] = []
@@ -1231,6 +1233,11 @@ func _process(delta: float) -> void:
 		_update_battle_hud()
 
 func _clear() -> void:
+	# A Story screen can be left while its copy is still typing.  Tween owns a
+	# property every frame, so it must be explicitly released before its old
+	# RichTextLabel is removed or a rebuilt portrait plate can inherit a partial
+	# visible_ratio on the next frame.
+	_cancel_story_typewriter()
 	chapter_map_show_generation += 1
 	_dispose_transaction_save_failure()
 	_dispose_map_reward_overlay(false)
@@ -1394,6 +1401,10 @@ func _button(text_value: String, callback: Callable, disabled := false, minimum 
 	button.text = text_value
 	var metrics := responsive_ui_metrics_for_size(_runtime_layout_size())
 	button.custom_minimum_size = responsive_button_minimum_for_size(minimum, _runtime_layout_size())
+	# A 390px phone must never expose a half-word action that cannot be read or
+	# tapped with confidence. Explicit two-line labels retain their authored line
+	# break, while long localized labels now wrap inside their real hit target.
+	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	if bool(metrics.portrait) or bool(metrics.compact_landscape):
 		button.add_theme_font_size_override("font_size", roundi(19.0 * float(metrics.ui_scale)))
 	button.disabled = disabled
@@ -2554,10 +2565,23 @@ func _request_story_text_box_advance(source: String) -> bool:
 	# to the following box. This keeps fast readers in control without skipping
 	# an unread line accidentally.
 	if scenario_text != null and scenario_text.visible_ratio < 0.999:
-		scenario_text.visible_ratio = 1.0
+		# Do not merely assign `visible_ratio`: a still-running Tween would write
+		# its older partial fraction back on the next frame, which made a phone
+		# player see the beginning of an N05 line and then a clipped remainder.
+		_complete_story_typewriter_reveal()
 		story_auto_left = float(SettingsService.values.auto_delay)
 		return true
 	return _request_story_advance(source)
+
+func _cancel_story_typewriter() -> void:
+	if story_typewriter_tween != null and story_typewriter_tween.is_valid():
+		story_typewriter_tween.kill()
+	story_typewriter_tween = null
+
+func _complete_story_typewriter_reveal() -> void:
+	_cancel_story_typewriter()
+	if scenario_text != null:
+		scenario_text.visible_ratio = 1.0
 
 func _refresh_story_dialogue_chrome(command_type: String) -> void:
 	if story_speaker_eyebrow != null:
@@ -2587,8 +2611,10 @@ func _restore_story_view_after_reflow() -> void:
 		scenario_speaker.text = "나레이션" if type == "narration" else LocalizationService.tr_key(command.get("speaker_key", ""))
 		scenario_text.text = LocalizationService.tr_key(command.get("text_key", ""))
 		# A rotation is presentation-only: never restart the typewriter animation
-		# or consume the remaining automatic-advance delay.
-		scenario_text.visible_ratio = 1.0
+		# or consume the remaining automatic-advance delay.  The rebuilt label
+		# instead owns a stable fully revealed snapshot; the prior tween referenced
+		# the discarded control and cannot be allowed to revive it.
+		_complete_story_typewriter_reveal()
 	elif type == "choice" or scenario_runner.state.waiting_for_choice:
 		scenario_speaker.text = "선택"
 		scenario_text.text = "아래 응답 중 하나를 선택해 기록을 시작하세요."
@@ -2664,6 +2690,10 @@ func result_header_data(report: Dictionary) -> Dictionary:
 
 func _advance_story() -> void:
 	if scenario_runner == null: return
+	# A new command always owns a new body label/value. Release an in-flight
+	# typewriter first so a rapid tap, AUTO advance, skip, or orientation rebuild
+	# can never let an earlier line alter the current one.
+	_cancel_story_typewriter()
 	for choice in scenario_choices.get_children(): choice.queue_free()
 	var guard := 0
 	while guard < 20:
@@ -2678,7 +2708,8 @@ func _advance_story() -> void:
 			_refresh_story_dialogue_chrome(type)
 			scenario_text.visible_ratio = 0.0
 			var reveal_duration := maxf(.05, scenario_text.text.length() * float(SettingsService.values.text_speed))
-			create_tween().tween_property(scenario_text, "visible_ratio", 1.0, reveal_duration)
+			story_typewriter_tween = create_tween()
+			story_typewriter_tween.tween_property(scenario_text, "visible_ratio", 1.0, reveal_duration)
 			story_auto_left = float(SettingsService.values.auto_delay) + maxf(.5, scenario_text.text.length() * float(SettingsService.values.text_speed))
 			return
 		if type == "choice":
@@ -3902,6 +3933,7 @@ func _show_battle() -> void:
 	battle_view.setup(simulation)
 	battle_view.speed = int(SettingsService.values.battle_speed)
 	battle_view.battle_finished.connect(_battle_finished)
+	battle_view.battle_assets_ready.connect(_refresh_battle_ultimate_orb_art)
 	content.add_child(battle_view)
 	_set_transition_loading_phase(loading_token, "Attaching the battle cache and graphics", 90.0, 0.18)
 	_build_battle_overlay()
@@ -3954,65 +3986,62 @@ func _build_battle_overlay() -> void:
 	battle_hud.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER if portrait else HORIZONTAL_ALIGNMENT_LEFT
 	battle_hud.custom_minimum_size = Vector2(0.0, 28.0 * ui_scale) if portrait else Vector2.ZERO
 	top.add_child(battle_hud)
-	var battle_actions: Container = GridContainer.new() if portrait else HBoxContainer.new()
-	if battle_actions is GridContainer:
-		(battle_actions as GridContainer).columns = 2
+	# On a phone these are compact utility controls, not the dominant visual
+	# block. Keeping them in one touch-safe row returns a full combat lane to the
+	# actors instead of stacking four large text buttons above them.
+	var battle_actions := HBoxContainer.new()
+	battle_actions.alignment = BoxContainer.ALIGNMENT_CENTER
+	battle_actions.add_theme_constant_override("separation", roundi(5.0 * ui_scale) if portrait else 8)
+	if portrait:
 		battle_actions.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	top.add_child(battle_actions)
-	battle_auto_button = _button("AUTO", _toggle_battle_auto, false, Vector2(130, 56))
+	battle_auto_button = _button("A·ON", _toggle_battle_auto, false, Vector2(64 if portrait else 130, 56))
 	battle_auto_button.name = "BattleAutoButton"
 	battle_auto_button.tooltip_text = "기본 공격·일반 스킬과 조건부 필살기를 자동 운용합니다."
 	battle_actions.add_child(battle_auto_button)
-	battle_speed_button = _button("×1", _cycle_battle_speed, false, Vector2(110, 56))
+	battle_speed_button = _button("×1", _cycle_battle_speed, false, Vector2(58 if portrait else 110, 56))
 	battle_speed_button.name = "BattleSpeedButton"
 	battle_actions.add_child(battle_speed_button)
-	battle_actions.add_child(_button("일시정지", _toggle_battle_pause, false, Vector2(140, 56)))
-	battle_skip_button = _button("SKIP ▶", _skip_battle, false, Vector2(130, 56))
+	var pause_button := _button("Ⅱ" if portrait else "일시정지", _toggle_battle_pause, false, Vector2(58 if portrait else 140, 56))
+	pause_button.tooltip_text = "전투를 일시정지합니다."
+	battle_actions.add_child(pause_button)
+	battle_skip_button = _button("▶▶" if portrait else "SKIP ▶", _skip_battle, false, Vector2(64 if portrait else 130, 56))
 	battle_skip_button.name = "BattleSkipButton"
 	battle_skip_button.tooltip_text = "현재 AUTO 설정과 전투 상태를 유지한 채 남은 전투를 즉시 계산합니다."
 	battle_actions.add_child(battle_skip_button)
-	var party_row: Container = GridContainer.new() if portrait else HBoxContainer.new()
-	party_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	if party_row is GridContainer:
-		# Three compact readouts keep all five allies visible in two rows. Names and
-		# HP remain two-line cards while returning one full row to the battlefield.
-		(party_row as GridContainer).columns = 3
-	party_row.add_theme_constant_override("separation", roundi(6.0 * ui_scale) if portrait else 8)
-	overlay.add_child(party_row)
-	for unit in battle_view.simulation.state.party:
-		var status_label := _label("", 15, Color("cfe6ff"))
-		status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT if portrait else HORIZONTAL_ALIGNMENT_CENTER
-		status_label.custom_minimum_size = Vector2(0.0, 40.0 * ui_scale) if portrait else Vector2(0, 58)
-		party_status_labels.append(status_label)
-		if portrait:
-			# Party readouts sit over an animated battlefield. A translucent card
-			# keeps HP/shield data legible without consuming the central combat lane.
-			var status_card := PanelContainer.new()
-			status_card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			status_card.add_theme_stylebox_override("panel", _battle_party_status_style())
-			status_card.add_child(status_label)
-			party_row.add_child(status_card)
-		else:
-			party_row.add_child(status_label)
+	# Character health and shield are deliberately represented only at their
+	# world positions. Repeating five HP/SH text cards over a portrait battle
+	# hides the scene and competes with the head bars the player actually tracks.
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	overlay.add_child(spacer)
 	var bottom: Container = GridContainer.new() if portrait else HBoxContainer.new()
 	if bottom is GridContainer:
-		# Five ultimates remain simultaneously visible in a 3+2 arrangement instead
-		# of consuming three portrait rows. Child order (and therefore Tab order) is
-		# unchanged.
-		(bottom as GridContainer).columns = 3
+		# Face-cropped 64 CSS-pixel discs fit in one five-wide row on a 390px phone.
+		# This preserves a 56px+ touch target while keeping the combat formation
+		# visibly larger than the tactical controls.
+		(bottom as GridContainer).columns = 5
+		bottom.add_theme_constant_override("separation", roundi(5.0 * ui_scale))
 	else:
 		(bottom as HBoxContainer).alignment = BoxContainer.ALIGNMENT_CENTER
 	overlay.add_child(bottom)
 	for unit in battle_view.simulation.state.party:
 		var definition := DataRegistry.character(unit.def_id)
 		var skill := DataRegistry.skill(definition.ultimate_skill_id)
-		var button := _button("%s\nULT %d" % [LocalizationService.tr_key(definition.name_key), skill.tactical_cost], func(uid: String = str(unit.uid)): _request_ultimate(uid), false, Vector2(112 if portrait else 220, 64 if portrait else 78))
-		_apply_skill_icon(button, skill, 38 if portrait else 58)
-		ultimate_buttons.append(button)
-		bottom.add_child(button)
+		var orb := BattleUltimateOrbScript.new() as Button
+		orb.name = "BattleUltimateOrb_%s" % str(unit.def_id)
+		orb.custom_minimum_size = responsive_button_minimum_for_size(Vector2(64 if portrait else 126, 64 if portrait else 126), _runtime_layout_size())
+		var display_name := LocalizationService.tr_key(str(definition.get("name_key", ""))).replace(" (DEV)", "")
+		var fallback_portrait := _asset_texture(str(definition.get("portrait_asset_id", "")))
+		(orb as BattleUltimateOrb).configure(battle_view.ultimate_orb_texture_for(str(unit.def_id), fallback_portrait), display_name, int(skill.get("tactical_cost", 10)), _battle_skill_orb_accent(definition))
+		# Preserve the WebAudio trusted-gesture contract that `_button` normally
+		# supplies before issuing the exact same simulation-side ultimate request.
+		orb.pressed.connect(func(uid: String = str(unit.uid)):
+			AudioService.unlock_from_user_gesture()
+			_request_ultimate(uid)
+		)
+		ultimate_buttons.append(orb)
+		bottom.add_child(orb)
 	battle_pause_center = CenterContainer.new()
 	battle_pause_center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	battle_pause_center.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -4048,29 +4077,56 @@ func _build_battle_overlay() -> void:
 func _update_battle_hud() -> void:
 	var simulation := battle_view.simulation
 	var remain := maxf(0, simulation.state.time_limit - simulation.state.time_elapsed)
-	var boss_text := ""
-	if simulation.has_boss():
-		var boss: Dictionary = simulation.alive_enemies().filter(func(unit): return unit.rank == "BOSS")[0]
-		boss_text = "  보스 %d/%d [%s]" % [boss.hp, boss.max_hp, _boss_phase_hud_label(str(boss.get("phase", "PHASE_1")))]
-	battle_hud.text = "WAVE %d/%d   %.1fs   TACTICAL %.2f/10%s" % [simulation.state.wave, simulation.state.wave_count, remain, simulation.state.tactical_gauge, boss_text]
+	# On a phone the boss' world-head bar is the authoritative, immediately
+	# local health read. Repeating HP, phase and shield prose in the top status
+	# line made the header wrap to two rows and stole a meaningful slice of the
+	# battlefield from the actors. Keep only global timing/resource context in a
+	# deliberately single-line mobile rail; desktop retains the fuller encounter
+	# read where it has the horizontal room.
+	if battle_portrait_layout:
+		battle_hud.text = "WAVE %d/%d  ·  %ds  ·  T %.0f/10" % [simulation.state.wave, simulation.state.wave_count, roundi(remain), simulation.state.tactical_gauge]
+	else:
+		var boss_text := ""
+		var boss: Dictionary = battle_view.presentation_boss()
+		if not boss.is_empty():
+			boss_text = "  보스 %d/%d [%s]" % [boss.hp, boss.max_hp, _boss_phase_hud_label(str(boss.get("phase", "PHASE_1")))]
+		battle_hud.text = "WAVE %d/%d   %.1fs   TACTICAL %.2f/10%s" % [simulation.state.wave, simulation.state.wave_count, remain, simulation.state.tactical_gauge, boss_text]
 	if battle_auto_button != null:
-		battle_auto_button.text = "AUTO ON" if simulation.auto_enabled else "AUTO OFF"
+		battle_auto_button.text = "A·ON" if simulation.auto_enabled else "A·OFF"
 	if battle_speed_button != null:
 		battle_speed_button.text = "×%d" % battle_view.speed
-	for i in range(mini(party_status_labels.size(), simulation.state.party.size())):
-		var ally: Dictionary = simulation.state.party[i]
-		var definition := DataRegistry.character(ally.def_id)
-		var status_text := "-" if ally.statuses.is_empty() else ", ".join(ally.statuses.keys())
-		if battle_portrait_layout:
-			var display_name := LocalizationService.tr_key(definition.name_key).replace(" (DEV)", "")
-			var hp_percent := roundi(float(ally.hp) / maxf(1.0, float(ally.max_hp)) * 100.0)
-			party_status_labels[i].text = "%s\nHP %d%% · SH %s%s" % [display_name, hp_percent, _compact_number(int(ally.shield)), " · " + status_text if status_text != "-" else ""]
-		else:
-			party_status_labels[i].text = "%s  HP %s/%s\nSH %s  %s" % [LocalizationService.tr_key(definition.name_key), _compact_number(int(ally.hp)), _compact_number(int(ally.max_hp)), _compact_number(int(ally.shield)), status_text]
 	for i in range(ultimate_buttons.size()):
 		var unit: Dictionary = simulation.state.party[i]
 		var skill := DataRegistry.skill(unit.ultimate_skill_id)
-		ultimate_buttons[i].disabled = not SkillRuntime.can_use_ultimate(unit, skill, simulation.state.tactical_gauge)
+		var ready := SkillRuntime.can_use_ultimate(unit, skill, simulation.state.tactical_gauge)
+		ultimate_buttons[i].disabled = not ready
+		if ultimate_buttons[i] is BattleUltimateOrb:
+			(ultimate_buttons[i] as BattleUltimateOrb).set_charge(simulation.state.tactical_gauge, float(skill.get("tactical_cost", 10)), ready)
+
+func _battle_skill_orb_accent(definition: Dictionary) -> Color:
+	# Role accents preserve quick visual recognition without creating a second
+	# text-heavy HUD.  The exact portrait remains the primary identity signal.
+	match str(definition.get("role", "")):
+		"GUARDIAN": return Color("79e7ff")
+		"MEDIC": return Color("b9ffcf")
+		"VANGUARD": return Color("ffac8a")
+		"STRIKER": return Color("ff91cb")
+		"SNIPER": return Color("aabaff")
+		"SPECIALIST": return Color("ffd58a")
+		_: return Color("72dfff")
+
+func _refresh_battle_ultimate_orb_art() -> void:
+	if battle_view == null or battle_view.simulation == null:
+		return
+	for index in range(mini(ultimate_buttons.size(), battle_view.simulation.state.party.size())):
+		if not ultimate_buttons[index] is BattleUltimateOrb:
+			continue
+		var unit: Dictionary = battle_view.simulation.state.party[index]
+		var definition := DataRegistry.character(unit.def_id)
+		var skill := DataRegistry.skill(unit.ultimate_skill_id)
+		var fallback_portrait := _asset_texture(str(definition.get("portrait_asset_id", "")))
+		var display_name := LocalizationService.tr_key(str(definition.get("name_key", ""))).replace(" (DEV)", "")
+		(ultimate_buttons[index] as BattleUltimateOrb).configure(battle_view.ultimate_orb_texture_for(str(unit.def_id), fallback_portrait), display_name, int(skill.get("tactical_cost", 10)), _battle_skill_orb_accent(definition))
 
 func _boss_phase_hud_label(phase_id: String) -> String:
 	match phase_id:
@@ -4099,7 +4155,7 @@ func _skip_battle() -> void:
 	# screen.  Only restore the control when the simulation guard rejected it.
 	if not started and skip_button != null and is_instance_valid(skip_button):
 		skip_button.disabled = false
-		skip_button.text = "SKIP ▶"
+		skip_button.text = "▶▶" if battle_portrait_layout else "SKIP ▶"
 
 func _request_ultimate(unit_id: String) -> void:
 	if battle_view == null or battle_view.simulation == null: return
@@ -4356,6 +4412,42 @@ func _display_runtime_name(runtime_id: String) -> String:
 	if not weapon.is_empty():
 		return LocalizationService.tr_key(str(weapon.get("name_key", runtime_id))).replace(" (DEV)", "")
 	return runtime_id.replace("_", " ")
+
+
+func _mobile_equipment_option_text(weapon: Dictionary) -> String:
+	# The data-localized full weapon title intentionally carries provenance-like
+	# class and WPN identifiers for inventory diagnostics. It is much too long for
+	# the 152px portrait equip cell, where it previously bled into its neighbour.
+	# Keep the full name in the button tooltip, but use a player-facing compact
+	# model name and explicit action inside the touch target.
+	var weapon_class := str(weapon.get("weapon_class", ""))
+	var ko_names := {
+		"BLADE": "블레이드 코어",
+		"COMPACT": "컴팩트 프레임",
+		"RIFLE": "라이플 모듈",
+		"HEAVY": "헤비 프레임",
+		"FOCUS": "포커스 렌즈",
+		"SUPPORT_DEVICE": "지원 장치",
+	}
+	var en_names := {
+		"BLADE": "Blade Core",
+		"COMPACT": "Compact Frame",
+		"RIFLE": "Rifle Module",
+		"HEAVY": "Heavy Frame",
+		"FOCUS": "Focus Lens",
+		"SUPPORT_DEVICE": "Support Device",
+	}
+	var model_name := str((en_names if LocalizationService.language == "en" else ko_names).get(weapon_class, _display_runtime_name(str(weapon.get("id", "")))))
+	var name_key := str(weapon.get("name_key", ""))
+	var marker := name_key.rfind("_V")
+	var variant := 1
+	if marker >= 0:
+		var variant_text := name_key.substr(marker + 2)
+		if variant_text.is_valid_int():
+			variant = maxi(1, variant_text.to_int())
+	var roman_variants := ["", "I", "II", "III", "IV", "V", "VI"]
+	var variant_label := str(roman_variants[mini(variant, roman_variants.size() - 1)]) if variant < roman_variants.size() else str(variant)
+	return "%s %s\n%s" % [model_name, variant_label, "EQUIP" if LocalizationService.language == "en" else "장착"]
 
 func _growth_candidate_text(candidate: Dictionary) -> String:
 	var kind := str(candidate.get("kind", ""))
@@ -5018,7 +5110,10 @@ func _show_growth() -> void:
 		equipment_box.add_child(equipment_grid)
 		for weapon in DataRegistry.list_of("weapons"):
 			if weapon.weapon_class == definition.weapon_class:
-				equipment_grid.add_child(_button("%s 장착" % _display_runtime_name(str(weapon.id)), func(value: String = str(weapon.id)): progress.equipped_weapon_id = value; SaveService.save_game(); _show_screen("GROWTH"), weapon.id == weapon_id, Vector2(152, 56)))
+				var equipment_button := _button(_mobile_equipment_option_text(weapon), func(value: String = str(weapon.id)): progress.equipped_weapon_id = value; SaveService.save_game(); _show_screen("GROWTH"), weapon.id == weapon_id, Vector2(152, 64))
+				equipment_button.name = "MobileEquipmentOption_%s" % str(weapon.id)
+				equipment_button.tooltip_text = "%s · %s" % [_display_runtime_name(str(weapon.id)), "Equip" if LocalizationService.language == "en" else "장비 교체"]
+				equipment_grid.add_child(equipment_button)
 	var next_plan_action: Dictionary = GrowthPlanBuilderScript.next_legal_action(AppState.get_party())
 	var plan_preview: Dictionary = GrowthPlanBuilderScript.preview_recommended_batch(AppState.get_party(), 12) if not next_plan_action.is_empty() else {}
 	var plan_box := _panel_box(growth_content)

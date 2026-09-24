@@ -33,7 +33,7 @@ Godot 4.7.1 Stable Standard가 설치된 Windows 11에서 HTML 빌드:
 .\tools\powershell\HASH_BUILDS.ps1
 ```
 
-로컬 설치된 고정 엔진은 `D:\AI 종합 폴더\Godot\4.7.1-standard`에서 탐색됩니다. 데이터 정본은 `data_source/`, 런타임 컴파일 결과는 `godot/data/compiled/`에 있습니다. 현재 실행 결과물은 `builds/web_combat_motion_scout_final_20260913_release/`입니다. Web 서버를 통해 실행해야 하며 `index.html`을 파일로 직접 여는 방식은 지원하지 않습니다.
+로컬 설치된 고정 엔진은 `D:\AI 종합 폴더\Godot\4.7.1-standard`에서 탐색됩니다. 데이터 정본은 `data_source/`, 런타임 컴파일 결과는 `godot/data/compiled/`에 있습니다. 현재 실행 결과물은 `builds/web_claude_20260924_r2_release/`입니다. Web 서버를 통해 실행해야 하며 `index.html`을 파일로 직접 여는 방식은 지원하지 않습니다.
 
 인트로 교체까지 포함한 현재 빌드는 다음 명령으로 실행합니다.
 

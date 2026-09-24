@@ -1343,13 +1343,15 @@ func _apply_responsive_layout() -> void:
 	var ui_scale := _compact_ui_scale(size) if compact else 1.0
 	# Six core tactical actions fit in one 56px portrait rail.  This replaces the
 	# previous two/three-row toolbar, which obscured too much of the actual map
-	# before the player could see their move range or target.
-	toolbar.add_theme_constant_override("h_separation", roundi((2.0 if portrait else 10.0) * ui_scale))
+	# before the player could see their move range or target.  Compact landscape
+	# carries eight two-letter actions (with WAIT and the growth menu); 64-wide
+	# plates keep them on one row down to a 565 CSS-px window.
+	toolbar.add_theme_constant_override("h_separation", roundi((2.0 if portrait else 6.0) * ui_scale))
 	toolbar.add_theme_constant_override("v_separation", roundi(6.0 * ui_scale) if portrait else 0)
 	for index in range(map_toolbar_buttons.size()):
 		var action_button := map_toolbar_buttons[index]
 		if compact:
-			action_button.custom_minimum_size = Vector2((46.0 if portrait else 78.0) * ui_scale, (56.0 if portrait else 32.0) * ui_scale)
+			action_button.custom_minimum_size = Vector2((46.0 if portrait else 64.0) * ui_scale, (56.0 if portrait else 32.0) * ui_scale)
 			action_button.add_theme_font_size_override("font_size", roundi((17.0 if portrait else 13.0) * ui_scale))
 			action_button.text = ["일반", "위험", "대표", "개요", "스킵", "지역"][index]
 		else:
@@ -1357,11 +1359,11 @@ func _apply_responsive_layout() -> void:
 			action_button.add_theme_font_size_override("font_size", 24)
 			action_button.text = ["일반 작전", "위험 작전", "맵 대표", "구역 개요", "이동 건너뛰기", "지역 이동"][index]
 	if wait_button != null:
-		wait_button.custom_minimum_size = Vector2((46.0 if portrait else 78.0) * ui_scale, (56.0 if portrait else 32.0) * ui_scale) if compact else Vector2(86, 56)
+		wait_button.custom_minimum_size = Vector2((46.0 if portrait else 64.0) * ui_scale, (56.0 if portrait else 32.0) * ui_scale) if compact else Vector2(86, 56)
 		wait_button.add_theme_font_size_override("font_size", roundi((17.0 if portrait else 13.0) * ui_scale) if compact else 24)
 		wait_button.text = "대기"
 	if menu_button != null:
-		menu_button.custom_minimum_size = Vector2((46.0 if portrait else 78.0) * ui_scale, (56.0 if portrait else 32.0) * ui_scale) if compact else Vector2(96, 56)
+		menu_button.custom_minimum_size = Vector2((46.0 if portrait else 64.0) * ui_scale, (56.0 if portrait else 32.0) * ui_scale) if compact else Vector2(96, 56)
 		menu_button.add_theme_font_size_override("font_size", roundi((17.0 if portrait else 13.0) * ui_scale) if compact else 24)
 	if toolbar_spacer != null:
 		toolbar_spacer.visible = not compact

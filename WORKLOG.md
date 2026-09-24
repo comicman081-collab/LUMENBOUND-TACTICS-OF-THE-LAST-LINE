@@ -677,3 +677,12 @@
   쓰러진 동료·전열 우선, 이유와 예상 상승치, 바로 적용)을 결과·성장 화면에 넣었다.
 - 신규 테스트: `progression_integrity_runner`(22), `combat_tactics_runner`(26),
   `growth_advisor_runner`(15), 맵 휴면 순찰 검사 1건. 배포·업로드는 하지 않았다.
+- 최종 로컬 실행본: `builds/web_claude_20260924_r2_release/`, PCK SHA-256
+  `4f6779010c3c5e742d5b7ec5b5f9ef47babddc4f44a00b166a10798beb9a7c72`. 실행기는 이전 빌드
+  서버(PID 16272)를 교체하고 `http://127.0.0.1:8770/play/4f6779010c3c/`를 연다.
+  전체 러너 30종 + growth_advisor 15/15 통과(r15 54/54, map 358/358, core 301/301,
+  조우 매트릭스 8309/8309). 좁은 창에서 프롤로그 대화창이 AUTO/SKIP을 덮던 문제도 고쳤다.
+- 교체된 빌드는 기존 방식대로 `_audio/`·`intro.mp4`만 남기고 휴지통으로 옮겼다(복구 가능):
+  `web_claude_step3_release`(PCK 6c4fab219e59…), `web_claude_step4_release`(1ae60665795f…),
+  `web_claude_20260924_release`(00a05adab173…), `web_combat_motion_scout_final_20260913_release`
+  (f79324fa25e0…). 09-20 Sites 빌드와 `web_development`는 그대로 두었다.

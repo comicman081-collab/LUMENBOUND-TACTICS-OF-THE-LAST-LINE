@@ -3461,7 +3461,8 @@ func _dispose_map_reward_overlay(resume_map_turn: bool) -> void:
 
 func _show_stage_detail() -> void:
 	var stage := DataRegistry.stage(AppState.selected_stage_id)
-	_title(LocalizationService.tr_key(str(stage.name_key)) + (" • 보스" if stage.boss else ""), "권장 Lv.%d • %d 작전력 • %d초" % [stage.recommended_level, stage.stamina_cost, stage.time_limit])
+	var skill_requirement := GrowthAdvisorScript.skill_requirement_text(stage)
+	_title(LocalizationService.tr_key(str(stage.name_key)) + (" • 보스" if stage.boss else ""), "권장 Lv.%d • %d 작전력 • %d초" % [stage.recommended_level, stage.stamina_cost, stage.time_limit] + (" • " + skill_requirement if not skill_requirement.is_empty() else ""))
 	var portrait := _is_portrait_layout()
 	var compact_details := portrait or _is_compact_landscape_layout()
 	var columns: BoxContainer = VBoxContainer.new() if compact_details else HBoxContainer.new()

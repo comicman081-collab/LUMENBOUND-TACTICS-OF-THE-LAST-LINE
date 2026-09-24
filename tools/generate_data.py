@@ -472,6 +472,10 @@ def campaign_stage_data() -> tuple[list[dict], list[dict]]:
     """
     legacy_stages, legacy_rewards = stage_data()
     reward_by_stage = {str(row["stage_id"]): row for row in legacy_rewards}
+    # Calibrated per-stage enemy factors (godot/tools/campaign_balance_calibrator)
+    # replace the level-cap formula below where present.
+    override_path = SOURCE / "stage_balance_overrides.json"
+    balance_overrides = json.loads(override_path.read_text(encoding="utf-8")) if override_path.exists() else {}
     stages: list[dict] = []
     rewards: list[dict] = []
     boss_pairs = boss_id_pairs()
@@ -522,6 +526,7 @@ def campaign_stage_data() -> tuple[list[dict], list[dict]]:
                 raw_level = 34 + (chapter_number - 2) * 12 + number * 2 + (8 if mode == "HARD" else 0)
                 recommended_level = min(100, raw_level)
                 post_cap_scale = 1.0 if raw_level <= 100 else round(1.0 + (raw_level - 100) * .012, 3)
+                post_cap_scale = float(balance_overrides.get(stage_id, {}).get("post_cap_scale", post_cap_scale))
                 reward_id = f"REWARD_{stage_id}"
                 stages.append({
                     "id": stage_id, "chapter_id": chapter_id, "mode": mode,

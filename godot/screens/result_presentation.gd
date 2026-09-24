@@ -240,7 +240,8 @@ static func build_growth_advice(s, parent: Node, scale: float) -> void:
 	box.name = "ResultGrowthAdvice"
 	box.add_child(s._label("다음 성장 추천", roundi(22 * scale), GOLD))
 	var stage := DataRegistry.stage(str(report.stage_id))
-	box.add_child(s._label("목표 작전  %s  ·  권장 Lv.%d" % [LocalizationService.tr_key(str(stage.get("name_key", report.stage_id))), int(report.recommended_level)], roundi(16 * scale), MUTED))
+	var skill_requirement := GrowthAdvisorScript.skill_requirement_text(stage)
+	box.add_child(s._label("목표 작전  %s  ·  권장 Lv.%d" % [LocalizationService.tr_key(str(stage.get("name_key", report.stage_id))), int(report.recommended_level)] + ("  ·  " + skill_requirement if not skill_requirement.is_empty() else ""), roundi(16 * scale), MUTED))
 	add_readiness_bar(s, box, report, scale)
 	var entries := GrowthAdvisorScript.recommendations(party, downed, 2)
 	if entries.is_empty():

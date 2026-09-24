@@ -25,6 +25,23 @@ static func target_stage_id() -> String:
 			return stage_id
 	return str(AppState.selected_stage_id)
 
+## Skill levels the campaign balance assumes for a stage (the same curve
+## tools/campaign_balance_calibrator tunes enemies against). Up to chapter 4 the
+## recommended level is the requirement; after the level cap, skills are the only
+## growth and climb to their maximum by chapter 20.
+static func expected_skill_levels(stage: Dictionary) -> Dictionary:
+	var post_cap := clampi(int(str(stage.get("chapter_id", "CH01")).substr(2)) - 4, 0, 16)
+	if post_cap <= 0:
+		return {}
+	return {"normal": 2 + roundi(post_cap * .5), "passive": 2 + roundi(post_cap * .5), "ultimate": 1 + roundi(post_cap * .25)}
+
+## Short requirement line for stage / growth headers ("" up to chapter 4).
+static func skill_requirement_text(stage: Dictionary) -> String:
+	var skills := expected_skill_levels(stage)
+	if skills.is_empty():
+		return ""
+	return "권장 스킬 Lv.%d · 궁극기 Lv.%d" % [int(skills.normal), int(skills.ultimate)]
+
 ## One number for "how strong": weighted HP / ATK / DEF plus skill levels.
 static func combat_power(character_id: String, state_override: Dictionary = {}) -> int:
 	if not AppState.profile.get("roster", {}).has(character_id):
@@ -47,6 +64,7 @@ static func party_report(party_ids: Array, downed_ids: Array = [], stage_id := "
 	var target := stage_id if not stage_id.is_empty() else target_stage_id()
 	var stage := DataRegistry.stage(target)
 	var recommended_level := maxi(1, int(stage.get("recommended_level", 1)))
+	var expected_skills := expected_skill_levels(stage)
 	var members: Array = []
 	var party_cp := 0
 	var recommended_cp := 0
@@ -58,6 +76,15 @@ static func party_report(party_ids: Array, downed_ids: Array = [], stage_id := "
 		var level := int(state.get("level", 1))
 		var at_recommended: Dictionary = state.duplicate(true)
 		at_recommended.level = clampi(maxi(level, recommended_level), 1, 100)
+		var skills: Dictionary = state.get("skills", {})
+		var skill_gaps := {}
+		if not expected_skills.is_empty():
+			var raised: Dictionary = skills.duplicate(true)
+			for skill_slot in expected_skills:
+				var current := int(skills.get(skill_slot, 1))
+				raised[skill_slot] = maxi(current, int(expected_skills[skill_slot]))
+				if current < int(expected_skills[skill_slot]): skill_gaps[skill_slot] = int(expected_skills[skill_slot])
+			at_recommended.skills = raised
 		var cp := combat_power(character_id)
 		var target_cp := maxi(cp, combat_power(character_id, at_recommended))
 		party_cp += cp
@@ -71,12 +98,14 @@ static func party_report(party_ids: Array, downed_ids: Array = [], stage_id := "
 			"level_gap": maxi(0, recommended_level - level),
 			"combat_power": cp,
 			"recommended_power": target_cp,
+			"skill_gaps": skill_gaps,
 			"downed": downed_ids.has(character_id),
 		})
 	var readiness := float(party_cp) / maxf(1.0, float(recommended_cp))
 	return {
 		"stage_id": target,
 		"recommended_level": recommended_level,
+		"expected_skills": expected_skills,
 		"members": members,
 		"party_power": party_cp,
 		"recommended_power": recommended_cp,
@@ -158,9 +187,16 @@ static func _best_for_member(member: Dictionary) -> Dictionary:
 			continue
 		var comparison := SkillUpgradeService.comparison(character_id, slot)
 		var slot_name: String = {"normal": "일반 스킬", "passive": "패시브", "ultimate": "궁극기"}[slot]
-		reasons.push_front("레벨은 권장 수준입니다 · %s 위력을 올립니다" % slot_name)
+		var skill_gaps: Dictionary = member.get("skill_gaps", {})
+		var score := 25 + (10 if bool(member.downed) else 0)
+		if skill_gaps.has(slot):
+			# After the level cap, the operation is tuned against these skill levels.
+			reasons.push_front("이 작전은 %s Lv.%d 기준으로 조정되어 있습니다" % [slot_name, int(skill_gaps[slot])])
+			score += 30 + (int(skill_gaps[slot]) - int(state.skills[slot])) * 5
+		else:
+			reasons.push_front("레벨은 권장 수준입니다 · %s 위력을 올립니다" % slot_name)
 		var gain := "계수 %.2f → %.2f" % [float(comparison.current), float(comparison.next)] if comparison.next != null else ""
-		return _entry(base, "SKILL", {"kind": "SKILL", "character_id": character_id, "slot": slot}, "%s %s Lv.%d → Lv.%d" % [name, slot_name, int(state.skills[slot]), int(state.skills[slot]) + 1], reasons, gain, 25 + (10 if bool(member.downed) else 0))
+		return _entry(base, "SKILL", {"kind": "SKILL", "character_id": character_id, "slot": slot}, "%s %s Lv.%d → Lv.%d" % [name, slot_name, int(state.skills[slot]), int(state.skills[slot]) + 1], reasons, gain, score)
 	var weapon_id := str(state.get("equipped_weapon_id", ""))
 	var material := GrowthPlanBuilder.weapon_material_that_fits(weapon_id)
 	if not weapon_id.is_empty() and not material.is_empty():

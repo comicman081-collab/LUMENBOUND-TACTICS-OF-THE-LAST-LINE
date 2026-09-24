@@ -20,6 +20,7 @@ func check(ok: bool, label: String) -> void:
 func _ready() -> void:
 	_test_target_and_power()
 	_test_level_recommendations()
+	_test_post_cap_skill_requirement()
 	await _test_result_screen()
 	await _test_growth_screen()
 	print("GROWTH_ADVISOR total=%d pass=%d fail=%d" % [passed + failed, passed, failed])
@@ -68,6 +69,20 @@ func _test_level_recommendations() -> void:
 	for entry in blocked:
 		if str(entry.kind) == "BLOCKED" and str(entry.reason).contains("부족"): explained = true
 	check(explained, "ADVISOR_09 without materials the advisor explains what is missing instead of going silent")
+
+func _test_post_cap_skill_requirement() -> void:
+	check(Advisor.expected_skill_levels(DataRegistry.stage("CH04-N20")).is_empty() and Advisor.skill_requirement_text(DataRegistry.stage("CH04-N20")).is_empty(), "ADVISOR_10 chapters 1-4 keep the recommended level as the only requirement")
+	var ch05 := Advisor.expected_skill_levels(DataRegistry.stage("CH05-N01"))
+	var ch20 := Advisor.expected_skill_levels(DataRegistry.stage("CH20-N20"))
+	check(int(ch05.normal) == 3 and int(ch05.ultimate) == 1 and int(ch20.normal) == 10 and int(ch20.passive) == 10 and int(ch20.ultimate) == 5, "ADVISOR_11 after the level cap the balance expects skills to climb to their maximum by chapter 20")
+	AppState.new_game()
+	for character_id in AppState.get_party():
+		var state: Dictionary = AppState.profile.roster[str(character_id)]
+		state.level = 100
+		state.breakthrough = 5
+	var report := Advisor.party_report(AppState.get_party(), [], "CH12-N10")
+	var member: Dictionary = report.members[0]
+	check(float(report.readiness) < 1.0 and not Dictionary(member.skill_gaps).is_empty() and str(Advisor.skill_requirement_text(DataRegistry.stage("CH12-N10"))).contains("궁극기 Lv."), "ADVISOR_12 a level-100 party with starting skills is not reported as ready for a late chapter")
 
 func _shell() -> Node:
 	var shell := preload("res://screens/boot/boot.tscn").instantiate()

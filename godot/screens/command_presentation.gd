@@ -333,7 +333,8 @@ static func growth(s) -> void:
 	var state: Dictionary = AppState.profile.roster[cid]
 	var advice := GrowthAdvisorScript.party_report(AppState.get_party())
 	var target_stage := DataRegistry.stage(str(advice.stage_id))
-	s._title("파티 성장", "크레딧 %s  ·  목표 %s 권장 Lv.%d" % [MathUtil.comma(AppState.inventory_count("CREDIT")), LocalizationService.tr_key(str(target_stage.get("name_key", advice.stage_id))), int(advice.recommended_level)])
+	var skill_requirement := GrowthAdvisorScript.skill_requirement_text(target_stage)
+	s._title("파티 성장", "크레딧 %s  ·  목표 %s 권장 Lv.%d" % [MathUtil.comma(AppState.inventory_count("CREDIT")), LocalizationService.tr_key(str(target_stage.get("name_key", advice.stage_id))), int(advice.recommended_level)] + ("  ·  " + skill_requirement if not skill_requirement.is_empty() else ""))
 	var stage := scene_surface(s, "CharacterPresentation")
 	shade(stage, Color("153d50"), Color("06101e"))
 	CinematicFx.light_rays(stage, {"origin": Vector2(0.28, -0.1), "ray_color": Color("bfe8ff"), "intensity": 0.22})

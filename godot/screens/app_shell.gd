@@ -2326,8 +2326,6 @@ func _build_prologue_story_presentation(portrait: bool, ui_scale: float, story_h
 	chapter_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	chapter_copy.add_child(chapter_title)
 
-	_build_story_top_right_controls(canvas, portrait, true)
-
 	story_art_status = _label("", 14, Color("78e6d0"))
 	# The cinematic opening is itself the QA target; never stamp authoring jargon
 	# over the composition, even in a Development export.
@@ -2357,11 +2355,19 @@ func _build_prologue_story_presentation(portrait: bool, ui_scale: float, story_h
 	dialogue_margin.offset_top = -float(_story_logical_px(178.0 if compact else (348.0 if narrow_portrait else 282.0)))
 	dialogue_margin.offset_right = -float(_story_logical_px(dialogue_inset_css))
 	dialogue_margin.offset_bottom = -float(_story_logical_px(12.0 if compact else (30.0 if narrow_portrait else 18.0)))
+	# On a short window (e.g. a narrow desktop pane) the fixed plate height used
+	# to cover the chapter plate and the AUTO/SKIP rail. Cap it to the lower 58%.
+	var plate_height_css := 178.0 if compact else (348.0 if narrow_portrait else 282.0)
+	if runtime_size.y > 0.0 and plate_height_css > runtime_size.y * 0.58:
+		dialogue_margin.anchor_top = 0.42
+		dialogue_margin.offset_top = 0.0
 	canvas.add_child(dialogue_margin)
 	var dialogue := PanelContainer.new()
 	dialogue.add_theme_stylebox_override("panel", _story_dialogue_style(true))
 	dialogue_margin.add_child(dialogue)
 	_build_story_dialogue_content(dialogue, portrait, true)
+	# Added last so AUTO/SKIP always sit above the reading plate and keep input.
+	_build_story_top_right_controls(canvas, portrait, true)
 
 func _build_story_top_right_controls(parent: Control, portrait: bool, cinematic: bool) -> void:
 	var runtime_size := _runtime_layout_size()

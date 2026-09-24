@@ -248,6 +248,11 @@ func _test_map_bindings() -> void:
 		var definition := ChapterMapLoader.load_map(str(chapter.get("map_id", "")))
 		for node_value in definition.get("nodes", []):
 			var node: Dictionary = node_value
+			# Generated forward scouts share their parent's stage but carry no
+			# scenario; the authored parent node is the audit record.
+			if str(node.get("node_type", "")) == "FIELD_PATROL" and bool(node.get("forward_patrol", false)):
+				scenario_audit_valid = scenario_audit_valid and str(node.get("scenario_id", "")).is_empty()
+				continue
 			var expected_scenario_id: String = str(expected_start_scenarios.get(str(chapter.get("id", "")), "") if str(node.get("node_type", "")) == "START" else expected_node_scenarios.get(str(node.get("stage_id", "")), ""))
 			scenario_audit_valid = scenario_audit_valid and str(node.get("scenario_id", "")) == str(expected_scenario_id)
 	check(scenario_audit_valid, "MAP_03 map nodes expose the exact runtime story-trigger scenario IDs for content audit")

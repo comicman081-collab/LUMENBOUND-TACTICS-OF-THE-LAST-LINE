@@ -5,7 +5,7 @@
 )
 . "$PSScriptRoot\COMMON.ps1"
 $root = Get-ProjectRoot
-$buildName = 'builds/web_combat_motion_scout_final_20260913_release'
+$buildName = 'builds/web_sites_20260920_release'
 $build = Join-Path $root $buildName
 $health = "http://127.0.0.1:$Port/__local_game_status"
 
@@ -19,6 +19,16 @@ function Test-LocalPlayer($status) {
 
 $status = Get-LocalPlayer
 if (-not (Test-LocalPlayer $status)) {
+    # After the verified build changes, the previous build's launcher server may
+    # still be running. Replace only our own server; never stop another service.
+    if ($null -ne $status -and $status.service -eq 'lumenbound-local-player-v2' -and $status.pid) {
+        Write-Host "Replacing local server for $($status.build) (PID $($status.pid))."
+        Stop-Process -Id ([int]$status.pid) -ErrorAction SilentlyContinue
+        for ($attempt=0; $attempt -lt 20 -and (Get-NetTCPConnection -State Listen -LocalPort $Port -ErrorAction SilentlyContinue); $attempt++) {
+            Start-Sleep -Milliseconds 250
+        }
+        $status = $null
+    }
     if ($null -ne $status) { throw "Another service is using port $Port." }
     if (Get-NetTCPConnection -State Listen -LocalPort $Port -ErrorAction SilentlyContinue) {
         throw "Port $Port is already occupied. Choose a free port; no second server was started."

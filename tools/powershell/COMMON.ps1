@@ -1,4 +1,4 @@
-Set-StrictMode -Version Latest
+﻿Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $script:OriginalAppData = $env:APPDATA
 
@@ -93,8 +93,17 @@ function Find-Blender45 {
 }
 
 function Invoke-Checked([string]$Executable, [string[]]$Arguments) {
-    $lines = @(& $Executable @Arguments 2>&1)
-    $exitCode = $LASTEXITCODE
+    # Windows PowerShell 5.1 turns each redirected stderr line into an
+    # ErrorRecord, and the script-wide 'Stop' preference would abort on the
+    # first engine warning. Judge success by exit code and fatal markers only.
+    $previousPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    try {
+        $lines = @(& $Executable @Arguments 2>&1 | ForEach-Object { "$_" })
+        $exitCode = $LASTEXITCODE
+    } finally {
+        $ErrorActionPreference = $previousPreference
+    }
     $lines | ForEach-Object { Write-Host $_ }
     if ($exitCode -ne 0) { throw "$Executable 종료 코드: $exitCode" }
     $fatalOutput = $lines | Where-Object { "$_" -match 'SCRIPT ERROR:|Parse Error:|Compile Error:|Failed to load script|Traceback \(most recent call last\):|ModuleNotFoundError:' }

@@ -11,6 +11,7 @@ func check(ok: bool, label: String) -> void:
 
 func _ready() -> void:
 	var fallback_count := 0
+	var outro_fallback_count := 0
 	var scenes := 0
 	var shell := preload("res://screens/app_shell.gd").new()
 	for chapter in DataRegistry.list_of("chapters"):
@@ -55,7 +56,14 @@ func _ready() -> void:
 			if DataRegistry.by_id("scenarios", str(trigger.scenario_id)).chapter_id != id: continue
 			expected.append(str(trigger.id))
 			for fallback in trigger.get("fallback_stage_ids", []):
-				fallback_count += 1
+				# Optional-branch scenes fall back to the next mandatory stage.
+				# Chapter outros authored on H05 fall back to the final normal
+				# stage so the "next chapter" flow keeps the epilogue.
+				if str(DataRegistry.stage(str(trigger.stage_id)).mode) == "HARD":
+					outro_fallback_count += 1
+					check(str(fallback) == str(chapter.required_stage_ids.back()), str(trigger.id) + " outro fallback is the final normal stage")
+				else:
+					fallback_count += 1
 				check(chapter.required_stage_ids.has(fallback), str(trigger.id) + " fallback is mandatory")
 				check(int(DataRegistry.stage(fallback).stage_number) > int(DataRegistry.stage(trigger.stage_id).stage_number), str(trigger.id) + " fallback follows its original encounter")
 		# Simulate a saved first-clear record with a missing pending queue.
@@ -87,6 +95,7 @@ func _ready() -> void:
 	check(not AppState.queue_story_event("STAGE_CLEAR", "CH01-N03", "CH01"), "later optional clear cannot replay completed fallback")
 	check(AppState.next_pending_story_trigger("CH02").is_empty(), "recovery never queues another region")
 	check(fallback_count == 4, "four optional-branch fallbacks are authored")
+	check(outro_fallback_count == 2, "CH01/CH02 H05 outros fall back to their final normal stage")
 	shell.free()
-	print("CAMPAIGN_STORY_CONTINUITY total=%d pass=%d fail=%d chapters=20 scenes=%d fallbacks=%d" % [passed+failed, passed, failed, scenes, fallback_count])
+	print("CAMPAIGN_STORY_CONTINUITY total=%d pass=%d fail=%d chapters=20 scenes=%d fallbacks=%d outro_fallbacks=%d" % [passed+failed, passed, failed, scenes, fallback_count, outro_fallback_count])
 	get_tree().quit(0 if failed == 0 else 1)

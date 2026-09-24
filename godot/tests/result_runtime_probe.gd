@@ -33,7 +33,7 @@ func _run() -> void:
 	var action_buttons := shell.find_children("*", "Button", true, false)
 	var result_ready := false
 	for button_value in action_buttons:
-		if button_value is Button and (button_value as Button).text == "챕터 맵으로":
+		if button_value is Button and (button_value as Button).text == "지도로":
 			result_ready = true
 			break
 	print("RESULT_RUNTIME_PROBE ready=%s buttons=%d screen=%s" % [str(result_ready), action_buttons.size(), str(shell.current_screen)])

@@ -1,0 +1,75 @@
+{
+  "character_id": "CHR006",
+  "source_asset_id": "chr006_spritegen_9998df885d804863",
+  "foot_anchor": [
+    0.5,
+    0.88
+  ],
+  "head_anchor": [
+    0.5,
+    0.14
+  ],
+  "view": "THREE_QUARTER_RIGHT_DOWN_30",
+  "facing_policy": "SEPARATE_LEFT_RIGHT",
+  "status": "LOCAL_QA_ONLY_MAP_DENSITY",
+  "frame_size": [
+    192,
+    192
+  ],
+  "atlas_columns": 8,
+  "atlas_path": "atlas.png",
+  "atlas_sha256": "1c63f4464bbe4c0515e6d816810dd110110545507a42d9953e94e996a8ba12d5",
+  "animations": {
+    "idle": {
+      "fps": 12,
+      "loop": true,
+      "frame_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    "move": {
+      "fps": 12,
+      "loop": true,
+      "frame_indices": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    "victory": {
+      "fps": 12,
+      "loop": false,
+      "frame_indices": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29
+      ]
+    }
+  },
+  "map_pixel_scale": 0.5833333333333334,
+  "decoded_rgba_bytes": 4718592,
+  "source_manifest_sha256": "2f14137b383e231e93195c3713b36ece7811e2644a66f51c725b073a3841af16"
+}

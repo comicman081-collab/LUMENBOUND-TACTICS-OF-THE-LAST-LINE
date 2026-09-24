@@ -1,0 +1,75 @@
+{
+  "character_id": "BOSS022",
+  "source_asset_id": "boss022_illustrated_d31624cb91c3c2e9",
+  "foot_anchor": [
+    0.5,
+    0.88
+  ],
+  "head_anchor": [
+    0.5,
+    0.14
+  ],
+  "view": "THREE_QUARTER_LEFT_DOWN_30",
+  "facing_policy": "MIRROR_SAFE",
+  "status": "LOCAL_QA_ONLY_MAP_DENSITY",
+  "frame_size": [
+    192,
+    192
+  ],
+  "atlas_columns": 8,
+  "atlas_path": "atlas.png",
+  "atlas_sha256": "13d1d351de5c49447047e9b475eee080a5e3b5b052045f5c5793b6c2b7903e29",
+  "animations": {
+    "idle": {
+      "fps": 12,
+      "loop": true,
+      "frame_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    "move": {
+      "fps": 12,
+      "loop": true,
+      "frame_indices": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    "victory": {
+      "fps": 12,
+      "loop": false,
+      "frame_indices": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29
+      ]
+    }
+  },
+  "map_pixel_scale": 0.5833333333333334,
+  "decoded_rgba_bytes": 4718592,
+  "source_manifest_sha256": "bac0fe568c022b1fad5830cee1bcffe712624177f46dbcc1e5b1cbab702864a2"
+}

@@ -1,0 +1,22 @@
+{
+  "checks": [
+    {
+      "ok": true,
+      "name": "player export does not expose developer command bridge"
+    },
+    {
+      "name": "map BGM is playing one independent browser source"
+    },
+    {
+      "ok": false,
+      "name": "real player navigation reaches the tactical map"
+    },
+    {
+      "ok": true,
+      "name": "no Godot runtime errors during player startup",
+      "details": []
+    }
+  ],
+  "passed": false,
+  "logs": []
+}

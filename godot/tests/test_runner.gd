@@ -3,6 +3,7 @@ extends Node
 var passed := 0
 var failed := 0
 var failures: Array[String] = []
+var growth_ui_contract: Dictionary = {}
 const RelayServiceScript := preload("res://relay/relay_service.gd")
 const BattlePresentationDirectorScript := preload("res://battle/view/battle_presentation_director.gd")
 
@@ -27,6 +28,7 @@ func _run() -> void:
 	_test_stage_preload_contracts()
 	_test_combat_art_contracts()
 	_test_card_audio_contracts()
+	await _test_signature_sliced_loads()
 	_test_battle()
 	_test_growth()
 	_test_story()
@@ -36,7 +38,26 @@ func _run() -> void:
 	if not failures.is_empty(): print("FAILURES=", JSON.stringify(failures))
 	get_tree().quit(0 if failed == 0 else 1)
 
+func _test_signature_sliced_loads() -> void:
+	var ids: Array[String] = ["CHR001", "ENM001"]
+	var actors := BattleSpriteLibrary.new()
+	var effects := EffectSignatureLibrary.new()
+	var start_frame := Engine.get_process_frames()
+	var actor_ok := await actors.load_signature_core_pack_sliced(ids, self)
+	var effect_ok := await effects.load_signature_core_pack_sliced(ids, self)
+	# The first process_frame signal can precede this frame's counter increment.
+	check(actor_ok and effect_ok and Engine.get_process_frames() >= start_frame + 3, "signature core decoding yields between actor/effect entities")
+	check(actors.signature_residency_snapshot().entity_ids == ids and effects.signature_residency_snapshot().entity_ids == ids, "sliced loaders retain the same complete actor/effect lease")
+	var invalid: Array[String] = ["NO_SUCH_ENTITY"]
+	check(not await actors.load_signature_core_pack_sliced(invalid, self) and actors.signature_frames.is_empty(), "sliced loading fails closed without retaining a partial actor family")
+
 func _test_settings_policy() -> void:
+	var shell_script := load("res://screens/app_shell.gd")
+	check(not shell_script.loading_watchdog_expired(6100, 100, 5900), "loading beyond the five-second target is allowed while real progress continues")
+	check(shell_script.loading_watchdog_expired(13000, 100, 1000), "loading with no progress still fails within the idle bound")
+	check(shell_script.loading_watchdog_expired(45100, 100, 45000), "continuous progress cannot bypass the absolute loading bound")
+	var gameplay_probe := load("res://qa/local_gameplay_probe.gd") as Script
+	check(gameplay_probe != null and gameplay_probe.can_instantiate(), "localhost sandbox gameplay probe compiles without changing public Release authority")
 	var settings_before := SettingsService.values.duplicate(true)
 	check(SettingsService.developer_mode_for_build(true) and not SettingsService.developer_mode_for_build(false), "developer tooling is gated strictly by debug versus release build")
 	check(SettingsService.developer_mode_for_capabilities(false, true) and not SettingsService.developer_mode_for_capabilities(false, false), "Web QA feature grants development authority without weakening the public Release preset")
@@ -87,7 +108,7 @@ func _test_settings_policy() -> void:
 	check(SceneRouter.current_screen == "STAGE_SELECT" and SceneRouter.history == ["HOME"] and not SceneRouter.history.has("BATTLE") and not SceneRouter.history.has("RESULT"), "battle result return consumes the terminal battle frames instead of creating a result/map Back loop")
 	SceneRouter.back("HOME")
 	check(SceneRouter.current_screen == "HOME" and SceneRouter.history.is_empty(), "chapter-map Back returns directly to Home after a completed battle result")
-	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
+	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd").replace("\r\n", "\n")
 	check(shell_source.contains("if not SceneRouter.screen_allowed(screen_id, SettingsService.is_developer_mode()):") and shell_source.contains("func _show_debug() -> void:\n\tif not SettingsService.is_developer_mode():") and shell_source.contains("func _debug_unlock_chapter_hard() -> void:\n\t# This capability exists only in the development-authorized screen") and shell_source.contains("\tif not SettingsService.is_developer_mode():\n\t\treturn\n\tAppState.profile.chapter_progress.CH01.normal_highest = 20"), "direct app-shell DEBUG rendering and HARD QA mutation are independently guarded")
 	SettingsService.values.developer_mode = true
 	var debug_modifiers := AppState.effective_battle_debug_options()
@@ -126,7 +147,7 @@ func _source_function_body(source: String, function_name: String) -> String:
 	return source.substr(start) if next < 0 else source.substr(start, next - start)
 
 func _test_stage_preload_contracts() -> void:
-	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
+	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd").replace("\r\n", "\n")
 	var map_source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd")
 	var cache_source := FileAccess.get_file_as_string("res://autoload/stage_asset_cache.gd")
 	var battle_view_source := FileAccess.get_file_as_string("res://battle/view/battle_view.gd")
@@ -153,28 +174,25 @@ func _test_stage_preload_contracts() -> void:
 	var map_idle_body := _source_function_body(map_source, "_map_idle_texture")
 	var korean_pattern := RegEx.new()
 	korean_pattern.compile("[가-힣]")
-	var loading_copy_is_english := korean_pattern.search(loading_title_body + loading_initial_body + gpu_warm) == null
-	for source_line_value in shell_source.split("\n"):
-		var source_line := str(source_line_value)
-		if (source_line.contains("_set_transition_loading_phase(") or source_line.contains("_finish_transition_loading(")) and korean_pattern.search(source_line) != null:
-			loading_copy_is_english = false
 	check(begin_loading.contains("min_value = 0.0") and begin_loading.contains("max_value = 100.0") and begin_loading.contains("value = 0.0") and finish_loading.contains("_set_transition_loading_display_value(100.0)") and finish_loading.contains("create_timer(0.10"), "transition loading paints a literal zero-to-one-hundred bar before disposal")
-	check(loading_copy_is_english and loading_title_body.contains("LOADING — TACTICAL MAP") and loading_title_body.contains("LOADING — BATTLE") and loading_title_body.contains("LOADING — RESULTS") and shell_source.contains("Current transition progress"), "all visible loading titles, phases, completion copy and progress help are English-only")
+	check(loading_title_body.contains("전술 지도 준비 중") and loading_initial_body.contains("작전 정보를 준비하고 있습니다") and gpu_warm.contains("맵 캐릭터 텍스처를 준비하고 있습니다") and korean_pattern.search(_source_function_body(shell_source, "_map_load_phase_text")) != null and show_map.contains("지형과 경로, 작전 목표를 배치하고 있습니다"), "map loading uses player-facing Korean title and progress copy")
 	check(prepare_loading.contains("TRANSITION_LOADING_MAP_ENTRY") and prepare_loading.contains("TRANSITION_LOADING_BATTLE_ENTRY") and prepare_loading.contains("TRANSITION_LOADING_BATTLE_RESULT") and map_loading_policy.contains("source_type in [\"TREASURE\", \"EXPLORE\"]"), "blocking loading is scoped to map entry, battle entry and battle result transitions")
 	check(treasure_reward.find("_show_map_reward_overlay()") >= 0 and treasure_reward.find("_show_map_reward_overlay()") < treasure_reward.find("SceneRouter.go(\"RESULT\")") and close_reward.contains("_resume_post_reward_turn"), "treasure reward stays over the live map and resumes its owed enemy turn without scene navigation")
 	check(shell_source.contains("const STAGE_ENTRY_PRELOAD_TARGET_MSEC := 5000") and show_map.contains("await StageAssetCache.warm_map_for_stage_select") and show_map.contains("StageAssetCache.cache_hit_for_map_entry") and show_map.contains("StageAssetCache.gpu_warm_textures") and not show_map.contains("await StageAssetCache.warm_for_stage_select"), "stage entry owns the selected five-second map-only CPU and GPU preload boundary")
 	check(gpu_warm.contains("TextureRect.new()") and gpu_warm.contains("TRANSITION_GPU_WARM_BATCH") and gpu_warm.contains("warm_rects[rect_index].texture = textures[texture_index]") and gpu_warm.contains("await RenderingServer.frame_post_draw") and gpu_warm.contains("warm_rect.queue_free()"), "stage entry paints retained map textures through bounded renderer batches before releasing gameplay")
-	check(show_map.contains("map_screen.map_load_progress.connect(map_load_handler)\n\tcontent.add_child(map_screen)") and show_map.contains("await _wait_for_map_ready_with_deadline") and wait_map_ready.contains("STAGE_ENTRY_PRELOAD_TARGET_MSEC") and show_loading_failure.contains("LOADING COULD NOT FINISH"), "map progress is connected before tree entry and a real five-second owner deadline prevents an infinite loader")
-	check(show_battle.contains("await _wait_for_battle_assets_with_deadline") and wait_battle_ready.contains("BATTLE_ENTRY_PRELOAD_TARGET_MSEC") and show_battle.find("await _wait_for_battle_assets_with_deadline") < show_battle.find("_finish_transition_loading"), "battle entry remains covered until assets attach and fails safely instead of waiting on a lost signal forever")
+	var map_progress_connect := show_map.find("map_screen.map_load_progress.connect(map_load_handler)")
+	var map_tree_entry := show_map.find("content.add_child(map_screen)", map_progress_connect)
+	check(map_progress_connect >= 0 and map_tree_entry > map_progress_connect and show_map.contains("map_screen.visible = false") and show_map.contains("await _wait_for_map_ready_with_deadline") and wait_map_ready.contains("loading_watchdog_expired") and show_loading_failure.contains("LOADING COULD NOT FINISH"), "map progress is connected before hidden tree entry and a progress-aware bounded owner deadline prevents an infinite loader")
+	check(show_battle.contains("await _wait_for_battle_assets_with_deadline") and wait_battle_ready.contains("loading_watchdog_expired") and show_battle.find("await _wait_for_battle_assets_with_deadline") < show_battle.find("_finish_transition_loading"), "battle entry remains covered until assets attach and fails safely instead of waiting on a lost signal forever")
 	var portrait_ready := show_result.find("RESULT_SCREEN_READY elapsed_ms=%d layout=portrait")
 	var portrait_finish := show_result.find("_finish_transition_loading(loading_token, \"Battle results ready\")", portrait_ready)
 	var landscape_ready := show_result.find("RESULT_SCREEN_READY elapsed_ms=%d layout=landscape")
 	var landscape_finish := show_result.find("_finish_transition_loading(loading_token, \"Battle results ready\")", landscape_ready)
 	check(battle_finished.find("_set_transition_loading_phase(loading_token, \"Opening the results screen\", 96.0") >= 0 and battle_finished.rfind("SceneRouter.go(\"RESULT\")") > battle_finished.find("Opening the results screen") and show_result.contains("_transition_loading_token_for(TRANSITION_LOADING_BATTLE_RESULT)") and not show_result.contains("await get_tree().process_frame") and not show_result.contains("await _finish_transition_loading") and portrait_ready >= 0 and portrait_finish > portrait_ready and landscape_ready > portrait_finish and landscape_finish > landscape_ready, "battle result builds the complete responsive RESULT tree synchronously before asynchronously releasing the 96-percent loader")
 	check(cache_source.contains("_cache = pending # Atomic replacement") and cache_source.contains("await get_tree().process_frame") and cache_source.contains("func gpu_warm_textures"), "stage asset cache commits atomically after cooperative resource loading")
-	check(cache_source.contains("const WARMUP_DEADLINE_MSEC := 5000") and cache_source.contains("_warmup_deadline_exceeded") and shell_source.contains("previous_screen == \"STAGE_SELECT\"") and shell_source.contains("StageAssetCache.cancel_warmup()"), "stage warmup has a hard deadline and is cancelled immediately when its owning screen is left")
+	check(cache_source.contains("const WARMUP_DEADLINE_MSEC := 45000") and cache_source.contains("_warmup_deadline_exceeded") and shell_source.contains("previous_screen == \"STAGE_SELECT\"") and shell_source.contains("StageAssetCache.cancel_warmup()"), "stage warmup has a hard deadline and is cancelled immediately when its owning screen is left")
 	check(battle_finished.contains("var save_result := SaveService.save_game()") and battle_finished.contains("_present_transaction_save_failure") and map_source.contains("TREASURE PROGRESS NOT SAVED") and map_source.contains("RETRY SAVE") and patrol_contact_body.contains("var encounter_save_result := SaveService.save_game()") and patrol_contact_body.contains("AppState.abandon_pending_map_encounter(map_id)"), "battle, map contact and treasure transaction failures never continue from an unpersisted state")
-	check(battle_view_source.contains("var label_font := battle_font if battle_font != null else ThemeDB.fallback_font") and battle_view_source.contains("draw_string(label_font") and battle_view_source.contains("draw_circle(callout_position") and not battle_view_source.contains("draw_string(callout_font") and battle_view_source.contains("draw_string(floating_font"), "battle canvas names and floating text use the packaged Korean font while skill cues remain text-free circular markers")
+	check(battle_view_source.contains("var label_font := battle_font if battle_font != null else ThemeDB.fallback_font") and battle_view_source.contains("draw_string(label_font") and battle_view_source.contains("draw_circle(callout_position") and not battle_view_source.contains("draw_string(callout_font") and battle_view_source.contains("draw_string(DAMAGE_FONT") and FileAccess.file_exists("res://assets/fonts/LanternRounded-Black.ttf"), "battle names retain Korean font; damage uses packaged rounded face; skill cues remain circular")
 	check(map_idle_body.contains("get_node_or_null(\"StageAssetCache\")") and map_idle_body.contains("call(\"map_idle_pack\", enemy_id)") and map_idle_body.find("map_idle_pack") < map_idle_body.find("FileAccess.file_exists"), "map pawns reuse the retained idle pack before any manifest or texture fallback")
 	check(not move_body.contains("StageAssetCache") and not move_body.contains("_begin_transition_loading") and not enemy_turn_body.contains("StageAssetCache") and not enemy_turn_body.contains("_begin_transition_loading") and not treasure_emit_body.contains("StageAssetCache") and not treasure_emit_body.contains("_begin_transition_loading"), "movement, enemy turns and treasure callbacks cannot acquire resource or blocking-loading work")
 
@@ -228,7 +246,7 @@ func _test_input_transition_edges() -> void:
 	battle_shell.battle_transition_active = true
 	var selected_stage_before_locked_retry := str(AppState.selected_stage_id)
 	var locked_retry: bool = battle_shell._request_battle_start("touch:battle", "CH01-H05")
-	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
+	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd").replace("\r\n", "\n")
 	var transition_wiring := shell_source.contains("_request_battle_start(\"map:encounter\", stage_id)") and shell_source.contains("_request_battle_start(\"button:battle_start\")") and shell_source.contains("if battle_transition_active: return false")
 	var story_wiring := shell_source.contains("_request_story_advance(\"button:next\")") and shell_source.contains("_request_story_choice(index, \"button:choice\")") and shell_source.contains("AudioService.unlock_from_user_gesture()") and shell_source.contains("callback.call()")
 	check(first_battle_tap and not duplicate_battle_tap and not locked_retry and str(AppState.selected_stage_id) == selected_stage_before_locked_retry and int(battle_diagnostics.accepted) == 1 and int(battle_diagnostics.rejected) == 1 and transition_wiring, "rapid double tap cannot create two battle transition owners")
@@ -260,17 +278,21 @@ func _test_input_transition_edges() -> void:
 	var next_routes: bool = event_shell._handle_pre_battle_event_input(Vector2(550, 390))
 	var skip_routes: bool = event_shell._handle_pre_battle_event_input(Vector2(410, 390))
 	var outside_is_ignored: bool = not event_shell._handle_pre_battle_event_input(Vector2(60, 60))
-	check(body_routes and next_routes and skip_routes and outside_is_ignored and event_trace == ["advance", "advance", "skip"], "pre-battle event body, Next and Skip each route through their intended raw input path")
+	check(not body_routes and next_routes and skip_routes and outside_is_ignored and event_trace == ["advance", "skip"], "pre-battle reading gestures never advance; explicit Next and Skip keep separate paths")
 	event_shell.free()
 
 func _test_responsive_ui_contracts() -> void:
+	var briefing_script := preload("res://ui/bounded_briefing.gd")
+	for viewport_css in [Vector2(320, 568), Vector2(360, 640), Vector2(360, 800), Vector2(390, 844), Vector2(800, 360), Vector2(1280, 720)]:
+		var frame := briefing_script.frame_css(viewport_css)
+		check(Rect2(Vector2.ZERO, viewport_css).encloses(frame) and frame.size.x <= 680.0 and frame.size.y <= 620.0, "briefing frame remains bounded at %s" % viewport_css)
 	var shell_script = load("res://screens/app_shell.gd")
 	var shell = shell_script.new()
 	var portrait_size := Vector2(390.0, 844.0)
 	var portrait_metrics: Dictionary = shell.responsive_ui_metrics_for_size(portrait_size)
 	var portrait_button: Vector2 = shell.responsive_button_minimum_for_size(Vector2(190.0, 52.0), portrait_size)
 	var portrait_physical := portrait_button * float(portrait_metrics.canvas_scale)
-	check(bool(portrait_metrics.portrait) and not bool(portrait_metrics.compact_landscape) and portrait_physical.x >= 55.5 and portrait_physical.y >= 55.5, "390x844 portrait controls retain an approximately 56 CSS-pixel touch target", str(portrait_physical))
+	check(not bool(portrait_metrics.portrait) and bool(portrait_metrics.compact_landscape) and portrait_physical.x >= 55.5 and portrait_physical.y >= 55.5, "390x844 uses the same landscape metrics as 844x390 without a portrait reflow", str(portrait_physical))
 	var compact_size := Vector2(915.0, 412.0)
 	var compact_metrics: Dictionary = shell.responsive_ui_metrics_for_size(compact_size)
 	var compact_button: Vector2 = shell.responsive_button_minimum_for_size(Vector2(110.0, 52.0), compact_size)
@@ -283,8 +305,8 @@ func _test_responsive_ui_contracts() -> void:
 	var portrait_debug_button: Vector2 = shell.responsive_button_minimum_for_size(Vector2(280.0, 72.0), portrait_size)
 	var portrait_debug_width := portrait_debug_button.x * float(portrait_metrics.canvas_scale) * 2.0
 	check(portrait_debug_width <= 354.0, "portrait DEBUG two-column buttons fit the 390px safe content width", str(portrait_debug_width))
-	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
-	var responsive_structure := shell_source.contains("grid.columns = 2 if _is_portrait_layout() else 3") and shell_source.contains("var battle_actions := HBoxContainer.new()") and shell_source.contains("(bottom as GridContainer).columns = 5") and shell_source.contains("Vector2(64 if portrait else 126, 64 if portrait else 126)") and shell_source.contains("Character health and shield are deliberately represented only at their") and not shell_source.contains("var party_row:") and not shell_source.contains("HP %d%% · SH") and shell_source.contains("status.position.y = (14.0 + MIN_TOUCH_CSS_PX + 8.0) * ui_scale")
+	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd").replace("\r\n", "\n")
+	var responsive_structure := shell_source.contains("grid.columns = 2 if _is_portrait_layout() else 3") and shell_source.contains("var battle_actions := HBoxContainer.new()") and shell_source.contains("(bottom as GridContainer).columns = 5") and shell_source.contains("orb.custom_minimum_size = Vector2(126, 126)") and shell_source.contains("Character health and shield are deliberately represented only at their") and not shell_source.contains("var party_row:") and not shell_source.contains("HP %d%% · SH") and shell_source.contains("status.position.y = (14.0 + MIN_TOUCH_CSS_PX + 8.0) * ui_scale")
 	check(responsive_structure, "portrait DEBUG, battle HUD, result rail and chapter status use compact non-overlapping structures")
 	# Story type is specified in rendered pixels and converted back to the 1920px
 	# authored canvas. Validate the actual physical hierarchy at all three target
@@ -295,10 +317,20 @@ func _test_responsive_ui_contracts() -> void:
 		var physical_body := float(shell.story_font_size_for_size(28.0, story_size)) * float(story_metrics.canvas_scale)
 		var physical_speaker := float(shell.story_font_size_for_size(32.0, story_size)) * float(story_metrics.canvas_scale)
 		story_type_hierarchy = story_type_hierarchy and physical_body >= 27.5 and physical_body <= 28.5 and physical_speaker >= 31.5 and physical_speaker <= 32.5
-	story_type_hierarchy = story_type_hierarchy and shell_source.contains("var story_body_css_px := 24.0 if narrow_portrait else 28.0") and shell_source.contains("_story_label(\"\", 28.0 if narrow_portrait else 32.0") and shell_source.contains("value.add_theme_font_size_override(\"font_size\", _story_logical_px(target_css_px))") and shell_source.contains("if not button.has_meta(\"story_control\"):")
+	story_type_hierarchy = story_type_hierarchy and shell_source.contains("var story_body_css_px := 16.0 if compact else (24.0 if narrow_portrait else 28.0)") and shell_source.contains("_story_label(\"\", 16.0 if compact else (28.0 if narrow_portrait else 32.0)") and shell_source.contains("value.add_theme_font_size_override(\"font_size\", _story_logical_px(target_css_px))") and shell_source.contains("if not button.has_meta(\"story_control\") and not button.has_meta(\"compact_growth_control\") and not button.has_meta(\"compact_reward_control\"):")
 	check(story_type_hierarchy, "story body and speaker hierarchy stays in its rendered-pixel bands while controls retain independent touch targets")
-	var narrow_story_contract := shell_source.contains("var narrow_portrait := portrait and runtime_size.x <= 480.0") and shell_source.contains("runtime_size.x - 20.0") and shell_source.contains("chapter_title.custom_minimum_size.y") and shell_source.contains("348.0 if narrow_portrait else 282.0") and shell_source.contains("30.0 if narrow_portrait else 18.0") and shell_source.contains("var story_body_css_px := 24.0 if narrow_portrait else 28.0") and shell_source.contains("Vector2(0, 58) if _is_portrait_layout() else Vector2(400, 58)")
-	check(narrow_story_contract, "390px prologue header, dialogue body and response buttons fit the portrait safe width without clipping")
+	var landscape_story_contract := true
+	for physical in [Vector2(390, 844), Vector2(844, 390), Vector2(915, 412)]:
+		var metrics: Dictionary = shell.responsive_ui_metrics_for_size(physical)
+		landscape_story_contract = landscape_story_contract and not bool(metrics.portrait) and bool(metrics.compact_landscape)
+	check(landscape_story_contract, "phone orientations consistently select the landscape story layout; browser audit verifies actual bounds and input")
+	var web_landscape_shell := FileAccess.get_file_as_string("res://web/landscape.html").replace("\r\n", "\n")
+	var host_orientation_contract := web_landscape_shell.contains("const desktopPointer = navigator.maxTouchPoints === 0") and web_landscape_shell.contains("const desktopPlatform = !ipadDesktopUserAgent") and web_landscape_shell.contains("const mobileDevice = !desktopPlatform &&") and web_landscape_shell.contains("frame.dataset.deviceClass") and web_landscape_shell.contains("const rotated = mobileDevice && height > width") and web_landscape_shell.contains("Math.min(height, width * 9 / 16)") and web_landscape_shell.contains("body.landscape-host")
+	check(host_orientation_contract, "Web host keeps a complete desktop 16:9 frame upright while only a portrait mobile device receives the rotated landscape frame")
+	var density_loader_source := FileAccess.get_file_as_string("res://battle/view/density_texture_loader.gd").replace("\r\n", "\n")
+	var stage_cache_source := FileAccess.get_file_as_string("res://autoload/stage_asset_cache.gd").replace("\r\n", "\n")
+	var file_launch_density_contract := density_loader_source.contains("func can_stream_companion_pages()") and density_loader_source.contains("return protocol in [\"http:\", \"https:\"]") and density_loader_source.contains("if not can_stream_companion_pages():") and stage_cache_source.contains("var use_streamed_map_density") and stage_cache_source.contains("DensityLoader.can_stream_companion_pages()")
+	check(file_launch_density_contract, "file:// entry skips streamed HD pages and opens the map with packaged compact pawn atlases instead of waiting on an unreachable request")
 	check(shell_source.contains("compact_landscape == last_compact_landscape_layout") and shell_source.contains("_rebuild_story_presentation()"), "live regular-to-compact resize rebuilds only the story presentation around its retained runner")
 	var sample_story_commands := [
 		{"command": "set_background"},
@@ -308,7 +340,8 @@ func _test_responsive_ui_contracts() -> void:
 		{"command": "choice"},
 	]
 	check(shell.story_page_progress(sample_story_commands, 3) == Vector2i(2, 3), "story page counter excludes internal art and audio commands")
-	check(shell_source.contains("title_cast_plate_r1.png") and shell_source.contains("title_cast_plate_portrait_r1.png") and shell_source.contains("title_logo_r1.png") and shell_source.contains("PortraitTitleCastLeft") and shell_source.contains("PortraitTitleCastRight") and shell_source.contains("CHR008/portrait.png") and shell_source.contains("CHR001/portrait.png") and shell_source.contains("Vector2(126.0, 252.0) * portrait_scale") and shell_source.contains("12.0 * portrait_scale") and shell_source.contains("var portrait_scale := _portrait_ui_scale() if portrait else 1.0") and shell_source.contains("Vector2(300.0, 84.0) * portrait_scale") and shell_source.contains("_label(notice_copy, 20 if portrait else 22") and shell_source.contains("START GAME을 눌러 시작") and shell_source.contains("START GAME  ·  기록 시작") and FileAccess.file_exists("res://assets/art/title/title_cast_plate_r1.png"), "portrait title keeps its full-body lead cast inside equal safe insets while retaining a single-scale LUMENBOUND lockup and clear START action")
+	var presentation_source := FileAccess.get_file_as_string("res://screens/command_presentation.gd")
+	check(presentation_source.contains("TitleStartButton") and presentation_source.contains("FullBody_") and presentation_source.contains("LUMEN") and shell_source.contains("_build_intro_title_backdrop(surface)"), "title and WebAudio start gate retain the current high-resolution full-body cast with a clear LUMENBOUND start action")
 	var title_builder_source := FileAccess.get_file_as_string("res://../tools/art/build_title_cast_plate.py")
 	check(title_builder_source.contains("LUMENBOUND") and title_builder_source.contains("TACTICS OF THE LAST LINE") and not title_builder_source.contains("AFTER SIGNAL") and not title_builder_source.contains("잔광기록"), "title logo source uses the tactical LUMENBOUND lockup without either rejected title")
 	var canonical_game_title := "LUMENBOUND: TACTICS OF THE LAST LINE"
@@ -331,8 +364,9 @@ func _test_responsive_ui_contracts() -> void:
 			canonical_title_authority_count += 1
 	check(rejected_title_count == 0 and canonical_title_authority_count == title_localization_authorities.size(), "canonical LUMENBOUND title is synchronized across localization sources and generated runtime data", "rejected=%d canonical_authorities=%d/%d" % [rejected_title_count, canonical_title_authority_count, title_localization_authorities.size()])
 	check(shell_source.contains("func _start_title_flow()") and shell_source.contains("PROLOGUE_READ") and shell_source.contains("AppState.active_scenario_id = \"SCN_PROLOGUE\"") and shell_source.contains("{\"after\": \"HOME\", \"origin\": \"TITLE\"}"), "fresh title start enters the authored prologue before home while completed profiles continue normally")
-	var startup_intro_contract := shell_source.contains("INTRO_VIDEO_PATH") and shell_source.contains("INTRO_VIDEO_DURATION_SECONDS := 53.0") and shell_source.contains("INTRO_VIDEO_FINISH_GUARD_SECONDS := 0.75") and shell_source.contains("StartupIntroVideoLayer") and shell_source.contains("StartupIntroAspectFrame") and shell_source.contains("AspectRatioContainer.STRETCH_FIT") and shell_source.contains("surface.theme = theme") and shell_source.contains("StartupIntroVideoPlayer") and shell_source.contains("StartupIntroTitleLockup") and shell_source.contains("StartupIntroTitleLogo") and shell_source.contains("intro_title_tween.tween_interval(5.0)") and shell_source.contains("intro_title_tween.tween_property(intro_title_lockup, \"modulate:a\", 0.0, 0.85)") and shell_source.contains("StartupIntroSkipButton") and shell_source.contains("_button(\"SKIP\", _finish_intro_video") and shell_source.contains("responsive_button_minimum_for_size") and shell_source.contains("intro_video_player.finished.connect(_finish_intro_video)") and shell_source.contains("create_timer(INTRO_VIDEO_DURATION_SECONDS + INTRO_VIDEO_FINISH_GUARD_SECONDS") and shell_source.contains("StartupIntroAudioGate") and shell_source.contains("소리 켜고 인트로 시작") and shell_source.contains("func _start_intro_video_playback") and shell_source.contains("_show_screen(\"TITLE\")")
-	check(FileAccess.file_exists("res://assets/video/lumenbound_intro_full.ogv") and startup_intro_contract, "engine boot gates Web audio on a trusted click, then plays the Flow Music-free intro from zero before title")
+	var intro_bridge_source := FileAccess.get_file_as_string("res://web/browser_intro.js")
+	var startup_intro_contract := shell_source.contains("INTRO_VIDEO_DURATION_SECONDS := 50.0") and shell_source.contains("_watch_browser_intro") and shell_source.contains("_watch_native_intro") and not shell_source.contains("create_timer(INTRO_VIDEO_DURATION_SECONDS +") and intro_bridge_source.contains("video.addEventListener('ended'") and intro_bridge_source.contains("api.time = video.currentTime") and shell_source.contains("StartupIntroAudioGate")
+	check(FileAccess.file_exists("res://assets/video/lumenbound_intro_full.ogv") and startup_intro_contract, "engine boot gates Web audio on a trusted click, then plays the 50-second intro with retained BGM from zero before title")
 	var cinematic_prologue_contract := shell_source.contains("PrologueCharacterIllustrations") and shell_source.contains("PrologueTopRightControls") and shell_source.contains("PrologueAutoButton") and shell_source.contains("PrologueSkipButton") and shell_source.contains("대화창 클릭 / 터치로 계속")
 	var story_extension_contract := shell_source.contains("StoryTopRightControls") and shell_source.contains("StoryAutoButton") and shell_source.contains("StorySkipButton") and shell_source.contains("StorySpeakerEyebrow") and shell_source.contains("LUMENBOUND · VOICE LINK") and shell_source.contains("StoryMintSignalRail") and shell_source.contains("StoryPageIndicator") and shell_source.contains("_story_dialogue_style(false)")
 	check(shell_source.contains("ClickablePrologueTextBox") and cinematic_prologue_contract and story_extension_contract and shell_source.contains("func _request_story_text_box_advance") and shell_source.contains("scenario_text.visible_ratio = 1.0"), "story text box keeps click/touch typewriter behavior while both story modes expose the LUMENBOUND dialogue hierarchy and fixed AUTO/SKIP rail")
@@ -341,19 +375,19 @@ func _test_responsive_ui_contracts() -> void:
 	var portrait_hotfix_source := FileAccess.get_file_as_string("res://autoload/mobile_portrait_hotfix_v2.gd")
 	var standard_story_touch_contract := shell_source.contains("dialogue.mouse_filter = Control.MOUSE_FILTER_STOP") and shell_source.contains("dialogue_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE") and shell_source.contains("dialogue_box.mouse_filter = Control.MOUSE_FILTER_IGNORE") and portrait_hotfix_source.contains("var standard_dialogue_value = _shell.get(\"story_dialogue_panel\")") and portrait_hotfix_source.contains("var standard_dialogue_css := 380.0 if choice_mode else 304.0")
 	check(standard_story_touch_contract, "MOBILE_N05_STORY_01 standard-story text plate owns the full tap surface and receives a dedicated portrait height, not only prologue geometry")
-	var mobile_growth_contract := shell_source.contains("func _show_result_portrait") and shell_source.contains("report_scroll.name = \"PrimaryContentScroll\"") and shell_source.contains("MobileGrowthQuickActions") and shell_source.contains("MobileEquipmentChoices") and portrait_hotfix_source.contains("\"RESULT\", \"GROWTH\"") and portrait_hotfix_source.contains("func _fix_progression_scroll") and portrait_hotfix_source.contains("scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_ALWAYS") and portrait_hotfix_source.contains("scroll.follow_focus = true")
-	check(mobile_growth_contract, "MOBILE_REWARD_GROWTH_01 portrait reward follow-up exposes level, weapon and equipment actions above a persistent touch-scroll rail")
+	var growth_controls := _growth_controls_contract()
+	check(bool(growth_controls.navigation), "growth entry builds level, skill and equipment tabs with reachable primary actions")
 	var map_source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd")
 	var map_tutorial_flow_contract := map_source.contains("func _advance_first_map_tutorial()") and map_source.contains("tutorial_dismiss_button.text = \"안내 건너뛰기\"") and map_source.contains("tutorial_continue_button.pressed.connect(_advance_first_map_tutorial)") and map_source.contains("tutorial_dismiss_button.pressed.connect(_complete_first_map_tutorial)") and map_source.contains("tutorial_dismiss_button.visible = true") and map_source.contains("get_viewport().set_input_as_handled()")
 	check(map_source.contains("FirstMapTutorialDimmer") and map_source.contains("tutorial_eyebrow.text = \"첫 작전 안내") and map_source.contains("tutorial_progress_label.text") and map_source.contains("map_basics_complete") and map_source.contains("map_basics_revision") and map_source.contains("_select_next_encounter()") and map_tutorial_flow_contract, "first chapter map provides contextual selection, movement and encounter guidance with actual three-step progression and an explicit skip")
 	var app_state_source := FileAccess.get_file_as_string("res://autoload/app_state.gd")
-	var home_onboarding_contract := shell_source.contains("HomeFirstOperationTutorialCanvas") and shell_source.contains("HomeTutorialSkipButton") and shell_source.contains("HomeTutorialContinueButton") and shell_source.contains("home_tutorial_surface.theme = theme") and shell_source.contains("자, 이제 제1장 탐색을 시작합니다") and shell_source.contains("func _complete_home_tutorial_and_launch()") and shell_source.contains("SceneRouter.go(\"STAGE_SELECT\")") and shell_source.contains("call_deferred(\"_commit_first_operation_navigation\")") and shell_source.contains("home_first_operation_navigation_pending") and shell_source.contains("HomeFirstOperationButton") and shell_source.contains("home_menu_buttons[\"STAGE\"]") and shell_source.contains("home_tutorial_resume_step") and shell_source.contains("_set_home_tutorial_step(home_tutorial_resume_step)") and shell_source.contains("home_tutorial_last_advance_msec < 400") and app_state_source.contains("\"home_basics_complete\": false") and app_state_source.contains("tutorial_progress[\"home_basics_complete\"] = false")
+	var home_onboarding_contract := shell_source.contains("HomeFirstOperationTutorialCanvas") and shell_source.contains("HomeTutorialSkipButton") and shell_source.contains("HomeTutorialContinueButton") and shell_source.contains("home_tutorial_surface.theme = theme") and shell_source.contains("자, 이제 제1장 탐색을 시작합니다") and shell_source.contains("func _complete_home_tutorial_and_launch()") and shell_source.contains("SceneRouter.go(\"STAGE_SELECT\")") and shell_source.contains("call_deferred(\"_commit_first_operation_navigation\")") and shell_source.contains("home_first_operation_navigation_pending") and presentation_source.contains("HomeFirstOperationButton") and presentation_source.contains("home_menu_buttons[\"STAGE\"]") and shell_source.contains("home_tutorial_resume_step") and shell_source.contains("_set_home_tutorial_step(home_tutorial_resume_step)") and shell_source.contains("home_tutorial_last_advance_msec < 400") and app_state_source.contains("\"home_basics_complete\": false") and app_state_source.contains("tutorial_progress[\"home_basics_complete\"] = false")
 	check(home_onboarding_contract, "first HQ visit explains navigation, exposes Skip, and launches Chapter 1 without an unlabelled menu dead end")
 	var story_skip_contract := shell_source.contains("STORY_SKIP_ALL") and shell_source.contains("현재 이야기 전체 건너뛰기") and shell_source.contains("while not scenario_runner.state.finished and safety < 1000") and shell_source.contains("_finish_story_navigation()")
 	check(story_skip_contract, "player SKIP completes the current story scene instead of advancing only one line")
-	var mobile_navigation_layout_contract := shell_source.contains("START GAME 버튼을 클릭 / 터치해 시작") and shell_source.contains("아래 응답 중 하나를 선택해 기록을 시작하세요.") and shell_source.contains("var preset_row: Container = GridContainer.new() if portrait else HBoxContainer.new()") and shell_source.contains("var slots: Container = GridContainer.new() if portrait else HBoxContainer.new()") and shell_source.contains("var compact_details := portrait or _is_compact_landscape_layout()") and shell_source.contains("var stage_scroll := ScrollContainer.new()") and shell_source.contains("var roster_box := _scroll_box()") and shell_source.contains("var growth_content := _scroll_box()") and shell_source.contains("var archive_box := _scroll_box()") and shell_source.contains("grid.columns = 1 if portrait else 5") and shell_source.contains("grid.columns = 1 if portrait else 4")
-	check(mobile_navigation_layout_contract, "title, story choice, formation, stage fallback, roster, growth, inventory and archive routes expose explicit scrollable actions without portrait overflow")
-	check(not shell_source.contains("두둥!") and not map_source.contains("두둥!") and shell_source.contains("_play_special_event_dialogue") and shell_source.contains("PreBattleEventDialog") and shell_source.contains("EventKeyVisual") and shell_source.contains("panel.gui_input.connect") and shell_source.contains("MAP_EVENT_DIALOGUE_SKIP"), "encounter presentation advances a real event dialogue with character/enemy key art instead of rendering a sound-effect caption")
+	var mobile_navigation_layout_contract := (bool(growth_controls.scroll) and presentation_source.contains("ScrollContainer.new()") and presentation_source.contains("s._scroll_box()") and shell_source.contains("var archive_box := _scroll_box()"))
+	check(mobile_navigation_layout_contract, "menu routes retain scroll containers and every growth tab uses the actual touch-scroll control")
+	check(not shell_source.contains("두둥!") and not map_source.contains("두둥!") and shell_source.contains("_play_special_event_dialogue") and shell_source.contains("PreBattleEventDialog") and shell_source.contains("EventKeyVisual") and shell_source.contains("res://ui/bounded_briefing.gd") and shell_source.contains("MAP_EVENT_DIALOGUE_SKIP"), "encounter presentation advances a real event dialogue with character/enemy key art instead of rendering a sound-effect caption")
 	check(shell_source.contains("_reward_celebration_queue") and shell_source.contains("RewardCelebrationQueue") and shell_source.contains("RewardCelebrationHalfBodyArt") and shell_source.contains("NEW ALLY JOINED") and shell_source.contains("KEY ACQUISITION") and shell_source.contains("RewardCelebrationSkip") and shell_source.contains("last_reward_report"), "result screen presents a skippable ally/key-item achievement queue from the committed report without creating a second reward grant")
 	check(map_source.contains("EnemyOcclusionSilhouette") and map_source.contains("SquadOcclusionSilhouette") and map_source.contains("no_depth_test = true") and map_source.contains("const PAWN_STEP_DURATION := 0.28") and map_source.contains("pawn.global_position + Vector3(0.0, 0.15, 0.0)") and map_source.contains("func _arrival_resolution_owns_save"), "map pawns retain occlusion silhouettes while movement and arrival persistence use the natural-speed fast path")
 	var result_exit_guard := shell_source.contains("func _navigate_back_from_header") and shell_source.contains("if current_screen == \"RESULT\":") and shell_source.contains("SceneRouter.go(\"STAGE_SELECT\", {\"result_return\": true})")
@@ -416,6 +450,31 @@ func _test_combat_art_contracts() -> void:
 	check(direction_valid, "player and enemy combat packs obey opposing facing contracts")
 	check(counts_valid, "all seven animation counts are exactly 8/12/8/12/18/4/8/10")
 	check(files_valid, "all 560 combat animation frame files exist")
+	var down_pose_ids: Array[String] = ["CHR001", "CHR002", "CHR003", "CHR004", "CHR005", "CHR006", "CHR007", "CHR008"]
+	var down_pose_library := BattleSpriteLibrary.new()
+	var down_pose_contract := down_pose_library.load_down_pose_pack(down_pose_ids) and down_pose_library.down_pose_textures.size() == down_pose_ids.size()
+	for down_pose_id in down_pose_ids:
+		var down_pose_texture := down_pose_library.down_pose_texture(down_pose_id)
+		var down_pose_metadata: Dictionary = down_pose_library.down_pose_metadata.get(down_pose_id, {})
+		down_pose_contract = down_pose_contract and down_pose_texture != null and down_pose_texture.get_width() == 512 and down_pose_texture.get_height() == 512 and str(down_pose_metadata.get("state", "")) == "down" and str(down_pose_metadata.get("style", "")) == "sd-combat"
+	check(down_pose_contract, "eight player SD defeat poses load on a fixed 512px logical canvas")
+	var enemy_down_pose_library := BattleSpriteLibrary.new()
+	enemy_down_pose_library.load_down_pose_pack(["ENM001", "BOSS001"])
+	check(not enemy_down_pose_library.has_down_pose("ENM001") and not enemy_down_pose_library.has_down_pose("BOSS001"), "enemy and boss defeat states remain explosion-only")
+	var defeat_view := BattleView.new()
+	# A new simulation wave can remove the previous enemy before the renderer
+	# receives DOWN. Its already registered description must still yield a burst.
+	defeat_view._seed_display_unit({"uid":"OLD_WAVE", "def_id":"ENM001", "team":"ENEMY", "rank":"NORMAL", "hp":1, "alive":true})
+	defeat_view._apply_display_event(BattleEvent.make(0, BattleEvent.DOWN, "", "OLD_WAVE"))
+	check(defeat_view.enemy_defeat_bursts.has("OLD_WAVE"), "last enemy destruction survives wave replacement")
+	defeat_view._advance_defeat_presentations(.4)
+	check(defeat_view.enemy_defeat_bursts.size() == 1, "enemy destruction remains visible during its burst")
+	defeat_view._advance_defeat_presentations(.4)
+	check(defeat_view.enemy_defeat_bursts.is_empty(), "enemy destruction is completely retired after its duration")
+	defeat_view._seed_display_unit({"uid":"ALLY", "team":"PLAYER", "hp":1, "alive":true})
+	defeat_view._apply_display_event(BattleEvent.make(0, BattleEvent.DOWN, "", "ALLY"))
+	check(defeat_view.enemy_defeat_bursts.is_empty() and defeat_view.defeat_hold_left > 0.0, "player defeat holds the prone pose without an explosion")
+	defeat_view.free()
 	var projectile_roots := {
 		"CHR001": "proj_chr001_teal_guard_wave_r28", "CHR002": "proj_chr002_coral_blade_arc_r28",
 		"CHR003": "proj_chr003_ice_rifle_tracer_r28", "CHR004": "proj_chr004_magenta_energy_bolt_r28",
@@ -491,7 +550,10 @@ func _test_combat_art_contracts() -> void:
 		for animation_name in signature_states:
 			var signature_definition: Dictionary = signature_animations.get(animation_name, {})
 			var signature_atlas_path := signature_root + "/" + str(signature_definition.get("atlas_path", ""))
-			var signature_atlas := Image.load_from_file(signature_atlas_path)
+			# Test the same imported texture resource that the exported game uses.
+			# Image.load_from_file emits a false export warning for res:// PNGs even
+			# though this is only an artifact-inspection assertion.
+			var signature_atlas := ResourceLoader.load(signature_atlas_path, "Texture2D") as Texture2D
 			var atlas_qc: Dictionary = signature_definition.get("atlas_qc", {})
 			var packed_definition: Dictionary = signature_definition.get("packing", {})
 			var frame_info := signature_sprites.signature_frame_info_at(entity_id, animation_name, .31)
@@ -553,7 +615,7 @@ func _test_combat_art_contracts() -> void:
 	var signature_budget_bytes := int(signature_technical_gate.get("runtime_memory_budget_mib", 0)) * 1024 * 1024
 	signature_contract_valid = signature_contract_valid and signature_ultimate_pages_valid and str(signature_technical_gate.get("residency_model", "")) == "core_idle_hit_down_plus_one_caster_ultimate_transient" and signature_core_bytes == signature_sprites.signature_resident_atlas_bytes and signature_core_bytes <= signature_budget_bytes and signature_peak_bytes <= signature_budget_bytes and signature_full_preload_bytes >= signature_peak_bytes
 	check(signature_contract_valid, "starting-party, alternate-party and enemy signature actors retain pinned 384px art through a core-plus-one-ultimate mobile residency contract", " | ".join(signature_diagnostics))
-	if signature_revision in ["r6", "r7", "r10", "r12", "r13"]:
+	if signature_revision in ["r6", "r7", "r10", "r12", "r13", "r14", "r16"]:
 		check(chroma_derivative_contract, "every declared chroma-remastered signature source retains an opaque #00FF00 master and hash-pinned keyed RGBA derivative with no visible green or exterior white matte", " | ".join(chroma_derivative_diagnostics))
 	var encounter_signature_sprites := BattleSpriteLibrary.new()
 	var encounter_signature_ids: Array[String] = ["CHR001"]
@@ -588,7 +650,7 @@ func _test_combat_art_contracts() -> void:
 		signature_effect_contract_valid = signature_effect_contract_valid and bool(effect_manifest.get("no_source_mutation", false)) and str(effect_manifest.get("generation", "")) == "deterministic_lanczos_upscale_only"
 		for effect_definition in [projectile_effect, ultimate_effect]:
 			var effect_atlas_path := effect_root + "/" + str(effect_definition.get("atlas_path", ""))
-			var effect_atlas := Image.load_from_file(effect_atlas_path)
+			var effect_atlas := ResourceLoader.load(effect_atlas_path, "Texture2D") as Texture2D
 			var effect_qc: Dictionary = effect_definition.get("runtime_qc", {})
 			signature_effect_contract_valid = signature_effect_contract_valid and FileAccess.file_exists(effect_atlas_path) and FileAccess.get_sha256(effect_atlas_path) == str(effect_definition.get("atlas_sha256", "")) and effect_atlas != null and int(effect_qc.get("visible_exact_green_pixels", -1)) == 0
 		var projectile_frame_size = projectile_effect.get("frame_size", [])
@@ -737,7 +799,9 @@ func _test_combat_art_contracts() -> void:
 		runtime_vfx_valid = runtime_vfx_valid and ResourceLoader.exists("res://assets/runtime_web/vfx/%s/atlas.png" % folder)
 	check(runtime_vfx_valid, "Web authored VFX atlases resolve without art-folder fallback")
 	var battle_view_source := FileAccess.get_file_as_string("res://battle/view/battle_view.gd")
-	var skill_sequence_contract := battle_view_source.contains("var launch_delay := .18 if attack_kind == \"NORMAL\"") and battle_view_source.contains("var travel_key := \"%s_%s\"") and battle_view_source.contains("travel_frames[travel_frame]") and battle_view_source.contains("kind.trim_prefix(\"impact_\")") and battle_view_source.contains("frame = mini(textures.size() - 1, 6 +") and battle_view_source.contains("_spawn_vfx(str(event.source), str(event.target), \"impact_%s\"") and battle_view_source.contains("effect_signature_library.projectile_texture_at") and battle_view_source.contains("effect_signature_library.ultimate_texture_at")
+	# Numeric contact timing is exercised by encounter_combat_upgrade_runner;
+	# this older contract only checks that authored travel/contact assets remain wired.
+	var skill_sequence_contract := battle_view_source.contains("var travel_key := \"%s_%s\"") and battle_view_source.contains("travel_frames[travel_frame]") and battle_view_source.contains("kind.trim_prefix(\"impact_\")") and battle_view_source.contains("frame = mini(textures.size() - 1, 6 +") and battle_view_source.contains("_spawn_vfx(str(event.source), str(event.target), \"impact_%s\"") and battle_view_source.contains("effect_signature_library.projectile_texture_at") and battle_view_source.contains("effect_signature_library.ultimate_texture_at")
 	check(skill_sequence_contract, "authored skill VFX follow charge, moving high-density signature projectile, contact burst and hit-reaction sequence")
 	var audio_manifest := _read_json("res://assets/audio/audio_manifest.json")
 	var runtime_audio_valid := true
@@ -764,12 +828,12 @@ func _test_combat_art_contracts() -> void:
 	var audio_service_source := FileAccess.get_file_as_string("res://autoload/audio_service.gd")
 	check(audio_service_source.contains("playback_attempt_counts") and audio_service_source.contains("playback_verified_counts") and audio_service_source.contains("_verify_start_after_delay") and audio_service_source.contains("_queue_bgm_recovery(\"watchdog\")") and audio_service_source.contains("_reserve_bgm_attempt") and audio_service_source.contains("BGM_CIRCUIT_FAILURE_THRESHOLD"), "audio runtime separates attempts from verified starts and bounds stopped-Web-BGM recovery")
 	var settings_source := FileAccess.get_file_as_string("res://autoload/settings_service.gd")
-	var mute_shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
+	var mute_shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd").replace("\r\n", "\n")
 	var load_index := mute_shell_source.find("SaveService.load_game()")
 	var mute_override_index := mute_shell_source.find("SettingsService.apply_web_preview_audio_override()")
 	var mute_stop_index := mute_shell_source.find("AudioService.set_enabled(false)")
 	check(settings_source.contains("func apply_web_preview_audio_override()") and settings_source.contains("func web_preview_audio_forced_muted()") and load_index >= 0 and mute_override_index > load_index and mute_stop_index > mute_override_index, "Web QA mute reapplies after the saved preference and stops audio before the title route")
-	check(audio_service_source.contains("MusicCrossfadePlayer") and audio_service_source.contains("_begin_bgm_loop_crossfade") and audio_service_source.contains("_prepare_music_crossfade") and audio_service_source.contains("if not OS.has_feature(\"web\"):") and audio_service_source.contains("\"music_crossfade_enabled\": BGM_LOOP_CROSSFADE_SECONDS > 0.0 and not OS.has_feature(\"web\")"), "desktop BGM keeps its loop bridge while Web stays on one native-looped stream")
+	check(audio_service_source.contains("MusicCrossfadePlayer") and audio_service_source.contains("_begin_bgm_loop_crossfade") and audio_service_source.contains("_start_web_bgm") and FileAccess.file_exists("res://web/browser_bgm.js") and audio_service_source.contains("playback_loop_end_seconds"), "desktop loop bridge and browser audio buffers skip authored trailing silence")
 	var loop_probe := AudioStreamWAV.new()
 	loop_probe.format = AudioStreamWAV.FORMAT_16_BITS
 	loop_probe.mix_rate = 22050
@@ -810,7 +874,7 @@ func _test_combat_art_contracts() -> void:
 	var web_soak_source := FileAccess.get_file_as_string("res://autoload/web_soak_probe.gd")
 	check(web_soak_source.contains("\"audio\": AudioService.runtime_status()"), "Web soak samples record runtime audio playback state")
 	check(web_soak_source.contains("r7-web-soak-probe") and web_soak_source.contains("sampling_enabled"), "Release Web soak telemetry is explicit opt-in instead of a five-second gameplay hitch")
-	var app_shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
+	var app_shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd").replace("\r\n", "\n")
 	check(app_shell_source.contains("WEB_FRAME_RATE_CAP := 60") and app_shell_source.contains("Engine.max_fps = WEB_FRAME_RATE_CAP"), "Web Release caps redundant high-refresh rendering at sixty frames per second")
 
 func _test_card_audio_contracts() -> void:
@@ -911,9 +975,9 @@ func _test_data() -> void:
 	var skill_icon_licenses := _read_json("res://assets/art/icons/skills/skill_icon_licenses.json")
 	var skill_license_rows: Array = skill_icon_licenses.get("assets", [])
 	check(skill_license_rows.size() == total_skill_defs and skill_license_rows.all(func(row): return row.get("ownership_status", "") == "ORIGINAL_INTERNAL" and bool(row.get("commercial_use", false)) and str(row.get("file_sha256", "")).length() == 64), "all skill icons have original-internal commercial-use lineage and SHA-256")
-	var app_shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
+	var app_shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd").replace("\r\n", "\n")
 	var ultimate_orb_source := FileAccess.get_file_as_string("res://battle/view/battle_ultimate_orb.gd")
-	check(app_shell_source.contains("BattleUltimateOrbScript.new()") and app_shell_source.contains("portrait_asset_id") and app_shell_source.contains(".set_charge(") and app_shell_source.contains("_apply_skill_icon(skill_button, skill") and ultimate_orb_source.contains("ReadyBadge") and ultimate_orb_source.contains("draw_arc") and ultimate_orb_source.contains("PortraitDisc"), "battle ultimates use portrait-centered circular charge controls with a READY state while growth skill controls retain SkillDef icons")
+	check(app_shell_source.contains("BattleUltimateOrbScript.new()") and app_shell_source.contains("portrait_asset_id") and app_shell_source.contains(".set_charge(") and bool(_growth_controls_contract().icons) and ultimate_orb_source.contains("ReadyBadge") and ultimate_orb_source.contains("draw_arc") and ultimate_orb_source.contains("PortraitDisc"), "battle ultimates use portrait-centered circular charge controls with a READY state while actual growth cards retain their matching SkillDef textures")
 	check(DataRegistry.list_of("character_level_curve").size() == 100, "character curve has 100 rows")
 	check(DataRegistry.list_of("account_level_curve").size() == 100, "account curve has 100 rows")
 	check(DataRegistry.list_of("weapon_level_curve").size() == 60, "weapon curve has 60 rows")
@@ -1110,16 +1174,30 @@ func _test_battle() -> void:
 	var forced_snapshot: Dictionary = forced_director.force_finish()
 	check(director_started and not bool(director_before_prep.get("battlefield_prep", false)) and bool(director_prep.get("battlefield_prep", false)) and bool(director_impact.get("impact_commit", false)) and is_zero_approx(float(director_impact.get("actor_delta", 1.0))) and director_finished and bool(forced_snapshot.get("needs_impact_commit", false)), "ultimate presentation timeline keeps preparation, impact hitstop, recovery, and forced skip completion on a view-only clock")
 	var normal_impact_director = BattlePresentationDirectorScript.new()
-	normal_impact_director.request_combat_impact(.80)
-	normal_impact_director.advance(.03)
+	for _overlapping_impact in range(6):
+		normal_impact_director.request_combat_impact(.80)
+	var overlapping_hitstop := float(normal_impact_director.cinematic_snapshot().get("combat_hitstop_remaining", -1.0))
+	var normal_hitstop_frame: Dictionary = normal_impact_director.advance(.03)
 	var normal_impact_visible := normal_impact_director.battlefield_zoom() > 1.0 and normal_impact_director.battlefield_offset().length() > 0.0
 	normal_impact_director.advance(.30)
 	var normal_impact_cleared := is_equal_approx(normal_impact_director.battlefield_zoom(), 1.0) and normal_impact_director.battlefield_offset().length() == 0.0
 	normal_impact_director.request_combat_impact(.80)
 	normal_impact_director.force_finish()
 	var skip_clears_normal_impact := is_equal_approx(normal_impact_director.battlefield_zoom(), 1.0) and normal_impact_director.battlefield_offset().length() == 0.0
-	check(normal_impact_visible and normal_impact_cleared and skip_clears_normal_impact, "ordinary impacts use a bounded local camera pulse and leave no residual zoom or offset after expiry or skip")
+	check(overlapping_hitstop > 0.0 and overlapping_hitstop <= .055001 and is_zero_approx(float(normal_hitstop_frame.get("actor_delta", 1.0))) and normal_impact_visible and normal_impact_cleared and skip_clears_normal_impact, "overlapping ordinary impacts stay inside the 55ms actor-only hitstop cap and leave no residual zoom, offset or freeze after expiry or skip")
 	var directional_focus_director = BattlePresentationDirectorScript.new()
+	var sustained_director = BattlePresentationDirectorScript.new()
+	var sustained_actor_time := 0.0
+	for frame in range(100):
+		sustained_director.request_combat_impact(1.0)
+		sustained_actor_time += float(sustained_director.advance(.01).actor_delta)
+	check(sustained_actor_time >= .70, "one hundred consecutive impact frames preserve at least 70 percent moving presentation time instead of indefinitely renewing hitstop")
+	var coarse_director = BattlePresentationDirectorScript.new()
+	coarse_director.request_combat_impact(1.0)
+	check(is_equal_approx(float(coarse_director.advance(.10).actor_delta), .045), "a slow frame subtracts only the 55ms contact hold instead of freezing the entire frame")
+	sustained_director.force_finish()
+	sustained_director.request_combat_impact(1.0)
+	check(sustained_director.combat_hitstop_remaining > 0.0, "skip clears the ordinary impact recovery gate for the next encounter")
 	directional_focus_director.request_combat_focus(1.0, .82, .60)
 	directional_focus_director.advance(.16)
 	var player_focus_offset := directional_focus_director.battlefield_offset()
@@ -1146,6 +1224,64 @@ func _test_battle() -> void:
 	var enemy_hit_offset: Vector2 = enemy_hit.get("offset", Vector2.ZERO)
 	check(player_windup_offset.x < 0.0 and player_lunge_offset.x > 0.0 and enemy_windup_offset.x > 0.0 and enemy_lunge_offset.x < 0.0 and player_hit_offset.x < 0.0 and enemy_hit_offset.x > 0.0, "battle motion layer gives both sides readable anticipation, forward strike, recoil, and directional hit response without changing simulation state")
 	var cinematic_sim := _simulation(1721)
+	# Reproduce a busy battle: receiving damage must not restart an attack's
+	# authored timeline, and repeated pellets must not pin HIT at frame zero.
+	var interrupted_motion_sim := _simulation(17201)
+	var interrupted_motion_view := BattleView.new()
+	interrupted_motion_view.setup(interrupted_motion_sim)
+	var interrupted_uid := str(interrupted_motion_sim.state.party[0].uid)
+	interrupted_motion_view.animation_tracks[interrupted_uid] = {"name": "normal_skill", "elapsed": .43}
+	interrupted_motion_view._play_animation(interrupted_uid, "hit")
+	check(str(interrupted_motion_view.animation_tracks[interrupted_uid].name) == "normal_skill" and is_equal_approx(float(interrupted_motion_view.animation_tracks[interrupted_uid].elapsed), .43), "incoming damage preserves active attack pose timeline; existing additive flash/recoil remains visible")
+	interrupted_motion_view.animation_tracks[interrupted_uid] = {"name": "hit", "elapsed": .21}
+	interrupted_motion_view._play_animation(interrupted_uid, "hit")
+	check(is_equal_approx(float(interrupted_motion_view.animation_tracks[interrupted_uid].elapsed), .21), "repeated damage does not restart HIT at frame zero and freeze a focused target")
+	var action_recovery_neutral := true
+	for recovery_action in ["basic_attack", "normal_skill", "ultimate", "hit"]:
+		var recovered_pose := BattleView.combat_motion_snapshot("PLAYER", recovery_action, 1.0, 1.0)
+		action_recovery_neutral = action_recovery_neutral and (recovered_pose.offset as Vector2).length() < .001 and absf(float(recovered_pose.rotation)) < .001 and (recovered_pose.scale as Vector2).distance_to(Vector2.ONE) < .001
+	check(action_recovery_neutral, "all nonterminal action transforms recover to a neutral planted pose without a last-frame snap")
+	interrupted_motion_view.free()
+	var unified_presentation_clock := true
+	for speed_value in [1, 2, 3]:
+		var clock_sim := _simulation(17202 + speed_value)
+		var clock_view := BattleView.new()
+		clock_view.setup(clock_sim)
+		clock_view.speed = speed_value
+		var clock_source := str(clock_sim.state.party[2].uid) # Rifle, not a melee-only shield bash.
+		var clock_target := str(clock_sim.state.enemies[0].uid)
+		clock_view._spawn_projectile(clock_source, clock_target, "NORMAL")
+		clock_view._spawn_vfx(clock_source, clock_target, "normal")
+		var clock_shot: Dictionary = clock_view.projectiles[0]
+		var clock_effect: Dictionary = clock_view.vfx_presentations[0]
+		var shot_before := float(clock_shot.age)
+		var effect_before := float(clock_effect.age)
+		clock_view._process(.01)
+		unified_presentation_clock = unified_presentation_clock and is_equal_approx(float(clock_shot.age)-shot_before, float(clock_effect.age)-effect_before) and float(clock_shot.age)>shot_before
+		clock_view.free()
+	check(unified_presentation_clock, "1x 2x and 3x projectile flight shares the actor and VFX clock without double speed multiplication")
+	var gun_pose := BattleView.combat_motion_snapshot("PLAYER", "basic_attack", .55, 1.0, "ASSAULT")
+	var gun_normal_pose := BattleView.combat_motion_snapshot("PLAYER", "normal_skill", .62, 1.0, "ARTILLERY")
+	var gun_ultimate_pose := BattleView.combat_motion_snapshot("ENEMY", "ultimate", .66, 1.0, "RANGED")
+	var blade_pose := BattleView.combat_motion_snapshot("PLAYER", "basic_attack", .45, 1.0, "VANGUARD")
+	var medic_pose := BattleView.combat_motion_snapshot("PLAYER", "normal_skill", .50, 1.0, "MEDIC")
+	check(gun_pose.offset.x < 0.0 and gun_normal_pose.offset.x < 0.0 and gun_ultimate_pose.offset.x > 0.0 and blade_pose.offset.x > 0.0 and absf(medic_pose.offset.y) <= 5.01, "all firearm action tiers brace/recoil in faction direction while blades drive forward and support casts stay grounded")
+	var choreography := preload("res://battle/view/battle_actor_choreography.gd")
+	var hit_base := {"offset": Vector2.ZERO, "rotation": 0.0, "scale": Vector2.ONE}
+	var player_additive_hit: Dictionary = choreography.add_hit_reaction(hit_base.duplicate(true), "PLAYER", .07)
+	var enemy_additive_hit: Dictionary = choreography.add_hit_reaction(hit_base.duplicate(true), "ENEMY", .07)
+	var melee_ghosts: Array = choreography.afterimage_samples("VANGUARD", "ultimate", "PLAYER", .52)
+	var ranged_ghosts: Array = choreography.afterimage_samples("ASSAULT", "ultimate", "PLAYER", .52)
+	var player_muzzle: Vector2 = choreography.action_anchor("ASSAULT", "PLAYER", "normal_skill", .52)
+	var enemy_muzzle: Vector2 = choreography.action_anchor("ASSAULT", "ENEMY", "normal_skill", .52)
+	var fallback_muzzle: Vector2 = choreography.action_anchor("UNKNOWN_ROLE", "PLAYER", "basic_attack", .52)
+	check(player_additive_hit.offset.x < 0.0 and enemy_additive_hit.offset.x > 0.0 and player_additive_hit.scale.y > 1.0 and melee_ghosts.size() == 2 and ranged_ghosts.is_empty(), "protected attack tracks still receive grounded directional hit weight while only active melee strikes receive two bounded afterimages")
+	check(player_muzzle.x > 0.0 and enemy_muzzle.x < 0.0 and is_equal_approx(player_muzzle.y, enemy_muzzle.y), "weapon action anchors mirror both factions without detaching vertically from the posed actor")
+	check(fallback_muzzle != Vector2.ZERO and fallback_muzzle == choreography.action_anchor("UNKNOWN_ROLE", "PLAYER", "basic_attack", .52), "an unknown weapon role uses a deterministic non-origin actor-local projectile anchor")
+	var forward_step := choreography.step_offset("VANGUARD", "basic_attack", .45, 1.0, Vector2(400, -90))
+	var enemy_step := choreography.step_offset("MELEE_RUSH", "basic_attack", .45, 1.0, Vector2(-400, 90))
+	check(forward_step.x > 0.0 and enemy_step.x < 0.0 and forward_step.length() <= 92.01 and enemy_step.is_equal_approx(-forward_step), "both factions step toward their actual opponent with a bounded presentation-only melee approach")
+	check(choreography.step_offset("VANGUARD", "basic_attack", 1.0, 1.0, Vector2(400, -90)) == Vector2.ZERO and choreography.step_offset("ASSAULT", "basic_attack", .45, 1.0, Vector2(400, -90)) == Vector2.ZERO and choreography.step_offset("VANGUARD", "basic_attack", .45, 1.0, Vector2(100, 0)) == Vector2.ZERO, "melee approach recovers completely, never moves ranged actors and preserves near-target separation")
 	var cinematic_source: Dictionary = cinematic_sim.state.party[0]
 	cinematic_source.def_id = "CHR001"
 	var cinematic_target: Dictionary = cinematic_sim.state.enemies[0]
@@ -1228,6 +1364,10 @@ func _test_battle() -> void:
 	check(cinematic_skip_started and not cinematic_skip_view.presentation_director.is_active() and int(cinematic_skip_cursor.get("read_cursor", -1)) == cinematic_skip_sim.event_log.size() and int(cinematic_skip_cursor.get("presented_cursor", -1)) == cinematic_skip_sim.event_log.size(), "skip finalizes an active cinematic batch before exposing the ordinary terminal result")
 	cinematic_skip_view.free()
 	var signature_scope_sim := _simulation(1723)
+	var integrity = load("res://battle/view/runtime_texture_integrity.gd")
+	var integrity_source := BattleSpriteLibrary.SIGNATURE_ROOT + "/CHR001/idle.png"
+	check(integrity.matches(integrity_source, FileAccess.get_sha256(integrity_source)), "signature integrity accepts a source matching its pinned SHA256")
+	check(not integrity.matches(integrity_source, "0".repeat(64)) and not integrity.matches("res://missing.png", "0".repeat(64)), "signature integrity rejects changed pins and missing/unmapped exports")
 	for party_index in range(signature_scope_sim.state.party.size()):
 		# CHR004 is now intentionally part of the starting-party HD group. Use CHR006 as
 		# a non-signature control so this still proves a future BOSS001 wave is not
@@ -1241,6 +1381,12 @@ func _test_battle() -> void:
 	signature_scope_view.setup(signature_scope_sim)
 	var signature_scope_ids := signature_scope_view._signature_residency_entity_ids()
 	check(signature_scope_ids.size() == 2 and signature_scope_ids[0] == "CHR001" and signature_scope_ids[1] == "ENM001" and not signature_scope_ids.has("BOSS001"), "the current ENM001 encounter is admitted to the high-density lease while a future BOSS001 wave is not preloaded")
+	signature_scope_view.sprite_library.signature_load_error = "EXPECTED_QA_REJECTION"
+	check(not signature_scope_view._commit_signature_residency_or_fallback(signature_scope_ids) and signature_scope_view._signature_residency_resolved(signature_scope_ids) and not signature_scope_view._signature_residency_matches(signature_scope_ids), "a rejected signature lease settles to compact once instead of reloading forever")
+	var next_signature_ids: Array[String] = ["CHR001", "BOSS001"]
+	check(not signature_scope_view._signature_residency_resolved(next_signature_ids), "a different encounter can acquire its own signature lease after a prior fallback")
+	signature_scope_view._release_signature_residency()
+	check(not signature_scope_view._signature_residency_resolved(signature_scope_ids), "teardown clears the settled fallback and does not retain a previous encounter")
 	signature_scope_view.free()
 	var signature_motion_sim := _simulation(1724)
 	for party_index in range(signature_motion_sim.state.party.size()):
@@ -1255,9 +1401,44 @@ func _test_battle() -> void:
 	signature_motion_view._advance_animations(10.0)
 	var signature_motion_track: Dictionary = signature_motion_view.animation_tracks.get(signature_motion_uid, {})
 	check(signature_motion_view.signature_sprite_pack_ready and str(signature_motion_track.get("name", "")) == "idle", "signature-only non-looping motion restores actor and world HP/SH anchor transforms without requiring a compact atlas")
+	var action_scale_consistent := true
+	for viewport_size in [Vector2(390, 844), Vector2(1280, 720)]:
+		signature_motion_view.size = viewport_size
+		var fixed_scale := signature_motion_view._combat_sprite_scale(signature_motion_sim.state.party[0], "idle")
+		for action_name in ["move", "basic_attack", "normal_skill", "ultimate", "hit", "down", "victory"]:
+			action_scale_consistent = action_scale_consistent and is_equal_approx(fixed_scale, signature_motion_view._combat_sprite_scale(signature_motion_sim.state.party[0], action_name))
+	check(action_scale_consistent, "actor body scale stays identical across signature and ordinary action frames in both orientations")
+	var grounding = load("res://battle/view/battle_grounding.gd")
+	grounding.contacts("compact", "CHR001", "idle", 0.0)
+	var contact_frames := 0
+	var contacts_registered := true
+	for family in grounding.registry.packs.values():
+		for entity in family.values():
+			for action in entity.values():
+				for points in action.frames:
+					contact_frames += 1
+					for angle in [-.18, 0.0, .22]:
+						for mirrored in [false, true]:
+							var pose: Dictionary = grounding.register_pose({"offset": Vector2(10, -24), "rotation": angle, "scale": Vector2(1.03, .97)}, points, 1.10, mirrored)
+							# Independently reproduce the renderer's transform, rather than
+							# accepting the helper's own reported residual as its test oracle.
+							var rendered_bottom := -INF
+							for raw_point in points:
+								var source_point := (Vector2(float(raw_point[0]), float(raw_point[1])) - Vector2(.5, .88)) * 512.0 * 1.10
+								var rendered := (source_point * (pose.scale as Vector2)).rotated(float(pose.rotation)) + (pose.offset as Vector2)
+								rendered_bottom = maxf(rendered_bottom, rendered.y)
+							contacts_registered = contacts_registered and not points.is_empty() and absf(rendered_bottom) < .001
+	check(contacts_registered and contact_frames == 18528, "all 18528 compact/HD/signature frames keep an opaque contact planted through left/right lean without GPU readback")
+	var formation_valid := true
+	for boss_arena in [false, true]:
+		for player in [false, true]:
+			for slot in range(5 if player else 3):
+				var foot: Vector2 = grounding.formation_point(Vector2(390, 844), player, slot, boss_arena)
+				formation_valid = formation_valid and foot.y > 844 * .70 and foot.y < 844 * .90
+	check(formation_valid, "both authored backdrop formations place feet below walls and above the foreground rail/HUD")
 	signature_motion_view.free()
 	var residual_sim := _simulation(1725)
-	var residual_source: Dictionary = residual_sim.state.party[0]
+	var residual_source: Dictionary = residual_sim.state.party[2]
 	var residual_target: Dictionary = residual_sim.state.enemies[0]
 	var residual_view := BattleView.new()
 	residual_view.setup(residual_sim)
@@ -1281,7 +1462,7 @@ func _test_battle() -> void:
 	var terminal_residual_view := BattleView.new()
 	var terminal_residual_sim := _simulation(1726)
 	terminal_residual_view.setup(terminal_residual_sim)
-	var terminal_source: Dictionary = terminal_residual_sim.state.party[0]
+	var terminal_source: Dictionary = terminal_residual_sim.state.party[2]
 	var terminal_target: Dictionary = terminal_residual_sim.state.enemies[0]
 	terminal_residual_view._spawn_projectile(str(terminal_source.uid), str(terminal_target.uid), "NORMAL")
 	terminal_residual_view._spawn_vfx(str(terminal_source.uid), str(terminal_target.uid), "impact_ultimate")
@@ -1295,7 +1476,7 @@ func _test_battle() -> void:
 	terminal_residual_view.free()
 	var reentry_residual_view := BattleView.new()
 	reentry_residual_view.setup(_simulation(1727))
-	var reentry_source: Dictionary = reentry_residual_view.simulation.state.party[0]
+	var reentry_source: Dictionary = reentry_residual_view.simulation.state.party[2]
 	var reentry_target: Dictionary = reentry_residual_view.simulation.state.enemies[0]
 	reentry_residual_view._spawn_projectile(str(reentry_source.uid), str(reentry_target.uid), "ULTIMATE")
 	reentry_residual_view._spawn_vfx(str(reentry_source.uid), str(reentry_target.uid), "ultimate")
@@ -1420,13 +1601,13 @@ func _test_battle() -> void:
 	var pool_sim := _simulation(16)
 	pooled_view.setup(pool_sim)
 	for i in range(100):
-		pooled_view._spawn_projectile(pool_sim.state.party[0].uid, pool_sim.state.enemies[0].uid, "BASIC")
-		pooled_view._spawn_floating_text({"target": pool_sim.state.enemies[0].uid, "text": str(i), "color": Color.WHITE, "age": 1.0})
+		pooled_view._spawn_projectile(pool_sim.state.party[2].uid, pool_sim.state.enemies[0].uid, "BASIC")
+		pooled_view._spawn_floating_text({"target": pool_sim.state.enemies[0].uid, "text": str(i), "color": Color.WHITE, "age": 2.0})
 	for projectile in pooled_view.projectiles: projectile.age = 1.0
 	pooled_view._recycle_expired_presentations()
 	var recycled := pooled_view.pool_diagnostics()
 	for i in range(100):
-		pooled_view._spawn_projectile(pool_sim.state.party[0].uid, pool_sim.state.enemies[0].uid, "BASIC")
+		pooled_view._spawn_projectile(pool_sim.state.party[2].uid, pool_sim.state.enemies[0].uid, "BASIC")
 		pooled_view._spawn_floating_text({"target": pool_sim.state.enemies[0].uid, "text": str(i), "color": Color.WHITE, "age": 0.0})
 	var reused := pooled_view.pool_diagnostics()
 	check(int(recycled.free_projectiles) >= BattleView.MAX_ACTIVE_PROJECTILES and int(recycled.free_floating_texts) >= BattleView.MAX_ACTIVE_FLOATING_TEXTS and int(reused.active_projectiles) == BattleView.MAX_ACTIVE_PROJECTILES and int(reused.active_floating_texts) == BattleView.MAX_ACTIVE_FLOATING_TEXTS and int(reused.free_projectiles) <= 1 and int(reused.free_floating_texts) <= 1, "presentation pools recycle burst entries while enforcing browser-safe active budgets")
@@ -1595,7 +1776,7 @@ func _test_story() -> void:
 	var disk_checkpoint_loaded := SaveService.load_game()
 	var disk_choice_resumed := ScenarioRunner.new()
 	check(disk_checkpoint_saved.ok and disk_checkpoint_loaded.ok and disk_choice_resumed.load_scenario("SCN_PROLOGUE", true).ok and disk_choice_resumed.state.waiting_for_choice and str(disk_choice_resumed.state.current_line.get("command", "")) == "choice", "atomic save/load restores an open story choice checkpoint")
-	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
+	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd").replace("\r\n", "\n")
 	var web_checkpoint_wiring := shell_source.contains("func _persist_story_checkpoint()") and shell_source.contains("var command := scenario_runner.advance()\n\t\t_persist_story_checkpoint()") and shell_source.contains("story_checkpoint_dirty = true") and shell_source.contains("func _flush_story_checkpoint_after_delay()") and shell_source.contains("await get_tree().create_timer(0.24).timeout") and shell_source.contains("story_checkpoint_dirty = false\n\tSaveService.save_game()") and shell_source.contains("var chosen := scenario_runner.choose(index)\n\tif not chosen.ok: return false\n\t_persist_story_checkpoint()")
 	check(web_checkpoint_wiring, "story checkpoints are atomically persisted at Web dialogue and choice boundaries")
 	check(DataRegistry.list_of("scenarios").size() == 105, "story content count covers all 20 chapters and interludes")
@@ -1686,3 +1867,54 @@ func _test_save() -> void:
 	var first_clear_twice := AppState.record_stage_clear("CH01-N01", 3)
 	check(first_clear_once and not first_clear_twice, "duplicate first-clear reward signal prevented")
 	SaveService.save_game()
+
+# Build the real growth control tree without starting the game's intro, scene
+# routing or save flow. This verifies player-facing controls rather than source
+# variable names; browser QA separately measures rendered geometry and clicks.
+func _growth_controls_contract() -> Dictionary:
+	if not growth_ui_contract.is_empty(): return growth_ui_contract
+	var profile_before := AppState.profile.duplicate(true)
+	var selected_before := AppState.selected_character_id
+	AppState.selected_character_id = "CHR001"
+	AppState.profile.roster.CHR001.unlocked = true
+	AppState.profile.account.level = 100
+	AppState.profile.roster.CHR001.level = 1
+	AppState.profile.roster.CHR001.breakthrough = 0
+	AppState.profile.roster.CHR001.skills = {"normal": 1, "passive": 1, "ultimate": 1}
+	var shell = load("res://screens/app_shell.gd").new()
+	shell.content = VBoxContainer.new()
+	shell.add_child(shell.content)
+	shell.current_screen = "GROWTH"
+	var navigation := true
+	var scrollable := true
+	var icons := true
+	for tab in ["레벨업", "스킬업", "장비·돌파", "캐릭터 정보"]:
+		for child in shell.content.get_children(): child.free()
+		shell.growth_tab = tab
+		shell._show_growth()
+		var tabs := shell.find_child("GrowthTabs", true, false) as Container
+		var body := shell.find_child("GrowthContent", true, false) as VBoxContainer
+		navigation = navigation and tabs != null and tabs.get_child_count() == 4
+		if tabs != null:
+			for button in tabs.get_children():
+				navigation = navigation and button is Button and button.disabled == (button.text == tab) and button.pressed.get_connections().size() > 0
+		scrollable = scrollable and body != null and body.get_parent() is ScrollContainer and body.get_parent().get_script() == preload("res://ui/touch_progression_scroll.gd")
+		if tab == "레벨업":
+			var apply := shell.find_child("GrowthLevelApply", true, false) as Button
+			navigation = navigation and apply != null and apply.pressed.get_connections().size() > 0
+		elif tab == "스킬업":
+			for slot in ["normal", "passive", "ultimate"]:
+				var card := shell.find_child("GrowthSkill_" + slot, true, false) as VBoxContainer
+				var apply := shell.find_child("GrowthSkillApply_" + slot, true, false) as Button
+				var definition := DataRegistry.character("CHR001")
+				var skill := DataRegistry.skill(str(definition[slot + "_skill_id"]))
+				navigation = navigation and card != null and apply != null and apply.pressed.get_connections().size() > 0
+				icons = icons and apply != null and apply.icon != null and apply.icon == shell._asset_texture(str(skill.icon_asset_id))
+		elif tab == "장비·돌파":
+			var choices: Array = shell.find_children("MobileEquipmentOption_*", "Button", true, false)
+			navigation = navigation and not choices.is_empty()
+	growth_ui_contract = {"navigation": navigation, "scroll": scrollable, "icons": icons}
+	shell.free()
+	AppState.profile = profile_before
+	AppState.selected_character_id = selected_before
+	return growth_ui_contract

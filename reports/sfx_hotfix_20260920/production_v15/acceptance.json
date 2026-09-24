@@ -1,0 +1,15 @@
+{
+  "checks": [
+    {
+      "name": "Error: {\"exceptionId\":1,\"text\":\"Uncaught (in promise) Error: Local sandbox developer probe unavailable\",\"lineNumber\":3,\"columnNumber\":28,\"scriptId\":\"17\",\"stackTrace\":{\"callFrames\":[{\"functionName\":\"eval\",\"scriptId\":\"17\",\"url\":\"\",\"lineNumber\":2,\"columnNumber\":27},{\"functionName\":\"eval\",\"scriptId\":\"17\",\"url\":\"\",\"lineNumber\":0,\"columnNumber\":0},{\"functionName\":\"\",\"scriptId\":\"16\",\"url\":\"\",\"lineNumber\":0,\"columnNumber\":110},{\"functionName\":\"\",\"scriptId\":\"16\",\"url\":\"\",\"lineNumber\":0,\"columnNumber\":722}]},\"exception\":{\"type\":\"object\",\"subtype\":\"error\",\"className\":\"Error\",\"description\":\"Error: Local sandbox developer probe unavailable\\n    at eval (eval at <anonymous> (:1:111), <anonymous>:3:28)\\n    at new Promise (<anonymous>)\\n    at eval (eval at <anonymous> (:1:111), <anonymous>:1:1)\\n    at eval (<anonymous>)\\n    at <anonymous>:1:111\\n    at <anonymous>:1:723\",\"objectId\":\"7944176731082514823.2.1\"}}",
+      "pass": false
+    }
+  ],
+  "graph": {
+    "samples": [],
+    "mixed": [],
+    "connections": [],
+    "states": []
+  },
+  "scope": "Local Chrome regression using real CH01-N01 and CH01-N02 combat entry; verifies browser SFX start counters and context continuity, not human listening."
+}

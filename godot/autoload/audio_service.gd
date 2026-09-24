@@ -53,10 +53,55 @@ var bgm_recovery_counts: Dictionary = {}
 var bgm_crossfade_active := false
 var bgm_crossfade_asset_id := ""
 var music_target_volume_db := 0.0
+var web_music_status: Dictionary = {}
+var web_sfx_status: Dictionary = {}
+var web_music_mix := -1.0
+var web_sfx_mix := -1.0
 
 func _ready() -> void:
 	_load_manifest()
 	_ensure_players()
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval(FileAccess.get_file_as_string("res://web/browser_bgm.js"), true)
+
+func _web_music_call(expression: String) -> Variant:
+	return JavaScriptBridge.eval("window.__lumenBGM && window.__lumenBGM." + expression, true)
+
+func _web_sfx_call(expression: String) -> Variant:
+	return JavaScriptBridge.eval("window.__lumenSFX && window.__lumenSFX." + expression, true)
+
+func _sync_web_music_status() -> void:
+	var parsed = JSON.parse_string(str(_web_music_call("status && JSON.stringify(window.__lumenBGM.status())")))
+	if not parsed is Dictionary: return
+	web_music_status = parsed
+	current_bgm_id = str(parsed.get("current", ""))
+	for id in parsed.get("starts", {}):
+		playback_counts[id] = int(parsed.starts[id])
+		if id == current_bgm_id and bool(parsed.get("active", false)):
+			last_playback_id = id
+	for id in parsed.get("attempts", {}): playback_attempt_counts[id] = int(parsed.attempts[id])
+	for id in parsed.get("failures", {}): playback_failed_counts[id] = int(parsed.failures[id])
+	var sfx_parsed = JSON.parse_string(str(_web_sfx_call("status && JSON.stringify(window.__lumenSFX.status())")))
+	if not sfx_parsed is Dictionary:
+		return
+	web_sfx_status = sfx_parsed
+	for id in sfx_parsed.get("starts", {}):
+		var starts := int(sfx_parsed.starts[id])
+		if starts > int(playback_counts.get(id, 0)):
+			playback_counts[id] = starts
+			last_playback_id = str(id)
+	for id in sfx_parsed.get("attempts", {}): playback_attempt_counts[id] = int(sfx_parsed.attempts[id])
+	for id in sfx_parsed.get("failures", {}): playback_failed_counts[id] = int(sfx_parsed.failures[id])
+
+func _start_web_bgm(asset_id: String) -> bool:
+	var path := _entry_path(asset_id)
+	if path.is_empty(): return false
+	_apply_mix()
+	var relative := "_audio/bgm/" + path.get_file()
+	var entry: Dictionary = entries_by_id.get(asset_id, {})
+	var started := bool(_web_music_call("play(%s,%s,%s,0,%s,%s)" % [JSON.stringify(asset_id), JSON.stringify(relative), "true" if bool(entry.get("loop", false)) else "false", str(float(entry.get("playback_loop_start_seconds", 0))), str(float(entry.get("playback_loop_end_seconds", 0)))]))
+	if started: last_attempted_playback_id = asset_id
+	return started
 
 func _ensure_players() -> void:
 	if not _interactive_display():
@@ -88,6 +133,7 @@ func _ensure_players() -> void:
 		sfx_players.append(player)
 
 func _exit_tree() -> void:
+	if OS.has_feature("web"): _web_music_call("stop()")
 	# Explicitly release browser/desktop playback resources so headless QA and
 	# scene reloads do not report leaked AudioStreamPlayback objects.
 	if music_player != null:
@@ -104,6 +150,12 @@ func _exit_tree() -> void:
 		voice_player.stream = null
 
 func _process(delta: float) -> void:
+	if OS.has_feature("web"):
+		bgm_watchdog_left -= delta
+		if bgm_watchdog_left <= 0.0:
+			bgm_watchdog_left = 0.5
+			_sync_web_music_status()
+		return
 	_update_bgm_loop_crossfade()
 	# Web builds have historically failed to repeat otherwise valid looping
 	# streams. Recover only the requested BGM, with a bounded cadence, and never
@@ -138,10 +190,23 @@ func _interactive_display() -> bool:
 func _can_play_now() -> bool:
 	return _audio_enabled() and browser_audio_unlocked
 
+func _can_play_sfx_now() -> bool:
+	if not _audio_enabled():
+		return false
+	if not OS.has_feature("web"):
+		return browser_audio_unlocked
+	# Browser BGM is unlocked by the capture-phase gesture listener before some
+	# map controls reach their Godot callback.  Do not drop that battle's effects
+	# merely because the old Godot-only boolean has not been updated yet.
+	if browser_audio_unlocked:
+		return true
+	return str(_web_music_call("status().context_state")) == "running"
+
 func unlock_from_user_gesture() -> void:
 	# Call this only from a real Control/input callback.  It is deliberately
 	# idempotent so a tap on any screen safely activates deferred title BGM.
 	browser_audio_unlocked = true
+	if OS.has_feature("web"): _web_music_call("unlock()")
 	_ensure_players()
 	if _audio_enabled() and not requested_bgm_id.is_empty():
 		_start_bgm(requested_bgm_id)
@@ -150,6 +215,7 @@ func set_enabled(enabled: bool) -> void:
 	SettingsService.values.audio_enabled = enabled
 	_ensure_players()
 	if not enabled:
+		if OS.has_feature("web"): _web_music_call("stop()")
 		if music_player != null:
 			_invalidate_start_verification(music_player)
 			music_player.stop()
@@ -243,6 +309,12 @@ func _apply_mix() -> void:
 	var master := clampf(float(SettingsService.values.get("master_volume", 0.8)), 0.0, 1.0)
 	var bgm := clampf(float(SettingsService.values.get("bgm_volume", 0.7)), 0.0, 1.0)
 	var sfx := clampf(float(SettingsService.values.get("sfx_volume", 0.8)), 0.0, 1.0)
+	if OS.has_feature("web") and not is_equal_approx(web_music_mix, master * bgm):
+		web_music_mix = master * bgm
+		_web_music_call("volume(%s)" % str(web_music_mix))
+	if OS.has_feature("web") and not is_equal_approx(web_sfx_mix, master * sfx):
+		web_sfx_mix = master * sfx
+		_web_sfx_call("volume(%s)" % str(web_sfx_mix))
 	if music_player != null:
 		music_target_volume_db = linear_to_db(maxf(0.001, master * bgm))
 		if not bgm_crossfade_active:
@@ -331,6 +403,7 @@ func _player_has_active_playback(player: AudioStreamPlayer) -> bool:
 	return player != null and (player.playing or player.has_stream_playback())
 
 func _music_has_active_playback() -> bool:
+	if OS.has_feature("web"): return bool(web_music_status.get("active", false))
 	# Both players are intentional during a loop bridge. Treat either as active
 	# so the recovery watchdog never restarts a valid BGM mid-crossfade.
 	return _player_has_active_playback(music_player) or (bgm_crossfade_active and _player_has_active_playback(music_crossfade_player))
@@ -351,7 +424,7 @@ func _update_bgm_loop_crossfade() -> void:
 	var stream := music_player.stream
 	if stream == null:
 		return
-	var length := stream.get_length()
+	var length := float(entry.get("playback_loop_end_seconds", stream.get_length()))
 	if length <= BGM_LOOP_CROSSFADE_SECONDS + 0.05:
 		return
 	if music_player.get_playback_position() < length - BGM_LOOP_CROSSFADE_SECONDS:
@@ -366,13 +439,15 @@ func _begin_bgm_loop_crossfade(asset_id: String, stream: AudioStream) -> void:
 	music_crossfade_player.stop()
 	music_crossfade_player.stream = stream
 	music_crossfade_player.volume_db = BGM_CROSSFADE_SILENCE_DB
-	music_crossfade_player.play()
+	music_crossfade_player.play(float(entries_by_id.get(asset_id, {}).get("playback_loop_start_seconds", 0.0)))
 	var outgoing := music_player
 	var incoming := music_crossfade_player
 	var bridge := create_tween()
 	bridge.set_parallel(true)
-	bridge.tween_property(outgoing, "volume_db", BGM_CROSSFADE_SILENCE_DB, BGM_LOOP_CROSSFADE_SECONDS)
-	bridge.tween_property(incoming, "volume_db", music_target_volume_db, BGM_LOOP_CROSSFADE_SECONDS)
+	# Interpolating dB put both tracks near -40 dB halfway through the fade.
+	# Interpolate amplitude so a loop transition never creates that volume hole.
+	bridge.tween_method(func(gain: float): outgoing.volume_db = linear_to_db(maxf(0.00001, gain)), db_to_linear(outgoing.volume_db), 0.0, BGM_LOOP_CROSSFADE_SECONDS)
+	bridge.tween_method(func(gain: float): incoming.volume_db = linear_to_db(maxf(0.00001, gain)), 0.0, db_to_linear(music_target_volume_db), BGM_LOOP_CROSSFADE_SECONDS)
 	bridge.chain().tween_callback(_complete_bgm_loop_crossfade.bind(outgoing, incoming, asset_id))
 
 func _complete_bgm_loop_crossfade(outgoing: AudioStreamPlayer, incoming: AudioStreamPlayer, asset_id: String) -> void:
@@ -416,6 +491,22 @@ func _recover_requested_bgm(reason: String) -> void:
 		_increment_counter(bgm_recovery_counts, reason)
 
 func _play_sfx_asset(asset_id: String) -> void:
+	if OS.has_feature("web"):
+		var web_path := _web_sfx_relative_path(asset_id)
+		if web_path.is_empty():
+			last_failed_playback_id = asset_id
+			_increment_counter(playback_failed_counts, asset_id)
+			return
+		var web_entry: Dictionary = entries_by_id.get(asset_id, {})
+		_apply_mix()
+		var web_started := bool(_web_sfx_call("play(%s,%s,%s,%s)" % [JSON.stringify(asset_id), JSON.stringify(web_path), str(db_to_linear(float(web_entry.get("gain_db", 0.0)))), str(clampf(float(web_entry.get("pitch_scale", 1.0)), 0.01, 4.0))]))
+		if web_started:
+			last_attempted_playback_id = asset_id
+			_increment_counter(playback_attempt_counts, asset_id)
+		else:
+			last_failed_playback_id = asset_id
+			_increment_counter(playback_failed_counts, asset_id)
+		return
 	if sfx_players.is_empty(): return
 	var resource: AudioStream = _stream_for(asset_id)
 	if resource == null:
@@ -441,8 +532,15 @@ func _event_asset(event_id: String) -> String:
 	last_event_at["__cursor_%s" % event_id] = (index + 1) % choices.size()
 	return str(choices[index])
 
+func _web_sfx_relative_path(asset_id: String) -> String:
+	var path := _entry_path(asset_id)
+	const RUNTIME_PREFIX := "res://assets/audio/sfx/public/"
+	if not path.begins_with(RUNTIME_PREFIX):
+		return ""
+	return "_audio/sfx/" + path.trim_prefix(RUNTIME_PREFIX)
+
 func play_event(event_id: String, minimum_interval := 0.04) -> void:
-	if not _can_play_now(): return
+	if not _can_play_sfx_now(): return
 	var now := Time.get_ticks_msec() / 1000.0
 	var last := float(last_event_at.get(event_id, -1000.0))
 	if now - last < minimum_interval: return
@@ -472,7 +570,7 @@ func card_start_cooldown_ready(history: Dictionary, card_id: String, now_seconds
 	return now_seconds - last >= maxf(0.0, minimum_interval)
 
 func play_card_start(card_id: String, fallback_event: String, minimum_interval := 0.04) -> void:
-	if not _can_play_now():
+	if not _can_play_sfx_now():
 		return
 	var normalized_card_id := card_id.strip_edges()
 	if normalized_card_id.is_empty():
@@ -498,6 +596,7 @@ func play_bgm(asset_id: String) -> void:
 	_start_bgm(asset_id)
 
 func _start_bgm(asset_id: String) -> bool:
+	if OS.has_feature("web"): return _start_web_bgm(asset_id)
 	if music_player == null: return false
 	if current_bgm_id == asset_id and _music_has_active_playback(): return false
 	if not _reserve_bgm_attempt(asset_id): return false
@@ -522,12 +621,15 @@ func _start_bgm(asset_id: String) -> bool:
 	music_player.stop()
 	music_player.stream = resource
 	music_player.volume_db = music_target_volume_db
-	music_player.play()
+	music_player.play(float(entry.get("playback_loop_start_seconds", 0.0)))
 	current_bgm_id = asset_id
 	_record_attempt(music_player, asset_id, resource, "BGM")
 	return true
 
 func stop_bgm() -> void:
+	if OS.has_feature("web"):
+		_web_music_call("stop()")
+		web_music_status = {}
 	if music_player != null:
 		_invalidate_start_verification(music_player)
 		music_player.stop()
@@ -541,7 +643,7 @@ func stop_bgm() -> void:
 	requested_bgm_id = ""
 
 func play_sfx(asset_id: String) -> void:
-	if not _can_play_now(): return
+	if not _can_play_sfx_now(): return
 	if entries_by_event.has(asset_id):
 		play_event(asset_id)
 	else:
@@ -563,6 +665,7 @@ func voice_is_playing() -> bool:
 	return _can_play_now() and voice_player != null and voice_player.playing
 
 func runtime_status() -> Dictionary:
+	if OS.has_feature("web"): _sync_web_music_status()
 	var active_sfx_players := 0
 	for player in sfx_players:
 		if _player_has_active_playback(player):
@@ -578,16 +681,18 @@ func runtime_status() -> Dictionary:
 		music_loop_end = int(wav.loop_end)
 	return {
 		"audio_enabled": _audio_enabled(),
+		"browser_bgm": web_music_status.duplicate(true),
+		"browser_sfx": web_sfx_status.duplicate(true),
 		"web_unlocked": browser_audio_unlocked,
 		"players_created": music_player != null and music_crossfade_player != null and voice_player != null and sfx_players.size() == SFX_POOL_SIZE,
 		"requested_bgm": requested_bgm_id,
 		"current_bgm": current_bgm_id,
-		"music_playing": music_player != null and music_player.playing,
-		"music_has_stream_playback": music_player != null and music_player.has_stream_playback(),
+		"music_playing": music_active if OS.has_feature("web") else music_player != null and music_player.playing,
+		"music_has_stream_playback": music_active if OS.has_feature("web") else music_player != null and music_player.has_stream_playback(),
 		"music_active": music_active,
-		"music_playback_position": music_player.get_playback_position() if music_active else 0.0,
-		"music_stream_type": music_player.stream.get_class() if music_player != null and music_player.stream != null else "",
-		"music_stream_length": music_player.stream.get_length() if music_player != null and music_player.stream != null else 0.0,
+		"music_playback_position": float(web_music_status.get("position", 0.0)) if OS.has_feature("web") else (music_player.get_playback_position() if music_active else 0.0),
+		"music_stream_type": "BrowserAudioBuffer" if OS.has_feature("web") else (music_player.stream.get_class() if music_player != null and music_player.stream != null else ""),
+		"music_stream_length": float(web_music_status.get("duration", 0.0)) if OS.has_feature("web") else (music_player.stream.get_length() if music_player != null and music_player.stream != null else 0.0),
 		"music_loop_mode": music_loop_mode,
 		"music_loop_begin": music_loop_begin,
 		"music_loop_end": music_loop_end,

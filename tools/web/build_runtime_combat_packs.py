@@ -13,6 +13,7 @@ import json
 import math
 import shutil
 import colorsys
+import re
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter
@@ -26,6 +27,8 @@ PROJECTILE_OUTPUT = OUTPUT / "projectiles"
 VFX_OUTPUT = OUTPUT / "vfx"
 STORY_OUTPUT = OUTPUT / "story"
 EXPANSION_SOURCE_ROOT = ROOT / "data_source" / "art_source" / "expansion_static_sources"
+ENEMY_REPLACEMENT_ROOT = ROOT / "data_source" / "art_source" / "enemy_replacements_20260911"
+ROSTER_REPLACEMENT_ROOT = ROOT / "data_source" / "art_source" / "roster_replacements_20260911"
 # Every non-combat card/standing image is authored against a flat chroma-green
 # intermediate.  The matte is retained as a non-runtime audit source; the
 # shipped image always keeps its genuine RGBA alpha channel and is never green
@@ -67,9 +70,9 @@ STORY_PLATES = {
 
 COMBAT_SOURCES = {
     "CHR001": GODOT / "assets" / "art" / "sd" / "CHR001",
-    "CHR002": GODOT / "assets" / "generated_import" / "characters" / "sd_chr002_roan_combat_r27_dev",
+    "CHR002": GODOT / "assets" / "generated_import" / "enclosed_matte_repair" / "r1" / "CHR002",
     "CHR003": GODOT / "assets" / "generated_import" / "characters" / "sd_chr003_narin_combat_r27_dev",
-    "CHR004": GODOT / "assets" / "generated_import" / "characters" / "sd_chr004_eda_combat_r27_dev",
+    "CHR004": GODOT / "assets" / "generated_import" / "enclosed_matte_repair" / "r1" / "CHR004",
     "CHR005": GODOT / "assets" / "generated_import" / "characters" / "sd_chr005_soren_combat_r27_dev",
     # R15 replaces the former in-memory profile-card presentation for these
     # roster members.  Their deterministic 80-frame cutout-rig packs are
@@ -505,12 +508,77 @@ def _draw_expansion_enemy_source(image: Image.Image, entity_id: str, row: dict) 
     return {"costume_id": f"{entity_id}_SILHOUETTE_A", "palette": {"primary": primary, "secondary": secondary}, "role": str(row.get("role", ""))}
 
 
+def reviewed_enemy_sources() -> dict[str, dict]:
+    """Only individually reviewed creature drawings can replace placeholders."""
+    manifest_path = ENEMY_REPLACEMENT_ROOT / "manifest.json"
+    if not manifest_path.is_file():
+        return {}
+    manifest = load_json(manifest_path)
+    if manifest.get("status") != "LOCAL_VISUAL_REVIEW_PASS":
+        raise ValueError("Enemy replacement art has not passed visual review")
+    definitions = {}
+    for row in manifest.get("assets", []):
+        entity_id = str(row["entity_id"])
+        if re.fullmatch(r"(?:ENM|BOSS)\d{3}", entity_id) is None or entity_id in definitions:
+            raise ValueError("Invalid or duplicate enemy replacement ID")
+        source = (ENEMY_REPLACEMENT_ROOT / row["file"]).resolve()
+        if not source.is_relative_to(ENEMY_REPLACEMENT_ROOT.resolve()) or not source.is_file():
+            raise ValueError("Enemy replacement source is missing or outside its source folder")
+        if row.get("review") != "PASS" or sha256(source) != row["sha256"]:
+            raise ValueError(f"Enemy replacement review/hash failed: {entity_id}")
+        definitions[entity_id] = {
+            "source": source, "asset_id": f"{entity_id.lower()}_illustrated_{row['sha256'][:16]}",
+            "name": row.get("name", entity_id), "view": "THREE_QUARTER_LEFT_DOWN_30", "facing": "MIRROR_SAFE",
+            "foot_anchor": [0.5, 0.88], "head_anchor": [0.5, 0.14],
+            "status": "LOCAL_REVIEWED_SD_MONSTER", "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+            "creation_method": row["creation_method"], "license": row["license"],
+            "animation_contract": row.get("animation_contract",{}),
+            "events": row.get("events",{}),
+        }
+    return definitions
+
+
+def reviewed_roster_sources() -> dict[str, dict]:
+    """Hash-bound Sprite Gen refreshes supersede every older source selection."""
+    path = ROSTER_REPLACEMENT_ROOT / "manifest.json"
+    if not path.is_file(): return {}
+    manifest = load_json(path)
+    if manifest.get("status") != "LOCAL_VISUAL_REVIEW_PASS":
+        raise ValueError("Roster replacement art has not passed visual review")
+    definitions = {}
+    for row in manifest["assets"]:
+        entity = str(row["entity_id"])
+        source = (ROSTER_REPLACEMENT_ROOT / row["file"]).resolve()
+        if re.fullmatch(r"(?:CHR|ENM|BOSS)\d{3}",entity) is None or entity in definitions:
+            raise ValueError("Invalid/duplicate roster ID")
+        if not source.is_relative_to(ROSTER_REPLACEMENT_ROOT.resolve()) or not source.is_file():
+            raise ValueError("Invalid roster source path")
+        if row.get("review") != "PASS" or sha256(source) != row["sha256"]:
+            raise ValueError("Unreviewed/modified roster source: " + entity)
+        player = entity.startswith("CHR")
+        if player and row.get("costume_review") != "COSTUME_CONTINUITY_PASS":
+            raise ValueError("Character identity/costume review required: " + entity)
+        definitions[entity] = {
+            "source": source, "asset_id": f"{entity.lower()}_spritegen_{row['sha256'][:16]}",
+            "name": row.get("name",entity),
+            "view": "THREE_QUARTER_RIGHT_DOWN_30" if player else "THREE_QUARTER_LEFT_DOWN_30",
+            "facing": "SEPARATE_LEFT_RIGHT" if player else "MIRROR_SAFE",
+            "foot_anchor": [0.5,0.88], "head_anchor": [0.5,0.14],
+            "status": "LOCAL_REVIEWED_SD_ROSTER", "source_status": "SPRITEGEN_ROSTER_VISUAL_PASS",
+            "creation_method": row["creation_method"], "license": row["license"],
+            "animation_contract": row.get("animation_contract",{}),
+            "events": row.get("events",{}),
+        }
+    return definitions
+
+
 def expansion_static_sources() -> dict[str, dict]:
     """Return isolated source definitions for every new immutable entity ID."""
     data = load_json(GODOT / "data" / "compiled" / "game_data.json")
     known = set(COMBAT_SOURCES) | set(STATIC_COMBAT_SOURCES)
     entries = list(data.get("characters", [])) + list(data.get("enemies", []))
     definitions: dict[str, dict] = {}
+    reviewed_enemies = reviewed_enemy_sources()
     contract_path = EXPANSION_SOURCE_ROOT / "qa" / "COSTUME_CONTINUITY_CONTRACT.json"
     existing_contract_document = load_json(contract_path) if contract_path.is_file() else {"schemaVersion": 1, "candidates": {}}
     existing_contracts = dict(existing_contract_document.get("candidates", {}))
@@ -520,6 +588,11 @@ def expansion_static_sources() -> dict[str, dict]:
     for row in entries:
         entity_id = str(row.get("id", ""))
         if not entity_id or entity_id in known:
+            continue
+        if entity_id in reviewed_enemies:
+            definitions[entity_id] = reviewed_enemies[entity_id]
+            if entity_id in existing_contracts:
+                contracts[entity_id] = existing_contracts[entity_id]
             continue
         authority_path = EXPANSION_SOURCE_ROOT / f"{entity_id.lower()}_authority.png"
         matte_path = EXPANSION_SOURCE_ROOT / f"{entity_id.lower()}_green_matte.png"
@@ -774,13 +847,16 @@ def build_static_combat_pack(entity_id: str, definition: dict) -> dict:
         "normal_skill": (12, False), "ultimate": (18, False), "hit": (4, False),
         "down": (8, False), "victory": (10, False), "stun": (4, True),
     }
+    contract = definition.get("animation_contract",{})
+    if contract:
+        layout = {name:(len(spec["frame_indices"]),bool(spec.get("loop",False))) for name,spec in contract.items()}
     all_frames: list[Image.Image] = []
     animations: dict = {}
     for animation, (count, loop) in layout.items():
         motion_name = "hit" if animation == "stun" else animation
         indices = list(range(len(all_frames), len(all_frames) + count))
         all_frames.extend(_static_frame(base, motion_name, frame, count) for frame in range(count))
-        animations[animation] = {"fps": 12, "loop": loop, "frame_indices": indices}
+        animations[animation] = {**contract.get(animation,{}), "fps": contract.get(animation,{}).get("fps",12), "loop": loop, "frame_indices": indices}
     preview_path = target_root / "preview.png"
     all_frames[0].resize((PREVIEW_CELL, PREVIEW_CELL), Image.Resampling.LANCZOS).save(preview_path, optimize=True)
     rows = (len(all_frames) + ATLAS_COLUMNS - 1) // ATLAS_COLUMNS
@@ -801,7 +877,7 @@ def build_static_combat_pack(entity_id: str, definition: dict) -> dict:
         "source_asset_id": definition["asset_id"],
         "creation_method": definition.get("creation_method", "imagegen_original_render_plus_deterministic_presentation_motion"),
         "ownership_status": "ORIGINAL_INTERNAL",
-        "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+        "license": definition.get("license", "USER_AUTHORIZED_INTERNAL_GENERATION"),
         "frame_size": [STATIC_CELL, STATIC_CELL],
         "foot_anchor": definition["foot_anchor"],
         "head_anchor": definition["head_anchor"],
@@ -813,7 +889,7 @@ def build_static_combat_pack(entity_id: str, definition: dict) -> dict:
         "atlas_columns": ATLAS_COLUMNS,
         "total_frames": len(all_frames),
         "animations": animations,
-        "events": {
+        "events": definition.get("events") or {
             "basic_attack": {"projectile_spawn_frame": 3, "damage_frame": 4},
             "normal_skill": {"vfx_frame": 5, "damage_frame": 6},
             "ultimate": {"vfx_frame": 8, "damage_frame": 10},
@@ -1202,7 +1278,7 @@ def _polygon_ring(cx: float, cy: float, radius: float, count: int, rotation: flo
     return [_point(cx, cy, radius, rotation + math.tau * index / count) for index in range(count)]
 
 
-def _vfx_cell(primary: tuple[int, int, int], secondary: tuple[int, int, int], kind: str, frame: int, shape: str) -> Image.Image:
+def _vfx_cell(primary: tuple[int, int, int], secondary: tuple[int, int, int], kind: str, frame: int, shape: str, output_cell: int | None = None) -> Image.Image:
     """Build a Web-sized signature layer with a concrete motion language.
 
     This is not a generic colour swap: each unit profile selects a distinct
@@ -1533,7 +1609,8 @@ def _vfx_cell(primary: tuple[int, int, int], secondary: tuple[int, int, int], ki
     image.alpha_composite(glow)
     image.alpha_composite(near_glow)
     image.alpha_composite(energy)
-    return image.resize((VFX_CELL, VFX_CELL), Image.Resampling.LANCZOS)
+    output_cell = output_cell or VFX_CELL
+    return image.resize((output_cell, output_cell), Image.Resampling.LANCZOS)
 
 
 def build_generated_vfx_pack(entity_id: str, profile: dict, kind: str) -> dict:
@@ -1619,9 +1696,10 @@ def main() -> int:
     apply_player_role_vfx_authorities()
     expansion_sources = expansion_static_sources()
     player_sd_overrides = player_sd_static_overrides()
-    static_sources = {**STATIC_COMBAT_SOURCES, **player_sd_overrides, **expansion_sources}
+    roster_overrides = reviewed_roster_sources()
+    static_sources = {**STATIC_COMBAT_SOURCES, **player_sd_overrides, **expansion_sources, **roster_overrides}
     card_sources = card_8head_sources()
-    combat = [build_combat_pack(entity_id, path) for entity_id, path in COMBAT_SOURCES.items() if entity_id not in player_sd_overrides]
+    combat = [build_combat_pack(entity_id, path) for entity_id, path in COMBAT_SOURCES.items() if entity_id not in static_sources]
     combat.extend(build_static_combat_pack(entity_id, definition) for entity_id, definition in static_sources.items())
     update_runtime_asset_manifest(combat, build_character_8head_card_art(card_sources))
     update_runtime_story_manifest(build_story_plates())

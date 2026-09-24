@@ -1,0 +1,10 @@
+{
+  "checks": [
+    {
+      "name": "Error: {\"exceptionId\":1,\"text\":\"Uncaught (in promise) Error: Local sandbox developer probe unavailable\",\"lineNumber\":3,\"columnNumber\":28,\"scriptId\":\"27\",\"stackTrace\":{\"callFrames\":[{\"functionName\":\"\",\"scriptId\":\"27\",\"url\":\"\",\"lineNumber\":2,\"columnNumber\":27},{\"functionName\":\"\",\"scriptId\":\"27\",\"url\":\"\",\"lineNumber\":0,\"columnNumber\":0}]},\"exception\":{\"type\":\"object\",\"subtype\":\"error\",\"className\":\"Error\",\"description\":\"Error: Local sandbox developer probe unavailable\\n    at <anonymous>:3:28\\n    at new Promise (<anonymous>)\\n    at <anonymous>:1:1\",\"objectId\":\"-5942728754507785170.2.1\"}}",
+      "pass": false
+    }
+  ],
+  "samples": [],
+  "fixture": "Real N20 browser combat from isolated invincible neighbor fixture, 1x speed, WebM captures the actual canvas. Capture/probe overhead excludes this run from performance baselines; no copied reference-game art."
+}

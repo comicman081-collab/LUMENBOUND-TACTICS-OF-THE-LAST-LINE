@@ -1,4 +1,4 @@
-. "$PSScriptRoot\COMMON.ps1"
+﻿. "$PSScriptRoot\COMMON.ps1"
 $root = Get-ProjectRoot
 $source = Join-Path $root 'builds\web_release'
 $target = Join-Path $root 'builds\SD_STORY_RPG_HTML.zip'
@@ -8,7 +8,7 @@ $required = @(
     'index.icon.png', 'index.apple-touch-icon.png', 'index.144x144.png',
     'index.180x180.png', 'index.512x512.png', 'index.audio.worklet.js',
     'index.audio.position.worklet.js', 'README_HTML.md', 'VERSION.json',
-    'LICENSES.md'
+    'LICENSES.md', 'density_sidecars.json', 'audio_sidecars.json'
 )
 foreach ($name in $required) {
     $path = Join-Path $source $name
@@ -17,11 +17,14 @@ foreach ($name in $required) {
 }
 $actualFiles = @(Get-ChildItem -LiteralPath $source -Force -File)
 $unexpectedFiles = @($actualFiles | Where-Object { $required -notcontains $_.Name })
-$unexpectedDirectories = @(Get-ChildItem -LiteralPath $source -Force -Directory)
+$unexpectedDirectories = @(Get-ChildItem -LiteralPath $source -Force -Directory | Where-Object { $_.Name -notin @('_hd', '_audio') })
 if ($unexpectedFiles.Count -gt 0 -or $unexpectedDirectories.Count -gt 0) {
     $unexpectedNames = @($unexpectedFiles.Name) + @($unexpectedDirectories.Name)
     throw "Refusing non-runtime Web members: $($unexpectedNames -join ', ')"
 }
+$python = Find-LocalPython
+Invoke-Checked $python @((Join-Path $root 'tools\web\stage_density_sidecars.py'), $source, '--validate-only')
+Invoke-Checked $python @((Join-Path $root 'tools\web\stage_audio_sidecars.py'), $source, '--validate-only')
 $version = Get-Content -LiteralPath (Join-Path $source 'VERSION.json') -Raw | ConvertFrom-Json
 if ($version.build_id -ne 'LANTERNLINE_R7_WEB_MVP' -or $version.revision -ne 'R7') {
     throw "Refusing to package a non-R7 Web build: $($version.build_id) / $($version.revision)"
@@ -97,6 +100,8 @@ if ($pckLeak.Success) {
 }
 
 $packageMembers = @($required | ForEach-Object { Join-Path $source $_ })
+$packageMembers += Join-Path $source '_hd'
+$packageMembers += Join-Path $source '_audio'
 Compress-Archive -LiteralPath $packageMembers -DestinationPath $target -Force
 $zip = Get-Item -LiteralPath $target
 $hash = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash

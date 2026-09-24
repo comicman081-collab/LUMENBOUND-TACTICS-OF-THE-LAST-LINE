@@ -151,6 +151,9 @@ static func validate(definition: Dictionary) -> Array[String]:
 		var event_key := "%d,%d" % [int(event.get("q", 0)), int(event.get("r", 0))]
 		if event_id == "" or event_ids.has(event_id): errors.append("invalid or duplicate map event " + event_id)
 		event_ids[event_id] = true
+		var required_stage := str(event.get("required_stage_id", ""))
+		if not required_stage.is_empty() and str(DataRegistry.stage(required_stage).get("chapter_id", "")) != str(definition.get("chapter_id", "")):
+			errors.append("event required stage invalid " + event_id)
 		if not tile_keys.has(event_key) or bool(tile_keys.get(event_key, {}).get("movement_blocked", false)): errors.append("event outside map " + event_id)
 		if str(event.get("title_key", "")).is_empty() or str(event.get("body_key", "")).is_empty(): errors.append("event localization keys missing " + event_id)
 		if event.has("title") or event.has("body"): errors.append("event contains raw localized text " + event_id)

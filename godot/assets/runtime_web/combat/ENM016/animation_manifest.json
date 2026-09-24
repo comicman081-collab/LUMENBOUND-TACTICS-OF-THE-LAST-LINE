@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_enm016",
   "character_id": "ENM016",
-  "display_name": "ENM016",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/enm016_authority.png",
-  "source_asset_id": "enm016_silhouette_a_8c6cd8fc26b05e37_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_GLASS_STALKER",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/ENM016/source.png",
+  "source_asset_id": "enm016_illustrated_80ed8ed08f4475c1",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "ec5291a100fc7d4230ddf7c92b30526197528976a1f728cae069eac66c93cb88",
+  "preview_sha256": "203eeed3f89a7303b87d96554c742b5482f7bcf39dfbd7f7fd3502b8b5be854e",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "d2cacc4bce7975b061a5bfd1a134e86ff49828e7660bad85adb13c7c4c52fee5"
+  "sha256": "ce2bf463111184caebfefd36b4a0a9738679c813f743882327930f84c451e642"
 }

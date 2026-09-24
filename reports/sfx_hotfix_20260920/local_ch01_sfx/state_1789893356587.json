@@ -1,0 +1,495 @@
+{
+  "active_party": 0,
+  "buttons": [
+    {
+      "content_width": 66.4510071277618,
+      "disabled": false,
+      "font_css": 11.1944442391396,
+      "name": "ScreenBackButton",
+      "nowrap": true,
+      "rect": [
+        18.1,
+        18.1,
+        79.5,
+        29.6
+      ],
+      "text": "‹ 뒤로",
+      "text_width": 27.4471551179886
+    },
+    {
+      "content_width": 44.059906899929,
+      "disabled": false,
+      "font_css": 14.0833330750465,
+      "name": "StoryAutoButton",
+      "nowrap": true,
+      "rect": [
+        117.4,
+        83.8,
+        60,
+        36.1
+      ],
+      "text": "AUTO",
+      "text_width": 38.2815584540367
+    },
+    {
+      "content_width": 52.7274295687675,
+      "disabled": false,
+      "font_css": 14.0833330750465,
+      "name": "StorySkipButton",
+      "nowrap": true,
+      "rect": [
+        183.5,
+        83.8,
+        68.6,
+        36.1
+      ],
+      "text": "SKIP  ▶",
+      "text_width": 52.7274295687675
+    },
+    {
+      "content_width": 112.316647917032,
+      "disabled": false,
+      "font_css": 14.0833330750465,
+      "name": "@Button@123",
+      "nowrap": true,
+      "rect": [
+        285.7,
+        319.9,
+        125.3,
+        36.1
+      ],
+      "text": "다음",
+      "text_width": 26.0025680065155
+    },
+    {
+      "content_width": 112.677794694901,
+      "disabled": false,
+      "font_css": 14.0833330750465,
+      "name": "@Button@124",
+      "nowrap": true,
+      "rect": [
+        412.4,
+        319.9,
+        125.7,
+        36.1
+      ],
+      "text": "로그",
+      "text_width": 26.0025680065155
+    },
+    {
+      "content_width": 112.316647917032,
+      "disabled": false,
+      "font_css": 14.0833330750465,
+      "name": "@Button@125",
+      "nowrap": true,
+      "rect": [
+        539.6,
+        319.9,
+        125.3,
+        36.1
+      ],
+      "text": "UI 숨기기",
+      "text_width": 57.4223376810551
+    },
+    {
+      "content_width": 124.956785142422,
+      "disabled": false,
+      "font_css": 14.0833330750465,
+      "name": "@Button@126",
+      "nowrap": true,
+      "rect": [
+        666.3,
+        319.9,
+        138,
+        36.1
+      ],
+      "text": "DEV 전체 스킵",
+      "text_width": 86.3140799105167
+    }
+  ],
+  "campaign_transition": {},
+  "chapter_progress": {
+    "CH01": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": true
+    },
+    "CH02": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH03": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH04": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH05": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH06": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH07": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH08": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH09": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH10": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH11": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH12": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH13": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH14": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH15": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH16": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH17": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH18": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH19": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH20": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    }
+  },
+  "density_cache": {
+    "budget_bytes": 67108864,
+    "hits": 0,
+    "misses": 0,
+    "retained_bytes": 0,
+    "retained_pages": 0,
+    "timing": {
+      "batch_usec": 0,
+      "batches": 0,
+      "decode_usec": 0,
+      "hash_usec": 0,
+      "pages": 0,
+      "response_wait_usec": 0,
+      "upload_usec": 0
+    }
+  },
+  "draw_calls": 33,
+  "growth": {
+    "character": "CHR001",
+    "inventory": {
+      "BLUEPRINT_T1": 0,
+      "BLUEPRINT_T2": 0,
+      "BLUEPRINT_T3": 0,
+      "BLUEPRINT_T4": 0,
+      "BREAK_CORE_T1": 10,
+      "BREAK_CORE_T2": 0,
+      "BREAK_CORE_T3": 0,
+      "BREAK_CORE_T4": 0,
+      "CREDIT": 60000,
+      "EXPEDITION_ROUTE_MODULE_A": 0,
+      "EXPEDITION_ROUTE_MODULE_B": 0,
+      "FACTION_SEAL_T1": 0,
+      "FACTION_SEAL_T2": 0,
+      "FACTION_SEAL_T3": 0,
+      "LANTERN_SHARD": 0,
+      "ROLE_TOKEN_T1": 5,
+      "ROLE_TOKEN_T2": 0,
+      "ROLE_TOKEN_T3": 0,
+      "ROLE_TOKEN_T4": 0,
+      "SHARD_CHR001": 0,
+      "SHARD_CHR002": 0,
+      "SHARD_CHR003": 0,
+      "SHARD_CHR004": 0,
+      "SHARD_CHR005": 0,
+      "SHARD_CHR006": 0,
+      "SHARD_CHR007": 0,
+      "SHARD_CHR008": 0,
+      "SHARD_CHR009": 0,
+      "SHARD_CHR010": 0,
+      "SHARD_CHR011": 0,
+      "SHARD_CHR012": 0,
+      "SHARD_CHR013": 0,
+      "SHARD_CHR014": 0,
+      "SHARD_CHR015": 0,
+      "SHARD_CHR016": 0,
+      "SHARD_CHR017": 0,
+      "SHARD_CHR018": 0,
+      "SHARD_CHR019": 0,
+      "SHARD_CHR020": 0,
+      "SHARD_CHR021": 0,
+      "SHARD_CHR022": 0,
+      "SHARD_CHR023": 0,
+      "SHARD_CHR024": 0,
+      "SHARD_CHR025": 0,
+      "SHARD_CHR026": 0,
+      "SHARD_CHR027": 0,
+      "SHARD_CHR028": 0,
+      "SHARD_CHR029": 0,
+      "SHARD_CHR030": 0,
+      "SHARD_CHR031": 0,
+      "SHARD_CHR032": 0,
+      "SHARD_CHR033": 0,
+      "SHARD_CHR034": 0,
+      "SHARD_CHR035": 0,
+      "SHARD_CHR036": 0,
+      "SHARD_CHR037": 0,
+      "SHARD_CHR038": 0,
+      "SHARD_CHR039": 0,
+      "SHARD_CHR040": 0,
+      "SHARD_CHR041": 0,
+      "SHARD_CHR042": 0,
+      "SHARD_CHR043": 0,
+      "SHARD_CHR044": 0,
+      "SKILL_BOOK_T1": 12,
+      "SKILL_BOOK_T2": 0,
+      "SKILL_BOOK_T3": 0,
+      "SKILL_BOOK_T4": 0,
+      "SKILL_TOKEN_T1": 8,
+      "SKILL_TOKEN_T2": 0,
+      "SKILL_TOKEN_T3": 0,
+      "SKILL_TOKEN_T4": 0,
+      "TRAINING_NOTE_L": 3,
+      "TRAINING_NOTE_M": 12,
+      "TRAINING_NOTE_S": 0,
+      "TRAINING_NOTE_XL": 0,
+      "ULT_BOOK_T1": 8,
+      "ULT_BOOK_T2": 0,
+      "ULT_BOOK_T3": 0,
+      "ULT_BOOK_T4": 0,
+      "UNIVERSAL_CATALYST": 0,
+      "WEAPON_CHIP_L": 0,
+      "WEAPON_CHIP_M": 10,
+      "WEAPON_CHIP_S": 0,
+      "WEAPON_CHIP_XL": 0,
+      "WEAPON_ORE_T1": 0,
+      "WEAPON_ORE_T2": 0,
+      "WEAPON_ORE_T3": 0,
+      "WEAPON_ORE_T4": 0
+    },
+    "state": {
+      "acquisition_status": "OWNED",
+      "breakthrough": 0,
+      "equipped_weapon_id": "WPN004",
+      "level": 1,
+      "profile_unlocks": [],
+      "relationship_level": 1,
+      "relationship_xp": 0,
+      "skills": {
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1
+      },
+      "unlocked": true,
+      "xp": 0
+    },
+    "target": 0
+  },
+  "labels": [
+    {
+      "font_css": 15.527777493,
+      "name": "@Label@108",
+      "rect": [
+        98.954216003418,
+        18.0555553436279,
+        726.988464355469,
+        18.7777767181396
+      ],
+      "text": "제1장 — 꺼진 노선의 신호"
+    },
+    {
+      "font_css": 7.58333319425583,
+      "name": "@Label@109",
+      "rect": [
+        98.954216003418,
+        38.2777786254883,
+        726.988464355469,
+        9.38888931274414
+      ],
+      "text": "SCN_CH01_INTRO"
+    },
+    {
+      "font_css": 10.1111109256744,
+      "name": "StorySpeakerEyebrow",
+      "rect": [
+        285.667114257812,
+        77.6388854980469,
+        518.967895507812,
+        12.2777786254883
+      ],
+      "text": "LUMENBOUND · FIELD RECORD"
+    },
+    {
+      "font_css": 15.8888885974884,
+      "name": "@Label@118",
+      "rect": [
+        285.667114257812,
+        93.8888854980469,
+        518.967895507812,
+        19.1388854980469
+      ],
+      "text": "나레이션"
+    },
+    {
+      "font_css": 15.8888885974884,
+      "name": "@RichTextLabel@121",
+      "rect": [
+        285.667114257812,
+        117,
+        518.967895507812,
+        178.75
+      ],
+      "text": "등로단은 잔광 폭풍 속에서도 움직이는 소규모 복구 조직이다."
+    },
+    {
+      "font_css": 10.1111109256744,
+      "name": "StoryClickAdvanceHint",
+      "rect": [
+        285.667114257812,
+        303.694427490234,
+        258.5810546875,
+        12.2777709960938
+      ],
+      "text": "대화창 클릭 / 터치로 계속  >"
+    },
+    {
+      "font_css": 10.1111109256744,
+      "name": "StoryPageIndicator",
+      "rect": [
+        545.692810058594,
+        303.694427490234,
+        258.942199707031,
+        12.2777709960938
+      ],
+      "text": "PAGE · 01 / 03"
+    }
+  ],
+  "layout": {
+    "paused": false,
+    "portrait": false,
+    "rotation_prompt": false,
+    "size": [
+      844,
+      390
+    ],
+    "viewport": [
+      2337,
+      1080
+    ]
+  },
+  "map_preload_msec": 0,
+  "modals": [],
+  "nodes": 67,
+  "panels": [],
+  "party": [
+    "CHR001",
+    "CHR002",
+    "CHR003",
+    "CHR004",
+    "CHR005"
+  ],
+  "pending_story": [
+    "TRIG_CH01_INTRO"
+  ],
+  "region_resume_stage": "CH01-N01",
+  "restart_progress": {
+    "character_level": 1,
+    "first_clear": {
+      "CH01-N01": false
+    },
+    "stars": {
+      "CH01-N01": 0
+    },
+    "story_flags": {}
+  },
+  "sandbox": {
+    "production_backup_attempt_count": 0,
+    "production_path_resolve_count": 0,
+    "production_read_attempt_count": 0,
+    "production_reset_attempt_count": 0,
+    "production_write_attempt_count": 0,
+    "sandbox_active": true,
+    "sandbox_path_resolve_count": 6,
+    "sandbox_session": "sfx-stage-continuity"
+  },
+  "scenario": "SCN_CH01_INTRO",
+  "screen": "STORY",
+  "scrolls": [],
+  "stage": "CH01-N01",
+  "story": {
+    "body_rect": [
+      285.667114257812,
+      117,
+      518.967895507812,
+      178.75
+    ],
+    "content_height": 64,
+    "dialogue_rect": [
+      260.747985839844,
+      65.7222213745117,
+      557.971801757812,
+      300.444427490234
+    ],
+    "scenario": "SCN_CH01_INTRO",
+    "text": "등로단은 잔광 폭풍 속에서도 움직이는 소규모 복구 조직이다.",
+    "visible_height": 495,
+    "visible_ratio": 0.528787910938263
+  },
+  "story_shards": 0,
+  "transition_loading": {
+    "active": false,
+    "kind": ""
+  }
+}

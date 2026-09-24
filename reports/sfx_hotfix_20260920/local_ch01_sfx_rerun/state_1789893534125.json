@@ -1,0 +1,1639 @@
+{
+  "active_party": 0,
+  "buttons": [
+    {
+      "content_width": 59.0058265516063,
+      "disabled": false,
+      "font_css": 14.0833330750465,
+      "name": "ScreenBackButton",
+      "nowrap": true,
+      "rect": [
+        7.9,
+        7.9,
+        72,
+        32.1
+      ],
+      "text": "‹ 뒤로",
+      "text_width": 34.670090675354
+    }
+  ],
+  "campaign_transition": {},
+  "chapter_progress": {
+    "CH01": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": true
+    },
+    "CH02": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH03": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH04": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH05": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH06": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH07": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH08": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH09": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH10": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH11": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH12": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH13": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH14": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH15": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH16": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH17": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH18": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH19": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH20": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    }
+  },
+  "density_cache": {
+    "budget_bytes": 67108864,
+    "hits": 0,
+    "misses": 2,
+    "retained_bytes": 9437184,
+    "retained_pages": 2,
+    "timing": {
+      "batch_usec": 137300,
+      "batches": 1,
+      "decode_usec": 43900,
+      "hash_usec": 12900,
+      "pages": 2,
+      "response_wait_usec": 109600,
+      "upload_usec": 1400
+    }
+  },
+  "draw_calls": 94,
+  "growth": {
+    "character": "CHR001",
+    "inventory": {
+      "BLUEPRINT_T1": 0,
+      "BLUEPRINT_T2": 0,
+      "BLUEPRINT_T3": 0,
+      "BLUEPRINT_T4": 0,
+      "BREAK_CORE_T1": 10,
+      "BREAK_CORE_T2": 0,
+      "BREAK_CORE_T3": 0,
+      "BREAK_CORE_T4": 0,
+      "CREDIT": 60000,
+      "EXPEDITION_ROUTE_MODULE_A": 0,
+      "EXPEDITION_ROUTE_MODULE_B": 0,
+      "FACTION_SEAL_T1": 0,
+      "FACTION_SEAL_T2": 0,
+      "FACTION_SEAL_T3": 0,
+      "LANTERN_SHARD": 0,
+      "ROLE_TOKEN_T1": 5,
+      "ROLE_TOKEN_T2": 0,
+      "ROLE_TOKEN_T3": 0,
+      "ROLE_TOKEN_T4": 0,
+      "SHARD_CHR001": 0,
+      "SHARD_CHR002": 0,
+      "SHARD_CHR003": 0,
+      "SHARD_CHR004": 0,
+      "SHARD_CHR005": 0,
+      "SHARD_CHR006": 0,
+      "SHARD_CHR007": 0,
+      "SHARD_CHR008": 0,
+      "SHARD_CHR009": 0,
+      "SHARD_CHR010": 0,
+      "SHARD_CHR011": 0,
+      "SHARD_CHR012": 0,
+      "SHARD_CHR013": 0,
+      "SHARD_CHR014": 0,
+      "SHARD_CHR015": 0,
+      "SHARD_CHR016": 0,
+      "SHARD_CHR017": 0,
+      "SHARD_CHR018": 0,
+      "SHARD_CHR019": 0,
+      "SHARD_CHR020": 0,
+      "SHARD_CHR021": 0,
+      "SHARD_CHR022": 0,
+      "SHARD_CHR023": 0,
+      "SHARD_CHR024": 0,
+      "SHARD_CHR025": 0,
+      "SHARD_CHR026": 0,
+      "SHARD_CHR027": 0,
+      "SHARD_CHR028": 0,
+      "SHARD_CHR029": 0,
+      "SHARD_CHR030": 0,
+      "SHARD_CHR031": 0,
+      "SHARD_CHR032": 0,
+      "SHARD_CHR033": 0,
+      "SHARD_CHR034": 0,
+      "SHARD_CHR035": 0,
+      "SHARD_CHR036": 0,
+      "SHARD_CHR037": 0,
+      "SHARD_CHR038": 0,
+      "SHARD_CHR039": 0,
+      "SHARD_CHR040": 0,
+      "SHARD_CHR041": 0,
+      "SHARD_CHR042": 0,
+      "SHARD_CHR043": 0,
+      "SHARD_CHR044": 0,
+      "SKILL_BOOK_T1": 12,
+      "SKILL_BOOK_T2": 0,
+      "SKILL_BOOK_T3": 0,
+      "SKILL_BOOK_T4": 0,
+      "SKILL_TOKEN_T1": 8,
+      "SKILL_TOKEN_T2": 0,
+      "SKILL_TOKEN_T3": 0,
+      "SKILL_TOKEN_T4": 0,
+      "TRAINING_NOTE_L": 3,
+      "TRAINING_NOTE_M": 12,
+      "TRAINING_NOTE_S": 0,
+      "TRAINING_NOTE_XL": 0,
+      "ULT_BOOK_T1": 8,
+      "ULT_BOOK_T2": 0,
+      "ULT_BOOK_T3": 0,
+      "ULT_BOOK_T4": 0,
+      "UNIVERSAL_CATALYST": 0,
+      "WEAPON_CHIP_L": 0,
+      "WEAPON_CHIP_M": 10,
+      "WEAPON_CHIP_S": 0,
+      "WEAPON_CHIP_XL": 0,
+      "WEAPON_ORE_T1": 0,
+      "WEAPON_ORE_T2": 0,
+      "WEAPON_ORE_T3": 0,
+      "WEAPON_ORE_T4": 0
+    },
+    "state": {
+      "acquisition_status": "OWNED",
+      "breakthrough": 0,
+      "equipped_weapon_id": "WPN004",
+      "level": 1,
+      "profile_unlocks": [],
+      "relationship_level": 1,
+      "relationship_xp": 0,
+      "skills": {
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1
+      },
+      "unlocked": true,
+      "xp": 0
+    },
+    "target": 0
+  },
+  "labels": [
+    {
+      "font_css": 16.9722219109535,
+      "name": "@Label@108",
+      "rect": [
+        81.6191711425781,
+        7.94444417953491,
+        754.435668945312,
+        22
+      ],
+      "text": "제1장 — 꺼진 노선의 신호"
+    },
+    {
+      "font_css": 12.9999997615814,
+      "name": "ChapterMapLoadingFeedback",
+      "rect": [
+        7.94522905349731,
+        52.3611106872559,
+        828.109558105469,
+        15.8888893127441
+      ],
+      "text": "전술 지도를 준비하고 있습니다…"
+    },
+    {
+      "font_css": 16.2499997019768,
+      "name": "TransitionLoadingTitle",
+      "rect": [
+        230.411651611328,
+        180.916656494141,
+        382.815582275391,
+        19.5
+      ],
+      "text": "전술 지도 준비 중"
+    },
+    {
+      "font_css": 9.74999982118607,
+      "name": "TransitionLoadingPhase",
+      "rect": [
+        230.411651611328,
+        205.83332824707,
+        382.815582275391,
+        11.9166717529297
+      ],
+      "text": "작전 정보를 준비하고 있습니다"
+    },
+    {
+      "font_css": 9.38888871669769,
+      "name": "TransitionLoadingPercent",
+      "rect": [
+        230.411651611328,
+        238.694442749023,
+        382.815582275391,
+        11.5555572509766
+      ],
+      "text": "94%"
+    }
+  ],
+  "layout": {
+    "paused": false,
+    "portrait": false,
+    "rotation_prompt": false,
+    "size": [
+      844,
+      390
+    ],
+    "viewport": [
+      2337,
+      1080
+    ]
+  },
+  "map": {
+    "backdrop": {
+      "instances": 350,
+      "present": true
+    },
+    "battle_transition_active": false,
+    "camera_size": 13.1999998092651,
+    "camera_target": [
+      18.706148147583,
+      0.860000014305115,
+      -9.72000026702881
+    ],
+    "chapter": "CH01",
+    "cleared_nodes": [],
+    "detail": {
+      "rect": [
+        -232.078460693359,
+        7.94444417953491,
+        240.023696899414,
+        208
+      ],
+      "visible": false,
+      "z": 80
+    },
+    "encounter_receipts": {},
+    "enemies": [
+      {
+        "id": "NODE_N01",
+        "scout": false,
+        "screen": [
+          9.51550006866455,
+          10.1801643371582
+        ],
+        "stage": "CH01-N01",
+        "visible": true
+      },
+      {
+        "id": "NODE_N01_SCOUT_1",
+        "scout": true,
+        "screen": [
+          5.94728231430054,
+          8.16421794891357
+        ],
+        "stage": "CH01-N01",
+        "visible": true
+      },
+      {
+        "id": "NODE_N01_SCOUT_2",
+        "scout": true,
+        "screen": [
+          7.81743812561035,
+          9.04696559906006
+        ],
+        "stage": "CH01-N01",
+        "visible": true
+      }
+    ],
+    "enemy_camera_history": [],
+    "enemy_camera_subject": "",
+    "enemy_pawns": 3,
+    "environment_meshes": [
+      "boulder",
+      "boulder_alt",
+      "canopy",
+      "canopy_alt",
+      "trunk"
+    ],
+    "field_events": [
+      {
+        "id": "EVENT_CRYSTAL_TRACE",
+        "screen": [
+          8.23051261901855,
+          12.1012992858887
+        ],
+        "state": "UNDISCOVERED",
+        "visible": true
+      },
+      {
+        "id": "EVENT_BROKEN_SWITCH",
+        "screen": [
+          16.5601692199707,
+          16.2931213378906
+        ],
+        "state": "UNDISCOVERED",
+        "visible": true
+      },
+      {
+        "id": "EVENT_COAST_LOG",
+        "screen": [
+          35.3420524597168,
+          26.3288383483887
+        ],
+        "state": "UNDISCOVERED",
+        "visible": true
+      }
+    ],
+    "full_map_open": false,
+    "grid_tiles": 3602,
+    "instance_id": 125963339308,
+    "minimap": {
+      "drawn_tiles": 0,
+      "explored_tiles": [
+        "-7,0",
+        "-7,1",
+        "-7,2",
+        "-7,3",
+        "-7,4",
+        "-7,5",
+        "-7,6",
+        "-7,7",
+        "-6,-1",
+        "-6,0",
+        "-6,1",
+        "-6,2",
+        "-6,3",
+        "-6,4",
+        "-6,5",
+        "-6,6",
+        "-6,7",
+        "-5,-2",
+        "-5,-1",
+        "-5,0",
+        "-5,1",
+        "-5,2",
+        "-5,3",
+        "-5,4",
+        "-5,5",
+        "-5,6",
+        "-5,7",
+        "-4,-3",
+        "-4,-2",
+        "-4,-1",
+        "-4,0",
+        "-4,1",
+        "-4,2",
+        "-4,3",
+        "-4,4",
+        "-4,5",
+        "-4,6",
+        "-4,7",
+        "-3,-4",
+        "-3,-3",
+        "-3,-2",
+        "-3,-1",
+        "-3,0",
+        "-3,1",
+        "-3,2",
+        "-3,3",
+        "-3,4",
+        "-3,5",
+        "-3,6",
+        "-3,7",
+        "-2,-5",
+        "-2,-4",
+        "-2,-3",
+        "-2,-2",
+        "-2,-1",
+        "-2,0",
+        "-2,1",
+        "-2,2",
+        "-2,3",
+        "-2,4",
+        "-2,5",
+        "-2,6",
+        "-2,7",
+        "-1,-6",
+        "-1,-5",
+        "-1,-4",
+        "-1,-3",
+        "-1,-2",
+        "-1,-1",
+        "-1,0",
+        "-1,1",
+        "-1,2",
+        "-1,3",
+        "-1,4",
+        "-1,5",
+        "-1,6",
+        "-1,7",
+        "0,-7",
+        "0,-6",
+        "0,-5",
+        "0,-4",
+        "0,-3",
+        "0,-2",
+        "0,-1",
+        "0,0",
+        "0,1",
+        "0,2",
+        "0,3",
+        "0,4",
+        "0,5",
+        "0,6",
+        "0,7",
+        "1,-7",
+        "1,-6",
+        "1,-5",
+        "1,-4",
+        "1,-3",
+        "1,-2",
+        "1,-1",
+        "1,0",
+        "1,1",
+        "1,2",
+        "1,3",
+        "1,4",
+        "1,5",
+        "1,6",
+        "2,-7",
+        "2,-6",
+        "2,-5",
+        "2,-4",
+        "2,-3",
+        "2,-2",
+        "2,-1",
+        "2,0",
+        "2,1",
+        "2,2",
+        "2,3",
+        "2,4",
+        "2,5",
+        "3,-7",
+        "3,-6",
+        "3,-5",
+        "3,-4",
+        "3,-3",
+        "3,-2",
+        "3,-1",
+        "3,0",
+        "3,1",
+        "3,2",
+        "3,3",
+        "3,4",
+        "3,5",
+        "4,-8",
+        "4,-7",
+        "4,-6",
+        "4,-5",
+        "4,-4",
+        "4,-3",
+        "4,-2",
+        "4,-1",
+        "4,0",
+        "4,1",
+        "4,2",
+        "4,3",
+        "4,4",
+        "5,-8",
+        "5,-7",
+        "5,-6",
+        "5,-5",
+        "5,-4",
+        "5,-3",
+        "5,-2",
+        "5,-1",
+        "5,0",
+        "5,1",
+        "5,2",
+        "5,3",
+        "6,-8",
+        "6,-7",
+        "6,-6",
+        "6,-5",
+        "6,-4",
+        "6,-3",
+        "6,-2",
+        "6,-1",
+        "6,0",
+        "6,1",
+        "6,2",
+        "7,-8",
+        "7,-7",
+        "7,-6",
+        "7,-5",
+        "7,-4",
+        "7,-3",
+        "7,-2",
+        "7,-1",
+        "7,0",
+        "7,1",
+        "8,-8",
+        "8,-7",
+        "8,-6",
+        "8,-5",
+        "8,-4",
+        "8,-3",
+        "8,-2",
+        "8,-1",
+        "8,0",
+        "7,2",
+        "8,-9",
+        "8,1",
+        "8,2",
+        "9,-9",
+        "9,-8",
+        "9,-7",
+        "9,-6",
+        "9,-5",
+        "9,-4",
+        "9,-3",
+        "9,-2",
+        "9,-1",
+        "9,0",
+        "9,1",
+        "9,2",
+        "10,-10",
+        "10,-9",
+        "10,-8",
+        "10,-7",
+        "10,-6",
+        "10,-5",
+        "10,-4",
+        "10,-3",
+        "10,-2",
+        "10,-1",
+        "10,0",
+        "10,1",
+        "10,2",
+        "11,-11",
+        "11,-10",
+        "11,-9",
+        "11,-8",
+        "11,-7",
+        "11,-6",
+        "11,-5",
+        "11,-4",
+        "11,-3",
+        "11,-2",
+        "11,-1",
+        "11,0",
+        "11,1",
+        "11,2",
+        "12,-12",
+        "12,-11",
+        "12,-10",
+        "12,-9",
+        "12,-8",
+        "12,-7",
+        "12,-6",
+        "12,-5",
+        "12,-4",
+        "12,-3",
+        "12,-2",
+        "12,-1",
+        "12,0",
+        "12,1",
+        "12,2",
+        "13,-12",
+        "13,-11",
+        "13,-10",
+        "13,-9",
+        "13,-8",
+        "13,-7",
+        "13,-6",
+        "13,-5",
+        "13,-4",
+        "13,-3",
+        "13,-2",
+        "13,-1",
+        "13,0",
+        "13,1",
+        "14,-12",
+        "14,-11",
+        "14,-10",
+        "14,-9",
+        "14,-8",
+        "14,-7",
+        "14,-6",
+        "14,-5",
+        "14,-4",
+        "14,-3",
+        "14,-2",
+        "14,-1",
+        "14,0",
+        "15,-12",
+        "15,-11",
+        "15,-10",
+        "15,-9",
+        "15,-8",
+        "15,-7",
+        "15,-6",
+        "15,-5",
+        "15,-4",
+        "15,-3",
+        "15,-2",
+        "15,-1",
+        "15,0",
+        "16,-12",
+        "16,-11",
+        "16,-10",
+        "16,-9",
+        "16,-8",
+        "16,-7",
+        "16,-6",
+        "16,-5",
+        "16,-4",
+        "16,-3",
+        "16,-2",
+        "16,-1",
+        "17,-12",
+        "17,-11",
+        "17,-10",
+        "17,-9",
+        "17,-8",
+        "17,-7",
+        "17,-6",
+        "17,-5",
+        "17,-4",
+        "17,-3",
+        "17,-2",
+        "18,-12",
+        "18,-11",
+        "18,-10",
+        "18,-9",
+        "18,-8",
+        "18,-7",
+        "18,-6",
+        "18,-5",
+        "18,-4",
+        "18,-3",
+        "19,-12",
+        "19,-11",
+        "19,-10",
+        "19,-9",
+        "19,-8",
+        "19,-7",
+        "19,-6",
+        "19,-5",
+        "19,-4",
+        "20,-13",
+        "20,-12",
+        "20,-11",
+        "20,-10",
+        "20,-9",
+        "20,-8",
+        "20,-7",
+        "20,-6",
+        "20,-5",
+        "21,-14",
+        "21,-13",
+        "21,-12",
+        "21,-11",
+        "21,-10",
+        "21,-9",
+        "21,-8",
+        "21,-7",
+        "21,-6"
+      ],
+      "full_map": false,
+      "markers": [
+        {
+          "coord": "3,0",
+          "kind": "relay"
+        },
+        {
+          "coord": "3,0",
+          "kind": "landmark"
+        },
+        {
+          "coord": "4,2",
+          "kind": "treasure"
+        },
+        {
+          "coord": "12,-5",
+          "kind": "enemy"
+        },
+        {
+          "coord": "8,-5",
+          "kind": "enemy"
+        },
+        {
+          "coord": "15,-8",
+          "kind": "enemy"
+        },
+        {
+          "coord": "19,-8",
+          "kind": "enemy"
+        }
+      ],
+      "rect": [
+        18.0573387145996,
+        -115.916664123535,
+        179.851089477539,
+        118.08332824707
+      ],
+      "total_tiles": 3602
+    },
+    "movement_points": 3,
+    "movement_points_max": 3,
+    "moving": false,
+    "natural_bridge_tiles": 0,
+    "natural_chunks": 0,
+    "natural_river_chunks": 0,
+    "natural_terrain": false,
+    "next": "CH01-N01",
+    "palette": "FOREST",
+    "patrol_states": {
+      "NODE_H01": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 190,
+        "r": -16,
+        "wait_remaining": 0
+      },
+      "NODE_H02": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 177,
+        "r": -13,
+        "wait_remaining": 0
+      },
+      "NODE_H04": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 151,
+        "r": -7,
+        "wait_remaining": 0
+      },
+      "NODE_N01": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 12,
+        "r": -5,
+        "wait_remaining": 0
+      },
+      "NODE_N01_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 4,
+        "r": -4,
+        "wait_remaining": 0
+      },
+      "NODE_N01_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 8,
+        "r": -5,
+        "wait_remaining": 0
+      },
+      "NODE_N02": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 22,
+        "r": -8,
+        "wait_remaining": 0
+      },
+      "NODE_N02_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 15,
+        "r": -8,
+        "wait_remaining": 0
+      },
+      "NODE_N02_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 19,
+        "r": -8,
+        "wait_remaining": 0
+      },
+      "NODE_N03": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 32,
+        "r": -3,
+        "wait_remaining": 0
+      },
+      "NODE_N03_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 22,
+        "r": -3,
+        "wait_remaining": 0
+      },
+      "NODE_N03_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 27,
+        "r": -3,
+        "wait_remaining": 0
+      },
+      "NODE_N04": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 42,
+        "r": -6,
+        "wait_remaining": 0
+      },
+      "NODE_N04_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 35,
+        "r": -6,
+        "wait_remaining": 0
+      },
+      "NODE_N04_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 39,
+        "r": -6,
+        "wait_remaining": 0
+      },
+      "NODE_N05": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 52,
+        "r": -9,
+        "wait_remaining": 0
+      },
+      "NODE_N05_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 45,
+        "r": -9,
+        "wait_remaining": 0
+      },
+      "NODE_N05_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 49,
+        "r": -9,
+        "wait_remaining": 0
+      },
+      "NODE_N07": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 72,
+        "r": -7,
+        "wait_remaining": 0
+      },
+      "NODE_N07_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 62,
+        "r": -7,
+        "wait_remaining": 0
+      },
+      "NODE_N07_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 67,
+        "r": -7,
+        "wait_remaining": 0
+      },
+      "NODE_N09": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 92,
+        "r": -13,
+        "wait_remaining": 0
+      },
+      "NODE_N09_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 85,
+        "r": -13,
+        "wait_remaining": 0
+      },
+      "NODE_N09_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 89,
+        "r": -13,
+        "wait_remaining": 0
+      },
+      "NODE_N10": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 102,
+        "r": -16,
+        "wait_remaining": 0
+      },
+      "NODE_N10_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 95,
+        "r": -16,
+        "wait_remaining": 0
+      },
+      "NODE_N10_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 99,
+        "r": -16,
+        "wait_remaining": 0
+      },
+      "NODE_N11": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 112,
+        "r": -11,
+        "wait_remaining": 0
+      },
+      "NODE_N11_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 102,
+        "r": -11,
+        "wait_remaining": 0
+      },
+      "NODE_N11_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 107,
+        "r": -11,
+        "wait_remaining": 0
+      },
+      "NODE_N12": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 122,
+        "r": -14,
+        "wait_remaining": 0
+      },
+      "NODE_N12_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 115,
+        "r": -14,
+        "wait_remaining": 0
+      },
+      "NODE_N12_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 119,
+        "r": -14,
+        "wait_remaining": 0
+      },
+      "NODE_N14": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 142,
+        "r": -20,
+        "wait_remaining": 0
+      },
+      "NODE_N14_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 135,
+        "r": -20,
+        "wait_remaining": 0
+      },
+      "NODE_N14_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 139,
+        "r": -20,
+        "wait_remaining": 0
+      },
+      "NODE_N15": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 152,
+        "r": -15,
+        "wait_remaining": 0
+      },
+      "NODE_N15_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 142,
+        "r": -15,
+        "wait_remaining": 0
+      },
+      "NODE_N15_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 147,
+        "r": -15,
+        "wait_remaining": 0
+      },
+      "NODE_N16": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 162,
+        "r": -18,
+        "wait_remaining": 0
+      },
+      "NODE_N16_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 155,
+        "r": -18,
+        "wait_remaining": 0
+      },
+      "NODE_N16_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 159,
+        "r": -18,
+        "wait_remaining": 0
+      },
+      "NODE_N17": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 172,
+        "r": -21,
+        "wait_remaining": 0
+      },
+      "NODE_N17_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 165,
+        "r": -21,
+        "wait_remaining": 0
+      },
+      "NODE_N17_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 169,
+        "r": -21,
+        "wait_remaining": 0
+      },
+      "NODE_N18": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 182,
+        "r": -24,
+        "wait_remaining": 0
+      },
+      "NODE_N18_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 175,
+        "r": -24,
+        "wait_remaining": 0
+      },
+      "NODE_N18_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 179,
+        "r": -24,
+        "wait_remaining": 0
+      },
+      "NODE_N19": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 192,
+        "r": -19,
+        "wait_remaining": 0
+      },
+      "NODE_N19_SCOUT_1": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 182,
+        "r": -19,
+        "wait_remaining": 0
+      },
+      "NODE_N19_SCOUT_2": {
+        "awareness": "UNAWARE",
+        "current_patrol_index": 0,
+        "direction": 1,
+        "next_move_tick": 0,
+        "patrol_state": "IDLE",
+        "q": 187,
+        "r": -19,
+        "wait_remaining": 0
+      }
+    },
+    "paused": true,
+    "pawn_texture": {
+      "atlas_path": "",
+      "atlas_size": [
+        1536,
+        768
+      ],
+      "height": 192,
+      "path": "",
+      "width": 192
+    },
+    "pending_encounter": {},
+    "persistent_grid_cells": 3602,
+    "persistent_grid_drawn": 3056,
+    "player_rules": true,
+    "position": [
+      13,
+      -6
+    ],
+    "preview": [],
+    "reachable": 0,
+    "ready": false,
+    "selected_can_enter": false,
+    "selected_node": "",
+    "selected_target": [
+      13,
+      -6
+    ],
+    "selected_unlocked": false,
+    "stamina": 124,
+    "status": "",
+    "terraced_terrain": true,
+    "terrain_samples": [],
+    "toolbar_rect": [
+      7.94522905349731,
+      7.94444417953491,
+      78.0077056884766,
+      0
+    ],
+    "training_notes": 0,
+    "treasures": [
+      {
+        "id": "CH01_VT01",
+        "q": 4,
+        "r": 2,
+        "screen": [
+          4.9147162437439,
+          10.7473039627075
+        ],
+        "state": "REVEALED",
+        "visible": true
+      },
+      {
+        "id": "CH01_VT02",
+        "q": 18,
+        "r": -1,
+        "screen": [
+          11.3742151260376,
+          14.0563774108887
+        ],
+        "state": "REVEALED",
+        "visible": true
+      },
+      {
+        "id": "CH01_VT03",
+        "q": 31,
+        "r": -4,
+        "screen": [
+          17.4091987609863,
+          17.0350341796875
+        ],
+        "state": "REVEALED",
+        "visible": true
+      },
+      {
+        "id": "CH01_VT04",
+        "q": 48,
+        "r": -8,
+        "screen": [
+          25.3143367767334,
+          20.7079753875732
+        ],
+        "state": "REVEALED",
+        "visible": true
+      },
+      {
+        "id": "CH01_VT05",
+        "q": 69,
+        "r": -11,
+        "screen": [
+          34.7454452514648,
+          26.5184192657471
+        ],
+        "state": "REVEALED",
+        "visible": true
+      },
+      {
+        "id": "CH01_VT06",
+        "q": 88,
+        "r": -14,
+        "screen": [
+          43.327522277832,
+          31.4795703887939
+        ],
+        "state": "REVEALED",
+        "visible": true
+      },
+      {
+        "id": "CH01_HT01",
+        "q": 6,
+        "r": -1,
+        "screen": [
+          6.28002977371216,
+          10.0913906097412
+        ],
+        "state": "UNDISCOVERED",
+        "visible": true
+      },
+      {
+        "id": "CH01_HT02",
+        "q": 28,
+        "r": -5,
+        "screen": [
+          16.307746887207,
+          15.6048727035522
+        ],
+        "state": "UNDISCOVERED",
+        "visible": true
+      },
+      {
+        "id": "CH01_HT03",
+        "q": 55,
+        "r": -11,
+        "screen": [
+          28.8022270202637,
+          21.7041397094727
+        ],
+        "state": "UNDISCOVERED",
+        "visible": true
+      },
+      {
+        "id": "CH01_HT04",
+        "q": 80,
+        "r": -14,
+        "screen": [
+          39.931396484375,
+          28.8362483978271
+        ],
+        "state": "UNDISCOVERED",
+        "visible": true
+      }
+    ],
+    "turn_transitioning": false,
+    "viewport_rect": [
+      7.94522905349731,
+      7.94444417953491,
+      4.3337607383728,
+      4.33333253860474
+    ]
+  },
+  "map_preload_msec": 0,
+  "modals": [],
+  "nodes": 933,
+  "panels": [
+    {
+      "name": "TransitionLoadingPanel",
+      "rect": [
+        219.577239990234,
+        131.08332824707,
+        404.484405517578,
+        127.83332824707
+      ]
+    }
+  ],
+  "party": [
+    "CHR001",
+    "CHR002",
+    "CHR003",
+    "CHR004",
+    "CHR005"
+  ],
+  "pending_story": [],
+  "region_resume_stage": "CH01-N01",
+  "restart_progress": {
+    "character_level": 1,
+    "first_clear": {},
+    "stars": {},
+    "story_flags": {
+      "story.trigger.TRIG_CH01_INTRO": true,
+      "story.trigger.TRIG_CH01_MID_A": true,
+      "story.trigger.TRIG_CH01_MID_B": true,
+      "story.trigger.TRIG_CH01_MID_C": true,
+      "story.trigger.TRIG_CH01_OUTRO": true,
+      "story.trigger.TRIG_CH01_PREBOSS": true,
+      "story.trigger.TRIG_CH02_HARD_INTRO": true,
+      "story.trigger.TRIG_CH02_INTRO": true,
+      "story.trigger.TRIG_CH02_MID_A": true,
+      "story.trigger.TRIG_CH02_MID_B": true,
+      "story.trigger.TRIG_CH02_OUTRO": true,
+      "story.trigger.TRIG_CH02_PREBOSS": true,
+      "story.trigger.TRIG_CH03_INTRO": true,
+      "story.trigger.TRIG_CH03_MID_A": true,
+      "story.trigger.TRIG_CH03_MID_B": true,
+      "story.trigger.TRIG_CH03_OUTRO": true,
+      "story.trigger.TRIG_CH03_PREBOSS": true,
+      "story.trigger.TRIG_CH04_INTRO": true,
+      "story.trigger.TRIG_CH04_MID_A": true,
+      "story.trigger.TRIG_CH04_MID_B": true,
+      "story.trigger.TRIG_CH04_OUTRO": true,
+      "story.trigger.TRIG_CH04_PREBOSS": true,
+      "story.trigger.TRIG_CH05_INTRO": true,
+      "story.trigger.TRIG_CH05_MID_A": true,
+      "story.trigger.TRIG_CH05_MID_B": true,
+      "story.trigger.TRIG_CH05_OUTRO": true,
+      "story.trigger.TRIG_CH05_PREBOSS": true,
+      "story.trigger.TRIG_CH06_INTRO": true,
+      "story.trigger.TRIG_CH06_MID_A": true,
+      "story.trigger.TRIG_CH06_MID_B": true,
+      "story.trigger.TRIG_CH06_OUTRO": true,
+      "story.trigger.TRIG_CH06_PREBOSS": true,
+      "story.trigger.TRIG_CH07_INTRO": true,
+      "story.trigger.TRIG_CH07_MID_A": true,
+      "story.trigger.TRIG_CH07_MID_B": true,
+      "story.trigger.TRIG_CH07_OUTRO": true,
+      "story.trigger.TRIG_CH07_PREBOSS": true,
+      "story.trigger.TRIG_CH08_INTRO": true,
+      "story.trigger.TRIG_CH08_MID_A": true,
+      "story.trigger.TRIG_CH08_MID_B": true,
+      "story.trigger.TRIG_CH08_OUTRO": true,
+      "story.trigger.TRIG_CH08_PREBOSS": true,
+      "story.trigger.TRIG_CH09_INTRO": true,
+      "story.trigger.TRIG_CH09_MID_A": true,
+      "story.trigger.TRIG_CH09_MID_B": true,
+      "story.trigger.TRIG_CH09_OUTRO": true,
+      "story.trigger.TRIG_CH09_PREBOSS": true,
+      "story.trigger.TRIG_CH10_INTRO": true,
+      "story.trigger.TRIG_CH10_MID_A": true,
+      "story.trigger.TRIG_CH10_MID_B": true,
+      "story.trigger.TRIG_CH10_OUTRO": true,
+      "story.trigger.TRIG_CH10_PREBOSS": true,
+      "story.trigger.TRIG_CH11_INTRO": true,
+      "story.trigger.TRIG_CH11_MID_A": true,
+      "story.trigger.TRIG_CH11_MID_B": true,
+      "story.trigger.TRIG_CH11_OUTRO": true,
+      "story.trigger.TRIG_CH11_PREBOSS": true,
+      "story.trigger.TRIG_CH12_INTRO": true,
+      "story.trigger.TRIG_CH12_MID_A": true,
+      "story.trigger.TRIG_CH12_MID_B": true,
+      "story.trigger.TRIG_CH12_OUTRO": true,
+      "story.trigger.TRIG_CH12_PREBOSS": true,
+      "story.trigger.TRIG_CH13_INTRO": true,
+      "story.trigger.TRIG_CH13_MID_A": true,
+      "story.trigger.TRIG_CH13_MID_B": true,
+      "story.trigger.TRIG_CH13_OUTRO": true,
+      "story.trigger.TRIG_CH13_PREBOSS": true,
+      "story.trigger.TRIG_CH14_INTRO": true,
+      "story.trigger.TRIG_CH14_MID_A": true,
+      "story.trigger.TRIG_CH14_MID_B": true,
+      "story.trigger.TRIG_CH14_OUTRO": true,
+      "story.trigger.TRIG_CH14_PREBOSS": true,
+      "story.trigger.TRIG_CH15_INTRO": true,
+      "story.trigger.TRIG_CH15_MID_A": true,
+      "story.trigger.TRIG_CH15_MID_B": true,
+      "story.trigger.TRIG_CH15_OUTRO": true,
+      "story.trigger.TRIG_CH15_PREBOSS": true,
+      "story.trigger.TRIG_CH16_INTRO": true,
+      "story.trigger.TRIG_CH16_MID_A": true,
+      "story.trigger.TRIG_CH16_MID_B": true,
+      "story.trigger.TRIG_CH16_OUTRO": true,
+      "story.trigger.TRIG_CH16_PREBOSS": true,
+      "story.trigger.TRIG_CH17_INTRO": true,
+      "story.trigger.TRIG_CH17_MID_A": true,
+      "story.trigger.TRIG_CH17_MID_B": true,
+      "story.trigger.TRIG_CH17_OUTRO": true,
+      "story.trigger.TRIG_CH17_PREBOSS": true,
+      "story.trigger.TRIG_CH18_INTRO": true,
+      "story.trigger.TRIG_CH18_MID_A": true,
+      "story.trigger.TRIG_CH18_MID_B": true,
+      "story.trigger.TRIG_CH18_OUTRO": true,
+      "story.trigger.TRIG_CH18_PREBOSS": true,
+      "story.trigger.TRIG_CH19_INTRO": true,
+      "story.trigger.TRIG_CH19_MID_A": true,
+      "story.trigger.TRIG_CH19_MID_B": true,
+      "story.trigger.TRIG_CH19_OUTRO": true,
+      "story.trigger.TRIG_CH19_PREBOSS": true,
+      "story.trigger.TRIG_CH20_INTRO": true,
+      "story.trigger.TRIG_CH20_MID_A": true,
+      "story.trigger.TRIG_CH20_MID_B": true,
+      "story.trigger.TRIG_CH20_OUTRO": true,
+      "story.trigger.TRIG_CH20_PREBOSS": true
+    }
+  },
+  "sandbox": {
+    "production_backup_attempt_count": 0,
+    "production_path_resolve_count": 0,
+    "production_read_attempt_count": 0,
+    "production_reset_attempt_count": 0,
+    "production_write_attempt_count": 0,
+    "sandbox_active": true,
+    "sandbox_path_resolve_count": 2,
+    "sandbox_session": "sfx-stage-continuity"
+  },
+  "scenario": "SCN_PROLOGUE",
+  "screen": "STAGE_SELECT",
+  "scrolls": [],
+  "stage": "CH01-N01",
+  "story_shards": 0,
+  "transition_loading": {
+    "active": true,
+    "kind": "MAP_ENTRY"
+  }
+}

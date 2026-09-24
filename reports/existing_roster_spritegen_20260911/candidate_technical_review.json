@@ -1,0 +1,628 @@
+{
+  "status": "VISUAL_REVIEW_REQUIRED",
+  "count": 21,
+  "technical_pass": 21,
+  "sheets": [
+    "reports/existing_roster_spritegen_20260911/candidate_sheet_01.jpg",
+    "reports/existing_roster_spritegen_20260911/candidate_sheet_02.jpg"
+  ],
+  "assets": [
+    {
+      "entity_id": "BOSS001",
+      "path": "work/existing_roster_spritegen_20260911/normalized/BOSS001/source.png",
+      "sha256": "c6da694fa304ef1f894fe161fc94e6e5c58d19bb5757dd682a2bb084540e9cfa",
+      "size": [
+        1382,
+        1382
+      ],
+      "bounds": [
+        79,
+        119,
+        1286,
+        1182
+      ],
+      "visible_percent": 34.958,
+      "green_body_percent": 0.0333,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "BOSS002",
+      "path": "work/existing_roster_spritegen_20260911/normalized/BOSS002/source.png",
+      "sha256": "e7664f3f63fe7e276c657dcf764add2ea57e50376e6c034c1aab9b91bd911ad9",
+      "size": [
+        1664,
+        1152
+      ],
+      "bounds": [
+        78,
+        71,
+        1587,
+        1077
+      ],
+      "visible_percent": 41.196,
+      "green_body_percent": 0.0,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "BOSS003",
+      "path": "work/existing_roster_spritegen_20260911/normalized/BOSS003/source.png",
+      "sha256": "577ddd792053d5e79979562260c53e900313599b8ce656d6dfe3196354b55a1b",
+      "size": [
+        1440,
+        1327
+      ],
+      "bounds": [
+        64,
+        64,
+        1376,
+        1263
+      ],
+      "visible_percent": 46.615,
+      "green_body_percent": 11.3327,
+      "reviewed_material": {
+        "source_sha256": "577ddd792053d5e79979562260c53e900313599b8ce656d6dfe3196354b55a1b",
+        "status": "INTENDED_MATERIAL_COLOR_VISUAL_PASS",
+        "reason": "Reference-authorized green energy rings/glass medicine, opaque body intact after narrow key; exterior and structural gaps clean on light/dark inspection."
+      },
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "CHR001",
+      "path": "work/existing_roster_spritegen_20260911/normalized/CHR001/source.png",
+      "sha256": "060de47013e893fcac2245d0354d755971ad6b399c6afa8d1df4594aa6c960a9",
+      "size": [
+        1382,
+        1382
+      ],
+      "bounds": [
+        242,
+        144,
+        1145,
+        1225
+      ],
+      "visible_percent": 29.499,
+      "green_body_percent": 0.0011,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "CHR002",
+      "path": "work/existing_roster_spritegen_20260911/normalized/CHR002/source.png",
+      "sha256": "335d681c53d1b4ec2e838d07c3033464d8a98b403e7e3188ca3e4ff4c0c6af90",
+      "size": [
+        1382,
+        1382
+      ],
+      "bounds": [
+        129,
+        208,
+        1268,
+        1209
+      ],
+      "visible_percent": 24.099,
+      "green_body_percent": 0.0,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "CHR003",
+      "path": "work/existing_roster_spritegen_20260911/normalized/CHR003/source.png",
+      "sha256": "bbd9a769ca63cd48ed2dcf7b5ad4a388220b28d3a1b3d43e0febb2782d0f35f9",
+      "size": [
+        1382,
+        1382
+      ],
+      "bounds": [
+        154,
+        101,
+        1244,
+        1239
+      ],
+      "visible_percent": 25.339,
+      "green_body_percent": 0.0,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "CHR004",
+      "path": "work/existing_roster_spritegen_20260911/normalized/CHR004/source.png",
+      "sha256": "7f3036737bbde2472e24b2fb776ca387b3014bf0d2b579573e06cd77ae76f708",
+      "size": [
+        1382,
+        1382
+      ],
+      "bounds": [
+        158,
+        147,
+        1259,
+        1241
+      ],
+      "visible_percent": 25.299,
+      "green_body_percent": 0.0,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "CHR005",
+      "path": "work/existing_roster_spritegen_20260911/normalized/CHR005/source.png",
+      "sha256": "a31b257d25833ce2303f2f89e4f928e4e637abf8faeb17799ebc91fdb126a10e",
+      "size": [
+        1382,
+        1382
+      ],
+      "bounds": [
+        150,
+        151,
+        1230,
+        1186
+      ],
+      "visible_percent": 25.637,
+      "green_body_percent": 0.7693,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "CHR006",
+      "path": "work/existing_roster_spritegen_20260911/normalized/CHR006/source.png",
+      "sha256": "9998df885d804863cb99a73cfa85bce2b13ef32da0c4f617882d26c9487c91fd",
+      "size": [
+        1382,
+        1382
+      ],
+      "bounds": [
+        138,
+        155,
+        1206,
+        1200
+      ],
+      "visible_percent": 31.164,
+      "green_body_percent": 0.0163,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "CHR007",
+      "path": "work/existing_roster_spritegen_20260911/normalized/CHR007/source.png",
+      "sha256": "f7fdea7d46027e15cacd80c01cf57404c1fc814e30db7d1bcfd2035761f589b5",
+      "size": [
+        1382,
+        1382
+      ],
+      "bounds": [
+        136,
+        231,
+        1278,
+        1227
+      ],
+      "visible_percent": 29.196,
+      "green_body_percent": 0.0,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "CHR008",
+      "path": "work/existing_roster_spritegen_20260911/normalized/CHR008/source.png",
+      "sha256": "830313c34956e486dadf4c1c6e3342022875ffb92f006269c909abad9fdbe5a4",
+      "size": [
+        1382,
+        1382
+      ],
+      "bounds": [
+        196,
+        165,
+        1187,
+        1268
+      ],
+      "visible_percent": 30.484,
+      "green_body_percent": 0.0,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "ENM001",
+      "path": "work/existing_roster_spritegen_20260911/normalized/ENM001/source.png",
+      "sha256": "20039c7d93cba314768898ac9f34f997c9287b2aa9ed861e1b9dab8162d892e1",
+      "size": [
+        1382,
+        1382
+      ],
+      "bounds": [
+        86,
+        191,
+        1301,
+        1189
+      ],
+      "visible_percent": 29.975,
+      "green_body_percent": 0.0,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "ENM002",
+      "path": "work/existing_roster_spritegen_20260911/normalized/ENM002/source.png",
+      "sha256": "88e15eda952308953165f6cf24def6b6eb48452cf289c1697308527df312819b",
+      "size": [
+        1382,
+        1382
+      ],
+      "bounds": [
+        93,
+        310,
+        1301,
+        1072
+      ],
+      "visible_percent": 19.509,
+      "green_body_percent": 0.0,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "ENM003",
+      "path": "work/existing_roster_spritegen_20260911/normalized/ENM003/source.png",
+      "sha256": "76c49f2c0c43196c47e824650e88d583476e71cc64345b33b94c99beb0a533f0",
+      "size": [
+        1287,
+        1486
+      ],
+      "bounds": [
+        75,
+        80,
+        1208,
+        1276
+      ],
+      "visible_percent": 33.559,
+      "green_body_percent": 0.0748,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "ENM004",
+      "path": "work/existing_roster_spritegen_20260911/normalized/ENM004/source.png",
+      "sha256": "38878bb3997192cbc42f79ed7e9068f0998c68380beb07ec50e1bb7c48522b17",
+      "size": [
+        1664,
+        1152
+      ],
+      "bounds": [
+        64,
+        64,
+        1600,
+        1088
+      ],
+      "visible_percent": 29.842,
+      "green_body_percent": 15.9253,
+      "reviewed_material": {
+        "source_sha256": "38878bb3997192cbc42f79ed7e9068f0998c68380beb07ec50e1bb7c48522b17",
+        "status": "INTENDED_MATERIAL_COLOR_VISUAL_PASS",
+        "reason": "Reference-authorized green energy rings/glass medicine, opaque body intact after narrow key; exterior and structural gaps clean on light/dark inspection."
+      },
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "ENM005",
+      "path": "work/existing_roster_spritegen_20260911/normalized/ENM005/source.png",
+      "sha256": "6e5c84c0876b801b356d992da45208f52af737e0afd880436b66e48f3eabbb13",
+      "size": [
+        1287,
+        1485
+      ],
+      "bounds": [
+        127,
+        78,
+        1212,
+        1352
+      ],
+      "visible_percent": 28.916,
+      "green_body_percent": 0.0123,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "ENM006",
+      "path": "work/existing_roster_spritegen_20260911/normalized/ENM006/source.png",
+      "sha256": "48483d8a0a8c65832d49a21fe393815a07dd837b4707b8b6502178568b418cce",
+      "size": [
+        1664,
+        1152
+      ],
+      "bounds": [
+        102,
+        76,
+        1517,
+        1068
+      ],
+      "visible_percent": 28.805,
+      "green_body_percent": 0.0,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "ENM007",
+      "path": "work/existing_roster_spritegen_20260911/normalized/ENM007/source.png",
+      "sha256": "5debeb4903547f2c390f5bcf0c478ec12a9b025987517410983e15c2e03d3780",
+      "size": [
+        1382,
+        1382
+      ],
+      "bounds": [
+        145,
+        84,
+        1252,
+        1255
+      ],
+      "visible_percent": 28.197,
+      "green_body_percent": 0.319,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "ENM008",
+      "path": "work/existing_roster_spritegen_20260911/normalized/ENM008/source.png",
+      "sha256": "4982d65d04750835db559c5ce3462cf4b66ee7447238c543ab07f2580b5b2e33",
+      "size": [
+        1152,
+        1664
+      ],
+      "bounds": [
+        104,
+        81,
+        1046,
+        1569
+      ],
+      "visible_percent": 26.976,
+      "green_body_percent": 0.0,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "ENM009",
+      "path": "work/existing_roster_spritegen_20260911/normalized/ENM009/source.png",
+      "sha256": "88f86d37dde448fb3e12698a79f9dcf67ebbd2f77c327f8a01ed1301e74d8356",
+      "size": [
+        1664,
+        1152
+      ],
+      "bounds": [
+        76,
+        75,
+        1587,
+        1075
+      ],
+      "visible_percent": 46.116,
+      "green_body_percent": 0.0,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    },
+    {
+      "entity_id": "ENM010",
+      "path": "work/existing_roster_spritegen_20260911/normalized/ENM010/source.png",
+      "sha256": "203c4c4c982aa2b0f069143fc90962378d4646fa808cd3b3262af55135ae3243",
+      "size": [
+        1382,
+        1382
+      ],
+      "bounds": [
+        92,
+        133,
+        1292,
+        1252
+      ],
+      "visible_percent": 26.439,
+      "green_body_percent": 0.1028,
+      "reviewed_material": {},
+      "checks": {
+        "rgba": true,
+        "source_resolution": true,
+        "alpha_range": true,
+        "clean_transparent_rgb": true,
+        "fully_framed": true,
+        "subject_coverage": true,
+        "no_opaque_green_background": true
+      },
+      "technical_status": "PASS",
+      "visual_status": "REVIEW_REQUIRED"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "status": "LOCAL_VALIDATION_PASSED",
+  "build": "builds/web_gameplay_qa_20260908_continuity51_development",
+  "pck_sha256": "c32e17aab44c7d3d27603a659913e0b5b9bca0e2b0e4dd970095bef8f5171f9b",
+  "checks": {
+    "campaign_story_and_routes": 781,
+    "general": 293,
+    "map": 354,
+    "regions_and_cache": 197,
+    "browser_story_reload": 15
+  },
+  "coverage": {
+    "chapters": 20,
+    "scenarios": 102,
+    "physical_main_route_connections": 220,
+    "optional_story_fallbacks": 4
+  },
+  "browser_runs": [
+    {
+      "chapter": 1,
+      "scenes": [
+        "SCN_CH01_MID_A",
+        "SCN_CH01_MID_B",
+        "SCN_CH01_MID_C"
+      ],
+      "reward_shards": 15,
+      "restored_shards": 15
+    },
+    {
+      "chapter": 2,
+      "scenes": [
+        "SCN_CH02_MID_A"
+      ],
+      "reward_shards": 5,
+      "restored_shards": 5
+    }
+  ],
+  "deployment": false,
+  "scope": "Existing 20-chapter campaign continuity and branch unlocking; no Chapter 21 or new scenario authored; no claim of full physical-device balance playthrough."
+}

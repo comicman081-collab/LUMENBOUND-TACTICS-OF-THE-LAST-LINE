@@ -109,6 +109,8 @@ static func _breakthrough_candidate(character_id: String, state: Dictionary, inv
 	return {}
 
 static func _skill_candidate(character_id: String, state: Dictionary, slot: String, inventory: Dictionary) -> Dictionary:
+	if not SkillUpgradeService.supports_upgrade(character_id, slot):
+		return {}
 	var current := int(state.get("skills", {}).get(slot, 1))
 	var maximum := 5 if slot == "ultimate" else 10
 	if current >= maximum:

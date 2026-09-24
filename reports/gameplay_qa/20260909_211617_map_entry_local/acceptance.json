@@ -1,0 +1,33 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "local QA bridge is ready"
+    },
+    {
+      "pass": true,
+      "name": "first map stays behind the dedicated loading surface"
+    },
+    {
+      "pass": true,
+      "name": "first CH01 map becomes ready"
+    },
+    {
+      "pass": true,
+      "name": "ready map includes natural terrain"
+    },
+    {
+      "pass": true,
+      "name": "ready map keeps its faint full-map grid"
+    },
+    {
+      "pass": false,
+      "name": "untouched first operation starts with three movement points"
+    },
+    {
+      "pass": false,
+      "name": "Error: untouched first operation starts with three movement points"
+    }
+  ],
+  "scope": "Local 1280x720 Chrome first-map fixture. No deployed files, real user save, or game balance data are modified."
+}

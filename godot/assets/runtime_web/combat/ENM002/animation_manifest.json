@@ -2,14 +2,17 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_enm002",
   "character_id": "ENM002",
-  "status": "RUNTIME_WEB_COMBAT_ATLAS",
-  "source_status": "DEV_CUTOUT_RIG_ANIMATION",
-  "source_root": "assets/generated_import/enemies/sd_enm002_arc_mote_combat_r28_dev",
-  "source_asset_id": "sd_enm002_arc_mote_combat_r28_dev",
-  "ownership_status": "PROJECT_DEV_GENERATED",
+  "display_name": "ENM002",
+  "status": "LOCAL_REVIEWED_SD_ROSTER",
+  "source_status": "SPRITEGEN_ROSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/roster_replacements_20260911/ENM002/source.png",
+  "source_asset_id": "enm002_spritegen_88e15eda95230895",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+  "ownership_status": "ORIGINAL_INTERNAL",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
-    128,
-    128
+    112,
+    112
   ],
   "foot_anchor": [
     0.5,
@@ -17,13 +20,13 @@
   ],
   "head_anchor": [
     0.5,
-    0.3828125
+    0.14
   ],
   "view": "THREE_QUARTER_LEFT_DOWN_30",
-  "facing_policy": "SEPARATE_LEFT_RIGHT",
+  "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "7cc0f2eab011e2a4aea40857d0cc92772f6f89c0d5d4e6e02079fd00d6989380",
+  "preview_sha256": "955cc49c139193034552a72055565a9c83efd859f1f178df1c0d04bc36554861",
   "atlas_columns": 10,
   "total_frames": 80,
   "animations": {
@@ -196,5 +199,19 @@
       ]
     }
   },
-  "sha256": "111e1689cdf88f0de551547ee776636c9e72fc800d93ac2da222f903cf75635c"
+  "events": {
+    "basic_attack": {
+      "projectile_spawn_frame": 3,
+      "damage_frame": 4
+    },
+    "normal_skill": {
+      "vfx_frame": 5,
+      "damage_frame": 6
+    },
+    "ultimate": {
+      "vfx_frame": 8,
+      "damage_frame": 10
+    }
+  },
+  "sha256": "87a2a0cc48874283279cecf8faf477a1807b3dbcd8658f109d4ec8b00f113747"
 }

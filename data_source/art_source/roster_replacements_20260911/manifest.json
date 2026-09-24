@@ -1,0 +1,3645 @@
+{
+  "status": "LOCAL_VISUAL_REVIEW_PASS",
+  "count": 21,
+  "assets": [
+    {
+      "entity_id": "BOSS001",
+      "name": "BOSS001",
+      "file": "BOSS001/source.png",
+      "sha256": "c6da694fa304ef1f894fe161fc94e6e5c58d19bb5757dd682a2bb084540e9cfa",
+      "green_master": "BOSS001/green_master.png",
+      "green_master_sha256": "7a544715ef705d383445d710c4cd3daa9dcee408fd4129c171b9e8d38cc3dc7a",
+      "review": "PASS",
+      "costume_review": "NOT_APPLICABLE",
+      "reference": "godot/assets/art/bosses/BOSS001/idle/idle_00.png",
+      "reference_sha256": "ac5c2aa1830c18a067b830873a3447de03dbfc2b96b44da5b8c284f1b987776e",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "events": []
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "events": []
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ],
+          "events": []
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "events": []
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ],
+          "events": []
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ],
+          "events": []
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ],
+          "events": []
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ],
+          "events": []
+        },
+        "stun": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            80,
+            81,
+            82,
+            83
+          ],
+          "events": []
+        }
+      },
+      "events": {},
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "BOSS002",
+      "name": "BOSS002",
+      "file": "BOSS002/source.png",
+      "sha256": "e7664f3f63fe7e276c657dcf764add2ea57e50376e6c034c1aab9b91bd911ad9",
+      "green_master": "BOSS002/green_master.png",
+      "green_master_sha256": "0a6c830c31b2c2e2113d79d3216926598d950e056d20c108c9854b83f282eb85",
+      "review": "PASS",
+      "costume_review": "NOT_APPLICABLE",
+      "reference": "data_source/art_source/imagegen_enemy_sources/BOSS002_night_bell_engine_source.png",
+      "reference_sha256": "da2b9e6eace75d8777eea5d4fedcabaec5fed83d34c00cbc50d7dc453a0d2ebe",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ]
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ]
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ]
+        },
+        "stun": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            80,
+            81,
+            82,
+            83
+          ]
+        }
+      },
+      "events": {
+        "basic_attack": {
+          "projectile_spawn_frame": 3,
+          "damage_frame": 4
+        },
+        "normal_skill": {
+          "vfx_frame": 5,
+          "damage_frame": 6
+        },
+        "ultimate": {
+          "vfx_frame": 8,
+          "damage_frame": 10
+        }
+      },
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "BOSS003",
+      "name": "BOSS003",
+      "file": "BOSS003/source.png",
+      "sha256": "577ddd792053d5e79979562260c53e900313599b8ce656d6dfe3196354b55a1b",
+      "green_master": "BOSS003/green_master.png",
+      "green_master_sha256": "23766a1d88ae538dfa865662d41fbf7f255acc516c348ef6749f54a4b9392261",
+      "review": "PASS",
+      "costume_review": "NOT_APPLICABLE",
+      "reference": "data_source/art_source/combat_hd_sources/boss003_silhouette_b_authority.png",
+      "reference_sha256": "1d6155e5ada551bf358ec1d4460016eafe363a14a87f62952949533f72e7a73b",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ]
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ]
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ]
+        },
+        "stun": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            80,
+            81,
+            82,
+            83
+          ]
+        }
+      },
+      "events": {
+        "basic_attack": {
+          "projectile_spawn_frame": 3,
+          "damage_frame": 4
+        },
+        "normal_skill": {
+          "vfx_frame": 5,
+          "damage_frame": 6
+        },
+        "ultimate": {
+          "vfx_frame": 8,
+          "damage_frame": 10
+        }
+      },
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "CHR001",
+      "name": "CHR001",
+      "file": "CHR001/source.png",
+      "sha256": "060de47013e893fcac2245d0354d755971ad6b399c6afa8d1df4594aa6c960a9",
+      "green_master": "CHR001/green_master.png",
+      "green_master_sha256": "c8f730738d49c31dfd21e295d2b4f03ca8ac59578ef6f7b717b15d6a59c90399",
+      "review": "PASS",
+      "costume_review": "COSTUME_CONTINUITY_PASS",
+      "reference": "godot/assets/art/sd/CHR001/idle/idle_000.png",
+      "reference_sha256": "ea6a70c2b3d90adf49dc1a8c59391c7fe33a5f24f7950f37b488850d9e8b72b2",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "events": []
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "events": []
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ],
+          "events": [
+            {
+              "frame": 4,
+              "event": "DAMAGE_FRAME"
+            }
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "events": [
+            {
+              "frame": 7,
+              "event": "VFX_FRAME"
+            },
+            {
+              "frame": 7,
+              "event": "DAMAGE_FRAME"
+            }
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ],
+          "events": [
+            {
+              "frame": 5,
+              "event": "VFX_FRAME"
+            },
+            {
+              "frame": 11,
+              "event": "DAMAGE_FRAME"
+            },
+            {
+              "frame": 11,
+              "event": "SFX_FRAME"
+            }
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ],
+          "events": []
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ],
+          "events": []
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ],
+          "events": [
+            {
+              "frame": 9,
+              "event": "ANIMATION_END"
+            }
+          ]
+        }
+      },
+      "events": {},
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "CHR002",
+      "name": "CHR002",
+      "file": "CHR002/source.png",
+      "sha256": "335d681c53d1b4ec2e838d07c3033464d8a98b403e7e3188ca3e4ff4c0c6af90",
+      "green_master": "CHR002/green_master.png",
+      "green_master_sha256": "39cbabefebe165a11159659d004adfef44d40271ab79b7f7810d7631d58f03c7",
+      "review": "PASS",
+      "costume_review": "COSTUME_CONTINUITY_PASS",
+      "reference": "godot/assets/generated_import/enclosed_matte_repair/r1/CHR002/idle/idle_000.png",
+      "reference_sha256": "35e3fad3188ea22ff06aa36e63aba89346345d5d891d20d55b7b5f938d586826",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "events": []
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "events": []
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ],
+          "events": [
+            {
+              "frame": 4,
+              "event": "DAMAGE_FRAME"
+            }
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "events": [
+            {
+              "frame": 7,
+              "event": "VFX_FRAME"
+            },
+            {
+              "frame": 7,
+              "event": "DAMAGE_FRAME"
+            }
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ],
+          "events": [
+            {
+              "frame": 5,
+              "event": "VFX_FRAME"
+            },
+            {
+              "frame": 11,
+              "event": "DAMAGE_FRAME"
+            },
+            {
+              "frame": 11,
+              "event": "SFX_FRAME"
+            }
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ],
+          "events": []
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ],
+          "events": []
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ],
+          "events": [
+            {
+              "frame": 9,
+              "event": "ANIMATION_END"
+            }
+          ]
+        }
+      },
+      "events": {},
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "CHR003",
+      "name": "CHR003",
+      "file": "CHR003/source.png",
+      "sha256": "bbd9a769ca63cd48ed2dcf7b5ad4a388220b28d3a1b3d43e0febb2782d0f35f9",
+      "green_master": "CHR003/green_master.png",
+      "green_master_sha256": "dfb5785ac600f8fe38c99f47f395592abaf6213e278e8d3ec9e1c3057fe96312",
+      "review": "PASS",
+      "costume_review": "COSTUME_CONTINUITY_PASS",
+      "reference": "godot/assets/generated_import/characters/sd_chr003_narin_combat_r27_dev/idle/idle_000.png",
+      "reference_sha256": "17bfec76c6c9eec8a10815236fd98ae1014b7b7a6f3f5c662415f72b3a9ca0a3",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "events": []
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "events": []
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ],
+          "events": [
+            {
+              "frame": 4,
+              "event": "DAMAGE_FRAME"
+            }
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "events": [
+            {
+              "frame": 7,
+              "event": "VFX_FRAME"
+            },
+            {
+              "frame": 7,
+              "event": "DAMAGE_FRAME"
+            }
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ],
+          "events": [
+            {
+              "frame": 5,
+              "event": "VFX_FRAME"
+            },
+            {
+              "frame": 11,
+              "event": "DAMAGE_FRAME"
+            },
+            {
+              "frame": 11,
+              "event": "SFX_FRAME"
+            }
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ],
+          "events": []
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ],
+          "events": []
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ],
+          "events": [
+            {
+              "frame": 9,
+              "event": "ANIMATION_END"
+            }
+          ]
+        }
+      },
+      "events": {},
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "CHR004",
+      "name": "CHR004",
+      "file": "CHR004/source.png",
+      "sha256": "7f3036737bbde2472e24b2fb776ca387b3014bf0d2b579573e06cd77ae76f708",
+      "green_master": "CHR004/green_master.png",
+      "green_master_sha256": "8c6bdc851b038006185e063c061ac94fdcfc028a241e3b219e6bd5f429a63355",
+      "review": "PASS",
+      "costume_review": "COSTUME_CONTINUITY_PASS",
+      "reference": "godot/assets/generated_import/enclosed_matte_repair/r1/CHR004/idle/idle_000.png",
+      "reference_sha256": "dcca026ec5b4f0ed4918b97b050915270e2eb24634155bd857ece618f79dc8ab",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "events": []
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "events": []
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ],
+          "events": [
+            {
+              "frame": 4,
+              "event": "DAMAGE_FRAME"
+            }
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "events": [
+            {
+              "frame": 7,
+              "event": "VFX_FRAME"
+            },
+            {
+              "frame": 7,
+              "event": "DAMAGE_FRAME"
+            }
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ],
+          "events": [
+            {
+              "frame": 5,
+              "event": "VFX_FRAME"
+            },
+            {
+              "frame": 11,
+              "event": "DAMAGE_FRAME"
+            },
+            {
+              "frame": 11,
+              "event": "SFX_FRAME"
+            }
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ],
+          "events": []
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ],
+          "events": []
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ],
+          "events": [
+            {
+              "frame": 9,
+              "event": "ANIMATION_END"
+            }
+          ]
+        }
+      },
+      "events": {},
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "CHR005",
+      "name": "CHR005",
+      "file": "CHR005/source.png",
+      "sha256": "a31b257d25833ce2303f2f89e4f928e4e637abf8faeb17799ebc91fdb126a10e",
+      "green_master": "CHR005/green_master.png",
+      "green_master_sha256": "a868a12bc3b1df5892f45535bd24fb061e7e890c7da6b77210f5b14fbe4ae810",
+      "review": "PASS",
+      "costume_review": "COSTUME_CONTINUITY_PASS",
+      "reference": "godot/assets/generated_import/characters/sd_chr005_soren_combat_r27_dev/idle/idle_000.png",
+      "reference_sha256": "25d5ee653572d656a85b06763453da969082a499fb7e27a7342e2fd8a4b2329d",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "events": []
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "events": []
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ],
+          "events": [
+            {
+              "frame": 4,
+              "event": "DAMAGE_FRAME"
+            }
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "events": [
+            {
+              "frame": 7,
+              "event": "VFX_FRAME"
+            },
+            {
+              "frame": 7,
+              "event": "DAMAGE_FRAME"
+            }
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ],
+          "events": [
+            {
+              "frame": 5,
+              "event": "VFX_FRAME"
+            },
+            {
+              "frame": 11,
+              "event": "DAMAGE_FRAME"
+            },
+            {
+              "frame": 11,
+              "event": "SFX_FRAME"
+            }
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ],
+          "events": []
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ],
+          "events": []
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ],
+          "events": [
+            {
+              "frame": 9,
+              "event": "ANIMATION_END"
+            }
+          ]
+        }
+      },
+      "events": {},
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "CHR006",
+      "name": "CHR006",
+      "file": "CHR006/source.png",
+      "sha256": "9998df885d804863cb99a73cfa85bce2b13ef32da0c4f617882d26c9487c91fd",
+      "green_master": "CHR006/green_master.png",
+      "green_master_sha256": "5dbd23ac7a7aa3b7d6ff2c85abc729988339370b9a879a3dab98b3b5b4235012",
+      "review": "PASS",
+      "costume_review": "COSTUME_CONTINUITY_PASS",
+      "reference": "data_source/art_source/combat_hd_sources/renewed/chr006_costume_authority_sd_r1_rgba.png",
+      "reference_sha256": "edfa534a08993bcf0397f31fe98408efe624df797e03ed6dc89875cd172f1cd1",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ]
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ]
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ]
+        },
+        "stun": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            80,
+            81,
+            82,
+            83
+          ]
+        }
+      },
+      "events": {
+        "basic_attack": {
+          "projectile_spawn_frame": 3,
+          "damage_frame": 4
+        },
+        "normal_skill": {
+          "vfx_frame": 5,
+          "damage_frame": 6
+        },
+        "ultimate": {
+          "vfx_frame": 8,
+          "damage_frame": 10
+        }
+      },
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "CHR007",
+      "name": "CHR007",
+      "file": "CHR007/source.png",
+      "sha256": "f7fdea7d46027e15cacd80c01cf57404c1fc814e30db7d1bcfd2035761f589b5",
+      "green_master": "CHR007/green_master.png",
+      "green_master_sha256": "d8aed1190eb14b19b9366b6a1b2356b9aea9b92739f02aa707331316f21e7bdc",
+      "review": "PASS",
+      "costume_review": "COSTUME_CONTINUITY_PASS",
+      "reference": "data_source/art_source/combat_hd_sources/renewed/chr007_costume_authority_sd_r1_rgba.png",
+      "reference_sha256": "966f7ce0457d8cbbf565c9ca74098505b3b49cf4e0fe9a5aaead58b14ad946f1",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ]
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ]
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ]
+        },
+        "stun": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            80,
+            81,
+            82,
+            83
+          ]
+        }
+      },
+      "events": {
+        "basic_attack": {
+          "projectile_spawn_frame": 3,
+          "damage_frame": 4
+        },
+        "normal_skill": {
+          "vfx_frame": 5,
+          "damage_frame": 6
+        },
+        "ultimate": {
+          "vfx_frame": 8,
+          "damage_frame": 10
+        }
+      },
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "CHR008",
+      "name": "CHR008",
+      "file": "CHR008/source.png",
+      "sha256": "830313c34956e486dadf4c1c6e3342022875ffb92f006269c909abad9fdbe5a4",
+      "green_master": "CHR008/green_master.png",
+      "green_master_sha256": "d38210590b5a4d2885e8ea127555566e8ae1acd51c54f833b016394cedb230d6",
+      "review": "PASS",
+      "costume_review": "COSTUME_CONTINUITY_PASS",
+      "reference": "data_source/art_source/combat_hd_sources/renewed/chr008_costume_authority_sd_r1_rgba.png",
+      "reference_sha256": "8dad3ec1838491194adb791b41ef71ba5c018275882f530b8f2ae2fb99239705",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ]
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ]
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ]
+        },
+        "stun": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            80,
+            81,
+            82,
+            83
+          ]
+        }
+      },
+      "events": {
+        "basic_attack": {
+          "projectile_spawn_frame": 3,
+          "damage_frame": 4
+        },
+        "normal_skill": {
+          "vfx_frame": 5,
+          "damage_frame": 6
+        },
+        "ultimate": {
+          "vfx_frame": 8,
+          "damage_frame": 10
+        }
+      },
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "ENM001",
+      "name": "ENM001",
+      "file": "ENM001/source.png",
+      "sha256": "20039c7d93cba314768898ac9f34f997c9287b2aa9ed861e1b9dab8162d892e1",
+      "green_master": "ENM001/green_master.png",
+      "green_master_sha256": "e035bf8a60bd47238ae5d44abbb8f3d655c83e311e90abd0db23678ee73018ce",
+      "review": "PASS",
+      "costume_review": "NOT_APPLICABLE",
+      "reference": "godot/assets/art/enemies/ENM001/idle/idle_00.png",
+      "reference_sha256": "0cf785628082173c0cde821e365e0eb9cccd8e09c807ec3b8d0efa39bc442e60",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "events": []
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "events": []
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ],
+          "events": []
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "events": []
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ],
+          "events": []
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ],
+          "events": []
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ],
+          "events": []
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ],
+          "events": []
+        },
+        "stun": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            80,
+            81,
+            82,
+            83
+          ],
+          "events": []
+        }
+      },
+      "events": {},
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "ENM002",
+      "name": "ENM002",
+      "file": "ENM002/source.png",
+      "sha256": "88e15eda952308953165f6cf24def6b6eb48452cf289c1697308527df312819b",
+      "green_master": "ENM002/green_master.png",
+      "green_master_sha256": "b1992b301c178d3106c5da0c3d7c33002ced6245f3a47a948fc6cb9589f7d6c7",
+      "review": "PASS",
+      "costume_review": "NOT_APPLICABLE",
+      "reference": "godot/assets/generated_import/enemies/sd_enm002_arc_mote_combat_r28_dev/idle/idle_000.png",
+      "reference_sha256": "03fd298f7a7854e132ac91c2bd114b4f959d26aa68a4037db8ff239414a2b805",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "events": []
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "events": []
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ],
+          "events": [
+            {
+              "frame": 4,
+              "event": "DAMAGE_FRAME"
+            }
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "events": [
+            {
+              "frame": 7,
+              "event": "VFX_FRAME"
+            },
+            {
+              "frame": 7,
+              "event": "DAMAGE_FRAME"
+            }
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ],
+          "events": [
+            {
+              "frame": 5,
+              "event": "VFX_FRAME"
+            },
+            {
+              "frame": 11,
+              "event": "DAMAGE_FRAME"
+            },
+            {
+              "frame": 11,
+              "event": "SFX_FRAME"
+            }
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ],
+          "events": []
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ],
+          "events": []
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ],
+          "events": [
+            {
+              "frame": 9,
+              "event": "ANIMATION_END"
+            }
+          ]
+        }
+      },
+      "events": {},
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "ENM003",
+      "name": "ENM003",
+      "file": "ENM003/source.png",
+      "sha256": "76c49f2c0c43196c47e824650e88d583476e71cc64345b33b94c99beb0a533f0",
+      "green_master": "ENM003/green_master.png",
+      "green_master_sha256": "9193469625f24f58abaa542acfe61345079787e7b0a4f97cb79f009e0aa45b81",
+      "review": "PASS",
+      "costume_review": "NOT_APPLICABLE",
+      "reference": "data_source/art_source/imagegen_enemy_sources/ENM003_shell_relay_source.png",
+      "reference_sha256": "ba9ffc014888af30de36cc1f2ecec37c88bff3ef6a67d4c9034c54194ceb0c73",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ]
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ]
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ]
+        },
+        "stun": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            80,
+            81,
+            82,
+            83
+          ]
+        }
+      },
+      "events": {
+        "basic_attack": {
+          "projectile_spawn_frame": 3,
+          "damage_frame": 4
+        },
+        "normal_skill": {
+          "vfx_frame": 5,
+          "damage_frame": 6
+        },
+        "ultimate": {
+          "vfx_frame": 8,
+          "damage_frame": 10
+        }
+      },
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "ENM004",
+      "name": "ENM004",
+      "file": "ENM004/source.png",
+      "sha256": "38878bb3997192cbc42f79ed7e9068f0998c68380beb07ec50e1bb7c48522b17",
+      "green_master": "ENM004/green_master.png",
+      "green_master_sha256": "b994718eb1247d990f1ff7d9c4c734bceb935e7bc45e2a46dd33cd93cbdc2d3b",
+      "review": "PASS",
+      "costume_review": "NOT_APPLICABLE",
+      "reference": "data_source/art_source/imagegen_enemy_sources/ENM004_mend_echo_source.png",
+      "reference_sha256": "5117ca064efaab18dce66c4a40f888db10f05a3ebff4bb4ff63e89e3765ea67e",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ]
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ]
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ]
+        },
+        "stun": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            80,
+            81,
+            82,
+            83
+          ]
+        }
+      },
+      "events": {
+        "basic_attack": {
+          "projectile_spawn_frame": 3,
+          "damage_frame": 4
+        },
+        "normal_skill": {
+          "vfx_frame": 5,
+          "damage_frame": 6
+        },
+        "ultimate": {
+          "vfx_frame": 8,
+          "damage_frame": 10
+        }
+      },
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "ENM005",
+      "name": "ENM005",
+      "file": "ENM005/source.png",
+      "sha256": "6e5c84c0876b801b356d992da45208f52af737e0afd880436b66e48f3eabbb13",
+      "green_master": "ENM005/green_master.png",
+      "green_master_sha256": "7d584094f2e1913d0b5201532cc22888c0de8412690107da69b13440d8002b12",
+      "review": "PASS",
+      "costume_review": "NOT_APPLICABLE",
+      "reference": "data_source/art_source/imagegen_enemy_sources/ENM005_signal_jammer_source.png",
+      "reference_sha256": "b55fa4fc59bdbe7df601f289cabc44cbee10d9f423e94f41e7f34504870fec78",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ]
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ]
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ]
+        },
+        "stun": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            80,
+            81,
+            82,
+            83
+          ]
+        }
+      },
+      "events": {
+        "basic_attack": {
+          "projectile_spawn_frame": 3,
+          "damage_frame": 4
+        },
+        "normal_skill": {
+          "vfx_frame": 5,
+          "damage_frame": 6
+        },
+        "ultimate": {
+          "vfx_frame": 8,
+          "damage_frame": 10
+        }
+      },
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "ENM006",
+      "name": "ENM006",
+      "file": "ENM006/source.png",
+      "sha256": "48483d8a0a8c65832d49a21fe393815a07dd837b4707b8b6502178568b418cce",
+      "green_master": "ENM006/green_master.png",
+      "green_master_sha256": "0e5d91fdc326c77a9c7ad0afa00a6a62cbe998d05d252c099a890923d7bbe487",
+      "review": "PASS",
+      "costume_review": "NOT_APPLICABLE",
+      "reference": "data_source/art_source/imagegen_enemy_sources/ENM006_dust_lens_source.png",
+      "reference_sha256": "eb4b2287d69482f1554de65754c000a78577b243c998b54f631bf6efc33e5607",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ]
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ]
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ]
+        },
+        "stun": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            80,
+            81,
+            82,
+            83
+          ]
+        }
+      },
+      "events": {
+        "basic_attack": {
+          "projectile_spawn_frame": 3,
+          "damage_frame": 4
+        },
+        "normal_skill": {
+          "vfx_frame": 5,
+          "damage_frame": 6
+        },
+        "ultimate": {
+          "vfx_frame": 8,
+          "damage_frame": 10
+        }
+      },
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "ENM007",
+      "name": "ENM007",
+      "file": "ENM007/source.png",
+      "sha256": "5debeb4903547f2c390f5bcf0c478ec12a9b025987517410983e15c2e03d3780",
+      "green_master": "ENM007/green_master.png",
+      "green_master_sha256": "0ffeab6cb869486303d6339a163679fd81c2c46b66e677444311f46ba6f88172",
+      "review": "PASS",
+      "costume_review": "NOT_APPLICABLE",
+      "reference": "godot/assets/art/enemies/ENM007/idle/idle_00.png",
+      "reference_sha256": "797004570d2121a62afec6b5b8f25ffaa40042590e002cbf567cb7237288c35a",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "events": []
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "events": []
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ],
+          "events": []
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "events": []
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ],
+          "events": []
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ],
+          "events": []
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ],
+          "events": []
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ],
+          "events": []
+        },
+        "stun": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            80,
+            81,
+            82,
+            83
+          ],
+          "events": []
+        }
+      },
+      "events": {},
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "ENM008",
+      "name": "ENM008",
+      "file": "ENM008/source.png",
+      "sha256": "4982d65d04750835db559c5ce3462cf4b66ee7447238c543ab07f2580b5b2e33",
+      "green_master": "ENM008/green_master.png",
+      "green_master_sha256": "63956de2cefa9319daa4affda0d538e4eb7423800ce40a8efa36af26b91fa92c",
+      "review": "PASS",
+      "costume_review": "NOT_APPLICABLE",
+      "reference": "data_source/art_source/imagegen_enemy_sources/ENM008_broadcast_pylon_source.png",
+      "reference_sha256": "c0557a6cfd503b4b0748b0927cf91f2b546ea6b484c40dfcda9a54e22de8722d",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ]
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ]
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ]
+        },
+        "stun": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            80,
+            81,
+            82,
+            83
+          ]
+        }
+      },
+      "events": {
+        "basic_attack": {
+          "projectile_spawn_frame": 3,
+          "damage_frame": 4
+        },
+        "normal_skill": {
+          "vfx_frame": 5,
+          "damage_frame": 6
+        },
+        "ultimate": {
+          "vfx_frame": 8,
+          "damage_frame": 10
+        }
+      },
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "ENM009",
+      "name": "ENM009",
+      "file": "ENM009/source.png",
+      "sha256": "88f86d37dde448fb3e12698a79f9dcf67ebbd2f77c327f8a01ed1301e74d8356",
+      "green_master": "ENM009/green_master.png",
+      "green_master_sha256": "bfeb558008eac32381ebfd48a3dda1af5b90940fdbf19e87470cf51d4998baa4",
+      "review": "PASS",
+      "costume_review": "NOT_APPLICABLE",
+      "reference": "data_source/art_source/imagegen_enemy_sources/ENM009_fortress_turtle_source.png",
+      "reference_sha256": "b1a2299e4ed33658a7b3544bb16f71a95b6c78065d53373bf0134f2514880ccd",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ]
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ]
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ]
+        },
+        "stun": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            80,
+            81,
+            82,
+            83
+          ]
+        }
+      },
+      "events": {
+        "basic_attack": {
+          "projectile_spawn_frame": 3,
+          "damage_frame": 4
+        },
+        "normal_skill": {
+          "vfx_frame": 5,
+          "damage_frame": 6
+        },
+        "ultimate": {
+          "vfx_frame": 8,
+          "damage_frame": 10
+        }
+      },
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    },
+    {
+      "entity_id": "ENM010",
+      "name": "ENM010",
+      "file": "ENM010/source.png",
+      "sha256": "203c4c4c982aa2b0f069143fc90962378d4646fa808cd3b3262af55135ae3243",
+      "green_master": "ENM010/green_master.png",
+      "green_master_sha256": "cf36411da4889b007fd7e8f142fe4e7d00201e0dd5f0276aaade73701140d4e3",
+      "review": "PASS",
+      "costume_review": "NOT_APPLICABLE",
+      "reference": "data_source/art_source/combat_hd_sources/enm010_silhouette_b_authority.png",
+      "reference_sha256": "b4451844e93434669e533cd023e510afa00326c9f05c472e5c09bc850d47ca4c",
+      "animation_contract": {
+        "idle": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "move": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        "basic_attack": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27
+          ]
+        },
+        "normal_skill": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ]
+        },
+        "ultimate": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ]
+        },
+        "hit": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            58,
+            59,
+            60,
+            61
+          ]
+        },
+        "down": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69
+          ]
+        },
+        "victory": {
+          "fps": 12,
+          "loop": false,
+          "frame_indices": [
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79
+          ]
+        },
+        "stun": {
+          "fps": 12,
+          "loop": true,
+          "frame_indices": [
+            80,
+            81,
+            82,
+            83
+          ]
+        }
+      },
+      "events": {
+        "basic_attack": {
+          "projectile_spawn_frame": 3,
+          "damage_frame": 4
+        },
+        "normal_skill": {
+          "vfx_frame": 5,
+          "damage_frame": 6
+        },
+        "ultimate": {
+          "vfx_frame": 8,
+          "damage_frame": 10
+        }
+      },
+      "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+      "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
+      "review_evidence": "reports/existing_roster_spritegen_20260911/visual_review.json"
+    }
+  ]
+}

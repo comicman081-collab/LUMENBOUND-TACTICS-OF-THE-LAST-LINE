@@ -3,13 +3,13 @@
   "asset_id": "runtime_web_combat_enm010",
   "character_id": "ENM010",
   "display_name": "ENM010",
-  "status": "HIGH_RES_COSTUME_CANDIDATE",
-  "source_status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
-  "source_root": "data_source/art_source/combat_hd_sources/enm010_silhouette_b_authority.png",
-  "source_asset_id": "enm010_silhouette_b_b4451844e9343466_sc112",
-  "creation_method": "costume_only_high_resolution_authority_candidate",
+  "status": "LOCAL_REVIEWED_SD_ROSTER",
+  "source_status": "SPRITEGEN_ROSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/roster_replacements_20260911/ENM010/source.png",
+  "source_asset_id": "enm010_spritegen_203c4c4c982aa2b0",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "43c48897d058adbb41bb5d07cfa9bf5bdf52828c24cc627e0f223b6e08fd7fb4",
+  "preview_sha256": "de31df51ac43684c87c629640e808d2069457011b6038aa083ad22c45874a3aa",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "2ba28c6097a16bdbd2ff840e4b0554f6663aba8724d3eb5c337e948ec8e43ef5"
+  "sha256": "7748749f195349286a8a2e6cefe7fbf5cdc9f6141f5c85d6fe0c52880e058217"
 }

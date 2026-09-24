@@ -1,0 +1,232 @@
+{
+  "source_integrity": "PASS",
+  "music_assets_unchanged": [
+    {
+      "path": "godot\\assets\\audio\\bgm\\title_theme_full.mp3",
+      "sha256": "3b8e941f264c2a20976055cfcabc9aefc9930cabbe105a2e57c3a6042f6bece3"
+    },
+    {
+      "path": "godot\\assets\\audio\\bgm\\lobby_menu_full.wav",
+      "sha256": "cc713e0aad36d40a82c89973029f9d80ef5b4766791ee37295c5d91982c797b9"
+    },
+    {
+      "path": "godot\\assets\\audio\\bgm\\story_emotional_full.wav",
+      "sha256": "43fc8da1f1e002cf8370ce9999e0bdf7114f19f645c49876c1de79e6706e231f"
+    },
+    {
+      "path": "godot\\assets\\audio\\bgm\\battle_tactical_full.wav",
+      "sha256": "eddbfd137e489cd2725dd7fc47000c07031313b68bb3e3aed5c68091f4641f7c"
+    },
+    {
+      "path": "godot\\assets\\audio\\bgm\\boss_battle_full.wav",
+      "sha256": "0f1e6a6aee1ebd956e3f74327522ef52c38782cc708eaa6b57b7a9c18353954e"
+    }
+  ],
+  "files": [
+    {
+      "path": "intro\\1.mp4",
+      "bytes": 9529576,
+      "sha256": "5dd681cf11698a00effc0f7c946861dc8b7947afe0f5054ff280f05d672a0535"
+    },
+    {
+      "path": "intro\\2.mp4",
+      "bytes": 11717388,
+      "sha256": "be81d69bb93c4efc2460570de8e0b43065f9af53b331903a512ee451bf5a6928"
+    },
+    {
+      "path": "intro\\3.mp4",
+      "bytes": 9934740,
+      "sha256": "f0213f2c555b8cfcde6299c807630eea241696bb48896a218792f98871fe12d6"
+    },
+    {
+      "path": "intro\\4.mp4",
+      "bytes": 13884651,
+      "sha256": "1122f56492e6873c1d021352f0ae180894aa2bc2911c6899c5b0a5181a72b7b4"
+    },
+    {
+      "path": "intro\\5.mp4",
+      "bytes": 11504734,
+      "sha256": "c655040c463393c495c21002ffaa58af84f01972275e06e6ee00a317515857de"
+    },
+    {
+      "path": "data_source\\video\\intro_20260910\\previous_intro.ogv",
+      "bytes": 15486785,
+      "sha256": "19c71606c642804afabaf467c0479d1da582547a649ffa614b51c5e23bbb0fe0"
+    },
+    {
+      "path": "godot\\assets\\video\\lumenbound_intro_full.ogv",
+      "bytes": 68413842,
+      "sha256": "24bad74ee6ced284d3d6a64a93254298756156a6ba44e0a3f97b16ef6d595a63"
+    },
+    {
+      "path": "godot\\screens\\app_shell.gd",
+      "bytes": 311751,
+      "sha256": "31b47f54c13a533cf1a47765e3d3989ac88e1f83ce586dcc58ee292cef0d1c2e"
+    },
+    {
+      "path": "godot\\tests\\test_runner.gd",
+      "bytes": 193646,
+      "sha256": "241e01756de3dec69886f055d419c39635c6fc42a4cf5e1531deb0250f015b01"
+    },
+    {
+      "path": "tools\\video\\build_intro_1080p.py",
+      "bytes": 6452,
+      "sha256": "9d70ac66201cad6a6d381a8a136acba08806d5ed48c3f1a02d338b42f00402b4"
+    },
+    {
+      "path": "tools\\video\\verify_intro_1080p.py",
+      "bytes": 3982,
+      "sha256": "b79904bc35b85354bdd41c7062856bc7f7f8da2c27863ab7059574543c155ec0"
+    },
+    {
+      "path": "tools\\web_qa\\intro_playback_audit.mjs",
+      "bytes": 4637,
+      "sha256": "6abedff6c8ea111e9d36ff2e4cd01d21c4f8838a00a9f4b8fec69768c902f65d"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3434,
+      "sha256": "0a9f9df3db7ecfca0f35e124a61bb8600a4a525d6bc916bb1362a06f1a6302a7"
+    },
+    {
+      "path": "intro\\completed_1080p_50s\\intro_1080p_50s.mp4",
+      "bytes": 77343515,
+      "sha256": "f40997486189cbe74a56da2d3a2cdfbb8238169a9afc77bc61a2d59cf2418a6c"
+    },
+    {
+      "path": "intro\\completed_1080p_50s\\intro_1080p_50s_silent.mp4",
+      "bytes": 76100821,
+      "sha256": "0f51d8f669634cbf20e75233ac6dbece09f1705466fbddea50330906f8be3af8"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910\\index.apple-touch-icon.png",
+      "bytes": 12160,
+      "sha256": "57e4f8786cf7af384d88463feba525ca59d780b569b9aac9b989da3421dce74b"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910\\index.audio.position.worklet.js",
+      "bytes": 2973,
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910\\index.audio.worklet.js",
+      "bytes": 7298,
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910\\index.html",
+      "bytes": 8417,
+      "sha256": "14167a820464a7ca0a2ea5defd51da481aae799c5aea1b2012befd2fad332f97"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910\\index.icon.png",
+      "bytes": 45330,
+      "sha256": "fa5899c58f176bbc4684533d06580c6e3ed47d4d6db4bc28441b422705ffb59a"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910\\index.js",
+      "bytes": 279815,
+      "sha256": "68586d6daafc93c6e697b3fb258976874aa7459b8931165ebb1dc3c9614cc42c"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910\\index.pck",
+      "bytes": 221575792,
+      "sha256": "cb3a1f21613c4bf3217042618c32edac4e81e734629aad3add7cb4468577c8cc"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910\\index.png",
+      "bytes": 21443,
+      "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910\\index.wasm",
+      "bytes": 39513091,
+      "sha256": "35116f68540ac41acf7d71ea457added91b5e960a9cca3e2acc72918eaf01277"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910\\density_sidecars.json",
+      "bytes": 126397,
+      "sha256": "a0feea9cc597ee8bf7ed71b14bf4e456c8843498c877049bd4e8716efbdbbeb4"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\index.144x144.png",
+      "bytes": 8704,
+      "sha256": "784c404e16777cc324942ef34ed0923cdfccc7d8c9a9f9104cdb6bdeaddd2bc4"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\index.180x180.png",
+      "bytes": 12160,
+      "sha256": "57e4f8786cf7af384d88463feba525ca59d780b569b9aac9b989da3421dce74b"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\index.512x512.png",
+      "bytes": 45330,
+      "sha256": "fa5899c58f176bbc4684533d06580c6e3ed47d4d6db4bc28441b422705ffb59a"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\index.apple-touch-icon.png",
+      "bytes": 12160,
+      "sha256": "57e4f8786cf7af384d88463feba525ca59d780b569b9aac9b989da3421dce74b"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\index.audio.position.worklet.js",
+      "bytes": 2973,
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\index.audio.worklet.js",
+      "bytes": 7298,
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\index.html",
+      "bytes": 8508,
+      "sha256": "e8355db5c34c24478ee3b098a4e80ea16553f242914eabececf7996c4de51d8d"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\index.icon.png",
+      "bytes": 45330,
+      "sha256": "fa5899c58f176bbc4684533d06580c6e3ed47d4d6db4bc28441b422705ffb59a"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\index.js",
+      "bytes": 279815,
+      "sha256": "68586d6daafc93c6e697b3fb258976874aa7459b8931165ebb1dc3c9614cc42c"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\index.manifest.json",
+      "bytes": 357,
+      "sha256": "2d4396723a6a2f516e6f3fd4a052d1010f6d9c859794eb525d0e2841e8b6896e"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\index.offline.html",
+      "bytes": 719,
+      "sha256": "187b97136e9b21107aa67f48969b782471ea934caf688348420fa06ef99b64e3"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\index.pck",
+      "bytes": 221575744,
+      "sha256": "52abfeb7794830ac2358a136fc61f5c05ceb412f465d3c7db64a3b8bf494ddfb"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\index.png",
+      "bytes": 21443,
+      "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\index.service.worker.js",
+      "bytes": 5830,
+      "sha256": "d28ce7f56b1bef47b92bf404140a3d6070b42d4804b545d70f2dfdd753b01b7d"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\index.wasm",
+      "bytes": 39513091,
+      "sha256": "35116f68540ac41acf7d71ea457added91b5e960a9cca3e2acc72918eaf01277"
+    },
+    {
+      "path": "builds\\web_intro_1080p_20260910_release\\density_sidecars.json",
+      "bytes": 126397,
+      "sha256": "a0feea9cc597ee8bf7ed71b14bf4e456c8843498c877049bd4e8716efbdbbeb4"
+    }
+  ]
+}

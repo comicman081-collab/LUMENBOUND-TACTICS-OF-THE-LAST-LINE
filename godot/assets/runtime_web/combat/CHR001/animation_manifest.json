@@ -2,14 +2,17 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_chr001",
   "character_id": "CHR001",
-  "status": "RUNTIME_WEB_COMBAT_ATLAS",
-  "source_status": "DEV_CUTOUT_RIG_ANIMATION",
-  "source_root": "assets/art/sd/CHR001",
-  "source_asset_id": "sd_chr001_maeru_combat_r8_green_key",
-  "ownership_status": "PROJECT_DEV_GENERATED",
+  "display_name": "CHR001",
+  "status": "LOCAL_REVIEWED_SD_ROSTER",
+  "source_status": "SPRITEGEN_ROSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/roster_replacements_20260911/CHR001/source.png",
+  "source_asset_id": "chr001_spritegen_060de47013e893fc",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+  "ownership_status": "ORIGINAL_INTERNAL",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
-    128,
-    128
+    112,
+    112
   ],
   "foot_anchor": [
     0.5,
@@ -17,13 +20,13 @@
   ],
   "head_anchor": [
     0.5,
-    0.064453125
+    0.14
   ],
   "view": "THREE_QUARTER_RIGHT_DOWN_30",
   "facing_policy": "SEPARATE_LEFT_RIGHT",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "2174bc72fe10d455a70ede3bec5456b35a52f4f56c500fd83fa4f450c59ca51a",
+  "preview_sha256": "f8fcfe78513bc36264e1e1659349ee4ede546435e2e557ba0090c23a3ee5c7a6",
   "atlas_columns": 10,
   "total_frames": 80,
   "animations": {
@@ -196,5 +199,19 @@
       ]
     }
   },
-  "sha256": "f0a33c83bfd95de28d736abf0d22a0e6aacce6896e400ee8aeb9f66d56e878f2"
+  "events": {
+    "basic_attack": {
+      "projectile_spawn_frame": 3,
+      "damage_frame": 4
+    },
+    "normal_skill": {
+      "vfx_frame": 5,
+      "damage_frame": 6
+    },
+    "ultimate": {
+      "vfx_frame": 8,
+      "damage_frame": 10
+    }
+  },
+  "sha256": "c00536448fc9cb006337f35d779dd3caf25cf911f4f596bf25b27a034e97d55e"
 }

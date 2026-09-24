@@ -1,0 +1,115 @@
+{
+  "approval_status": "LOCAL_QA_ONLY",
+  "boss_signature_size": [
+    384,
+    384
+  ],
+  "captures": [
+    {
+      "file": "01_idle.png",
+      "height": 844,
+      "sha256": "dbf3826054195d2f3c11dbb97799fa2c9927d30878d570ce74b0ee7925fffa86",
+      "stage": "idle",
+      "width": 390
+    },
+    {
+      "file": "02_ultimate_windup.png",
+      "height": 844,
+      "sha256": "fec250de049270a8fe3eda3b41db78d2ab0b1103c5f669a31eb74216ee8b5fcf",
+      "stage": "ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "03_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "d405777c5aeccb2fcea6b73a148186a15e7aac6e8d7c0f8472b60e8f23114bcb",
+      "stage": "ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "04_ultimate_impact.png",
+      "height": 844,
+      "sha256": "21f9c682b4d38a34c264cb68a10baed0098466fb75accb5a7d74b2e4a7849418",
+      "stage": "ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "05_boss_down.png",
+      "height": 844,
+      "sha256": "5b306f7231a1f69cdeff40f728adc5753b233397195c98431631f1d656ee6d13",
+      "stage": "boss_down",
+      "width": 390
+    },
+    {
+      "file": "06_iri_idle.png",
+      "height": 844,
+      "sha256": "c274728c14c1f7d4e2e9df385acf3bd78bc64b8db265a2ec883b5c305953bde4",
+      "stage": "iri_idle",
+      "width": 390
+    },
+    {
+      "file": "07_iri_ultimate_windup.png",
+      "height": 844,
+      "sha256": "7b2c28828b27cf091db315f02e8a75469a36edaf982927ab8513be7d2d7be372",
+      "stage": "iri_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "08_iri_ultimate_release.png",
+      "height": 844,
+      "sha256": "9f528f0aa09af97ceea46fe6bb7a8703359bac0ef23535208eabc7d770917890",
+      "stage": "iri_ultimate_release",
+      "width": 390
+    },
+    {
+      "file": "09_boss_ultimate_windup.png",
+      "height": 844,
+      "sha256": "aab748cfa37601362679c8d35973e95aa2031e38a1c0aa1322b83455b47d2752",
+      "stage": "boss_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "10_boss_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "0fad8c43f1d69a47f6f05a48e5f7b55ea6891341477a943003dad6ced1a04bd8",
+      "stage": "boss_ultimate_projectile_travel",
+      "width": 390
+    }
+  ],
+  "effect_signature_load_error": "",
+  "effect_signature_pack_ready": true,
+  "effect_signature_resident_atlas_bytes": 10764288,
+  "guardian_signature_size": [
+    384,
+    384
+  ],
+  "iri_signature_size": [
+    384,
+    384
+  ],
+  "kind": "BATTLE_SIGNATURE_HD_LOCAL_VIEWPORT_QA",
+  "motion_contract": {
+    "enemy_hit_x": 24.9945163726807,
+    "player_basic_lunge_x": 20.9640560150146,
+    "player_basic_windup_x": -5.07936525344849
+  },
+  "qa_staging": "Temporary in-memory CHR001-to-CHR008 slot swap after the first four captures; no save, roster, reward, or stage data changed.",
+  "reference_group": [
+    "CHR001",
+    "CHR008",
+    "BOSS001"
+  ],
+  "signature_load_error": "",
+  "signature_pack_ready": true,
+  "signature_resident_atlas_bytes": 70778880,
+  "stage_source": "CH01-N20",
+  "ui_orb_contract": {
+    "control_count": 5,
+    "full_tactical_gauge": 10.0,
+    "ready_badges": 5
+  },
+  "viewport": [
+    390,
+    844
+  ]
+}

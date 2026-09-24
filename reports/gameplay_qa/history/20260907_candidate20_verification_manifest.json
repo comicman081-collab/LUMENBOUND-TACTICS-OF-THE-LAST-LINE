@@ -1,0 +1,1123 @@
+{
+  "created_at": "2026-09-07T10:16:06.827Z",
+  "status": "LOCAL_VERIFICATION_ONLY_NOT_DEPLOYED",
+  "commercial_visual_acceptance": "HOLD: stylized map materially improved but contemporary high-end commercial-game parity is not established.",
+  "physical_phone_tested": false,
+  "external_chatgpt_review": "NOT_PERFORMED_IN_THIS_BATCH",
+  "baseline": {
+    "bytes": 153123876,
+    "sha256": "a1be9b289386df320c484567d72869f91a92c1e0da3621bb3db7b10dac80e98c",
+    "protected_diff": "",
+    "chunks": [
+      {
+        "path": "builds/web_r7_current_release/r7_current_a1be9b289386.pck.chunk-000",
+        "bytes": 20000000,
+        "sha256": "7114f67c57337caa2c7102650414a898ed679b62177453f8f7da4728313f2438"
+      },
+      {
+        "path": "builds/web_r7_current_release/r7_current_a1be9b289386.pck.chunk-001",
+        "bytes": 20000000,
+        "sha256": "89bdb018005c065e296d070c45289ddf3a56d4bd2b8a8bd9b327818e1c6f6c9a"
+      },
+      {
+        "path": "builds/web_r7_current_release/r7_current_a1be9b289386.pck.chunk-002",
+        "bytes": 20000000,
+        "sha256": "1d062ba9cd519feba1ef312f5e1f173b5069358baf3683d4480078ed7b0d6b77"
+      },
+      {
+        "path": "builds/web_r7_current_release/r7_current_a1be9b289386.pck.chunk-003",
+        "bytes": 20000000,
+        "sha256": "9b3381b05b399ed37a28f99e5b02ce6a815d093ce46cf29594d793fca64e3041"
+      },
+      {
+        "path": "builds/web_r7_current_release/r7_current_a1be9b289386.pck.chunk-004",
+        "bytes": 20000000,
+        "sha256": "ac4c4360844d06b9c78269578b692d0970c746d7c308e31b0bf9006e19e3d0a2"
+      },
+      {
+        "path": "builds/web_r7_current_release/r7_current_a1be9b289386.pck.chunk-005",
+        "bytes": 20000000,
+        "sha256": "15b865ed97c674cd52b7d8f187b15e84cdb3190a50d90e30af550f2cff1f67b5"
+      },
+      {
+        "path": "builds/web_r7_current_release/r7_current_a1be9b289386.pck.chunk-006",
+        "bytes": 20000000,
+        "sha256": "f313744e7cc6c969e3bac878f3ec078ff5875229780573dec63185dfb8f81de1"
+      },
+      {
+        "path": "builds/web_r7_current_release/r7_current_a1be9b289386.pck.chunk-007",
+        "bytes": 13123876,
+        "sha256": "b8e5405a418542f3f05c11d9aac56213839617e5f2b341f411b1859b45d04cfa"
+      }
+    ]
+  },
+  "browser_runs": [
+    {
+      "run": "20260907_briefing20_audit",
+      "acceptance": {
+        "checks": [
+          {
+            "name": "home tutorial 1 is fully bounded at 360px",
+            "pass": true
+          },
+          {
+            "name": "home tutorial 2 is fully bounded at 360px",
+            "pass": true
+          },
+          {
+            "name": "home tutorial 3 is fully bounded at 360px",
+            "pass": true
+          },
+          {
+            "name": "home tutorial 4 is fully bounded at 360px",
+            "pass": true
+          },
+          {
+            "name": "map tutorial 1 is fully bounded at 360px",
+            "pass": true
+          },
+          {
+            "name": "map tutorial 1 overflow is touch-readable or the complete copy fits",
+            "pass": true
+          },
+          {
+            "name": "map tutorial 1 drag does not skip instructions",
+            "pass": true
+          },
+          {
+            "name": "map tutorial 2 is fully bounded at 360px",
+            "pass": true
+          },
+          {
+            "name": "map tutorial 2 overflow is touch-readable or the complete copy fits",
+            "pass": true
+          },
+          {
+            "name": "map tutorial 2 drag does not skip instructions",
+            "pass": true
+          },
+          {
+            "name": "map tutorial 3 is fully bounded at 360px",
+            "pass": true
+          },
+          {
+            "name": "three explicit map continue taps complete the tutorial",
+            "pass": true
+          },
+          {
+            "name": "n13_360_page1: entire modal remains inside viewport",
+            "pass": true
+          },
+          {
+            "name": "n13_360_page1: EventDialogueNext has a visible 52px-class hit target",
+            "pass": true
+          },
+          {
+            "name": "n13_360_page1: EventDialogueSkip has a visible 52px-class hit target",
+            "pass": true
+          },
+          {
+            "name": "n13_360_page1: body uses readable 18px type rather than oversized 42px",
+            "pass": true
+          },
+          {
+            "name": "n13_360_page1: page counter stays on one line",
+            "pass": true
+          },
+          {
+            "name": "n13_landscape_page1: entire modal remains inside viewport",
+            "pass": true
+          },
+          {
+            "name": "n13_landscape_page1: EventDialogueNext has a visible 52px-class hit target",
+            "pass": true
+          },
+          {
+            "name": "n13_landscape_page1: EventDialogueSkip has a visible 52px-class hit target",
+            "pass": true
+          },
+          {
+            "name": "n13_landscape_page1: body uses readable 18px type rather than oversized 42px",
+            "pass": true
+          },
+          {
+            "name": "n13_landscape_page1: page counter stays on one line",
+            "pass": true
+          },
+          {
+            "name": "N13 rotation preserves the unread page",
+            "pass": true
+          },
+          {
+            "name": "N13 reading drag does not advance the encounter",
+            "pass": true
+          },
+          {
+            "name": "n13_390_page1: entire modal remains inside viewport",
+            "pass": true
+          },
+          {
+            "name": "n13_390_page1: EventDialogueNext has a visible 52px-class hit target",
+            "pass": true
+          },
+          {
+            "name": "n13_390_page1: EventDialogueSkip has a visible 52px-class hit target",
+            "pass": true
+          },
+          {
+            "name": "n13_390_page1: body uses readable 18px type rather than oversized 42px",
+            "pass": true
+          },
+          {
+            "name": "n13_390_page1: page counter stays on one line",
+            "pass": true
+          },
+          {
+            "name": "N13 a single Next tap advances exactly one page",
+            "pass": true
+          },
+          {
+            "name": "n13_390_page2: entire modal remains inside viewport",
+            "pass": true
+          },
+          {
+            "name": "n13_390_page2: EventDialogueNext has a visible 52px-class hit target",
+            "pass": true
+          },
+          {
+            "name": "n13_390_page2: EventDialogueSkip has a visible 52px-class hit target",
+            "pass": true
+          },
+          {
+            "name": "n13_390_page2: body uses readable 18px type rather than oversized 42px",
+            "pass": true
+          },
+          {
+            "name": "n13_390_page2: page counter stays on one line",
+            "pass": true
+          },
+          {
+            "name": "n13_short_portrait_page2: entire modal remains inside viewport",
+            "pass": true
+          },
+          {
+            "name": "n13_short_portrait_page2: EventDialogueNext has a visible 52px-class hit target",
+            "pass": true
+          },
+          {
+            "name": "n13_short_portrait_page2: EventDialogueSkip has a visible 52px-class hit target",
+            "pass": true
+          },
+          {
+            "name": "n13_short_portrait_page2: body uses readable 18px type rather than oversized 42px",
+            "pass": true
+          },
+          {
+            "name": "n13_short_portrait_page2: page counter stays on one line",
+            "pass": true
+          },
+          {
+            "name": "N13 final instruction is reachable",
+            "pass": true
+          },
+          {
+            "name": "n13_short_portrait_page3: entire modal remains inside viewport",
+            "pass": true
+          },
+          {
+            "name": "n13_short_portrait_page3: EventDialogueNext has a visible 52px-class hit target",
+            "pass": true
+          },
+          {
+            "name": "n13_short_portrait_page3: EventDialogueSkip has a visible 52px-class hit target",
+            "pass": true
+          },
+          {
+            "name": "n13_short_portrait_page3: body uses readable 18px type rather than oversized 42px",
+            "pass": true
+          },
+          {
+            "name": "n13_short_portrait_page3: page counter stays on one line",
+            "pass": true
+          },
+          {
+            "name": "N13 Continue enters real combat and closes its modal",
+            "pass": true
+          },
+          {
+            "name": "N13 actual combat reaches victory after its briefing",
+            "pass": true
+          },
+          {
+            "name": "N13 victory reconnects to N14 without a dead end",
+            "pass": true
+          },
+          {
+            "name": "briefing/touch/rotation/combat produce no Godot errors or warnings",
+            "pass": true
+          },
+          {
+            "name": "tutorial and encounter fixtures never access production saves",
+            "pass": true
+          }
+        ],
+        "stage_numbers": [
+          13
+        ],
+        "fixture": "Fresh localhost sandbox; real home/map instruction taps, listed stage-neighbor contacts, scrolling, rotation and combat. Not physical-phone evidence."
+      },
+      "phases": {
+        "boot": {
+          "frames": 52,
+          "max_ms": 18770.1,
+          "over1000": 1,
+          "full_window_p95_max_ms": 0
+        },
+        "home_tutorial": {
+          "frames": 527,
+          "max_ms": 3290.0999999999985,
+          "over1000": 3,
+          "full_window_p95_max_ms": 20.099999999998545
+        },
+        "first_map_tutorial": {
+          "frames": 423,
+          "max_ms": 160,
+          "over1000": 0,
+          "full_window_p95_max_ms": 20.099999999998545
+        },
+        "n13_contact_loading": {
+          "frames": 286,
+          "max_ms": 390.09999999999854,
+          "over1000": 0,
+          "full_window_p95_max_ms": 30
+        },
+        "n13_briefing": {
+          "frames": 1413,
+          "max_ms": 200,
+          "over1000": 0,
+          "full_window_p95_max_ms": 60.200000000004366
+        }
+      },
+      "network_or_js_failures": [],
+      "browser_log_entries": [
+        {
+          "source": "other",
+          "level": "warning",
+          "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio",
+          "timestamp": 1788775963974.756,
+          "url": "http://127.0.0.1:8784/index.js",
+          "lineNumber": 0,
+          "stackTrace": {
+            "callFrames": [
+              {
+                "functionName": "_godot_audio_resume",
+                "scriptId": "5",
+                "url": "http://127.0.0.1:8784/index.js",
+                "lineNumber": 0,
+                "columnNumber": 167625
+              },
+              {
+                "functionName": "$func531",
+                "scriptId": "7",
+                "url": "wasm://wasm/090946c6",
+                "lineNumber": 0,
+                "columnNumber": 393510
+              },
+              {
+                "functionName": "touch_cb",
+                "scriptId": "5",
+                "url": "http://127.0.0.1:8784/index.js",
+                "lineNumber": 0,
+                "columnNumber": 208684
+              }
+            ]
+          }
+        }
+      ],
+      "acceptance_hash": {
+        "path": "reports/gameplay_qa/20260907_briefing20_audit/acceptance.json",
+        "bytes": 5730,
+        "sha256": "f3e96ff82a6ad2ed05892e8d74211907a7bee8888ae61ce4a678c8946ed48154"
+      }
+    },
+    {
+      "run": "20260907_elite20_audit",
+      "acceptance": {
+        "checks": [
+          {
+            "name": "home briefing bounded at 360x640",
+            "pass": true
+          },
+          {
+            "name": "home rotation preserves the unread first page",
+            "pass": true
+          },
+          {
+            "name": "HomeTutorialSkipButton remains accessible after home rotation",
+            "pass": true
+          },
+          {
+            "name": "HomeTutorialContinueButton remains accessible after home rotation",
+            "pass": true
+          },
+          {
+            "name": "home briefing bounded at 800x360",
+            "pass": true
+          },
+          {
+            "name": "home rotation preserves the unread first page",
+            "pass": true
+          },
+          {
+            "name": "HomeTutorialSkipButton remains accessible after home rotation",
+            "pass": true
+          },
+          {
+            "name": "HomeTutorialContinueButton remains accessible after home rotation",
+            "pass": true
+          },
+          {
+            "name": "home briefing bounded at 390x844",
+            "pass": true
+          },
+          {
+            "name": "home rotation preserves the unread first page",
+            "pass": true
+          },
+          {
+            "name": "HomeTutorialSkipButton remains accessible after home rotation",
+            "pass": true
+          },
+          {
+            "name": "HomeTutorialContinueButton remains accessible after home rotation",
+            "pass": true
+          },
+          {
+            "name": "second authored ELITE N10 enters battle without an orphaned tutorial/modal",
+            "pass": true
+          },
+          {
+            "name": "N10 real combat reaches victory in short portrait",
+            "pass": true
+          },
+          {
+            "name": "N10 victory connects to N11",
+            "pass": true
+          },
+          {
+            "name": "home rotation and N10 progression emit no Godot errors/warnings",
+            "pass": true
+          },
+          {
+            "name": "elite audit remains in isolated saves",
+            "pass": true
+          }
+        ],
+        "fixture": "Local sandbox; actual short-portrait N10 battle and home tutorial rotation. Not a physical device test."
+      },
+      "phases": {
+        "boot": {
+          "frames": 2154,
+          "max_ms": 19190.2,
+          "over1000": 4,
+          "full_window_p95_max_ms": 40
+        }
+      },
+      "network_or_js_failures": [],
+      "browser_log_entries": [
+        {
+          "source": "other",
+          "level": "warning",
+          "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio",
+          "timestamp": 1788776046274.681,
+          "url": "http://127.0.0.1:8784/index.js",
+          "lineNumber": 0,
+          "stackTrace": {
+            "callFrames": [
+              {
+                "functionName": "_godot_audio_resume",
+                "scriptId": "5",
+                "url": "http://127.0.0.1:8784/index.js",
+                "lineNumber": 0,
+                "columnNumber": 167625
+              },
+              {
+                "functionName": "$func531",
+                "scriptId": "7",
+                "url": "wasm://wasm/090946c6",
+                "lineNumber": 0,
+                "columnNumber": 393510
+              },
+              {
+                "functionName": "touch_cb",
+                "scriptId": "5",
+                "url": "http://127.0.0.1:8784/index.js",
+                "lineNumber": 0,
+                "columnNumber": 208684
+              }
+            ]
+          }
+        }
+      ],
+      "acceptance_hash": {
+        "path": "reports/gameplay_qa/20260907_elite20_audit/acceptance.json",
+        "bytes": 1849,
+        "sha256": "adff2185a5c4943c1bb2d28df5cddbc41ef0803af601ab4b3854fced542504f2"
+      }
+    },
+    {
+      "run": "20260907_final19_audit",
+      "acceptance": {
+        "checks": [
+          {
+            "name": "continuous backdrop loaded at N20",
+            "pass": true
+          },
+          {
+            "name": "HUD face texture accounting survives boss-wave rollover",
+            "pass": true
+          },
+          {
+            "name": "actual N20 boss HD lease acquired",
+            "pass": true
+          },
+          {
+            "name": "N20 result is an actual victory, not merely a result screen",
+            "pass": true
+          },
+          {
+            "name": "real reward touch drag reaches lower report",
+            "pass": true
+          },
+          {
+            "name": "post-N20 reveal automatically guides toward the pending HARD route",
+            "pass": true
+          },
+          {
+            "name": "completed NORMAL route no longer points back to N01",
+            "pass": true
+          },
+          {
+            "name": "completion action selects pending HARD route",
+            "pass": true
+          },
+          {
+            "name": "rotation preserves the live map instance",
+            "pass": true
+          },
+          {
+            "name": "landscape map is not compressed below oversized portrait controls",
+            "pass": true
+          },
+          {
+            "name": "landscape header and optional map buttons release portrait size floors",
+            "pass": true
+          },
+          {
+            "name": "map remains ready and unpaused after browser suspend/resume",
+            "pass": true
+          },
+          {
+            "name": "no Godot script errors or warnings during final gameplay",
+            "pass": true
+          },
+          {
+            "name": "all gameplay used isolated QA saves",
+            "pass": true
+          }
+        ],
+        "fixture": "Local QA N20 neighbor with invincibility; prior history grants no rewards. Real movement/combat/reward actions."
+      },
+      "phases": {
+        "boot": {
+          "frames": 381,
+          "max_ms": 20440.3,
+          "over1000": 4,
+          "full_window_p95_max_ms": 0
+        },
+        "final_n20_map": {
+          "frames": 22,
+          "max_ms": 170,
+          "over1000": 0,
+          "full_window_p95_max_ms": 0
+        },
+        "final_n20_battle": {
+          "frames": 3861,
+          "max_ms": 160,
+          "over1000": 0,
+          "full_window_p95_max_ms": 40
+        },
+        "final_reward": {
+          "frames": 403,
+          "max_ms": 190,
+          "over1000": 0,
+          "full_window_p95_max_ms": 20.10000000000582
+        },
+        "final_hard_map": {
+          "frames": 183,
+          "max_ms": 140.10000000000582,
+          "over1000": 0,
+          "full_window_p95_max_ms": 0
+        },
+        "intentional_browser_suspend": {
+          "frames": 151,
+          "max_ms": 20.09999999999127,
+          "over1000": 0,
+          "full_window_p95_max_ms": 0
+        },
+        "resume_check": {
+          "frames": 80,
+          "max_ms": 139.90000000000873,
+          "over1000": 0,
+          "full_window_p95_max_ms": 0
+        },
+        "final_map_steady": {
+          "frames": 609,
+          "max_ms": 169.89999999999418,
+          "over1000": 0,
+          "full_window_p95_max_ms": 20.09999999999127
+        }
+      },
+      "network_or_js_failures": [],
+      "browser_log_entries": [
+        {
+          "source": "other",
+          "level": "warning",
+          "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio",
+          "timestamp": 1788775584982.653,
+          "url": "http://127.0.0.1:8783/index.js",
+          "lineNumber": 0,
+          "stackTrace": {
+            "callFrames": [
+              {
+                "functionName": "_godot_audio_resume",
+                "scriptId": "5",
+                "url": "http://127.0.0.1:8783/index.js",
+                "lineNumber": 0,
+                "columnNumber": 167625
+              },
+              {
+                "functionName": "$func531",
+                "scriptId": "7",
+                "url": "wasm://wasm/090946c6",
+                "lineNumber": 0,
+                "columnNumber": 393510
+              },
+              {
+                "functionName": "touch_cb",
+                "scriptId": "5",
+                "url": "http://127.0.0.1:8783/index.js",
+                "lineNumber": 0,
+                "columnNumber": 208684
+              }
+            ]
+          }
+        }
+      ],
+      "acceptance_hash": {
+        "path": "reports/gameplay_qa/20260907_final19_audit/acceptance.json",
+        "bytes": 1557,
+        "sha256": "a9f95c69bf341020674b8c0e3add2b932e4815d3c95ff8e150f2191242b50d94"
+      }
+    },
+    {
+      "run": "20260907_map19_gallery",
+      "acceptance": {
+        "checks": [
+          {
+            "name": "N1 terrain and continuous backdrop are ready",
+            "pass": true
+          },
+          {
+            "name": "N1 visible water is excluded from walking range",
+            "pass": true
+          },
+          {
+            "name": "N1 actual double-touch cannot enter blocked water",
+            "pass": true
+          },
+          {
+            "name": "N1 rotation retains the map and more than 62 percent landscape height",
+            "pass": true
+          },
+          {
+            "name": "N5 terrain and continuous backdrop are ready",
+            "pass": true
+          },
+          {
+            "name": "N5 visible water is excluded from walking range",
+            "pass": true
+          },
+          {
+            "name": "N5 actual double-touch cannot enter blocked water",
+            "pass": true
+          },
+          {
+            "name": "N10 terrain and continuous backdrop are ready",
+            "pass": true
+          },
+          {
+            "name": "N10 visible water is excluded from walking range",
+            "pass": true
+          },
+          {
+            "name": "N20 terrain and continuous backdrop are ready",
+            "pass": true
+          },
+          {
+            "name": "N20 visible water is excluded from walking range",
+            "pass": true
+          },
+          {
+            "name": "N20 actual double-touch cannot enter blocked water",
+            "pass": true
+          },
+          {
+            "name": "at least one visible river was tested with real touch input",
+            "pass": true
+          },
+          {
+            "name": "gallery has no Godot script/shader errors or warnings",
+            "pass": true
+          },
+          {
+            "name": "map gallery uses isolated QA saves only",
+            "pass": true
+          }
+        ],
+        "fixture": "Reward-free staged contact positions for N01/N05/N10/N20; not a claim of traversing the entire campaign."
+      },
+      "phases": {
+        "boot": {
+          "frames": 35,
+          "max_ms": 19200.2,
+          "over1000": 1,
+          "full_window_p95_max_ms": 0
+        },
+        "gallery_n1_loading": {
+          "frames": 369,
+          "max_ms": 3710,
+          "over1000": 3,
+          "full_window_p95_max_ms": 0
+        },
+        "gallery_n1_steady": {
+          "frames": 466,
+          "max_ms": 140,
+          "over1000": 0,
+          "full_window_p95_max_ms": 20.10000000000582
+        },
+        "gallery_n5_loading": {
+          "frames": 186,
+          "max_ms": 200,
+          "over1000": 0,
+          "full_window_p95_max_ms": 0
+        },
+        "gallery_n5_steady": {
+          "frames": 328,
+          "max_ms": 159.90000000000146,
+          "over1000": 0,
+          "full_window_p95_max_ms": 20.099999999998545
+        },
+        "gallery_n10_loading": {
+          "frames": 204,
+          "max_ms": 250,
+          "over1000": 0,
+          "full_window_p95_max_ms": 20.19999999999709
+        },
+        "gallery_n10_steady": {
+          "frames": 286,
+          "max_ms": 229.90000000000146,
+          "over1000": 0,
+          "full_window_p95_max_ms": 20.099999999998545
+        },
+        "gallery_n20_loading": {
+          "frames": 213,
+          "max_ms": 220,
+          "over1000": 0,
+          "full_window_p95_max_ms": 20.19999999999709
+        },
+        "gallery_n20_steady": {
+          "frames": 348,
+          "max_ms": 190.09999999999854,
+          "over1000": 0,
+          "full_window_p95_max_ms": 20.10000000000582
+        }
+      },
+      "network_or_js_failures": [],
+      "browser_log_entries": [
+        {
+          "source": "other",
+          "level": "warning",
+          "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio",
+          "timestamp": 1788775713964.049,
+          "url": "http://127.0.0.1:8783/index.js",
+          "lineNumber": 0,
+          "stackTrace": {
+            "callFrames": [
+              {
+                "functionName": "_godot_audio_resume",
+                "scriptId": "5",
+                "url": "http://127.0.0.1:8783/index.js",
+                "lineNumber": 0,
+                "columnNumber": 167625
+              },
+              {
+                "functionName": "$func531",
+                "scriptId": "7",
+                "url": "wasm://wasm/090946c6",
+                "lineNumber": 0,
+                "columnNumber": 393510
+              },
+              {
+                "functionName": "touch_cb",
+                "scriptId": "5",
+                "url": "http://127.0.0.1:8783/index.js",
+                "lineNumber": 0,
+                "columnNumber": 208684
+              }
+            ]
+          }
+        }
+      ],
+      "acceptance_hash": {
+        "path": "reports/gameplay_qa/20260907_map19_gallery/acceptance.json",
+        "bytes": 1627,
+        "sha256": "4fd03d7db9adb7df75806957e94d20cc59f2d6c90f1c6372c2efe73ed2a40792"
+      }
+    },
+    {
+      "run": "20260907_progression19_audit",
+      "acceptance": {
+        "checks": [
+          {
+            "name": "N1 actual combat ends in victory",
+            "pass": true
+          },
+          {
+            "name": "five character tabs share one mobile row",
+            "pass": true
+          },
+          {
+            "name": "real finger drag scrolls growth content",
+            "pass": true
+          },
+          {
+            "name": "real level-up updates the selected character",
+            "pass": true
+          },
+          {
+            "name": "an owned compatible alternate equipment choice is available",
+            "pass": true
+          },
+          {
+            "name": "real equipment selection updates the character loadout",
+            "pass": true
+          },
+          {
+            "name": "N5 actual combat ends in victory",
+            "pass": true
+          },
+          {
+            "name": "N05 reward opens the authored mid-boss story",
+            "pass": true
+          },
+          {
+            "name": "N05 page 1 remains in the authored scenario",
+            "pass": true
+          },
+          {
+            "name": "N05 page 1 complete text fits its box",
+            "pass": true
+          },
+          {
+            "name": "N05 page 2 remains in the authored scenario",
+            "pass": true
+          },
+          {
+            "name": "N05 page 2 complete text fits its box",
+            "pass": true
+          },
+          {
+            "name": "N05 page 3 remains in the authored scenario",
+            "pass": true
+          },
+          {
+            "name": "N05 page 3 complete text fits its box",
+            "pass": true
+          },
+          {
+            "name": "N05 story advances through three distinct complete pages",
+            "pass": true
+          },
+          {
+            "name": "N05 story returns to the next normal encounter N06",
+            "pass": true
+          },
+          {
+            "name": "mobile progression has no Godot script errors or warnings",
+            "pass": true
+          },
+          {
+            "name": "progression remains inside isolated QA saves",
+            "pass": true
+          }
+        ],
+        "fixture": "Local reward-free N01/N05 neighbors with invincibility; actual 2x battle, UI and touch actions. Not physical-phone evidence."
+      },
+      "phases": {
+        "boot": {
+          "frames": 41,
+          "max_ms": 21860.1,
+          "over1000": 1,
+          "full_window_p95_max_ms": 0
+        },
+        "n1_loading": {
+          "frames": 379,
+          "max_ms": 3800.100000000002,
+          "over1000": 3,
+          "full_window_p95_max_ms": 0
+        },
+        "n1_combat": {
+          "frames": 1032,
+          "max_ms": 130,
+          "over1000": 0,
+          "full_window_p95_max_ms": 20.099999999998545
+        },
+        "growth_real_touch": {
+          "frames": 432,
+          "max_ms": 80.09999999999854,
+          "over1000": 0,
+          "full_window_p95_max_ms": 20.099999999998545
+        },
+        "n5_loading": {
+          "frames": 275,
+          "max_ms": 240.10000000000582,
+          "over1000": 0,
+          "full_window_p95_max_ms": 69.90000000000146
+        },
+        "n5_combat": {
+          "frames": 1625,
+          "max_ms": 90.09999999999127,
+          "over1000": 0,
+          "full_window_p95_max_ms": 20.10000000000582
+        },
+        "n05_story": {
+          "frames": 574,
+          "max_ms": 250.09999999999127,
+          "over1000": 0,
+          "full_window_p95_max_ms": 20.10000000000582
+        }
+      },
+      "network_or_js_failures": [],
+      "browser_log_entries": [
+        {
+          "source": "other",
+          "level": "warning",
+          "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio",
+          "timestamp": 1788775477008.935,
+          "url": "http://127.0.0.1:8783/index.js",
+          "lineNumber": 0,
+          "stackTrace": {
+            "callFrames": [
+              {
+                "functionName": "_godot_audio_resume",
+                "scriptId": "5",
+                "url": "http://127.0.0.1:8783/index.js",
+                "lineNumber": 0,
+                "columnNumber": 167625
+              },
+              {
+                "functionName": "$func531",
+                "scriptId": "7",
+                "url": "wasm://wasm/090946c6",
+                "lineNumber": 0,
+                "columnNumber": 393510
+              },
+              {
+                "functionName": "touch_cb",
+                "scriptId": "5",
+                "url": "http://127.0.0.1:8783/index.js",
+                "lineNumber": 0,
+                "columnNumber": 208684
+              }
+            ]
+          }
+        }
+      ],
+      "acceptance_hash": {
+        "path": "reports/gameplay_qa/20260907_progression19_audit/acceptance.json",
+        "bytes": 1852,
+        "sha256": "a4213107e6b0b1a54cf50a23c3029ef6ed7783860bc9f8987c642b855602e1a1"
+      }
+    }
+  ],
+  "hashes": [
+    {
+      "path": "builds/web_gameplay_qa_20260907_candidate20/development/index.pck",
+      "bytes": 153204852,
+      "sha256": "1ed9ead934958b2ff7965835a0c93b2660c7bf0c0df8383d5345c634cd93abb6"
+    },
+    {
+      "path": "builds/web_gameplay_qa_20260907_candidate20/development/index.wasm",
+      "bytes": 37900721,
+      "sha256": "f33199ca285b7a135e9133684d23439eee156cae2a3ee599386e9169f47ff8f3"
+    },
+    {
+      "path": "builds/web_gameplay_qa_20260907_candidate20/development/index.html",
+      "bytes": 5469,
+      "sha256": "7ae256dc7eea2626de6a2a20b19a47793f6803de5c01effda697d20f7f127208"
+    },
+    {
+      "path": "godot/assets/art/chapter_map/R17/environment_polish.glb",
+      "bytes": 47392,
+      "sha256": "8ed13bec8be252c7cf595be305043c384faca2a8b6c38d5afd2516269f9140e5"
+    },
+    {
+      "path": "work/map_polish_20260907/candidate02/environment_polish.glb",
+      "bytes": 47392,
+      "sha256": "8ed13bec8be252c7cf595be305043c384faca2a8b6c38d5afd2516269f9140e5"
+    },
+    {
+      "path": "tools/blender/build_web_environment_polish.py",
+      "bytes": 4323,
+      "sha256": "1bda9e6d0d8063c45f4518f05976e3eb978f89dbb5d1401a721748dd589934e0"
+    },
+    {
+      "path": "godot/chapter_map/runtime/chapter_map_screen.gd",
+      "bytes": 362532,
+      "sha256": "9cff5054388c204b4ce8417f8b7f561383ecf951117ac9ba6078d2aea3c40a55"
+    },
+    {
+      "path": "godot/chapter_map/view/map_backdrop.gd",
+      "bytes": 4589,
+      "sha256": "4ce62d60fcba33b522b295da0338e8ab54000f4aa495da8401a7e9f4e747003f"
+    },
+    {
+      "path": "godot/screens/app_shell.gd",
+      "bytes": 300992,
+      "sha256": "0f5521bcb1893427d4fba9aaa1bd93bdf28f18d5f231e3bac136aad88c82d0db"
+    },
+    {
+      "path": "godot/ui/touch_progression_scroll.gd",
+      "bytes": 1680,
+      "sha256": "9341fc547bdc0c0984ade64a8bbcbfd490912fc71bb38bd7d307d01b8b0c7008"
+    },
+    {
+      "path": "godot/ui/bounded_briefing.gd",
+      "bytes": 4841,
+      "sha256": "671c49b8ba914d3f350fec313a31dc69b9fb7343c1c16702e01e8015c9880a82"
+    },
+    {
+      "path": "godot/qa/local_gameplay_probe.gd",
+      "bytes": 10605,
+      "sha256": "cc55ebecf74a985c66a036250c3a53761819b770e1a1966cbd3524d06ef2ec7c"
+    },
+    {
+      "path": "godot/data/runtime_texture_integrity.json",
+      "bytes": 16837,
+      "sha256": "3fe3a9a6f6b8c33edd92945a0e89672bc9e351c5e80bfb2972c011f216ccfc5a"
+    },
+    {
+      "path": "reports/gameplay_qa/20260907_map_final20.log",
+      "bytes": 29846,
+      "sha256": "21df36e53ca177df046dcb381c85347563f2a93dcdbc4dbea41887ba994e2afd"
+    },
+    {
+      "path": "reports/gameplay_qa/20260907_general_final20.log",
+      "bytes": 44153,
+      "sha256": "02dc279c77454cc20b10893a8a2c02abb632a5025eaead7831f255ad6707dbc4"
+    },
+    {
+      "path": "reports/gameplay_qa/20260907_BRIEFING_CONTENT_INVENTORY.json",
+      "bytes": 13026,
+      "sha256": "a22781faa0b02b3575f7de76ec486bf465c4d1e3a91fe90d2d8177afccd322ef"
+    },
+    {
+      "path": "tools/web_qa/mobile_briefing_audit.mjs",
+      "bytes": 7994,
+      "sha256": "fd2e8bc5975afe17ec56ac4ca0c470a6c61d96ececc16a6f0630cf122bdb41e3"
+    },
+    {
+      "path": "godot/chapter_map/shaders/environment_fog.gdshader",
+      "bytes": 1531,
+      "sha256": "52df529ec2686aa52eb2ca3762149c41a88f6545b7fc6c226bb30b1636253e2d"
+    },
+    {
+      "path": "godot/chapter_map/shaders/environment_grade.gdshader",
+      "bytes": 605,
+      "sha256": "d7a130bade71f5578b8d1d98cd61e83ca7504f5fdd722f91f3e10722ab1a549b"
+    },
+    {
+      "path": "godot/chapter_map/shaders/environment_rain.gdshader",
+      "bytes": 2245,
+      "sha256": "61284e10c5d5244e71bacd4be0b464b1a025ac748b543f0fa3e3daff1c26a2e9"
+    },
+    {
+      "path": "godot/chapter_map/shaders/environment_surface.gdshader",
+      "bytes": 1340,
+      "sha256": "3cb8c3729250086b31ff23ee20027a14841ee447b731ff0932698ea2c925789e"
+    },
+    {
+      "path": "godot/chapter_map/shaders/fog_of_war.gdshader",
+      "bytes": 1568,
+      "sha256": "aadd969ed779d2fdd1fafba8c1d07202f9b62d2700bbe746165e1ad8415b43cc"
+    },
+    {
+      "path": "godot/chapter_map/shaders/fog_of_war_screen.gdshader",
+      "bytes": 1118,
+      "sha256": "65b1f43e2d897f78b724d542b9af039f06cfb0c8f3871f174dd0f97906dffb1a"
+    },
+    {
+      "path": "godot/chapter_map/shaders/fog_reveal.gdshader",
+      "bytes": 242,
+      "sha256": "81c9cd3e0fc447fcb6755f19936f05036f7f868a2ce04dfe8b6cc5c8e1e866b8"
+    },
+    {
+      "path": "godot/chapter_map/shaders/forest_backdrop.gdshader",
+      "bytes": 1177,
+      "sha256": "63ab11e758685aa37e15b3cbd66af2b4959a45b6390c74eeb8779ec599868e67"
+    },
+    {
+      "path": "godot/chapter_map/shaders/ground_contact.gdshader",
+      "bytes": 274,
+      "sha256": "3d470b63aa22a78058fb8789ab22fe2a46eabcdb02f8a7f159328a84d508b6d0"
+    },
+    {
+      "path": "godot/chapter_map/shaders/river_current.gdshader",
+      "bytes": 623,
+      "sha256": "312dd1c19cd3454c07917796b6941034d5db5c3e3659f9145da9e45e39767460"
+    },
+    {
+      "path": "godot/chapter_map/shaders/route_pulse.gdshader",
+      "bytes": 260,
+      "sha256": "dd1eeb8a4d7af3df8cd9c9a7cf37c1982a504c0ec7ed9fb26a39830a38d56b01"
+    },
+    {
+      "path": "godot/chapter_map/shaders/terrain_surface.gdshader",
+      "bytes": 1337,
+      "sha256": "3a98a1b7fe4920ad65241b4989df40d675ca125792629993dfe11fe9f35dd80c"
+    },
+    {
+      "path": "godot/chapter_map/shaders/tile_highlight.gdshader",
+      "bytes": 256,
+      "sha256": "f7197f8ee18258a8ed1802e23958f2899a0fa6190cc84cd3e3175310c4f90220"
+    },
+    {
+      "path": "godot/chapter_map/shaders/water_environment.gdshader",
+      "bytes": 1705,
+      "sha256": "804993620402054bef0c74d625c4ecdbd8568dbadc2ecf1861405add646f9107"
+    },
+    {
+      "path": "godot/chapter_map/shaders/water_simple.gdshader",
+      "bytes": 242,
+      "sha256": "fbb6eefb65467d2111ab053e5c9404cf97758cbcf099de419e5b7c1678716c4f"
+    }
+  ],
+  "quarantine_manifest": "work/gameplay_qa_quarantine_20260907/quarantine_manifest.json",
+  "limitations": [
+    "Cold Web startup still exceeds the five-second target on this host.",
+    "HD actor/FX coverage is partial and approval remains LOCAL_QA_ONLY; movement/basic/normal and other enemies still use compact fallbacks.",
+    "Twenty-stage fresh chain is service-level evidence, not twenty manually played browser stages.",
+    "Browser audio was muted; no listening QA or physical mobile-device measurement."
+  ]
+}

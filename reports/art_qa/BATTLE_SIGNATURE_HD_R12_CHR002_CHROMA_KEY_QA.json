@@ -1,0 +1,14 @@
+{
+  "kind": "BATTLE_SIGNATURE_CHROMA_KEY_DUAL_BACKDROP_QA",
+  "approval_status": "LOCAL_QA_ONLY",
+  "revision": "r12",
+  "entity": "CHR002",
+  "derivative_manifest": "godot/assets/generated_import/chroma_key_derivatives/battle_signature_r12/CHR002/chroma_key_derivative_manifest.json",
+  "derivative_manifest_sha256": "0c849e0363eb488199d7dcc998868e54c35e17826699ded4026fb318a2ac5e66",
+  "source_frames_checked": 38,
+  "white_exterior_rim_pixels_before": 27817,
+  "white_exterior_rim_pixels_after": 55,
+  "qa_sheet": "reports/art_qa/BATTLE_SIGNATURE_HD_R12_CHR002_CHROMA_KEY_QA.png",
+  "qa_sheet_sha256": "e3246642786f1961474f38fcd631f1607949e73ea0b691c09fdc5bf051f188ce",
+  "review_rule": "Green master is evidence only. The only runtime candidate is the keyed RGBA branch, and public export remains held."
+}

@@ -12,6 +12,8 @@ const IMPACT_COMMIT := 1.12
 const HITSTOP_DURATION := 0.08
 const RECOVERY_START := 1.20
 const COMBAT_IMPULSE_DURATION := 0.18
+const COMBAT_HITSTOP_MAX_DURATION := 0.055
+const COMBAT_HITSTOP_INTERVAL := 0.20
 ## A short directional pan makes an attack read as a shared camera move rather
 ## than a static sprite lunge.  It remains deliberately smaller than the
 ## presentation-safe mobile edge margin, and never changes simulation time.
@@ -27,6 +29,8 @@ var hitstop_remaining := 0.0
 var presentation_clock := 0.0
 var combat_impulse_remaining := 0.0
 var combat_impulse_strength := 0.0
+var combat_hitstop_remaining := 0.0
+var combat_hitstop_cooldown := 0.0
 var combat_focus_direction := 0.0
 var combat_focus_strength := 0.0
 var combat_focus_elapsed := 0.0
@@ -58,6 +62,14 @@ func request_combat_impact(strength := 0.5) -> void:
 		return
 	combat_impulse_strength = maxf(combat_impulse_strength, safe_strength)
 	combat_impulse_remaining = maxf(combat_impulse_remaining, COMBAT_IMPULSE_DURATION * (.72 + safe_strength * .28))
+	# Freeze only actor/projectile presentation for a few frames. Simulation and
+	# the user-selected speed remain authoritative, while contact gains the crisp
+	# weight that was previously missing from ordinary attacks.
+	# A stream of hits must not keep renewing a frozen pose. Impulses can still
+	# refresh, but hitstop has a fixed deadline and a visible recovery interval.
+	if combat_hitstop_cooldown <= 0.0 and not is_active():
+		combat_hitstop_remaining = COMBAT_HITSTOP_MAX_DURATION * (.55 + safe_strength * .45)
+		combat_hitstop_cooldown = COMBAT_HITSTOP_INTERVAL
 
 
 func request_combat_focus(world_direction: float, strength := 0.5, duration := 0.42) -> void:
@@ -84,6 +96,9 @@ func request_combat_focus(world_direction: float, strength := 0.5, duration := 0
 func advance(delta: float) -> Dictionary:
 	var safe_delta := maxf(0.0, delta)
 	presentation_clock += safe_delta
+	var ordinary_frozen_delta := minf(combat_hitstop_remaining, safe_delta)
+	combat_hitstop_remaining = maxf(0.0, combat_hitstop_remaining - safe_delta)
+	combat_hitstop_cooldown = maxf(0.0, combat_hitstop_cooldown - safe_delta)
 	if combat_impulse_remaining > 0.0:
 		combat_impulse_remaining = maxf(0.0, combat_impulse_remaining - safe_delta)
 		if combat_impulse_remaining <= 0.0:
@@ -101,6 +116,7 @@ func advance(delta: float) -> Dictionary:
 		"batch": active_batch.duplicate(true),
 	}
 	if not is_active():
+		result.actor_delta = safe_delta - ordinary_frozen_delta
 		return result
 	elapsed = minf(ULTIMATE_DURATION, elapsed + safe_delta)
 	if not prep_fired and elapsed >= BATTLEFIELD_PREP:
@@ -113,6 +129,8 @@ func advance(delta: float) -> Dictionary:
 	if hitstop_remaining > 0.0:
 		hitstop_remaining = maxf(0.0, hitstop_remaining - safe_delta)
 		result.actor_delta = 0.0
+	elif ordinary_frozen_delta > 0.0:
+		result.actor_delta = safe_delta - ordinary_frozen_delta
 	if elapsed >= ULTIMATE_DURATION:
 		finished = true
 		result.finished = true
@@ -130,6 +148,8 @@ func force_finish() -> Dictionary:
 	hitstop_remaining = 0.0
 	combat_impulse_remaining = 0.0
 	combat_impulse_strength = 0.0
+	combat_hitstop_remaining = 0.0
+	combat_hitstop_cooldown = 0.0
 	_clear_combat_focus()
 	return result
 
@@ -143,6 +163,8 @@ func reset() -> void:
 	presentation_clock = 0.0
 	combat_impulse_remaining = 0.0
 	combat_impulse_strength = 0.0
+	combat_hitstop_remaining = 0.0
+	combat_hitstop_cooldown = 0.0
 	_clear_combat_focus()
 
 func batch_snapshot() -> Dictionary:
@@ -159,6 +181,7 @@ func cinematic_snapshot() -> Dictionary:
 		"cutin_visibility": sin(cutin_in * PI * .5) * sin(cutin_out * PI * .5),
 		"impact_committed": impact_committed,
 		"combat_impulse": _combat_impulse(),
+		"combat_hitstop_remaining": combat_hitstop_remaining,
 		"combat_focus": _combat_focus(),
 		"combat_focus_direction": combat_focus_direction,
 		"recovery": clampf((elapsed - RECOVERY_START) / maxf(0.01, ULTIMATE_DURATION - RECOVERY_START), 0.0, 1.0),

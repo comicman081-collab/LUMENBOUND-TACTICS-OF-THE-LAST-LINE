@@ -1,0 +1,75 @@
+{
+  "character_id": "ENM032",
+  "source_asset_id": "enm032_illustrated_6a7550717185e1ba",
+  "foot_anchor": [
+    0.5,
+    0.88
+  ],
+  "head_anchor": [
+    0.5,
+    0.14
+  ],
+  "view": "THREE_QUARTER_LEFT_DOWN_30",
+  "facing_policy": "MIRROR_SAFE",
+  "status": "LOCAL_QA_ONLY_MAP_DENSITY",
+  "frame_size": [
+    192,
+    192
+  ],
+  "atlas_columns": 8,
+  "atlas_path": "atlas.png",
+  "atlas_sha256": "ea170f5d94c26fa274f7c0d65551884834d6e1600f170fd1697f8cc46accf580",
+  "animations": {
+    "idle": {
+      "fps": 12,
+      "loop": true,
+      "frame_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    "move": {
+      "fps": 12,
+      "loop": true,
+      "frame_indices": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    "victory": {
+      "fps": 12,
+      "loop": false,
+      "frame_indices": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29
+      ]
+    }
+  },
+  "map_pixel_scale": 0.5833333333333334,
+  "decoded_rgba_bytes": 4718592,
+  "source_manifest_sha256": "639f5fc48de8b9a0eb425f79f90fa789c8527f603c6fb403795952b864d9f513"
+}

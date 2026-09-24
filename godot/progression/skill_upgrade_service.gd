@@ -1,9 +1,26 @@
 class_name SkillUpgradeService
 extends RefCounted
 
+# These ultimate branches apply a fixed status in BattleSimulation. Their
+# authored coefficient is unused; charging to increase it would buy no effect.
+static func supports_upgrade(character_id: String, slot: String) -> bool:
+	if not slot in ["normal", "passive", "ultimate"]:
+		return false
+	var definition := DataRegistry.character(character_id)
+	if definition.is_empty():
+		return false
+	var skill := DataRegistry.skill(str(definition.get(slot + "_skill_id", "")))
+	return not skill.is_empty() and not (slot == "ultimate" and str(skill.get("effect", "")) in ["BUFF", "DEBUFF"])
+
 static func upgrade(character_id: String, slot: String) -> GameResult:
+	if not AppState.profile.get("roster", {}).has(character_id) or DataRegistry.character(character_id).is_empty():
+		return GameResult.failure("UNKNOWN_CHARACTER")
+	if not bool(AppState.profile.roster[character_id].get("unlocked", false)):
+		return GameResult.failure("CHARACTER_LOCKED")
 	if not slot in ["normal", "passive", "ultimate"]:
 		return GameResult.failure("INVALID_SLOT")
+	if not supports_upgrade(character_id, slot):
+		return GameResult.failure("FIXED_SKILL_EFFECT")
 	var state: Dictionary = AppState.profile.roster[character_id]
 	var current := int(state.skills[slot])
 	var maximum := 5 if slot == "ultimate" else 10
@@ -31,7 +48,7 @@ static func comparison(character_id: String, slot: String) -> Dictionary:
 	return {"current": current_value, "next": next_value, "increase": 0.0 if next_value == null else next_value - current_value, "max": current >= values.size()}
 
 static func next_cost(character_id: String, slot: String) -> Dictionary:
-	if not slot in ["normal", "passive", "ultimate"]:
+	if not AppState.profile.get("roster", {}).has(character_id) or not supports_upgrade(character_id, slot):
 		return {}
 	var current := int(AppState.profile.roster[character_id].skills[slot])
 	var maximum := 5 if slot == "ultimate" else 10

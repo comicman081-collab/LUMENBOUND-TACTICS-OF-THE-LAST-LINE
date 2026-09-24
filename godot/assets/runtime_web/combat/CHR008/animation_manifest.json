@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_chr008",
   "character_id": "CHR008",
-  "display_name": "Iri",
-  "status": "SD_UNIFICATION_R1_STATIC_PRESENTATION_PACK",
-  "source_status": "LOCAL_IDENTITY_CONTINUITY_REVIEWED_GREEN_KEY_RGBA",
-  "source_root": "data_source/art_source/combat_hd_sources/renewed/chr008_costume_authority_sd_r1_rgba.png",
-  "source_asset_id": "chr008_sd_unification_r1_8dad3ec183849119",
-  "creation_method": "imagegen_identity_preserving_sd_edit_green_matte_plus_deterministic_presentation_motion",
+  "display_name": "CHR008",
+  "status": "LOCAL_REVIEWED_SD_ROSTER",
+  "source_status": "SPRITEGEN_ROSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/roster_replacements_20260911/CHR008/source.png",
+  "source_asset_id": "chr008_spritegen_830313c34956e486",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -20,13 +20,13 @@
   ],
   "head_anchor": [
     0.5,
-    0.12
+    0.14
   ],
   "view": "THREE_QUARTER_RIGHT_DOWN_30",
   "facing_policy": "SEPARATE_LEFT_RIGHT",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "70601af409d70ea4795a484697eb7355a11d680e4784107dcaba1d8e1f64e635",
+  "preview_sha256": "543900597e6e3b6aa067db8af954c753849821a088c8fd71200f1a51527ed7dd",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "f38b3d54e286647981f6dd1f7426bcbdee4a87b227bfb5eca453440e41fe701c"
+  "sha256": "9facb018556c6b5fd15e30a04ac99c43ec10b6e34d0642e7df2ffe20f4621bba"
 }

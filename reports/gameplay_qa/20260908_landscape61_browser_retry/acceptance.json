@@ -1,0 +1,68 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "portrait boot does not start the game"
+    },
+    {
+      "pass": true,
+      "name": "portrait boot has no miniature game or instruction"
+    },
+    {
+      "pass": true,
+      "name": "portrait boot does not download the game pack or WASM"
+    },
+    {
+      "pass": true,
+      "name": "Growth stays landscape without rotation overlay"
+    },
+    {
+      "pass": true,
+      "name": "portrait runtime is hidden and paused"
+    },
+    {
+      "pass": true,
+      "name": "portrait runtime hides the complete canvas"
+    },
+    {
+      "pass": true,
+      "name": "rotation preserves growth selection and state"
+    },
+    {
+      "pass": true,
+      "name": "Rotated growth stays landscape without rotation overlay"
+    },
+    {
+      "pass": true,
+      "name": "landscape resumes its previous pause state"
+    },
+    {
+      "pass": true,
+      "name": "Story stays landscape without rotation overlay"
+    },
+    {
+      "pass": true,
+      "name": "real chapter introduction opens"
+    },
+    {
+      "pass": true,
+      "name": "story pauses when portrait"
+    },
+    {
+      "pass": true,
+      "name": "rotation preserves scenario"
+    },
+    {
+      "pass": true,
+      "name": "Landscape map stays landscape without rotation overlay"
+    },
+    {
+      "pass": false,
+      "name": "landscape map and whole-map grid load"
+    },
+    {
+      "pass": false,
+      "name": "Error: landscape map and whole-map grid load"
+    }
+  ]
+}

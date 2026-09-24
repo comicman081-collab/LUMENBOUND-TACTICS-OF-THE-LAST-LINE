@@ -30,14 +30,22 @@ const RADIUS_CONTROL := 8
 const RADIUS_PANEL := 14
 const RADIUS_MODAL := 18
 
+# Web rotates its landscape frame to fill a portrait handset.
+# There is no orientation prompt or separate portrait layout.
+static func landscape_layout_size(physical: Vector2) -> Vector2:
+	return Vector2(maxf(1.0, maxf(physical.x, physical.y)), maxf(1.0, minf(physical.x, physical.y)))
+
+static func typography_scale(physical: Vector2) -> float:
+	# Type follows a bounded reading scale, independently of touch hit targets.
+	# Inverse canvas scaling made every 34px heading a 34px *screen* heading,
+	# even inside a 340px-wide popup. That is too large for dense game menus.
+	return clampf(1280.0 / maxf(1.0, landscape_layout_size(physical).x), 1.0, 1.7)
+
 static func weighted_font(base_font: Font, weight: float, embolden := 0.0) -> Font:
-	if base_font == null:
-		return null
-	var variation := FontVariation.new()
-	variation.base_font = base_font
-	variation.variation_opentype = {"wght": weight}
-	variation.variation_embolden = embolden
-	return variation
+	# Static masters avoid falling back to the variable source's Thin (100)
+	# default on platforms that do not resolve string OpenType axis keys.
+	var face := "Black" if weight >= 700.0 else ("SemiBold" if weight >= 600.0 else "Medium")
+	return load("res://assets/fonts/LanternSans-%s.ttf" % face) as Font
 
 static func panel_style(
 		fill: Color = SURFACE,

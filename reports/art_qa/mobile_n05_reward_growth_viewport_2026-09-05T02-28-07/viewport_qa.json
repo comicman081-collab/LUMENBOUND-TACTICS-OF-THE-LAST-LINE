@@ -1,0 +1,215 @@
+{
+  "approval_status": "LOCAL_QA_ONLY",
+  "capture_mode": "OFFSCREEN_WINDOW_NO_FOREGROUND_AUTOMATION",
+  "captures": [
+    {
+      "file": "n05_story_page_01.png",
+      "height": 844,
+      "sha256": "1c887ab4a4911b5314b4b11e46f170d73954e65d1c12d085a4cc78432767732a",
+      "stage": "N05_STORY_PAGE_1",
+      "width": 390
+    },
+    {
+      "file": "n05_story_page_02.png",
+      "height": 844,
+      "sha256": "aad70731b462ed619a6407de288ca6d781c20f7dc79f41cec9fbfeaccce1f6e8",
+      "stage": "N05_STORY_PAGE_2",
+      "width": 390
+    },
+    {
+      "file": "n05_story_page_03.png",
+      "height": 844,
+      "sha256": "b755e2aa518fe8a4e53cda28b6d0478067f420b37dfd1954b0610a90f2a60c4f",
+      "stage": "N05_STORY_PAGE_3",
+      "width": 390
+    },
+    {
+      "file": "reward_result_top.png",
+      "height": 844,
+      "sha256": "a4dcc5d96b6161159bf4b8fbb317cdac2f53ecb9639f96354e4bc98e6efd5a56",
+      "stage": "RESULT_TOP",
+      "width": 390
+    },
+    {
+      "file": "reward_result_bottom.png",
+      "height": 844,
+      "sha256": "ecf23b8ba7969e62d6629c6014acb3548ea3c24d3efe685ebd448a47bac16166",
+      "stage": "RESULT_BOTTOM",
+      "width": 390
+    },
+    {
+      "file": "growth_top.png",
+      "height": 844,
+      "sha256": "e96db64058ae11ef639812da57ca915740cca02c79d37c29c57d4d8a14db0de3",
+      "stage": "GROWTH_TOP",
+      "width": 390
+    },
+    {
+      "file": "growth_quick_actions.png",
+      "height": 844,
+      "sha256": "0efe5f9a88af6dadb0501efd45c865cbf081d71b8a1206cd46ab502b4ff364af",
+      "stage": "GROWTH_QUICK_ACTIONS",
+      "width": 390
+    },
+    {
+      "file": "growth_equipment_choices.png",
+      "height": 844,
+      "sha256": "7e9a5cfc6cadd5ab68e853a6e21328feb19055d77f404b3a129810ec529dcd35",
+      "stage": "GROWTH_EQUIPMENT_CHOICES",
+      "width": 390
+    }
+  ],
+  "checks": {
+    "growth_equipment_choices": {
+      "buttons": [
+        "헤비 프레임 I\n장착",
+        "헤비 프레임 II\n장착"
+      ],
+      "compact_touch_labels": true,
+      "scroll": {
+        "bar_minimum_width": 49.230770111084,
+        "bar_visible": true,
+        "max_position": 10616.0,
+        "position": 4328.0,
+        "present": true,
+        "rect": [
+          30.0,
+          759.0,
+          1860.0,
+          3366.0
+        ],
+        "scrollable": true
+      },
+      "section": {
+        "fully_visible": true,
+        "intersects_visible": true,
+        "present": true,
+        "rect": [
+          50.0,
+          767.0,
+          1812.0,
+          437.0
+        ],
+        "visible": true
+      }
+    },
+    "growth_quick_actions": {
+      "level_button": {
+        "fully_visible": true,
+        "intersects_visible": true,
+        "present": true,
+        "rect": [
+          50.0,
+          897.0,
+          744.799987792969,
+          313.600006103516
+        ],
+        "visible": true
+      },
+      "scroll": {
+        "bar_minimum_width": 49.230770111084,
+        "bar_visible": true,
+        "max_position": 10616.0,
+        "position": 3549.0,
+        "present": true,
+        "rect": [
+          30.0,
+          759.0,
+          1860.0,
+          3366.0
+        ],
+        "scrollable": true
+      },
+      "section": {
+        "fully_visible": true,
+        "intersects_visible": true,
+        "present": true,
+        "rect": [
+          50.0,
+          767.0,
+          1812.0,
+          735.0
+        ],
+        "visible": true
+      },
+      "weapon_button": {
+        "fully_visible": true,
+        "intersects_visible": true,
+        "present": true,
+        "rect": [
+          802.0,
+          897.0,
+          744.799987792969,
+          313.600006103516
+        ],
+        "visible": true
+      }
+    },
+    "n05_story_page_01": {
+      "auto_fully_visible": true,
+      "body_content_height": 512.0,
+      "body_fully_visible": true,
+      "body_text": "기록편의 구조 신호가 공허기관 안에서 역방향으로 소모되고 있었다. 중계기 앞에는 신호를 추적하던 베라가 버티고 있었다.",
+      "body_visible_height": 512.0,
+      "dialogue_fully_visible": true,
+      "skip_fully_visible": true
+    },
+    "n05_story_page_02": {
+      "auto_fully_visible": true,
+      "body_content_height": 384.0,
+      "body_fully_visible": true,
+      "body_text": "공허기관이 삼키는 건 광맥 전력이 아니야. 구조 신호의 잔향을 연료로 바꾸고 있어.",
+      "body_visible_height": 384.0,
+      "dialogue_fully_visible": true,
+      "skip_fully_visible": true
+    },
+    "n05_story_page_03": {
+      "auto_fully_visible": true,
+      "body_content_height": 384.0,
+      "body_fully_visible": true,
+      "body_text": "내가 역추적 경로를 열게. 핵심부까지 함께 가자. 이 신호를 사람들에게 돌려줘야 해.",
+      "body_visible_height": 384.0,
+      "dialogue_fully_visible": true,
+      "skip_fully_visible": true
+    },
+    "reward_result": {
+      "bottom": {
+        "bar_minimum_width": 49.230770111084,
+        "bar_visible": true,
+        "max_position": 3013.0,
+        "position": 3013.0,
+        "present": true,
+        "rect": [
+          30.0,
+          650.0,
+          1860.0,
+          2903.0
+        ],
+        "scrollable": true
+      },
+      "growth_action_fully_visible": true,
+      "top": {
+        "bar_minimum_width": 49.230770111084,
+        "bar_visible": true,
+        "max_position": 3013.0,
+        "position": 0.0,
+        "present": true,
+        "rect": [
+          30.0,
+          650.0,
+          1860.0,
+          2903.0
+        ],
+        "scrollable": true
+      }
+    }
+  },
+  "failures": [],
+  "kind": "MOBILE_N05_REWARD_GROWTH_REAL_VIEWPORT_QA",
+  "reward_fixture": "In-memory CH01-N05 result delta only; SaveService is never called.",
+  "scenario_id": "SCN_CH01_MID_B",
+  "viewport": [
+    390,
+    844
+  ]
+}

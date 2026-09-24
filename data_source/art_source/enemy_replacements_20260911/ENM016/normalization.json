@@ -1,0 +1,23 @@
+{
+  "entity_id": "ENM016",
+  "raw": "work/enemy_replacement_20260911/gpt_candidates/ENM016.png.raw.png",
+  "raw_sha256": "e13adf439e2ca8f29f7f6a49e065b5c07d231bb1b56e6e3cb3d92071cae13bb1",
+  "raw_had_generated_alpha": false,
+  "green_master": "green_master.png",
+  "master_method": "Generated artwork composited without resizing onto uniform green with 64px safety border; raw preserved unchanged.",
+  "extractor": "sprite_gen.frames.cutout.cutout key=green; canonical Sprite Gen tool, no replacement extractor",
+  "stats": {
+    "out": "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\work\\enemy_replacement_20260911\\normalized\\ENM016\\source.png",
+    "mode": "RGBA",
+    "size": "1440x1327",
+    "key": "green",
+    "route": "extract:green",
+    "chroma_key": [
+      0,
+      255,
+      0
+    ],
+    "alpha_zero_pct": 74.47
+  },
+  "status": "VISUAL_REVIEW_REQUIRED"
+}

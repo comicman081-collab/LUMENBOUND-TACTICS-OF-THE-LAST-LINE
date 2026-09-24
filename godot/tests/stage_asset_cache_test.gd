@@ -31,6 +31,10 @@ func _run() -> void:
 	var plan: Dictionary = cache.target_plan("CH01_MAP", definition, party, "CH01-N01", [])
 	_check(str(plan.get("stage_ids", [""])[0]) == "CH01-N01", "selected stage remains the first preload target")
 	_check((plan.get("unlocked_stage_ids", []) as Array).has("CH01-N01"), "empty unlock input derives available node stages from AppState")
+	var map_entities: Array = plan.get("map_entity_ids", [])
+	_check(map_entities.has("CHR001"), "map entry keeps the active leader atlas")
+	_check(map_entities.has("ENM001"), "map entry keeps the visible encounter marker atlas")
+	_check(not map_entities.has("CHR002"), "map entry defers non-leader party atlases to battle")
 	_check(await cache.warm_for_stage_select("CH01_MAP", definition, party, "CH01-N01", []), "focused stage cache warmup completes")
 	_check(cache.cache_hit_for_stage_select("CH01_MAP", definition, party, "CH01-N01", []), "completed signature is reused")
 	var entities: Array[String] = []

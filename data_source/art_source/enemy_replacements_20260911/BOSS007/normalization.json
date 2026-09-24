@@ -1,0 +1,23 @@
+{
+  "entity_id": "BOSS007",
+  "raw": "work/enemy_replacement_20260911/gpt_candidates/BOSS007.png.raw.png",
+  "raw_sha256": "aa69584e42f791eea6da529692ad21542ff16117090280df6522f0255e76fa1c",
+  "raw_had_generated_alpha": true,
+  "green_master": "green_master.png",
+  "master_method": "Generated artwork composited without resizing onto uniform green with 64px safety border; raw preserved unchanged.",
+  "extractor": "sprite_gen.frames.cutout.cutout key=green; canonical Sprite Gen tool, no replacement extractor",
+  "stats": {
+    "out": "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\work\\enemy_replacement_20260911\\normalized\\BOSS007\\source.png",
+    "mode": "RGBA",
+    "size": "1440x1327",
+    "key": "green",
+    "route": "extract:green",
+    "chroma_key": [
+      0,
+      255,
+      0
+    ],
+    "alpha_zero_pct": 55.86
+  },
+  "status": "VISUAL_REVIEW_REQUIRED"
+}

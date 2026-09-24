@@ -1,6 +1,9 @@
 class_name BattleSpriteLibrary
 extends RefCounted
 
+const TextureIntegrity := preload("res://battle/view/runtime_texture_integrity.gd")
+const DensityLoader := preload("res://battle/view/density_texture_loader.gd")
+
 const PACK_ROOTS := {
 	"CHR001": {"root": "res://assets/runtime_web/combat/CHR001", "view": "THREE_QUARTER_RIGHT_DOWN_30", "facing": "SEPARATE_LEFT_RIGHT"},
 	"CHR002": {"root": "res://assets/runtime_web/combat/CHR002", "view": "THREE_QUARTER_RIGHT_DOWN_30"},
@@ -11,7 +14,7 @@ const PACK_ROOTS := {
 	"CHR007": {"root": "res://assets/runtime_web/combat/CHR007", "view": "THREE_QUARTER_RIGHT_DOWN_30", "facing": "SEPARATE_LEFT_RIGHT"},
 	"CHR008": {"root": "res://assets/runtime_web/combat/CHR008", "view": "THREE_QUARTER_RIGHT_DOWN_30", "facing": "SEPARATE_LEFT_RIGHT"},
 	"ENM001": {"root": "res://assets/runtime_web/combat/ENM001", "view": "THREE_QUARTER_LEFT_DOWN_30", "facing": "MIRROR_SAFE"},
-	"ENM002": {"root": "res://assets/runtime_web/combat/ENM002", "view": "THREE_QUARTER_LEFT_DOWN_30"},
+	"ENM002": {"root": "res://assets/runtime_web/combat/ENM002", "view": "THREE_QUARTER_LEFT_DOWN_30", "facing": "MIRROR_SAFE"},
 	"ENM003": {"root": "res://assets/runtime_web/combat/ENM003", "view": "THREE_QUARTER_LEFT_DOWN_30", "facing": "MIRROR_SAFE"},
 	"ENM004": {"root": "res://assets/runtime_web/combat/ENM004", "view": "THREE_QUARTER_LEFT_DOWN_30", "facing": "MIRROR_SAFE"},
 	"ENM005": {"root": "res://assets/runtime_web/combat/ENM005", "view": "THREE_QUARTER_LEFT_DOWN_30", "facing": "MIRROR_SAFE"},
@@ -22,13 +25,14 @@ const PACK_ROOTS := {
 	"BOSS001": {"root": "res://assets/runtime_web/combat/BOSS001", "view": "THREE_QUARTER_LEFT_DOWN_30", "facing": "MIRROR_SAFE"},
 	"BOSS002": {"root": "res://assets/runtime_web/combat/BOSS002", "view": "THREE_QUARTER_LEFT_DOWN_30", "facing": "MIRROR_SAFE"},
 }
-## R13 includes the actual starting five-player party (CHR001 through CHR005),
+## R16 includes the actual starting five-player party (CHR001 through CHR005),
 ## the reviewed CHR008 alternate-party slice, and the current common enemy/boss
-## group. CHR004 derives from an immutable #00FF00 master and separately
-## retained keyed-RGBA source, so a white matte cannot reach a runtime atlas by
-## accident. The runtime uses core pages plus one caster ultimate transient
+## group. CHR002/CHR004 use region-reviewed enclosed-hole repairs and retain
+## per-frame #00FF00 masters and keyed RGBA. Merely having a green master did
+## not remove opaque holes from an already faulty alpha plate. The runtime uses
+## core pages plus one caster ultimate transient
 ## lease, whose measured peak remains below 72MiB.
-const SIGNATURE_REVISION := "r13"
+const SIGNATURE_REVISION := "r16"
 const SIGNATURE_ROOT := "res://assets/runtime_web/combat_signature/" + SIGNATURE_REVISION
 const SIGNATURE_APPROVAL_PATH := SIGNATURE_ROOT + "/promotion_approval.json"
 const SIGNATURE_ANIMATIONS := ["idle", "ultimate", "hit", "down"]
@@ -38,10 +42,161 @@ const SIGNATURE_ANIMATIONS := ["idle", "ultimate", "hit", "down"]
 ## ultimate sheet at once.
 const SIGNATURE_CORE_ANIMATIONS := ["idle", "hit", "down"]
 const SIGNATURE_HARD_MEMORY_BUDGET_BYTES := 72 * 1024 * 1024
+## Reviewed SD defeat poses are a small, separate static lease.  Keeping them
+## outside the animation atlases lets a downed ally use the authored prone art
+## without changing the immutable idle/hit/down source packs.
+const DOWN_POSE_ROOT := "res://assets/runtime_web/combat_down_pose"
+const PLAYER_DOWN_POSE_PREFIX := "CHR"
 
 var manifests: Dictionary = {}
 var frames: Dictionary = {}
 var load_error := ""
+const FULL_DENSITY_ROOT := "res://assets/runtime_web/full_density/r2"
+## Inventory audit of all 500 authored stages: largest starting-party lease is
+## 135.79 MiB. 144 MiB covers it without disabling HD in 14 late boss stages.
+const FULL_DENSITY_BUDGET_BYTES := 144 * 1024 * 1024
+var full_density_bytes_by_entity: Dictionary = {}
+var full_density_error := ""
+var down_pose_textures: Dictionary = {}
+var down_pose_metadata: Dictionary = {}
+
+func clear_down_pose_pack() -> void:
+	down_pose_textures.clear()
+	down_pose_metadata.clear()
+
+func load_down_pose_pack(required_ids: Array[String] = []) -> bool:
+	clear_down_pose_pack()
+	var ids: Array[String] = []
+	for value in required_ids:
+		var id := str(value).strip_edges()
+		if not id.is_empty() and not ids.has(id):
+			ids.append(id)
+	if ids.is_empty():
+		return false
+	var loaded := false
+	for id in ids:
+		# Defeat bitmap art is a player-only contract. Enemy and boss units use
+		# the procedural destruction burst in BattleView even if a stale file is
+		# left in an older pack or a future candidate directory.
+		if not id.begins_with(PLAYER_DOWN_POSE_PREFIX):
+			continue
+		var texture_path := "%s/%s/down_pose.png" % [DOWN_POSE_ROOT, id]
+		if not ResourceLoader.exists(texture_path) and not FileAccess.file_exists(texture_path):
+			continue
+		var texture := _load_runtime_texture(texture_path)
+		if texture == null:
+			continue
+		down_pose_textures[id] = texture
+		loaded = true
+		var metadata_path := "%s/%s/down_pose.json" % [DOWN_POSE_ROOT, id]
+		if FileAccess.file_exists(metadata_path):
+			var parsed = JSON.parse_string(FileAccess.get_file_as_string(metadata_path))
+			if parsed is Dictionary:
+				down_pose_metadata[id] = parsed
+	return loaded
+
+func has_down_pose(character_id: String) -> bool:
+	return down_pose_textures.has(character_id) and down_pose_textures[character_id] is Texture2D
+
+func down_pose_texture(character_id: String) -> Texture2D:
+	var value = down_pose_textures.get(character_id, null)
+	return value as Texture2D if value is Texture2D else null
+
+func down_pose_head_anchor(character_id: String) -> Vector2:
+	var record: Dictionary = down_pose_metadata.get(character_id, {})
+	var bounds: Array = record.get("alpha_bounds", [0, 0, 512, 450])
+	if bounds.size() != 4:
+		return Vector2(.5, .30)
+	# The upper third of a prone silhouette is where the head/HP anchor reads;
+	# this keeps a zero-health bar above the body instead of through its face.
+	var head_y := clampf(float(bounds[1]) / 512.0 + .08, .05, .82)
+	return Vector2(.5, head_y)
+
+func full_density_snapshot() -> Dictionary:
+	var total := 0
+	for value in full_density_bytes_by_entity.values(): total += int(value)
+	return {"entity_ids": full_density_bytes_by_entity.keys(), "decoded_rgba_bytes": total,
+		"budget_bytes": FULL_DENSITY_BUDGET_BYTES, "cell_size": 256, "error": full_density_error}
+
+func warm_full_density(ids: Array[String], owner_node: Node) -> bool:
+	# Candidate capability is local-development only. This is not release approval.
+	if not preload("res://battle/view/local_presentation_quality.gd").allows_hd(): return false
+	var index_path := FULL_DENSITY_ROOT + "/index.json"
+	if not FileAccess.file_exists(index_path): return false
+	var index_value = JSON.parse_string(FileAccess.get_file_as_string(index_path))
+	if not index_value is Dictionary or str(index_value.get("status", "")) != "LOCAL_QA_ONLY": return false
+	var actors: Dictionary = index_value.get("actors", {})
+	var planned_bytes := 0
+	for id in ids:
+		if not actors.has(id):
+			full_density_error = "HD_ENTITY_MISSING:%s" % id
+			return false
+		planned_bytes += int(actors[id].get("decoded_rgba_bytes", 0))
+	if planned_bytes <= 0 or planned_bytes > FULL_DENSITY_BUDGET_BYTES:
+		full_density_error = "HD_MEMORY_BUDGET:%d" % planned_bytes
+		return false
+	for id in ids:
+		var error: String = await _load_full_density_actor(id, actors[id], owner_node)
+		if not error.is_empty():
+			full_density_error = error
+			push_warning("Full-density actor pack unavailable: %s" % error)
+			return false
+	full_density_error = ""
+	return true
+
+func _load_full_density_actor(id: String, approval: Dictionary, owner_node: Node) -> String:
+	var folder := FULL_DENSITY_ROOT + "/" + id
+	var manifest_path := folder + "/animation_manifest.json"
+	if FileAccess.get_sha256(manifest_path) != str(approval.get("manifest_sha256", "")): return "HD_MANIFEST_HASH:%s" % id
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
+	if not parsed is Dictionary: return "HD_MANIFEST_PARSE:%s" % id
+	var manifest: Dictionary = parsed
+	var dimensions: Array = manifest.get("frame_size", [])
+	# JSON numbers are floats in Godot; compare dimensions numerically instead of
+	# rejecting a valid canvas because its array element types differ.
+	if str(manifest.get("character_id", "")) != id or dimensions.size() != 2 or int(dimensions[0]) != 256 or int(dimensions[1]) != 256: return "HD_ID_OR_DENSITY:%s" % id
+	var baseline: Dictionary = manifests.get(id, {})
+	if str(manifest.get("source_asset_id", "")) != str(baseline.get("source_asset_id", "")) or str(manifest.get("view", "")) != str(baseline.get("view", "")): return "HD_IDENTITY_DRIFT:%s" % id
+	var pages: Array[Texture2D] = []
+	var page_requests: Array = []
+	for record in manifest.get("atlas_pages", []):
+		if not is_instance_valid(owner_node) or not owner_node.is_inside_tree(): return "HD_OWNER_GONE:%s" % id
+		var filename := str(record.get("atlas_path", ""))
+		if filename != filename.get_file(): return "HD_UNSAFE_PATH:%s" % id
+		var path := folder + "/" + filename
+		page_requests.append({"path":path,"sha256":str(record.get("atlas_sha256", ""))})
+	for offset in range(0,page_requests.size(),3):
+		var batch := await DensityLoader.load_pages(page_requests.slice(offset,mini(offset+3,page_requests.size())),owner_node)
+		if batch.is_empty(): return "HD_ATLAS_MISSING:%s" % id
+		pages.append_array(batch)
+	if not is_instance_valid(owner_node) or not owner_node.is_inside_tree(): return "HD_OWNER_GONE:%s" % id
+	var packed_frames: Array[Texture2D] = []
+	for record in manifest.get("packed_frames", []):
+		var page_index := int(record.get("page", -1))
+		var region: Array = record.get("region", [])
+		var margin: Array = record.get("margin", [])
+		if page_index < 0 or page_index >= pages.size() or region.size() != 4 or margin.size() != 4: return "HD_FRAME_INVALID:%s" % id
+		var texture := AtlasTexture.new()
+		texture.atlas = pages[page_index]
+		texture.region = Rect2(float(region[0]), float(region[1]), float(region[2]), float(region[3]))
+		texture.margin = Rect2(float(margin[0]), float(margin[1]), float(margin[2]), float(margin[3]))
+		if not Rect2(Vector2.ZERO, texture.atlas.get_size()).encloses(texture.region) or texture.get_size() != Vector2(256,256): return "HD_FRAME_BOUNDS:%s" % id
+		packed_frames.append(texture)
+	var actor_frames: Dictionary = {}
+	for name in manifest.get("animations", {}):
+		var definition: Dictionary = manifest.animations[name]
+		var original: Dictionary = baseline.get("animations", {}).get(name, {})
+		if int(definition.get("fps", 12)) != int(original.get("fps", 12)) or definition.get("frame_indices", []).size() != original.get("frame_indices", []).size(): return "HD_TIMING_DRIFT:%s:%s" % [id,name]
+		var sequence: Array[Texture2D] = []
+		for frame_index in definition.get("frame_indices", []):
+			if int(frame_index) < 0 or int(frame_index) >= packed_frames.size(): return "HD_FRAME_INDEX:%s" % id
+			sequence.append(packed_frames[int(frame_index)])
+		actor_frames[name] = sequence
+	# Swap an entire actor atomically. No partial animation can leak to rendering.
+	manifests[id] = manifest
+	frames[id] = actor_frames
+	full_density_bytes_by_entity[id] = int(manifest.get("decoded_rgba_bytes", 0))
+	return ""
 ## High-density signature cells are deliberately separate from the compact
 ## all-action atlas.  The active 128px packs remain the mobile baseline while
 ## CHR001/BOSS001 keep more source density for idle, ultimate, hit, and down.
@@ -182,6 +337,29 @@ func load_signature_pack(required_ids: Array[String] = []) -> bool:
 func load_signature_core_pack(required_ids: Array[String] = []) -> bool:
 	return _load_signature_pack_with_states(required_ids, SIGNATURE_CORE_ANIMATIONS, true)
 
+func load_signature_core_pack_sliced(required_ids: Array[String], owner: Node) -> bool:
+	clear_signature_pack()
+	var ids: Array[String] = []
+	for id in required_ids:
+		if not id.strip_edges().is_empty() and not ids.has(id): ids.append(id)
+	var failure := "SIGNATURE_IDS_EMPTY" if ids.is_empty() else _load_signature_approval(ids, SIGNATURE_CORE_ANIMATIONS)
+	if failure.is_empty():
+		for id in ids:
+			if not is_instance_valid(owner) or not owner.is_inside_tree():
+				failure = "SIGNATURE_OWNER_EXITED"
+				break
+			failure = _load_signature_character(id, SIGNATURE_ROOT + "/" + id, SIGNATURE_CORE_ANIMATIONS)
+			if not failure.is_empty(): break
+			await owner.get_tree().process_frame
+	if not failure.is_empty():
+		clear_signature_pack()
+		signature_load_error = failure
+		return false
+	signature_resident_entity_ids = ids.duplicate()
+	for id in ids: signature_resident_animation_ids_by_entity[id] = SIGNATURE_CORE_ANIMATIONS.duplicate()
+	signature_core_resident_atlas_bytes = signature_resident_atlas_bytes
+	return true
+
 
 func _load_signature_pack_with_states(required_ids: Array[String], requested_states: Array, core_lease: bool) -> bool:
 	clear_signature_pack()
@@ -309,7 +487,9 @@ func _load_signature_approval(required_ids: Array[String], requested_states: Arr
 	if str(approval.get("signature_revision", "")).to_lower() != SIGNATURE_REVISION:
 		return "SIGNATURE_APPROVAL_REVISION_MISMATCH"
 	var approval_status := str(approval.get("approval_status", ""))
-	var allowed_local_qa := approval_status == "LOCAL_QA_ONLY" and OS.is_debug_build()
+	# Web Development uses the release template for parity/performance but owns
+	# an explicit local developer capability. Public Release has neither flag.
+	var allowed_local_qa := approval_status == "LOCAL_QA_ONLY" and preload("res://battle/view/local_presentation_quality.gd").allows_hd()
 	if approval_status != "APPROVED_FOR_RUNTIME" and not allowed_local_qa:
 		return "SIGNATURE_APPROVAL_NOT_RELEASED:%s" % approval_status
 	var hashes_value = approval.get("manifest_sha256_by_character", {})
@@ -363,12 +543,14 @@ func _signature_resident_atlas_bytes_for_state_map(required_ids: Array[String], 
 	var seen_atlases: Dictionary = {}
 	for character_id in required_ids:
 		var manifest_path := SIGNATURE_ROOT + "/" + character_id + "/signature_manifest.json"
-		if not FileAccess.file_exists(manifest_path):
-			return -1
-		var parsed = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
-		if not parsed is Dictionary:
-			return -1
-		var manifest: Dictionary = parsed
+		# Core admission already pins this immutable manifest. Ultimate acquisition
+		# and release must not reparse every party member's JSON on the main thread.
+		var manifest: Dictionary = signature_manifests.get(character_id, {})
+		if manifest.is_empty():
+			if not FileAccess.file_exists(manifest_path): return -1
+			var parsed = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
+			if not parsed is Dictionary: return -1
+			manifest = parsed
 		var animations_value = manifest.get("animations", {})
 		if not animations_value is Dictionary:
 			return -1
@@ -451,7 +633,7 @@ func _load_signature_character(character_id: String, pack_root: String, requeste
 			return "%s:SIGNATURE_FRAME_RECORDS_MISSING:%s" % [character_id, animation_name]
 		var full_atlas_path := pack_root + "/" + atlas_path
 		var declared_atlas_hash := str(definition.get("atlas_sha256", ""))
-		if declared_atlas_hash.length() != 64 or not FileAccess.file_exists(full_atlas_path) or FileAccess.get_sha256(full_atlas_path) != declared_atlas_hash:
+		if not TextureIntegrity.matches(full_atlas_path, declared_atlas_hash):
 			return "%s:SIGNATURE_ATLAS_HASH_MISMATCH:%s" % [character_id, animation_name]
 		var atlas_texture: Texture2D = atlas_cache.get(atlas_path)
 		if atlas_texture == null:
@@ -511,7 +693,13 @@ func texture_at(character_id: String, animation_name: String, elapsed: float) ->
 	return textures[index]
 
 func has_signature_animation(character_id: String, animation_name: String) -> bool:
+	# A reviewed reference redraw owns its complete action family. Old signature
+	# atlases contain an earlier source and must never cover its newer SD body.
+	if is_reviewed_roster_redraw(character_id): return false
 	return signature_frames.has(character_id) and signature_frames[character_id].has(animation_name) and not signature_frames[character_id][animation_name].is_empty()
+
+func is_reviewed_roster_redraw(character_id: String) -> bool:
+	return str(manifests.get(character_id,{}).get("source_status","")) == "SPRITEGEN_ROSTER_VISUAL_PASS"
 
 
 func _signature_frame_index(character_id: String, animation_name: String, elapsed: float) -> int:

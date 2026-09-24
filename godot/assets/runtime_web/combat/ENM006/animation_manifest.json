@@ -2,17 +2,17 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_enm006",
   "character_id": "ENM006",
-  "display_name": "Dust Lens",
-  "status": "IMAGEGEN_STATIC_ANIMATED_SOURCE",
-  "source_status": "ORIGINAL_INTERNAL_GENERATED",
-  "source_root": "data_source/art_source/imagegen_enemy_sources/ENM006_dust_lens_source.png",
-  "source_asset_id": "imggen_enm006_dust_lens_r7",
-  "creation_method": "imagegen_original_render_plus_deterministic_presentation_motion",
+  "display_name": "ENM006",
+  "status": "LOCAL_REVIEWED_SD_ROSTER",
+  "source_status": "SPRITEGEN_ROSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/roster_replacements_20260911/ENM006/source.png",
+  "source_asset_id": "enm006_spritegen_48483d8a0a8c6583",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
-    68,
-    68
+    112,
+    112
   ],
   "foot_anchor": [
     0.5,
@@ -20,13 +20,13 @@
   ],
   "head_anchor": [
     0.5,
-    0.2
+    0.14
   ],
   "view": "THREE_QUARTER_LEFT_DOWN_30",
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "6fad30fb39019c4d0ab1f7ccf682463e7a005494ee02c26e74c71baa8cac548b",
+  "preview_sha256": "8e153eaa4bb5b520efbd1c49c4b0eff80fc5726e93abbd9c0f4521094b555d44",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "9b527ea7883fe073c34f28648185b7ac909fb1b43644ec4dafd6c7ba471b4802"
+  "sha256": "d88311ab082ae495a62383c39b6d168cd568aa6201303f9c0f072aaf4e5d714b"
 }

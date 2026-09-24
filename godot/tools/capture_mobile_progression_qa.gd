@@ -146,6 +146,14 @@ func _capture_reward_growth_and_equipment() -> void:
 	await _settle(.34)
 	var result_scroll := _primary_scroll()
 	var result_growth_button := _find_button("권장 파티 성장")
+	var celebration := shell.find_child("RewardCelebrationQueue", true, false) as Control
+	var celebration_next := shell.find_child("RewardCelebrationNext", true, false) as Control
+	var celebration_skip := shell.find_child("RewardCelebrationSkip", true, false) as Control
+	if celebration != null and celebration_next != null and celebration_skip != null:
+		var card_rect := celebration.get_global_rect().grow(1.0)
+		_require(card_rect.encloses(celebration_next.get_global_rect()) and card_rect.encloses(celebration_skip.get_global_rect()), "reward celebration touch buttons stay inside their container", JSON.stringify(_control_snapshot(celebration)))
+		var ledger := celebration.get_parent().get_child(celebration.get_index() + 1) as Control
+		_require(ledger.get_global_rect().position.y >= celebration.get_global_rect().end.y - 1.0, "reward celebration does not overlap the following ledger", JSON.stringify(_control_snapshot(ledger)))
 	await _capture("reward_result_top", "RESULT_TOP")
 	var result_top := _scroll_snapshot(result_scroll)
 	_require(result_scroll != null and bool(result_top.get("scrollable", false)), "result ledger exposes a real vertical scroll range", JSON.stringify(result_top))
@@ -172,6 +180,15 @@ func _capture_reward_growth_and_equipment() -> void:
 	var weapon_button := _find_button("무기 강화")
 	await _capture("growth_top", "GROWTH_TOP")
 	var growth_top := _scroll_snapshot(growth_scroll)
+	var selector := shell.find_child("GrowthPartySelector", true, false) as GridContainer
+	var hint := shell.find_child("GrowthSectionHint", true, false) as Label
+	var one_row := selector != null and selector.columns == selector.get_child_count()
+	if selector != null:
+		for tab in selector.get_children():
+			one_row = one_row and _fully_visible(tab) and absf(tab.position.y - selector.get_child(0).position.y) < 1.0
+	_require(one_row, "all five character tabs fit one visible row", str(one_row))
+	_require(hint != null and hint.get_line_count() == 1, "character section subtitle stays on one line", "hint")
+	_require(_fully_visible(quick_actions) and _fully_visible(equipment_choices), "growth and equipment actions appear before the dossier without scrolling", "initial action positions")
 	_require(growth_scroll != null and bool(growth_top.get("scrollable", false)), "growth dossier keeps an always-visible vertical scroll rail", JSON.stringify(growth_top))
 	_require(quick_actions != null and equipment_choices != null, "growth creates immediate level/weapon and equipment action sections", "quick=%s equipment=%s" % [str(quick_actions != null), str(equipment_choices != null)])
 	if growth_scroll != null and quick_actions != null:
@@ -203,7 +220,28 @@ func _capture_reward_growth_and_equipment() -> void:
 	}
 	_require(_intersects_visible(equipment_choices), "equipment selection is reachable by the same real growth scroll", JSON.stringify(checks["growth_equipment_choices"]))
 	_require(equipment_button_contract, "equipment choices use readable no-WPN two-line labels inside fully visible touch targets", JSON.stringify(checks["growth_equipment_choices"]))
-	_require(float(growth_equipment.get("position", 0.0)) > float(growth_top.get("position", 0.0)), "growth scroll moves beyond its initial viewport", JSON.stringify({"top": growth_top, "equipment": growth_equipment}))
+	growth_scroll.scroll_vertical = 0
+	await _settle(.1)
+	var touch := InputEventScreenTouch.new()
+	touch.index = 0
+	touch.position = growth_scroll.get_global_rect().position + Vector2(100, 300)
+	touch.pressed = true
+	get_viewport().push_input(touch, true)
+	await get_tree().process_frame
+	var drag := InputEventScreenDrag.new()
+	drag.index = 0
+	drag.position = touch.position - Vector2(0, 220)
+	drag.relative = Vector2(0, -220)
+	get_viewport().push_input(drag, true)
+	await get_tree().process_frame
+	var release := InputEventScreenTouch.new()
+	release.index = 0
+	release.position = drag.position
+	release.pressed = false
+	get_viewport().push_input(release, true)
+	await _settle(.1)
+	checks["growth_touch_scroll"] = _scroll_snapshot(growth_scroll)
+	_require(growth_scroll.scroll_vertical > 0, "finger drag moves the real growth scroll past nested panels", JSON.stringify(checks["growth_touch_scroll"]))
 
 
 func _primary_scroll() -> ScrollContainer:

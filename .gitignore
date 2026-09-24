@@ -23,5 +23,10 @@ reports/**/*.mp4
 reports/**/*.zip
 reports/**/contact_sheets/
 reports/**/profiles/
+reports/**/profile/
+reports/**/shader_cache/
+# Verified recovery archives and rejected candidates stay on disk only; see
+# quarantine/retained_archive_20260911/README.md for restore instructions.
+quarantine/
 dist/client/
 dist/.openai/

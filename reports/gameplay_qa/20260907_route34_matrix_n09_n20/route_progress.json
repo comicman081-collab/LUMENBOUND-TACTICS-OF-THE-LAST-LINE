@@ -1,0 +1,7364 @@
+{
+  "checks": [
+    {
+      "name": "n09 continuous map background",
+      "pass": true
+    },
+    {
+      "name": "n09 actual high-density map pawn",
+      "pass": true
+    },
+    {
+      "name": "n09 water excluded from walk range",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM007 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM007 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM008 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM008 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM009 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM009 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "n09 entered real battle",
+      "pass": true
+    },
+    {
+      "name": "n09 actual combat victory",
+      "pass": true
+    },
+    {
+      "name": "n09 real touch reaches lower reward report",
+      "pass": true
+    },
+    {
+      "name": "real result transition selects CH01-N10",
+      "pass": true
+    },
+    {
+      "name": "n09 isolated QA save only",
+      "pass": true
+    },
+    {
+      "name": "n09 no runtime/script/shader warnings",
+      "pass": true
+    },
+    {
+      "name": "n10 continuous map background",
+      "pass": true
+    },
+    {
+      "name": "n10 actual high-density map pawn",
+      "pass": true
+    },
+    {
+      "name": "n10 water excluded from walk range",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM006 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM006 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM007 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM007 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM008 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM008 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM009 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM009 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "n10 entered real battle",
+      "pass": true
+    },
+    {
+      "name": "n10 actual combat victory",
+      "pass": true
+    },
+    {
+      "name": "n10 real touch reaches lower reward report",
+      "pass": true
+    },
+    {
+      "name": "real result transition selects CH01-N11",
+      "pass": true
+    },
+    {
+      "name": "n10 isolated QA save only",
+      "pass": true
+    },
+    {
+      "name": "n10 no runtime/script/shader warnings",
+      "pass": true
+    },
+    {
+      "name": "n11 continuous map background",
+      "pass": true
+    },
+    {
+      "name": "n11 actual high-density map pawn",
+      "pass": true
+    },
+    {
+      "name": "n11 water excluded from walk range",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM010 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM010 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM011 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM011 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM006 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM006 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "n11 entered real battle",
+      "pass": true
+    },
+    {
+      "name": "n11 actual combat victory",
+      "pass": true
+    },
+    {
+      "name": "n11 real touch reaches lower reward report",
+      "pass": true
+    },
+    {
+      "name": "real result transition selects CH01-N12",
+      "pass": true
+    },
+    {
+      "name": "n11 isolated QA save only",
+      "pass": true
+    },
+    {
+      "name": "n11 no runtime/script/shader warnings",
+      "pass": true
+    },
+    {
+      "name": "n12 continuous map background",
+      "pass": true
+    },
+    {
+      "name": "n12 actual high-density map pawn",
+      "pass": true
+    },
+    {
+      "name": "n12 water excluded from walk range",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM012 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM012 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM007 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM007 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM008 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM008 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "n12 entered real battle",
+      "pass": true
+    },
+    {
+      "name": "n12 actual combat victory",
+      "pass": true
+    },
+    {
+      "name": "n12 real touch reaches lower reward report",
+      "pass": true
+    },
+    {
+      "name": "real result transition selects CH01-N13",
+      "pass": true
+    },
+    {
+      "name": "n12 isolated QA save only",
+      "pass": true
+    },
+    {
+      "name": "n12 no runtime/script/shader warnings",
+      "pass": true
+    },
+    {
+      "name": "n13 continuous map background",
+      "pass": true
+    },
+    {
+      "name": "n13 actual high-density map pawn",
+      "pass": true
+    },
+    {
+      "name": "n13 water excluded from walk range",
+      "pass": true
+    },
+    {
+      "name": "n13 briefing fits 390x844",
+      "pass": true
+    },
+    {
+      "name": "n13 briefing next button visible",
+      "pass": true
+    },
+    {
+      "name": "n13 briefing fits 390x844",
+      "pass": true
+    },
+    {
+      "name": "n13 briefing next button visible",
+      "pass": true
+    },
+    {
+      "name": "n13 briefing fits 390x844",
+      "pass": true
+    },
+    {
+      "name": "n13 briefing next button visible",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM010 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM010 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM009 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM009 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM009 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "n13 entered real battle",
+      "pass": true
+    },
+    {
+      "name": "n13 actual combat victory",
+      "pass": true
+    },
+    {
+      "name": "n13 real touch reaches lower reward report",
+      "pass": true
+    },
+    {
+      "name": "real result transition selects CH01-N14",
+      "pass": true
+    },
+    {
+      "name": "n13 isolated QA save only",
+      "pass": true
+    },
+    {
+      "name": "n13 no runtime/script/shader warnings",
+      "pass": true
+    },
+    {
+      "name": "n14 continuous map background",
+      "pass": true
+    },
+    {
+      "name": "n14 actual high-density map pawn",
+      "pass": true
+    },
+    {
+      "name": "n14 water excluded from walk range",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM011 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM011 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM011 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM006 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM006 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM007 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM007 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "n14 entered real battle",
+      "pass": true
+    },
+    {
+      "name": "n14 actual combat victory",
+      "pass": true
+    },
+    {
+      "name": "n14 real touch reaches lower reward report",
+      "pass": true
+    },
+    {
+      "name": "real result transition selects CH01-N15",
+      "pass": true
+    },
+    {
+      "name": "n14 isolated QA save only",
+      "pass": true
+    },
+    {
+      "name": "n14 no runtime/script/shader warnings",
+      "pass": true
+    },
+    {
+      "name": "n15 continuous map background",
+      "pass": true
+    },
+    {
+      "name": "n15 actual high-density map pawn",
+      "pass": true
+    },
+    {
+      "name": "n15 water excluded from walk range",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM012 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM012 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM012 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM008 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM008 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM010 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM010 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM010 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "n15 entered real battle",
+      "pass": true
+    },
+    {
+      "name": "n15 actual combat victory",
+      "pass": true
+    },
+    {
+      "name": "n15 real touch reaches lower reward report",
+      "pass": true
+    },
+    {
+      "name": "real result transition selects CH01-N16",
+      "pass": true
+    },
+    {
+      "name": "n15 isolated QA save only",
+      "pass": true
+    },
+    {
+      "name": "n15 no runtime/script/shader warnings",
+      "pass": true
+    },
+    {
+      "name": "n16 continuous map background",
+      "pass": true
+    },
+    {
+      "name": "n16 actual high-density map pawn",
+      "pass": true
+    },
+    {
+      "name": "n16 water excluded from walk range",
+      "pass": true
+    },
+    {
+      "name": "Error: Move action did not become visible after selecting the next encounter",
+      "pass": false
+    }
+  ],
+  "results": [
+    {
+      "stage": 9,
+      "waves": 3,
+      "victory": true,
+      "next": "CH01-N10",
+      "duration_ms": 42427
+    },
+    {
+      "stage": 10,
+      "waves": 3,
+      "victory": true,
+      "next": "CH01-N11",
+      "duration_ms": 30216
+    },
+    {
+      "stage": 11,
+      "waves": 2,
+      "victory": true,
+      "next": "CH01-N12",
+      "duration_ms": 20966
+    },
+    {
+      "stage": 12,
+      "waves": 2,
+      "victory": true,
+      "next": "CH01-N13",
+      "duration_ms": 26315
+    },
+    {
+      "stage": 13,
+      "waves": 2,
+      "victory": true,
+      "next": "CH01-N14",
+      "duration_ms": 24298
+    },
+    {
+      "stage": 14,
+      "waves": 2,
+      "victory": true,
+      "next": "CH01-N15",
+      "duration_ms": 25432
+    },
+    {
+      "stage": 15,
+      "waves": 2,
+      "victory": true,
+      "next": "CH01-N16",
+      "duration_ms": 25848
+    }
+  ],
+  "motion": [
+    {
+      "stage": 9,
+      "at": 1788790328889,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.44649,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.57564,
+            "name": "ultimate",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.27,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.2475,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.1575,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "ENM007",
+          "hp": 4331,
+          "track": {
+            "elapsed": 0.27,
+            "name": "idle",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "at": 1788790330472,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.36,
+            "name": "basic_attack",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.1125,
+            "name": "basic_attack",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0,
+            "name": "basic_attack",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.4725,
+            "name": "basic_attack",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.36,
+            "name": "basic_attack",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "ENM007",
+          "hp": 3038,
+          "track": {
+            "elapsed": 0.2025,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "at": 1788790332072,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.1575,
+            "name": "normal_skill",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.0225,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.495,
+            "name": "basic_attack",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.315,
+            "name": "basic_attack",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.09,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "ENM007",
+          "hp": 2079,
+          "track": {
+            "elapsed": 0.3825,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "at": 1788790333644,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.13617,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.26742,
+            "name": "ultimate",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.13617,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.31242,
+            "name": "basic_attack",
+            "target_uid": "E:1:0:ENM007"
+          }
+        },
+        {
+          "id": "ENM007",
+          "hp": 356,
+          "track": {
+            "elapsed": 0.492420000000001,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "at": 1788790335563,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.46053,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.50553,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.2925,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.2475,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "ENM008",
+          "hp": 4572,
+          "track": {
+            "elapsed": 0.36,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "at": 1788790337102,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.4275,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.4275,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.0675,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.4275,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.585,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "ENM008",
+          "hp": 3534,
+          "track": {
+            "elapsed": 0.5175,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "at": 1788790338728,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.441396,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.418896,
+            "name": "ultimate",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.576396,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.224991,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.250461000000001,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "ENM008",
+          "hp": 1974,
+          "track": {
+            "elapsed": 0.0449982,
+            "name": "idle",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "at": 1788790340361,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.3149874,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.0674973,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.2924883,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.3374865,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.3374865,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "ENM008",
+          "hp": 809,
+          "track": {
+            "elapsed": 0,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "at": 1788790342360,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.1574937,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.0899964,
+            "name": "normal_skill",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.0674973,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.1574937,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.0674973,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "ENM009",
+          "hp": 6780,
+          "track": {
+            "elapsed": 0.1574937,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "at": 1788790343802,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.6299361,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.4949415,
+            "name": "ultimate",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.2024532,
+            "name": "idle",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.3374478,
+            "name": "idle",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.157455,
+            "name": "idle",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "ENM009",
+          "hp": 5530,
+          "track": {
+            "elapsed": 0.157455,
+            "name": "idle",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "at": 1788790345420,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.45,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.45,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.45,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.0225,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.27,
+            "name": "normal_skill",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM009",
+          "hp": 4603,
+          "track": {
+            "elapsed": 0.09,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "at": 1788790347018,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.405,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.405,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.405,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.405,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.6525,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "ENM009",
+          "hp": 3452,
+          "track": {
+            "elapsed": 0.27,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "at": 1788790348627,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.3037455,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.1237455,
+            "name": "ultimate",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.1687455,
+            "name": "idle",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.1687455,
+            "name": "idle",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.2587455,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "ENM009",
+          "hp": 2075,
+          "track": {
+            "elapsed": 0.3262455,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "at": 1788790350220,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.1799928,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.1799928,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.1799928,
+            "name": "normal_skill",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.1799928,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "ENM009",
+          "hp": 1030,
+          "track": {
+            "elapsed": 0.1799928,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "at": 1788790351819,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.224991,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.4724811,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.3599856,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.224991,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.224991,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "ENM009",
+          "hp": 175,
+          "track": {
+            "elapsed": 0.6524739,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 10,
+      "at": 1788790380723,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.09,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM003"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.7757514,
+            "name": "normal_skill",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.09,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM003"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.09,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM003"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.7757514,
+            "name": "ultimate",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM007",
+          "hp": 4166,
+          "track": {}
+        },
+        {
+          "id": "ENM008",
+          "hp": 3869,
+          "track": {}
+        }
+      ]
+    },
+    {
+      "stage": 10,
+      "at": 1788790382416,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.7199712,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.7199712,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.7199712,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.7199712,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.4049838,
+            "name": "idle",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM007",
+          "hp": 1163,
+          "track": {
+            "elapsed": 0.4949802,
+            "name": "idle"
+          }
+        },
+        {
+          "id": "ENM008",
+          "hp": 3513,
+          "track": {
+            "elapsed": 0.4949802,
+            "name": "idle"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 10,
+      "at": 1788790383969,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.74223,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.74223,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.74223,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.74223,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.40482,
+            "name": "idle",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM007",
+          "hp": 0,
+          "track": {
+            "elapsed": 0.74223,
+            "name": "idle",
+            "target_uid": "P:CHR001"
+          }
+        },
+        {
+          "id": "ENM008",
+          "hp": 1704,
+          "track": {
+            "elapsed": 0.74223,
+            "name": "idle",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 10,
+      "at": 1788790386027,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.27,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.27,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.0225,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.27,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.27,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "ENM009",
+          "hp": 4946,
+          "track": {
+            "elapsed": 0.0225,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 10,
+      "at": 1788790387673,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.0224991,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.0224991,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.0224991,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.0224991,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.0224991,
+            "name": "basic_attack",
+            "target_uid": "E:3:0:ENM009"
+          }
+        },
+        {
+          "id": "ENM009",
+          "hp": 1798,
+          "track": {
+            "elapsed": 0.0224991,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 10,
+      "at": 1788790389381,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.0449982,
+            "name": "idle"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.0449982,
+            "name": "idle"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.0449982,
+            "name": "idle"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.0449982,
+            "name": "idle"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.0449982,
+            "name": "idle"
+          }
+        },
+        {
+          "id": "ENM009",
+          "hp": 0,
+          "track": {
+            "elapsed": 0.0449982,
+            "name": "down"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 11,
+      "at": 1788790416068,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.5400927,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.5400927,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.5400927,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.5400927,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.5175927,
+            "name": "ultimate",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM010",
+          "hp": 243,
+          "track": {
+            "elapsed": 0.5175927,
+            "name": "move"
+          }
+        },
+        {
+          "id": "ENM005",
+          "hp": 825,
+          "track": {
+            "elapsed": 0.5175927,
+            "name": "move"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 11,
+      "at": 1788790418213,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.999959999999999,
+            "name": "idle",
+            "target_uid": "E:1:1:ENM005"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.999959999999999,
+            "name": "idle",
+            "target_uid": "E:1:1:ENM005"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.999959999999999,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM011"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.649974,
+            "name": "idle",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.449982,
+            "name": "idle",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM011",
+          "hp": 0,
+          "track": {
+            "elapsed": 0.766636,
+            "name": "idle"
+          }
+        },
+        {
+          "id": "ENM006",
+          "hp": 0,
+          "track": {
+            "elapsed": 0.766636,
+            "name": "idle"
+          }
+        },
+        {
+          "id": "ENM002",
+          "hp": 119,
+          "track": {
+            "elapsed": 0.766636,
+            "name": "idle"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 12,
+      "at": 1788790444337,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.783301999999999,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.783301999999999,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.783301999999999,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.783301999999999,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.708305333333333,
+            "name": "ultimate",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM012",
+          "hp": 1406,
+          "track": {
+            "elapsed": 0.766636,
+            "name": "move"
+          }
+        },
+        {
+          "id": "ENM007",
+          "hp": 3061,
+          "track": {
+            "elapsed": 0.766636,
+            "name": "move"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 12,
+      "at": 1788790445998,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 1.1475,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM012"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.8325,
+            "name": "idle",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 1.1475,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM012"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 1.1475,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM012"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.5625,
+            "name": "idle",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM012",
+          "hp": 0,
+          "track": {
+            "elapsed": 0.45,
+            "name": "down",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM007",
+          "hp": 1143,
+          "track": {
+            "elapsed": 1.1475,
+            "name": "idle",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 12,
+      "at": 1788790448025,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.5737365,
+            "name": "basic_attack",
+            "target_uid": "E:1:1:ENM007"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.3487365,
+            "name": "basic_attack",
+            "target_uid": "E:1:1:ENM007"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.1574937,
+            "name": "idle",
+            "target_uid": "E:1:1:ENM007"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0,
+            "name": "idle",
+            "target_uid": "E:1:1:ENM007"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.3487365,
+            "name": "ultimate",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM003",
+          "hp": 672,
+          "track": {
+            "elapsed": 0.3487365,
+            "name": "move"
+          }
+        },
+        {
+          "id": "ENM008",
+          "hp": 2701,
+          "track": {
+            "elapsed": 0.3487365,
+            "name": "move"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 12,
+      "at": 1788790449712,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.5624775,
+            "name": "basic_attack",
+            "target_uid": "E:2:1:ENM008"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.1124955,
+            "name": "basic_attack",
+            "target_uid": "E:2:1:ENM008"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.5624775,
+            "name": "basic_attack",
+            "target_uid": "E:2:1:ENM008"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.3599856,
+            "name": "basic_attack",
+            "target_uid": "E:2:1:ENM008"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0,
+            "name": "basic_attack",
+            "target_uid": "E:2:1:ENM008"
+          }
+        },
+        {
+          "id": "ENM003",
+          "hp": 0,
+          "track": {
+            "elapsed": 0.8774649,
+            "name": "down",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM008",
+          "hp": 1281,
+          "track": {
+            "elapsed": 0.5624775,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 12,
+      "at": 1788790451314,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.0449982,
+            "name": "idle"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.0449982,
+            "name": "idle"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.0449982,
+            "name": "idle"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.0449982,
+            "name": "idle"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.0449982,
+            "name": "idle"
+          }
+        },
+        {
+          "id": "ENM003",
+          "hp": 0,
+          "track": {
+            "elapsed": 0.0449982,
+            "name": "down"
+          }
+        },
+        {
+          "id": "ENM008",
+          "hp": 0,
+          "track": {
+            "elapsed": 0.0449982,
+            "name": "down"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 13,
+      "at": 1788790481608,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.5305095,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.5305095,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.5305095,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.5305095,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.5080095,
+            "name": "ultimate",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM004",
+          "hp": 837,
+          "track": {
+            "elapsed": 0.5080095,
+            "name": "move"
+          }
+        },
+        {
+          "id": "ENM010",
+          "hp": 1050,
+          "track": {
+            "elapsed": 0.5080095,
+            "name": "move"
+          }
+        },
+        {
+          "id": "ENM001",
+          "hp": 654,
+          "track": {
+            "elapsed": 0.5080095,
+            "name": "move"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 13,
+      "at": 1788790483815,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.169696799999994,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.0773567999999941,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.238141799999994,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM009"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.169696799999994,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM009"
+          }
+        },
+        {
+          "id": "ENM009",
+          "hp": 1589,
+          "track": {
+            "elapsed": 0.0773567999999941,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 14,
+      "at": 1788790511680,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.8647113,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.8647113,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.8647113,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.8647113,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.8422113,
+            "name": "ultimate",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM011",
+          "hp": 258,
+          "track": {
+            "elapsed": 0.8422113,
+            "name": "move"
+          }
+        },
+        {
+          "id": "ENM006",
+          "hp": 886,
+          "track": {
+            "elapsed": 0.8422113,
+            "name": "move"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 14,
+      "at": 1788790513616,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 1.0826,
+            "name": "idle",
+            "target_uid": "E:1:1:ENM006"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 1.0826,
+            "name": "idle",
+            "target_uid": "E:1:1:ENM006"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 1.0826,
+            "name": "idle",
+            "target_uid": "E:1:1:ENM006"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.749433333333334,
+            "name": "idle",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.749433333333334,
+            "name": "idle",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM007",
+          "hp": 1799,
+          "track": {
+            "elapsed": 0.849433333333334,
+            "name": "idle"
+          }
+        },
+        {
+          "id": "ENM005",
+          "hp": 384,
+          "track": {
+            "elapsed": 0.849433333333334,
+            "name": "idle"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 14,
+      "at": 1788790515189,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.266666666666667,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.15,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.633333333333334,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.45,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.15,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "ENM007",
+          "hp": 1054,
+          "track": {
+            "elapsed": 0.433333333333333,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        },
+        {
+          "id": "ENM005",
+          "hp": 384,
+          "track": {
+            "elapsed": 0.333333333333333,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 14,
+      "at": 1788790516776,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 1.11646333333333,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.699800000000001,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 1.48331266666667,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 1.27706533333334,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM007"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.316666666666667,
+            "name": "idle",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM007",
+          "hp": 370,
+          "track": {
+            "elapsed": 1.27706533333334,
+            "name": "idle",
+            "target_uid": "P:CHR001"
+          }
+        },
+        {
+          "id": "ENM005",
+          "hp": 0,
+          "track": {
+            "elapsed": 0.216666666666667,
+            "name": "down",
+            "target_uid": ""
+          }
+        }
+      ]
+    },
+    {
+      "stage": 15,
+      "at": 1788790545284,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.336906222222222,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.336906222222222,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.336906222222222,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.336906222222222,
+            "name": "move"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.244304666666673,
+            "name": "ultimate",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM003",
+          "hp": 1452,
+          "track": {
+            "elapsed": 0.320239555555556,
+            "name": "move"
+          }
+        },
+        {
+          "id": "ENM012",
+          "hp": 1566,
+          "track": {
+            "elapsed": 0.320239555555556,
+            "name": "move"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 15,
+      "at": 1788790547404,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.6975,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM003"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.3825,
+            "name": "idle",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.6975,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM003"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.6975,
+            "name": "idle",
+            "target_uid": "E:1:0:ENM003"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.2925,
+            "name": "idle",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM008",
+          "hp": 2767,
+          "track": {}
+        },
+        {
+          "id": "ENM002",
+          "hp": 840,
+          "track": {}
+        },
+        {
+          "id": "ENM010",
+          "hp": 1127,
+          "track": {}
+        }
+      ]
+    },
+    {
+      "stage": 15,
+      "at": 1788790549080,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.4274829,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.1124955,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.6299748,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.5399784,
+            "name": "idle",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0.780063300000009,
+            "name": "ultimate",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM008",
+          "hp": 870,
+          "track": {
+            "elapsed": 0.7537203,
+            "name": "idle",
+            "target_uid": "P:CHR001"
+          }
+        },
+        {
+          "id": "ENM002",
+          "hp": 525,
+          "track": {
+            "elapsed": 0.7199712,
+            "name": "idle",
+            "target_uid": "P:CHR001"
+          }
+        },
+        {
+          "id": "ENM010",
+          "hp": 1127,
+          "track": {
+            "elapsed": 0.6535971,
+            "name": "idle",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    },
+    {
+      "stage": 15,
+      "at": 1788790550665,
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 1341,
+          "track": {
+            "elapsed": 0.2925,
+            "name": "basic_attack",
+            "target_uid": "E:2:1:ENM002"
+          }
+        },
+        {
+          "id": "CHR002",
+          "hp": 980,
+          "track": {
+            "elapsed": 0.4275,
+            "name": "normal_skill",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "CHR003",
+          "hp": 760,
+          "track": {
+            "elapsed": 0.2925,
+            "name": "basic_attack",
+            "target_uid": "E:2:0:ENM008"
+          }
+        },
+        {
+          "id": "CHR004",
+          "hp": 720,
+          "track": {
+            "elapsed": 0.1125,
+            "name": "basic_attack",
+            "target_uid": "E:2:1:ENM002"
+          }
+        },
+        {
+          "id": "CHR005",
+          "hp": 690,
+          "track": {
+            "elapsed": 0,
+            "name": "normal_skill",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM008",
+          "hp": 0,
+          "track": {
+            "elapsed": 0.2925,
+            "name": "down",
+            "target_uid": ""
+          }
+        },
+        {
+          "id": "ENM002",
+          "hp": 232,
+          "track": {
+            "elapsed": 0.585,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        },
+        {
+          "id": "ENM010",
+          "hp": 1034,
+          "track": {
+            "elapsed": 0.495,
+            "name": "basic_attack",
+            "target_uid": "P:CHR001"
+          }
+        }
+      ]
+    }
+  ]
+}

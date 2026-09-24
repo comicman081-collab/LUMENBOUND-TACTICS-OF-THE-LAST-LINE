@@ -1,0 +1,122 @@
+[
+  {
+    "sequence": 18,
+    "source": {
+      "tabId": 2
+    },
+    "method": "Runtime.exceptionThrown",
+    "params": {
+      "exceptionDetails": {
+        "columnNumber": 45696,
+        "exceptionId": 1,
+        "executionContextId": 4,
+        "lineNumber": 184,
+        "scriptId": "4",
+        "stackTrace": {
+          "callFrames": [
+            {
+              "columnNumber": 45696,
+              "functionName": "",
+              "lineNumber": 184,
+              "scriptId": "4",
+              "url": ""
+            },
+            {
+              "columnNumber": 11763,
+              "functionName": "r",
+              "lineNumber": 160,
+              "scriptId": "4",
+              "url": ""
+            },
+            {
+              "columnNumber": 11648,
+              "functionName": "n",
+              "lineNumber": 160,
+              "scriptId": "4",
+              "url": ""
+            },
+            {
+              "columnNumber": 11975,
+              "functionName": "Zf",
+              "lineNumber": 160,
+              "scriptId": "4",
+              "url": ""
+            },
+            {
+              "columnNumber": 45608,
+              "functionName": "Q_",
+              "lineNumber": 184,
+              "scriptId": "4",
+              "url": ""
+            },
+            {
+              "columnNumber": 31142,
+              "functionName": "",
+              "lineNumber": 184,
+              "scriptId": "4",
+              "url": ""
+            },
+            {
+              "columnNumber": 91874,
+              "functionName": "Yc",
+              "lineNumber": 134,
+              "scriptId": "4",
+              "url": ""
+            },
+            {
+              "columnNumber": 107027,
+              "functionName": "Pl",
+              "lineNumber": 134,
+              "scriptId": "4",
+              "url": ""
+            },
+            {
+              "columnNumber": 106911,
+              "functionName": "Nl",
+              "lineNumber": 134,
+              "scriptId": "4",
+              "url": ""
+            },
+            {
+              "columnNumber": 107073,
+              "functionName": "Pl",
+              "lineNumber": 134,
+              "scriptId": "4",
+              "url": ""
+            },
+            {
+              "columnNumber": 119871,
+              "functionName": "Qu",
+              "lineNumber": 134,
+              "scriptId": "4",
+              "url": ""
+            },
+            {
+              "columnNumber": 117309,
+              "functionName": "",
+              "lineNumber": 134,
+              "scriptId": "4",
+              "url": ""
+            },
+            {
+              "columnNumber": 19405,
+              "functionName": "re",
+              "lineNumber": 127,
+              "scriptId": "4",
+              "url": ""
+            },
+            {
+              "columnNumber": 89167,
+              "functionName": "onMicrotask",
+              "lineNumber": 1,
+              "scriptId": "3",
+              "url": "node:electron/js2c/sandbox_bundle"
+            }
+          ]
+        },
+        "text": "Uncaught TypeError: Failed to execute 'observe' on 'MutationObserver': parameter 1 is not of type 'Node'."
+      },
+      "timestamp": 1789072517749.475
+    }
+  }
+]

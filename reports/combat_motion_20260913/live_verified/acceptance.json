@@ -1,0 +1,14 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "ordinary resource and unlock rules"
+    },
+    {
+      "pass": false,
+      "name": "Error: Missing action STAGE_SELECT"
+    }
+  ],
+  "samples": [],
+  "scope": "Real-rule AUTO CH01-N20 combat with legal geared level-60 disposable party. No invincibility, forced win, wave seek or held renderer. Actual canvas video; recording overhead is not a performance baseline."
+}

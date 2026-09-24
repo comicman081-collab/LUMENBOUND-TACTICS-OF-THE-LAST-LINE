@@ -9,18 +9,21 @@ extends RefCounted
 ## checking thousands of copied terrain rows into the content source.
 
 const HexCoordScript := preload("res://chapter_map/model/hex_coord.gd")
+const RiverGeometry := preload("res://chapter_map/model/river_geometry.gd")
 
 static func expand(definition: Dictionary) -> Dictionary:
 	var macro: Dictionary = definition.get("macro_world", {})
 	if macro.is_empty():
 		return definition
 	var expanded := definition.duplicate(true)
+	expanded["river_geometry"] = RiverGeometry.build(expanded)
 	expanded["tiles"] = generate_tiles(expanded, macro)
 	# Every ordinary stage pawn is a live map enemy.  The old source carried only
 	# five legacy patrol records, leaving NODE_N02 and most later encounters fixed
 	# in place with no explanation.  Build a short legal local route around every
 	# normal/elite stage while keeping bosses and authored special-event contacts
 	# stationary story anchors.
+	_add_forward_patrols(expanded)
 	expanded["patrols"] = _complete_mobile_patrols(expanded, expanded["tiles"])
 	expanded["macro_generated"] = true
 	return expanded
@@ -81,6 +84,44 @@ static func _complete_mobile_patrols(definition: Dictionary, tiles: Array) -> Ar
 		})
 	return patrols
 
+static func _add_forward_patrols(definition: Dictionary) -> void:
+	# Advance guards occupy the long approach to an operation. Contact enters the
+	# same stage content, with independent node identity. First-clear rewards are
+	# still stage-scoped; killing one guard never removes another physical pawn.
+	var lookup: Dictionary = {}
+	for tile in definition.get("tiles", []):
+		lookup[HexCoordScript.key(Vector2i(int(tile.q), int(tile.r)))] = tile
+	var fixed: Dictionary = {}
+	for event in definition.get("event_encounters", []): fixed[str(event.get("node_id", ""))] = true
+	var occupied: Dictionary = {}
+	for node in definition.get("nodes", []): occupied[HexCoordScript.key(Vector2i(int(node.q), int(node.r)))] = true
+	var previous := Vector2i.ZERO
+	var additions: Array = []
+	for stage_id in definition.get("normal_route", []):
+		var node := _node_for_stage(definition, str(stage_id))
+		if node.is_empty(): continue
+		var destination := Vector2i(int(node.q), int(node.r))
+		var approach := route_line(previous, destination)
+		previous = destination
+		if str(node.get("node_type", "")).contains("BOSS") or fixed.has(str(node.node_id)): continue
+		for slot in [1, 2]:
+			var index := clampi(roundi(float(approach.size() - 1) * float(slot) / 3.0), 1, maxi(1, approach.size() - 2))
+			if index >= approach.size(): continue
+			var coord: Vector2i = approach[index]
+			var key := HexCoordScript.key(coord)
+			if occupied.has(key) or not _patrol_tile_is_walkable(lookup, coord): continue
+			var scout: Dictionary = node.duplicate(true)
+			scout.node_id = str(node.node_id) + "_SCOUT_%d" % slot
+			scout.node_type = "FIELD_PATROL"
+			scout.q = coord.x
+			scout.r = coord.y
+			scout.scenario_id = ""
+			scout.forward_patrol = true
+			scout.fast_travel_allowed = false
+			additions.append(scout)
+			occupied[key] = true
+	definition.nodes.append_array(additions)
+
 static func _patrol_tile_is_walkable(tile_lookup: Dictionary, coord: Vector2i) -> bool:
 	var tile: Dictionary = tile_lookup.get(HexCoordScript.key(coord), {})
 	return not tile.is_empty() and not bool(tile.get("movement_blocked", false))
@@ -97,6 +138,7 @@ static func generate_tiles(definition: Dictionary, macro: Dictionary) -> Array:
 	var corridor_radius := maxi(2, int(macro.get("corridor_radius", 4)))
 	var routes: Array[Array] = _route_segments(definition)
 	var road: Dictionary = {}
+	var bridge_corridor: Dictionary = {}
 	var walkable: Dictionary = {}
 	var patrol_corridor: Dictionary = {}
 	var land: Dictionary = {}
@@ -127,7 +169,12 @@ static func generate_tiles(definition: Dictionary, macro: Dictionary) -> Array:
 	for road_key in road_keys:
 		road_coords.append(HexCoordScript.from_key(str(road_key)))
 	for target_coord in _navigation_targets(definition):
-		_connect_navigation_target(land, walkable, road_coords, target_coord, corridor_radius)
+		_connect_navigation_target(land, walkable, road_coords, target_coord, corridor_radius, bridge_corridor)
+	for key in road:
+		bridge_corridor[key] = true
+	var river: Dictionary = definition.get("river_geometry", {})
+	if river.is_empty(): river = RiverGeometry.build(definition)
+	var river_footprint: Dictionary = river.get("footprint", {})
 	for patrol in definition.get("patrols", []):
 		for patrol_hex in patrol.get("patrol_route_hexes", []):
 			var patrol_coord := Vector2i(int(patrol_hex.get("q", 0)), int(patrol_hex.get("r", 0)))
@@ -145,6 +192,12 @@ static func generate_tiles(definition: Dictionary, macro: Dictionary) -> Array:
 		var is_mobility_corridor := is_walkable or patrol_corridor.has(str(key))
 		var value := _coord_hash(coord, seed)
 		var terrain := "ROAD" if is_road else ("RUINS" if value % 17 == 0 else "FOREST")
+		var on_river := river_footprint.has(str(key))
+		if on_river:
+			# Only authored route/side-branch crossings receive a visible deck.
+			# An open shoulder is not permission to walk through the river.
+			is_walkable = is_walkable and bridge_corridor.has(str(key))
+			terrain = "BRIDGE" if is_walkable else "SHALLOW_WATER"
 		# Elevation is visual-only in the chapter traversal layer, but it must
 		# form broad, legible terraces—not isolated dice-roll columns.  The two
 		# low-frequency waves create plateau-sized bands while the seeded hash only
@@ -155,6 +208,7 @@ static func generate_tiles(definition: Dictionary, macro: Dictionary) -> Array:
 			"q": coord.x, "r": coord.y,
 			"elevation": elevation,
 			"terrain_type": terrain,
+			"river_footprint": on_river,
 			# Decorative forest/ruin terraces outside the authored expedition
 			# lanes are physical barriers. Enemy-occupied cells are not special-
 			# cased here: every patrol route is connected above, so reaching a mob
@@ -191,6 +245,8 @@ static func _navigation_targets(definition: Dictionary) -> Array[Vector2i]:
 	for collection_name in ["treasures", "relays", "map_events"]:
 		for value in definition.get(collection_name, []):
 			var target: Dictionary = value
+			# Additive field content lives on existing routes; never reshape terrain for it.
+			if bool(target.get("existing_path_only", false)): continue
 			targets.append(Vector2i(int(target.get("q", 0)), int(target.get("r", 0))))
 	for patrol_value in definition.get("patrols", []):
 		var patrol: Dictionary = patrol_value
@@ -199,7 +255,7 @@ static func _navigation_targets(definition: Dictionary) -> Array[Vector2i]:
 			targets.append(Vector2i(int(point.get("q", 0)), int(point.get("r", 0))))
 	return targets
 
-static func _connect_navigation_target(land: Dictionary, walkable: Dictionary, road_coords: Array[Vector2i], target: Vector2i, corridor_radius: int) -> void:
+static func _connect_navigation_target(land: Dictionary, walkable: Dictionary, road_coords: Array[Vector2i], target: Vector2i, corridor_radius: int, bridge_corridor: Dictionary = {}) -> void:
 	if road_coords.is_empty():
 		_mark_disc(land, target, maxi(2, corridor_radius - 1))
 		_mark_disc(walkable, target, 1)
@@ -212,6 +268,7 @@ static func _connect_navigation_target(land: Dictionary, walkable: Dictionary, r
 			nearest = candidate
 			nearest_distance = candidate_distance
 	for coord in route_line(target, nearest):
+		bridge_corridor[HexCoordScript.key(coord)] = true
 		_mark_disc(land, coord, maxi(2, corridor_radius - 1))
 		_mark_disc(walkable, coord, 1)
 

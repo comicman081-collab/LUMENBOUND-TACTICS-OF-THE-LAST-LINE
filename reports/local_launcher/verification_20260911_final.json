@@ -1,0 +1,73 @@
+{
+  "checks": [
+    {
+      "name": "detached server survives launcher exit",
+      "pass": true
+    },
+    {
+      "name": "root redirects to current build",
+      "pass": true
+    },
+    {
+      "name": "versioned current game HTML opens",
+      "pass": true
+    },
+    {
+      "name": "current game pack reachable under build URL",
+      "pass": true
+    },
+    {
+      "name": "HD assets reachable under build URL",
+      "pass": true
+    },
+    {
+      "name": "video page links to current build",
+      "pass": true
+    },
+    {
+      "name": "MP4 HEAD has correct size",
+      "pass": true
+    },
+    {
+      "name": "seek bytes=0-63",
+      "pass": true
+    },
+    {
+      "name": "seek bytes=100-159",
+      "pass": true
+    },
+    {
+      "name": "seek bytes=-64",
+      "pass": true
+    },
+    {
+      "name": "seek bytes=77343483-",
+      "pass": true
+    },
+    {
+      "name": "invalid range bytes=999999999999-",
+      "pass": true
+    },
+    {
+      "name": "invalid range bytes=-0",
+      "pass": true
+    },
+    {
+      "name": "invalid range bytes=5-2",
+      "pass": true
+    },
+    {
+      "name": "invalid range bytes=oops",
+      "pass": true
+    }
+  ],
+  "service": {
+    "service": "lumenbound-local-player-v2",
+    "build": "builds/web_intro_1080p_20260910_release",
+    "pid": 3332,
+    "play_path": "/play/52abfeb77948/"
+  },
+  "game_url": "http://127.0.0.1:8770/play/52abfeb77948/",
+  "video_url": "http://127.0.0.1:8770/intro-preview",
+  "save_data": "Untouched; no localStorage or IndexedDB cleared."
+}

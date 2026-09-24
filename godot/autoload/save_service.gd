@@ -5,6 +5,7 @@ const ChapterMapProgressScript := preload("res://chapter_map/model/chapter_map_p
 const MapExplorationServiceScript := preload("res://chapter_map/model/map_exploration_service.gd")
 const MapSimulationScript := preload("res://chapter_map/model/map_simulation.gd")
 const RelayServiceScript := preload("res://relay/relay_service.gd")
+const BrowserSaveJournal := preload("res://autoload/browser_save_journal.gd")
 
 const SAVE_PATH := "user://save_v1.json"
 const BACKUP_PATH := "user://save_v1.backup.json"
@@ -167,6 +168,10 @@ func save_game() -> GameResult:
 	var rename_error := DirAccess.rename_absolute(temp_abs, save_abs)
 	if rename_error != OK:
 		return _finish(false, "atomic rename failed: %s" % error_string(rename_error))
+	if OS.has_feature("web"):
+		var journal_status := BrowserSaveJournal.call_journal("write", save_path, encoded)
+		if journal_status != "ok":
+			return _finish(false, "browser save confirmation failed: " + journal_status)
 	if OS.has_feature("web") and SettingsService.is_developer_mode():
 		var elapsed_msec := float(Time.get_ticks_usec() - save_started_usec) / 1000.0
 		if elapsed_msec >= 16.0:
@@ -175,6 +180,14 @@ func save_game() -> GameResult:
 
 func load_game() -> GameResult:
 	var paths := _active_paths("read")
+	if OS.has_feature("web"):
+		for generation in ["read", "backup"]:
+			var journal := _decode_valid(BrowserSaveJournal.call_journal(generation, str(paths.save)))
+			if journal.ok:
+				var migrated_journal := _migrate(journal.value)
+				if migrated_journal.ok:
+					AppState.apply_loaded(_sanitize(migrated_journal.value))
+					return GameResult.success("browser journal " + generation)
 	var primary := _read_valid(str(paths.save))
 	if primary.ok:
 		var migrated := _migrate(primary.value)
@@ -193,8 +206,11 @@ func _read_valid(path: String) -> GameResult:
 	var file := FileAccess.open(path, FileAccess.READ)
 	if file == null:
 		return GameResult.failure("missing")
+	return _decode_valid(file.get_as_text())
+
+func _decode_valid(encoded: String) -> GameResult:
 	var parser := JSON.new()
-	if parser.parse(file.get_as_text()) != OK:
+	if parser.parse(encoded) != OK:
 		return GameResult.failure("invalid JSON")
 	var parsed = parser.data
 	if not parsed is Dictionary:
@@ -388,8 +404,23 @@ func _sanitize(data: Dictionary) -> Dictionary:
 func export_save_json() -> String:
 	return JSON.stringify(AppState.profile, "  ")
 
+func start_new_game() -> GameResult:
+	# The existing atomic writer keeps the previous save as its backup. Never
+	# delete the player's files before a fresh profile has been written.
+	var previous := AppState.profile
+	var context := {}
+	for key in ["route_payload","selected_stage_id","selected_map_node_id","selected_character_id","active_scenario_id","pending_battle_token","debug_options"]:
+		context[key] = AppState.get(key)
+	AppState.new_game()
+	var result := save_game()
+	if not result.ok:
+		AppState.profile = previous
+		for key in context: AppState.set(key,context[key])
+	return result
+
 func reset_save_files() -> void:
 	var paths := _active_paths("reset")
+	BrowserSaveJournal.call_journal("clear", str(paths.save))
 	for path in [str(paths.save), str(paths.backup), str(paths.temp)]:
 		if FileAccess.file_exists(path):
 			DirAccess.remove_absolute(ProjectSettings.globalize_path(path))

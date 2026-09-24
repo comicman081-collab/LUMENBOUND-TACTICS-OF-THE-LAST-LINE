@@ -1,0 +1,45 @@
+{
+  "checks": [
+    {
+      "name": "home tutorial 1 is fully bounded at 360px",
+      "pass": true
+    },
+    {
+      "name": "home tutorial 2 is fully bounded at 360px",
+      "pass": true
+    },
+    {
+      "name": "home tutorial 3 is fully bounded at 360px",
+      "pass": true
+    },
+    {
+      "name": "home tutorial 4 is fully bounded at 360px",
+      "pass": true
+    },
+    {
+      "name": "map tutorial 1 is fully bounded at 360px",
+      "pass": true
+    },
+    {
+      "name": "map tutorial 1 real finger drag reads overflow",
+      "pass": true
+    },
+    {
+      "name": "map tutorial 1 drag does not skip instructions",
+      "pass": true
+    },
+    {
+      "name": "map tutorial 2 is fully bounded at 360px",
+      "pass": true
+    },
+    {
+      "name": "map tutorial 2 real finger drag reads overflow",
+      "pass": false
+    },
+    {
+      "name": "Error: map tutorial 2 real finger drag reads overflow",
+      "pass": false
+    }
+  ],
+  "fixture": "Fresh localhost sandbox; real home/map instruction taps, N06/N08/N13 neighbor contact, scrolling, rotation and combat. Not physical-phone evidence."
+}

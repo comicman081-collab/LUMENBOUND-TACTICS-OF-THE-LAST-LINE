@@ -1,0 +1,81 @@
+{
+  "checks": [
+    {
+      "name": "N1 terrain and continuous backdrop are ready",
+      "pass": true
+    },
+    {
+      "name": "N1 actual map pawn uses its 192px animation sheet",
+      "pass": true
+    },
+    {
+      "name": "N1 visible water is excluded from walking range",
+      "pass": true
+    },
+    {
+      "name": "N1 actual double-touch cannot enter blocked water",
+      "pass": true
+    },
+    {
+      "name": "N1 rotation retains the map and more than 62 percent landscape height",
+      "pass": true
+    },
+    {
+      "name": "N5 terrain and continuous backdrop are ready",
+      "pass": true
+    },
+    {
+      "name": "N5 actual map pawn uses its 192px animation sheet",
+      "pass": true
+    },
+    {
+      "name": "N5 visible water is excluded from walking range",
+      "pass": true
+    },
+    {
+      "name": "N5 actual double-touch cannot enter blocked water",
+      "pass": true
+    },
+    {
+      "name": "N10 terrain and continuous backdrop are ready",
+      "pass": true
+    },
+    {
+      "name": "N10 actual map pawn uses its 192px animation sheet",
+      "pass": true
+    },
+    {
+      "name": "N10 visible water is excluded from walking range",
+      "pass": true
+    },
+    {
+      "name": "N20 terrain and continuous backdrop are ready",
+      "pass": true
+    },
+    {
+      "name": "N20 actual map pawn uses its 192px animation sheet",
+      "pass": true
+    },
+    {
+      "name": "N20 visible water is excluded from walking range",
+      "pass": true
+    },
+    {
+      "name": "N20 actual double-touch cannot enter blocked water",
+      "pass": true
+    },
+    {
+      "name": "at least one visible river was tested with real touch input",
+      "pass": true
+    },
+    {
+      "name": "gallery has no Godot script/shader errors or warnings",
+      "pass": true
+    },
+    {
+      "name": "map gallery uses isolated QA saves only",
+      "pass": true
+    }
+  ],
+  "fixture": "Reward-free staged contact positions for N01/N05/N10/N20; not a claim of traversing the entire campaign."
+}

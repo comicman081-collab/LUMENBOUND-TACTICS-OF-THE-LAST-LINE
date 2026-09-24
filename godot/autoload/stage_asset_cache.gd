@@ -9,11 +9,14 @@ signal warmup_progress_changed(value: float, phase: String)
 signal warmup_finished(signature: String, complete: bool)
 
 const COMBAT_ROOT := "res://assets/runtime_web/combat"
+const MAP_DENSITY_ROOT := "res://assets/runtime_web/map_density/r1"
+const DensityLoader := preload("res://battle/view/density_texture_loader.gd")
 const PROJECTILE_ROOT := "res://assets/runtime_web/projectiles"
 const NORMAL_BACKGROUND_PATH := "res://assets/art/backgrounds/BG_BATTLE_GLASS_RAIL/bg_battle_glass_rail_1920x1080.png"
 const BOSS_BACKGROUND_PATH := "res://assets/art/backgrounds/BG_BOSS_SIGNAL_CATHEDRAL/bg_boss_signal_cathedral_1920x1080.png"
-const BATTLE_FONT_PATH := "res://assets/fonts/NotoSansKR-VF.ttf"
-const WARMUP_DEADLINE_MSEC := 5000
+const BATTLE_FONT_PATH := "res://assets/fonts/LanternSans-Medium.ttf"
+const WARMUP_DEADLINE_MSEC := 45000
+const WARMUP_IDLE_TIMEOUT_MSEC := 12000
 
 var progress_value := 0.0
 var progress_phase := "IDLE"
@@ -24,6 +27,7 @@ var map_ready_signature := ""
 var _generation := 0
 var _active_signature := ""
 var _warm_started_msec := 0
+var _warm_last_progress_msec := 0
 var _cache: Dictionary = {}
 
 
@@ -36,6 +40,19 @@ func signature_for(map_id: String, definition: Dictionary, party_ids: Array, sel
 		"unlocked": _unique_sorted_strings(plan.get("unlocked_stage_ids", [])),
 		"entities": _unique_sorted_strings(plan.get("entity_ids", [])),
 		"boss": bool(plan.get("requires_boss_background", false)),
+	}).sha256_text()
+
+
+func map_entry_signature_for(map_id: String, definition: Dictionary, party_ids: Array, selected_stage_id := "", unlocked_stage_ids := []) -> String:
+	# A tactical map needs the current squad leader and the map-marker actor for
+	# each currently unlocked encounter.  It does not need the entire party or
+	# every member of each future battle wave.  Keeping this signature independent
+	# from the battle bundle prevents a map transition from turning into a hidden
+	# battle preload when the selected stage changes.
+	var plan := target_plan(map_id, definition, party_ids, selected_stage_id, unlocked_stage_ids)
+	return JSON.stringify({
+		"map_id": str(plan.get("map_id", "")),
+		"map_entities": _unique_sorted_strings(plan.get("map_entity_ids", [])),
 	}).sha256_text()
 
 
@@ -93,6 +110,7 @@ func target_plan(map_id: String, definition: Dictionary, party_ids: Array, selec
 				var recruit_id := str((recruitment_value as Dictionary).get("character_id", "")).strip_edges()
 				if not recruit_id.is_empty() and not entities.has(recruit_id):
 					entities.append(recruit_id)
+	var map_entities := _map_presentation_entity_ids(map_id, definition, party, selected, unlocked)
 	return {
 		"map_id": map_id,
 		"party_ids": party,
@@ -100,8 +118,73 @@ func target_plan(map_id: String, definition: Dictionary, party_ids: Array, selec
 		"unlocked_stage_ids": _unique_sorted_strings(unlocked),
 		"stage_ids": stage_ids,
 		"entity_ids": entities,
+		"map_entity_ids": map_entities,
 		"requires_boss_background": boss_required,
 	}
+
+
+func _map_presentation_entity_ids(map_id: String, definition: Dictionary, party: Array[String], selected_stage_id: String, unlocked_stage_ids: Array[String]) -> Array[String]:
+	# Map presentation owns one leader token, plus one marker actor per unlocked
+	# encounter.  `_create_enemy_pawn()` uses the first ordinary enemy (or the
+	# boss) from a stage, never every combatant in that stage's waves.
+	var result: Array[String] = []
+	var leader_id := str(party[0]) if not party.is_empty() else ""
+	if not leader_id.is_empty() and AppState.has_method("chapter_map_state"):
+		var state_value = AppState.chapter_map_state(map_id)
+		if state_value is Dictionary:
+			var saved_leader := str((state_value as Dictionary).get("map_leader_id", ""))
+			if party.has(saved_leader):
+				leader_id = saved_leader
+	if not leader_id.is_empty():
+		result.append(leader_id)
+	var visible_stages := unlocked_stage_ids.duplicate()
+	if not selected_stage_id.is_empty() and not visible_stages.has(selected_stage_id):
+		visible_stages.append(selected_stage_id)
+	for stage_id_value in visible_stages:
+		var actor_id := _map_marker_entity_for_stage(str(stage_id_value))
+		if not actor_id.is_empty() and not result.has(actor_id):
+			result.append(actor_id)
+	# Event contacts can replace the ordinary map enemy with a specific rival or
+	# recruited companion.  Only load them when their node is already visible on
+	# this map; distant chapter data stays in the battle loading boundary.
+	for encounter_value in definition.get("event_encounters", []):
+		if not encounter_value is Dictionary:
+			continue
+		var encounter: Dictionary = encounter_value
+		var event_stage_id := str(encounter.get("stage_id", "")).strip_edges()
+		if event_stage_id.is_empty() or not visible_stages.has(event_stage_id):
+			continue
+		for key in ["enemy_id", "character_id"]:
+			var event_actor_id := str(encounter.get(key, "")).strip_edges()
+			if not event_actor_id.is_empty() and not result.has(event_actor_id):
+				result.append(event_actor_id)
+		for recruitment_value in encounter.get("recruitments", []):
+			if recruitment_value is Dictionary:
+				var recruit_id := str((recruitment_value as Dictionary).get("character_id", "")).strip_edges()
+				if not recruit_id.is_empty() and not result.has(recruit_id):
+					result.append(recruit_id)
+	return result
+
+
+func _map_marker_entity_for_stage(stage_id: String) -> String:
+	var stage := DataRegistry.stage(stage_id)
+	if stage.is_empty():
+		return ""
+	var first_enemy_id := ""
+	var boss_enemy_id := ""
+	for wave_value in stage.get("waves", []):
+		if not wave_value is Array:
+			continue
+		for enemy_value in wave_value:
+			var enemy_id := str(enemy_value).strip_edges()
+			if enemy_id.is_empty():
+				continue
+			var enemy := DataRegistry.enemy(enemy_id)
+			if str(enemy.get("rank", "")) == "BOSS":
+				boss_enemy_id = enemy_id
+			elif first_enemy_id.is_empty():
+				first_enemy_id = enemy_id
+	return boss_enemy_id if not boss_enemy_id.is_empty() else first_enemy_id
 
 
 func cache_hit_for_stage_select(map_id: String, definition: Dictionary, party_ids: Array, selected_stage_id := "", unlocked_stage_ids := []) -> bool:
@@ -110,7 +193,7 @@ func cache_hit_for_stage_select(map_id: String, definition: Dictionary, party_id
 
 
 func cache_hit_for_map_entry(map_id: String, definition: Dictionary, party_ids: Array, selected_stage_id := "", unlocked_stage_ids := []) -> bool:
-	var signature := signature_for(map_id, definition, party_ids, selected_stage_id, unlocked_stage_ids)
+	var signature := map_entry_signature_for(map_id, definition, party_ids, selected_stage_id, unlocked_stage_ids)
 	return not map_ready_signature.is_empty() and map_ready_signature == signature and not _cache.is_empty()
 
 
@@ -124,7 +207,9 @@ func cancel_warmup() -> void:
 
 
 func _warmup_deadline_exceeded(started_msec: int) -> bool:
-	return started_msec > 0 and Time.get_ticks_msec() - started_msec >= WARMUP_DEADLINE_MSEC
+	if started_msec <= 0: return false
+	var now := Time.get_ticks_msec()
+	return now - started_msec >= WARMUP_DEADLINE_MSEC or now - maxi(started_msec, _warm_last_progress_msec) >= WARMUP_IDLE_TIMEOUT_MSEC
 
 
 func warm_for_stage_select(map_id: String, definition: Dictionary, party_ids: Array, selected_stage_id := "", unlocked_stage_ids := []) -> bool:
@@ -188,12 +273,12 @@ func warm_for_stage_select(map_id: String, definition: Dictionary, party_ids: Ar
 
 
 func warm_map_for_stage_select(map_id: String, definition: Dictionary, party_ids: Array, selected_stage_id := "", unlocked_stage_ids := []) -> bool:
-	# Stage entry owns the map and its visible pawns. Projectile atlases, battle
-	# backgrounds and cast/impact VFX belong to the separately permitted BATTLE
-	# loading boundary; decoding all of them here exceeded the five-second map
-	# budget and retained tens of MiB that the chapter map could not display.
+	# Stage entry owns only map-visible pawns. Projectile atlases, battle
+	# backgrounds, cast/impact VFX, unused party tokens and non-marker wave actors
+	# belong to the separate BATTLE boundary.  Pulling them here made the first
+	# operation wait on a full battle preload before a one-token map could appear.
 	var plan := target_plan(map_id, definition, party_ids, selected_stage_id, unlocked_stage_ids)
-	var signature := signature_for(map_id, definition, party_ids, selected_stage_id, unlocked_stage_ids)
+	var signature := map_entry_signature_for(map_id, definition, party_ids, selected_stage_id, unlocked_stage_ids)
 	if cache_hit_for_map_entry(map_id, definition, party_ids, selected_stage_id, unlocked_stage_ids):
 		_set_progress(1.0, "MAP_READY")
 		return true
@@ -225,7 +310,13 @@ func warm_map_for_stage_select(map_id: String, definition: Dictionary, party_ids
 			break
 		var task: Dictionary = tasks[index]
 		_set_progress(float(index) / float(total), str(task.get("phase", "MAP_LOAD")))
-		if not _load_task(task, pending):
+		var loaded := false
+		if str(task.get("kind", "")) == "map_hd_actor":
+			if index % 3 != 0: continue
+			loaded = await _load_map_density_group(tasks.slice(index,mini(index+3,tasks.size())),pending)
+		else:
+			loaded = _load_task(task, pending)
+		if not loaded:
 			complete = false
 		if not OS.has_feature("web") or index == tasks.size() - 1 or Time.get_ticks_usec() - slice_started_usec >= 9000:
 			await get_tree().process_frame
@@ -249,7 +340,11 @@ func warm_map_for_stage_select(map_id: String, definition: Dictionary, party_ids
 
 
 func map_idle_pack(id: String) -> Dictionary:
-	return (_cache.get("map_idle_packs", {}) as Dictionary).get(id, {})
+	var pack: Dictionary = (_cache.get("map_idle_packs", {}) as Dictionary).get(id, {}).duplicate()
+	# Each pawn owns its frame selector; the large backing atlas remains shared.
+	# Sharing one mutable AtlasTexture made a patrol advance another pawn's frame.
+	if pack.get("texture") is AtlasTexture: pack.texture = pack.texture.duplicate()
+	return pack
 
 
 func battle_bundle(entity_ids: Array, require_boss := false) -> Dictionary:
@@ -333,11 +428,47 @@ func _build_tasks(plan: Dictionary) -> Array:
 
 func _build_map_tasks(plan: Dictionary) -> Array:
 	var tasks: Array = []
-	for entity_id in plan.get("entity_ids", []):
+	for entity_id in plan.get("map_entity_ids", []):
+		# The optional HD companion pages are fetched only from an HTTP(S) host.
+		# A player who opens index.html directly still reaches the map immediately
+		# with the packaged compact atlas instead of waiting for file:// requests
+		# that a browser cannot satisfy.
+		var use_streamed_map_density := preload("res://battle/view/local_presentation_quality.gd").allows_hd() \
+			and (not OS.has_feature("web") or DensityLoader.can_stream_companion_pages())
+		if use_streamed_map_density:
+			tasks.append({"kind": "map_hd_actor", "id": entity_id, "phase": "MAP_HD_ACTOR:%s" % entity_id})
+			continue
 		tasks.append({"kind": "actor_manifest", "id": entity_id, "phase": "MAP_ACTOR_MANIFEST:%s" % entity_id})
 		tasks.append({"kind": "actor_atlas", "id": entity_id, "phase": "MAP_ACTOR_ATLAS:%s" % entity_id})
 	return tasks
 
+
+func _density_page_ready(relative_path: String) -> void:
+	_set_progress(progress_value, "MAP_HD_PAGE:" + relative_path)
+
+func _load_map_density_task(task: Dictionary, pending: Dictionary) -> bool:
+	return await _load_map_density_group([task],pending)
+
+func _load_map_density_group(tasks: Array, pending: Dictionary) -> bool:
+	var generation := _generation
+	var index := _read_json(MAP_DENSITY_ROOT + "/index.json")
+	var records: Array = []
+	var manifests: Array = []
+	for task in tasks:
+		var id := str(task.id)
+		var approval: Dictionary = index.get("actors", {}).get(id, {})
+		var path := "%s/%s/animation_manifest.json" % [MAP_DENSITY_ROOT,id]
+		if approval.is_empty() or FileAccess.get_sha256(path) != str(approval.get("manifest_sha256", "")): return false
+		var manifest := _read_json(path)
+		if str(manifest.get("character_id", "")) != id: return false
+		manifests.append(manifest)
+		records.append({"path":"%s/%s/atlas.png" % [MAP_DENSITY_ROOT,id],"sha256":str(manifest.get("atlas_sha256", ""))})
+	var atlases := await DensityLoader.load_pages(records,self)
+	if generation != _generation or atlases.size()!=tasks.size(): return false
+	for item in tasks.size():
+		pending.actor_manifests[str(tasks[item].id)] = manifests[item]
+		pending.actor_atlases[str(tasks[item].id)] = atlases[item]
+	return true
 
 func _load_task(task: Dictionary, pending: Dictionary) -> bool:
 	var kind := str(task.get("kind", ""))
@@ -437,6 +568,7 @@ func _finalize_map_bundle(pending: Dictionary) -> void:
 		var foot_anchor: Array = manifest.get("foot_anchor", [0.5, 0.88])
 		pending.map_idle_packs[id] = {
 			"source_id": id,
+			"pixel_scale": float(manifest.get("map_pixel_scale", 1.0)),
 			"texture": texture,
 			"frame_size": Vector2(float(frame_size[0]), float(frame_size[1])),
 			"columns": columns,
@@ -514,6 +646,8 @@ func _textures_from_bundle(bundle: Dictionary) -> Array:
 
 
 func _set_progress(value: float, phase: String) -> void:
+	if value != progress_value or phase != progress_phase:
+		_warm_last_progress_msec = Time.get_ticks_msec()
 	progress_value = clampf(value, 0.0, 1.0)
 	progress_phase = phase
 	warmup_progress_changed.emit(progress_value, progress_phase)

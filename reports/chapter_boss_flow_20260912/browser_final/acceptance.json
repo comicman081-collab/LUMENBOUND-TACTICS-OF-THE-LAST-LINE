@@ -1,0 +1,745 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "Release stamina and unlock rules active"
+    },
+    {
+      "pass": true,
+      "name": "Real adjacent map route"
+    },
+    {
+      "pass": true,
+      "name": "No combat time consumed during entrance 0"
+    },
+    {
+      "pass": true,
+      "name": "No combat time consumed during entrance 1"
+    },
+    {
+      "pass": true,
+      "name": "No combat time consumed during entrance 2"
+    },
+    {
+      "pass": true,
+      "name": "No combat time consumed during entrance 3"
+    },
+    {
+      "pass": true,
+      "name": "No combat time consumed during entrance 4"
+    },
+    {
+      "pass": true,
+      "name": "No combat time consumed during entrance 5"
+    },
+    {
+      "pass": true,
+      "name": "No combat time consumed during entrance 6"
+    },
+    {
+      "pass": true,
+      "name": "No combat time consumed during entrance 7"
+    },
+    {
+      "pass": true,
+      "name": "Boss arena retained after entrance"
+    },
+    {
+      "pass": true,
+      "name": "Boss arena retained throughout victory"
+    },
+    {
+      "pass": true,
+      "name": "Actual simulation reached results without fast-forward"
+    },
+    {
+      "pass": true,
+      "name": "Observed animated descent and landing"
+    },
+    {
+      "pass": true,
+      "name": "Observed boss victory exit"
+    },
+    {
+      "pass": true,
+      "name": "Real victory committed N20"
+    },
+    {
+      "pass": true,
+      "name": "Victory opened chapter 2"
+    },
+    {
+      "pass": true,
+      "name": "Optional hard route retained"
+    },
+    {
+      "pass": true,
+      "name": "Persisted next-region handoff"
+    },
+    {
+      "pass": true,
+      "name": "Result leads to interactive chapter 2 map"
+    },
+    {
+      "pass": true,
+      "name": "Chapter 1 aftermath precedes chapter 2 introduction"
+    },
+    {
+      "pass": true,
+      "name": "Story order preserved"
+    },
+    {
+      "pass": true,
+      "name": "Handoff acknowledged once"
+    },
+    {
+      "pass": true,
+      "name": "Next map remains interactive under player rules"
+    },
+    {
+      "pass": true,
+      "name": "Chapter 2 provides a usable next encounter route"
+    },
+    {
+      "pass": true,
+      "name": "No browser or engine runtime errors"
+    }
+  ],
+  "timeline": [
+    {
+      "time": 0.166666666666667,
+      "wave": 2,
+      "ended": false,
+      "scene": {
+        "arena": false,
+        "background_mix": 0,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": -1,
+        "name": "",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 0.433333333333333,
+      "wave": 2,
+      "ended": false,
+      "scene": {
+        "arena": false,
+        "background_mix": 0,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": -1,
+        "name": "",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 0.7,
+      "wave": 2,
+      "ended": false,
+      "scene": {
+        "arena": false,
+        "background_mix": 0,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": -1,
+        "name": "",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 0.966666666666667,
+      "wave": 2,
+      "ended": false,
+      "scene": {
+        "arena": false,
+        "background_mix": 0,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": -1,
+        "name": "",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 1.23333333333333,
+      "wave": 2,
+      "ended": false,
+      "scene": {
+        "arena": false,
+        "background_mix": 0,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": -1,
+        "name": "",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 1.5,
+      "wave": 2,
+      "ended": false,
+      "scene": {
+        "arena": false,
+        "background_mix": 0,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": -1,
+        "name": "",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 1.76666666666667,
+      "wave": 2,
+      "ended": false,
+      "scene": {
+        "arena": false,
+        "background_mix": 0,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": -1,
+        "name": "",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 2.03333333333333,
+      "wave": 2,
+      "ended": false,
+      "scene": {
+        "arena": false,
+        "background_mix": 0,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": -1,
+        "name": "",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 2.3,
+      "wave": 2,
+      "ended": false,
+      "scene": {
+        "arena": false,
+        "background_mix": 0,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": -1,
+        "name": "",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 2.56666666666667,
+      "wave": 2,
+      "ended": false,
+      "scene": {
+        "arena": false,
+        "background_mix": 0,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": -1,
+        "name": "",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 2.6,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 0,
+        "combat_held": true,
+        "entry_duration": 3.8,
+        "entry_elapsed": 0.228233333333333,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 2.6,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 0.695016916232604,
+        "combat_held": true,
+        "entry_duration": 3.8,
+        "entry_elapsed": 1.02813333333333,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 2.6,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 0.950276208903428,
+        "combat_held": true,
+        "entry_duration": 3.8,
+        "entry_elapsed": 1.2948,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 2.6,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": true,
+        "entry_duration": 3.8,
+        "entry_elapsed": 2.0948,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 2.6,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": true,
+        "entry_duration": 3.8,
+        "entry_elapsed": 2.89479999999999,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 2.6,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": true,
+        "entry_duration": 3.8,
+        "entry_elapsed": 3.16083333333333,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 2.6,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": true,
+        "entry_duration": 3.8,
+        "entry_elapsed": 3.42749999999999,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 2.6,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": true,
+        "entry_duration": 3.8,
+        "entry_elapsed": 3.69416666666666,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 2.73333333333333,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 3.53333333333333,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 3.8,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 4.06666666666667,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 4.33333333333333,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 4.6,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 4.86666666666667,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 5.13333333333333,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 5.4,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 5.66666666666667,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 5.93333333333333,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 6.2,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 6.46666666666667,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 6.73333333333333,
+      "wave": 3,
+      "ended": false,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 6.83333333333333,
+      "wave": 3,
+      "ended": true,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 6.83333333333333,
+      "wave": 3,
+      "ended": true,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 6.83333333333333,
+      "wave": 3,
+      "ended": true,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 6.83333333333333,
+      "wave": 3,
+      "ended": true,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 6.83333333333333,
+      "wave": 3,
+      "ended": true,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": false,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": -1
+      }
+    },
+    {
+      "time": 6.83333333333333,
+      "wave": 3,
+      "ended": true,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": true,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": 0.133333333333333
+      }
+    },
+    {
+      "time": 6.83333333333333,
+      "wave": 3,
+      "ended": true,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": true,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": 0.933333333333335
+      }
+    },
+    {
+      "time": 6.83333333333333,
+      "wave": 3,
+      "ended": true,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": true,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": 1.2
+      }
+    },
+    {
+      "time": 6.83333333333333,
+      "wave": 3,
+      "ended": true,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": true,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": 1.46666666666667
+      }
+    },
+    {
+      "time": 6.83333333333333,
+      "wave": 3,
+      "ended": true,
+      "scene": {
+        "arena": true,
+        "background_mix": 1,
+        "combat_held": true,
+        "entry_duration": 3.8,
+        "entry_elapsed": -1,
+        "entry_wave": 3,
+        "name": "공허 기관",
+        "victory_elapsed": 1.73333333333333
+      }
+    }
+  ],
+  "stories": [
+    "SCN_CH01_OUTRO",
+    "SCN_CH02_INTRO"
+  ],
+  "scope": "Real contact and natural AUTO combat of CH01-N20 with an isolated geared level-60 party, Release resource rules, actual rewards/story/next-map flow; no forced victory or wave seek."
+}

@@ -6,7 +6,7 @@ const GrowthAnalyzerScript := preload("res://progression/growth_affordability_an
 const MapSimulationScript := preload("res://chapter_map/model/map_simulation.gd")
 const BASE_PLAYER_VISION_RADIUS := 8
 const INITIAL_PLAYER_MOVE_POINTS := 3
-const INITIAL_MOVEMENT_REPAIR_REVISION := 1
+const INITIAL_MOVEMENT_REPAIR_REVISION := 2
 
 static func ensure_state(state: Dictionary, definition: Dictionary, grid = null) -> bool:
 	var changed := false
@@ -120,9 +120,10 @@ static func ensure_state(state: Dictionary, definition: Dictionary, grid = null)
 		if prior_movement_max <= 0 or (int(state.get("exploration_pulse", 0)) == 0 and int(state.movement_points) >= prior_movement_max):
 			state.movement_points = movement_max
 		changed = true
-	# A short-lived Web deployment persisted `1/3` on an otherwise untouched
-	# starting map. Repair only that unmistakable initial state; an ordinary
-	# in-progress turn at 1/3 keeps its exact remaining movement.
+	# A released Web build persisted `1/3` on otherwise untouched starting maps.
+	# Re-run the narrow repair once for saves that received the earlier revision;
+	# an ordinary in-progress turn away from the untouched start keeps its exact
+	# remaining movement.
 	if int(state.get("initial_movement_repair_revision", 0)) < INITIAL_MOVEMENT_REPAIR_REVISION:
 		var start: Dictionary = definition.get("start_hex", {"q": 0, "r": 0})
 		var start_coord := Vector2i(int(start.get("q", 0)), int(start.get("r", 0)))
@@ -460,11 +461,16 @@ static func can_fast_travel_between(state: Dictionary, definition: Dictionary, o
 static func discover_event(state: Dictionary, definition: Dictionary, event_id: String, grid = null) -> bool:
 	if not _proximity_state_initialized(state, definition):
 		ensure_state(state, definition, grid)
-	if _event(definition, event_id).is_empty() or str(state.map_event_states.get(event_id, "UNDISCOVERED")) != "UNDISCOVERED":
+	var event := _event(definition, event_id)
+	if event.is_empty() or not _event_stage_ready(event) or str(state.map_event_states.get(event_id, "UNDISCOVERED")) != "UNDISCOVERED":
 		return false
 	state.map_event_states[event_id] = "DISCOVERED"
 	_update_completion(state, definition)
 	return true
+
+static func _event_stage_ready(event: Dictionary) -> bool:
+	var stage_id := str(event.get("required_stage_id", ""))
+	return stage_id.is_empty() or bool(AppState.profile.get("first_clear", {}).get(stage_id, false))
 
 static func event_state(state: Dictionary, event_id: String) -> String:
 	return str(state.get("map_event_states", {}).get(event_id, "UNDISCOVERED"))
@@ -476,6 +482,10 @@ static func resolve_event(state: Dictionary, definition: Dictionary, event_id: S
 		return GameResult.failure("UNKNOWN_EVENT")
 	if event_state(state, event_id) == "RESOLVED":
 		return GameResult.failure("EVENT_ALREADY_RESOLVED")
+	if not _event_stage_ready(event):
+		return GameResult.failure("EVENT_STAGE_LOCKED")
+	if event_state(state, event_id) != "DISCOVERED":
+		return GameResult.failure("EVENT_NOT_DISCOVERED")
 	var choice: Dictionary = {}
 	for candidate in event.get("choices", []):
 		if str(candidate.get("choice_id", "")) == choice_id:
@@ -550,7 +560,10 @@ static func _update_completion(state: Dictionary, definition: Dictionary) -> voi
 		if relay_state(state, str(relay.get("relay_id", ""))) == "ACTIVE": relays_active += 1
 	var intel_found: int = state.get("intel_states", {}).size()
 	var known_total: int = battle_total + visible_total + definition.get("relays", []).size() + definition.get("map_events", []).size()
-	var known_done: int = state.get("cleared_encounters", []).size() + visible_claimed + relays_active + intel_found
+	var events_resolved := 0
+	for event in definition.get("map_events", []):
+		if event_state(state, str(event.get("event_id", ""))) == "RESOLVED": events_resolved += 1
+	var known_done: int = state.get("cleared_encounters", []).size() + visible_claimed + relays_active + events_resolved
 	state.exploration_completion = {
 		"percent": clampi(roundi(float(known_done) / float(maxi(1, known_total)) * 100.0), 0, 100),
 		"encounters_done": state.get("cleared_encounters", []).size(), "encounters_total": battle_total,

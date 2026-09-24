@@ -1,0 +1,33 @@
+{
+  "checks": [
+    {
+      "name": "continuous backdrop loaded at N20",
+      "pass": true
+    },
+    {
+      "name": "HUD face texture accounting survives boss-wave rollover",
+      "pass": true
+    },
+    {
+      "name": "actual N20 boss HD lease acquired",
+      "pass": true
+    },
+    {
+      "name": "N20 result is an actual victory, not merely a result screen",
+      "pass": true
+    },
+    {
+      "name": "real reward touch drag reaches lower report",
+      "pass": true
+    },
+    {
+      "name": "completed NORMAL route no longer points back to N01",
+      "pass": false
+    },
+    {
+      "name": "Error: completed NORMAL route no longer points back to N01",
+      "pass": false
+    }
+  ],
+  "fixture": "Local QA N20 neighbor with invincibility; prior history grants no rewards. Real movement/combat/reward actions."
+}

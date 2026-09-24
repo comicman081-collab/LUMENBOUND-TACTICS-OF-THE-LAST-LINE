@@ -1,0 +1,355 @@
+{
+  "elapsed_msec": 2895,
+  "story_advance_count": 3,
+  "map_preload_msec": 3216,
+  "density_cache": {
+    "budget_bytes": 67108864,
+    "hits": 0,
+    "misses": 2,
+    "retained_bytes": 9437184,
+    "retained_pages": 2,
+    "timing": {
+      "batch_usec": 167500,
+      "batches": 1,
+      "decode_usec": 44100,
+      "hash_usec": 10700,
+      "pages": 2,
+      "response_wait_usec": 179200,
+      "upload_usec": 1000
+    }
+  },
+  "map": {
+    "backdrop": {
+      "instances": 270,
+      "present": true
+    },
+    "camera_size": 13.1999998092651,
+    "chapter": "CH01",
+    "detail": {
+      "rect": [
+        992,
+        146.66667175293,
+        265.333374023438,
+        246.66667175293
+      ],
+      "visible": false,
+      "z": 80
+    },
+    "enemy_pawns": 1,
+    "environment_meshes": [
+      "boulder",
+      "boulder_alt",
+      "canopy",
+      "canopy_alt",
+      "trunk"
+    ],
+    "field_events": [
+      {
+        "id": "EVENT_CRYSTAL_TRACE",
+        "screen": [
+          1230.48400878906,
+          883.576171875
+        ],
+        "state": "UNDISCOVERED",
+        "visible": false
+      },
+      {
+        "id": "EVENT_BROKEN_SWITCH",
+        "screen": [
+          2294.01147460938,
+          1418.83947753906
+        ],
+        "state": "UNDISCOVERED",
+        "visible": false
+      },
+      {
+        "id": "EVENT_COAST_LOG",
+        "screen": [
+          4692.0771484375,
+          2700.32299804688
+        ],
+        "state": "UNDISCOVERED",
+        "visible": false
+      }
+    ],
+    "grid_tiles": 3602,
+    "instance_id": 121282496108,
+    "movement_points": 3,
+    "movement_points_max": 3,
+    "moving": false,
+    "natural_bridge_tiles": 27,
+    "natural_chunks": 49,
+    "natural_river_chunks": 45,
+    "natural_terrain": true,
+    "next": "CH01-N01",
+    "palette": "FOREST",
+    "paused": false,
+    "pawn_texture": {
+      "atlas_path": "",
+      "atlas_size": [
+        1536,
+        768
+      ],
+      "height": 192,
+      "path": "",
+      "width": 192
+    },
+    "persistent_grid_cells": 3602,
+    "persistent_grid_drawn": 215,
+    "position": [
+      0,
+      0
+    ],
+    "preview": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        -1
+      ],
+      [
+        2,
+        -2
+      ],
+      [
+        3,
+        -3
+      ]
+    ],
+    "reachable": 24,
+    "ready": true,
+    "status": "첫 작전 안내 · 반투명 노란 칸이 이번 턴의 정확한 이동 범위입니다",
+    "terrain_samples": [
+      {
+        "blocked": false,
+        "coord": [
+          0,
+          1
+        ],
+        "reachable": true,
+        "screen": [
+          612.3,
+          493.4
+        ],
+        "type": "BRIDGE"
+      },
+      {
+        "blocked": false,
+        "coord": [
+          1,
+          0
+        ],
+        "reachable": true,
+        "screen": [
+          688.5,
+          455.5
+        ],
+        "type": "BRIDGE"
+      },
+      {
+        "blocked": true,
+        "coord": [
+          1,
+          1
+        ],
+        "reachable": false,
+        "screen": [
+          666.5,
+          535.6
+        ],
+        "type": "SHALLOW_WATER"
+      },
+      {
+        "blocked": true,
+        "coord": [
+          2,
+          -1
+        ],
+        "reachable": false,
+        "screen": [
+          764.6,
+          465.7
+        ],
+        "type": "SHALLOW_WATER"
+      },
+      {
+        "blocked": false,
+        "coord": [
+          2,
+          0
+        ],
+        "reachable": true,
+        "screen": [
+          742.7,
+          497.7
+        ],
+        "type": "BRIDGE"
+      },
+      {
+        "blocked": true,
+        "coord": [
+          3,
+          -2
+        ],
+        "reachable": false,
+        "screen": [
+          840.8,
+          451.9
+        ],
+        "type": "SHALLOW_WATER"
+      },
+      {
+        "blocked": true,
+        "coord": [
+          3,
+          -1
+        ],
+        "reachable": false,
+        "screen": [
+          818.8,
+          507.9
+        ],
+        "type": "SHALLOW_WATER"
+      },
+      {
+        "blocked": true,
+        "coord": [
+          4,
+          -3
+        ],
+        "reachable": false,
+        "screen": [
+          917,
+          438
+        ],
+        "type": "SHALLOW_WATER"
+      },
+      {
+        "blocked": false,
+        "coord": [
+          6,
+          -3
+        ],
+        "reachable": false,
+        "screen": [
+          1025.4,
+          522.4
+        ],
+        "type": "BRIDGE"
+      },
+      {
+        "blocked": false,
+        "coord": [
+          6,
+          -4
+        ],
+        "reachable": false,
+        "screen": [
+          1047.4,
+          466.3
+        ],
+        "type": "BRIDGE"
+      },
+      {
+        "blocked": true,
+        "coord": [
+          -7,
+          3
+        ],
+        "reachable": false,
+        "screen": [
+          188.9,
+          262
+        ],
+        "type": "RUINS"
+      },
+      {
+        "blocked": true,
+        "coord": [
+          -7,
+          6
+        ],
+        "reachable": false,
+        "screen": [
+          123,
+          430.2
+        ],
+        "type": "RUINS"
+      },
+      {
+        "blocked": true,
+        "coord": [
+          4,
+          -7
+        ],
+        "reachable": false,
+        "screen": [
+          1004.9,
+          213.8
+        ],
+        "type": "RUINS"
+      }
+    ],
+    "toolbar_rect": [
+      21.3333339691162,
+      94.6666717529297,
+      1237.33337402344,
+      37.3333282470703
+    ],
+    "training_notes": 0,
+    "turn_transitioning": false,
+    "viewport_rect": [
+      25.3333339691162,
+      141.333343505859,
+      1229.33337402344,
+      553.333374023438
+    ]
+  },
+  "loader_frame_captured": true,
+  "samples": [
+    {
+      "elapsed_msec": 2351,
+      "screen": "STAGE_SELECT",
+      "loading": true,
+      "map_ready": false
+    },
+    {
+      "elapsed_msec": 3110,
+      "screen": "STAGE_SELECT",
+      "loading": true,
+      "map_ready": false
+    },
+    {
+      "elapsed_msec": 3575,
+      "screen": "STAGE_SELECT",
+      "loading": true,
+      "map_ready": false
+    },
+    {
+      "elapsed_msec": 3971,
+      "screen": "STAGE_SELECT",
+      "loading": true,
+      "map_ready": false
+    },
+    {
+      "elapsed_msec": 4523,
+      "screen": "STAGE_SELECT",
+      "loading": true,
+      "map_ready": false
+    },
+    {
+      "elapsed_msec": 4788,
+      "screen": "STAGE_SELECT",
+      "loading": true,
+      "map_ready": false
+    },
+    {
+      "elapsed_msec": 5246,
+      "screen": "STAGE_SELECT",
+      "loading": true,
+      "map_ready": true
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+User corrected the project on 2026-09-08. Size changes made in this task were reverted. Roster sheets are read-only inspection evidence, not replacements or production approvals. Continue map/loading/region/story work.

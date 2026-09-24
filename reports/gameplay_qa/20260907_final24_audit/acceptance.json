@@ -1,0 +1,17 @@
+{
+  "checks": [
+    {
+      "name": "continuous backdrop loaded at N20",
+      "pass": true
+    },
+    {
+      "name": "actual N20 boss HD lease acquired",
+      "pass": false
+    },
+    {
+      "name": "Error: actual N20 boss HD lease acquired",
+      "pass": false
+    }
+  ],
+  "fixture": "Local QA N20 neighbor with invincibility; prior history grants no rewards. Real movement/combat/reward actions."
+}

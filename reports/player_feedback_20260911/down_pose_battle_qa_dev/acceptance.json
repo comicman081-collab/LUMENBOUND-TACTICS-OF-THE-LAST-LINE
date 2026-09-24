@@ -1,0 +1,10 @@
+{
+  "checks": [
+    {
+      "pass": false,
+      "name": "Error: {\"exceptionId\":1,\"text\":\"Uncaught (in promise) Error: Local sandbox developer probe unavailable\",\"lineNumber\":3,\"columnNumber\":28,\"scriptId\":\"37\",\"stackTrace\":{\"callFrames\":[{\"functionName\":\"eval\",\"scriptId\":\"37\",\"url\":\"\",\"lineNumber\":2,\"columnNumber\":27},{\"functionName\":\"eval\",\"scriptId\":\"37\",\"url\":\"\",\"lineNumber\":0,\"columnNumber\":0},{\"functionName\":\"\",\"scriptId\":\"36\",\"url\":\"\",\"lineNumber\":0,\"columnNumber\":110},{\"functionName\":\"\",\"scriptId\":\"36\",\"url\":\"\",\"lineNumber\":0,\"columnNumber\":729}]},\"exception\":{\"type\":\"object\",\"subtype\":\"error\",\"className\":\"Error\",\"description\":\"Error: Local sandbox developer probe unavailable\\n    at eval (eval at <anonymous> (:1:111), <anonymous>:3:28)\\n    at new Promise (<anonymous>)\\n    at eval (eval at <anonymous> (:1:111), <anonymous>:1:1)\\n    at eval (<anonymous>)\\n    at <anonymous>:1:111\\n    at <anonymous>:1:730\",\"objectId\":\"-4817577688974664025.2.1\"}}"
+    }
+  ],
+  "runs": [],
+  "measurement": "First BATTLE snapshot to first assets-ready snapshot; 250ms polling plus browser bridge latency. Same isolated CH01 N01, party and viewport; actual combat with fixture invincibility."
+}

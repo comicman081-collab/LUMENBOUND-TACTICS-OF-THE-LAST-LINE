@@ -13,7 +13,10 @@
     "stage_id": "CH01-N03",
     "scenario_id": "SCN_CH01_MID_A",
     "completion_flag": "story.trigger.TRIG_CH01_MID_A",
-    "priority": 20
+    "priority": 20,
+    "fallback_stage_ids": [
+      "CH01-N04"
+    ]
   },
   {
     "id": "TRIG_CH01_MID_B",
@@ -21,7 +24,10 @@
     "stage_id": "CH01-N05",
     "scenario_id": "SCN_CH01_MID_B",
     "completion_flag": "story.trigger.TRIG_CH01_MID_B",
-    "priority": 30
+    "priority": 30,
+    "fallback_stage_ids": [
+      "CH01-N06"
+    ]
   },
   {
     "id": "TRIG_CH01_MID_C",
@@ -29,7 +35,10 @@
     "stage_id": "CH01-N07",
     "scenario_id": "SCN_CH01_MID_C",
     "completion_flag": "story.trigger.TRIG_CH01_MID_C",
-    "priority": 40
+    "priority": 40,
+    "fallback_stage_ids": [
+      "CH01-N08"
+    ]
   },
   {
     "id": "TRIG_CH01_PREBOSS",
@@ -45,7 +54,10 @@
     "stage_id": "CH01-H05",
     "scenario_id": "SCN_CH01_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH01_OUTRO",
-    "priority": 60
+    "priority": 60,
+    "fallback_stage_ids": [
+      "CH01-N20"
+    ]
   },
   {
     "id": "TRIG_CH02_INTRO",
@@ -61,7 +73,10 @@
     "stage_id": "CH02-N03",
     "scenario_id": "SCN_CH02_MID_A",
     "completion_flag": "story.trigger.TRIG_CH02_MID_A",
-    "priority": 80
+    "priority": 80,
+    "fallback_stage_ids": [
+      "CH02-N04"
+    ]
   },
   {
     "id": "TRIG_CH02_MID_B",
@@ -93,7 +108,10 @@
     "stage_id": "CH02-H05",
     "scenario_id": "SCN_CH02_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH02_OUTRO",
-    "priority": 120
+    "priority": 120,
+    "fallback_stage_ids": [
+      "CH02-N20"
+    ]
   },
   {
     "id": "TRIG_CH03_INTRO",
@@ -394,7 +412,7 @@
   {
     "id": "TRIG_CH10_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH10-N14",
+    "stage_id": "CH10-N15",
     "scenario_id": "SCN_CH10_MID_B",
     "completion_flag": "story.trigger.TRIG_CH10_MID_B",
     "priority": 500
@@ -634,7 +652,7 @@
   {
     "id": "TRIG_CH16_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH16-N14",
+    "stage_id": "CH16-N15",
     "scenario_id": "SCN_CH16_MID_B",
     "completion_flag": "story.trigger.TRIG_CH16_MID_B",
     "priority": 800
@@ -714,7 +732,7 @@
   {
     "id": "TRIG_CH18_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH18-N14",
+    "stage_id": "CH18-N16",
     "scenario_id": "SCN_CH18_MID_B",
     "completion_flag": "story.trigger.TRIG_CH18_MID_B",
     "priority": 900
@@ -794,7 +812,7 @@
   {
     "id": "TRIG_CH20_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH20-N14",
+    "stage_id": "CH20-N17",
     "scenario_id": "SCN_CH20_MID_B",
     "completion_flag": "story.trigger.TRIG_CH20_MID_B",
     "priority": 1000

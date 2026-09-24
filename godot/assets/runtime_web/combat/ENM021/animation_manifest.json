@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_enm021",
   "character_id": "ENM021",
-  "display_name": "ENM021",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/enm021_authority.png",
-  "source_asset_id": "enm021_silhouette_a_bb3613117af54f69_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_SILT_MEDIC",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/ENM021/source.png",
+  "source_asset_id": "enm021_illustrated_9626fd68b0a1f07b",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "9ffb3af653440751623dce77a245338c8dd13bbacf7349589c1c0efc381bd9dd",
+  "preview_sha256": "5031cc04e31eed883a3c0e6e3192a0d096bba50dc0617b73d0b2c00659e7ad08",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "45551e1790990d2290fa746235a0316b9a37095715b2716e421e98b6f83bed70"
+  "sha256": "bf420939d955e402791d582aad4697ced19e7951e291d0e91468cb0a8368021c"
 }

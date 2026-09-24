@@ -1,0 +1,912 @@
+{
+  "checks": [
+    {
+      "ok": true,
+      "name": "634: home guide 1 action contained",
+      "detail": {
+        "content_width": 274.072915017605,
+        "disabled": false,
+        "font_css": 15.8519883155823,
+        "name": "HomeTutorialContinueButton",
+        "nowrap": false,
+        "rect": [
+          321.9,
+          234.3,
+          286,
+          52.2
+        ],
+        "text": "준비 메뉴 보기",
+        "text_width": 96.4208327531815
+      }
+    },
+    {
+      "ok": true,
+      "name": "634: home guide 2 action contained",
+      "detail": {
+        "content_width": 274.072915017605,
+        "disabled": false,
+        "font_css": 15.8519883155823,
+        "name": "HomeTutorialContinueButton",
+        "nowrap": false,
+        "rect": [
+          321.9,
+          241.4,
+          286,
+          52.2
+        ],
+        "text": "기록 메뉴 보기",
+        "text_width": 96.4208327531815
+      }
+    },
+    {
+      "ok": true,
+      "name": "634: home guide 3 action contained",
+      "detail": {
+        "content_width": 274.072915017605,
+        "disabled": false,
+        "font_css": 15.8519883155823,
+        "name": "HomeTutorialContinueButton",
+        "nowrap": false,
+        "rect": [
+          321.9,
+          234.3,
+          286,
+          52.2
+        ],
+        "text": "첫 작전 안내 받기",
+        "text_width": 115.572915971279
+      }
+    },
+    {
+      "ok": true,
+      "name": "634: home guide 4 action contained",
+      "detail": {
+        "content_width": 274.072915017605,
+        "disabled": false,
+        "font_css": 15.8519883155823,
+        "name": "HomeTutorialContinueButton",
+        "nowrap": false,
+        "rect": [
+          321.9,
+          234.3,
+          286,
+          52.2
+        ],
+        "text": "제1장 탐색 시작  ›",
+        "text_width": 119.535415947437
+      }
+    },
+    {
+      "ok": true,
+      "name": "634: map guide 1 reached",
+      "detail": {
+        "body": [
+          33.8312492370605,
+          139.938385009766,
+          566.307312011719,
+          96.4329223632812
+        ],
+        "content_height": 66.3802010715008,
+        "continue": [
+          186.717697143555,
+          243.306549072266,
+          260,
+          38.3089599609375
+        ],
+        "panel": [
+          16,
+          43.5054550170898,
+          602,
+          270.033874511719
+        ],
+        "step": 1,
+        "title": "황금빛 이동 범위를 읽으세요",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "634: map guide 1 panel contained",
+      "detail": [
+        16,
+        43.5054550170898,
+        602,
+        270.033874511719
+      ]
+    },
+    {
+      "ok": true,
+      "name": "634: map guide 1 complete text visible",
+      "detail": {
+        "body": [
+          33.8312492370605,
+          139.938385009766,
+          566.307312011719,
+          96.4329223632812
+        ],
+        "content_height": 66.3802010715008,
+        "continue": [
+          186.717697143555,
+          243.306549072266,
+          260,
+          38.3089599609375
+        ],
+        "panel": [
+          16,
+          43.5054550170898,
+          602,
+          270.033874511719
+        ],
+        "step": 1,
+        "title": "황금빛 이동 범위를 읽으세요",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "634: map guide 1 reading area does not overlap action",
+      "detail": {
+        "body": [
+          33.8312492370605,
+          139.938385009766,
+          566.307312011719,
+          96.4329223632812
+        ],
+        "content_height": 66.3802010715008,
+        "continue": [
+          186.717697143555,
+          243.306549072266,
+          260,
+          38.3089599609375
+        ],
+        "panel": [
+          16,
+          43.5054550170898,
+          602,
+          270.033874511719
+        ],
+        "step": 1,
+        "title": "황금빛 이동 범위를 읽으세요",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "634: map guide 2 reached",
+      "detail": {
+        "body": [
+          33.8312492370605,
+          139.938385009766,
+          566.307312011719,
+          96.4329223632812
+        ],
+        "content_height": 44.2534673810005,
+        "continue": [
+          186.717697143555,
+          243.306549072266,
+          260,
+          38.3089599609375
+        ],
+        "panel": [
+          16,
+          43.5054550170898,
+          602,
+          270.033874511719
+        ],
+        "step": 2,
+        "title": "목적지를 바로 확정하세요",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "634: map guide 2 panel contained",
+      "detail": [
+        16,
+        43.5054550170898,
+        602,
+        270.033874511719
+      ]
+    },
+    {
+      "ok": true,
+      "name": "634: map guide 2 complete text visible",
+      "detail": {
+        "body": [
+          33.8312492370605,
+          139.938385009766,
+          566.307312011719,
+          96.4329223632812
+        ],
+        "content_height": 44.2534673810005,
+        "continue": [
+          186.717697143555,
+          243.306549072266,
+          260,
+          38.3089599609375
+        ],
+        "panel": [
+          16,
+          43.5054550170898,
+          602,
+          270.033874511719
+        ],
+        "step": 2,
+        "title": "목적지를 바로 확정하세요",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "634: map guide 2 reading area does not overlap action",
+      "detail": {
+        "body": [
+          33.8312492370605,
+          139.938385009766,
+          566.307312011719,
+          96.4329223632812
+        ],
+        "content_height": 44.2534673810005,
+        "continue": [
+          186.717697143555,
+          243.306549072266,
+          260,
+          38.3089599609375
+        ],
+        "panel": [
+          16,
+          43.5054550170898,
+          602,
+          270.033874511719
+        ],
+        "step": 2,
+        "title": "목적지를 바로 확정하세요",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "634: map guide 3 reached",
+      "detail": {
+        "body": [
+          33.8312492370605,
+          139.938385009766,
+          566.307312011719,
+          96.4329223632812
+        ],
+        "content_height": 44.2534673810005,
+        "continue": [
+          186.717697143555,
+          243.306549072266,
+          260,
+          38.3089599609375
+        ],
+        "panel": [
+          16,
+          43.5054550170898,
+          602,
+          270.033874511719
+        ],
+        "step": 3,
+        "title": "적 턴 뒤 다음 행동이 이어집니다",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "634: map guide 3 panel contained",
+      "detail": [
+        16,
+        43.5054550170898,
+        602,
+        270.033874511719
+      ]
+    },
+    {
+      "ok": true,
+      "name": "634: map guide 3 complete text visible",
+      "detail": {
+        "body": [
+          33.8312492370605,
+          139.938385009766,
+          566.307312011719,
+          96.4329223632812
+        ],
+        "content_height": 44.2534673810005,
+        "continue": [
+          186.717697143555,
+          243.306549072266,
+          260,
+          38.3089599609375
+        ],
+        "panel": [
+          16,
+          43.5054550170898,
+          602,
+          270.033874511719
+        ],
+        "step": 3,
+        "title": "적 턴 뒤 다음 행동이 이어집니다",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "634: map guide 3 reading area does not overlap action",
+      "detail": {
+        "body": [
+          33.8312492370605,
+          139.938385009766,
+          566.307312011719,
+          96.4329223632812
+        ],
+        "content_height": 44.2534673810005,
+        "continue": [
+          186.717697143555,
+          243.306549072266,
+          260,
+          38.3089599609375
+        ],
+        "panel": [
+          16,
+          43.5054550170898,
+          602,
+          270.033874511719
+        ],
+        "step": 3,
+        "title": "적 턴 뒤 다음 행동이 이어집니다",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "634: tutorial releases map interaction",
+      "detail": {
+        "body": [
+          33.8312492370605,
+          139.938385009766,
+          566.307312011719,
+          96.4329223632812
+        ],
+        "content_height": 44.2534673810005,
+        "continue": [
+          186.717697143555,
+          243.306549072266,
+          260,
+          38.3089599609375
+        ],
+        "panel": [
+          16,
+          43.5054550170898,
+          602,
+          270.033874511719
+        ],
+        "step": 3,
+        "title": "적 턴 뒤 다음 행동이 이어집니다",
+        "visible": false
+      }
+    },
+    {
+      "ok": true,
+      "name": "1280: home guide 1 action contained",
+      "detail": {
+        "content_width": 297.333342194557,
+        "disabled": false,
+        "font_css": 16.0000004768372,
+        "name": "HomeTutorialContinueButton",
+        "nowrap": false,
+        "rect": [
+          644.7,
+          416,
+          321.3,
+          52
+        ],
+        "text": "준비 메뉴 보기",
+        "text_width": 97.3333362340927
+      }
+    },
+    {
+      "ok": true,
+      "name": "1280: home guide 2 action contained",
+      "detail": {
+        "content_width": 297.333342194557,
+        "disabled": false,
+        "font_css": 16.0000004768372,
+        "name": "HomeTutorialContinueButton",
+        "nowrap": false,
+        "rect": [
+          644.7,
+          424,
+          321.3,
+          52
+        ],
+        "text": "기록 메뉴 보기",
+        "text_width": 97.3333362340927
+      }
+    },
+    {
+      "ok": true,
+      "name": "1280: home guide 3 action contained",
+      "detail": {
+        "content_width": 297.333342194557,
+        "disabled": false,
+        "font_css": 16.0000004768372,
+        "name": "HomeTutorialContinueButton",
+        "nowrap": false,
+        "rect": [
+          644.7,
+          416,
+          321.3,
+          52
+        ],
+        "text": "첫 작전 안내 받기",
+        "text_width": 116.666670143604
+      }
+    },
+    {
+      "ok": true,
+      "name": "1280: home guide 4 action contained",
+      "detail": {
+        "content_width": 297.333342194557,
+        "disabled": false,
+        "font_css": 16.0000004768372,
+        "name": "HomeTutorialContinueButton",
+        "nowrap": false,
+        "rect": [
+          644.7,
+          416,
+          321.3,
+          52
+        ],
+        "text": "제1장 탐색 시작  ›",
+        "text_width": 120.666670262814
+      }
+    },
+    {
+      "ok": true,
+      "name": "1280: map guide 1 reached",
+      "detail": {
+        "body": [
+          236.799987792969,
+          278,
+          806.000061035156,
+          196.666687011719
+        ],
+        "content_height": 110.000003278255,
+        "continue": [
+          499.466644287109,
+          482.666687011719,
+          280.000030517578,
+          38.6666870117188
+        ],
+        "panel": [
+          204.799987792969,
+          144,
+          870.399963378906,
+          432
+        ],
+        "step": 1,
+        "title": "황금빛 이동 범위를 읽으세요",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "1280: map guide 1 panel contained",
+      "detail": [
+        204.799987792969,
+        144,
+        870.399963378906,
+        432
+      ]
+    },
+    {
+      "ok": true,
+      "name": "1280: map guide 1 complete text visible",
+      "detail": {
+        "body": [
+          236.799987792969,
+          278,
+          806.000061035156,
+          196.666687011719
+        ],
+        "content_height": 110.000003278255,
+        "continue": [
+          499.466644287109,
+          482.666687011719,
+          280.000030517578,
+          38.6666870117188
+        ],
+        "panel": [
+          204.799987792969,
+          144,
+          870.399963378906,
+          432
+        ],
+        "step": 1,
+        "title": "황금빛 이동 범위를 읽으세요",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "1280: map guide 1 reading area does not overlap action",
+      "detail": {
+        "body": [
+          236.799987792969,
+          278,
+          806.000061035156,
+          196.666687011719
+        ],
+        "content_height": 110.000003278255,
+        "continue": [
+          499.466644287109,
+          482.666687011719,
+          280.000030517578,
+          38.6666870117188
+        ],
+        "panel": [
+          204.799987792969,
+          144,
+          870.399963378906,
+          432
+        ],
+        "step": 1,
+        "title": "황금빛 이동 범위를 읽으세요",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "1280: map guide 2 reached",
+      "detail": {
+        "body": [
+          236.799987792969,
+          278,
+          806.000061035156,
+          196.666687011719
+        ],
+        "content_height": 73.333335518837,
+        "continue": [
+          499.466644287109,
+          482.666687011719,
+          280.000030517578,
+          38.6666870117188
+        ],
+        "panel": [
+          204.799987792969,
+          144,
+          870.399963378906,
+          432
+        ],
+        "step": 2,
+        "title": "목적지를 바로 확정하세요",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "1280: map guide 2 panel contained",
+      "detail": [
+        204.799987792969,
+        144,
+        870.399963378906,
+        432
+      ]
+    },
+    {
+      "ok": true,
+      "name": "1280: map guide 2 complete text visible",
+      "detail": {
+        "body": [
+          236.799987792969,
+          278,
+          806.000061035156,
+          196.666687011719
+        ],
+        "content_height": 73.333335518837,
+        "continue": [
+          499.466644287109,
+          482.666687011719,
+          280.000030517578,
+          38.6666870117188
+        ],
+        "panel": [
+          204.799987792969,
+          144,
+          870.399963378906,
+          432
+        ],
+        "step": 2,
+        "title": "목적지를 바로 확정하세요",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "1280: map guide 2 reading area does not overlap action",
+      "detail": {
+        "body": [
+          236.799987792969,
+          278,
+          806.000061035156,
+          196.666687011719
+        ],
+        "content_height": 73.333335518837,
+        "continue": [
+          499.466644287109,
+          482.666687011719,
+          280.000030517578,
+          38.6666870117188
+        ],
+        "panel": [
+          204.799987792969,
+          144,
+          870.399963378906,
+          432
+        ],
+        "step": 2,
+        "title": "목적지를 바로 확정하세요",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "1280: map guide 3 reached",
+      "detail": {
+        "body": [
+          236.799987792969,
+          278,
+          806.000061035156,
+          196.666687011719
+        ],
+        "content_height": 73.333335518837,
+        "continue": [
+          499.466644287109,
+          482.666687011719,
+          280.000030517578,
+          38.6666870117188
+        ],
+        "panel": [
+          204.799987792969,
+          144,
+          870.399963378906,
+          432
+        ],
+        "step": 3,
+        "title": "적 턴 뒤 다음 행동이 이어집니다",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "1280: map guide 3 panel contained",
+      "detail": [
+        204.799987792969,
+        144,
+        870.399963378906,
+        432
+      ]
+    },
+    {
+      "ok": true,
+      "name": "1280: map guide 3 complete text visible",
+      "detail": {
+        "body": [
+          236.799987792969,
+          278,
+          806.000061035156,
+          196.666687011719
+        ],
+        "content_height": 73.333335518837,
+        "continue": [
+          499.466644287109,
+          482.666687011719,
+          280.000030517578,
+          38.6666870117188
+        ],
+        "panel": [
+          204.799987792969,
+          144,
+          870.399963378906,
+          432
+        ],
+        "step": 3,
+        "title": "적 턴 뒤 다음 행동이 이어집니다",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "1280: map guide 3 reading area does not overlap action",
+      "detail": {
+        "body": [
+          236.799987792969,
+          278,
+          806.000061035156,
+          196.666687011719
+        ],
+        "content_height": 73.333335518837,
+        "continue": [
+          499.466644287109,
+          482.666687011719,
+          280.000030517578,
+          38.6666870117188
+        ],
+        "panel": [
+          204.799987792969,
+          144,
+          870.399963378906,
+          432
+        ],
+        "step": 3,
+        "title": "적 턴 뒤 다음 행동이 이어집니다",
+        "visible": true
+      }
+    },
+    {
+      "ok": true,
+      "name": "1280: tutorial releases map interaction",
+      "detail": {
+        "body": [
+          236.799987792969,
+          278,
+          806.000061035156,
+          196.666687011719
+        ],
+        "content_height": 73.333335518837,
+        "continue": [
+          499.466644287109,
+          482.666687011719,
+          280.000030517578,
+          38.6666870117188
+        ],
+        "panel": [
+          204.799987792969,
+          144,
+          870.399963378906,
+          432
+        ],
+        "step": 3,
+        "title": "적 턴 뒤 다음 행동이 이어집니다",
+        "visible": false
+      }
+    },
+    {
+      "ok": true,
+      "name": "no runtime errors",
+      "detail": []
+    }
+  ],
+  "passed": true,
+  "logs": [
+    {
+      "type": "log",
+      "text": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org"
+    },
+    {
+      "type": "log",
+      "text": "OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL"
+    },
+    {
+      "type": "log",
+      "text": "Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support."
+    },
+    {
+      "type": "log",
+      "text": "R15_SAVE_SANDBOX_ACTIVE session=r4m-onboarding paths=user://r15_soak_sandbox/r4m-onboarding/*"
+    },
+    {
+      "type": "log",
+      "text": "LUMENBOUND_MOBILE_PORTRAIT_V2_READY"
+    },
+    {
+      "type": "log",
+      "text": "LUMENBOUND_MOBILE_MAP_STABILITY_READY"
+    },
+    {
+      "type": "log",
+      "text": "SAVE_LOAD_SOURCE source=new sandbox=true session=r4m-onboarding"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 배경과 조명 678.80ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 지형 표현 547.60ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 환경 오브젝트 534.20ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 길과 다리 550.30ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 조우 표시 665.80ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 이동 경로 238.10ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 캐릭터 표시 266.70ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 1 / 7 777.60ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 2 / 7 790.40ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 3 / 7 425.00ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 4 / 7 379.10ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 5 / 7 318.70ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 6 / 7 362.00ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 7 / 7 715.80ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_COMPLETE 7386.80ms"
+    },
+    {
+      "type": "log",
+      "text": "LUMENBOUND_MOBILE_MAP_STABILITY_LOCKED size=634x357"
+    },
+    {
+      "type": "log",
+      "text": "WEB_COOPERATIVE_TASK terrain_stream 1373.20ms frames_yielded=true tiles=254"
+    },
+    {
+      "type": "log",
+      "text": "WEB_STAGE_RENDER_COVERAGE render=1497 total=3602"
+    },
+    {
+      "type": "log",
+      "text": "WEB_FRAME_GAP dressing_GroundGrassTufts_11_-1_00 202.70ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_MAP_DRESSING_READY tiles=1252 chunks=29 instances=6232"
+    },
+    {
+      "type": "log",
+      "text": "STAGE_ENTRY_PRELOAD_COMPLETE map=CH01_MAP elapsed_ms=3142 target_ms=5000 within_target=true cache_hit=false gpu_textures=4"
+    },
+    {
+      "type": "log",
+      "text": "WEB_COOPERATIVE_TASK terrain_stream 1112.90ms frames_yielded=true tiles=254"
+    },
+    {
+      "type": "log",
+      "text": "WEB_STAGE_RENDER_COVERAGE render=1497 total=3602"
+    },
+    {
+      "type": "log",
+      "text": "WEB_MAP_DRESSING_READY tiles=1252 chunks=29 instances=6232"
+    },
+    {
+      "type": "log",
+      "text": "STAGE_ENTRY_PRELOAD_COMPLETE map=CH01_MAP elapsed_ms=1910 target_ms=5000 within_target=true cache_hit=true gpu_textures=0"
+    }
+  ]
+}

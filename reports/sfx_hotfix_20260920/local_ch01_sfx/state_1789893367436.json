@@ -1,0 +1,1513 @@
+{
+  "active_party": 0,
+  "battle": {
+    "action_frames": {
+      "budget": 33554432,
+      "decoded_bytes": 26968064,
+      "entities": [
+        "CHR001",
+        "CHR002",
+        "CHR003",
+        "CHR004",
+        "CHR005",
+        "ENM001",
+        "ENM002",
+        "ENM003"
+      ],
+      "error": ""
+    },
+    "actor_error": "",
+    "actors": [
+      {
+        "action_motion": {
+          "action": "move",
+          "elapsed": 0,
+          "frame": -1,
+          "redrawn": false
+        },
+        "action_textures": {
+          "basic_attack": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              1084
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "down": {
+            "atlas_path": "",
+            "atlas_size": [
+              768,
+              812
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "hit": {
+            "atlas_path": "",
+            "atlas_size": [
+              768,
+              812
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "idle": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              1084
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "move": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              1084
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "normal_skill": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              1084
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "ultimate": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              1084
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "victory": {
+            "atlas_path": "",
+            "atlas_size": [
+              768,
+              812
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          }
+        },
+        "body_scale": 0.46904,
+        "down_pose": {
+          "height": 512,
+          "path": "res://assets/runtime_web/combat_down_pose/CHR001/down_pose.png",
+          "width": 512
+        },
+        "foot": [
+          229.299987792969,
+          870.239990234375
+        ],
+        "ground_contact": {
+          "backdrop": "normal",
+          "body_scale": 0.46904,
+          "contact_error": 0,
+          "floor_position": [
+            79.2999877929688,
+            870.239990234375
+          ],
+          "opaque_contact_ground_y": 870.239990234375,
+          "shadow_ground_y": 870.239990234375
+        },
+        "hp": 1341,
+        "id": "CHR001",
+        "motion_track": {
+          "elapsed": 0,
+          "name": "move"
+        },
+        "rank": "PLAYER",
+        "source_asset_id": "chr001_spritegen_060de47013e893fc",
+        "team": "PLAYER",
+        "texture": {},
+        "uid": "P:CHR001"
+      },
+      {
+        "action_motion": {
+          "action": "move",
+          "elapsed": 0,
+          "frame": -1,
+          "redrawn": false
+        },
+        "action_textures": {
+          "basic_attack": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              1000
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "down": {
+            "atlas_path": "",
+            "atlas_size": [
+              512,
+              1376
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "hit": {
+            "atlas_path": "",
+            "atlas_size": [
+              512,
+              1376
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "idle": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              1000
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "move": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              1000
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "normal_skill": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              1000
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "ultimate": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              1000
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "victory": {
+            "atlas_path": "",
+            "atlas_size": [
+              512,
+              1376
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          }
+        },
+        "body_scale": 0.46904,
+        "down_pose": {
+          "height": 512,
+          "path": "res://assets/runtime_web/combat_down_pose/CHR002/down_pose.png",
+          "width": 512
+        },
+        "foot": [
+          408.154052734375,
+          751.100036621094
+        ],
+        "ground_contact": {
+          "backdrop": "normal",
+          "body_scale": 0.46904,
+          "contact_error": 0,
+          "floor_position": [
+            258.154052734375,
+            751.100036621094
+          ],
+          "opaque_contact_ground_y": 751.100036621094,
+          "shadow_ground_y": 751.100036621094
+        },
+        "hp": 980,
+        "id": "CHR002",
+        "motion_track": {
+          "elapsed": 0,
+          "name": "move"
+        },
+        "rank": "PLAYER",
+        "source_asset_id": "chr002_spritegen_335d681c53d1b4ec",
+        "team": "PLAYER",
+        "texture": {},
+        "uid": "P:CHR002"
+      },
+      {
+        "action_motion": {
+          "action": "move",
+          "elapsed": 0,
+          "frame": -1,
+          "redrawn": false
+        },
+        "action_textures": {
+          "basic_attack": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              1092
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "down": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              628
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "hit": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              628
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "idle": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              1092
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "move": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              1092
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "normal_skill": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              1092
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "ultimate": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              1092
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "victory": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              628
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          }
+        },
+        "body_scale": 0.461824,
+        "down_pose": {
+          "height": 512,
+          "path": "res://assets/runtime_web/combat_down_pose/CHR003/down_pose.png",
+          "width": 512
+        },
+        "foot": [
+          587.008056640625,
+          870.239990234375
+        ],
+        "ground_contact": {
+          "backdrop": "normal",
+          "body_scale": 0.461824,
+          "contact_error": 0,
+          "floor_position": [
+            437.008056640625,
+            870.239990234375
+          ],
+          "opaque_contact_ground_y": 870.239990234375,
+          "shadow_ground_y": 870.239990234375
+        },
+        "hp": 760,
+        "id": "CHR003",
+        "motion_track": {
+          "elapsed": 0,
+          "name": "move"
+        },
+        "rank": "PLAYER",
+        "source_asset_id": "chr003_spritegen_bbd9a769ca63cd48",
+        "team": "PLAYER",
+        "texture": {},
+        "uid": "P:CHR003"
+      },
+      {
+        "action_motion": {
+          "action": "move",
+          "elapsed": 0,
+          "frame": -1,
+          "redrawn": false
+        },
+        "action_textures": {
+          "basic_attack": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1748
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "down": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              444
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "hit": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              444
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "idle": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1748
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "move": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1748
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "normal_skill": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1748
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "ultimate": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1748
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "victory": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              444
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          }
+        },
+        "body_scale": 0.461824,
+        "down_pose": {
+          "height": 512,
+          "path": "res://assets/runtime_web/combat_down_pose/CHR004/down_pose.png",
+          "width": 512
+        },
+        "foot": [
+          765.861999511719,
+          751.100036621094
+        ],
+        "ground_contact": {
+          "backdrop": "normal",
+          "body_scale": 0.461824,
+          "contact_error": 0,
+          "floor_position": [
+            615.861999511719,
+            751.100036621094
+          ],
+          "opaque_contact_ground_y": 751.100036621094,
+          "shadow_ground_y": 751.100036621094
+        },
+        "hp": 720,
+        "id": "CHR004",
+        "motion_track": {
+          "elapsed": 0,
+          "name": "move"
+        },
+        "rank": "PLAYER",
+        "source_asset_id": "chr004_spritegen_7f3036737bbde247",
+        "team": "PLAYER",
+        "texture": {},
+        "uid": "P:CHR004"
+      },
+      {
+        "action_motion": {
+          "action": "move",
+          "elapsed": 0,
+          "frame": -1,
+          "redrawn": false
+        },
+        "action_textures": {
+          "basic_attack": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1748
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "down": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              432
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "hit": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              432
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "idle": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1748
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "move": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1748
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "normal_skill": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1748
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "ultimate": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1748
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "victory": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              432
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          }
+        },
+        "body_scale": 0.461824,
+        "down_pose": {
+          "height": 512,
+          "path": "res://assets/runtime_web/combat_down_pose/CHR005/down_pose.png",
+          "width": 512
+        },
+        "foot": [
+          944.716003417969,
+          870.239990234375
+        ],
+        "ground_contact": {
+          "backdrop": "normal",
+          "body_scale": 0.461824,
+          "contact_error": 0,
+          "floor_position": [
+            794.716003417969,
+            870.239990234375
+          ],
+          "opaque_contact_ground_y": 870.239990234375,
+          "shadow_ground_y": 870.239990234375
+        },
+        "hp": 690,
+        "id": "CHR005",
+        "motion_track": {
+          "elapsed": 0,
+          "name": "move"
+        },
+        "rank": "PLAYER",
+        "source_asset_id": "chr005_spritegen_a31b257d25833ce2",
+        "team": "PLAYER",
+        "texture": {},
+        "uid": "P:CHR005"
+      },
+      {
+        "action_motion": {
+          "action": "move",
+          "elapsed": 0,
+          "frame": -1,
+          "redrawn": false
+        },
+        "action_textures": {
+          "basic_attack": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1436
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "down": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              404
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "hit": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              404
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "idle": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1436
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "move": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1436
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "normal_skill": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1436
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "ultimate": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1436
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "victory": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              404
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          }
+        },
+        "body_scale": 0.712626689763187,
+        "down_pose": {},
+        "foot": [
+          1513.38000488281,
+          771.820007324219
+        ],
+        "ground_contact": {
+          "backdrop": "normal",
+          "body_scale": 0.712626689763187,
+          "contact_error": 0,
+          "floor_position": [
+            1663.38000488281,
+            771.820007324219
+          ],
+          "opaque_contact_ground_y": 771.820007324219,
+          "shadow_ground_y": 771.820007324219
+        },
+        "hp": 1820,
+        "id": "ENM001",
+        "motion_track": {
+          "elapsed": 0,
+          "name": "move"
+        },
+        "rank": "NORMAL",
+        "source_asset_id": "enm001_spritegen_20039c7d93cba314",
+        "team": "ENEMY",
+        "texture": {},
+        "uid": "E:1:0:ENM001"
+      },
+      {
+        "action_motion": {
+          "action": "move",
+          "elapsed": 0,
+          "frame": -1,
+          "redrawn": false
+        },
+        "action_textures": {
+          "basic_attack": {
+            "atlas_path": "",
+            "atlas_size": [
+              2048,
+              676
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "down": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              360
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "hit": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              360
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "idle": {
+            "atlas_path": "",
+            "atlas_size": [
+              2048,
+              676
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "move": {
+            "atlas_path": "",
+            "atlas_size": [
+              2048,
+              676
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "normal_skill": {
+            "atlas_path": "",
+            "atlas_size": [
+              2048,
+              676
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "ultimate": {
+            "atlas_path": "",
+            "atlas_size": [
+              2048,
+              676
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "victory": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              360
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          }
+        },
+        "body_scale": 0.712626689763187,
+        "down_pose": {},
+        "foot": [
+          1949.05004882812,
+          844.340026855469
+        ],
+        "ground_contact": {
+          "backdrop": "normal",
+          "body_scale": 0.712626689763187,
+          "contact_error": 0,
+          "floor_position": [
+            2099.05004882812,
+            844.340026855469
+          ],
+          "opaque_contact_ground_y": 844.340026855469,
+          "shadow_ground_y": 844.340026855469
+        },
+        "hp": 1540,
+        "id": "ENM002",
+        "motion_track": {
+          "elapsed": 0,
+          "name": "move"
+        },
+        "rank": "NORMAL",
+        "source_asset_id": "enm002_spritegen_88e15eda95230895",
+        "team": "ENEMY",
+        "texture": {},
+        "uid": "E:1:1:ENM002"
+      }
+    ],
+    "boss_scene": {
+      "arena": false,
+      "background_mix": 0,
+      "combat_held": false,
+      "entry_duration": 3.8,
+      "entry_elapsed": -1,
+      "entry_wave": -1,
+      "name": "",
+      "victory_elapsed": -1
+    },
+    "combat_readout": "",
+    "contact_commits": 0,
+    "contact_queue": 0,
+    "damage_numbers": [],
+    "ended": false,
+    "enemy_defeat_bursts": 0,
+    "hd": {
+      "budget_bytes": 150994944,
+      "cell_size": 256,
+      "decoded_rgba_bytes": 81178624,
+      "entity_ids": [
+        "CHR001",
+        "CHR002",
+        "CHR003",
+        "CHR004",
+        "CHR005",
+        "ENM001",
+        "ENM002",
+        "ENM003"
+      ],
+      "error": ""
+    },
+    "paused": false,
+    "phase": "HD_PAGE:full_density_effects/r1/pages/4504284a5c9163571e2179955ffb3ec7d9f0d43ff4e2401a2c514e7a5470b509.png",
+    "presentation": {
+      "active_batch": {},
+      "director": {
+        "active": false,
+        "batch": {},
+        "combat_focus": 0,
+        "combat_focus_direction": 0,
+        "combat_hitstop_remaining": 0,
+        "combat_impulse": 0,
+        "cutin_visibility": 0,
+        "elapsed": 0,
+        "impact_committed": false,
+        "progress": 0,
+        "recovery": 0
+      },
+      "presented_cursor": 0,
+      "read_cursor": 0
+    },
+    "projectile_error": "",
+    "projectiles": 0,
+    "ready": false,
+    "signature": {
+      "action_frames": {
+        "budget": 33554432,
+        "decoded_bytes": 26968064,
+        "entities": [
+          "CHR001",
+          "CHR002",
+          "CHR003",
+          "CHR004",
+          "CHR005",
+          "ENM001",
+          "ENM002",
+          "ENM003"
+        ],
+        "error": ""
+      },
+      "active_encounter_ids": [],
+      "actor_core_resident_atlas_bytes": 0,
+      "actor_resident_atlas_bytes": 0,
+      "candidate_signature_entity_ids": [
+        "CHR001",
+        "CHR002",
+        "CHR003",
+        "CHR004",
+        "CHR005",
+        "CHR008",
+        "BOSS001",
+        "ENM001"
+      ],
+      "effect_core_resident_atlas_bytes": 0,
+      "effect_resident_atlas_bytes": 0,
+      "face_crop_entity_ids": [],
+      "face_crop_resident_bytes": 0,
+      "face_crop_resident_bytes_by_entity": {},
+      "fallback_error": "",
+      "fallback_target_ids": [],
+      "full_density": {
+        "budget_bytes": 150994944,
+        "cell_size": 256,
+        "decoded_rgba_bytes": 81178624,
+        "entity_ids": [
+          "CHR001",
+          "CHR002",
+          "CHR003",
+          "CHR004",
+          "CHR005",
+          "ENM001",
+          "ENM002",
+          "ENM003"
+        ],
+        "error": ""
+      },
+      "full_density_effects": {
+        "budget_bytes": 83886080,
+        "decoded_rgba_bytes": 0,
+        "effect_keys": [],
+        "error": "",
+        "projectile_ids": []
+      },
+      "inactive_candidate_ids": [
+        "CHR001",
+        "CHR002",
+        "CHR003",
+        "CHR004",
+        "CHR005",
+        "CHR008",
+        "BOSS001",
+        "ENM001"
+      ],
+      "resident_actor_ids": [],
+      "resident_effect_entity_ids": [],
+      "resident_effect_profile_ids": [],
+      "rollover_active": false
+    },
+    "time": 0,
+    "vfx": 0,
+    "wave": 1,
+    "wave_count": 2
+  },
+  "buttons": [
+    {
+      "content_width": 44.7822004556656,
+      "disabled": false,
+      "font_css": 11.1944442391396,
+      "name": "BattleAutoButton",
+      "nowrap": true,
+      "rect": [
+        628,
+        15.2,
+        57.8,
+        31.1
+      ],
+      "text": "A·ON",
+      "text_width": 30.3363293409348
+    },
+    {
+      "content_width": 27.4471551179886,
+      "disabled": false,
+      "font_css": 11.1944442391396,
+      "name": "BattleSpeedButton",
+      "nowrap": true,
+      "rect": [
+        688.7,
+        15.2,
+        40.4,
+        31.1
+      ],
+      "text": "×1",
+      "text_width": 17.6961921155453
+    },
+    {
+      "content_width": 27.4471551179886,
+      "disabled": false,
+      "font_css": 11.1944442391396,
+      "name": "BattlePauseButton",
+      "nowrap": true,
+      "rect": [
+        732,
+        15.2,
+        40.4,
+        31.1
+      ],
+      "text": "Ⅱ",
+      "text_width": 11.1955501139164
+    },
+    {
+      "content_width": 40.4484391212463,
+      "disabled": false,
+      "font_css": 11.1944442391396,
+      "name": "BattleSkipButton",
+      "nowrap": true,
+      "rect": [
+        775.4,
+        15.2,
+        53.4,
+        31.1
+      ],
+      "text": "SKIP",
+      "text_width": 25.6414212286472
+    },
+    {
+      "content_width": 45.5044940114021,
+      "disabled": false,
+      "font_css": 10.8333331346512,
+      "name": "BattleUltimateOrb_CHR001",
+      "nowrap": true,
+      "rect": [
+        305.2,
+        327.9,
+        45.5,
+        45.5
+      ],
+      "text": "",
+      "text_width": 0
+    },
+    {
+      "content_width": 45.5044940114021,
+      "disabled": true,
+      "font_css": 10.8333331346512,
+      "name": "BattleUltimateOrb_CHR002",
+      "nowrap": true,
+      "rect": [
+        352.1,
+        327.9,
+        45.5,
+        45.5
+      ],
+      "text": "",
+      "text_width": 0
+    },
+    {
+      "content_width": 45.5044940114021,
+      "disabled": true,
+      "font_css": 10.8333331346512,
+      "name": "BattleUltimateOrb_CHR003",
+      "nowrap": true,
+      "rect": [
+        399.1,
+        327.9,
+        45.5,
+        45.5
+      ],
+      "text": "",
+      "text_width": 0
+    },
+    {
+      "content_width": 45.5044940114021,
+      "disabled": true,
+      "font_css": 10.8333331346512,
+      "name": "BattleUltimateOrb_CHR004",
+      "nowrap": true,
+      "rect": [
+        446,
+        327.9,
+        45.5,
+        45.5
+      ],
+      "text": "",
+      "text_width": 0
+    },
+    {
+      "content_width": 45.5044940114021,
+      "disabled": false,
+      "font_css": 10.8333331346512,
+      "name": "BattleUltimateOrb_CHR005",
+      "nowrap": true,
+      "rect": [
+        493,
+        327.9,
+        45.5,
+        45.5
+      ],
+      "text": "",
+      "text_width": 0
+    }
+  ],
+  "campaign_transition": {},
+  "chapter_progress": {
+    "CH01": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": true
+    },
+    "CH02": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH03": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH04": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH05": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH06": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH07": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH08": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH09": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH10": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH11": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH12": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH13": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH14": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH15": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH16": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH17": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH18": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH19": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    },
+    "CH20": {
+      "hard_unlocked": false,
+      "normal_highest": 0,
+      "unlocked": false
+    }
+  },
+  "density_cache": {
+    "budget_bytes": 67108864,
+    "hits": 0,
+    "misses": 49,
+    "retained_bytes": 66514944,
+    "retained_pages": 23,
+    "timing": {
+      "batch_usec": 3429300,
+      "batches": 24,
+      "decode_usec": 800000,
+      "hash_usec": 185900,
+      "pages": 49,
+      "response_wait_usec": 3925200,
+      "upload_usec": 20900
+    }
+  },
+  "draw_calls": 96,
+  "growth": {
+    "character": "CHR001",
+    "inventory": {
+      "BLUEPRINT_T1": 0,
+      "BLUEPRINT_T2": 0,
+      "BLUEPRINT_T3": 0,
+      "BLUEPRINT_T4": 0,
+      "BREAK_CORE_T1": 10,
+      "BREAK_CORE_T2": 0,
+      "BREAK_CORE_T3": 0,
+      "BREAK_CORE_T4": 0,
+      "CREDIT": 60000,
+      "EXPEDITION_ROUTE_MODULE_A": 0,
+      "EXPEDITION_ROUTE_MODULE_B": 0,
+      "FACTION_SEAL_T1": 0,
+      "FACTION_SEAL_T2": 0,
+      "FACTION_SEAL_T3": 0,
+      "LANTERN_SHARD": 5,
+      "ROLE_TOKEN_T1": 5,
+      "ROLE_TOKEN_T2": 0,
+      "ROLE_TOKEN_T3": 0,
+      "ROLE_TOKEN_T4": 0,
+      "SHARD_CHR001": 0,
+      "SHARD_CHR002": 0,
+      "SHARD_CHR003": 0,
+      "SHARD_CHR004": 0,
+      "SHARD_CHR005": 0,
+      "SHARD_CHR006": 0,
+      "SHARD_CHR007": 0,
+      "SHARD_CHR008": 0,
+      "SHARD_CHR009": 0,
+      "SHARD_CHR010": 0,
+      "SHARD_CHR011": 0,
+      "SHARD_CHR012": 0,
+      "SHARD_CHR013": 0,
+      "SHARD_CHR014": 0,
+      "SHARD_CHR015": 0,
+      "SHARD_CHR016": 0,
+      "SHARD_CHR017": 0,
+      "SHARD_CHR018": 0,
+      "SHARD_CHR019": 0,
+      "SHARD_CHR020": 0,
+      "SHARD_CHR021": 0,
+      "SHARD_CHR022": 0,
+      "SHARD_CHR023": 0,
+      "SHARD_CHR024": 0,
+      "SHARD_CHR025": 0,
+      "SHARD_CHR026": 0,
+      "SHARD_CHR027": 0,
+      "SHARD_CHR028": 0,
+      "SHARD_CHR029": 0,
+      "SHARD_CHR030": 0,
+      "SHARD_CHR031": 0,
+      "SHARD_CHR032": 0,
+      "SHARD_CHR033": 0,
+      "SHARD_CHR034": 0,
+      "SHARD_CHR035": 0,
+      "SHARD_CHR036": 0,
+      "SHARD_CHR037": 0,
+      "SHARD_CHR038": 0,
+      "SHARD_CHR039": 0,
+      "SHARD_CHR040": 0,
+      "SHARD_CHR041": 0,
+      "SHARD_CHR042": 0,
+      "SHARD_CHR043": 0,
+      "SHARD_CHR044": 0,
+      "SKILL_BOOK_T1": 12,
+      "SKILL_BOOK_T2": 0,
+      "SKILL_BOOK_T3": 0,
+      "SKILL_BOOK_T4": 0,
+      "SKILL_TOKEN_T1": 8,
+      "SKILL_TOKEN_T2": 0,
+      "SKILL_TOKEN_T3": 0,
+      "SKILL_TOKEN_T4": 0,
+      "TRAINING_NOTE_L": 3,
+      "TRAINING_NOTE_M": 12,
+      "TRAINING_NOTE_S": 0,
+      "TRAINING_NOTE_XL": 0,
+      "ULT_BOOK_T1": 8,
+      "ULT_BOOK_T2": 0,
+      "ULT_BOOK_T3": 0,
+      "ULT_BOOK_T4": 0,
+      "UNIVERSAL_CATALYST": 0,
+      "WEAPON_CHIP_L": 0,
+      "WEAPON_CHIP_M": 10,
+      "WEAPON_CHIP_S": 0,
+      "WEAPON_CHIP_XL": 0,
+      "WEAPON_ORE_T1": 0,
+      "WEAPON_ORE_T2": 0,
+      "WEAPON_ORE_T3": 0,
+      "WEAPON_ORE_T4": 0
+    },
+    "state": {
+      "acquisition_status": "OWNED",
+      "breakthrough": 0,
+      "equipped_weapon_id": "WPN004",
+      "level": 1,
+      "profile_unlocks": [],
+      "relationship_level": 1,
+      "relationship_xp": 0,
+      "skills": {
+        "normal": 1,
+        "passive": 1,
+        "ultimate": 1
+      },
+      "unlocked": true,
+      "xp": 0
+    },
+    "target": 0
+  },
+  "labels": [
+    {
+      "font_css": 11.9166664481163,
+      "name": "@Label@583",
+      "rect": [
+        15.1681642532349,
+        23.4722213745117,
+        609.976928710938,
+        14.4444427490234
+      ],
+      "text": "WAVE 1/2  ·  90s  ·  T 3/10"
+    },
+    {
+      "font_css": 7.22222208976746,
+      "name": "ReadyBadge",
+      "rect": [
+        311.994720458984,
+        328.070892333984,
+        36.8369750976562,
+        14.4444580078125
+      ],
+      "text": "READY"
+    },
+    {
+      "font_css": 7.22222208976746,
+      "name": "ReadyBadge",
+      "rect": [
+        499.791046142578,
+        328.070892333984,
+        36.8369445800781,
+        14.4444580078125
+      ],
+      "text": "READY"
+    },
+    {
+      "font_css": 16.2499997019768,
+      "name": "TransitionLoadingTitle",
+      "rect": [
+        230.411651611328,
+        180.916656494141,
+        382.815582275391,
+        19.5
+      ],
+      "text": "전투 준비 중"
+    },
+    {
+      "font_css": 9.74999982118607,
+      "name": "TransitionLoadingPhase",
+      "rect": [
+        230.411651611328,
+        205.83332824707,
+        382.815582275391,
+        11.9166717529297
+      ],
+      "text": "곧 전투가 시작됩니다"
+    },
+    {
+      "font_css": 9.38888871669769,
+      "name": "TransitionLoadingPercent",
+      "rect": [
+        230.411651611328,
+        238.694442749023,
+        382.815582275391,
+        11.5555572509766
+      ],
+      "text": "90%"
+    }
+  ],
+  "layout": {
+    "paused": false,
+    "portrait": false,
+    "rotation_prompt": false,
+    "size": [
+      844,
+      390
+    ],
+    "viewport": [
+      2337,
+      1080
+    ]
+  },
+  "map_preload_msec": 4512,
+  "modals": [],
+  "nodes": 96,
+  "panels": [
+    {
+      "name": "TransitionLoadingPanel",
+      "rect": [
+        219.577239990234,
+        131.08332824707,
+        404.484405517578,
+        127.83332824707
+      ]
+    },
+    {
+      "name": "BattleOverlay",
+      "rect": [
+        15.1681642532349,
+        15.1666660308838,
+        813.663696289062,
+        358.222229003906
+      ]
+    }
+  ],
+  "party": [
+    "CHR001",
+    "CHR002",
+    "CHR003",
+    "CHR004",
+    "CHR005"
+  ],
+  "pending_story": [],
+  "region_resume_stage": "CH01-N01",
+  "restart_progress": {
+    "character_level": 1,
+    "first_clear": {
+      "CH01-N01": false
+    },
+    "stars": {
+      "CH01-N01": 0
+    },
+    "story_flags": {
+      "story.trigger.TRIG_CH01_INTRO": true
+    }
+  },
+  "sandbox": {
+    "production_backup_attempt_count": 0,
+    "production_path_resolve_count": 0,
+    "production_read_attempt_count": 0,
+    "production_reset_attempt_count": 0,
+    "production_write_attempt_count": 0,
+    "sandbox_active": true,
+    "sandbox_path_resolve_count": 12,
+    "sandbox_session": "sfx-stage-continuity"
+  },
+  "scenario": "SCN_CH01_INTRO",
+  "screen": "BATTLE",
+  "scrolls": [],
+  "stage": "CH01-N01",
+  "story_shards": 5,
+  "transition_loading": {
+    "active": true,
+    "kind": "BATTLE_ENTRY"
+  }
+}

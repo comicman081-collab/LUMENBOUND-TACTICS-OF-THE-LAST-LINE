@@ -1,0 +1,63 @@
+{
+  "checks": [
+    {
+      "name": "detached server survives launcher exit",
+      "pass": true
+    },
+    {
+      "name": "game HTML opens",
+      "pass": true
+    },
+    {
+      "name": "current game pack is reachable",
+      "pass": true
+    },
+    {
+      "name": "browser video preview opens",
+      "pass": true
+    },
+    {
+      "name": "MP4 metadata and MIME served",
+      "pass": true
+    },
+    {
+      "name": "video seek bytes=0-63",
+      "pass": true
+    },
+    {
+      "name": "video seek bytes=100-159",
+      "pass": true
+    },
+    {
+      "name": "video seek bytes=-64",
+      "pass": true
+    },
+    {
+      "name": "video seek bytes=77343483-",
+      "pass": true
+    },
+    {
+      "name": "reject invalid range bytes=999999999999-",
+      "pass": true
+    },
+    {
+      "name": "reject invalid range bytes=-0",
+      "pass": true
+    },
+    {
+      "name": "reject invalid range bytes=5-2",
+      "pass": true
+    },
+    {
+      "name": "reject invalid range bytes=oops",
+      "pass": true
+    }
+  ],
+  "service": {
+    "service": "lumenbound-local-player-v1",
+    "build": "builds/web_intro_1080p_20260910_release",
+    "pid": 25844
+  },
+  "game_url": "http://127.0.0.1:8770/",
+  "video_url": "http://127.0.0.1:8770/intro-preview"
+}

@@ -1,0 +1,26 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "Tactical height mesh selected"
+    },
+    {
+      "pass": true,
+      "name": "Independent nearby scout exists"
+    },
+    {
+      "pass": true,
+      "name": "Unclaimed treasure is visible"
+    },
+    {
+      "pass": true,
+      "name": "Actual treasure movement and reward completes"
+    },
+    {
+      "pass": false,
+      "name": "Error: Map did not settle"
+    }
+  ],
+  "timeline": [],
+  "scope": "Isolated disposable save; actual treasure movement, exact scout contact, natural AUTO fight and reward return; no forced victory."
+}

@@ -1,0 +1,770 @@
+{
+  "status": "LOCAL_QA_ONLY",
+  "revision": "r2",
+  "no_source_mutation": true,
+  "actors": {
+    "CHR009": {
+      "manifest_sha256": "82491885754d95e383ac166bc55a504dbbc38b61177fbc4b5acc602d730bc0f6",
+      "decoded_rgba_bytes": 7483392,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/chr009_costume_c_authority.png"
+    },
+    "CHR010": {
+      "manifest_sha256": "5ec026dd55bedb591e39a6be2e598e9c43319adbb1b1c1bfcf245dae7afa150b",
+      "decoded_rgba_bytes": 8761344,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/chr010_costume_b_authority.png"
+    },
+    "CHR011": {
+      "manifest_sha256": "53c7377162bb49ae89d641958b52008aa3bbf166a0c80daede492cd84a1aec82",
+      "decoded_rgba_bytes": 8708096,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/chr011_costume_b_authority_r2.png"
+    },
+    "CHR012": {
+      "manifest_sha256": "015760114bce14d2e85ce21d783d256b0d7c1347e55f612019775a684a3cd481",
+      "decoded_rgba_bytes": 9043968,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/chr012_costume_b_authority.png"
+    },
+    "CHR013": {
+      "manifest_sha256": "bbffda2ba0de9f1601c91113a3ceea1d610261fb45ac9de73e27bbc624c6eb6a",
+      "decoded_rgba_bytes": 12079104,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/chr013_costume_b_authority.png"
+    },
+    "CHR014": {
+      "manifest_sha256": "71cd1fa0d283d77dc059bcd8b00a5e50e1ce28d5185f76bc7b2f64028d466c99",
+      "decoded_rgba_bytes": 10616832,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr014_costume_d_authority.png"
+    },
+    "CHR015": {
+      "manifest_sha256": "d92926e72929e4cd6d91186f77127162891fceccc7661a5b871928276e9e7473",
+      "decoded_rgba_bytes": 10625024,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr015_costume_c_authority.png"
+    },
+    "CHR016": {
+      "manifest_sha256": "48a6ea98af5d14b6f0c0efac2de2fbced63a9310e2be8b9d2c8a89d5ff1fd70d",
+      "decoded_rgba_bytes": 9682944,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr016_costume_c_sd_r1_greenkey_authority.png"
+    },
+    "CHR017": {
+      "manifest_sha256": "242490eb82caddcccac760d8df94a91dab7594bf363ab3b934fef4b4f0a93996",
+      "decoded_rgba_bytes": 9699328,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr017_costume_c_sd_r1_greenkey_authority.png"
+    },
+    "CHR018": {
+      "manifest_sha256": "a6af5aa6fa5775476f5d1ab3b502fe52472757626581c6bc5bfc72e68d25e88f",
+      "decoded_rgba_bytes": 10448896,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr018_costume_d_sd_r1_greenkey_authority.png"
+    },
+    "CHR019": {
+      "manifest_sha256": "f820e03b5d44b02c5ae0f9f4396331e863fa9b02d2c60741dc76ea8c55f1ca83",
+      "decoded_rgba_bytes": 8777728,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr019_costume_c_sd_r1_rgba_authority.png"
+    },
+    "CHR020": {
+      "manifest_sha256": "e6f78f8cbdb3464b19bb4f50bcef1bc2a206a90d4c4794bbb2e278c821b17d64",
+      "decoded_rgba_bytes": 8716288,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr020_costume_c_sd_r1_rgba_authority.png"
+    },
+    "CHR021": {
+      "manifest_sha256": "04079c177159f8fcf7bc36dc6d1f712e9b2bf43d6d5fef33c343c8e1d535dd62",
+      "decoded_rgba_bytes": 9105408,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr021_costume_c_sd_r1_rgba_authority.png"
+    },
+    "CHR022": {
+      "manifest_sha256": "fc048f8104b67c197e47b36b849b0c9a04494631af50b485bc298ea5fb7ea55d",
+      "decoded_rgba_bytes": 10371072,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr022_costume_c_sd_r1_rgba_authority.png"
+    },
+    "CHR023": {
+      "manifest_sha256": "64f6bb9ebbf294eaf40b453bb68f2ee6bd9d3b48635f97341651a6c370dc8606",
+      "decoded_rgba_bytes": 9113600,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr023_costume_c_sd_r1_rgba_authority.png"
+    },
+    "CHR024": {
+      "manifest_sha256": "f47b5f3a6b8fca0a6492073fd34094a94f192074959ccaf94c1ac5d003730bcd",
+      "decoded_rgba_bytes": 6111232,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr024_costume_c_sd_r1_rgba_authority.png"
+    },
+    "CHR025": {
+      "manifest_sha256": "fdd9b2679be93ee062a977f698d330cb27ae5e551953c9e3239394245fe241fa",
+      "decoded_rgba_bytes": 9150464,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr025_costume_c_sd_r1_rgba_authority.png"
+    },
+    "CHR026": {
+      "manifest_sha256": "4347b11d6e430ababca8a10a76be0d1ae909b64d57def7e0b03461fa16262a47",
+      "decoded_rgba_bytes": 7712768,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr026_costume_c_authority.png"
+    },
+    "CHR027": {
+      "manifest_sha256": "9696dac5c01b2d757eb35ee2865c4801be25b15201b9d0f7bc88684b36cbc354",
+      "decoded_rgba_bytes": 9240576,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr027_costume_d_sd_r1_rgba_authority.png"
+    },
+    "CHR028": {
+      "manifest_sha256": "4e74f71556144453a4b8f0e1650754e46834aba382b7ad6c928d963292756466",
+      "decoded_rgba_bytes": 8761344,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr028_costume_c_authority.png"
+    },
+    "CHR029": {
+      "manifest_sha256": "d95554a3544cc906c21e6a711ead457f01a7168cb91aeff1a2d4d6205a66f82a",
+      "decoded_rgba_bytes": 7491584,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr029_costume_c_authority.png"
+    },
+    "CHR030": {
+      "manifest_sha256": "ab8eef7e992dc8ca73d364a46eedb4bb18fae74c3adfa1a99da89f823418e93d",
+      "decoded_rgba_bytes": 9830400,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr030_costume_c_authority.png"
+    },
+    "CHR031": {
+      "manifest_sha256": "bb86d294f261609bda20663af946455c12cdffa171732a7211fd261ab70eda24",
+      "decoded_rgba_bytes": 8257536,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr031_costume_c_authority.png"
+    },
+    "CHR032": {
+      "manifest_sha256": "debee3a48f93a19b7bb17a581f8030d892c6921acb3d49c41ac6dad727a0c8cb",
+      "decoded_rgba_bytes": 6164480,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr032_costume_c_authority.png"
+    },
+    "CHR033": {
+      "manifest_sha256": "71896ad4c04079d8b3bcabfa9d4123549dc53a4a99e031b61a0c413e739c1959",
+      "decoded_rgba_bytes": 8110080,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr033_costume_c_sd_r1_rgba_authority.png"
+    },
+    "CHR034": {
+      "manifest_sha256": "709da02e19f1b6113cc5b5bae29052e983b9de1bc8fb3b203d668593cbc436af",
+      "decoded_rgba_bytes": 7888896,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr034_costume_c_authority.png"
+    },
+    "CHR035": {
+      "manifest_sha256": "64e3cb66a68bd8ed8ee55ab51839fe75fa257bfcac23e628f544406f248dc92f",
+      "decoded_rgba_bytes": 7213056,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr035_costume_c_authority.png"
+    },
+    "CHR036": {
+      "manifest_sha256": "cf84f24a589a1c8637d38d6dd61076b99f2dbc92d7d10fb2abe65b34ad5a8ec3",
+      "decoded_rgba_bytes": 8839168,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr036_costume_c_authority.png"
+    },
+    "CHR037": {
+      "manifest_sha256": "ce79fe4f044d4d4d7c22aeddf4e2f5035049008309a3b8738ad59a5cc5fd480c",
+      "decoded_rgba_bytes": 9179136,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr037_costume_d_authority.png"
+    },
+    "CHR038": {
+      "manifest_sha256": "e256695d843bf9e06e49f9c310cbaf79d8f5dac0886744a47ace068ecc8b0b83",
+      "decoded_rgba_bytes": 9289728,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr038_costume_c_authority.png"
+    },
+    "CHR039": {
+      "manifest_sha256": "3cfa0df82d5f9b4b33314254b2102d263c2178cef4ab42ff983afc4aea101ff4",
+      "decoded_rgba_bytes": 9433088,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr039_costume_c_sd_r1_rgba_authority.png"
+    },
+    "CHR040": {
+      "manifest_sha256": "1bf991819427c3b996f0ce5078c5e698b62d914b11d8bf21fd1db7445a9be55c",
+      "decoded_rgba_bytes": 8867840,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr040_costume_d_sd_r1_rgba_authority.png"
+    },
+    "CHR041": {
+      "manifest_sha256": "a2e93b40b29a6be2737b6bffb397d89bb8ab274e08150b813ddd509ad13a9310",
+      "decoded_rgba_bytes": 9736192,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr041_costume_c_sd_r1_rgba_authority.png"
+    },
+    "CHR042": {
+      "manifest_sha256": "d6764a509f5de21f42d0c58a04f64da5ff1b7159301112b46080d4208fe34fc4",
+      "decoded_rgba_bytes": 10674176,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr042_costume_c_authority.png"
+    },
+    "CHR043": {
+      "manifest_sha256": "73131821b3cf6e85c5b29674690244ed2c93c614e34b7f25c1c23d5cd802efd1",
+      "decoded_rgba_bytes": 7593984,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr043_costume_c_authority.png"
+    },
+    "CHR044": {
+      "manifest_sha256": "38961b506ff6754bb50682c3658c3a78700ddfcfdc5f489cd6f36e31f361e87a",
+      "decoded_rgba_bytes": 11223040,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/combat_hd_sources/renewed/chr044_costume_c_authority.png"
+    },
+    "BOSS004": {
+      "manifest_sha256": "91b79bc6cf17c5d9fcbc95526314e7de1e21d5ad9370d81e43e7eafd489be9e4",
+      "decoded_rgba_bytes": 9805824,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS004/source.png"
+    },
+    "BOSS005": {
+      "manifest_sha256": "43483c19c3121572af395934a4dc0d6bcd316aeeccfaedff056dce1d4a514de5",
+      "decoded_rgba_bytes": 10387456,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS005/source.png"
+    },
+    "BOSS006": {
+      "manifest_sha256": "bc0df7067ccacbe337df9b4197f9cf3b03e53c4b282bb96e0b2cc808c1d8846a",
+      "decoded_rgba_bytes": 11337728,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS006/source.png"
+    },
+    "BOSS007": {
+      "manifest_sha256": "513387f9c3a948c2c8838343addd2923c165f895147f61377da744dd3c441d7e",
+      "decoded_rgba_bytes": 10240000,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS007/source.png"
+    },
+    "BOSS008": {
+      "manifest_sha256": "47312232a933bc0ee630fb26ce94c2aff34b5a86c37a733a8d7ed683f888c9a6",
+      "decoded_rgba_bytes": 9969664,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS008/source.png"
+    },
+    "BOSS009": {
+      "manifest_sha256": "7053228f7cfe3d1d4a06f34a97a00e423ab935de2446beca7c5ea1c8451fe666",
+      "decoded_rgba_bytes": 11141120,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS009/source.png"
+    },
+    "BOSS010": {
+      "manifest_sha256": "f3a70e8b467c0da555090793bf48ddb561bed1757df04cb9c98c516051730284",
+      "decoded_rgba_bytes": 10227712,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS010/source.png"
+    },
+    "BOSS011": {
+      "manifest_sha256": "87b851cdf2cc63f027642c1418383bff172a597221cc579a095ac1cd1ec2cce9",
+      "decoded_rgba_bytes": 9613312,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS011/source.png"
+    },
+    "BOSS012": {
+      "manifest_sha256": "beb47b8bd7c807ef9a0dd6afbf3684fd2c39312ba452450d96870cb8e6de8daf",
+      "decoded_rgba_bytes": 10952704,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS012/source.png"
+    },
+    "BOSS013": {
+      "manifest_sha256": "7082094558239e0fe7dd5190f77b3655882ea1abfdce8ca58a76b73ddb6739bb",
+      "decoded_rgba_bytes": 10891264,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS013/source.png"
+    },
+    "BOSS014": {
+      "manifest_sha256": "42769b1552e1892055c16d41f34133c6d26cd37107464cbde9615494258af6f3",
+      "decoded_rgba_bytes": 9990144,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS014/source.png"
+    },
+    "BOSS015": {
+      "manifest_sha256": "7ef24a5e81ea457645a55d37eb5f2fa14c449ced77588a98d05d96bad1d49a47",
+      "decoded_rgba_bytes": 9732096,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS015/source.png"
+    },
+    "BOSS016": {
+      "manifest_sha256": "fbf75bc62ee52fc271760b1eb488a9ce25c2b4b6629ce6739cf57cca2cd3a1e7",
+      "decoded_rgba_bytes": 9768960,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS016/source.png"
+    },
+    "BOSS017": {
+      "manifest_sha256": "7011e483db4feb8c6e88580f9eb5ec66955ebf506135a73c066e3c70ab282a68",
+      "decoded_rgba_bytes": 10891264,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS017/source.png"
+    },
+    "BOSS018": {
+      "manifest_sha256": "ce06931510b54aa2ebfbebe7ed8c06d2122d1263b028ba45837b5410c5aca374",
+      "decoded_rgba_bytes": 10371072,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS018/source.png"
+    },
+    "BOSS019": {
+      "manifest_sha256": "a3779e0cbe160d96b75982c856f0fedddefa962c221e6ffa6b288bfbbc093135",
+      "decoded_rgba_bytes": 10493952,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS019/source.png"
+    },
+    "BOSS020": {
+      "manifest_sha256": "585f9e523c9ab3df0dc8a140c2e7d2a24341795137eaf8935a224fa7669beed2",
+      "decoded_rgba_bytes": 8478720,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS020/source.png"
+    },
+    "BOSS021": {
+      "manifest_sha256": "8cf53ba8b6f98cd8b6a517aa4eec01acaa9e21b70b882267e5e7f87f2dcf8a11",
+      "decoded_rgba_bytes": 10330112,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS021/source.png"
+    },
+    "BOSS022": {
+      "manifest_sha256": "bac0fe568c022b1fad5830cee1bcffe712624177f46dbcc1e5b1cbab702864a2",
+      "decoded_rgba_bytes": 10338304,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS022/source.png"
+    },
+    "BOSS023": {
+      "manifest_sha256": "428e8907f17dc300a7d567ebe2229a93e33ff7fab6f7b5b3ec27af10b408bbee",
+      "decoded_rgba_bytes": 10469376,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/BOSS023/source.png"
+    },
+    "ENM011": {
+      "manifest_sha256": "eaaee12638c2517df082185cf36d7fcbe6aa959c716e86e0bd6056fb4453d772",
+      "decoded_rgba_bytes": 9355264,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM011/source.png"
+    },
+    "ENM012": {
+      "manifest_sha256": "22561d8205fe7104e055e445394f463d0935eb7d74eec4207a3a6678e5a4ef99",
+      "decoded_rgba_bytes": 9527296,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM012/source.png"
+    },
+    "ENM013": {
+      "manifest_sha256": "be0b9aa22a620a370d917d1a054a43b774eafae20a5b10b0c0935d1b1fd09227",
+      "decoded_rgba_bytes": 9682944,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM013/source.png"
+    },
+    "ENM014": {
+      "manifest_sha256": "52d8223d6c4b5de3e27ed21d1a9a31d9f0e9fc1de8226bd56ba841588d1ca234",
+      "decoded_rgba_bytes": 10698752,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM014/source.png"
+    },
+    "ENM015": {
+      "manifest_sha256": "6ee31ef0d2cd08c24039f8b42c4dad28f78cf14c53e4467c7469a7faf9e13785",
+      "decoded_rgba_bytes": 9093120,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM015/source.png"
+    },
+    "ENM016": {
+      "manifest_sha256": "32a6e45dd8958dabcbab9bad59d719e13eaa2168dace76af4d8eb60e42a70434",
+      "decoded_rgba_bytes": 10362880,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM016/source.png"
+    },
+    "ENM017": {
+      "manifest_sha256": "b44bd86d62e953498255fd187803c40017138973c3d51887d8dbf0cacb8b9fce",
+      "decoded_rgba_bytes": 9269248,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM017/source.png"
+    },
+    "ENM018": {
+      "manifest_sha256": "8879766d3a05a00e3d387ca080661f367af2e6c18c8dc0040d403b229a2f6992",
+      "decoded_rgba_bytes": 10186752,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM018/source.png"
+    },
+    "ENM019": {
+      "manifest_sha256": "64998e61dda0833b61d1557769b89cc2de0470b9d809c2a8b1de8bfdee2cabb2",
+      "decoded_rgba_bytes": 8790016,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM019/source.png"
+    },
+    "ENM020": {
+      "manifest_sha256": "8ecabe0be5a48e7e6303554f45d243ce154cb46870e6f800d10329c39753ba9d",
+      "decoded_rgba_bytes": 10395648,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM020/source.png"
+    },
+    "ENM021": {
+      "manifest_sha256": "60a6a2783026cd85d39d0424519f74594645744c38717c32ff9fdc1598b22982",
+      "decoded_rgba_bytes": 10289152,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM021/source.png"
+    },
+    "ENM022": {
+      "manifest_sha256": "88866b5423cbb648673febf94ed1ced62be43d2403217c878e8626fb84db5deb",
+      "decoded_rgba_bytes": 11104256,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM022/source.png"
+    },
+    "ENM023": {
+      "manifest_sha256": "37efa62e1dd7edaf52aaf63ac18379a25f554717d90896fc34a9c7aa8e028de3",
+      "decoded_rgba_bytes": 10731520,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM023/source.png"
+    },
+    "ENM024": {
+      "manifest_sha256": "83a499d5e363b7fc04913665cf0a7fcd9f8bdf7467f50ebcee8624cdb356a483",
+      "decoded_rgba_bytes": 10018816,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM024/source.png"
+    },
+    "ENM025": {
+      "manifest_sha256": "cbd82d56235bbfd14489d3df0a352b2abd50ff1353fc627fb5233c2ad4d242f3",
+      "decoded_rgba_bytes": 11829248,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM025/source.png"
+    },
+    "ENM026": {
+      "manifest_sha256": "35a96e5b21816d1fbc08edbb9787fc715564dbfa1f80bfda4ff0f3b835bef876",
+      "decoded_rgba_bytes": 9977856,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM026/source.png"
+    },
+    "ENM027": {
+      "manifest_sha256": "c5ad3cd8eed3a17c1f337c8771b91b2d5c8f792bdc2253c17a80d408323977ac",
+      "decoded_rgba_bytes": 8835072,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM027/source.png"
+    },
+    "ENM028": {
+      "manifest_sha256": "aab98e4608d31dcf4272aaee3247e51c4cf16927d310900683752543faa79c36",
+      "decoded_rgba_bytes": 8572928,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM028/source.png"
+    },
+    "ENM029": {
+      "manifest_sha256": "950f72e800d891685371b8888d284cb216296d3d4f058ea6b7b157f2b1fded45",
+      "decoded_rgba_bytes": 11137024,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM029/source.png"
+    },
+    "ENM030": {
+      "manifest_sha256": "79fd8810cd1607358327f551e8e2836e59ad0bc993cbae99f8f5e7b3bc84b7d3",
+      "decoded_rgba_bytes": 9293824,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM030/source.png"
+    },
+    "ENM031": {
+      "manifest_sha256": "956159233bb671fb42f43a12db581a263c5ed8474f9ff4e1dfb7981895234ece",
+      "decoded_rgba_bytes": 10268672,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM031/source.png"
+    },
+    "ENM032": {
+      "manifest_sha256": "639f5fc48de8b9a0eb425f79f90fa789c8527f603c6fb403795952b864d9f513",
+      "decoded_rgba_bytes": 10731520,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM032/source.png"
+    },
+    "ENM033": {
+      "manifest_sha256": "f05fb8e5059b86a3a12eac2652dae3e9b757a48bb99f8ecdba194c596cd0bd52",
+      "decoded_rgba_bytes": 10383360,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM033/source.png"
+    },
+    "ENM034": {
+      "manifest_sha256": "059bab816bf17c65ecd9eb744e3e24c7eb401faf70485f7441f44adf30fc6607",
+      "decoded_rgba_bytes": 8568832,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM034/source.png"
+    },
+    "ENM035": {
+      "manifest_sha256": "a64db7b18338ef2506a0592a2cad3751e884290c213d9ae28190183c5bd9452a",
+      "decoded_rgba_bytes": 9834496,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM035/source.png"
+    },
+    "ENM036": {
+      "manifest_sha256": "77c9c036e5eb6416ea137f4937c485305a887bca14bdd61c6d0c69f7f0079199",
+      "decoded_rgba_bytes": 9691136,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM036/source.png"
+    },
+    "ENM037": {
+      "manifest_sha256": "111da7bb52887ff9abad5e2d592b9a8dabd0c50530d9de01d848d326f8834bb8",
+      "decoded_rgba_bytes": 11243520,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM037/source.png"
+    },
+    "ENM038": {
+      "manifest_sha256": "4fba624a98dbebc28ea0341038fdce0afabcafbcb7c5e1615a1e57a738c5d520",
+      "decoded_rgba_bytes": 8617984,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM038/source.png"
+    },
+    "ENM039": {
+      "manifest_sha256": "4aa353a73e04e49434965c628287c8dcf9ebf2e17121de429bbfe33d3097de20",
+      "decoded_rgba_bytes": 8314880,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM039/source.png"
+    },
+    "ENM040": {
+      "manifest_sha256": "83d373a42f1b66ecfae49ba6d1fb401b4497a4267debf83228a9d6a964084805",
+      "decoded_rgba_bytes": 9633792,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM040/source.png"
+    },
+    "ENM041": {
+      "manifest_sha256": "c66c8e7c972a85e352a136ff93d30709ad3a1f45c1a2417404e9e358ce111e78",
+      "decoded_rgba_bytes": 8171520,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM041/source.png"
+    },
+    "ENM042": {
+      "manifest_sha256": "c5d9c398220767eb2eeafa7800eb17788141944510c4cb1c9cf1e8e9d79c886d",
+      "decoded_rgba_bytes": 10006528,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/enemy_replacements_20260911/ENM042/source.png"
+    },
+    "BOSS001": {
+      "manifest_sha256": "9234a871d398d3acb240273d34b951ceccd10158fa9d1adb70f62507406a481f",
+      "decoded_rgba_bytes": 10993664,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/BOSS001/source.png"
+    },
+    "BOSS002": {
+      "manifest_sha256": "ba5792cf0f0955808ac8d4d3d512ef82532809ca467fd3041812ba87474873f2",
+      "decoded_rgba_bytes": 8458240,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/BOSS002/source.png"
+    },
+    "BOSS003": {
+      "manifest_sha256": "3631475c2a9fb93593831c12052b71a2748b31286114ad87eff6104b1d51dba8",
+      "decoded_rgba_bytes": 10723328,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/BOSS003/source.png"
+    },
+    "CHR001": {
+      "manifest_sha256": "d59722c3b61aabd595049b06ded88275256a11f4a539db15348b8bbe16905413",
+      "decoded_rgba_bytes": 9154560,
+      "frames": 80,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/CHR001/source.png"
+    },
+    "CHR002": {
+      "manifest_sha256": "54519390e41fb56e44197ec050ad00ad48e61ba5935244d526623878c73c888d",
+      "decoded_rgba_bytes": 9986048,
+      "frames": 80,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/CHR002/source.png"
+    },
+    "CHR003": {
+      "manifest_sha256": "e1bab5d59e6940523bddd01976a18322ccd88ae9c6c551d96398dff7f6eb6ea6",
+      "decoded_rgba_bytes": 10399744,
+      "frames": 80,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/CHR003/source.png"
+    },
+    "CHR004": {
+      "manifest_sha256": "26aabbd45443bd96c7360857cac3e0cbf5ee54cc1f1d46d4ba002da71a110621",
+      "decoded_rgba_bytes": 11677696,
+      "frames": 80,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/CHR004/source.png"
+    },
+    "CHR005": {
+      "manifest_sha256": "ef1d5cba1276ecf0373a1d78f8ba70267d927408853ae3e0b5c4120e29b8cb57",
+      "decoded_rgba_bytes": 11603968,
+      "frames": 80,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/CHR005/source.png"
+    },
+    "CHR006": {
+      "manifest_sha256": "2f14137b383e231e93195c3713b36ece7811e2644a66f51c725b073a3841af16",
+      "decoded_rgba_bytes": 10416128,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/CHR006/source.png"
+    },
+    "CHR007": {
+      "manifest_sha256": "dcae5634c1e41228778ffc2b206a33414183e2f1bdb0e697e9714dee421723fa",
+      "decoded_rgba_bytes": 9388032,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/CHR007/source.png"
+    },
+    "CHR008": {
+      "manifest_sha256": "bb88c1509687bd0f24d3f722bc8c6c37dcccdb21f09e82eddbc4e63c6fb11845",
+      "decoded_rgba_bytes": 9764864,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/CHR008/source.png"
+    },
+    "ENM001": {
+      "manifest_sha256": "e6c65767499cbe234c4b6eb2ef9a090ce59d186432030aab2319be6f807bf733",
+      "decoded_rgba_bytes": 10248192,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/ENM001/source.png"
+    },
+    "ENM002": {
+      "manifest_sha256": "211449dbc126195a8deacf209b18c77bd1032727dad618bf2650fd017c119dca",
+      "decoded_rgba_bytes": 7749632,
+      "frames": 80,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/ENM002/source.png"
+    },
+    "ENM003": {
+      "manifest_sha256": "c02fea6817513d7cf102108ca84cf37a2d952b1b016878bb0463044d405cae17",
+      "decoded_rgba_bytes": 10358784,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/ENM003/source.png"
+    },
+    "ENM004": {
+      "manifest_sha256": "f1809030fcf658f9f4dcbdb526aff61af78ec70286c16c0233eb922acfa1094f",
+      "decoded_rgba_bytes": 7192576,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/ENM004/source.png"
+    },
+    "ENM005": {
+      "manifest_sha256": "4dff9983f365cc7921556cdb30f9999b4333276a80997135f02e5571ef47c1cb",
+      "decoded_rgba_bytes": 9158656,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/ENM005/source.png"
+    },
+    "ENM006": {
+      "manifest_sha256": "a39ebf61a6944f5106c853dac4db9474c60c276f473d87f45379e3d0552c239f",
+      "decoded_rgba_bytes": 8343552,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/ENM006/source.png"
+    },
+    "ENM007": {
+      "manifest_sha256": "eca823dcfdffa8f024d01f33bad6460a046a1db93bcb0875f1ff433cc6a1af89",
+      "decoded_rgba_bytes": 10399744,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/ENM007/source.png"
+    },
+    "ENM008": {
+      "manifest_sha256": "e6a8c2b35b77db1ea008f120fced2f77d9ea3b5e53265cf0ac146d0d6a30c5d1",
+      "decoded_rgba_bytes": 7208960,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/ENM008/source.png"
+    },
+    "ENM009": {
+      "manifest_sha256": "e206faa5745cd4bdefc61a688df890723037028015d4d6ffd5faac5a083721e7",
+      "decoded_rgba_bytes": 7913472,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/ENM009/source.png"
+    },
+    "ENM010": {
+      "manifest_sha256": "6d3e9d20f4b25a7c55ff807f7389decaeb6193257c1c1182f6af7d1f68513ccf",
+      "decoded_rgba_bytes": 10342400,
+      "frames": 84,
+      "unique_frames": 55,
+      "source": "data_source/art_source/roster_replacements_20260911/ENM010/source.png"
+    }
+  }
+}

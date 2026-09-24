@@ -1,0 +1,340 @@
+{
+  "schema": "lumenbound.sd_down_pose.v1",
+  "state": "down",
+  "style": "sd-combat",
+  "logical_canvas_size": [
+    512,
+    512
+  ],
+  "assets": {
+    "CHR001": {
+      "logical_canvas_size": [
+        512,
+        512
+      ],
+      "alpha_bounds": [
+        10,
+        205,
+        502,
+        450
+      ],
+      "placement": {
+        "center_x": 256,
+        "bottom_y": 450,
+        "max_width": 492,
+        "max_height": 360
+      },
+      "source_bbox": [
+        24,
+        373,
+        1199,
+        957
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "normalized_size": [
+        492,
+        245
+      ],
+      "state": "down",
+      "style": "sd-combat",
+      "background_key": "#00ff00",
+      "asset_id": "CHR001",
+      "source_master": "work/down_pose_sd_20260911/masters/CHR001_down_pose_sd_green.png",
+      "source_sha256": "742cefb98ae08d0875eadb89d8237dd073d0ff767b143d9f531f00b546186837",
+      "runtime_asset": "res://assets/runtime_web/combat_down_pose/CHR001/down_pose.png",
+      "runtime_sha256": "064d7c2aa544c372d327c0367cc8cfde3c326b9bd878c9c2dbeaf66c97a48c04",
+      "generated_at": "2026-09-11T09:13:55.716559+00:00"
+    },
+    "CHR002": {
+      "logical_canvas_size": [
+        512,
+        512
+      ],
+      "alpha_bounds": [
+        10,
+        243,
+        502,
+        450
+      ],
+      "placement": {
+        "center_x": 256,
+        "bottom_y": 450,
+        "max_width": 492,
+        "max_height": 360
+      },
+      "source_bbox": [
+        51,
+        426,
+        1227,
+        921
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "normalized_size": [
+        492,
+        207
+      ],
+      "state": "down",
+      "style": "sd-combat",
+      "background_key": "#00ff00",
+      "asset_id": "CHR002",
+      "source_master": "work/down_pose_sd_20260911/masters/CHR002_down_pose_sd_green.png",
+      "source_sha256": "400b2977bb74fde6cdb6c4f8592115fc1e00c49288c86d14756544d83bf35158",
+      "runtime_asset": "res://assets/runtime_web/combat_down_pose/CHR002/down_pose.png",
+      "runtime_sha256": "ac684bd4deded70e2c81474a0235901bcc7989186bec4928d7e892026faaeef1",
+      "generated_at": "2026-09-11T09:13:55.857579+00:00"
+    },
+    "CHR003": {
+      "logical_canvas_size": [
+        512,
+        512
+      ],
+      "alpha_bounds": [
+        10,
+        223,
+        502,
+        450
+      ],
+      "placement": {
+        "center_x": 256,
+        "bottom_y": 450,
+        "max_width": 492,
+        "max_height": 360
+      },
+      "source_bbox": [
+        102,
+        423,
+        1152,
+        907
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "normalized_size": [
+        492,
+        227
+      ],
+      "state": "down",
+      "style": "sd-combat",
+      "background_key": "#00ff00",
+      "asset_id": "CHR003",
+      "source_master": "work/down_pose_sd_20260911/masters/CHR003_down_pose_sd_green.png",
+      "source_sha256": "133dd6dfe29a474482494ac28608f1f8f4fedaf46ae2a3090b76a7d89ac55b66",
+      "runtime_asset": "res://assets/runtime_web/combat_down_pose/CHR003/down_pose.png",
+      "runtime_sha256": "9378aced97fb490c0f0f9cab58ba0ee01a5a62e971fe38f71da17a8129bde7c6",
+      "generated_at": "2026-09-11T09:13:55.999317+00:00"
+    },
+    "CHR004": {
+      "logical_canvas_size": [
+        512,
+        512
+      ],
+      "alpha_bounds": [
+        10,
+        243,
+        502,
+        450
+      ],
+      "placement": {
+        "center_x": 256,
+        "bottom_y": 450,
+        "max_width": 492,
+        "max_height": 360
+      },
+      "source_bbox": [
+        126,
+        456,
+        1193,
+        904
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "normalized_size": [
+        492,
+        207
+      ],
+      "state": "down",
+      "style": "sd-combat",
+      "background_key": "#00ff00",
+      "asset_id": "CHR004",
+      "source_master": "work/down_pose_sd_20260911/masters/CHR004_down_pose_sd_green.png",
+      "source_sha256": "f041ee148ecc4a5ce69baafa61f0726b90d21210ca1adb461fc3cad259566c42",
+      "runtime_asset": "res://assets/runtime_web/combat_down_pose/CHR004/down_pose.png",
+      "runtime_sha256": "7f7f429153d3dae8497105aedbc905500b496c4725e591c63288f813f63ff7a9",
+      "generated_at": "2026-09-11T09:13:56.138272+00:00"
+    },
+    "CHR005": {
+      "logical_canvas_size": [
+        512,
+        512
+      ],
+      "alpha_bounds": [
+        10,
+        249,
+        502,
+        450
+      ],
+      "placement": {
+        "center_x": 256,
+        "bottom_y": 450,
+        "max_width": 492,
+        "max_height": 360
+      },
+      "source_bbox": [
+        43,
+        379,
+        1210,
+        855
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "normalized_size": [
+        492,
+        201
+      ],
+      "state": "down",
+      "style": "sd-combat",
+      "background_key": "#00ff00",
+      "asset_id": "CHR005",
+      "source_master": "work/down_pose_sd_20260911/masters/CHR005_down_pose_sd_green.png",
+      "source_sha256": "3e7767219485afde787ba412866013db329acb73e2f04a0248f427ca315d4734",
+      "runtime_asset": "res://assets/runtime_web/combat_down_pose/CHR005/down_pose.png",
+      "runtime_sha256": "57c220fe2805e5e98658ff99981d9bfc5981c1d85bcb27652c6a9e5b4ab87497",
+      "generated_at": "2026-09-11T09:13:56.278573+00:00"
+    },
+    "CHR006": {
+      "logical_canvas_size": [
+        512,
+        512
+      ],
+      "alpha_bounds": [
+        10,
+        249,
+        502,
+        450
+      ],
+      "placement": {
+        "center_x": 256,
+        "bottom_y": 450,
+        "max_width": 492,
+        "max_height": 360
+      },
+      "source_bbox": [
+        61,
+        400,
+        1175,
+        856
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "normalized_size": [
+        492,
+        201
+      ],
+      "state": "down",
+      "style": "sd-combat",
+      "background_key": "#00ff00",
+      "asset_id": "CHR006",
+      "source_master": "work/down_pose_sd_20260911/masters/CHR006_down_pose_sd_green.png",
+      "source_sha256": "0d581ffa51dc4ffbb3cce81e40c13f492c6d21b79cb17493137487015fa7d5f9",
+      "runtime_asset": "res://assets/runtime_web/combat_down_pose/CHR006/down_pose.png",
+      "runtime_sha256": "27cb7fd36e30b277ded1eb301e6106605040d5445aaab593d55a730e3d63e86d",
+      "generated_at": "2026-09-11T09:13:56.421645+00:00"
+    },
+    "CHR007": {
+      "logical_canvas_size": [
+        512,
+        512
+      ],
+      "alpha_bounds": [
+        10,
+        231,
+        502,
+        450
+      ],
+      "placement": {
+        "center_x": 256,
+        "bottom_y": 450,
+        "max_width": 492,
+        "max_height": 360
+      },
+      "source_bbox": [
+        64,
+        471,
+        1212,
+        981
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "normalized_size": [
+        492,
+        219
+      ],
+      "state": "down",
+      "style": "sd-combat",
+      "background_key": "#00ff00",
+      "asset_id": "CHR007",
+      "source_master": "work/down_pose_sd_20260911/masters/CHR007_down_pose_sd_green.png",
+      "source_sha256": "d327abea0c3dec7a2a1c3f657873ea819b3c561cc9e3ba61e63a0126433b8b12",
+      "runtime_asset": "res://assets/runtime_web/combat_down_pose/CHR007/down_pose.png",
+      "runtime_sha256": "41127eecec83343b771f4ba7ae487ed06d2d356a312a217c64b9201007fcef11",
+      "generated_at": "2026-09-11T09:13:56.561183+00:00"
+    },
+    "CHR008": {
+      "logical_canvas_size": [
+        512,
+        512
+      ],
+      "alpha_bounds": [
+        10,
+        263,
+        502,
+        450
+      ],
+      "placement": {
+        "center_x": 256,
+        "bottom_y": 450,
+        "max_width": 492,
+        "max_height": 360
+      },
+      "source_bbox": [
+        65,
+        498,
+        1193,
+        926
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "normalized_size": [
+        492,
+        187
+      ],
+      "state": "down",
+      "style": "sd-combat",
+      "background_key": "#00ff00",
+      "asset_id": "CHR008",
+      "source_master": "work/down_pose_sd_20260911/masters/CHR008_down_pose_sd_green.png",
+      "source_sha256": "8312fc4288523277b7159a8e5141e100a281c06c63dc6cdec6beac4d4a6d5960",
+      "runtime_asset": "res://assets/runtime_web/combat_down_pose/CHR008/down_pose.png",
+      "runtime_sha256": "228f77236065e9a7e37909cf0828f26e3b069cb98fc8f0a850acba8681bdedba",
+      "generated_at": "2026-09-11T09:13:56.705086+00:00"
+    }
+  },
+  "generated_at": "2026-09-11T09:13:56.705613+00:00"
+}

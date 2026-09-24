@@ -1,0 +1,47 @@
+{
+  "url": "https://lanternline-r7.comicman081.chatgpt.site/?gameplay-qa=1&qa=sfx-stage-continuity",
+  "viewport": {
+    "width": 844,
+    "height": 390
+  },
+  "actions": [
+    {
+      "at": 1789894993905,
+      "type": "mark",
+      "name": "qa_report_collection"
+    }
+  ],
+  "telemetry": {
+    "windows": [
+      {
+        "phase": "boot",
+        "at": 67.5,
+        "count": 2,
+        "max": 10.100000000000001,
+        "p50": 10.100000000000001,
+        "p95": 10.100000000000001,
+        "p99": 10.100000000000001,
+        "over50": 0,
+        "over100": 0,
+        "over250": 0,
+        "over1000": 0,
+        "fps": 100
+      }
+    ],
+    "marks": [
+      {
+        "name": "qa_report_collection",
+        "at": 45414.70000000298
+      }
+    ],
+    "longTasks": [
+      {
+        "phase": "boot",
+        "at": 1682.2000000029802,
+        "duration": 151
+      }
+    ]
+  },
+  "events": [],
+  "stderr": "\r\nDevTools listening on ws://127.0.0.1:9384/devtools/browser/258f2097-2aee-472f-b07a-ae6bfdf0ef39\r\n[34572:3652:0920/180230.644:ERROR:google_apis\\gcm\\engine\\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT\r\nCreated TensorFlow Lite XNNPACK delegate for CPU.\r\n[34572:35500:0920/180246.720:ERROR:chrome\\updater\\ipc\\update_service_dialer_win.cc:75] Failed to open named pipe server process 31416: 액세스가 거부되었습니다. (0x5)\r\n[34572:35720:0920/180246.721:ERROR:chrome\\updater\\ipc\\update_service_dialer_win.cc:75] Failed to open named pipe server process 31416: 액세스가 거부되었습니다. (0x5)\r\n[34572:35500:0920/180246.790:ERROR:chrome\\updater\\ipc\\update_service_dialer_win.cc:75] Failed to open named pipe server process 30344: 액세스가 거부되었습니다. (0x5)\r\n[34572:35720:0920/180246.858:ERROR:chrome\\updater\\ipc\\update_service_dialer_win.cc:75] Failed to open named pipe server process 28172: 액세스가 거부되었습니다. (0x5)\r\n[34572:35500:0920/180246.925:ERROR:chrome\\updater\\ipc\\update_service_dialer_win.cc:75] Failed to open named pipe server process 38896: 액세스가 거부되었습니다. (0x5)\r\n[34572:35720:0920/180249.016:ERROR:chrome\\updater\\ipc\\update_service_dialer_win.cc:75] Failed to open named pipe server process 35316: 액세스가 거부되었습니다. (0x5)\r\n[34572:3652:0920/180258.021:ERROR:google_apis\\gcm\\engine\\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT\r\n"
+}

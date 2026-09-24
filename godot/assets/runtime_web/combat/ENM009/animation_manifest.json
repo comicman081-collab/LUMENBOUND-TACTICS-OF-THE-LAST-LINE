@@ -2,17 +2,17 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_enm009",
   "character_id": "ENM009",
-  "display_name": "Fortress Turtle",
-  "status": "IMAGEGEN_STATIC_ANIMATED_SOURCE",
-  "source_status": "ORIGINAL_INTERNAL_GENERATED",
-  "source_root": "data_source/art_source/imagegen_enemy_sources/ENM009_fortress_turtle_source.png",
-  "source_asset_id": "imggen_enm009_fortress_turtle_r7",
-  "creation_method": "imagegen_original_render_plus_deterministic_presentation_motion",
+  "display_name": "ENM009",
+  "status": "LOCAL_REVIEWED_SD_ROSTER",
+  "source_status": "SPRITEGEN_ROSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/roster_replacements_20260911/ENM009/source.png",
+  "source_asset_id": "enm009_spritegen_88f86d37dde448fb",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
-    68,
-    68
+    112,
+    112
   ],
   "foot_anchor": [
     0.5,
@@ -20,13 +20,13 @@
   ],
   "head_anchor": [
     0.5,
-    0.2
+    0.14
   ],
   "view": "THREE_QUARTER_LEFT_DOWN_30",
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "9845a7798a57c08a9e2972827b46b65d9661442bd7bac937c39465e77b581e89",
+  "preview_sha256": "ad0d8320c5c1ee4961b2bd0578cb034c44d646b64636081408fc2e5252aae7b9",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "2cc85c71a3acb130d1d85294b60cc3ebc10a6ac5c66a6e92d673e998a7a488d3"
+  "sha256": "f1bf2c2d33e705507b6a5caba2ae00914459ac68b7151ab922fad6758853d203"
 }

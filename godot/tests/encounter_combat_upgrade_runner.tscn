@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tests/encounter_combat_upgrade_runner.gd" id="1"]
+
+[node name="EncounterCombatUpgradeRunner" type="Node"]
+script = ExtResource("1")

@@ -1,0 +1,751 @@
+{
+  "status": "VERIFIED",
+  "protected_videos": [
+    {
+      "path": "intro/1.mp4",
+      "bytes": 9529576,
+      "sha256": "5dd681cf11698a00effc0f7c946861dc8b7947afe0f5054ff280f05d672a0535",
+      "md5": "0c4b64ebdba34d173c722c048aee215f"
+    },
+    {
+      "path": "intro/2.mp4",
+      "bytes": 11717388,
+      "sha256": "be81d69bb93c4efc2460570de8e0b43065f9af53b331903a512ee451bf5a6928",
+      "md5": "dc18e9277172b54dade0ca20e1c2d11c"
+    },
+    {
+      "path": "intro/3.mp4",
+      "bytes": 9934740,
+      "sha256": "f0213f2c555b8cfcde6299c807630eea241696bb48896a218792f98871fe12d6",
+      "md5": "c5f7ef126025598f385d3856dac8eebf"
+    },
+    {
+      "path": "intro/4.mp4",
+      "bytes": 13884651,
+      "sha256": "1122f56492e6873c1d021352f0ae180894aa2bc2911c6899c5b0a5181a72b7b4",
+      "md5": "0028247d8766d7f1332c1209cd05c29c"
+    },
+    {
+      "path": "intro/5.mp4",
+      "bytes": 11504734,
+      "sha256": "c655040c463393c495c21002ffaa58af84f01972275e06e6ee00a317515857de",
+      "md5": "0c6dba69eee48361df2cf00cb7f0d623"
+    },
+    {
+      "path": "intro/completed_1080p_50s/intro_1080p_50s.mp4",
+      "bytes": 77343515,
+      "sha256": "f40997486189cbe74a56da2d3a2cdfbb8238169a9afc77bc61a2d59cf2418a6c",
+      "md5": "1d2c2ce847b3e28a16cd063c57c4d05d"
+    },
+    {
+      "path": "intro/completed_1080p_50s/intro_1080p_50s_silent.mp4",
+      "bytes": 76100821,
+      "sha256": "0f51d8f669634cbf20e75233ac6dbece09f1705466fbddea50330906f8be3af8",
+      "md5": "6e4483dcca185f1206a0b1de51160d4f"
+    },
+    {
+      "path": "data_source/video/intro_20260910/previous_intro.ogv",
+      "bytes": 15486785,
+      "sha256": "19c71606c642804afabaf467c0479d1da582547a649ffa614b51c5e23bbb0fe0",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9"
+    },
+    {
+      "path": "godot/assets/video/lumenbound_intro_full.ogv",
+      "bytes": 68413842,
+      "sha256": "24bad74ee6ced284d3d6a64a93254298756156a6ba44e0a3f97b16ef6d595a63",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090"
+    },
+    {
+      "path": "work/video/intro_1080p_50s_20260910/intro_1080p_50s_silent.mp4",
+      "bytes": 76100821,
+      "sha256": "0f51d8f669634cbf20e75233ac6dbece09f1705466fbddea50330906f8be3af8",
+      "md5": "6e4483dcca185f1206a0b1de51160d4f"
+    },
+    {
+      "path": "work/video/intro_1080p_50s_20260910/intro_1080p_50s_with_existing_bgm.mp4",
+      "bytes": 77343515,
+      "sha256": "f40997486189cbe74a56da2d3a2cdfbb8238169a9afc77bc61a2d59cf2418a6c",
+      "md5": "1d2c2ce847b3e28a16cd063c57c4d05d"
+    },
+    {
+      "path": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv",
+      "bytes": 68413842,
+      "sha256": "24bad74ee6ced284d3d6a64a93254298756156a6ba44e0a3f97b16ef6d595a63",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090"
+    }
+  ],
+  "pack_video_entries": [
+    {
+      "pack": "builds/web_down_pose_20260911_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_down_pose_20260911_release/r7_current_df08e08eb223.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_down_pose_sd_20260911_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_down_pose_sd_20260911_release/r7_current_7ed7c66e99a5.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_dev/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_dev_r2/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_dev_r3/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_player/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_player_final/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_r4b_dev/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_r4c_dev/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_r4d_dev/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_r4e_dev/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_r4f_dev/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_r4g_dev/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_r4h_dev/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_r4i_dev/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_r4j_dev/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_r4k_dev/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_r4l_dev/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_r4m_dev/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_r4_dev/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_r4_player/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_feedback_20260911_r4_player_verified/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate34_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate34_release/r7_current_0108a32f8c5a.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_continuity50_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_continuity51_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_environment45_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_environment46_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_environment47_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_environment48_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_environment49_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_field64_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_growth55_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_growth56_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_growth57_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_growth58_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_landscape59_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_landscape61_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_landscape62_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_landscape63_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_loading53_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_loading54_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_natural37_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_natural39_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_natural40_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_natural41_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_natural43_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_natural44_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_regions35_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_regions35_release/r7_current_d7ce1209dea1.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_regions36_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_regions36_release/r7_current_eb871e827b6b.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_release65_release/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_release66_release/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_release67_release/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260908_releaseui52_release/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_intro_1080p_20260910/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_intro_1080p_20260910_release/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_local_audit_20260910/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_local_audit_20260910_release/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_map_entry_local_20260909/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_r7_current_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_release/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_verified_local_20260911_development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_verified_local_20260911_release/r7_current_0d481c47c34b.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate33/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate29/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate27/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate26/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate25/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate20/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate18/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate15/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate14/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate13/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate11/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate10/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate09/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate07/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260907_candidate06/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260905_candidate04/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260905_candidate03/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260905_candidate02/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260905_candidate01/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "builds/web_gameplay_qa_20260905_candidate01/release/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "work/gameplay_qa_quarantine_20260907/web_gameplay_qa_20260907_candidate19/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "work/gameplay_qa_quarantine_20260907/web_gameplay_qa_20260907_candidate17/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "work/gameplay_qa_quarantine_20260907/web_gameplay_qa_20260907_candidate16/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "work/gameplay_qa_quarantine_20260907/web_gameplay_qa_20260907_candidate12/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "work/gameplay_qa_quarantine_20260907/web_gameplay_qa_20260907_candidate08/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "work/gameplay_qa_quarantine_20260907/web_gameplay_qa_20260907_candidate05/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "work/gameplay_qa_quarantine_20260907/startup_candidate28/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "work/gameplay_qa_quarantine_20260907/hd_loading_candidates/candidate24/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "work/gameplay_qa_quarantine_20260907/hd_loading_candidates/candidate23/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "work/gameplay_qa_quarantine_20260907/hd_loading_candidates/candidate22/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "work/gameplay_qa_quarantine_20260907/hd_loading_candidates/candidate21/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "work/gameplay_qa_quarantine_20260907/grounding_predecessors/candidate31/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "work/gameplay_qa_quarantine_20260907/grounding_candidate32/build/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "work/gameplay_qa_quarantine_20260907/botanical_r18/candidate30/development/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": "work/build_output_quarantine/web_down_pose_20260911_development_a46ad99fb3a94af7b4dffcb1b4cb94e0/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "work/build_output_quarantine/web_down_pose_20260911_release_3bf70426bf7e452189dd700dc0fd87e2/r7_current_df08e08eb223.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "34eefa2531cd8026f0a647d1b97f5090",
+      "retained": "work/video/intro_1080p_50s_20260910/lumenbound_intro_full.ogv"
+    },
+    {
+      "pack": "quarantine/local_audit_20260910/baseline_web/index.pck",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": ".git\\lfs\\objects\\f7\\6b\\f76b88f975c1560c0ad3c029511fc80f432893e1ebd05eb0fec731bc2a9a78ac",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": ".git\\lfs\\objects\\df\\e8\\dfe822702a9256d9108b528260dc5e76858b6b3139e84ad53d07a2fa228253a0",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": ".git\\lfs\\objects\\a3\\88\\a3887b82378ffd772887bb1f1e34c1089d44b95da9ad081d9ab9b53709024824",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": ".git\\lfs\\objects\\8e\\6a\\8e6a46e460a41465b02b0d2546b4ee4e678714de8532ee34a54cb7c10816b2ac",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": ".git\\lfs\\objects\\8a\\c8\\8ac80d22eeb5953d6650d8e2d5c5336db933bd77c69eace4fca85f3b4b82c9ed",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": ".git\\lfs\\objects\\75\\e8\\75e8dc2b8e752b0e5719c75b56809cae0bc1ce7d899be8ce97c89b3f9f68dfb3",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": ".git\\lfs\\objects\\5c\\55\\5c5582df3d2f11f56caea5fc87efec91cf3eabee6cb30cafecc5fa4a5b37c2a0",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    },
+    {
+      "pack": ".git\\lfs\\objects\\1e\\3c\\1e3c59e8c9b75099a791c9dbe8eae57f8aaa4922858e6cc162e70c42cf0c89c1",
+      "entry": "assets/video/lumenbound_intro_full.ogv",
+      "md5": "1c95090454a3e40c9bb3112761bab1c9",
+      "retained": "data_source/video/intro_20260910/previous_intro.ogv"
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_2 physical pawn remains visible"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 physical pawn remains visible"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 can be selected independently"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 actual contact and natural AUTO battle reaches results"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 exact kill receipt persisted"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 defeated pawn is absent"
+    },
+    {
+      "pass": true,
+      "name": "1_2 sibling has no false kill receipt"
+    },
+    {
+      "pass": true,
+      "name": "1_2 sibling remains visible immediately after battle return"
+    },
+    {
+      "pass": true,
+      "name": "1_2 browser reload preserves separate lives"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_2 physical pawn remains visible"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_2 physical pawn remains visible"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_2 can be selected independently"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_2 actual contact and natural AUTO battle reaches results"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_2 exact kill receipt persisted"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_2 defeated pawn is absent"
+    },
+    {
+      "pass": true,
+      "name": "1_2 both scouts require their own victory"
+    },
+    {
+      "pass": true,
+      "name": "1_2 main encounter also survives shared stage victories"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01 physical pawn remains visible"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 physical pawn remains visible"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_2 physical pawn remains visible"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_2 can be selected independently"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_2 actual contact and natural AUTO battle reaches results"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_2 exact kill receipt persisted"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_2 defeated pawn is absent"
+    },
+    {
+      "pass": true,
+      "name": "2_1 sibling has no false kill receipt"
+    },
+    {
+      "pass": true,
+      "name": "2_1 sibling remains visible immediately after battle return"
+    },
+    {
+      "pass": true,
+      "name": "2_1 browser reload preserves separate lives"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 physical pawn remains visible"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 physical pawn remains visible"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 can be selected independently"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 actual contact and natural AUTO battle reaches results"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 exact kill receipt persisted"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 defeated pawn is absent"
+    },
+    {
+      "pass": true,
+      "name": "2_1 both scouts require their own victory"
+    },
+    {
+      "pass": true,
+      "name": "2_1 main encounter also survives shared stage victories"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01 physical pawn remains visible"
+    },
+    {
+      "pass": true,
+      "name": "No browser or engine errors"
+    }
+  ],
+  "scope": "Two kill orders, four real AUTO battles, exact pawn visibility/selection/contact and two browser reloads in isolated saves."
+}

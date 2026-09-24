@@ -1,0 +1,189 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "Unused BGM, title and ending collections unchanged",
+      "passed": true,
+      "details": {
+        "files": 166,
+        "failures": []
+      }
+    },
+    {
+      "name": "All previous intro videos unchanged",
+      "passed": true,
+      "details": {
+        "files": 12,
+        "failures": []
+      }
+    },
+    {
+      "name": "Required audio source masters unchanged",
+      "passed": true,
+      "details": {
+        "files": 61,
+        "failures": []
+      }
+    },
+    {
+      "name": "Additional cleanup preserves every remaining audio file",
+      "passed": true,
+      "details": {
+        "files": 299,
+        "failures": []
+      }
+    },
+    {
+      "name": "art recovery archive unchanged after loose-copy retirement",
+      "passed": true,
+      "details": {
+        "members": 4310,
+        "bytes": 596351440
+      }
+    },
+    {
+      "name": "art archived loose copies removed",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "lfs recovery archive unchanged after loose-copy retirement",
+      "passed": true,
+      "details": {
+        "members": 17,
+        "bytes": 288008056
+      }
+    },
+    {
+      "name": "lfs archived loose copies removed",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Compressed QA reports reproduce original bytes",
+      "passed": true,
+      "details": {
+        "reports": 127,
+        "failures": []
+      }
+    },
+    {
+      "name": "Current release PCK unchanged",
+      "passed": true,
+      "details": "ff8741b54bbc2876cab53722c428af841e5a6f98ebbc1146740f7d82ee5d146c"
+    },
+    {
+      "name": "density_sidecars.json contents unchanged",
+      "passed": true,
+      "details": {
+        "entries": 644,
+        "failures": []
+      }
+    },
+    {
+      "name": "audio_sidecars.json contents unchanged",
+      "passed": true,
+      "details": {
+        "entries": 5,
+        "failures": []
+      }
+    },
+    {
+      "name": "Local player serves the retained build",
+      "passed": true,
+      "details": {
+        "service": "lumenbound-local-player-v2",
+        "build": "builds/web_roster21_damage_restart_20260911_release",
+        "pid": 20292,
+        "play_path": "/play/ff8741b54bbc/"
+      }
+    },
+    {
+      "name": "HTTP index.html",
+      "passed": true,
+      "details": {
+        "bytes": "8407"
+      }
+    },
+    {
+      "name": "HTTP index.js",
+      "passed": true,
+      "details": {
+        "bytes": "304271"
+      }
+    },
+    {
+      "name": "HTTP r7_current_ff8741b54bbc.pck",
+      "passed": true,
+      "details": {
+        "bytes": "242260420"
+      }
+    },
+    {
+      "name": "HTTP r7_current_ff8741b54bbc.wasm",
+      "passed": true,
+      "details": {
+        "bytes": "10054500"
+      }
+    },
+    {
+      "name": "HTTP density_sidecars.json",
+      "passed": true,
+      "details": {
+        "bytes": "126431"
+      }
+    },
+    {
+      "name": "HTTP audio_sidecars.json",
+      "passed": true,
+      "details": {
+        "bytes": "1044"
+      }
+    },
+    {
+      "name": "Intro supports browser range playback",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "A second server cannot claim the current player port",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "All Git refs preserved",
+      "passed": true,
+      "details": {
+        "refs": 10
+      }
+    },
+    {
+      "name": "All Git objects preserved",
+      "passed": true,
+      "details": {
+        "objects": 9367
+      }
+    },
+    {
+      "name": "Only current player plus protected media remain in builds",
+      "passed": true,
+      "details": []
+    },
+    {
+      "name": "Disposable import cache is absent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Old deployment staging is absent",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Cleanup and recovery Python helpers parse",
+      "passed": true,
+      "details": null
+    }
+  ],
+  "player_url": "http://127.0.0.1:8770/play/ff8741b54bbc/"
+}

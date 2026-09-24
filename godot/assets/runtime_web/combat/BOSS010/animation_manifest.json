@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_boss010",
   "character_id": "BOSS010",
-  "display_name": "BOSS010",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/boss010_authority.png",
-  "source_asset_id": "boss010_silhouette_a_1540ae623795c18d_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_FROST_CANTOR",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/BOSS010/source.png",
+  "source_asset_id": "boss010_illustrated_36a36126b7b95d75",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "c4137d8de76226610a03a5428ffc8f62573c210e64d36064fefe4e53ce6853a9",
+  "preview_sha256": "1d1f15116fc9e08a44ef302daa3da38a678ff3217fd6ba6b44b80fefa9edba82",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "386baf33facf1b02fa94d5ffa2342f3c73c3a99b982739d8dfcc6e7163e815c0"
+  "sha256": "c4a5de5ed016f9cd2b9b230616b20b5b7730e110aae3b2d3166240468ca89394"
 }

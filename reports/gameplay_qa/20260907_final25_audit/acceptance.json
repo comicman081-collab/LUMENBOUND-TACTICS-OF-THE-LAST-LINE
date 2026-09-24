@@ -1,0 +1,897 @@
+{
+  "checks": [
+    {
+      "name": "continuous backdrop loaded at N20",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM006 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM006 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM006 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM007 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM007 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM007 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "ENM008 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "ENM008 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "ENM008 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "Web battle has a settled error-free full-density actor lease",
+      "pass": true
+    },
+    {
+      "name": "actual decoded HD actors remain inside the measured stage budget",
+      "pass": true
+    },
+    {
+      "name": "own HD projectile/skill/ultimate pages are resident within budget",
+      "pass": true
+    },
+    {
+      "name": "CHR001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR002 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR002 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR002 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR003 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR003 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR003 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR004 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR004 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR004 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "CHR005 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "CHR005 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "CHR005 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "BOSS001 uses its own loaded HD actor pages",
+      "pass": true
+    },
+    {
+      "name": "BOSS001 idle retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "BOSS001 move retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "BOSS001 basic_attack retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "BOSS001 normal_skill retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "BOSS001 ultimate retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "BOSS001 hit retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "BOSS001 down retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "BOSS001 victory retains a 256px source canvas",
+      "pass": true
+    },
+    {
+      "name": "BOSS001 own projectile and all three FX families are attached",
+      "pass": true
+    },
+    {
+      "name": "HUD face texture accounting survives boss-wave rollover",
+      "pass": true
+    },
+    {
+      "name": "actual N20 boss HD lease acquired",
+      "pass": true
+    },
+    {
+      "name": "N20 result is an actual victory, not merely a result screen",
+      "pass": true
+    },
+    {
+      "name": "real reward touch drag reaches lower report",
+      "pass": true
+    },
+    {
+      "name": "post-N20 reveal automatically guides toward the pending HARD route",
+      "pass": true
+    },
+    {
+      "name": "completed NORMAL route no longer points back to N01",
+      "pass": true
+    },
+    {
+      "name": "completion action selects pending HARD route",
+      "pass": true
+    },
+    {
+      "name": "rotation preserves the live map instance",
+      "pass": true
+    },
+    {
+      "name": "landscape map is not compressed below oversized portrait controls",
+      "pass": true
+    },
+    {
+      "name": "landscape header and optional map buttons release portrait size floors",
+      "pass": true
+    },
+    {
+      "name": "map remains ready and unpaused after browser suspend/resume",
+      "pass": true
+    },
+    {
+      "name": "no Godot script errors or warnings during final gameplay",
+      "pass": true
+    },
+    {
+      "name": "all gameplay used isolated QA saves",
+      "pass": true
+    }
+  ],
+  "fixture": "Local QA N20 neighbor with invincibility; prior history grants no rewards. Real movement/combat/reward actions."
+}

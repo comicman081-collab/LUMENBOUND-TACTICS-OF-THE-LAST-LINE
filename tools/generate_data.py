@@ -17,6 +17,9 @@ from campaign20 import (
     STORY_RECRUIT_IDS,
     boss_id_pairs,
     chapter_rows,
+    chapter_field_content,
+    field_localization,
+    required_normal_numbers,
     regular_enemy_ids_for_chapter,
     story_recruit_set,
 )
@@ -856,7 +859,7 @@ def ensure_campaign_map_sources() -> None:
     for chapter in chapter_rows():
         chapter_id = str(chapter["id"])
         path = map_root / f"{chapter_id}_MAP.json"
-        if path.exists() and chapter_id in ("CH01", "CH02"):
+        if path.exists():
             continue
         definition = {
             "map_id": f"{chapter_id}_MAP", "chapter_id": chapter_id,
@@ -884,6 +887,18 @@ def ensure_campaign_map_sources() -> None:
             }],
         }
         write_json(path, definition)
+
+
+def apply_chapter_field_content(definition: dict) -> dict:
+    cid = str(definition.get("chapter_id", ""))
+    locations_path = SOURCE / "chapter_field_locations.json"
+    if cid == "CH01" or not locations_path.exists():
+        return definition
+    events, treasures = chapter_field_content(cid, json.loads(locations_path.read_text(encoding="utf-8")))
+    updated = dict(definition)
+    updated["map_events"] = [e for e in definition.get("map_events", []) if not str(e.get("event_id", "")).startswith(f"FIELD_{cid}_")] + events
+    updated["treasures"] = [t for t in definition.get("treasures", []) if t.get("treasure_id") != f"{cid}_FIELD_CACHE"] + treasures
+    return updated
 
 
 def weapon_data() -> list[dict]:
@@ -1175,13 +1190,23 @@ def campaign_story_triggers() -> list[dict]:
             trigger["stage_id"] = "CH01-H05"
         elif str(trigger.get("stage_id", "")) == "CH02-H10":
             trigger["stage_id"] = "CH02-H05"
+    # Optional branches must not remove connective main-story beats from the
+    # mandatory route. Preserve the original trigger and add a later fallback.
+    fallback_stages = {
+        "TRIG_CH01_MID_A": "CH01-N04", "TRIG_CH01_MID_B": "CH01-N06",
+        "TRIG_CH01_MID_C": "CH01-N08", "TRIG_CH02_MID_A": "CH02-N04",
+        "TRIG_CH01_OUTRO": "CH01-N20", "TRIG_CH02_OUTRO": "CH02-N20",
+    }
+    for trigger in triggers:
+        if trigger["id"] in fallback_stages:
+            trigger["fallback_stage_ids"] = [fallback_stages[trigger["id"]]]
     priority = max(int(row.get("priority", 0)) for row in triggers) + 10
     for chapter in chapter_rows()[2:]:
         chapter_id = str(chapter["id"])
         for beat, event, stage_code in (
             ("INTRO", "MAP_ENTER", ""),
             ("MID_A", "STAGE_CLEAR", "N04"),
-            ("MID_B", "STAGE_CLEAR", "N14"),
+            ("MID_B", "STAGE_CLEAR", f"N{max(14, int(chapter['recruit_stage'][1:])):02d}"),
             ("PREBOSS", "STAGE_CLEAR", "N19"),
             ("OUTRO", "STAGE_CLEAR", "N20"),
         ):
@@ -1254,6 +1279,7 @@ LOCALIZED = {
 
 def localization(characters, enemies, stages, skills, weapons, items, scenarios) -> dict[str, tuple[str, str]]:
     loc = dict(LOCALIZED)
+    loc.update(field_localization())
     ko_names = {"MAERU": "마에루", "ROAN": "로안", "NARIN": "나린", "EDA": "에다", "SOREN": "소렌", "VERA": "베라", "TOA": "토아", "IRI": "이리"}
     ko_names.update({
         "LIV": "리브", "SEON": "세온", "ADELINE": "아델린", "KIR": "키르", "REMA": "레마", "VEON": "베온", "HART": "하르트", "ORSA": "오르사", "TIEL": "티엘", "RIAS": "리아스", "PERIN": "페린", "KARN": "카른", "NOAR": "노아르", "SEB": "세브", "YURIEN": "유리엔", "MOEN": "모엔", "LAVENT": "라벤트", "KAIREN": "카이렌",
@@ -1499,10 +1525,11 @@ def main() -> None:
     chapters = [
         {
             "id": chapter_id, "number": number, "name_key": name_key, "map_id": map_id,
+            "objective_key": f"FIELD_{chapter_id}_OBJECTIVE",
             "normal_stage_ids": [s["id"] for s in stages if s["chapter_id"] == chapter_id and s["mode"] == "NORMAL"],
             "hard_stage_ids": [s["id"] for s in stages if s["chapter_id"] == chapter_id and s["mode"] == "HARD"],
-            "required_stage_ids": [f"{chapter_id}-N{stage_number:02d}" for stage_number in (1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 19, 20)],
-            "optional_stage_ids": [f"{chapter_id}-N{stage_number:02d}" for stage_number in (3, 5, 7, 9, 11, 13, 15, 17)] + [f"{chapter_id}-H{stage_number:02d}" for stage_number in range(1, 6)],
+            "required_stage_ids": [f"{chapter_id}-N{stage_number:02d}" for stage_number in required_normal_numbers(chapter_id)],
+            "optional_stage_ids": [f"{chapter_id}-N{stage_number:02d}" for stage_number in range(1, 21) if stage_number not in required_normal_numbers(chapter_id)] + [f"{chapter_id}-H{stage_number:02d}" for stage_number in range(1, 6)],
         }
         for chapter_id, number, name_key, map_id in [
             (str(chapter["id"]), int(chapter["number"]), f"CHAPTER_{int(chapter['number']):02d}", f"{chapter['id']}_MAP")
@@ -1566,6 +1593,7 @@ def main() -> None:
         chapter_id = str(map_definition.get("chapter_id", ""))
         if chapter_id in CONTACT_EVENT_SPECS:
             map_definition = expand_chapter_map_definition(map_definition, chapter_id, stages)
+        map_definition = apply_chapter_field_content(map_definition)
         # The trigger table is the runtime authority; mirror its scenario IDs onto
         # authored map nodes as an audit index.  This makes the intended moment of
         # every chapter scenario visible in the map data without creating a second

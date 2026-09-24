@@ -26,6 +26,7 @@ SCRIPT = r'''<script id="r7-web-soak-probe">
   let lastReport = last;
   let frames = 0;
   let longFrames = 0;
+  let frozenFrames = 0;
   const report = (now) => {
     const frameTimes = samples.splice(0, samples.length);
     const memory = performance.memory || null;
@@ -37,7 +38,9 @@ SCRIPT = r'''<script id="r7-web-soak-probe">
       p50_ms: Number(percentile(frameTimes, 0.50).toFixed(3)),
       p95_ms: Number(percentile(frameTimes, 0.95).toFixed(3)),
       p99_ms: Number(percentile(frameTimes, 0.99).toFixed(3)),
+      max_frame_ms: Number((frameTimes.length ? Math.max(...frameTimes) : 0).toFixed(3)),
       long_frames_gt_100ms: longFrames,
+      frozen_frames_ge_1000ms: frozenFrames,
       used_js_heap_bytes: memory ? memory.usedJSHeapSize : null,
       total_js_heap_bytes: memory ? memory.totalJSHeapSize : null,
     };
@@ -45,18 +48,27 @@ SCRIPT = r'''<script id="r7-web-soak-probe">
     lastReport = now;
     frames = 0;
     longFrames = 0;
+    frozenFrames = 0;
   };
   const tick = (now) => {
     const delta = now - last;
     last = now;
-    if (delta > 0 && delta < 1000) {
+    // Do not discard the very stalls this probe is meant to detect. Hidden
+    // tabs have their own pause boundary and must not count as gameplay jank.
+    if (delta > 0 && document.visibilityState === 'visible') {
       samples.push(delta);
       if (delta > 100) longFrames += 1;
+      if (delta >= 1000) frozenFrames += 1;
+	  frames += 1;
+	  if (now - lastReport >= windowMs) report(now);
     }
-    frames += 1;
-    if (now - lastReport >= windowMs) report(now);
     requestAnimationFrame(tick);
   };
+  document.addEventListener('visibilitychange', () => {
+    last = performance.now();
+    if (document.visibilityState === 'hidden') report(last);
+    else lastReport = last;
+  });
   console.log('R7_RAF_PROBE_READY window_ms=' + windowMs);
   requestAnimationFrame(tick);
 })();

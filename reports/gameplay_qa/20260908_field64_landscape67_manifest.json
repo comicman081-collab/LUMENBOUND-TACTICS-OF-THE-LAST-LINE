@@ -1,0 +1,88 @@
+{
+  "scope": "local authored content and UI batch; no deployment",
+  "files": {
+    "godot/project.godot": "2e075b3065568508f2e2dcc3718cb7a788d80900182d65a899766b1fab91c1cf",
+    "godot/web/landscape.html": "d854bd9e4e2e2c822c32059c796e1adb427149686487feb458b9bc299f3b30a9",
+    "godot/screens/app_shell.gd": "a63e41606224eeefdaa2a160538fdbc0536a31ca0789934a15ddbb56a1b8acca",
+    "godot/chapter_map/model/map_exploration_service.gd": "6c434feae1ce67791ef8ec7295974072b92386ce36bf63b32d0401f9c4fc3c50",
+    "godot/chapter_map/model/macro_world_generator.gd": "7d4636fe72666008809ae78caa99dc7c10ee1ecb63f1ac43ce164dcd0b020e1b",
+    "godot/chapter_map/runtime/chapter_map_loader.gd": "27c436a552383ee0207afbfee0f0730d1010c822cbeb8c2e8fd6be14f2de35dc",
+    "godot/data/compiled/game_data.json": "6f3ebaf935817c4810bab028c1718760ef753a5d2fee3d3e90c676c632ff45cd",
+    "tools/campaign20.py": "f55c28dd37f6d09a262d81620c2c20b497d2b9f11c986bfbb0e93fde1f2c322c",
+    "tools/generate_data.py": "a0388ef4dc8dacdefb355b003de8c14bb23174dccf428752570176e0590e8b68"
+  },
+  "local_release": {
+    "index.audio.position.worklet.js": {
+      "bytes": 2973,
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8"
+    },
+    "index.audio.worklet.js": {
+      "bytes": 7298,
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3"
+    },
+    "index.html": {
+      "bytes": 7480,
+      "sha256": "cf6f3f81373402560fc00a0fe2ac004c2ccebfe0e4501856454c898b26a85dd0"
+    },
+    "index.js": {
+      "bytes": 279815,
+      "sha256": "68586d6daafc93c6e697b3fb258976874aa7459b8931165ebb1dc3c9614cc42c"
+    },
+    "index.manifest.json": {
+      "bytes": 357,
+      "sha256": "2d4396723a6a2f516e6f3fd4a052d1010f6d9c859794eb525d0e2841e8b6896e"
+    },
+    "index.offline.html": {
+      "bytes": 719,
+      "sha256": "187b97136e9b21107aa67f48969b782471ea934caf688348420fa06ef99b64e3"
+    },
+    "index.pck": {
+      "bytes": 168641044,
+      "sha256": "fb7398bd75d90e7c6c569914e1a4854a54b35a1d91b5cab61611fe2f19c6a98a"
+    },
+    "index.service.worker.js": {
+      "bytes": 6213,
+      "sha256": "583b531e7f70e16a76a89c01fbcb1a40ef60e448e9fbe97a7020658289adabe5"
+    },
+    "index.wasm": {
+      "bytes": 39513091,
+      "sha256": "35116f68540ac41acf7d71ea457added91b5e960a9cca3e2acc72918eaf01277"
+    }
+  },
+  "browser_checks": {
+    "landscape63_browser": {
+      "pass": 14,
+      "total": 14
+    },
+    "field64_browser": {
+      "pass": 9,
+      "total": 9
+    },
+    "growth64_landscape": {
+      "pass": 21,
+      "total": 21
+    },
+    "battle64_landscape": {
+      "pass": 223,
+      "total": 223
+    },
+    "device68_browser": {
+      "pass": 20,
+      "total": 20
+    }
+  },
+  "public_browser": {
+    "directory": "reports/gameplay_qa/20260908_release66_browser",
+    "final_title": "release67_title.png",
+    "final_boot": "release67_boot.png",
+    "qa_bridge": "undefined",
+    "viewport": [
+      844,
+      390
+    ],
+    "manifest_orientation": "landscape",
+    "public_standard_story_capture": "home.png",
+    "developer_buttons_visible": false
+  },
+  "orientation_correction": "PC remains upright even in narrow/touch windows. Only Android/iPhone/iPad rotate a portrait handset. Release67 HTML updated in place; old HTML quarantined."
+}

@@ -1,0 +1,920 @@
+{
+  "status": "READ_ONLY_ALPHA_ANALYSIS",
+  "frames": 18528,
+  "entities": {
+    "compact": 109,
+    "full": 109,
+    "signature": 8
+  },
+  "output": "godot\\data\\battle_contact_anchors_r2_spritegen.json",
+  "sha256": "41f4c64607b1a6ecb348ab0424daa5352ee403a4baa10d14b66a44272158dc54",
+  "sources": [
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS001\\animation_manifest.json",
+      "sha256": "0b25b8c749f0792c14e0933cab780607903eb3bc1ff2469eb52095be25870242"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS002\\animation_manifest.json",
+      "sha256": "4e8437f5ffae72141a10d0b53b580bd3cbdd2e458479a40c5cc33c35238b9de0"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS003\\animation_manifest.json",
+      "sha256": "a4dccc6a4c0965f8be699568a1fefaa5a9bedebfe0f7a6e6cb785b42c9a1f65d"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS004\\animation_manifest.json",
+      "sha256": "ab0648cfc5b1043956df46c9b731a68ac5ddc47e7d4bff7c6c238cdc5168e4d2"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS005\\animation_manifest.json",
+      "sha256": "ef0985394a8c134c9f93ded179591695c995794fd6b51ead00d5a0fde5f83317"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS006\\animation_manifest.json",
+      "sha256": "06d118df9da7a12f67f3dbccc4ea1afe460e288dd941ad3ac27ce02ed6d4359d"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS007\\animation_manifest.json",
+      "sha256": "92d5e410b995e4e340948975d01dd03f5586bf1308d76758e28a964c13c8746f"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS008\\animation_manifest.json",
+      "sha256": "87402c7e04ddfc11c77f10411179a3a8cf55c74b85999b1b00b735ec2f13e322"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS009\\animation_manifest.json",
+      "sha256": "6993a97558267485f0843c7ca942ff4dd871da9922fa5f09b00f447caf1411bc"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS010\\animation_manifest.json",
+      "sha256": "ed10ea197ef88ba1014af20a155da89f73ff717ed20cd0a378071f2f2d182c6f"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS011\\animation_manifest.json",
+      "sha256": "1ecb49e12857331d15565959f827f17128e0023623869c81865bbaa46a814337"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS012\\animation_manifest.json",
+      "sha256": "1763ffc48a299b8d4fe8475922ed6a318acb688b4504a9bdd0dba88f71227982"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS013\\animation_manifest.json",
+      "sha256": "3c26f15ad430d09fcdd646a42391b7962d906a82daaad7161238246a21dcbe74"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS014\\animation_manifest.json",
+      "sha256": "5e2c24416f1fb3de783599ac7812994ffa02c31d6dfb66471e9ff5623701a984"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS015\\animation_manifest.json",
+      "sha256": "fd3e2b24f492c00cc70aef13cdbd811f4425cc07568e2f32c6957e9155ea4bd2"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS016\\animation_manifest.json",
+      "sha256": "43339a0c71391e3991747bccc718e76955fe5d0ef8318d841e74f0789c52e8e0"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS017\\animation_manifest.json",
+      "sha256": "4c314828fdc94576f41ef3d5e03063e5620146965fb6cf19913bbe711f460887"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS018\\animation_manifest.json",
+      "sha256": "6cc8f4e9b7fac4a5ddb182bd33e58e81d289712e0409ae5c1e5c9f5b8a8d6c22"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS019\\animation_manifest.json",
+      "sha256": "f518c5cb4e90bf29354dc5c5d67ca947fd78f6868a02da7fecfafcb771b37fad"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS020\\animation_manifest.json",
+      "sha256": "e15fd32016a1e136d7727c283de083ad7bfcd593f65d5a9bf1787a0fe8891572"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS021\\animation_manifest.json",
+      "sha256": "516d3d6a88a836d55e971b2c4da381781090a881ba1cf69914f6a87053a30a45"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS022\\animation_manifest.json",
+      "sha256": "e1896607576bbd68187838bb5560aef54d2bf8a681d4bbce609847f7af617d61"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\BOSS023\\animation_manifest.json",
+      "sha256": "1ad43e1997fe92c31cce98910ddae22e71d349cf99e23479b410361761e7e913"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR001\\animation_manifest.json",
+      "sha256": "4b9a1d3ec2e6bb5b66295cd4e8e331e56027bdc8ab5ecad6677e9ebab307e70d"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR002\\animation_manifest.json",
+      "sha256": "17a0d243c8370d48e3aeb1287feae956d5e70eb64220cf2e34b3095f65eff388"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR003\\animation_manifest.json",
+      "sha256": "1f53b3ed7d550aafa6ec679448d23513d7fe26404b18b01232862c8d7382b62b"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR004\\animation_manifest.json",
+      "sha256": "99bb278adf2182cf417aba3e358d9b1ec4100a5b82739e3e5546595080db0d47"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR005\\animation_manifest.json",
+      "sha256": "9666e2a33b041a5a24dc92c6d10d1a1a45c748342e0585b767b62bd679f070a3"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR006\\animation_manifest.json",
+      "sha256": "220077d8306a298f36e2e20c66e9e70fe34cae621c6dc81c252530e2e06fa585"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR007\\animation_manifest.json",
+      "sha256": "59ec8e1662aaa4cac9ea18aafe8cf331516dee6e79411c017c318f680567dd48"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR008\\animation_manifest.json",
+      "sha256": "cf042e256cbdf690fb9f358420026e9b4c122f64c220d8409757d087b4e228e9"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR009\\animation_manifest.json",
+      "sha256": "4c05897743dda10253b8e1bd7984f7df92f7ab0712bfa46d35d033a257352f1e"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR010\\animation_manifest.json",
+      "sha256": "997dafbc4e5c38e9a736ccb4e752b21b7998da19f56cb7d48ac90569d0a6ccf9"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR011\\animation_manifest.json",
+      "sha256": "4f91c61cbcdef017508b111f1f0241fc2e6551912485038f35663cd27a8a2dc2"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR012\\animation_manifest.json",
+      "sha256": "c3afc4c4e5fc5d3eaf1eac633bdd97439a80e91d946e9ca28c920aaf277ed437"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR013\\animation_manifest.json",
+      "sha256": "8661f632ed4cfd736c26d287cf2aa10cc7d4248cdabcb09cef3978fbeb3e9754"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR014\\animation_manifest.json",
+      "sha256": "cd1b34139347d5ecfbb1353164b2ea5e382d147921b4ac9d86e7d46b3f107607"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR015\\animation_manifest.json",
+      "sha256": "6c802b5e9726a68fa061f42d418f2b75d41f7b9d50c1378f51e30a858099dbc2"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR016\\animation_manifest.json",
+      "sha256": "4eb1fd8b598ff22774481dc6897b56d6204f63eeadc65d4fd1519e1bd2cac1b2"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR017\\animation_manifest.json",
+      "sha256": "cabace13600830372f7bbe3ea4602808bb8429e6f6936ef8e73a4dff15331205"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR018\\animation_manifest.json",
+      "sha256": "725aa870eb7dedea30ef3d8cfe0832781b6818339cee9275c91d627724ae564d"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR019\\animation_manifest.json",
+      "sha256": "15dd4d727ff9e2c4a144699bd253dcba120e8695a641430839d0689816c9c3fb"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR020\\animation_manifest.json",
+      "sha256": "4f649314294a9674cb1cb3a87555775297b3f07ce0dee971b88cdc291304a5a8"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR021\\animation_manifest.json",
+      "sha256": "d77e114634a5feb46995fe0f91d2f90565cb175c39c4be5f618d8ea2d7c41cc6"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR022\\animation_manifest.json",
+      "sha256": "6d27cbe5812191a049335897e0f20d6e1eafa3d3465e8fd8f6a587d30e0debe8"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR023\\animation_manifest.json",
+      "sha256": "2d92e111f777b42b0044b2c63587e0b9df600ea11de0370acbbd2888e62bc633"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR024\\animation_manifest.json",
+      "sha256": "2a49088820be872b680af3206d4cfbec2f7c243f20b66354ae549c7f71296e21"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR025\\animation_manifest.json",
+      "sha256": "51fc84cb260f8d06f1c7ad2a43fdb9938b1587c5ba2ff4cd5cfda5dc204cf5f2"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR026\\animation_manifest.json",
+      "sha256": "85071b279e69aa3f1c1c06345f0cb7d9eeead14b703af80602d56c171b45ffe5"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR027\\animation_manifest.json",
+      "sha256": "e7088d1ba4d0f2826fc69121d79cbc31d2dd42fafbfe4a9911894115b2a8fcaf"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR028\\animation_manifest.json",
+      "sha256": "383b13fea1b3a5c25f5662ae2902187f85fe094397bf77ce8ff47bea18de5e84"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR029\\animation_manifest.json",
+      "sha256": "f6bf9cc8f7377e68b5980754dec41fb8e7dbba58d2c35c94ad37bf7937b38dc9"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR030\\animation_manifest.json",
+      "sha256": "a0dc62e894e8c41c349da6c5c1765630b906d171bb6a81feb35b3f35e54815f2"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR031\\animation_manifest.json",
+      "sha256": "a45dd37b55c7cbee0485e94c70520dedb2d65822f87a49f41a85ed7ebc196e55"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR032\\animation_manifest.json",
+      "sha256": "ff9e5f376db56b8dea3d9f2ab03541341c79a906ec05d6a426d4d08cece6ee04"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR033\\animation_manifest.json",
+      "sha256": "d8f6b9477a55424406416ac8d52eb13320cf1b9cd7abfb38feb24dd2ec59f57a"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR034\\animation_manifest.json",
+      "sha256": "4454a70a6861b9e1a3c0a10354daa5d12218d103db414e4828eb58f3ccd2c2ef"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR035\\animation_manifest.json",
+      "sha256": "5645834d48ab35e7a996c5f1b3e60e239eddca1b3756e2fa65e4ea5556cc710c"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR036\\animation_manifest.json",
+      "sha256": "9105f2a18e7ee22db447fe7ca0d611ae5f5b8b229e058c244034da9b9fdcc3ca"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR037\\animation_manifest.json",
+      "sha256": "f85a9f02f8d71a62520b239957f420294a9c2ff1bde0265202f53bdbf1fa2cf5"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR038\\animation_manifest.json",
+      "sha256": "86fad0c7b9b15fc2726a7ee911ff0057ccdd78ab54c84277b2a1be28365ad5aa"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR039\\animation_manifest.json",
+      "sha256": "b4f6dd06bc09ebf210651f1006d69474752500134b42174ac2f97da5e1951c22"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR040\\animation_manifest.json",
+      "sha256": "c287cdb4d2fa9e424e6b158c9556db3eb8b784001630f2b08fde22beebe76a69"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR041\\animation_manifest.json",
+      "sha256": "7fe7acb6a3f4a45bacd1d0be9cafa0b20990c27e37ba67010afc62dbcb0982ab"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR042\\animation_manifest.json",
+      "sha256": "323b949e3bd5b1191b1faaa33878a6b325ce85c8e53ab581f231662cd4c1303d"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR043\\animation_manifest.json",
+      "sha256": "aae48af6c57d7b9368b7fe9faced15c12cfe05d2df7130bf6e080ab9d6216cec"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\CHR044\\animation_manifest.json",
+      "sha256": "5af9f6f6668c6286afbdc47303141c878c0a8e5a30a66794f0dd451041405713"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM001\\animation_manifest.json",
+      "sha256": "4f48ace21553ead16ccf75cc97a92e984d437da0d8a68ae8cd768bb0ae5e53f0"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM002\\animation_manifest.json",
+      "sha256": "c7c4bfff6710cae63793fb2f101907970e0527ec42dae098e90db094e1b9dc7b"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM003\\animation_manifest.json",
+      "sha256": "0b8b79e53e28ba7370cf48ba87df294da348494488f5daf281fb38e224df5811"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM004\\animation_manifest.json",
+      "sha256": "4541621263539d9f8a43c9174f6d1fb1e0a14e0adfd04de4e825ab1322593a8c"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM005\\animation_manifest.json",
+      "sha256": "9cb97cbe18f826fa78b41cc84b66a669ac126f7e1043a7b85d01eb5717ffcafa"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM006\\animation_manifest.json",
+      "sha256": "6cbcb855197811d2173274b8d3f92f42ca6cfe3d9d6ba910346652baa84f4108"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM007\\animation_manifest.json",
+      "sha256": "34ed428283af748b8f51c0615e6548dc6b2d62afd3e8bbb642dfd18823c94026"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM008\\animation_manifest.json",
+      "sha256": "f9938e41ade8fcfa965b7c146a7b764ff237f4e13bb05be431705d5d9971799c"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM009\\animation_manifest.json",
+      "sha256": "9b2e32d58a3ea95cc6ca4962260e5e712ccb9924b918fd27f63cfe5c2de71822"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM010\\animation_manifest.json",
+      "sha256": "0e20c0f0559dcf23bffea491de480ee7567f7005641647f95e00c66590b678ce"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM011\\animation_manifest.json",
+      "sha256": "b8a6b62cd8c788ef3dc0163c7287683ce373a69ad5fca885e9ff5e2443d0e6c5"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM012\\animation_manifest.json",
+      "sha256": "ff385c2da57926887815266c81ed38d7284fcc63bc5d496e3172352f00461bbf"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM013\\animation_manifest.json",
+      "sha256": "eb40eb2162ef7347a7762a6dce4b5ceebcacd86d59a405787041fccc6eefb35a"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM014\\animation_manifest.json",
+      "sha256": "a2abf6a8e79cca5081dcb777e0c530d9b9ef45392c01ccce42aa57768afee9b9"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM015\\animation_manifest.json",
+      "sha256": "8eaad7bd4ffca8417e25b5ea2f5a007e6fee6136afad197d910f1e780a8ce05c"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM016\\animation_manifest.json",
+      "sha256": "ab5abbaf138f29e9da81442273d15f2e0d5ff36b31e3c47df0b2040d4bc2305d"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM017\\animation_manifest.json",
+      "sha256": "b5362326a49d87b5966bd28781ab3c2e9631630a7af247e92ad064060f93f53a"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM018\\animation_manifest.json",
+      "sha256": "bfb2a9d25f72ed4a22c5448f23d4a0f0db6a48cc8b3e7cc960c407f9db90cc16"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM019\\animation_manifest.json",
+      "sha256": "829b6993f5e7b3b6e98a0d535893c3fc992118179da3e6ac044b1d9cc4c1a8bb"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM020\\animation_manifest.json",
+      "sha256": "2e368b127a1ea1f019560ff4ea32c5d59bce8db9bbc87c8fd0ad4dbbbe0acc2a"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM021\\animation_manifest.json",
+      "sha256": "b7559c4513a46a0ec109275a6cfed3db714c5a32fa0ad3c17e7aef2ab06f09cd"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM022\\animation_manifest.json",
+      "sha256": "29558ec9135f00adfad25059f0597cef022252e81fceac8cf9fb08135c6cbcf5"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM023\\animation_manifest.json",
+      "sha256": "88b5975fc822a87310f75dac44d82b24f630fda0b3f83ad2d2c3ae2c86cd91b4"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM024\\animation_manifest.json",
+      "sha256": "f0b2315922abf0ca85a49a661d940af70d7b2d19642f8504b96e1436b1c543f0"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM025\\animation_manifest.json",
+      "sha256": "b65b569cdb21f9cbfd51e18001923696f1d88510a5160684386feb7b0a0e3e30"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM026\\animation_manifest.json",
+      "sha256": "3c926df29ec8f64458bab8f0bf524509ccbeaf3d5d2afbaed5dcfb1aa3c8a92e"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM027\\animation_manifest.json",
+      "sha256": "86ae8890d18722b4e3e2e565cd6c2e4d2dd1b496472fa7a773c65abe8edf387f"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM028\\animation_manifest.json",
+      "sha256": "ed355a3705bc0132eb067543d40826f8612466bbb8d5607f86f4ca5ef16a93bb"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM029\\animation_manifest.json",
+      "sha256": "f5ac02d60104191155abef2a33f1be0d434e87bfa94338d4a18e177a0ff756bf"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM030\\animation_manifest.json",
+      "sha256": "789ce0b14745395c5ef97909d032a616488c9c53d28202873dd2494676c4ff37"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM031\\animation_manifest.json",
+      "sha256": "303bf83efee2e321fd3866c13a744b28d6517a92d489006b663810c7322ecb8e"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM032\\animation_manifest.json",
+      "sha256": "57c9aa88d5e8b7c5f90d1911da1d7482fa5af7f727e9329c2ca750161e846d1f"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM033\\animation_manifest.json",
+      "sha256": "49ba04c1ff59c59a4a08c2a43bd608e77d3471e9c85e700fdf3de17eb3063ca5"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM034\\animation_manifest.json",
+      "sha256": "20ca98f8f61cb2d705deafa7bcec3c22bf88f62220a5ecfbb64c6da7090a1195"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM035\\animation_manifest.json",
+      "sha256": "8470542698cb9e69c3bc9ab1a90a1d8e5165efffcd04bfb886080a6c0345c7cf"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM036\\animation_manifest.json",
+      "sha256": "e2defd70aa031115a38c9cafd7d99e6eea78bba9eae9cfa76791e041c3644be5"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM037\\animation_manifest.json",
+      "sha256": "084fa87dd09ef2723016c3c3acdd5112e1c5b8b8c3e1d2b9b9119f264a0b03e1"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM038\\animation_manifest.json",
+      "sha256": "8e7f6fb04ddba040b16ded25cea66544393a23a4383c1c051be2687a291c7236"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM039\\animation_manifest.json",
+      "sha256": "858b8aea13f9441a05d4cc53ec88eedefc965eb9d84d5a4610bca8d25931e025"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM040\\animation_manifest.json",
+      "sha256": "9d287b412150d9007c0db1ee026062b7bdc08946cf5e1c0f3fb7500106274d31"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM041\\animation_manifest.json",
+      "sha256": "1778c84b31a72544bec7058678ab10cdd55e9eaf5f98f5e523245e9cab6a202a"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat\\ENM042\\animation_manifest.json",
+      "sha256": "082c06f96bc9e6e1e01f9cc58ee0659c1c55ea338536561d0e39d58ffba96d0c"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS001\\animation_manifest.json",
+      "sha256": "9234a871d398d3acb240273d34b951ceccd10158fa9d1adb70f62507406a481f"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS002\\animation_manifest.json",
+      "sha256": "ba5792cf0f0955808ac8d4d3d512ef82532809ca467fd3041812ba87474873f2"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS003\\animation_manifest.json",
+      "sha256": "3631475c2a9fb93593831c12052b71a2748b31286114ad87eff6104b1d51dba8"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS004\\animation_manifest.json",
+      "sha256": "91b79bc6cf17c5d9fcbc95526314e7de1e21d5ad9370d81e43e7eafd489be9e4"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS005\\animation_manifest.json",
+      "sha256": "43483c19c3121572af395934a4dc0d6bcd316aeeccfaedff056dce1d4a514de5"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS006\\animation_manifest.json",
+      "sha256": "bc0df7067ccacbe337df9b4197f9cf3b03e53c4b282bb96e0b2cc808c1d8846a"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS007\\animation_manifest.json",
+      "sha256": "513387f9c3a948c2c8838343addd2923c165f895147f61377da744dd3c441d7e"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS008\\animation_manifest.json",
+      "sha256": "47312232a933bc0ee630fb26ce94c2aff34b5a86c37a733a8d7ed683f888c9a6"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS009\\animation_manifest.json",
+      "sha256": "7053228f7cfe3d1d4a06f34a97a00e423ab935de2446beca7c5ea1c8451fe666"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS010\\animation_manifest.json",
+      "sha256": "f3a70e8b467c0da555090793bf48ddb561bed1757df04cb9c98c516051730284"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS011\\animation_manifest.json",
+      "sha256": "87b851cdf2cc63f027642c1418383bff172a597221cc579a095ac1cd1ec2cce9"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS012\\animation_manifest.json",
+      "sha256": "beb47b8bd7c807ef9a0dd6afbf3684fd2c39312ba452450d96870cb8e6de8daf"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS013\\animation_manifest.json",
+      "sha256": "7082094558239e0fe7dd5190f77b3655882ea1abfdce8ca58a76b73ddb6739bb"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS014\\animation_manifest.json",
+      "sha256": "42769b1552e1892055c16d41f34133c6d26cd37107464cbde9615494258af6f3"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS015\\animation_manifest.json",
+      "sha256": "7ef24a5e81ea457645a55d37eb5f2fa14c449ced77588a98d05d96bad1d49a47"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS016\\animation_manifest.json",
+      "sha256": "fbf75bc62ee52fc271760b1eb488a9ce25c2b4b6629ce6739cf57cca2cd3a1e7"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS017\\animation_manifest.json",
+      "sha256": "7011e483db4feb8c6e88580f9eb5ec66955ebf506135a73c066e3c70ab282a68"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS018\\animation_manifest.json",
+      "sha256": "ce06931510b54aa2ebfbebe7ed8c06d2122d1263b028ba45837b5410c5aca374"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS019\\animation_manifest.json",
+      "sha256": "a3779e0cbe160d96b75982c856f0fedddefa962c221e6ffa6b288bfbbc093135"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS020\\animation_manifest.json",
+      "sha256": "585f9e523c9ab3df0dc8a140c2e7d2a24341795137eaf8935a224fa7669beed2"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS021\\animation_manifest.json",
+      "sha256": "8cf53ba8b6f98cd8b6a517aa4eec01acaa9e21b70b882267e5e7f87f2dcf8a11"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS022\\animation_manifest.json",
+      "sha256": "bac0fe568c022b1fad5830cee1bcffe712624177f46dbcc1e5b1cbab702864a2"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\BOSS023\\animation_manifest.json",
+      "sha256": "428e8907f17dc300a7d567ebe2229a93e33ff7fab6f7b5b3ec27af10b408bbee"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR001\\animation_manifest.json",
+      "sha256": "d59722c3b61aabd595049b06ded88275256a11f4a539db15348b8bbe16905413"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR002\\animation_manifest.json",
+      "sha256": "54519390e41fb56e44197ec050ad00ad48e61ba5935244d526623878c73c888d"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR003\\animation_manifest.json",
+      "sha256": "e1bab5d59e6940523bddd01976a18322ccd88ae9c6c551d96398dff7f6eb6ea6"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR004\\animation_manifest.json",
+      "sha256": "26aabbd45443bd96c7360857cac3e0cbf5ee54cc1f1d46d4ba002da71a110621"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR005\\animation_manifest.json",
+      "sha256": "ef1d5cba1276ecf0373a1d78f8ba70267d927408853ae3e0b5c4120e29b8cb57"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR006\\animation_manifest.json",
+      "sha256": "2f14137b383e231e93195c3713b36ece7811e2644a66f51c725b073a3841af16"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR007\\animation_manifest.json",
+      "sha256": "dcae5634c1e41228778ffc2b206a33414183e2f1bdb0e697e9714dee421723fa"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR008\\animation_manifest.json",
+      "sha256": "bb88c1509687bd0f24d3f722bc8c6c37dcccdb21f09e82eddbc4e63c6fb11845"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR009\\animation_manifest.json",
+      "sha256": "82491885754d95e383ac166bc55a504dbbc38b61177fbc4b5acc602d730bc0f6"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR010\\animation_manifest.json",
+      "sha256": "5ec026dd55bedb591e39a6be2e598e9c43319adbb1b1c1bfcf245dae7afa150b"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR011\\animation_manifest.json",
+      "sha256": "53c7377162bb49ae89d641958b52008aa3bbf166a0c80daede492cd84a1aec82"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR012\\animation_manifest.json",
+      "sha256": "015760114bce14d2e85ce21d783d256b0d7c1347e55f612019775a684a3cd481"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR013\\animation_manifest.json",
+      "sha256": "bbffda2ba0de9f1601c91113a3ceea1d610261fb45ac9de73e27bbc624c6eb6a"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR014\\animation_manifest.json",
+      "sha256": "71cd1fa0d283d77dc059bcd8b00a5e50e1ce28d5185f76bc7b2f64028d466c99"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR015\\animation_manifest.json",
+      "sha256": "d92926e72929e4cd6d91186f77127162891fceccc7661a5b871928276e9e7473"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR016\\animation_manifest.json",
+      "sha256": "48a6ea98af5d14b6f0c0efac2de2fbced63a9310e2be8b9d2c8a89d5ff1fd70d"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR017\\animation_manifest.json",
+      "sha256": "242490eb82caddcccac760d8df94a91dab7594bf363ab3b934fef4b4f0a93996"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR018\\animation_manifest.json",
+      "sha256": "a6af5aa6fa5775476f5d1ab3b502fe52472757626581c6bc5bfc72e68d25e88f"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR019\\animation_manifest.json",
+      "sha256": "f820e03b5d44b02c5ae0f9f4396331e863fa9b02d2c60741dc76ea8c55f1ca83"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR020\\animation_manifest.json",
+      "sha256": "e6f78f8cbdb3464b19bb4f50bcef1bc2a206a90d4c4794bbb2e278c821b17d64"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR021\\animation_manifest.json",
+      "sha256": "04079c177159f8fcf7bc36dc6d1f712e9b2bf43d6d5fef33c343c8e1d535dd62"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR022\\animation_manifest.json",
+      "sha256": "fc048f8104b67c197e47b36b849b0c9a04494631af50b485bc298ea5fb7ea55d"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR023\\animation_manifest.json",
+      "sha256": "64f6bb9ebbf294eaf40b453bb68f2ee6bd9d3b48635f97341651a6c370dc8606"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR024\\animation_manifest.json",
+      "sha256": "f47b5f3a6b8fca0a6492073fd34094a94f192074959ccaf94c1ac5d003730bcd"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR025\\animation_manifest.json",
+      "sha256": "fdd9b2679be93ee062a977f698d330cb27ae5e551953c9e3239394245fe241fa"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR026\\animation_manifest.json",
+      "sha256": "4347b11d6e430ababca8a10a76be0d1ae909b64d57def7e0b03461fa16262a47"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR027\\animation_manifest.json",
+      "sha256": "9696dac5c01b2d757eb35ee2865c4801be25b15201b9d0f7bc88684b36cbc354"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR028\\animation_manifest.json",
+      "sha256": "4e74f71556144453a4b8f0e1650754e46834aba382b7ad6c928d963292756466"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR029\\animation_manifest.json",
+      "sha256": "d95554a3544cc906c21e6a711ead457f01a7168cb91aeff1a2d4d6205a66f82a"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR030\\animation_manifest.json",
+      "sha256": "ab8eef7e992dc8ca73d364a46eedb4bb18fae74c3adfa1a99da89f823418e93d"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR031\\animation_manifest.json",
+      "sha256": "bb86d294f261609bda20663af946455c12cdffa171732a7211fd261ab70eda24"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR032\\animation_manifest.json",
+      "sha256": "debee3a48f93a19b7bb17a581f8030d892c6921acb3d49c41ac6dad727a0c8cb"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR033\\animation_manifest.json",
+      "sha256": "71896ad4c04079d8b3bcabfa9d4123549dc53a4a99e031b61a0c413e739c1959"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR034\\animation_manifest.json",
+      "sha256": "709da02e19f1b6113cc5b5bae29052e983b9de1bc8fb3b203d668593cbc436af"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR035\\animation_manifest.json",
+      "sha256": "64e3cb66a68bd8ed8ee55ab51839fe75fa257bfcac23e628f544406f248dc92f"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR036\\animation_manifest.json",
+      "sha256": "cf84f24a589a1c8637d38d6dd61076b99f2dbc92d7d10fb2abe65b34ad5a8ec3"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR037\\animation_manifest.json",
+      "sha256": "ce79fe4f044d4d4d7c22aeddf4e2f5035049008309a3b8738ad59a5cc5fd480c"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR038\\animation_manifest.json",
+      "sha256": "e256695d843bf9e06e49f9c310cbaf79d8f5dac0886744a47ace068ecc8b0b83"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR039\\animation_manifest.json",
+      "sha256": "3cfa0df82d5f9b4b33314254b2102d263c2178cef4ab42ff983afc4aea101ff4"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR040\\animation_manifest.json",
+      "sha256": "1bf991819427c3b996f0ce5078c5e698b62d914b11d8bf21fd1db7445a9be55c"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR041\\animation_manifest.json",
+      "sha256": "a2e93b40b29a6be2737b6bffb397d89bb8ab274e08150b813ddd509ad13a9310"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR042\\animation_manifest.json",
+      "sha256": "d6764a509f5de21f42d0c58a04f64da5ff1b7159301112b46080d4208fe34fc4"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR043\\animation_manifest.json",
+      "sha256": "73131821b3cf6e85c5b29674690244ed2c93c614e34b7f25c1c23d5cd802efd1"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\CHR044\\animation_manifest.json",
+      "sha256": "38961b506ff6754bb50682c3658c3a78700ddfcfdc5f489cd6f36e31f361e87a"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM001\\animation_manifest.json",
+      "sha256": "e6c65767499cbe234c4b6eb2ef9a090ce59d186432030aab2319be6f807bf733"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM002\\animation_manifest.json",
+      "sha256": "211449dbc126195a8deacf209b18c77bd1032727dad618bf2650fd017c119dca"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM003\\animation_manifest.json",
+      "sha256": "c02fea6817513d7cf102108ca84cf37a2d952b1b016878bb0463044d405cae17"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM004\\animation_manifest.json",
+      "sha256": "f1809030fcf658f9f4dcbdb526aff61af78ec70286c16c0233eb922acfa1094f"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM005\\animation_manifest.json",
+      "sha256": "4dff9983f365cc7921556cdb30f9999b4333276a80997135f02e5571ef47c1cb"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM006\\animation_manifest.json",
+      "sha256": "a39ebf61a6944f5106c853dac4db9474c60c276f473d87f45379e3d0552c239f"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM007\\animation_manifest.json",
+      "sha256": "eca823dcfdffa8f024d01f33bad6460a046a1db93bcb0875f1ff433cc6a1af89"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM008\\animation_manifest.json",
+      "sha256": "e6a8c2b35b77db1ea008f120fced2f77d9ea3b5e53265cf0ac146d0d6a30c5d1"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM009\\animation_manifest.json",
+      "sha256": "e206faa5745cd4bdefc61a688df890723037028015d4d6ffd5faac5a083721e7"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM010\\animation_manifest.json",
+      "sha256": "6d3e9d20f4b25a7c55ff807f7389decaeb6193257c1c1182f6af7d1f68513ccf"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM011\\animation_manifest.json",
+      "sha256": "eaaee12638c2517df082185cf36d7fcbe6aa959c716e86e0bd6056fb4453d772"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM012\\animation_manifest.json",
+      "sha256": "22561d8205fe7104e055e445394f463d0935eb7d74eec4207a3a6678e5a4ef99"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM013\\animation_manifest.json",
+      "sha256": "be0b9aa22a620a370d917d1a054a43b774eafae20a5b10b0c0935d1b1fd09227"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM014\\animation_manifest.json",
+      "sha256": "52d8223d6c4b5de3e27ed21d1a9a31d9f0e9fc1de8226bd56ba841588d1ca234"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM015\\animation_manifest.json",
+      "sha256": "6ee31ef0d2cd08c24039f8b42c4dad28f78cf14c53e4467c7469a7faf9e13785"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM016\\animation_manifest.json",
+      "sha256": "32a6e45dd8958dabcbab9bad59d719e13eaa2168dace76af4d8eb60e42a70434"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM017\\animation_manifest.json",
+      "sha256": "b44bd86d62e953498255fd187803c40017138973c3d51887d8dbf0cacb8b9fce"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM018\\animation_manifest.json",
+      "sha256": "8879766d3a05a00e3d387ca080661f367af2e6c18c8dc0040d403b229a2f6992"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM019\\animation_manifest.json",
+      "sha256": "64998e61dda0833b61d1557769b89cc2de0470b9d809c2a8b1de8bfdee2cabb2"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM020\\animation_manifest.json",
+      "sha256": "8ecabe0be5a48e7e6303554f45d243ce154cb46870e6f800d10329c39753ba9d"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM021\\animation_manifest.json",
+      "sha256": "60a6a2783026cd85d39d0424519f74594645744c38717c32ff9fdc1598b22982"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM022\\animation_manifest.json",
+      "sha256": "88866b5423cbb648673febf94ed1ced62be43d2403217c878e8626fb84db5deb"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM023\\animation_manifest.json",
+      "sha256": "37efa62e1dd7edaf52aaf63ac18379a25f554717d90896fc34a9c7aa8e028de3"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM024\\animation_manifest.json",
+      "sha256": "83a499d5e363b7fc04913665cf0a7fcd9f8bdf7467f50ebcee8624cdb356a483"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM025\\animation_manifest.json",
+      "sha256": "cbd82d56235bbfd14489d3df0a352b2abd50ff1353fc627fb5233c2ad4d242f3"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM026\\animation_manifest.json",
+      "sha256": "35a96e5b21816d1fbc08edbb9787fc715564dbfa1f80bfda4ff0f3b835bef876"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM027\\animation_manifest.json",
+      "sha256": "c5ad3cd8eed3a17c1f337c8771b91b2d5c8f792bdc2253c17a80d408323977ac"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM028\\animation_manifest.json",
+      "sha256": "aab98e4608d31dcf4272aaee3247e51c4cf16927d310900683752543faa79c36"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM029\\animation_manifest.json",
+      "sha256": "950f72e800d891685371b8888d284cb216296d3d4f058ea6b7b157f2b1fded45"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM030\\animation_manifest.json",
+      "sha256": "79fd8810cd1607358327f551e8e2836e59ad0bc993cbae99f8f5e7b3bc84b7d3"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM031\\animation_manifest.json",
+      "sha256": "956159233bb671fb42f43a12db581a263c5ed8474f9ff4e1dfb7981895234ece"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM032\\animation_manifest.json",
+      "sha256": "639f5fc48de8b9a0eb425f79f90fa789c8527f603c6fb403795952b864d9f513"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM033\\animation_manifest.json",
+      "sha256": "f05fb8e5059b86a3a12eac2652dae3e9b757a48bb99f8ecdba194c596cd0bd52"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM034\\animation_manifest.json",
+      "sha256": "059bab816bf17c65ecd9eb744e3e24c7eb401faf70485f7441f44adf30fc6607"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM035\\animation_manifest.json",
+      "sha256": "a64db7b18338ef2506a0592a2cad3751e884290c213d9ae28190183c5bd9452a"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM036\\animation_manifest.json",
+      "sha256": "77c9c036e5eb6416ea137f4937c485305a887bca14bdd61c6d0c69f7f0079199"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM037\\animation_manifest.json",
+      "sha256": "111da7bb52887ff9abad5e2d592b9a8dabd0c50530d9de01d848d326f8834bb8"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM038\\animation_manifest.json",
+      "sha256": "4fba624a98dbebc28ea0341038fdce0afabcafbcb7c5e1615a1e57a738c5d520"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM039\\animation_manifest.json",
+      "sha256": "4aa353a73e04e49434965c628287c8dcf9ebf2e17121de429bbfe33d3097de20"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM040\\animation_manifest.json",
+      "sha256": "83d373a42f1b66ecfae49ba6d1fb401b4497a4267debf83228a9d6a964084805"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM041\\animation_manifest.json",
+      "sha256": "c66c8e7c972a85e352a136ff93d30709ad3a1f45c1a2417404e9e358ce111e78"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\full_density\\r2\\ENM042\\animation_manifest.json",
+      "sha256": "c5d9c398220767eb2eeafa7800eb17788141944510c4cb1c9cf1e8e9d79c886d"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat_signature\\r16\\BOSS001\\signature_manifest.json",
+      "sha256": "b1d074b1defc3843441378112492f9a6d601dcd5fd492d60ae735b6c845ba9f2"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat_signature\\r16\\CHR001\\signature_manifest.json",
+      "sha256": "8a02b95dddd60ce78efb0f05bf81852804e25b09361cedbf193a0cc5ac9657be"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat_signature\\r16\\CHR002\\signature_manifest.json",
+      "sha256": "7521089adf7b555c49f1188cc1ecdbddcbbc6cead354a1a5aff1e2de27c3ad4b"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat_signature\\r16\\CHR003\\signature_manifest.json",
+      "sha256": "ecd967d2637a4867591d9e51574bd7f1127dddcebe14ff1b30932ccd02c06353"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat_signature\\r16\\CHR004\\signature_manifest.json",
+      "sha256": "7d7c4c5658b55de396f95b829676daef0c4a3f9da7b426e360d8926945c62057"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat_signature\\r16\\CHR005\\signature_manifest.json",
+      "sha256": "5f32ff00a0ad7eb2725a4c602b3f810ff3275778974f5135e36b312558254057"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat_signature\\r16\\CHR008\\signature_manifest.json",
+      "sha256": "a21b4fdfa706e44530e521ff68bd9a11f3d71b09c8deebdbd1f9d20d9922e223"
+    },
+    {
+      "path": "godot\\assets\\runtime_web\\combat_signature\\r16\\ENM001\\signature_manifest.json",
+      "sha256": "b63a223127ffce8a60e3b97a5a17c5ffb60f9e54603ad6c48455b978312051b8"
+    }
+  ],
+  "image_edits": false,
+  "model_used": false,
+  "method": "Eight lower silhouette bins per frame; exact local atlas alpha, no skeleton inference."
+}

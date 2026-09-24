@@ -1,0 +1,49 @@
+{
+	"checks": [
+		{
+			"name": "save prior progress",
+			"pass": true
+		},
+		{
+			"name": "new game saves successfully",
+			"pass": true
+		},
+		{
+			"name": "new game clears clears/rewards",
+			"pass": true
+		},
+		{
+			"name": "new game clears scenario progress",
+			"pass": true
+		},
+		{
+			"name": "new game resets character growth",
+			"pass": true
+		},
+		{
+			"name": "new game resets battle and map selection",
+			"pass": true
+		},
+		{
+			"name": "old save retained as atomic backup",
+			"pass": true
+		},
+		{
+			"name": "fresh save survives reload",
+			"pass": true
+		},
+		{
+			"name": "failed save does not report a successful restart",
+			"pass": true
+		},
+		{
+			"name": "failed restart restores prior profile and context",
+			"pass": true
+		},
+		{
+			"name": "rounded font contains damage digits",
+			"pass": true
+		}
+	],
+	"status": "PASS"
+}

@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_boss007",
   "character_id": "BOSS007",
-  "display_name": "BOSS007",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/boss007_authority.png",
-  "source_asset_id": "boss007_silhouette_a_41e9f722cbbdce67_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_TIDAL_SWITCHMASTER",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/BOSS007/source.png",
+  "source_asset_id": "boss007_illustrated_16cfd1eb97aba3af",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "321e4b0764bc011225dd641cfc986e9337ef508a9c7988e83c1e47505890efe9",
+  "preview_sha256": "137f48f360acbfb105e9a7d81add866c342df6161750e2c4dbbc8779980e09ef",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "4cc94328c20f35c4fbe0cd84d8369fd0541179452ee6681c019b8107a6ac1ef9"
+  "sha256": "e8ab0f1887cb11b45cbba31b592e286419697402dd3defdc33da2b8f165e0abd"
 }

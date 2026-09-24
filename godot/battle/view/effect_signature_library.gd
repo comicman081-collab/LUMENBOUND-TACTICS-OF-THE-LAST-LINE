@@ -1,6 +1,8 @@
 class_name EffectSignatureLibrary
 extends RefCounted
 
+const TextureIntegrity := preload("res://battle/view/runtime_texture_integrity.gd")
+
 ## The compact Web projectile/VFX atlases remain the baseline for every
 ## combatant.  This loader adds a separately pinned high-density effect slice
 ## for the currently reviewed reference group only.  It accepts a local-QA
@@ -74,6 +76,37 @@ func load_signature_pack(required_ids: Array[String]) -> bool:
 
 func load_signature_core_pack(required_ids: Array[String]) -> bool:
 	return _load_signature_pack_with_effects(required_ids, SIGNATURE_CORE_EFFECTS, true)
+
+func load_signature_core_pack_sliced(required_ids: Array[String], owner: Node) -> bool:
+	clear_signature_pack()
+	var ids: Array[String] = []
+	var profiles: Array[String] = []
+	for id in required_ids:
+		if id.strip_edges().is_empty() or ids.has(id): continue
+		ids.append(id)
+		var profile := signature_profile_for(id)
+		if profile.is_empty():
+			signature_load_error = "EFFECT_SIGNATURE_PROFILE_MISSING:%s" % id
+			return false
+		if not profiles.has(profile): profiles.append(profile)
+	var failure := "EFFECT_SIGNATURE_IDS_EMPTY" if ids.is_empty() else _load_signature_approval(profiles, SIGNATURE_CORE_EFFECTS)
+	if failure.is_empty():
+		for profile in profiles:
+			if not is_instance_valid(owner) or not owner.is_inside_tree():
+				failure = "EFFECT_SIGNATURE_OWNER_EXITED"
+				break
+			failure = _load_entity(profile, SIGNATURE_CORE_EFFECTS)
+			if not failure.is_empty(): break
+			await owner.get_tree().process_frame
+	if not failure.is_empty():
+		clear_signature_pack()
+		signature_load_error = failure
+		return false
+	signature_resident_entity_ids = ids.duplicate()
+	signature_resident_profile_ids = profiles.duplicate()
+	for profile in profiles: signature_resident_effect_ids_by_profile[profile] = SIGNATURE_CORE_EFFECTS.duplicate()
+	signature_core_resident_atlas_bytes = signature_resident_atlas_bytes
+	return true
 
 
 func _load_signature_pack_with_effects(required_ids: Array[String], requested_effects: Array, core_lease: bool) -> bool:
@@ -210,7 +243,7 @@ func _load_signature_approval(required_ids: Array[String], requested_effects: Ar
 	if str(approval.get("effect_signature_revision", "")).to_lower() != SIGNATURE_REVISION:
 		return "EFFECT_SIGNATURE_APPROVAL_REVISION_MISMATCH"
 	var approval_status := str(approval.get("approval_status", ""))
-	var allowed_local_qa := approval_status == "LOCAL_QA_ONLY" and OS.is_debug_build()
+	var allowed_local_qa := approval_status == "LOCAL_QA_ONLY" and preload("res://battle/view/local_presentation_quality.gd").allows_hd()
 	if approval_status != "APPROVED_FOR_RUNTIME" and not allowed_local_qa:
 		return "EFFECT_SIGNATURE_APPROVAL_NOT_RELEASED:%s" % approval_status
 	var hashes_value = approval.get("manifest_sha256_by_entity", {})
@@ -261,12 +294,12 @@ func _resident_atlas_bytes_for_effect_map(required_ids: Array[String], effect_ma
 	var seen_atlases: Dictionary = {}
 	for entity_id in required_ids:
 		var manifest_path := SIGNATURE_ROOT + "/" + entity_id + "/effect_signature_manifest.json"
-		if not FileAccess.file_exists(manifest_path):
-			return -1
-		var parsed = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
-		if not parsed is Dictionary:
-			return -1
-		var manifest: Dictionary = parsed
+		var manifest: Dictionary = manifests.get(entity_id, {})
+		if manifest.is_empty():
+			if not FileAccess.file_exists(manifest_path): return -1
+			var parsed = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
+			if not parsed is Dictionary: return -1
+			manifest = parsed
 		var requested_effect_values = effect_map.get(entity_id, [])
 		if not requested_effect_values is Array:
 			return -1
@@ -372,7 +405,7 @@ func _load_effect_frames(pack_root: String, definition_value, expected_frame_siz
 		return {"ok": false, "error": error_prefix + ":ATLAS_PATH_INVALID"}
 	var full_atlas_path := pack_root + "/" + atlas_path
 	var expected_hash := str(definition.get("atlas_sha256", ""))
-	if expected_hash.length() != 64 or not FileAccess.file_exists(full_atlas_path) or FileAccess.get_sha256(full_atlas_path) != expected_hash:
+	if not TextureIntegrity.matches(full_atlas_path, expected_hash):
 		return {"ok": false, "error": error_prefix + ":ATLAS_HASH_MISMATCH"}
 	var atlas := _load_runtime_texture(full_atlas_path)
 	if atlas == null:

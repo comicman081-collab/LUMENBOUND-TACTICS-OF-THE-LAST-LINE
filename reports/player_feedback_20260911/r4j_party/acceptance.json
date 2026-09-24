@@ -1,0 +1,882 @@
+{
+  "checks": [
+    {
+      "ok": true,
+      "name": "selecting an occupied character swaps the two slots without duplicates",
+      "detail": [
+        "CHR002",
+        "CHR001",
+        "CHR003",
+        "CHR004",
+        "CHR005"
+      ]
+    },
+    {
+      "ok": true,
+      "name": "second preset selected"
+    },
+    {
+      "ok": true,
+      "name": "returning to first preset retains its composition",
+      "detail": [
+        "CHR002",
+        "CHR001",
+        "CHR003",
+        "CHR004",
+        "CHR005"
+      ]
+    },
+    {
+      "ok": true,
+      "name": "saved composition persists across screen navigation"
+    },
+    {
+      "ok": true,
+      "name": "skills: ScreenBackButton label fits",
+      "detail": {
+        "content_width": 60.7583329677582,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "ScreenBackButton",
+        "nowrap": true,
+        "rect": [
+          18.2,
+          18.2,
+          72.6,
+          27.1
+        ],
+        "text": "‹ 뒤로",
+        "text_width": 25.0958331823349
+      }
+    },
+    {
+      "ok": true,
+      "name": "skills: @Button@417 label fits",
+      "detail": {
+        "content_width": 38.9645830988884,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@417",
+        "nowrap": true,
+        "rect": [
+          340.9,
+          63.5,
+          50.9,
+          19.8
+        ],
+        "text": "로안",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "skills: @Button@419 label fits",
+      "detail": {
+        "content_width": 39.2947914302349,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@419",
+        "nowrap": true,
+        "rect": [
+          445.3,
+          63.5,
+          51.2,
+          19.8
+        ],
+        "text": "나린",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "skills: @Button@420 label fits",
+      "detail": {
+        "content_width": 38.9645830988884,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@420",
+        "nowrap": true,
+        "rect": [
+          497.8,
+          63.5,
+          50.9,
+          19.8
+        ],
+        "text": "에다",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "skills: @Button@421 label fits",
+      "detail": {
+        "content_width": 39.2947914302349,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@421",
+        "nowrap": true,
+        "rect": [
+          549.9,
+          63.5,
+          51.2,
+          19.8
+        ],
+        "text": "소렌",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "skills: @Button@426 label fits",
+      "detail": {
+        "content_width": 52.1729163527489,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@426",
+        "nowrap": true,
+        "rect": [
+          340.9,
+          134.9,
+          64.1,
+          19.8
+        ],
+        "text": "레벨업",
+        "text_width": 28.3979164958
+      }
+    },
+    {
+      "ok": true,
+      "name": "skills: @Button@428 label fits",
+      "detail": {
+        "content_width": 52.1729163527489,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@428",
+        "nowrap": true,
+        "rect": [
+          471.7,
+          134.9,
+          64.1,
+          19.8
+        ],
+        "text": "장비·돌파",
+        "text_width": 40.9458330869675
+      }
+    },
+    {
+      "ok": true,
+      "name": "skills: @Button@429 label fits",
+      "detail": {
+        "content_width": 52.1729163527489,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@429",
+        "nowrap": true,
+        "rect": [
+          537.1,
+          134.9,
+          64.1,
+          19.8
+        ],
+        "text": "캐릭터 정보",
+        "text_width": 50.1916663646698
+      }
+    },
+    {
+      "ok": true,
+      "name": "skills: tab remains in character screen"
+    },
+    {
+      "ok": true,
+      "name": "equipment: ScreenBackButton label fits",
+      "detail": {
+        "content_width": 60.7583329677582,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "ScreenBackButton",
+        "nowrap": true,
+        "rect": [
+          18.2,
+          18.2,
+          72.6,
+          27.1
+        ],
+        "text": "‹ 뒤로",
+        "text_width": 25.0958331823349
+      }
+    },
+    {
+      "ok": true,
+      "name": "equipment: @Button@469 label fits",
+      "detail": {
+        "content_width": 38.9645830988884,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@469",
+        "nowrap": true,
+        "rect": [
+          340.9,
+          63.5,
+          50.9,
+          19.8
+        ],
+        "text": "로안",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "equipment: @Button@471 label fits",
+      "detail": {
+        "content_width": 39.2947914302349,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@471",
+        "nowrap": true,
+        "rect": [
+          445.3,
+          63.5,
+          51.2,
+          19.8
+        ],
+        "text": "나린",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "equipment: @Button@472 label fits",
+      "detail": {
+        "content_width": 38.9645830988884,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@472",
+        "nowrap": true,
+        "rect": [
+          497.8,
+          63.5,
+          50.9,
+          19.8
+        ],
+        "text": "에다",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "equipment: @Button@473 label fits",
+      "detail": {
+        "content_width": 39.2947914302349,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@473",
+        "nowrap": true,
+        "rect": [
+          549.9,
+          63.5,
+          51.2,
+          19.8
+        ],
+        "text": "소렌",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "equipment: @Button@478 label fits",
+      "detail": {
+        "content_width": 52.1729163527489,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@478",
+        "nowrap": true,
+        "rect": [
+          340.9,
+          134.9,
+          64.1,
+          19.8
+        ],
+        "text": "레벨업",
+        "text_width": 28.3979164958
+      }
+    },
+    {
+      "ok": true,
+      "name": "equipment: @Button@479 label fits",
+      "detail": {
+        "content_width": 52.1729163527489,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@479",
+        "nowrap": true,
+        "rect": [
+          406.3,
+          134.9,
+          64.1,
+          19.8
+        ],
+        "text": "스킬업",
+        "text_width": 28.3979164958
+      }
+    },
+    {
+      "ok": true,
+      "name": "equipment: @Button@481 label fits",
+      "detail": {
+        "content_width": 52.1729163527489,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@481",
+        "nowrap": true,
+        "rect": [
+          537.1,
+          134.9,
+          64.1,
+          19.8
+        ],
+        "text": "캐릭터 정보",
+        "text_width": 50.1916663646698
+      }
+    },
+    {
+      "ok": true,
+      "name": "equipment: tab remains in character screen"
+    },
+    {
+      "ok": true,
+      "name": "information: ScreenBackButton label fits",
+      "detail": {
+        "content_width": 60.7583329677582,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "ScreenBackButton",
+        "nowrap": true,
+        "rect": [
+          18.2,
+          18.2,
+          72.6,
+          27.1
+        ],
+        "text": "‹ 뒤로",
+        "text_width": 25.0958331823349
+      }
+    },
+    {
+      "ok": true,
+      "name": "information: @Button@525 label fits",
+      "detail": {
+        "content_width": 39.6249997615814,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@525",
+        "nowrap": true,
+        "rect": [
+          340.9,
+          63.5,
+          51.5,
+          19.8
+        ],
+        "text": "로안",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "information: @Button@527 label fits",
+      "detail": {
+        "content_width": 39.6249997615814,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@527",
+        "nowrap": true,
+        "rect": [
+          446.6,
+          63.5,
+          51.5,
+          19.8
+        ],
+        "text": "나린",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "information: @Button@528 label fits",
+      "detail": {
+        "content_width": 39.6249997615814,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@528",
+        "nowrap": true,
+        "rect": [
+          499.4,
+          63.5,
+          51.5,
+          19.8
+        ],
+        "text": "에다",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "information: @Button@529 label fits",
+      "detail": {
+        "content_width": 39.6249997615814,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@529",
+        "nowrap": true,
+        "rect": [
+          552.2,
+          63.5,
+          51.5,
+          19.8
+        ],
+        "text": "소렌",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "information: @Button@534 label fits",
+      "detail": {
+        "content_width": 52.8333330154419,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@534",
+        "nowrap": true,
+        "rect": [
+          340.9,
+          134.9,
+          64.7,
+          19.8
+        ],
+        "text": "레벨업",
+        "text_width": 28.3979164958
+      }
+    },
+    {
+      "ok": true,
+      "name": "information: @Button@535 label fits",
+      "detail": {
+        "content_width": 52.8333330154419,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@535",
+        "nowrap": true,
+        "rect": [
+          406.9,
+          134.9,
+          64.7,
+          19.8
+        ],
+        "text": "스킬업",
+        "text_width": 28.3979164958
+      }
+    },
+    {
+      "ok": true,
+      "name": "information: @Button@536 label fits",
+      "detail": {
+        "content_width": 52.8333330154419,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@536",
+        "nowrap": true,
+        "rect": [
+          473,
+          134.9,
+          64.7,
+          19.8
+        ],
+        "text": "장비·돌파",
+        "text_width": 40.9458330869675
+      }
+    },
+    {
+      "ok": true,
+      "name": "information: tab remains in character screen"
+    },
+    {
+      "ok": true,
+      "name": "level: ScreenBackButton label fits",
+      "detail": {
+        "content_width": 60.7583329677582,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "ScreenBackButton",
+        "nowrap": true,
+        "rect": [
+          18.2,
+          18.2,
+          72.6,
+          27.1
+        ],
+        "text": "‹ 뒤로",
+        "text_width": 25.0958331823349
+      }
+    },
+    {
+      "ok": true,
+      "name": "level: @Button@553 label fits",
+      "detail": {
+        "content_width": 38.9645830988884,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@553",
+        "nowrap": true,
+        "rect": [
+          340.9,
+          63.5,
+          50.9,
+          19.8
+        ],
+        "text": "로안",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "level: @Button@555 label fits",
+      "detail": {
+        "content_width": 39.2947914302349,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@555",
+        "nowrap": true,
+        "rect": [
+          445.3,
+          63.5,
+          51.2,
+          19.8
+        ],
+        "text": "나린",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "level: @Button@556 label fits",
+      "detail": {
+        "content_width": 38.9645830988884,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@556",
+        "nowrap": true,
+        "rect": [
+          497.8,
+          63.5,
+          50.9,
+          19.8
+        ],
+        "text": "에다",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "level: @Button@557 label fits",
+      "detail": {
+        "content_width": 39.2947914302349,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@557",
+        "nowrap": true,
+        "rect": [
+          549.9,
+          63.5,
+          51.2,
+          19.8
+        ],
+        "text": "소렌",
+        "text_width": 18.8218748867512
+      }
+    },
+    {
+      "ok": true,
+      "name": "level: @Button@563 label fits",
+      "detail": {
+        "content_width": 52.1729163527489,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@563",
+        "nowrap": true,
+        "rect": [
+          406.3,
+          134.9,
+          64.1,
+          19.8
+        ],
+        "text": "스킬업",
+        "text_width": 28.3979164958
+      }
+    },
+    {
+      "ok": true,
+      "name": "level: @Button@564 label fits",
+      "detail": {
+        "content_width": 52.1729163527489,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@564",
+        "nowrap": true,
+        "rect": [
+          471.7,
+          134.9,
+          64.1,
+          19.8
+        ],
+        "text": "장비·돌파",
+        "text_width": 40.9458330869675
+      }
+    },
+    {
+      "ok": true,
+      "name": "level: @Button@565 label fits",
+      "detail": {
+        "content_width": 52.1729163527489,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@565",
+        "nowrap": true,
+        "rect": [
+          537.1,
+          134.9,
+          64.1,
+          19.8
+        ],
+        "text": "캐릭터 정보",
+        "text_width": 50.1916663646698
+      }
+    },
+    {
+      "ok": true,
+      "name": "level: @Button@570 label fits",
+      "detail": {
+        "content_width": 34.6718747913837,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@570",
+        "nowrap": true,
+        "rect": [
+          347.5,
+          191,
+          46.6,
+          19.8
+        ],
+        "text": "MIN",
+        "text_width": 19.4822915494442
+      }
+    },
+    {
+      "ok": true,
+      "name": "level: @Button@571 label fits",
+      "detail": {
+        "content_width": 35.0020831227303,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@571",
+        "nowrap": true,
+        "rect": [
+          397.4,
+          191,
+          46.9,
+          19.8
+        ],
+        "text": "−",
+        "text_width": 5.94374996423721
+      }
+    },
+    {
+      "ok": true,
+      "name": "level: @Button@572 label fits",
+      "detail": {
+        "content_width": 34.6718747913837,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@572",
+        "nowrap": true,
+        "rect": [
+          447.6,
+          191,
+          46.6,
+          19.8
+        ],
+        "text": "+",
+        "text_width": 5.94374996423721
+      }
+    },
+    {
+      "ok": true,
+      "name": "level: @Button@573 label fits",
+      "detail": {
+        "content_width": 35.0020831227303,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@573",
+        "nowrap": true,
+        "rect": [
+          497.4,
+          191,
+          46.9,
+          19.8
+        ],
+        "text": "+5",
+        "text_width": 11.8874999284744
+      }
+    },
+    {
+      "ok": true,
+      "name": "level: @Button@574 label fits",
+      "detail": {
+        "content_width": 35.0020831227303,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "@Button@574",
+        "nowrap": true,
+        "rect": [
+          547.6,
+          191,
+          46.9,
+          19.8
+        ],
+        "text": "MAX",
+        "text_width": 21.4635415375233
+      }
+    },
+    {
+      "ok": true,
+      "name": "level: GrowthLevelApply label fits",
+      "detail": {
+        "content_width": 251.090423217614,
+        "disabled": false,
+        "font_css": 10.2377424538136,
+        "name": "GrowthLevelApply",
+        "nowrap": true,
+        "rect": [
+          340.9,
+          306,
+          263,
+          25.8
+        ],
+        "text": "Lv.2까지 레벨업",
+        "text_width": 69.673957914114
+      }
+    },
+    {
+      "ok": true,
+      "name": "level: tab remains in character screen"
+    },
+    {
+      "ok": true,
+      "name": "no access to real player saves",
+      "detail": {
+        "production_backup_attempt_count": 0,
+        "production_path_resolve_count": 0,
+        "production_read_attempt_count": 0,
+        "production_reset_attempt_count": 0,
+        "production_write_attempt_count": 0,
+        "sandbox_active": true,
+        "sandbox_path_resolve_count": 4,
+        "sandbox_session": "r4j-party"
+      }
+    },
+    {
+      "ok": true,
+      "name": "no Godot runtime errors",
+      "detail": []
+    }
+  ],
+  "passed": true,
+  "logs": [
+    {
+      "type": "log",
+      "text": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org"
+    },
+    {
+      "type": "log",
+      "text": "OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL"
+    },
+    {
+      "type": "log",
+      "text": "Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support."
+    },
+    {
+      "type": "log",
+      "text": "R15_SAVE_SANDBOX_ACTIVE session=r4j-party paths=user://r15_soak_sandbox/r4j-party/*"
+    },
+    {
+      "type": "log",
+      "text": "LUMENBOUND_MOBILE_PORTRAIT_V2_READY"
+    },
+    {
+      "type": "log",
+      "text": "LUMENBOUND_MOBILE_MAP_STABILITY_READY"
+    },
+    {
+      "type": "log",
+      "text": "SAVE_LOAD_SOURCE source=new sandbox=true session=r4j-party"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 배경과 조명 646.90ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 지형 표현 534.50ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 환경 오브젝트 515.50ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 길과 다리 520.10ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 조우 표시 656.00ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 이동 경로 238.60ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 캐릭터 표시 266.30ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 1 / 7 796.80ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 2 / 7 788.40ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 3 / 7 418.30ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 4 / 7 358.60ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 5 / 7 289.10ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 6 / 7 360.40ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 7 / 7 657.30ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_COMPLETE 7179.50ms"
+    }
+  ]
+}

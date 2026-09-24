@@ -2,14 +2,17 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_chr005",
   "character_id": "CHR005",
-  "status": "RUNTIME_WEB_COMBAT_ATLAS",
-  "source_status": "DEV_CUTOUT_RIG_ANIMATION",
-  "source_root": "assets/generated_import/characters/sd_chr005_soren_combat_r27_dev",
-  "source_asset_id": "sd_chr005_soren_combat_r27_dev",
-  "ownership_status": "PROJECT_DEV_GENERATED",
+  "display_name": "CHR005",
+  "status": "LOCAL_REVIEWED_SD_ROSTER",
+  "source_status": "SPRITEGEN_ROSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/roster_replacements_20260911/CHR005/source.png",
+  "source_asset_id": "chr005_spritegen_a31b257d25833ce2",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
+  "ownership_status": "ORIGINAL_INTERNAL",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
-    128,
-    128
+    112,
+    112
   ],
   "foot_anchor": [
     0.5,
@@ -17,13 +20,13 @@
   ],
   "head_anchor": [
     0.5,
-    0.0859375
+    0.14
   ],
   "view": "THREE_QUARTER_RIGHT_DOWN_30",
   "facing_policy": "SEPARATE_LEFT_RIGHT",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "3fa862045912e8839782f8c2d55f2fd4e8ce02c6945844c6ca9747f725155ded",
+  "preview_sha256": "42eb0b98215c52b9a70d0c9117744e7b71d8c9d146fc8edc65985fe3101de6f1",
   "atlas_columns": 10,
   "total_frames": 80,
   "animations": {
@@ -196,5 +199,19 @@
       ]
     }
   },
-  "sha256": "af50b7d7f51865091698ec02f461a34a55343aad6b281a4d4de57243d582bf3f"
+  "events": {
+    "basic_attack": {
+      "projectile_spawn_frame": 3,
+      "damage_frame": 4
+    },
+    "normal_skill": {
+      "vfx_frame": 5,
+      "damage_frame": 6
+    },
+    "ultimate": {
+      "vfx_frame": 8,
+      "damage_frame": 10
+    }
+  },
+  "sha256": "4d725f57cd98dac04a7e6cb811182f875efb5dae7006037b828cb57df9e85773"
 }

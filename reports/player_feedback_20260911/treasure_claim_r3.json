@@ -1,0 +1,54 @@
+{
+  "before": {
+    "id": "CH01_VT01",
+    "q": 4,
+    "r": 2,
+    "screen": [
+      732.247497558594,
+      485.500946044922
+    ],
+    "state": "REVEALED",
+    "visible": true
+  },
+  "overlay": {
+    "id": "CH01_VT01",
+    "q": 4,
+    "r": 2,
+    "screen": [
+      627.5,
+      508.15869140625
+    ],
+    "state": "CLAIMED",
+    "visible": false
+  },
+  "after": {
+    "id": "CH01_VT01",
+    "q": 4,
+    "r": 2,
+    "screen": [
+      627.5,
+      508.15869140625
+    ],
+    "state": "CLAIMED",
+    "visible": false
+  },
+  "afterMarkers": [
+    {
+      "coord": "3,0",
+      "kind": "relay"
+    },
+    {
+      "coord": "3,0",
+      "kind": "landmark"
+    },
+    {
+      "coord": "12,-5",
+      "kind": "enemy"
+    }
+  ],
+  "position": [
+    4,
+    2
+  ],
+  "transitioning": true
+}

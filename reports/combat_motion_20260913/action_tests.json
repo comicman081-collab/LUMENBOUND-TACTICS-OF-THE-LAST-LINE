@@ -1,0 +1,265 @@
+{
+	"checks": [
+		{
+			"name": "starting party leases reviewed motion",
+			"pass": true
+		},
+		{
+			"name": "CHR001 basic_attack exists",
+			"pass": true
+		},
+		{
+			"name": "CHR001 basic_attack has six actual poses",
+			"pass": true
+		},
+		{
+			"name": "CHR001 basic_attack has drawable contact art",
+			"pass": true
+		},
+		{
+			"name": "CHR001 normal_skill exists",
+			"pass": true
+		},
+		{
+			"name": "CHR001 normal_skill has six actual poses",
+			"pass": true
+		},
+		{
+			"name": "CHR001 normal_skill has drawable contact art",
+			"pass": true
+		},
+		{
+			"name": "CHR001 ultimate exists",
+			"pass": true
+		},
+		{
+			"name": "CHR001 ultimate has six actual poses",
+			"pass": true
+		},
+		{
+			"name": "CHR001 ultimate has drawable contact art",
+			"pass": true
+		},
+		{
+			"name": "CHR002 basic_attack exists",
+			"pass": true
+		},
+		{
+			"name": "CHR002 basic_attack has six actual poses",
+			"pass": true
+		},
+		{
+			"name": "CHR002 basic_attack has drawable contact art",
+			"pass": true
+		},
+		{
+			"name": "CHR002 normal_skill exists",
+			"pass": true
+		},
+		{
+			"name": "CHR002 normal_skill has six actual poses",
+			"pass": true
+		},
+		{
+			"name": "CHR002 normal_skill has drawable contact art",
+			"pass": true
+		},
+		{
+			"name": "CHR002 ultimate exists",
+			"pass": true
+		},
+		{
+			"name": "CHR002 ultimate has six actual poses",
+			"pass": true
+		},
+		{
+			"name": "CHR002 ultimate has drawable contact art",
+			"pass": true
+		},
+		{
+			"name": "CHR003 basic_attack exists",
+			"pass": true
+		},
+		{
+			"name": "CHR003 basic_attack has six actual poses",
+			"pass": true
+		},
+		{
+			"name": "CHR003 basic_attack has drawable contact art",
+			"pass": true
+		},
+		{
+			"name": "CHR003 normal_skill exists",
+			"pass": true
+		},
+		{
+			"name": "CHR003 normal_skill has six actual poses",
+			"pass": true
+		},
+		{
+			"name": "CHR003 normal_skill has drawable contact art",
+			"pass": true
+		},
+		{
+			"name": "CHR003 ultimate exists",
+			"pass": true
+		},
+		{
+			"name": "CHR003 ultimate has six actual poses",
+			"pass": true
+		},
+		{
+			"name": "CHR003 ultimate has drawable contact art",
+			"pass": true
+		},
+		{
+			"name": "CHR004 basic_attack exists",
+			"pass": true
+		},
+		{
+			"name": "CHR004 basic_attack has six actual poses",
+			"pass": true
+		},
+		{
+			"name": "CHR004 basic_attack has drawable contact art",
+			"pass": true
+		},
+		{
+			"name": "CHR004 normal_skill exists",
+			"pass": true
+		},
+		{
+			"name": "CHR004 normal_skill has six actual poses",
+			"pass": true
+		},
+		{
+			"name": "CHR004 normal_skill has drawable contact art",
+			"pass": true
+		},
+		{
+			"name": "CHR004 ultimate exists",
+			"pass": true
+		},
+		{
+			"name": "CHR004 ultimate has six actual poses",
+			"pass": true
+		},
+		{
+			"name": "CHR004 ultimate has drawable contact art",
+			"pass": true
+		},
+		{
+			"name": "CHR005 basic_attack exists",
+			"pass": true
+		},
+		{
+			"name": "CHR005 basic_attack has six actual poses",
+			"pass": true
+		},
+		{
+			"name": "CHR005 basic_attack has drawable contact art",
+			"pass": true
+		},
+		{
+			"name": "CHR005 normal_skill exists",
+			"pass": true
+		},
+		{
+			"name": "CHR005 normal_skill has six actual poses",
+			"pass": true
+		},
+		{
+			"name": "CHR005 normal_skill has drawable contact art",
+			"pass": true
+		},
+		{
+			"name": "CHR005 ultimate exists",
+			"pass": true
+		},
+		{
+			"name": "CHR005 ultimate has six actual poses",
+			"pass": true
+		},
+		{
+			"name": "CHR005 ultimate has drawable contact art",
+			"pass": true
+		},
+		{
+			"name": "encounter motion respects bounded memory",
+			"pass": true
+		},
+		{
+			"name": "firearm pose release matches muzzle launch",
+			"pass": true
+		},
+		{
+			"name": "melee pose release matches target contact",
+			"pass": true
+		},
+		{
+			"name": "ultimate gun pose matches prep plus launch",
+			"pass": true
+		},
+		{
+			"name": "ultimate melee pose matches committed impact",
+			"pass": true
+		},
+		{
+			"name": "sword and rifle have different effects",
+			"pass": true
+		},
+		{
+			"name": "rifle and energy burst have different effects",
+			"pass": true
+		},
+		{
+			"name": "focus and tome have different effects",
+			"pass": true
+		},
+		{
+			"name": "boss uses siege blast",
+			"pass": true
+		},
+		{
+			"name": "alternate party and creatures lease motion",
+			"pass": true
+		},
+		{
+			"name": "new encounter releases previous actor poses",
+			"pass": true
+		},
+		{
+			"name": "CHR006 attack and skill present",
+			"pass": true
+		},
+		{
+			"name": "CHR007 attack and skill present",
+			"pass": true
+		},
+		{
+			"name": "CHR008 attack and skill present",
+			"pass": true
+		},
+		{
+			"name": "ENM001 attack and skill present",
+			"pass": true
+		},
+		{
+			"name": "ENM002 attack and skill present",
+			"pass": true
+		},
+		{
+			"name": "ENM003 attack and skill present",
+			"pass": true
+		},
+		{
+			"name": "BOSS001 attack and skill present",
+			"pass": true
+		},
+		{
+			"name": "lease clears on exit",
+			"pass": true
+		}
+	],
+	"failures": 0
+}

@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_chr006",
   "character_id": "CHR006",
-  "display_name": "Vera",
-  "status": "SD_UNIFICATION_R1_STATIC_PRESENTATION_PACK",
-  "source_status": "LOCAL_IDENTITY_CONTINUITY_REVIEWED_GREEN_KEY_RGBA",
-  "source_root": "data_source/art_source/combat_hd_sources/renewed/chr006_costume_authority_sd_r1_rgba.png",
-  "source_asset_id": "chr006_sd_unification_r1_edfa534a08993bcf",
-  "creation_method": "imagegen_identity_preserving_sd_edit_green_matte_plus_deterministic_presentation_motion",
+  "display_name": "CHR006",
+  "status": "LOCAL_REVIEWED_SD_ROSTER",
+  "source_status": "SPRITEGEN_ROSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/roster_replacements_20260911/CHR006/source.png",
+  "source_asset_id": "chr006_spritegen_9998df885d804863",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -20,13 +20,13 @@
   ],
   "head_anchor": [
     0.5,
-    0.12
+    0.14
   ],
   "view": "THREE_QUARTER_RIGHT_DOWN_30",
   "facing_policy": "SEPARATE_LEFT_RIGHT",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "1fc088ba8908b2577860d672f5705d51cf971f3112420511550228200b23a1ea",
+  "preview_sha256": "33b2b58c2f454f04334523b52467a0b781d2e7c9aa35d6804e09b909602ec939",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "06b7b3fd7649fe02dbf769c8f373811de1c884f978e6565cc9bb94ddfba5999d"
+  "sha256": "d484dffd160296af66ee69f8cb9584856e2671852b8c981913eb0eb903cb8a8d"
 }

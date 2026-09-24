@@ -8,6 +8,10 @@ static func next_cost(character_id: String) -> Dictionary:
 	return DataRegistry.list_of("breakthroughs")[current + 1].cost
 
 static func upgrade(character_id: String) -> GameResult:
+	if not AppState.profile.get("roster", {}).has(character_id) or DataRegistry.character(character_id).is_empty():
+		return GameResult.failure("UNKNOWN_CHARACTER")
+	if not bool(AppState.profile.roster[character_id].get("unlocked", false)):
+		return GameResult.failure("CHARACTER_LOCKED")
 	var state: Dictionary = AppState.profile.roster[character_id]
 	var current := int(state.breakthrough)
 	if current >= 5:

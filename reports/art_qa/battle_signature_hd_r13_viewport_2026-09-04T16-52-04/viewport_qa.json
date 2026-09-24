@@ -1,0 +1,523 @@
+{
+  "active_core_resident_ids": [
+    "CHR001",
+    "CHR002",
+    "CHR003",
+    "CHR004",
+    "CHR005",
+    "BOSS001",
+    "ENM001"
+  ],
+  "active_runtime_residency": {
+    "active_encounter_ids": [
+      "CHR001",
+      "CHR002",
+      "CHR003",
+      "CHR004",
+      "CHR005",
+      "ENM001",
+      "BOSS001"
+    ],
+    "actor_core_resident_atlas_bytes": 50950144,
+    "actor_resident_atlas_bytes": 50950144,
+    "candidate_signature_entity_ids": [
+      "CHR001",
+      "CHR002",
+      "CHR003",
+      "CHR004",
+      "CHR005",
+      "CHR008",
+      "BOSS001",
+      "ENM001"
+    ],
+    "effect_core_resident_atlas_bytes": 5746368,
+    "effect_resident_atlas_bytes": 5746368,
+    "face_crop_entity_ids": [
+      "CHR001",
+      "CHR002",
+      "CHR003",
+      "CHR004",
+      "CHR005"
+    ],
+    "face_crop_resident_bytes": 737280,
+    "face_crop_resident_bytes_by_entity": {
+      "CHR001": 147456,
+      "CHR002": 147456,
+      "CHR003": 147456,
+      "CHR004": 147456,
+      "CHR005": 147456
+    },
+    "inactive_candidate_ids": [
+      "CHR008"
+    ],
+    "resident_actor_ids": [
+      "CHR001",
+      "CHR002",
+      "CHR003",
+      "CHR004",
+      "CHR005",
+      "BOSS001",
+      "ENM001"
+    ],
+    "resident_effect_entity_ids": [
+      "CHR001",
+      "CHR002",
+      "CHR003",
+      "CHR004",
+      "CHR005",
+      "BOSS001",
+      "ENM001"
+    ],
+    "resident_effect_profile_ids": [
+      "CHR001",
+      "CHR003",
+      "CHR004",
+      "CHR005",
+      "BOSS001",
+      "ENM001"
+    ]
+  },
+  "active_signature_units": [
+    "CHR001",
+    "CHR002",
+    "CHR003",
+    "CHR004",
+    "CHR005",
+    "ENM001",
+    "BOSS001"
+  ],
+  "approval_status": "LOCAL_QA_ONLY",
+  "boss_signature_size": [
+    347,
+    248
+  ],
+  "camera_motion_contract": {
+    "camera_rule": "source-to-target bounded focus pan plus impact zoom/shake; all offsets reset on finish, skip, exit and re-entry",
+    "clears_after_finish": true,
+    "per_ultimate": {
+      "BOSS001": {
+        "expected_world_offset_sign": 1.0,
+        "focus_direction": -1.0,
+        "focus_strength": 0.82,
+        "passes": true,
+        "world_offset_x": 18.0400009155273,
+        "world_offset_y": -1.63999998569489,
+        "zoom": 1.02132
+      },
+      "CHR001": {
+        "expected_world_offset_sign": -1.0,
+        "focus_direction": 1.0,
+        "focus_strength": 0.82,
+        "passes": true,
+        "world_offset_x": -18.0400009155273,
+        "world_offset_y": -1.63999998569489,
+        "zoom": 1.02132
+      },
+      "CHR002": {
+        "expected_world_offset_sign": -1.0,
+        "focus_direction": 1.0,
+        "focus_strength": 0.82,
+        "passes": true,
+        "world_offset_x": -18.0400009155273,
+        "world_offset_y": -1.63999998569489,
+        "zoom": 1.02132
+      },
+      "CHR003": {
+        "expected_world_offset_sign": -1.0,
+        "focus_direction": 1.0,
+        "focus_strength": 0.82,
+        "passes": true,
+        "world_offset_x": -18.0400009155273,
+        "world_offset_y": -1.63999998569489,
+        "zoom": 1.02132
+      },
+      "CHR004": {
+        "expected_world_offset_sign": -1.0,
+        "focus_direction": 1.0,
+        "focus_strength": 0.82,
+        "passes": true,
+        "world_offset_x": -18.0400009155273,
+        "world_offset_y": -1.63999998569489,
+        "zoom": 1.02132
+      },
+      "CHR005": {
+        "expected_world_offset_sign": -1.0,
+        "focus_direction": 1.0,
+        "focus_strength": 0.82,
+        "passes": true,
+        "world_offset_x": -18.0400009155273,
+        "world_offset_y": -1.63999998569489,
+        "zoom": 1.02132
+      },
+      "ENM001": {
+        "expected_world_offset_sign": 1.0,
+        "focus_direction": -1.0,
+        "focus_strength": 0.82,
+        "passes": true,
+        "world_offset_x": 18.0400009155273,
+        "world_offset_y": -1.63999998569489,
+        "zoom": 1.02132
+      }
+    }
+  },
+  "candidate_inventory_ids": [
+    "CHR001",
+    "CHR002",
+    "CHR003",
+    "CHR004",
+    "CHR005",
+    "CHR008",
+    "BOSS001",
+    "ENM001"
+  ],
+  "captures": [
+    {
+      "file": "01_idle.png",
+      "height": 844,
+      "sha256": "334f313eb846f6f50e6f8c972090fe03c2fa75f7a724aeab971bf924e764eb58",
+      "stage": "idle",
+      "width": 390
+    },
+    {
+      "file": "02_chr001_ultimate_windup.png",
+      "height": 844,
+      "sha256": "1a82aff1f50e0c58ee45d651b6bd63e0555a01f5096b23864d6dbc3bc2fa9c0d",
+      "stage": "chr001_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "03_chr001_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "ed4974cbd7aa3928745f412ea533741648439833a69fb3d8d3a137858985325e",
+      "stage": "chr001_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "04_chr001_ultimate_impact.png",
+      "height": 844,
+      "sha256": "eb13b6fdf9dd53544f64a2158daaf3dd2a39d451f7eab66dc9b96df4e3701fb5",
+      "stage": "chr001_ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "05_boss_down.png",
+      "height": 844,
+      "sha256": "8a10edc1ba1d0f27dad2285e1043de43b09e2aa3ad9815a798062e91899f5c2c",
+      "stage": "boss_down",
+      "width": 390
+    },
+    {
+      "file": "06_chr002_ultimate_windup.png",
+      "height": 844,
+      "sha256": "e57f1634568310d4339a44ce9b93272f2a59cedb19f364a6110f2109ef069fc6",
+      "stage": "chr002_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "07_chr002_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "5aa3d0386e3b8ea3d02f20cd2ef3a1bf29ebe6d0b73732c949cca1e7065d592f",
+      "stage": "chr002_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "08_chr002_ultimate_impact.png",
+      "height": 844,
+      "sha256": "c1358d468602f78a6d1f331854877e03aecedc498b1a45b760ff00f3eea3b5be",
+      "stage": "chr002_ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "09_chr003_ultimate_windup.png",
+      "height": 844,
+      "sha256": "7176589c013941dd8c0a32f42abe771554336498e88f0b3ae95bddfb65c60f3b",
+      "stage": "chr003_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "10_chr003_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "93123a1397c38ab2aaa3b0c907db936c9a304a975e02531670bb3d27210fe52f",
+      "stage": "chr003_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "11_chr003_ultimate_impact.png",
+      "height": 844,
+      "sha256": "dd05415b5ec0eea2dadc5529f7bd1c7306ddcc7a304253cbf7f1bd735743c3cb",
+      "stage": "chr003_ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "12_chr004_ultimate_windup.png",
+      "height": 844,
+      "sha256": "6ef1f1a4d1c01f47f43e4c3fc446b606f19137c050f952551ea985c77b903a70",
+      "stage": "chr004_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "13_chr004_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "0bb2680e918746b5bee6f5ebaef474f04cdac8f59d93bde5dd57025fbe1c5a4d",
+      "stage": "chr004_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "14_chr004_ultimate_impact.png",
+      "height": 844,
+      "sha256": "c7ed72ce267a113949f350c373c5c66a326e8d707d636c411a7b13fbe8dad7fe",
+      "stage": "chr004_ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "15_chr005_ultimate_windup.png",
+      "height": 844,
+      "sha256": "08795c4887f0cd86d425474810b6ceec042c64cfd9b86225b144fac765036790",
+      "stage": "chr005_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "16_chr005_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "bd1bbf1de63340bb28fb72fa5c6d928a0034cc4894cd6f3e371694c852681a8d",
+      "stage": "chr005_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "17_chr005_ultimate_impact.png",
+      "height": 844,
+      "sha256": "601fc76b242820663788d59881b3cefdd6fe65032f4f8cb46e7cafa059f9796c",
+      "stage": "chr005_ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "18_boss_ultimate_windup.png",
+      "height": 844,
+      "sha256": "6a81022505dc081602588ce74ee43291f977ea57ab5d903794c1f8ac14808ad0",
+      "stage": "boss_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "19_boss_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "dc2cd25d55be89e262512e62da33fad8da23a9f177368ce6dee067207e3830ac",
+      "stage": "boss_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "20_boss_ultimate_impact.png",
+      "height": 844,
+      "sha256": "4e8e11c632108db8223044c8f66765a04a59c34189cc960687ed14d7200dcde6",
+      "stage": "boss_ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "21_enm001_ultimate_windup.png",
+      "height": 844,
+      "sha256": "3b20a336118b0b1936aa414dbc4f8f3825daa132feb0a46554d93b20202d2eb3",
+      "stage": "enm001_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "22_enm001_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "20d33dddc076974da64a6461e5f2295f37e1255615a2bf740a5fb1a44e13ce3e",
+      "stage": "enm001_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "23_enm001_ultimate_impact.png",
+      "height": 844,
+      "sha256": "01b3e78145e92692857bd0a8b8c498355e974eaa6441dc2f726cf7b5c5ec40c2",
+      "stage": "enm001_ultimate_impact",
+      "width": 390
+    }
+  ],
+  "eda_signature_size": [
+    355,
+    333
+  ],
+  "effect_signature_core_resident_atlas_bytes": 5746368,
+  "effect_signature_load_error": "",
+  "effect_signature_pack_ready": true,
+  "effect_signature_resident_atlas_bytes": 5746368,
+  "effect_signature_revision": "r4",
+  "enm001_signature_size": [
+    329,
+    318
+  ],
+  "group_inventory_core_bytes": {
+    "actor": 58421248,
+    "effect": 6704096
+  },
+  "guardian_signature_size": [
+    284,
+    337
+  ],
+  "kind": "BATTLE_SIGNATURE_HD_LOCAL_VIEWPORT_QA",
+  "motion_contract": {
+    "enemy_hit_x": 24.9945163726807,
+    "enemy_ultimate_lunge_x": -19.4386768341064,
+    "player_basic_lunge_x": 20.9640560150146,
+    "player_basic_windup_x": -5.07936525344849
+  },
+  "narin_signature_size": [
+    333,
+    333
+  ],
+  "qa_staging": "Temporary in-memory actual starting five-player group (CHR001/002/003/004/005) plus BOSS001/ENM001. CHR008 is retained only in the immutable candidate inventory and is asserted absent from actor/effect/HUD-face runtime residency. No save, roster, reward, stage data, source asset, or quarantine record changed.",
+  "roan_signature_size": [
+    352,
+    302
+  ],
+  "signature_core_resident_atlas_bytes": 50950144,
+  "signature_load_error": "",
+  "signature_pack_ready": true,
+  "signature_resident_atlas_bytes": 50950144,
+  "signature_revision": "r13",
+  "soren_signature_size": [
+    357,
+    330
+  ],
+  "stage_source": "CH01-N20",
+  "ui_orb_contract": {
+    "chr008_face_crop_resident_bytes": 0,
+    "control_count": 5,
+    "face_crop_entity_ids": [
+      "CHR001",
+      "CHR002",
+      "CHR003",
+      "CHR004",
+      "CHR005"
+    ],
+    "face_crop_resident_bytes": 737280,
+    "full_tactical_gauge": 10.0,
+    "ready_badges": 5,
+    "world_health_text_cards": 0
+  },
+  "ultimate_page_checks": {
+    "BOSS001": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 58060800,
+      "actor_texture_size": [
+        347,
+        248
+      ],
+      "actor_transient_entity_id": "BOSS001",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 7704960,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "BOSS001",
+      "ready": true
+    },
+    "CHR001": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 58204160,
+      "actor_texture_size": [
+        284,
+        337
+      ],
+      "actor_transient_entity_id": "CHR001",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 7704960,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "CHR001",
+      "ready": true
+    },
+    "CHR002": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 59695104,
+      "actor_texture_size": [
+        352,
+        302
+      ],
+      "actor_transient_entity_id": "CHR002",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 7704960,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "CHR001",
+      "ready": true
+    },
+    "CHR003": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 56471552,
+      "actor_texture_size": [
+        333,
+        333
+      ],
+      "actor_transient_entity_id": "CHR003",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 7704960,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "CHR003",
+      "ready": true
+    },
+    "CHR004": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 57180160,
+      "actor_texture_size": [
+        355,
+        333
+      ],
+      "actor_transient_entity_id": "CHR004",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 7704960,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "CHR004",
+      "ready": true
+    },
+    "CHR005": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 57069568,
+      "actor_texture_size": [
+        357,
+        330
+      ],
+      "actor_transient_entity_id": "CHR005",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 7704960,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "CHR005",
+      "ready": true
+    },
+    "ENM001": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 56143872,
+      "actor_texture_size": [
+        329,
+        318
+      ],
+      "actor_transient_entity_id": "ENM001",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 7704960,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "ENM001",
+      "ready": true
+    }
+  },
+  "viewport": [
+    390,
+    844
+  ]
+}

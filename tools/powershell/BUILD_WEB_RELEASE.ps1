@@ -1,4 +1,4 @@
-param(
+﻿param(
     [switch]$CompressWasmForLimitedHost
 )
 
@@ -38,6 +38,8 @@ New-Item -ItemType Directory -Path $output -Force | Out-Null
 
 Invoke-Checked $godot @('--headless', '--path', (Join-Path $root 'godot'), '--export-release', 'Web HTML Release', (Join-Path $output 'index.html'))
 if (-not (Test-Path -LiteralPath (Join-Path $output 'index.html') -PathType Leaf)) { throw 'Web HTML Release index.html missing after export.' }
+Invoke-Checked $python @((Join-Path $root 'tools\web\stage_density_sidecars.py'), $output)
+Invoke-Checked $python @((Join-Path $root 'tools\web\stage_audio_sidecars.py'), $output)
 
 $pck = Join-Path $output 'index.pck'
 $pckHash = Get-FileSha256 $pck

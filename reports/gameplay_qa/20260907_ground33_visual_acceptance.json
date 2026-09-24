@@ -1,0 +1,25 @@
+{
+  "status": "LOCAL_GROUNDING_VISUAL_PASS",
+  "candidate": 33,
+  "reviewer": "Codex visual inspection of actual local browser captures",
+  "scope": "Reported floating actors, action-scale pop, connected boss foreground floor and formation legibility; not commercial-reference animation parity or physical-device certification.",
+  "reviewed_images": [
+    "reports/gameplay_qa/20260907_motion33_audit/motion_42.png",
+    "reports/gameplay_qa/20260907_final33_audit/grounded_boss_360x640.png",
+    "reports/gameplay_qa/20260907_final33_audit/grounded_boss_1280x720.png",
+    "reports/gameplay_qa/20260907_motion33_visual/combat_39.jpg"
+  ],
+  "observations": [
+    "The foreground is continuous beneath both teams; no party actor is staged against the cathedral left wall or over its lava moat.",
+    "The five party silhouettes remain separated by staggered lanes instead of the rejected narrow left-floor cluster.",
+    "Actual 39.0–40.375-second frames show bottom contacts remaining at floor level while attack and recoil poses change.",
+    "All five face-only ultimate orbs are fully visible at 360x640 and 1280x720.",
+    "The source character art, costume, weapon and game simulation were not replaced to obtain these contact corrections."
+  ],
+  "rejected_predecessors": [
+    {"candidate": 31, "reason": "Action-dependent body scale and ground mismatch"},
+    {"candidate": 32, "reason": "Contacts registered, but five allies crowded on the narrow original cathedral floor"}
+  ],
+  "no_deployment": true,
+  "no_deletion": true
+}

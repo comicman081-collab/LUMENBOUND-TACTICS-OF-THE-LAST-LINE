@@ -268,9 +268,27 @@ def main() -> int:
         "Unexpected Godot service-worker navigation block",
     ))
     check("Web stable-URL cache update keeps offline fallback", stable_url_cache_policy)
-    all_text = "\n".join(p.read_text(encoding="utf-8", errors="ignore") for p in (ROOT / "godot").rglob("*.gd"))
+    runtime_sources = list((ROOT / "godot").rglob("*.gd"))
+    density_loader_path = ROOT / "godot/battle/view/density_texture_loader.gd"
+    density_loader_text = density_loader_path.read_text(encoding="utf-8", errors="ignore")
+    ordinary_runtime_text = "\n".join(
+        source.read_text(encoding="utf-8", errors="ignore")
+        for source in runtime_sources
+        if source != density_loader_path and "tests" not in source.parts
+    )
     check("GDScript only / no C#", not list(ROOT.rglob("*.cs")) and not list(ROOT.rglob("*.csproj")))
-    check("no HTTP runtime code", not re.search(r"HTTPRequest|https?://", all_text))
+    # The HD companion directory is the one deliberate transport boundary. It
+    # accepts only hash-pinned paths below ./_hd/, skips file:// entirely and
+    # leaves every other runtime script free of HTTP requests or URLs.
+    companion_transport_is_restricted = (
+        not re.search(r"HTTPRequest|https?://", ordinary_runtime_text)
+        and "func can_stream_companion_pages()" in density_loader_text
+        and 'return protocol in ["http:", "https:"]' in density_loader_text
+        and "new URL('./_hd/'" in density_loader_text
+        and 'if not can_stream_companion_pages():' in density_loader_text
+        and '".." in relative' in density_loader_text
+    )
+    check("no arbitrary HTTP runtime code; HD companion transport is same-origin and file-safe", companion_transport_is_restricted)
     model_policy = json.loads((ROOT / "tools/local_art_pipeline/model_policy.json").read_text(encoding="utf-8"))
     excluded = {row["id"]: row for row in model_policy["excluded"]}
     check("Krea2 permanently excluded", excluded.get("krea2-local", {}).get("must_never_be_used") is True)

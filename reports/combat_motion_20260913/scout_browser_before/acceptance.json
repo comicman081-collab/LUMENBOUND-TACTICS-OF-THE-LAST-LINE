@@ -1,0 +1,41 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_2 physical pawn remains visible"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 physical pawn remains visible"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 can be selected independently"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 actual contact and natural AUTO battle reaches results"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 exact kill receipt persisted"
+    },
+    {
+      "pass": true,
+      "name": "NODE_N01_SCOUT_1 defeated pawn is absent"
+    },
+    {
+      "pass": true,
+      "name": "1_2 sibling has no false kill receipt"
+    },
+    {
+      "pass": false,
+      "name": "NODE_N01_SCOUT_2 physical pawn remains visible"
+    },
+    {
+      "pass": false,
+      "name": "Error: NODE_N01_SCOUT_2 physical pawn remains visible"
+    }
+  ],
+  "scope": "Two kill orders, four real AUTO battles, exact pawn visibility/selection/contact and two browser reloads in isolated saves."
+}

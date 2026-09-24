@@ -1,0 +1,45 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "growth tabs use full columns instead of narrow text boxes"
+    },
+    {
+      "pass": true,
+      "name": "training material labels have readable column widths"
+    },
+    {
+      "pass": true,
+      "name": "cost and balance are adjacent to the action"
+    },
+    {
+      "pass": true,
+      "name": "real touch applies level or EXP"
+    },
+    {
+      "pass": true,
+      "name": "one selected note consumed"
+    },
+    {
+      "pass": true,
+      "name": "visible success and saved feedback"
+    },
+    {
+      "pass": true,
+      "name": "real skill control upgrades one level"
+    },
+    {
+      "pass": true,
+      "name": "skill tab and readable result survive refresh"
+    },
+    {
+      "pass": false,
+      "name": "browser reload preserves individual growth"
+    },
+    {
+      "pass": false,
+      "name": "Error: browser reload preserves individual growth"
+    }
+  ],
+  "scope": "Real UI taps and browser reload using isolated earned-material fixtures; not a physical device."
+}

@@ -1,0 +1,13 @@
+{
+  "checks": [
+    {
+      "pass": false,
+      "name": "local QA bridge is ready"
+    },
+    {
+      "pass": false,
+      "name": "Error: local QA bridge is ready"
+    }
+  ],
+  "scope": "Local 1280x720 Chrome first-map fixture. No deployed files, real user save, or game balance data are modified."
+}

@@ -42,6 +42,8 @@ func _fail(marker: String, code: int) -> void:
 
 func _write_state(state: String) -> void:
 	var report_dir := ProjectSettings.globalize_path("res://").path_join("../reports/r15").simplify_path()
+	if not OS.get_environment("LUMENBOUND_QA_OUTPUT_DIR").is_empty():
+		report_dir = OS.get_environment("LUMENBOUND_QA_OUTPUT_DIR")
 	DirAccess.make_dir_recursive_absolute(report_dir)
 	var output := FileAccess.open(report_dir.path_join("R15_PROGRESSION_BOOTSTRAP_STATE.json"), FileAccess.WRITE)
 	if output != null:

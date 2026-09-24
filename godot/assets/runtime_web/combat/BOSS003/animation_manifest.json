@@ -3,13 +3,13 @@
   "asset_id": "runtime_web_combat_boss003",
   "character_id": "BOSS003",
   "display_name": "BOSS003",
-  "status": "HIGH_RES_COSTUME_CANDIDATE",
-  "source_status": "CANDIDATE_GPT_COSTUME_CONTINUITY_PASS_DEV_RUNTIME",
-  "source_root": "data_source/art_source/combat_hd_sources/boss003_silhouette_b_authority.png",
-  "source_asset_id": "boss003_silhouette_b_1d6155e5ada551bf_sc112",
-  "creation_method": "costume_only_high_resolution_authority_candidate",
+  "status": "LOCAL_REVIEWED_SD_ROSTER",
+  "source_status": "SPRITEGEN_ROSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/roster_replacements_20260911/BOSS003/source.png",
+  "source_asset_id": "boss003_spritegen_577ddd792053d5e7",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "f2027f1fe70272ef72dcfeab8271046d7ea542066ab154594e8cb86c39ee9b14",
+  "preview_sha256": "a6ea72e221826395a653c77ec3455a3d58213070e77289aeb7e09a3b952f715f",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "cc13e47ad0b884eb6a9aebe84ac35f8bcad4b3ef8f9652fa9ce86b15886b1c6a"
+  "sha256": "4c21c0b7d8cba73413d7500883136e3c65de4551e2bb6b25b999cff370ca05c9"
 }

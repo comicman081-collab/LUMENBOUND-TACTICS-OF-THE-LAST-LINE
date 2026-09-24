@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_boss011",
   "character_id": "BOSS011",
-  "display_name": "BOSS011",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/boss011_authority.png",
-  "source_asset_id": "boss011_silhouette_a_737e8df50f861d6a_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_SCARLET_EXCAVATOR",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/BOSS011/source.png",
+  "source_asset_id": "boss011_illustrated_6de492f0661d4707",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "1e6b503396147f10bf8d8094f0f34a32199a1d7bd13380e21a761fdb8feb5a01",
+  "preview_sha256": "5ac29426705652fd70005416f34946272f890286cb588c6c00f932eda1b9ce7d",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "f27825cc01737338e83f9ef929b4ad3a188516927c979099296ee4230175d9ad"
+  "sha256": "84dc3759981e695fd406e00a84bb71b455f3ad74757eb2fa9f0ef5d1648bc608"
 }

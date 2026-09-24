@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_chr007",
   "character_id": "CHR007",
-  "display_name": "Toa",
-  "status": "SD_UNIFICATION_R1_STATIC_PRESENTATION_PACK",
-  "source_status": "LOCAL_IDENTITY_CONTINUITY_REVIEWED_GREEN_KEY_RGBA",
-  "source_root": "data_source/art_source/combat_hd_sources/renewed/chr007_costume_authority_sd_r1_rgba.png",
-  "source_asset_id": "chr007_sd_unification_r1_966f7ce0457d8cbb",
-  "creation_method": "imagegen_identity_preserving_sd_edit_green_matte_plus_deterministic_presentation_motion",
+  "display_name": "CHR007",
+  "status": "LOCAL_REVIEWED_SD_ROSTER",
+  "source_status": "SPRITEGEN_ROSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/roster_replacements_20260911/CHR007/source.png",
+  "source_asset_id": "chr007_spritegen_f7fdea7d46027e15",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -20,13 +20,13 @@
   ],
   "head_anchor": [
     0.5,
-    0.12
+    0.14
   ],
   "view": "THREE_QUARTER_RIGHT_DOWN_30",
   "facing_policy": "SEPARATE_LEFT_RIGHT",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "27ba291f2a186d54e5e44c0e9bfd3890c7de33f823c929f1988a2c4582f9b220",
+  "preview_sha256": "81e4f43421bcf46cbfd2bf615cb057a7bb968d5119e634a956763ce9864c6074",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "70a368c1dc2d8e44136b223ffe3e692e52006292b219660d92d56f6149a95ae2"
+  "sha256": "40eeec0e4b03213d56d2a50a72e12adef1e8e8f2440e82932b9c1b21e534b135"
 }

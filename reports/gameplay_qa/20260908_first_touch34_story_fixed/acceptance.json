@@ -1,0 +1,2077 @@
+{
+  "contract": "Exactly one touch per encounter; no retry and no forced UI selection",
+  "results": [
+    {
+      "stage": 9,
+      "pass": true,
+      "before": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@113",
+            "rect": [
+              6,
+              6,
+              82,
+              40.1
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@159",
+            "rect": [
+              6,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "일반"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@160",
+            "rect": [
+              59.3,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "위험"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@161",
+            "rect": [
+              112.5,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@162",
+            "rect": [
+              165.8,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@163",
+            "rect": [
+              219,
+              53.4,
+              51.5,
+              51.5
+            ],
+            "text": "스킵"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@164",
+            "rect": [
+              272.3,
+              53.4,
+              51.5,
+              51.5
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@235",
+            "rect": [
+              226.9,
+              113.4,
+              120,
+              38
+            ],
+            "text": "다음 조우"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@292",
+            "rect": [
+              74.6,
+              280.4,
+              66.2,
+              51.5
+            ],
+            "text": "◇ 일반 9"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@247",
+            "rect": [
+              17.1,
+              449.3,
+              325.7,
+              51.6
+            ],
+            "text": "조우 방향 · 1칸 이동"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@254",
+            "rect": [
+              17.1,
+              504.2,
+              325.7,
+              51.6
+            ],
+            "text": "선택 취소"
+          }
+        ],
+        "draw_calls": 123,
+        "map": {
+          "backdrop": {
+            "instances": 24034,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "enemy_pawns": 17,
+          "grid_tiles": 3602,
+          "instance_id": 125913007736,
+          "moving": false,
+          "next": "CH01-N09",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            93,
+            -14
+          ],
+          "preview": [
+            [
+              93,
+              -14
+            ],
+            [
+              92,
+              -13
+            ]
+          ],
+          "reachable": 15,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                94,
+                -14
+              ],
+              "reachable": false,
+              "screen": [
+                231.5,
+                383.7
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                93,
+                -13
+              ],
+              "reachable": false,
+              "screen": [
+                159.1,
+                419.7
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                95,
+                -14
+              ],
+              "reachable": false,
+              "screen": [
+                282.9,
+                400.9
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                93,
+                -12
+              ],
+              "reachable": false,
+              "screen": [
+                138.3,
+                472.9
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                95,
+                -15
+              ],
+              "reachable": false,
+              "screen": [
+                303.8,
+                393.3
+              ],
+              "type": "SHALLOW_WATER"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            7.125,
+            107.44799041748,
+            345.75,
+            525.426330566406
+          ]
+        },
+        "modals": [],
+        "nodes": 1338,
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 14,
+          "sandbox_session": "firsttouch34b"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [
+          {
+            "max": 1035,
+            "name": "@ScrollContainer@241",
+            "page": 1035,
+            "rect": [
+              17.1,
+              361.7,
+              325.8,
+              250.1
+            ],
+            "value": 0
+          }
+        ],
+        "stage": "CH01-N09"
+      },
+      "after": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@113",
+            "rect": [
+              6,
+              6,
+              82,
+              40.1
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@159",
+            "rect": [
+              6,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "일반"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@160",
+            "rect": [
+              59.3,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "위험"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@161",
+            "rect": [
+              112.5,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@162",
+            "rect": [
+              165.8,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@163",
+            "rect": [
+              219,
+              53.4,
+              51.5,
+              51.5
+            ],
+            "text": "스킵"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@164",
+            "rect": [
+              272.3,
+              53.4,
+              51.5,
+              51.5
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@235",
+            "rect": [
+              226.9,
+              113.4,
+              120,
+              38
+            ],
+            "text": "다음 조우"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@292",
+            "rect": [
+              74.6,
+              280.4,
+              66.2,
+              51.5
+            ],
+            "text": "◇ 일반 9"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@247",
+            "rect": [
+              17.1,
+              449.3,
+              325.7,
+              51.6
+            ],
+            "text": "조우 방향 · 1칸 이동"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@254",
+            "rect": [
+              17.1,
+              504.2,
+              325.7,
+              51.6
+            ],
+            "text": "선택 취소"
+          }
+        ],
+        "draw_calls": 123,
+        "map": {
+          "backdrop": {
+            "instances": 24034,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "enemy_pawns": 17,
+          "grid_tiles": 3602,
+          "instance_id": 125913007736,
+          "moving": false,
+          "next": "CH01-N09",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            93,
+            -14
+          ],
+          "preview": [
+            [
+              93,
+              -14
+            ],
+            [
+              92,
+              -13
+            ]
+          ],
+          "reachable": 15,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                94,
+                -14
+              ],
+              "reachable": false,
+              "screen": [
+                231.5,
+                383.7
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                93,
+                -13
+              ],
+              "reachable": false,
+              "screen": [
+                159.1,
+                419.7
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                95,
+                -14
+              ],
+              "reachable": false,
+              "screen": [
+                282.9,
+                400.9
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                93,
+                -12
+              ],
+              "reachable": false,
+              "screen": [
+                138.3,
+                472.9
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                95,
+                -15
+              ],
+              "reachable": false,
+              "screen": [
+                303.8,
+                393.3
+              ],
+              "type": "SHALLOW_WATER"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            7.125,
+            107.44799041748,
+            345.75,
+            525.426330566406
+          ]
+        },
+        "modals": [],
+        "nodes": 1338,
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 14,
+          "sandbox_session": "firsttouch34b"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [
+          {
+            "max": 1035,
+            "name": "@ScrollContainer@241",
+            "page": 1035,
+            "rect": [
+              17.1,
+              361.7,
+              325.8,
+              250.1
+            ],
+            "value": 0
+          }
+        ],
+        "stage": "CH01-N09"
+      }
+    },
+    {
+      "stage": 16,
+      "pass": true,
+      "before": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@425",
+            "rect": [
+              6.1,
+              6.1,
+              82,
+              40
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@471",
+            "rect": [
+              6.1,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "일반"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@472",
+            "rect": [
+              63.8,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "위험"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@473",
+            "rect": [
+              121.5,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@474",
+            "rect": [
+              179.2,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@475",
+            "rect": [
+              236.8,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "스킵"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@476",
+            "rect": [
+              294.5,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@547",
+            "rect": [
+              256.7,
+              118.1,
+              120,
+              38
+            ],
+            "text": "다음 조우"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@595",
+            "rect": [
+              59.4,
+              375.1,
+              71.7,
+              55.7
+            ],
+            "text": "◇ 일반 16"
+          }
+        ],
+        "draw_calls": 119,
+        "map": {
+          "backdrop": {
+            "instances": 24034,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "enemy_pawns": 10,
+          "grid_tiles": 3602,
+          "instance_id": 195773335169,
+          "moving": false,
+          "next": "CH01-N16",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            163,
+            -19
+          ],
+          "preview": [],
+          "reachable": 15,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                163,
+                -18
+              ],
+              "reachable": false,
+              "screen": [
+                166.2,
+                542.7
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                164,
+                -19
+              ],
+              "reachable": false,
+              "screen": [
+                266,
+                524.5
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                162,
+                -17
+              ],
+              "reachable": false,
+              "screen": [
+                66.5,
+                529.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                164,
+                -18
+              ],
+              "reachable": false,
+              "screen": [
+                237.2,
+                597.9
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                165,
+                -19
+              ],
+              "reachable": false,
+              "screen": [
+                336.9,
+                548.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                161,
+                -22
+              ],
+              "reachable": false,
+              "screen": [
+                139.4,
+                138.6
+              ],
+              "type": "RUINS"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            7.3125,
+            112.127075195312,
+            375.375,
+            724.560241699219
+          ]
+        },
+        "modals": [],
+        "nodes": 1258,
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 16,
+          "sandbox_session": "firsttouch34b"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [],
+        "stage": "CH01-N16"
+      },
+      "after": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@425",
+            "rect": [
+              6.1,
+              6.1,
+              82,
+              40
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@471",
+            "rect": [
+              6.1,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "일반"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@472",
+            "rect": [
+              63.8,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "위험"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@473",
+            "rect": [
+              121.5,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@474",
+            "rect": [
+              179.2,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@475",
+            "rect": [
+              236.8,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "스킵"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@476",
+            "rect": [
+              294.5,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@547",
+            "rect": [
+              256.7,
+              118.1,
+              120,
+              38
+            ],
+            "text": "다음 조우"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@595",
+            "rect": [
+              59.4,
+              375.1,
+              71.7,
+              55.7
+            ],
+            "text": "◇ 일반 16"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@559",
+            "rect": [
+              18.1,
+              637.8,
+              353.6,
+              55.9
+            ],
+            "text": "조우 방향 · 1칸 이동"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@566",
+            "rect": [
+              18.1,
+              697.3,
+              353.6,
+              55.9
+            ],
+            "text": "선택 취소"
+          }
+        ],
+        "draw_calls": 132,
+        "map": {
+          "backdrop": {
+            "instances": 24034,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "enemy_pawns": 10,
+          "grid_tiles": 3602,
+          "instance_id": 195773335169,
+          "moving": false,
+          "next": "CH01-N16",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            163,
+            -19
+          ],
+          "preview": [
+            [
+              163,
+              -19
+            ],
+            [
+              162,
+              -18
+            ]
+          ],
+          "reachable": 15,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                163,
+                -18
+              ],
+              "reachable": false,
+              "screen": [
+                166.2,
+                542.7
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                164,
+                -19
+              ],
+              "reachable": false,
+              "screen": [
+                266,
+                524.5
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                162,
+                -17
+              ],
+              "reachable": false,
+              "screen": [
+                66.5,
+                529.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                164,
+                -18
+              ],
+              "reachable": false,
+              "screen": [
+                237.2,
+                597.9
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                165,
+                -19
+              ],
+              "reachable": false,
+              "screen": [
+                336.9,
+                548.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                161,
+                -22
+              ],
+              "reachable": false,
+              "screen": [
+                139.4,
+                138.6
+              ],
+              "type": "RUINS"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            7.3125,
+            112.127075195312,
+            375.375,
+            724.560241699219
+          ]
+        },
+        "modals": [],
+        "nodes": 1258,
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 16,
+          "sandbox_session": "firsttouch34b"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [
+          {
+            "max": 1035,
+            "name": "@ScrollContainer@553",
+            "page": 1035,
+            "rect": [
+              18.1,
+              543,
+              353.8,
+              271
+            ],
+            "value": 0
+          }
+        ],
+        "stage": "CH01-N16"
+      }
+    },
+    {
+      "stage": 9,
+      "pass": true,
+      "before": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@700",
+            "rect": [
+              6,
+              6,
+              82,
+              40.1
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@746",
+            "rect": [
+              6,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "일반"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@747",
+            "rect": [
+              59.3,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "위험"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@748",
+            "rect": [
+              112.5,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@749",
+            "rect": [
+              165.8,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@750",
+            "rect": [
+              219,
+              53.4,
+              51.5,
+              51.5
+            ],
+            "text": "스킵"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@751",
+            "rect": [
+              272.3,
+              53.4,
+              51.5,
+              51.5
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@822",
+            "rect": [
+              226.9,
+              113.4,
+              120,
+              38
+            ],
+            "text": "다음 조우"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@863",
+            "rect": [
+              74.6,
+              280.4,
+              66.2,
+              51.5
+            ],
+            "text": "◇ 일반 9"
+          }
+        ],
+        "draw_calls": 110,
+        "map": {
+          "backdrop": {
+            "instances": 24034,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "enemy_pawns": 11,
+          "grid_tiles": 3602,
+          "instance_id": 260566944771,
+          "moving": false,
+          "next": "CH01-N09",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            93,
+            -14
+          ],
+          "preview": [],
+          "reachable": 15,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                94,
+                -14
+              ],
+              "reachable": false,
+              "screen": [
+                231.5,
+                383.7
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                93,
+                -13
+              ],
+              "reachable": false,
+              "screen": [
+                159.1,
+                419.7
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                95,
+                -14
+              ],
+              "reachable": false,
+              "screen": [
+                282.9,
+                400.9
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                93,
+                -12
+              ],
+              "reachable": false,
+              "screen": [
+                138.3,
+                472.9
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                95,
+                -15
+              ],
+              "reachable": false,
+              "screen": [
+                303.8,
+                393.3
+              ],
+              "type": "SHALLOW_WATER"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            7.125,
+            107.44799041748,
+            345.75,
+            525.426330566406
+          ]
+        },
+        "modals": [],
+        "nodes": 1266,
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 18,
+          "sandbox_session": "firsttouch34b"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [],
+        "stage": "CH01-N09"
+      },
+      "after": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@700",
+            "rect": [
+              6,
+              6,
+              82,
+              40.1
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@746",
+            "rect": [
+              6,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "일반"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@747",
+            "rect": [
+              59.3,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "위험"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@748",
+            "rect": [
+              112.5,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@749",
+            "rect": [
+              165.8,
+              53.4,
+              51.4,
+              51.5
+            ],
+            "text": "개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@750",
+            "rect": [
+              219,
+              53.4,
+              51.5,
+              51.5
+            ],
+            "text": "스킵"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@751",
+            "rect": [
+              272.3,
+              53.4,
+              51.5,
+              51.5
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@822",
+            "rect": [
+              226.9,
+              113.4,
+              120,
+              38
+            ],
+            "text": "다음 조우"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@863",
+            "rect": [
+              74.6,
+              280.4,
+              66.2,
+              51.5
+            ],
+            "text": "◇ 일반 9"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@834",
+            "rect": [
+              17.1,
+              449.3,
+              325.7,
+              51.6
+            ],
+            "text": "조우 방향 · 1칸 이동"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@841",
+            "rect": [
+              17.1,
+              504.2,
+              325.7,
+              51.6
+            ],
+            "text": "선택 취소"
+          }
+        ],
+        "draw_calls": 123,
+        "map": {
+          "backdrop": {
+            "instances": 24034,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "enemy_pawns": 11,
+          "grid_tiles": 3602,
+          "instance_id": 260566944771,
+          "moving": false,
+          "next": "CH01-N09",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            93,
+            -14
+          ],
+          "preview": [
+            [
+              93,
+              -14
+            ],
+            [
+              92,
+              -13
+            ]
+          ],
+          "reachable": 15,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                94,
+                -14
+              ],
+              "reachable": false,
+              "screen": [
+                231.5,
+                383.7
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                93,
+                -13
+              ],
+              "reachable": false,
+              "screen": [
+                159.1,
+                419.7
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                95,
+                -14
+              ],
+              "reachable": false,
+              "screen": [
+                282.9,
+                400.9
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                93,
+                -12
+              ],
+              "reachable": false,
+              "screen": [
+                138.3,
+                472.9
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                95,
+                -15
+              ],
+              "reachable": false,
+              "screen": [
+                303.8,
+                393.3
+              ],
+              "type": "SHALLOW_WATER"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            7.125,
+            107.44799041748,
+            345.75,
+            525.426330566406
+          ]
+        },
+        "modals": [],
+        "nodes": 1266,
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 18,
+          "sandbox_session": "firsttouch34b"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [
+          {
+            "max": 1035,
+            "name": "@ScrollContainer@828",
+            "page": 1035,
+            "rect": [
+              17.1,
+              361.7,
+              325.8,
+              250.1
+            ],
+            "value": 0
+          }
+        ],
+        "stage": "CH01-N09"
+      }
+    },
+    {
+      "stage": 16,
+      "pass": true,
+      "before": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@978",
+            "rect": [
+              6.1,
+              6.1,
+              82,
+              40
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1024",
+            "rect": [
+              6.1,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "일반"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1025",
+            "rect": [
+              63.8,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "위험"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1026",
+            "rect": [
+              121.5,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1027",
+            "rect": [
+              179.2,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1028",
+            "rect": [
+              236.8,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "스킵"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@1029",
+            "rect": [
+              294.5,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1100",
+            "rect": [
+              256.7,
+              118.1,
+              120,
+              38
+            ],
+            "text": "다음 조우"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@1148",
+            "rect": [
+              59.4,
+              375.1,
+              71.7,
+              55.7
+            ],
+            "text": "◇ 일반 16"
+          }
+        ],
+        "draw_calls": 119,
+        "map": {
+          "backdrop": {
+            "instances": 24034,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "enemy_pawns": 10,
+          "grid_tiles": 3602,
+          "instance_id": 324924345583,
+          "moving": false,
+          "next": "CH01-N16",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            163,
+            -19
+          ],
+          "preview": [],
+          "reachable": 15,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                163,
+                -18
+              ],
+              "reachable": false,
+              "screen": [
+                166.2,
+                542.7
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                164,
+                -19
+              ],
+              "reachable": false,
+              "screen": [
+                266,
+                524.5
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                162,
+                -17
+              ],
+              "reachable": false,
+              "screen": [
+                66.5,
+                529.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                164,
+                -18
+              ],
+              "reachable": false,
+              "screen": [
+                237.2,
+                597.9
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                165,
+                -19
+              ],
+              "reachable": false,
+              "screen": [
+                336.9,
+                548.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                161,
+                -22
+              ],
+              "reachable": false,
+              "screen": [
+                139.4,
+                138.6
+              ],
+              "type": "RUINS"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            7.3125,
+            112.127075195312,
+            375.375,
+            724.560241699219
+          ]
+        },
+        "modals": [],
+        "nodes": 1258,
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 20,
+          "sandbox_session": "firsttouch34b"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [],
+        "stage": "CH01-N16"
+      },
+      "after": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@978",
+            "rect": [
+              6.1,
+              6.1,
+              82,
+              40
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1024",
+            "rect": [
+              6.1,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "일반"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1025",
+            "rect": [
+              63.8,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "위험"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1026",
+            "rect": [
+              121.5,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1027",
+            "rect": [
+              179.2,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1028",
+            "rect": [
+              236.8,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "스킵"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1029",
+            "rect": [
+              294.5,
+              53.6,
+              55.7,
+              55.7
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1100",
+            "rect": [
+              256.7,
+              118.1,
+              120,
+              38
+            ],
+            "text": "다음 조우"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@1148",
+            "rect": [
+              59.4,
+              375.1,
+              71.7,
+              55.7
+            ],
+            "text": "◇ 일반 16"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1112",
+            "rect": [
+              18.1,
+              637.8,
+              353.6,
+              55.9
+            ],
+            "text": "조우 방향 · 1칸 이동"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1119",
+            "rect": [
+              18.1,
+              697.3,
+              353.6,
+              55.9
+            ],
+            "text": "선택 취소"
+          }
+        ],
+        "draw_calls": 132,
+        "map": {
+          "backdrop": {
+            "instances": 24034,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "enemy_pawns": 10,
+          "grid_tiles": 3602,
+          "instance_id": 324924345583,
+          "moving": false,
+          "next": "CH01-N16",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            163,
+            -19
+          ],
+          "preview": [
+            [
+              163,
+              -19
+            ],
+            [
+              162,
+              -18
+            ]
+          ],
+          "reachable": 15,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                163,
+                -18
+              ],
+              "reachable": false,
+              "screen": [
+                166.2,
+                542.7
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                164,
+                -19
+              ],
+              "reachable": false,
+              "screen": [
+                266,
+                524.5
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                162,
+                -17
+              ],
+              "reachable": false,
+              "screen": [
+                66.5,
+                529.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                164,
+                -18
+              ],
+              "reachable": false,
+              "screen": [
+                237.2,
+                597.9
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                165,
+                -19
+              ],
+              "reachable": false,
+              "screen": [
+                336.9,
+                548.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                161,
+                -22
+              ],
+              "reachable": false,
+              "screen": [
+                139.4,
+                138.6
+              ],
+              "type": "RUINS"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            7.3125,
+            112.127075195312,
+            375.375,
+            724.560241699219
+          ]
+        },
+        "modals": [],
+        "nodes": 1258,
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 20,
+          "sandbox_session": "firsttouch34b"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [
+          {
+            "max": 1035,
+            "name": "@ScrollContainer@1106",
+            "page": 1035,
+            "rect": [
+              18.1,
+              543,
+              353.8,
+              271
+            ],
+            "value": 0
+          }
+        ],
+        "stage": "CH01-N16"
+      }
+    }
+  ]
+}

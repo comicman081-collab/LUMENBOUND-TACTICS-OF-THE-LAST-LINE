@@ -33,6 +33,12 @@ func _ready() -> void:
 
 func new_game() -> void:
 	pending_battle_token = ""
+	route_payload = {}
+	selected_stage_id = "CH01-N01"
+	selected_map_node_id = "NODE_N01"
+	selected_character_id = "CHR001"
+	active_scenario_id = "SCN_PROLOGUE"
+	debug_options = {"unlock_all":false,"invincible":false,"enemy_multiplier":1.0}
 	var now := int(Time.get_unix_time_from_system())
 	var roster: Dictionary = {}
 	for character_value in DataRegistry.list_of("characters"):
@@ -85,6 +91,7 @@ func new_game() -> void:
 		"first_clear": {},
 		"story_flags": {},
 		"pending_story_triggers": [],
+		"campaign_transition": {},
 		"read_commands": {},
 		"relationship_levels": {},
 		"hard_attempts": {"date": Time.get_date_string_from_system(), "counts": {}},
@@ -113,6 +120,7 @@ func apply_loaded(loaded: Dictionary) -> void:
 	pending_battle_token = ""
 	_ensure_roster_entries()
 	_ensure_chapter_progress_entries()
+	_migrate_normal_campaign_progress()
 	if not profile.has("chapter_map"): profile["chapter_map"] = {}
 	for chapter_value in DataRegistry.list_of("chapters"):
 		var chapter: Dictionary = chapter_value
@@ -275,7 +283,16 @@ func is_stage_unlocked(stage_id: String) -> bool:
 	if stage_index < 0: return false
 	if str(stage.get("mode", "")) == "HARD":
 		return bool(progress.get("hard_unlocked", false)) and (stage_index == 0 or int(profile.stage_stars.get(str(route[stage_index - 1]), 0)) > 0)
-	return stage_index == 0 or int(progress.get("normal_highest", 0)) >= stage_index
+	if stage_index == 0: return true
+	var required: Array = chapter.get("required_stage_ids", [])
+	var preceding_required := stage_index
+	if not required.is_empty():
+		preceding_required = 0
+		for prior_index in range(stage_index):
+			if required.has(route[prior_index]): preceding_required = prior_index + 1
+	# A completed main operation opens the next main operation and its optional
+	# branch together. A skipped branch must not become a hidden prerequisite.
+	return int(progress.get("normal_highest", 0)) >= preceding_required
 
 func debug_unlock_all_enabled() -> bool:
 	return SettingsService.is_developer_mode() and bool(debug_options.get("unlock_all", false))
@@ -292,18 +309,24 @@ func can_enter_stage(stage_id: String) -> bool:
 	return can_enter_stage_count(stage_id, 1)
 
 func can_enter_stage_count(stage_id: String, count: int) -> bool:
+	return stage_entry_block_reason(stage_id, count).is_empty()
+
+func stage_entry_block_reason(stage_id: String, count := 1) -> String:
 	if count <= 0:
-		return false
+		return "입장 횟수를 확인하세요"
 	refresh_stamina()
 	reset_hard_attempts_if_needed()
 	var stage := DataRegistry.stage(stage_id)
-	if stage.is_empty() or not is_stage_unlocked(stage_id):
-		return false
+	if stage.is_empty():
+		return "작전 정보를 불러올 수 없습니다"
+	if not is_stage_unlocked(stage_id):
+		return "선행 작전을 완료해야 입장할 수 있습니다"
 	if not SettingsService.is_developer_mode() and int(profile.account.stamina) < int(stage.stamina_cost) * count:
-		return false
+		return "작전력 부족 · 보유 %d / 필요 %d" % [int(profile.account.stamina), int(stage.stamina_cost) * count]
 	if stage.mode == "HARD" and not SettingsService.is_developer_mode():
-		return int(profile.hard_attempts.counts.get(stage_id, 0)) + count <= int(stage.daily_attempts)
-	return true
+		if int(profile.hard_attempts.counts.get(stage_id, 0)) + count > int(stage.daily_attempts):
+			return "오늘의 위험 작전 입장 횟수를 모두 사용했습니다"
+	return ""
 
 func consume_stage_entry(stage_id: String) -> bool:
 	return consume_stage_entries(stage_id, 1)
@@ -465,7 +488,12 @@ func record_stage_clear(stage_id: String, stars: int) -> bool:
 	var chapter: Dictionary = DataRegistry.chapter(chapter_id)
 	if str(stage.get("mode", "")) == "NORMAL":
 		chapter_progress.normal_highest = maxi(int(chapter_progress.get("normal_highest", 0)), int(stage.get("stage_number", 0)))
-		if int(stage.get("stage_number", 0)) == chapter.get("normal_stage_ids", []).size(): chapter_progress.hard_unlocked = true
+		if is_normal_chapter_final(stage_id):
+			chapter_progress.hard_unlocked = true
+			_unlock_next_chapter(chapter_id)
+			var next_stage := next_chapter_entry(chapter_id)
+			if first and not next_stage.is_empty():
+				profile.campaign_transition = {"from_stage": stage_id, "to_stage": next_stage}
 	elif str(stage.get("mode", "")) == "HARD" and int(stage.get("stage_number", 0)) == chapter.get("hard_stage_ids", []).size():
 		_unlock_next_chapter(chapter_id)
 	refresh_chapter_map_reveal(map_id)
@@ -493,13 +521,59 @@ func _canonical_unlocked_stage_ids() -> Array[String]:
 	unlocked.sort()
 	return unlocked
 
+func is_normal_chapter_final(stage_id: String) -> bool:
+	var stage := DataRegistry.stage(stage_id)
+	var route: Array = DataRegistry.chapter(str(stage.get("chapter_id", ""))).get("normal_stage_ids", [])
+	return str(stage.get("mode", "")) == "NORMAL" and not route.is_empty() and str(route.back()) == stage_id
+
+func next_chapter_entry(chapter_id: String) -> String:
+	var current := DataRegistry.chapter(chapter_id)
+	if current.is_empty(): return ""
+	var next: Dictionary = {}
+	for candidate in DataRegistry.list_of("chapters"):
+		if int(candidate.number) > int(current.number) and (next.is_empty() or int(candidate.number) < int(next.number)):
+			next = candidate
+	var route: Array = next.get("normal_stage_ids", [])
+	return str(route.front()) if not route.is_empty() else ""
+
+func _migrate_normal_campaign_progress() -> void:
+	# Recover already-earned N20 victories without replaying rewards or story.
+	# The presence of the field is the migration marker; an acknowledged handoff
+	# must never be re-created when the player revisits an earlier chapter.
+	var migrate_handoff := not profile.has("campaign_transition")
+	if migrate_handoff: profile.campaign_transition = {}
+	var recovery: Dictionary = {}
+	var recovery_number := -1
+	for chapter in DataRegistry.list_of("chapters"):
+		var route: Array = chapter.get("normal_stage_ids", [])
+		if route.is_empty(): continue
+		var final_stage := str(route.back())
+		if not bool(profile.first_clear.get(final_stage, false)) and int(profile.stage_stars.get(final_stage, 0)) <= 0: continue
+		var next_stage := next_chapter_entry(str(chapter.id))
+		var next_id := str(DataRegistry.stage(next_stage).get("chapter_id", ""))
+		var was_locked := not bool(profile.chapter_progress.get(next_id, {}).get("unlocked", false))
+		profile.chapter_progress[str(chapter.id)].hard_unlocked = true
+		_unlock_next_chapter(str(chapter.id))
+		if migrate_handoff and was_locked and not next_stage.is_empty() and int(chapter.number) > recovery_number:
+			recovery = {"from_stage": final_stage, "to_stage": next_stage}
+			recovery_number = int(chapter.number)
+	if migrate_handoff: profile.campaign_transition = recovery
+
 func queue_story_event(event_type: String, stage_id := "", chapter_id := "") -> bool:
 	if not profile.has("pending_story_triggers"): profile["pending_story_triggers"] = []
 	var queued := false
 	for trigger_value in DataRegistry.list_of("chapter_story_triggers"):
 		var trigger: Dictionary = trigger_value
-		if str(trigger.get("event", "")) != event_type: continue
-		if not stage_id.is_empty() and str(trigger.get("stage_id", "")) != stage_id: continue
+		var trigger_event := str(trigger.get("event", ""))
+		var matches_event := trigger_event == event_type
+		if matches_event and not stage_id.is_empty():
+			matches_event = str(trigger.get("stage_id", "")) == stage_id or trigger.get("fallback_stage_ids", []).has(stage_id)
+		# A branch may omit the optional encounter that originally carried a main
+		# story beat. Its next mandatory operation is an explicit authored fallback.
+		# Re-entry also recovers earned but unqueued scenes after an interrupted save.
+		if event_type == "MAP_ENTER" and not chapter_id.is_empty() and trigger_event == "STAGE_CLEAR":
+			matches_event = _story_trigger_clear_recorded(trigger)
+		if not matches_event: continue
 		# MAP_ENTER is shared by every chapter.  Without this chapter gate a CH01
 		# entry queued both CH01 and CH02 introductions, so finishing the first
 		# scene immediately opened the next chapter before it was unlocked.
@@ -515,6 +589,14 @@ func queue_story_event(event_type: String, stage_id := "", chapter_id := "") -> 
 			queued = true
 	profile.pending_story_triggers.sort_custom(func(a, b): return _story_trigger_priority(str(a)) < _story_trigger_priority(str(b)))
 	return queued
+
+func _story_trigger_clear_recorded(trigger: Dictionary) -> bool:
+	var stages: Array = trigger.get("fallback_stage_ids", []).duplicate()
+	stages.append(str(trigger.get("stage_id", "")))
+	for candidate in stages:
+		if not str(candidate).is_empty() and bool(profile.get("first_clear", {}).get(candidate, false)):
+			return true
+	return false
 
 func next_pending_story_trigger(chapter_id := "") -> Dictionary:
 	for trigger_id_value in profile.get("pending_story_triggers", []):
@@ -660,20 +742,13 @@ func chapter_map_state(map_id := "CH01_MAP") -> Dictionary:
 	if not profile.chapter_map.has(map_id):
 		profile.chapter_map[map_id] = ChapterMapProgressScript.migrate_from_profile(profile, definition)
 	var state: Dictionary = profile.chapter_map[map_id]
+	ChapterMapProgressScript.migrate_encounter_identity(state, definition)
 	MapExplorationServiceScript.ensure_state(state, definition)
-	# Stage progression is the durable victory authority.  A previously shipped
-	# result order could persist stars before the map's encounter arrays, which
-	# made a cleared pawn look resurrected after a treasure detour/visibility
-	# refresh.  Reconcile that split on every map-state access so cached views,
-	# save reloads and duplicate result callbacks all converge on one clear state.
-	for node_value in definition.get("nodes", []):
-		var node: Dictionary = node_value
-		var stage_id := str(node.get("stage_id", ""))
-		var node_id := str(node.get("node_id", ""))
-		if stage_id.is_empty() or node_id.is_empty():
-			continue
-		if int(profile.get("stage_stars", {}).get(stage_id, 0)) > 0 and not MapExplorationServiceScript.encounter_cleared(state, node_id):
-			MapExplorationServiceScript.mark_encounter_cleared(state, node_id)
+	# Stage stars belong to campaign/rewards; a field pawn belongs to its node.
+	# Never infer another physical encounter's death from shared stage content.
+	for node_id in state.get("encounter_clear_receipts", {}):
+		if not MapExplorationServiceScript.encounter_cleared(state, str(node_id)):
+			MapExplorationServiceScript.mark_encounter_cleared(state, str(node_id))
 	return state
 
 func refresh_chapter_map_reveal(map_id := "CH01_MAP") -> void:
@@ -704,10 +779,11 @@ func set_chapter_map_position(coord: Vector2i, node_id := "", map_id := "CH01_MA
 
 func apply_battle_result_to_map(stage_id: String, victory: bool, map_id := "CH01_MAP") -> bool:
 	var definition: Dictionary = _chapter_map_definition(map_id)
-	var node: Dictionary = ChapterMapLoaderScript.node_for_stage(definition, stage_id)
-	if node.is_empty(): return false
 	var state := chapter_map_state(map_id)
 	var pending: Dictionary = state.get("pending_encounter", {})
+	var node: Dictionary = ChapterMapLoaderScript.node_by_id(definition, str(pending.get("node_id", ""))) if not pending.is_empty() else ChapterMapLoaderScript.node_for_stage(definition, stage_id)
+	if node.is_empty() or str(node.get("stage_id", "")) != stage_id: return false
+	if not pending.is_empty() and (str(pending.get("stage_id", "")) != stage_id or str(pending.get("token", "")) != pending_battle_token): return false
 	# Result delivery is a one-shot transaction. A stale view callback after the
 	# map has already consumed the token must not clear/unlock anything again.
 	if pending.is_empty() and pending_battle_token == "": return false
@@ -717,7 +793,8 @@ func apply_battle_result_to_map(stage_id: String, victory: bool, map_id := "CH01
 	# remove the hostile pawn while canonical stage progress remains uncleared.
 	if victory and pending_battle_token.is_empty(): return false
 	if victory:
-		set_chapter_map_position(Vector2i(int(node.q), int(node.r)), str(node.node_id), map_id)
+		var contact := Vector2i(int(pending.get("contact_q", node.q)), int(pending.get("contact_r", node.r)))
+		set_chapter_map_position(contact, str(node.node_id), map_id)
 	else:
 		var return_coord := Vector2i(int(pending.get("return_q", state.current_q)), int(pending.get("return_r", state.current_r)))
 		set_chapter_map_position(return_coord, "", map_id)

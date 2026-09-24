@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_boss006",
   "character_id": "BOSS006",
-  "display_name": "BOSS006",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/boss006_authority.png",
-  "source_asset_id": "boss006_silhouette_a_6f1f9b4a92bb9780_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_GLASS_MARSHAL",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/BOSS006/source.png",
+  "source_asset_id": "boss006_illustrated_bc80e3c2257c769b",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "b88770cc7eba3336db443a926283cb50ea067224ccb109bd44ca9ea39ee69835",
+  "preview_sha256": "ccc4ccc6a2c0da90de76eceacf598b525fb57a21084b214fa7518bf995c788c9",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "96bfc3d414c5168451eff9f9a7c0f0248639b3ebbff89189c983b755d7478db6"
+  "sha256": "462c5a38dfbeaf31ef3de18e482f8f2c3683ce5166417d91070d1399d5de3085"
 }

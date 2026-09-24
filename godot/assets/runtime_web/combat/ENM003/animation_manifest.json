@@ -2,17 +2,17 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_enm003",
   "character_id": "ENM003",
-  "display_name": "Shell Relay",
-  "status": "IMAGEGEN_STATIC_ANIMATED_SOURCE",
-  "source_status": "ORIGINAL_INTERNAL_GENERATED",
-  "source_root": "data_source/art_source/imagegen_enemy_sources/ENM003_shell_relay_source.png",
-  "source_asset_id": "imggen_enm003_shell_relay_r7",
-  "creation_method": "imagegen_original_render_plus_deterministic_presentation_motion",
+  "display_name": "ENM003",
+  "status": "LOCAL_REVIEWED_SD_ROSTER",
+  "source_status": "SPRITEGEN_ROSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/roster_replacements_20260911/ENM003/source.png",
+  "source_asset_id": "enm003_spritegen_76c49f2c0c43196c",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
-    68,
-    68
+    112,
+    112
   ],
   "foot_anchor": [
     0.5,
@@ -20,13 +20,13 @@
   ],
   "head_anchor": [
     0.5,
-    0.15
+    0.14
   ],
   "view": "THREE_QUARTER_LEFT_DOWN_30",
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "13ce659b9b772372ca421959f0749b18c2d1fe8ec738b8c89e9bc5404350f38d",
+  "preview_sha256": "66ccf750e51672caabf809adc57d112718bdb43d7ad5217169bcd022eae4df84",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "7bb86982e781fe6b25d12b24cdbc2899c06c93b437c36454e0baf2e9aed39855"
+  "sha256": "1b335c5200c3fb155bccd45bd25294b070f761e7fa0320fb86a8c4823aead4d0"
 }

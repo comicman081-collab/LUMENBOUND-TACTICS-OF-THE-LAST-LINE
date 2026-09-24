@@ -217,6 +217,10 @@ static func _runtime_coord_is_valid(runtime: Dictionary, patrol: Dictionary, ori
 	var coord := Vector2i(int(runtime.get("q", 0)), int(runtime.get("r", 0)))
 	if grid != null and not grid.traversable(coord):
 		return false
+	if str(runtime.get("patrol_state", "")) in [PATROL_CHASE, PATROL_RETURN, PATROL_ALERT, PATROL_ENGAGED]:
+		var home: Dictionary = patrol.get("return_hex", origin)
+		# Off-route pursuit is legal persisted state, not a corrupt route index.
+		return HexCoordScript.distance(coord, Vector2i(int(home.q), int(home.r))) <= _pursuit_leash(patrol)
 	var mode := str(patrol.get("patrol_mode", "LOOP"))
 	if mode == "GUARD_AREA":
 		var home: Dictionary = patrol.get("return_hex", origin)
@@ -369,6 +373,10 @@ static func advance_ticks(state: Dictionary, definition: Dictionary, grid, party
 		state.map_simulation_state.tick = int(state.map_simulation_state.get("tick", 0)) + 1
 		var tick := int(state.map_simulation_state.tick)
 		var contacts: Array[String] = []
+		var occupied: Dictionary = {}
+		for id in state.patrol_states:
+			if str(state.get("encounter_states", {}).get(id, "")) != PATROL_CLEARED:
+				occupied[HexCoordScript.key(coord_for(state, str(id)))] = str(id)
 		for raw_patrol in definition.get("patrols", []):
 			var encounter_id := str(raw_patrol.get("encounter_id", ""))
 			if encounter_id.is_empty():
@@ -382,12 +390,14 @@ static func advance_ticks(state: Dictionary, definition: Dictionary, grid, party
 				state.patrol_states[encounter_id] = runtime
 				continue
 			var previous := Vector2i(int(runtime.get("q", 0)), int(runtime.get("r", 0)))
+			occupied.erase(HexCoordScript.key(previous))
 			if patrol_is_stationary(definition, patrol):
 				runtime.awareness = UNAWARE
 				runtime.patrol_state = PATROL_IDLE
 				state.patrol_states[encounter_id] = runtime
 				state.patrol_positions[encounter_id] = [previous.x, previous.y]
 				result.awareness[encounter_id] = UNAWARE
+				occupied[HexCoordScript.key(previous)] = encounter_id
 				continue
 			var contact_suppressed := bool(runtime.get("contact_suppressed", false))
 			if contact_suppressed:
@@ -399,26 +409,38 @@ static func advance_ticks(state: Dictionary, definition: Dictionary, grid, party
 					contact_suppressed = false
 			var awareness := UNAWARE if contact_suppressed else awareness_for(patrol, runtime, party_coord, grid, definition, vision_radius)
 			runtime.awareness = awareness
-			var inside_live_vision := HexCoordScript.distance(previous, party_coord) <= maxi(1, vision_radius)
-			if not inside_live_vision:
-				# A turn is global even when a patrol is outside the current fog radius:
-				# ordinary hostiles keep their short, deterministic local routes alive so
-				# the player never spends several pulses apparently taking every turn
-				# alone.  They remain UNAWARE and cannot chase or contact through fog;
-				# ChapterMapScreen presents only the in-sight subset, avoiding off-screen
-				# pawn tweens and the Web frame spikes those used to cause.
-				runtime.awareness = UNAWARE
-				runtime.patrol_state = PATROL_IDLE
-				runtime = _advance_patrol(runtime, patrol, grid, tick)
-			elif awareness != UNAWARE:
-				runtime.patrol_state = PATROL_ALERT
-				runtime = _advance_chase(runtime, patrol, party_coord, grid)
+			# Physical contact precedes return/patrol movement. A returning enemy
+			# cannot step away from a squad that deliberately entered its own hex.
+			if not contact_suppressed and previous == party_coord:
+				runtime.patrol_state = PATROL_ENGAGED
+				state.patrol_states[encounter_id] = runtime
+				occupied[HexCoordScript.key(previous)] = encounter_id
+				contacts.append(encounter_id)
+				result.awareness[encounter_id] = ALERT
+				continue
+			var home_value: Dictionary = patrol.get("return_hex", {"q": previous.x, "r": previous.y})
+			var home := Vector2i(int(home_value.q), int(home_value.r))
+			var returning := str(runtime.get("patrol_state", "")) == PATROL_RETURN and previous != home
+			if awareness != UNAWARE and not returning and HexCoordScript.distance(home, party_coord) <= _pursuit_leash(patrol):
+				runtime.last_seen = [party_coord.x, party_coord.y]
+				runtime.search_turns = 3
+				runtime = _advance_chase(runtime, patrol, party_coord, grid, occupied)
+			elif not contact_suppressed and not returning and int(runtime.get("search_turns", 0)) > 0:
+				var last_seen: Array = runtime.get("last_seen", [previous.x, previous.y])
+				runtime.search_turns = int(runtime.search_turns) - 1
+				runtime = _advance_chase(runtime, patrol, Vector2i(int(last_seen[0]), int(last_seen[1])), grid, occupied)
+			elif previous != home and (returning or str(runtime.get("patrol_state", "")) == PATROL_CHASE):
+				runtime = _advance_chase(runtime, patrol, home, grid, occupied)
+				runtime.patrol_state = PATROL_RETURN
 			else:
-				# A contact-suppressed but visible ordinary enemy may resume its authored
-				# local patrol. Unseen enemies are filtered above and never consume a turn.
 				runtime.patrol_state = PATROL_IDLE
 				runtime = _advance_patrol(runtime, patrol, grid, tick)
 			var current := Vector2i(int(runtime.get("q", 0)), int(runtime.get("r", 0)))
+			if occupied.has(HexCoordScript.key(current)) or (contact_suppressed and current == party_coord):
+				runtime.q = previous.x
+				runtime.r = previous.y
+				current = previous
+			occupied[HexCoordScript.key(current)] = encounter_id
 			state.patrol_states[encounter_id] = runtime
 			state.patrol_positions[encounter_id] = [current.x, current.y]
 			result.awareness[encounter_id] = awareness
@@ -547,14 +569,18 @@ static func _advance_patrol(runtime: Dictionary, patrol: Dictionary, grid, tick:
 	runtime.next_move_tick = tick + maxi(1, int(patrol.get("patrol_speed_ticks", 2)))
 	return runtime
 
-static func _advance_chase(runtime: Dictionary, patrol: Dictionary, party_coord: Vector2i, grid) -> Dictionary:
+static func _pursuit_leash(patrol: Dictionary) -> int:
+	return maxi(16, int(patrol.get("leash_radius", 4)))
+
+static func _advance_chase(runtime: Dictionary, patrol: Dictionary, party_coord: Vector2i, grid, occupied: Dictionary = {}) -> Dictionary:
 	var current := Vector2i(int(runtime.get("q", 0)), int(runtime.get("r", 0)))
+	runtime.patrol_state = PATROL_CHASE
 	if current == party_coord:
 		return runtime
 	# Use the same authoritative pathfinder as the player. The old greedy adjacent
 	# choice could stall forever at a blocked hex even when a route around it was
 	# available, creating enemies that appeared close but never moved.
-	var chase_path: Array[Vector2i] = HexPathfinderScript.find_path(grid, current, party_coord)
+	var chase_path: Array[Vector2i] = HexPathfinderScript.find_path(grid, current, party_coord, {}, occupied)
 	if chase_path.size() >= 2 and grid.can_step(current, chase_path[1]):
 		var next_coord: Vector2i = chase_path[1]
 		runtime.q = next_coord.x

@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_enm032",
   "character_id": "ENM032",
-  "display_name": "ENM032",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/enm032_authority.png",
-  "source_asset_id": "enm032_silhouette_a_32663f2e0422e674_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_MAGMA_CASTER",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/ENM032/source.png",
+  "source_asset_id": "enm032_illustrated_6a7550717185e1ba",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "f3be8f18e420f1309ca7d5cb8e0eec1e9280629056453cc23ce8278db122f5a6",
+  "preview_sha256": "18610c85ca1476a602f92ad597a41777ab3f74c3cd1f1b4bd0b81383fc3d70c4",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "dbbfedb001bc0b74679e35200326a6be16a8e43ac9f1a61c18815a469de15feb"
+  "sha256": "e61d1de7e2f97c55c70b75a7b259187cc6f4a76fafe20e977c7b1ec1083623fe"
 }

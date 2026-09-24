@@ -1,0 +1,52 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "portrait handset gets a full-size sideways landscape frame"
+    },
+    {
+      "pass": true,
+      "name": "Portrait handset growth is running in landscape without a prompt"
+    },
+    {
+      "pass": true,
+      "name": "real sideways touch selects the correct tab"
+    },
+    {
+      "pass": true,
+      "name": "Landscape growth is running in landscape without a prompt"
+    },
+    {
+      "pass": true,
+      "name": "turning the phone keeps the selected tab and removes display rotation"
+    },
+    {
+      "pass": true,
+      "name": "Story is running in landscape without a prompt"
+    },
+    {
+      "pass": true,
+      "name": "chapter introduction opens"
+    },
+    {
+      "pass": true,
+      "name": "Sideways story is running in landscape without a prompt"
+    },
+    {
+      "pass": true,
+      "name": "rotation retains the live scenario"
+    },
+    {
+      "pass": true,
+      "name": "Sideways map is running in landscape without a prompt"
+    },
+    {
+      "pass": false,
+      "name": "sideways map and grid are visible"
+    },
+    {
+      "pass": false,
+      "name": "Error: sideways map and grid are visible"
+    }
+  ]
+}

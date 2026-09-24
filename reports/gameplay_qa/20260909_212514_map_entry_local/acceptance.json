@@ -1,0 +1,37 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "local QA bridge is ready"
+    },
+    {
+      "pass": true,
+      "name": "first map stays behind the dedicated loading surface"
+    },
+    {
+      "pass": true,
+      "name": "first CH01 map becomes ready"
+    },
+    {
+      "pass": true,
+      "name": "ready map includes natural terrain"
+    },
+    {
+      "pass": true,
+      "name": "ready map keeps its faint full-map grid"
+    },
+    {
+      "pass": true,
+      "name": "untouched first operation starts with three movement points"
+    },
+    {
+      "pass": true,
+      "name": "first operation exposes more than a one-cell movement range"
+    },
+    {
+      "pass": true,
+      "name": "map screenshot is captured without the first-operation tutorial cover"
+    }
+  ],
+  "scope": "Local 1280x720 Chrome first-map fixture. No deployed files, real user save, or game balance data are modified."
+}

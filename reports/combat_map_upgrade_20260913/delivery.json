@@ -1,0 +1,21 @@
+{
+  "url": "http://127.0.0.1:8770/play/b09811e4d0cb/",
+  "build": "builds/web_combat_map_final_20260913_release",
+  "server_pid": 10400,
+  "pck_sha256": "b09811e4d0cba13111e05a95c29d09b1128828195422e846d04b5a4009b32932",
+  "project_bytes": 15981820468,
+  "removed_redundant_bytes": 4019169549,
+  "checks": {
+    "model": 143,
+    "baseline": 256,
+    "map": 354,
+    "chapter_boss": 153,
+    "browser_treasure_kill_reload": 18,
+    "browser_pursuit_turns": 14,
+    "browser_final_boss_chapter": 27,
+    "release_boot": 4,
+    "storage_integrity": 27
+  },
+  "reference_intensity_fully_matched": false,
+  "scope": "Implemented contact-timed impact feedback, engagement movement, tactical terrain and exact encounter identity; further attack-specific motion variety remains a quality limitation."
+}

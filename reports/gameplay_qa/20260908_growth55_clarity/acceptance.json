@@ -1,0 +1,13 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "cost and balance are adjacent to the action"
+    },
+    {
+      "pass": false,
+      "name": "Error: could not scroll to control"
+    }
+  ],
+  "scope": "Real UI taps and browser reload using isolated earned-material fixtures; not a physical device."
+}

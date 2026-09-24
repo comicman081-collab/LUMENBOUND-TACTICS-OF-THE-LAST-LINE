@@ -1,0 +1,73 @@
+{
+  "checks": [
+    {
+      "name": "home briefing bounded at 360x640",
+      "pass": true
+    },
+    {
+      "name": "home rotation preserves the unread first page",
+      "pass": true
+    },
+    {
+      "name": "HomeTutorialSkipButton remains accessible after home rotation",
+      "pass": true
+    },
+    {
+      "name": "HomeTutorialContinueButton remains accessible after home rotation",
+      "pass": true
+    },
+    {
+      "name": "home briefing bounded at 800x360",
+      "pass": true
+    },
+    {
+      "name": "home rotation preserves the unread first page",
+      "pass": true
+    },
+    {
+      "name": "HomeTutorialSkipButton remains accessible after home rotation",
+      "pass": true
+    },
+    {
+      "name": "HomeTutorialContinueButton remains accessible after home rotation",
+      "pass": true
+    },
+    {
+      "name": "home briefing bounded at 390x844",
+      "pass": true
+    },
+    {
+      "name": "home rotation preserves the unread first page",
+      "pass": true
+    },
+    {
+      "name": "HomeTutorialSkipButton remains accessible after home rotation",
+      "pass": true
+    },
+    {
+      "name": "HomeTutorialContinueButton remains accessible after home rotation",
+      "pass": true
+    },
+    {
+      "name": "second authored ELITE N10 enters battle without an orphaned tutorial/modal",
+      "pass": true
+    },
+    {
+      "name": "N10 real combat reaches victory in short portrait",
+      "pass": true
+    },
+    {
+      "name": "N10 victory connects to N11",
+      "pass": true
+    },
+    {
+      "name": "home rotation and N10 progression emit no Godot errors/warnings",
+      "pass": true
+    },
+    {
+      "name": "elite audit remains in isolated saves",
+      "pass": true
+    }
+  ],
+  "fixture": "Local sandbox; actual short-portrait N10 battle and home tutorial rotation. Not a physical device test."
+}

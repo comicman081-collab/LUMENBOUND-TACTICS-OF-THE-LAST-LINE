@@ -1,0 +1,17 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "local QA bridge is ready"
+    },
+    {
+      "pass": false,
+      "name": "first map stays behind the dedicated loading surface"
+    },
+    {
+      "pass": false,
+      "name": "Error: first map stays behind the dedicated loading surface"
+    }
+  ],
+  "scope": "Local 1280x720 Chrome first-map fixture. No deployed files, real user save, or game balance data are modified."
+}

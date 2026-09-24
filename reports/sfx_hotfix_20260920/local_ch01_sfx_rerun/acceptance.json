@@ -1,0 +1,7366 @@
+{
+  "checks": [
+    {
+      "name": "stage 1 browser SFX context is running",
+      "pass": true
+    },
+    {
+      "name": "stage 1 produces real attack or hit SFX starts",
+      "pass": false
+    },
+    {
+      "name": "Error: stage 1 produces real attack or hit SFX starts",
+      "pass": false
+    }
+  ],
+  "browserSfx": {
+    "backend": "browser_audio_buffer",
+    "active_sources": 0,
+    "starts": {},
+    "attempts": {},
+    "failures": {},
+    "cached_sounds": 0,
+    "context_state": "running",
+    "error": ""
+  },
+  "graph": {
+    "samples": [
+      {
+        "index": 0,
+        "at": 8538.29999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 9517.89999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 9518,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 10358.09999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 10358.29999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 11348.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 11348.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 11699.09999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 11699.09999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 12092.89999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 12093,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 13382.09999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 13382.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 14692.59999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 14692.59999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 15235.59999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 15235.59999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 15730.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 15730.79999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 16161.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 16161.29999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 16674.29999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 16674.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 17703.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 17703.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 17769,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 17769.09999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 17848.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 17848.5,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 17948.09999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 17948.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 18048.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 18048.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 18148.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 18148.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 18248.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 18248.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 18362.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 18362.79999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 18509.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 18509.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 18658.79999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 18658.79999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 18785,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 18785.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 18896.09999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 18896.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 18951.59999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 18951.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 19336.79999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 19336.79999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 19447.59999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 19447.59999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 19547.59999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 19547.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 19647.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 19647.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 19731.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 19731.79999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 19847.59999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 19847.59999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 19960.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 19962.5,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 20047.59999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 20047.59999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 20147.79999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 20147.79999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 20314.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 20314.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 20342.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 20342.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 20443.79999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 20443.89999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 20541.89999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 20542.09999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 20831.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 20831.5,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 20949.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 20949.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 21355,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 21355.09999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 21424.79999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 21424.79999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 21815.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 21815.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 21849,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 21849.09999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 22025.29999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 22025.5,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 22167.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 22167.79999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 22710.09999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 22710.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 22731.59999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 22731.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 22843.5,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 22843.5,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 23025.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 23025.5,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 23203,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.06133333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 23203.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.06133333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 23203.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 23203.5,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 23242.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.10133333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 23242.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.10133333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 23243,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 23243.09999999404,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 23326.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.18133333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 23326.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.18133333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 23326.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 23326.5,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 23442.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.30133333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 23442.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.30133333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 23442.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 23442.70000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 23542.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.4,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 23542.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.4,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 23542.79999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 23542.79999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 23643,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.5013333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 23643.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.5013333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 23643.20000000298,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 23643.29999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 23894.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.752,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 23894.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.752,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 23894.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 23894.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 23951.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.8106666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 23951.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.8106666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 23951.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 23951.5,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 24187.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.04,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 24187.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.04,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 24187.29999999702,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 24187.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 24243.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.1013333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 24243.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.1013333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 24243.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 24243.5,
+        "phase": "boot",
+        "state": "suspended",
+        "time": 0,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 24343.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.2,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 24343.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.2,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 24343.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 24343.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 24443.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.3013333333333332,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 24443.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.3013333333333332,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 24443.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.18133333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 24443.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.18133333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 24543.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.4,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 24543.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.4,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 24543.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 24543.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 24710.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.5706666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 24710.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.5706666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 24710.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.44,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 24711,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.44,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 24748.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 24748.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 24748.89999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 24749,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 24985.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.84,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 24985.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.84,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 24985.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.72,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 24985.89999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.72,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 25043.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.9013333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 25043.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.9013333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 25043.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.7813333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 25043.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.7813333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 25129.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.9813333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 25129.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.9813333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 25130,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.8613333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 25130,
+        "phase": "boot",
+        "state": "running",
+        "time": 0.8613333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 25445.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.3013333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 25445.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.3013333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 25445.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.1813333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 25445.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.1813333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 25581.89999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.44,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 25582,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.44,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 25582,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.32,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 25582,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.32,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 25676.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.530666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 25676.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.530666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 25676.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.4,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 25676.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.4,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 25805.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.6613333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 25805.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.6613333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 25805.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.5413333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 25805.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.5413333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 25855.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.712,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 25855.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.712,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 25855.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.5813333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 25855.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.5813333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 25970.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.832,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 25970.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.832,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 25970.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.7013333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 25970.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.7013333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 26038.89999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.8906666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 26039,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.8906666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 26039,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.76,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 26039,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.76,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 26140.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 3,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 26140.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 3,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 26140.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 26140.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 1.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 26296.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.152,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 26296.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.152,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 26296.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.021333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 26296.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.021333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 26346,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.2,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 26346.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.2,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 26346.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 26346.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 26484.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.3413333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 26484.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.3413333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 26484.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.2213333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 26484.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.2213333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 26552.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.4106666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 26552.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.4106666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 26552.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 26552.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 26667.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.52,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 26667.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.52,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 26667.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.4,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 26667.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.4,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 26742.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 26742.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 26742.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 26742.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 26834.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.6906666666666665,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 26834.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.6906666666666665,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 26834.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.56,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 26834.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.56,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 26951.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.8106666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 26951.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.8106666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 26951.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 26951.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 27043.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.9013333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 27043.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.9013333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 27043.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.7813333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 27043.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.7813333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 27162.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.021333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 27162.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.021333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 27162.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.9013333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 27162.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.9013333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 27244.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.101333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 27244.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.101333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 27244.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.981333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 27244.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 2.981333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 27352.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 27352.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 27352.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 27352.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 27449.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.301333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 27449.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.301333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 27449.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.1813333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 27449.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.1813333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 27542.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.4,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 27542.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.4,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 27542.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 27542.89999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 27651.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 27651.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 27651.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.3813333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 27651.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.3813333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 27734.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.592,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 27734.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.592,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 27734.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.461333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 27734.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.461333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 27864.89999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.72,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 27864.89999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.72,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 27864.89999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 27865,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 27941.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.8,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 27941.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.8,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 27941.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 27941.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 28041,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.9013333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 28041,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.9013333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 28041.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.7813333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 28041.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.7813333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 28141.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 5,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 28141.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 5,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 28141.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 28141.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 3.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 28298.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.152,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 28298.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.152,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 28298.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.021333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 28298.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.021333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 28348.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.2,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 28348.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.2,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 28348.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 28348.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 28475,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.330666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 28475.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.330666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 28475.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.2,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 28475.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.2,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 28571.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.432,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 28571.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.432,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 28571.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.301333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 28571.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.301333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 28658.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 28658.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 28658.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.381333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 28658.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.381333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 28742.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 28742.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 28742.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 28742.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 28842,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.701333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 28842,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.701333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 28842,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.581333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 28842,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.581333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 28947.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.8,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 28947.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.8,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 28947.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 28947.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 29041.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.9013333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 29041.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.9013333333333335,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 29041.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 29041.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 29141.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 29141.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 29141.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 29142,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 29246.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.101333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 29246.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.101333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 29246.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 29246.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 4.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 29347.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.2,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 29347.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.2,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 29347.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 29347.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 29439.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.290666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 29439.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.290666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 29439.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.16,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 29439.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.16,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 29539.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.392,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 29539.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.392,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 29539.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.261333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 29539.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.261333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 29642.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.501333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 29642.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.501333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 29642.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.381333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 29642.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.381333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 29742.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 29742.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 29742.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 29742.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 29830.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.690666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 29830.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.690666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 29830.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.56,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 29830.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.56,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 29945.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.8,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 29945.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.8,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 29945.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 29945.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 30028.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 30028.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 30028.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.76,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 30028.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.76,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 30145.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 7,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 30145.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 7,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 30145.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 30145.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 5.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 30367.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 7.221333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 30367.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 7.221333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 30367.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.101333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 30367.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.101333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 30450.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 7.312,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 30450.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 7.312,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 30450.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.181333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 30450.5,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.181333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 30550.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 7.410666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 30550.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 7.410666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 30550.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 30550.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 30652.89999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 7.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 30652.89999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 7.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 30652.89999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.381333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 30652.89999999106,
+        "phase": "boot",
+        "state": "running",
+        "time": 6.381333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 30750.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.610666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 30751,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.610666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 30751.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 6.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 30751.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 6.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 30850.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.712,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 30850.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.712,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 30850.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 6.581333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 30850.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 6.581333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 30950.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.810666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 30950.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.810666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 30950.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 6.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 30950.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 6.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 31050.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.912,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 31050.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.912,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 31050.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 6.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 31050.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 6.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 31150.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.010666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 31150.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.010666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 31150.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 6.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 31150.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 6.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 31250.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.112,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 31250.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.112,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 31250.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 6.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 31250.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 6.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 31350.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 31350.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 31350.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 31350.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 31450.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.312,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 31450.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.312,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 31450.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.181333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 31450.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.181333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 31550.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.410666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 31550.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.410666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 31550.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 31550.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 31650.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 31650.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 31650.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.381333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 31650.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.381333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 31750.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.610666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 31750.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.610666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 31750.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 31750.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 31850.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.712,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 31850.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.712,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 31850.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.581333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 31850.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.581333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 31950.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.810666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 31950.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.810666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 31950.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 31950.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 32054.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.912,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 32054.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.912,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 32054.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 32054.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 32150.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.010666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 32150.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.010666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 32150.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 32150.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 32250.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.112,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 32250.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.112,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 32250.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 32250.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 7.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 32350.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 32350.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 32350.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 32350.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 32450.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.312,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 32450.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.312,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 32450.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.181333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 32450.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.181333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 32550.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.410666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 32550.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.410666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 32550.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 32550.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 32650.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 32650.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 32650.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.381333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 32650.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.381333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 32750.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.610666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 32750.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.610666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 32750.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 32750.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 32850.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.712,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 32850.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.712,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 32850.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.581333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 32850.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.581333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 32950.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.810666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 32950.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.810666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 32950.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 32950.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 33050.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.912,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 33050.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.912,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 33050.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 33050.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 33150.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.010666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 33150.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.010666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 33150.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 33150.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 33250.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.112,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 33250.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.112,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 33250.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 33250.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 8.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 33350.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 33350.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 33350.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 33350.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 33433.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.290666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 33434,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.290666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 33434,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.16,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 33434,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.16,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 33550.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.410666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 33550.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.410666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 33550.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 33550.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 33650.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 33650.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 33650.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.381333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 33650.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.381333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 33750.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.610666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 33750.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.610666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 33750.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 33750.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 33850.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.712,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 33850.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.712,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 33850.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.581333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 33850.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.581333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 33950.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.810666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 33950.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.810666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 33950.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 33950.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 34050.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.912,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 34050.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.912,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 34050.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 34050.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 34150.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.010666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 34150.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.010666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 34150.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 34150.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 34250.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.112,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 34250.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.112,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 34250.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 34250.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 9.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 34350.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 34350.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 34350.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 34350.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 34450.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.312,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 34450.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.312,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 34450.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.181333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 34450.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.181333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 34540.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.4,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 34540.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.4,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 34540.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 34540.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 34644.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.501333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 34644.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.501333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 34644.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.381333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 34644.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.381333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 34753.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.610666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 34753.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.610666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 34753.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 34753.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 34854.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.712,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 34854.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.712,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 34854.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.581333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 34854.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.581333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 34934.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.792,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 34934.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.792,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 34934.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.661333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 34934.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.661333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 35054.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.912,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 35054.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.912,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 35054.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 35054.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 35154.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.010666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 35154.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.010666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 35154.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 35154.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 35254.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.112,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 35254.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.112,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 35254.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 35254.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 10.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 35354.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 35354.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 35354.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 35354.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 35454.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.312,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 35454.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.312,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 35454.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.181333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 35454.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.181333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 35554.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.410666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 35554.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.410666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 35554.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 35554.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 35656.89999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 35656.89999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 35656.89999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.381333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 35656.89999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.381333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 35746.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 35746.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 35746.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 35746.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 35873.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.730666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 35873.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.730666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 35873.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 35873.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 35959.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.810666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 35959.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.810666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 35959.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 35959.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 36045.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.901333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 36045.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.901333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 36045.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 36045.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 36153.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.010666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 36153.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.010666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 36153.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 36153.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 36254.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.112,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 36254.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.112,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 36254.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 36254.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 11.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 36352.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 36352.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 36352.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 36352.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 36440.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.290666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 36440.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.290666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 36440.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.181333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 36440.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.181333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 36554.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.410666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 36554.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.410666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 36554.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 36554.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.28,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 36654.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 36654.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.512,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 36654.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.381333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 36654.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.381333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 36740.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 36740.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.6,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 36740.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 36740.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.48,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 36854.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.712,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 36854.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.712,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 36854.89999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.581333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 36854.89999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.581333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 36954.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.810666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 36954.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.810666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 36954.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 36954.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.68,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 37040.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.896,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 37040.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.901333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 37040.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 37040.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.781333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 37145.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 14,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 37145.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 14,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 37145.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 37145.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.88,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 37242.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 14.101333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 37242.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 14.101333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 37242.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 37242.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 12.981333333333334,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 37354.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 14.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 37354.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 14.210666666666667,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 37354.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 37354.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.08,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 37463.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 14.32,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 37463.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 14.32,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 37463.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.2,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 37463.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.2,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 37538.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 14.392,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 37538.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 14.392,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 37538.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.261333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 37538.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.261333333333333,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 0,
+        "at": 37639.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 14.490666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 1,
+        "at": 37639.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 14.490666666666666,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 2,
+        "at": 37639.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.36,
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "index": 3,
+        "at": 37639.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "time": 13.36,
+        "rms": 0,
+        "peak": 0
+      }
+    ],
+    "mixed": [
+      {
+        "at": 8538.39999999106,
+        "phase": "boot",
+        "state": "suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 9518,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 10358.29999999702,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 11348.39999999106,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 11699.09999999404,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 12093,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 13382.20000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 14692.59999999404,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 15235.59999999404,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 15730.79999999702,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 16161.29999999702,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 16674.39999999106,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 17703.20000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 17769.09999999404,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 17848.5,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 17948.20000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 18048.20000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 18148.39999999106,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 18248.20000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 18362.79999999702,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 18509.39999999106,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 18658.79999999702,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 18785.20000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 18896.20000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 18951.70000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 19336.79999999702,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 19447.59999999404,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 19547.70000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 19647.70000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 19731.79999999702,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 19847.59999999404,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 19962.5,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 20047.59999999404,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 20147.79999999702,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 20314.70000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 20342.20000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 20443.89999999106,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 20542.09999999404,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 20831.5,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 20949.20000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 21355.09999999404,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 21424.79999999702,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 21815.70000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 21849.09999999404,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 22025.5,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 22167.79999999702,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 22710.20000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 22731.70000000298,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 22843.5,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 23025.5,
+        "phase": "boot",
+        "state": "suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 23203.5,
+        "phase": "boot",
+        "state": "running,running,suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 23243.09999999404,
+        "phase": "boot",
+        "state": "running,running,suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 23326.5,
+        "phase": "boot",
+        "state": "running,running,suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 23442.70000000298,
+        "phase": "boot",
+        "state": "running,running,suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 23542.79999999702,
+        "phase": "boot",
+        "state": "running,running,suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 23643.29999999702,
+        "phase": "boot",
+        "state": "running,running,suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 23894.39999999106,
+        "phase": "boot",
+        "state": "running,running,suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 23951.5,
+        "phase": "boot",
+        "state": "running,running,suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 24187.39999999106,
+        "phase": "boot",
+        "state": "running,running,suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 24243.5,
+        "phase": "boot",
+        "state": "running,running,suspended,suspended",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 24343.5,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 24443.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 24543.5,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 24711,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 24749,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 24985.89999999106,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 25043.5,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 25130,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 25445.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 25582,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 25676.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 25805.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 25855.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 25970.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 26039,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 26140.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 26296.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 26346.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 26484.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 26552.39999999106,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 26667.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 26742.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 26834.5,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 26951.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 27043.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 27162.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 27244.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 27352.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 27449.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 27542.89999999106,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 27651.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 27734.5,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 27865,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 27941.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 28041.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 28141.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 28298.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 28348.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 28475.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 28571.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 28658.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 28742.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 28842,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 28947.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 29041.79999999702,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 29142,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 29246.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 29347.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 29439.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 29539.70000000298,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 29642.5,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 29742.5,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 29830.5,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 29945.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 30028.29999999702,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 30145.09999999404,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 30367.20000000298,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 30450.5,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 30550.59999999404,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 30652.89999999106,
+        "phase": "boot",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 30751.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 30850.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 30950.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 31050.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 31150.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 31250.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 31350.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 31450.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 31550.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 31650.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 31750.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 31850.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 31950.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 32054.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 32150.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 32250.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 32350.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 32450.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 32550.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 32650.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 32750.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 32850.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 32950.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 33050.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 33150.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 33250.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 33350.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 33434,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 33550.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 33650.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 33750.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 33850.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 33950.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 34050.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 34150.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 34250.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 34350.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 34450.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 34540.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 34644.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 34753.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 34854.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 34934.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 35054.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 35154.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 35254.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 35354.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 35454.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 35554.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 35656.89999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 35746.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 35873.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 35959.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 36045.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 36153.59999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 36254.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 36352.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 36440.09999999404,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 36554.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 36654.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 36740.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 36854.89999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 36954.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 37040.20000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 37145.39999999106,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 37242.29999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 37354.79999999702,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 37463.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 37538.5,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      },
+      {
+        "at": 37639.70000000298,
+        "phase": "sfx_stage_1",
+        "state": "running",
+        "rms": 0,
+        "peak": 0
+      }
+    ],
+    "connections": [
+      {
+        "index": 0,
+        "node": "GainNode",
+        "sample_rate": 48000
+      },
+      {
+        "index": 1,
+        "node": "AudioWorkletNode",
+        "sample_rate": 48000
+      },
+      {
+        "index": 2,
+        "node": "GainNode",
+        "sample_rate": 48000
+      },
+      {
+        "index": 3,
+        "node": "GainNode",
+        "sample_rate": 48000
+      }
+    ],
+    "states": [
+      {
+        "index": 0,
+        "at": 5126.5,
+        "state": "suspended",
+        "time": 0
+      },
+      {
+        "index": 1,
+        "at": 8602.09999999404,
+        "state": "suspended",
+        "time": 0
+      },
+      {
+        "index": 2,
+        "at": 23055,
+        "state": "suspended",
+        "time": 0
+      },
+      {
+        "index": 3,
+        "at": 23055.09999999404,
+        "state": "suspended",
+        "time": 0
+      },
+      {
+        "index": 0,
+        "at": 23203.70000000298,
+        "state": "running",
+        "time": 0.06133333333333333
+      },
+      {
+        "index": 1,
+        "at": 23203.70000000298,
+        "state": "running",
+        "time": 0.06133333333333333
+      },
+      {
+        "index": 2,
+        "at": 24326.79999999702,
+        "state": "running",
+        "time": 0.06133333333333333
+      },
+      {
+        "index": 3,
+        "at": 24326.79999999702,
+        "state": "running",
+        "time": 0.06133333333333333
+      }
+    ]
+  },
+  "scope": "Local Chrome regression using real CH01-N01 and CH01-N02 combat entry; verifies browser SFX start counters and context continuity, not human listening."
+}

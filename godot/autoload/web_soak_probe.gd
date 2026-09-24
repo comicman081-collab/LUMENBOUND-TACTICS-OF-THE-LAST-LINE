@@ -32,6 +32,9 @@ func _runtime_material_key(color: Color, emission := Color.BLACK) -> String:
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	if OS.has_feature("web") and SettingsService.is_developer_mode() and SaveService.is_soak_sandbox_enabled():
+		var local_probe := load("res://qa/local_gameplay_probe.gd") as Script
+		add_child(local_probe.new())
 	# Runtime telemetry is opt-in. Serialising the full audio/object sample and
 	# forwarding it through the browser console every five seconds created its own
 	# rhythmic main-thread hitch in ordinary Release play. Pipeline warmup remains
@@ -64,6 +67,7 @@ func _prewarm_web_render_pipelines() -> void:
 	if not OS.has_feature("web") or web_render_warmup_complete:
 		return
 	var warmup_started_usec := Time.get_ticks_usec()
+	_set_boot_loading_phase("그래픽 초기화", 0)
 	var warmup_viewport := SubViewport.new()
 	warmup_viewport.name = "WebRenderPipelineWarmup"
 	warmup_viewport.size = Vector2i(96, 96)
@@ -108,8 +112,10 @@ func _prewarm_web_render_pipelines() -> void:
 	camera.position = Vector3(0.0, 3.0, 5.4)
 	camera.look_at(Vector3.ZERO, Vector3.UP)
 	camera.make_current()
+	await _warmup_draw_slice("배경과 조명", 15)
 
 	var terrain_material := StandardMaterial3D.new()
+	preload("res://chapter_map/view/web_map_material_policy.gd").apply(terrain_material)
 	terrain_material.vertex_color_use_as_albedo = true
 	terrain_material.roughness = 0.94
 	terrain_material.cull_mode = BaseMaterial3D.CULL_DISABLED
@@ -125,8 +131,10 @@ func _prewarm_web_render_pipelines() -> void:
 	terrain_instance.material_override = terrain_material
 	terrain_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	root.add_child(terrain_instance)
+	await _warmup_draw_slice("지형 표현", 25)
 
 	var prop_material := StandardMaterial3D.new()
+	preload("res://chapter_map/view/web_map_material_policy.gd").apply(prop_material)
 	prop_material.albedo_color = Color("4a3a2d")
 	prop_material.roughness = 0.82
 	prop_material.cull_mode = BaseMaterial3D.CULL_BACK
@@ -148,8 +156,10 @@ func _prewarm_web_render_pipelines() -> void:
 	prop_instance.material_override = prop_material
 	prop_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	root.add_child(prop_instance)
+	await _warmup_draw_slice("환경 오브젝트", 35)
 
 	var road_material := StandardMaterial3D.new()
+	preload("res://chapter_map/view/web_map_material_policy.gd").apply(road_material)
 	road_material.albedo_color = Color("c9a45d")
 	road_material.roughness = 0.82
 	road_material.cull_mode = BaseMaterial3D.CULL_BACK
@@ -171,6 +181,7 @@ func _prewarm_web_render_pipelines() -> void:
 	road_instance.material_override = road_material
 	road_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	root.add_child(road_instance)
+	await _warmup_draw_slice("길과 다리", 45)
 
 	var marker_mesh := CylinderMesh.new()
 	marker_mesh.top_radius = 0.42
@@ -194,6 +205,7 @@ func _prewarm_web_render_pipelines() -> void:
 	marker_instance.mesh = marker_mesh
 	marker_instance.position = Vector3(1.2, 0.0, 0.0)
 	var marker_material := StandardMaterial3D.new()
+	preload("res://chapter_map/view/web_map_material_policy.gd").apply(marker_material)
 	marker_material.albedo_color = Color("78eed9")
 	marker_material.roughness = 0.82
 	marker_material.cull_mode = BaseMaterial3D.CULL_BACK
@@ -211,6 +223,7 @@ func _prewarm_web_render_pipelines() -> void:
 	marker_accent.shadow_enabled = false
 	marker_accent.position = Vector3(1.2, 0.72, 0.0)
 	root.add_child(marker_accent)
+	await _warmup_draw_slice("조우 표시", 55)
 
 	var route_material := StandardMaterial3D.new()
 	route_material.albedo_color = Color("4fd3c2d8")
@@ -225,6 +238,7 @@ func _prewarm_web_render_pipelines() -> void:
 	var route_instance := MeshInstance3D.new()
 	route_instance.mesh = route_mesh
 	root.add_child(route_instance)
+	await _warmup_draw_slice("이동 경로", 60)
 
 	var sprite_image := Image.create(4, 4, false, Image.FORMAT_RGBA8)
 	sprite_image.fill(Color.WHITE)
@@ -235,6 +249,38 @@ func _prewarm_web_render_pipelines() -> void:
 	sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_OPAQUE_PREPASS
 	root.add_child(sprite)
+	await _warmup_draw_slice("캐릭터 표시", 65)
+
+	# Warm the actual R17 terrain/foliage/water shaders, not just the older
+	# StandardMaterial placeholders. Both mesh and instanced variants are used
+	# by real maps. Preparing them here avoids first-map and first-move compiles.
+	var map_shaders := [
+		preload("res://chapter_map/shaders/terrain_surface.gdshader"),
+		preload("res://chapter_map/shaders/environment_surface.gdshader"),
+		preload("res://chapter_map/shaders/forest_backdrop.gdshader"),
+		preload("res://chapter_map/shaders/river_current.gdshader"),
+		preload("res://chapter_map/shaders/ground_contact.gdshader"),
+		preload("res://chapter_map/shaders/natural_river.gdshader"),
+		preload("res://chapter_map/shaders/natural_river_bank.gdshader"),
+	]
+	for shader_index in map_shaders.size():
+		var shader_material := ShaderMaterial.new()
+		shader_material.shader = map_shaders[shader_index]
+		if shader_index < 2 or shader_index == 6:
+			shader_material.shader = preload("res://chapter_map/view/web_map_material_policy.gd").surface_shader(map_shaders[shader_index])
+		var mesh_variant := MeshInstance3D.new()
+		mesh_variant.mesh = terrain_instance.mesh
+		mesh_variant.material_override = shader_material
+		mesh_variant.position.z = 0.04 * float(shader_index + 1)
+		mesh_variant.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		root.add_child(mesh_variant)
+		var instanced_variant := MultiMeshInstance3D.new()
+		instanced_variant.multimesh = prop_multimesh
+		instanced_variant.material_override = shader_material
+		instanced_variant.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		root.add_child(instanced_variant)
+		web_render_resource_cache["r17_shader_material_%d" % shader_index] = shader_material
+		await _warmup_draw_slice("맵 재질 %d / %d" % [shader_index + 1, map_shaders.size()], 70 + shader_index * 5)
 
 	# The map's Web-only range and route presentation is Canvas-based so movement
 	# never uploads three dynamic 3D meshes. Exercise the exact custom draw path
@@ -290,7 +336,38 @@ func _prewarm_web_render_pipelines() -> void:
 	# not need to remain in the active tree.
 	warmup_viewport.queue_free()
 	web_render_warmup_complete = true
+	JavaScriptBridge.eval("document.getElementById('lantern-render-loading')?.remove(); window.__lanternRenderReady = true;", true)
 	print("WEB_RENDER_WARMUP_COMPLETE %.2fms" % (float(Time.get_ticks_usec() - warmup_started_usec) / 1000.0))
+
+func _warmup_draw_slice(label: String, percent: int) -> void:
+	_set_boot_loading_phase(label, percent)
+	var started := Time.get_ticks_usec()
+	# Flush each family in its own draw boundary; never pile all driver links
+	# into a single 18-second first title frame. Input stays behind the explicit
+	# boot gate until the driver and real map material variants have settled.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	print("WEB_RENDER_WARMUP_SLICE %s %.2fms" % [label, float(Time.get_ticks_usec()-started)/1000.0])
+
+func _set_boot_loading_phase(label: String, percent: int) -> void:
+	var message := JSON.stringify(label)
+	JavaScriptBridge.eval("""(() => {
+	let gate = document.getElementById('lantern-render-loading');
+	if (!gate) {
+	  gate = document.createElement('div'); gate.id='lantern-render-loading';
+	  gate.setAttribute('role','status'); gate.setAttribute('aria-live','polite');
+	  gate.style.cssText='position:fixed;inset:0;z-index:2147483646;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50%% 35%%,#143a43,#060e18 72%%);color:#e6f0ed;font-family:system-ui,sans-serif;text-align:center;touch-action:none';
+	  gate.innerHTML='<style>@keyframes lanternBootSpin{to{transform:rotate(360deg)}}</style><div style="max-width:300px;padding:24px"><div style="margin:0 auto 22px;width:38px;height:38px;border:2px solid #24434b;border-top-color:#88dbc5;border-radius:50%%;animation:lanternBootSpin 1.1s linear infinite;will-change:transform"></div><div style="font-size:19px;letter-spacing:.08em">전투 세계 준비 중</div><div id="lantern-render-phase" style="font-size:14px;color:#aac3c6;margin-top:14px"></div><p style="font-size:12px;line-height:1.6;color:#8ca6ad">첫 실행은 그래픽 준비에 시간이 걸릴 수 있습니다.</p></div>';
+	  document.body.appendChild(gate);
+	  const blockKeys = event => {
+	    if (document.getElementById('lantern-render-loading')) { event.preventDefault(); event.stopImmediatePropagation(); }
+	    else { window.removeEventListener('keydown',blockKeys,true); window.removeEventListener('keyup',blockKeys,true); }
+	  };
+	  window.addEventListener('keydown',blockKeys,true); window.addEventListener('keyup',blockKeys,true);
+	}
+	document.getElementById('lantern-render-phase').textContent = %s + ' · %d%%';
+	window.__lanternRenderReady = false;
+	})();""" % [message, percent], true)
 
 func _process(delta: float) -> void:
 	var frame_msec := delta * 1000.0

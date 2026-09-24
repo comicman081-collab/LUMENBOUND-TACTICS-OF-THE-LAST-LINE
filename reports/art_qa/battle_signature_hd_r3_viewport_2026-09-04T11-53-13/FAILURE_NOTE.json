@@ -1,0 +1,6 @@
+{
+  "verdict": "FAIL_NOT_PROMOTABLE",
+  "reason": "The startup intro CanvasLayer remained above the valid BattleView during capture, so all four screenshots record the intro title card rather than the requested battle pixels.",
+  "retention": "Retained as failed QA evidence. Do not delete or reuse these screenshots as visual approval.",
+  "replacement_required": "A new viewport capture must explicitly complete the startup intro before staging the reference pair."
+}

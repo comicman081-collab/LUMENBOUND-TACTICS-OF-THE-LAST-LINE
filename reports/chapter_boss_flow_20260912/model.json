@@ -1,0 +1,617 @@
+{
+	"checks": [
+		{
+			"name": "CH01-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH01 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH01-N20 opens CH02-N01",
+			"pass": true
+		},
+		{
+			"name": "CH01-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH01-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH01-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH01-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH02-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH02 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH02-N20 opens CH03-N01",
+			"pass": true
+		},
+		{
+			"name": "CH02-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH02-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH02-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH02-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH03-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH03 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH03-N20 opens CH04-N01",
+			"pass": true
+		},
+		{
+			"name": "CH03-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH03-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH03-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH03-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH04-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH04 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH04-N20 opens CH05-N01",
+			"pass": true
+		},
+		{
+			"name": "CH04-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH04-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH04-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH04-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH05-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH05 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH05-N20 opens CH06-N01",
+			"pass": true
+		},
+		{
+			"name": "CH05-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH05-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH05-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH05-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH06-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH06 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH06-N20 opens CH07-N01",
+			"pass": true
+		},
+		{
+			"name": "CH06-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH06-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH06-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH06-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH07-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH07 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH07-N20 opens CH08-N01",
+			"pass": true
+		},
+		{
+			"name": "CH07-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH07-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH07-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH07-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH08-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH08 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH08-N20 opens CH09-N01",
+			"pass": true
+		},
+		{
+			"name": "CH08-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH08-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH08-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH08-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH09-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH09 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH09-N20 opens CH10-N01",
+			"pass": true
+		},
+		{
+			"name": "CH09-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH09-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH09-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH09-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH10-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH10 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH10-N20 opens CH11-N01",
+			"pass": true
+		},
+		{
+			"name": "CH10-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH10-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH10-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH10-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH11-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH11 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH11-N20 opens CH12-N01",
+			"pass": true
+		},
+		{
+			"name": "CH11-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH11-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH11-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH11-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH12-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH12 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH12-N20 opens CH13-N01",
+			"pass": true
+		},
+		{
+			"name": "CH12-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH12-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH12-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH12-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH13-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH13 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH13-N20 opens CH14-N01",
+			"pass": true
+		},
+		{
+			"name": "CH13-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH13-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH13-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH13-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH14-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH14 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH14-N20 opens CH15-N01",
+			"pass": true
+		},
+		{
+			"name": "CH14-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH14-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH14-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH14-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH15-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH15 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH15-N20 opens CH16-N01",
+			"pass": true
+		},
+		{
+			"name": "CH15-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH15-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH15-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH15-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH16-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH16 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH16-N20 opens CH17-N01",
+			"pass": true
+		},
+		{
+			"name": "CH16-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH16-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH16-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH16-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH17-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH17 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH17-N20 opens CH18-N01",
+			"pass": true
+		},
+		{
+			"name": "CH17-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH17-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH17-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH17-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH18-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH18 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH18-N20 opens CH19-N01",
+			"pass": true
+		},
+		{
+			"name": "CH18-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH18-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH18-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH18-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH19-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH19 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "CH19-N20 opens CH20-N01",
+			"pass": true
+		},
+		{
+			"name": "CH19-N20 persists destination",
+			"pass": true
+		},
+		{
+			"name": "CH19-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH19-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH19-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "CH20-N20 first clear",
+			"pass": true
+		},
+		{
+			"name": "CH20 optional hard unlocked",
+			"pass": true
+		},
+		{
+			"name": "Final chapter has no nonexistent next region",
+			"pass": true
+		},
+		{
+			"name": "CH20-N20 duplicate does not replace handoff",
+			"pass": true
+		},
+		{
+			"name": "CH20-N20 replay never forces travel",
+			"pass": true
+		},
+		{
+			"name": "CH20-N20 queues aftermath",
+			"pass": true
+		},
+		{
+			"name": "Old N20 save recovers next region and handoff",
+			"pass": true
+		},
+		{
+			"name": "Migration never regrants rewards",
+			"pass": true
+		},
+		{
+			"name": "Acknowledged handoff remains cleared after reload",
+			"pass": true
+		},
+		{
+			"name": "Fresh save cannot bypass chapter 1",
+			"pass": true
+		},
+		{
+			"name": "Ordinary opening waves have no boss entrance",
+			"pass": true
+		},
+		{
+			"name": "Authored boss spawn starts entrance",
+			"pass": true
+		},
+		{
+			"name": "Spawn-tick enemy destruction survives the cinematic boundary",
+			"pass": true
+		},
+		{
+			"name": "Entrance freezes combat even at 3x",
+			"pass": true
+		},
+		{
+			"name": "Pause freezes entrance without consuming timer",
+			"pass": true
+		},
+		{
+			"name": "Entrance finishes without catch-up ticks",
+			"pass": true
+		},
+		{
+			"name": "Cinematic does not alter deterministic event log",
+			"pass": true
+		},
+		{
+			"name": "Same wave never restarts cinematic",
+			"pass": true
+		},
+		{
+			"name": "Dead boss retains arena and formation",
+			"pass": true
+		},
+		{
+			"name": "Reused view resets all cinematic state",
+			"pass": true
+		}
+	],
+	"failures": 0
+}

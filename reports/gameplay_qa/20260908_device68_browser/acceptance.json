@@ -1,0 +1,294 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "Windows narrow rotation policy",
+      "state": {
+        "rotated": "0",
+        "width": 600,
+        "height": 338,
+        "rect": [
+          0,
+          281.25,
+          600,
+          337.5
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "Windows narrow frame stays inside visible window",
+      "state": {
+        "rotated": "0",
+        "width": 600,
+        "height": 338,
+        "rect": [
+          0,
+          281.25,
+          600,
+          337.5
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "Windows touch narrow rotation policy",
+      "state": {
+        "rotated": "0",
+        "width": 600,
+        "height": 338,
+        "rect": [
+          0,
+          281.25,
+          600,
+          337.5
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "Windows touch narrow frame stays inside visible window",
+      "state": {
+        "rotated": "0",
+        "width": 600,
+        "height": 338,
+        "rect": [
+          0,
+          281.25,
+          600,
+          337.5
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "Android portrait rotation policy",
+      "state": {
+        "rotated": "1",
+        "width": 844,
+        "height": 390,
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "Android portrait frame stays inside visible window",
+      "state": {
+        "rotated": "1",
+        "width": 844,
+        "height": 390,
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "Android portrait mobile frame fills portrait handset",
+      "state": {
+        "rotated": "1",
+        "width": 844,
+        "height": 390,
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "Android landscape stays upright",
+      "state": {
+        "rotated": "0",
+        "width": 844,
+        "height": 390,
+        "rect": [
+          0,
+          0,
+          844,
+          390
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "phone orientation keeps live frame"
+    },
+    {
+      "pass": true,
+      "name": "iPhone portrait rotation policy",
+      "state": {
+        "rotated": "1",
+        "width": 844,
+        "height": 390,
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "iPhone portrait frame stays inside visible window",
+      "state": {
+        "rotated": "1",
+        "width": 844,
+        "height": 390,
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "iPhone portrait mobile frame fills portrait handset",
+      "state": {
+        "rotated": "1",
+        "width": 844,
+        "height": 390,
+        "rect": [
+          0,
+          0,
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "iPad desktop UA rotation policy",
+      "state": {
+        "rotated": "1",
+        "width": 1024,
+        "height": 768,
+        "rect": [
+          0,
+          0,
+          768,
+          1024
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "iPad desktop UA frame stays inside visible window",
+      "state": {
+        "rotated": "1",
+        "width": 1024,
+        "height": 768,
+        "rect": [
+          0,
+          0,
+          768,
+          1024
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "iPad desktop UA mobile frame fills portrait handset",
+      "state": {
+        "rotated": "1",
+        "width": 1024,
+        "height": 768,
+        "rect": [
+          0,
+          0,
+          768,
+          1024
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "Mac narrow rotation policy",
+      "state": {
+        "rotated": "0",
+        "width": 600,
+        "height": 338,
+        "rect": [
+          0,
+          281.25,
+          600,
+          337.5
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "Mac narrow frame stays inside visible window",
+      "state": {
+        "rotated": "0",
+        "width": 600,
+        "height": 338,
+        "rect": [
+          0,
+          281.25,
+          600,
+          337.5
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "Windows landscape rotation policy",
+      "state": {
+        "rotated": "0",
+        "width": 1280,
+        "height": 720,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "Windows landscape frame stays inside visible window",
+      "state": {
+        "rotated": "0",
+        "width": 1280,
+        "height": 720,
+        "rect": [
+          0,
+          0,
+          1280,
+          720
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "live PC resize never rotates or crops",
+      "state": {
+        "rotated": "0",
+        "width": 600,
+        "height": 338,
+        "rect": [
+          0,
+          281.25,
+          600,
+          337.5
+        ]
+      }
+    }
+  ],
+  "scope": "Actual Chrome host layout with explicit desktop/phone/tablet UA and touch profiles; OS-device testing not claimed."
+}

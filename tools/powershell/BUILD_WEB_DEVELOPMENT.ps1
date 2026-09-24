@@ -1,4 +1,4 @@
-. "$PSScriptRoot\COMMON.ps1"
+﻿. "$PSScriptRoot\COMMON.ps1"
 $root = Get-ProjectRoot
 $godot = Find-Godot471
 $python = Find-LocalPython
@@ -27,6 +27,8 @@ New-Item -ItemType Directory -Path $output -Force | Out-Null
 # path while the public Release preset remains locked down.
 Invoke-Checked $godot @('--headless', '--path', (Join-Path $root 'godot'), '--export-release', 'Web Development', (Join-Path $output 'index.html'))
 if (-not (Test-Path -LiteralPath (Join-Path $output 'index.html') -PathType Leaf)) { throw 'Web Development index.html missing after export.' }
+Invoke-Checked $python @((Join-Path $root 'tools\web\stage_density_sidecars.py'), $output)
+Invoke-Checked $python @((Join-Path $root 'tools\web\stage_audio_sidecars.py'), $output)
 
 # A public PWA service worker may still control a reused local QA origin even
 # when the Development preset itself has PWA disabled.  Content-address every

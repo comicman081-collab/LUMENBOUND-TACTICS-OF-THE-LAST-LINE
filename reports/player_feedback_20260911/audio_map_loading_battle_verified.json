@@ -1,0 +1,62 @@
+{
+  "screen": "BATTLE",
+  "current": {
+    "active": true,
+    "active_sources": 1,
+    "attempts": {
+      "audio_bgm_battle": 1,
+      "audio_bgm_boss": 1,
+      "audio_bgm_lobby": 2,
+      "audio_bgm_story": 1
+    },
+    "backend": "browser_audio_buffer",
+    "cached_tracks": 3,
+    "context_state": "running",
+    "context_time": 393.1813333333333,
+    "current": "audio_bgm_battle",
+    "duration": 79.06792857142857,
+    "error": "",
+    "failures": {},
+    "loop_end": 79.116,
+    "loop_start": 0.04807142857143,
+    "pending": "",
+    "position": 5.516333333333364,
+    "requested": "audio_bgm_battle",
+    "source_duration": 89.9360625,
+    "starts": {
+      "audio_bgm_battle": 1,
+      "audio_bgm_boss": 1,
+      "audio_bgm_lobby": 2,
+      "audio_bgm_story": 1
+    }
+  },
+  "meter": {
+    "frames": 12631808,
+    "maxZeroMs": 0.4375,
+    "sampleRate": 48000
+  },
+  "start": {
+    "active": true,
+    "active_sources": 1,
+    "attempts": {
+      "audio_bgm_boss": 1
+    },
+    "backend": "browser_audio_buffer",
+    "cached_tracks": 1,
+    "context_state": "running",
+    "context_time": 129.96,
+    "current": "audio_bgm_boss",
+    "duration": 79.53785714285715,
+    "error": "",
+    "failures": {},
+    "loop_end": 79.557,
+    "loop_start": 0.01914285714286,
+    "pending": "",
+    "position": 2.33580952380953,
+    "requested": "audio_bgm_boss",
+    "source_duration": 89.9665625,
+    "starts": {
+      "audio_bgm_boss": 1
+    }
+  }
+}

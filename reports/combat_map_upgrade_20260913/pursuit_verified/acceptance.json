@@ -1,0 +1,206 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "Fresh map finishes its authored introduction"
+    },
+    {
+      "pass": true,
+      "name": "Fresh map has visible patrols near the player"
+    },
+    {
+      "pass": true,
+      "name": "Wait ends player turn 0"
+    },
+    {
+      "pass": true,
+      "name": "Enemy closes distance instead of oscillating on turn 0"
+    },
+    {
+      "pass": true,
+      "name": "Waiting does not move the player 0"
+    },
+    {
+      "pass": true,
+      "name": "Wait ends player turn 1"
+    },
+    {
+      "pass": true,
+      "name": "Enemy closes distance instead of oscillating on turn 1"
+    },
+    {
+      "pass": true,
+      "name": "Waiting does not move the player 1"
+    },
+    {
+      "pass": true,
+      "name": "Wait ends player turn 2"
+    },
+    {
+      "pass": true,
+      "name": "Enemy closes distance instead of oscillating on turn 2"
+    },
+    {
+      "pass": true,
+      "name": "Waiting does not move the player 2"
+    },
+    {
+      "pass": true,
+      "name": "Observed pursuit across multiple real player turns"
+    },
+    {
+      "pass": true,
+      "name": "Enemy movement has camera tracking history"
+    },
+    {
+      "pass": true,
+      "name": "No runtime errors"
+    }
+  ],
+  "turns": [
+    {
+      "turn": 0,
+      "id": "NODE_N01_SCOUT_1",
+      "fromDistance": 4,
+      "toDistance": 3,
+      "coord": [
+        3,
+        -3
+      ],
+      "camera": [
+        {
+          "camera": [
+            3.74122977256775,
+            0,
+            -6.48000001907349
+          ],
+          "node_id": "NODE_N01_SCOUT_1",
+          "phase": "focus"
+        },
+        {
+          "camera": [
+            2.80592226982117,
+            0,
+            -4.8600001335144
+          ],
+          "node_id": "NODE_N01_SCOUT_1",
+          "phase": "arrived"
+        },
+        {
+          "camera": [
+            9.70198917388916,
+            0,
+            -7.84608507156372
+          ],
+          "node_id": "NODE_N01_SCOUT_2",
+          "phase": "focus"
+        },
+        {
+          "camera": [
+            9.3530740737915,
+            0,
+            -6.48000001907349
+          ],
+          "node_id": "NODE_N01_SCOUT_2",
+          "phase": "arrived"
+        }
+      ]
+    },
+    {
+      "turn": 1,
+      "id": "NODE_N01_SCOUT_1",
+      "fromDistance": 3,
+      "toDistance": 2,
+      "coord": [
+        2,
+        -2
+      ],
+      "camera": [
+        {
+          "camera": [
+            2.80592226982117,
+            0,
+            -4.8600001335144
+          ],
+          "node_id": "NODE_N01_SCOUT_1",
+          "phase": "focus"
+        },
+        {
+          "camera": [
+            1.87061488628387,
+            0.860000014305115,
+            -3.24000000953674
+          ],
+          "node_id": "NODE_N01_SCOUT_1",
+          "phase": "arrived"
+        },
+        {
+          "camera": [
+            8.66926956176758,
+            0.078593373298645,
+            -6.18390417098999
+          ],
+          "node_id": "NODE_N01_SCOUT_2",
+          "phase": "focus"
+        },
+        {
+          "camera": [
+            8.41776657104492,
+            0,
+            -4.8600001335144
+          ],
+          "node_id": "NODE_N01_SCOUT_2",
+          "phase": "arrived"
+        }
+      ]
+    },
+    {
+      "turn": 2,
+      "id": "NODE_N01_SCOUT_1",
+      "fromDistance": 2,
+      "toDistance": 1,
+      "coord": [
+        1,
+        -1
+      ],
+      "camera": [
+        {
+          "camera": [
+            1.87061488628387,
+            0.860000014305115,
+            -3.24000000953674
+          ],
+          "node_id": "NODE_N01_SCOUT_1",
+          "phase": "focus"
+        },
+        {
+          "camera": [
+            0.935307443141937,
+            0,
+            -1.62000000476837
+          ],
+          "node_id": "NODE_N01_SCOUT_1",
+          "phase": "arrived"
+        },
+        {
+          "camera": [
+            8.21527194976807,
+            0,
+            -4.77231740951538
+          ],
+          "node_id": "NODE_N01_SCOUT_2",
+          "phase": "focus"
+        },
+        {
+          "camera": [
+            7.4824595451355,
+            0,
+            -3.24000000953674
+          ],
+          "node_id": "NODE_N01_SCOUT_2",
+          "phase": "arrived"
+        }
+      ]
+    }
+  ]
+}

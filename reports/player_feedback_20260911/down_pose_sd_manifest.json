@@ -1,0 +1,70 @@
+{
+  "report_id": "DOWN_POSE_SD_20260911_R1",
+  "status": "PASS",
+  "scope": "player_characters_only",
+  "player_ids": [
+    "CHR001",
+    "CHR002",
+    "CHR003",
+    "CHR004",
+    "CHR005",
+    "CHR006",
+    "CHR007",
+    "CHR008"
+  ],
+  "player_asset_count": 8,
+  "style": "sd-combat",
+  "state": "down",
+  "logical_canvas": [
+    512,
+    512
+  ],
+  "runtime_root": "godot/assets/runtime_web/combat_down_pose",
+  "runtime_enemy_assets": [],
+  "enemy_presentation": "procedural_explosion_only",
+  "asset_manifest": "godot/assets/runtime_web/combat_down_pose/down_pose_manifest.json",
+  "contact_sheet": "work/down_pose_sd_20260911/candidates/sd_down_pose_player_only_contact_sheet.png",
+  "source_masters": "work/down_pose_sd_20260911/masters",
+  "quarantine": [
+    "work/down_pose_sd_20260911/quarantine/fullbody_wrong_style",
+    "work/down_pose_sd_20260911/quarantine/enemy_explosion_not_runtime"
+  ],
+  "headless_tests": {
+    "total": 297,
+    "pass": 297,
+    "fail": 0
+  },
+  "web_build": {
+    "release": "builds/web_down_pose_sd_20260911_release",
+    "development": "builds/web_down_pose_sd_20260911_development",
+    "version": {
+      "build_id": "LANTERNLINE_DOWN_POSE_SD_20260911_WEB",
+      "engine": "Godot 4.7.1-stable",
+      "renderer": "Compatibility",
+      "target": "Web HTML Release",
+      "feature": "SRPG chapter traversal map",
+      "map_revision": "R7",
+      "runtime_artifact_base": "r7_current_7ed7c66e99a5",
+      "pck_sha256": "7ed7c66e99a53ad915b141b57f91bc54e3b8a9dfa76b189bfba864156caa86e2",
+      "battle_contract": "existing deterministic real-time SD battle preserved",
+      "production_approved": false,
+      "created_utc": "2026-09-11T09:51:10.1531999Z"
+    },
+    "pck_file": "r7_current_7ed7c66e99a5.pck",
+    "pck_sha256": "7ed7c66e99a53ad915b141b57f91bc54e3b8a9dfa76b189bfba864156caa86e2",
+    "pck_contains_chr001": true,
+    "pck_contains_chr008": true,
+    "pck_contains_enemy_down_pose": false
+  },
+  "sidecars": {
+    "release_density_pages": 644,
+    "release_bgm_tracks": 5,
+    "development_density_pages": 644,
+    "development_bgm_tracks": 5
+  },
+  "browser_checks": {
+    "intro_1080p_50s_bgm_pause_resume_end": "PASS (development build QA query; 1920x1080, 50s, embedded BGM, pause/resume, ended at 50s)",
+    "battle_loading": "PASS for first isolated run (HD actors and VFX attached, battle completed); existing multi-run audit stopped at cached-return control lookup",
+    "release_server": "http://127.0.0.1:8792/play/7ed7c66e99a5/"
+  }
+}

@@ -1,0 +1,26 @@
+{
+	"expected_stall": true,
+	"hidden_footer": "입장 조건/작전력/일일 횟수를 확인하세요.",
+	"map_locked": true,
+	"passed": true,
+	"pending": {
+		"contact_q": 202,
+		"contact_r": -22,
+		"node_id": "NODE_N20",
+		"presentation": {
+			"boss_name_key": "ENEMY_HOLLOW_ENGINE",
+			"boss_subtitle_key": "MAP_BOSS_CH01_N20_SUBTITLE",
+			"event_title_key": "MAP_BOSS_CH01_N20_TITLE",
+			"transition_style": "BOSS"
+		},
+		"return_q": 201,
+		"return_r": -22,
+		"special_event": {},
+		"stage_id": "CH01-N20",
+		"token": ""
+	},
+	"prepared": true,
+	"stranded": true,
+	"transition_started": false,
+	"zero_stamina": true
+}

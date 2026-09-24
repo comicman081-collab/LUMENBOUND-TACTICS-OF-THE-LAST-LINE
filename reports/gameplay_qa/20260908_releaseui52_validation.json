@@ -1,0 +1,24 @@
+{
+  "status": "LOCAL_RELEASE_BUILD_VERIFIED",
+  "build": "builds/web_gameplay_qa_20260908_releaseui52_release",
+  "pck_sha256": "b37ef928f7d171cf594bc3a232a081293dcf5d9b9ff2da9ff7ce8f8919b84c4a",
+  "pck_bytes": 168557556,
+  "export_preset": "Web HTML Release",
+  "export_mode": "--export-release",
+  "custom_features": "",
+  "before": {
+    "DEV_full_skip": "developer only",
+    "scenario_id": "developer only",
+    "UI_hide": "also visible to players"
+  },
+  "after": {
+    "DEV_full_skip": "developer only; action guarded",
+    "scenario_id": "developer only",
+    "UI_hide": "developer only; action guarded"
+  },
+  "tests": {
+    "control_factory_portrait_landscape_and_authority": 25,
+    "general_regression": 293
+  },
+  "scope": "Actual controls tested in both settings modes under native Godot; public Release export generated. No full public-browser campaign replay or deployment."
+}

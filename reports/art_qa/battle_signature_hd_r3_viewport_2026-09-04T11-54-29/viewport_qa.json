@@ -1,0 +1,58 @@
+{
+  "approval_status": "LOCAL_QA_ONLY",
+  "boss_signature_size": [
+    384,
+    384
+  ],
+  "captures": [
+    {
+      "file": "01_idle.png",
+      "height": 844,
+      "sha256": "5a6235d92207216b2df3861e0cd1749f1bd66f63a7c91404e17869e0a6f7f81d",
+      "stage": "idle",
+      "width": 390
+    },
+    {
+      "file": "02_ultimate_windup.png",
+      "height": 844,
+      "sha256": "8df896aa72d80d438dcd7cba6d192755b9adfa2aeb99b3bc69c3b32ecf45d023",
+      "stage": "ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "03_ultimate_impact.png",
+      "height": 844,
+      "sha256": "6acd90c711f2eb76c83c49f1cf55db97504a80136c787294d2c6da56cc07c420",
+      "stage": "ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "04_boss_down.png",
+      "height": 844,
+      "sha256": "006fc7f123966e2c0e75e012398d3dcdbb482e550a32cb0a14584d4c0372881f",
+      "stage": "boss_down",
+      "width": 390
+    }
+  ],
+  "guardian_signature_size": [
+    384,
+    384
+  ],
+  "kind": "BATTLE_SIGNATURE_HD_LOCAL_VIEWPORT_QA",
+  "motion_contract": {
+    "enemy_hit_x": 16.9962711334229,
+    "player_basic_lunge_x": 13.8952293395996,
+    "player_basic_windup_x": -3.49206352233887
+  },
+  "reference_pair": [
+    "CHR001",
+    "BOSS001"
+  ],
+  "signature_load_error": "",
+  "signature_pack_ready": true,
+  "stage_source": "CH01-N20",
+  "viewport": [
+    390,
+    844
+  ]
+}

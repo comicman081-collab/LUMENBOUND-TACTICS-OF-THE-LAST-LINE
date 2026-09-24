@@ -1,0 +1,110 @@
+{
+  "checks": [
+    {
+      "name": "native 1920x1080 runtime video",
+      "pass": true
+    },
+    {
+      "name": "all 1200 video frames decode",
+      "pass": true
+    },
+    {
+      "name": "24 fps and exactly 50 seconds of video",
+      "pass": true
+    },
+    {
+      "name": "every compressed audio packet matches the previous intro in order",
+      "pass": true
+    },
+    {
+      "name": "none of the five new source audio streams was mapped",
+      "pass": true
+    },
+    {
+      "name": "all transition and final-frame review stills extracted",
+      "pass": true
+    }
+  ],
+  "original_audio_packets": 3475,
+  "retained_audio_packets": 3313,
+  "runtime_video": {
+    "index": 0,
+    "codec_name": "theora",
+    "codec_long_name": "Theora",
+    "codec_type": "video",
+    "codec_tag_string": "[0][0][0][0]",
+    "codec_tag": "0x0000",
+    "width": 1920,
+    "height": 1080,
+    "coded_width": 1920,
+    "coded_height": 1088,
+    "has_b_frames": 0,
+    "sample_aspect_ratio": "1:1",
+    "display_aspect_ratio": "16:9",
+    "pix_fmt": "yuv420p",
+    "level": -99,
+    "chroma_location": "center",
+    "refs": 1,
+    "r_frame_rate": "24/1",
+    "avg_frame_rate": "24/1",
+    "time_base": "1/24",
+    "start_pts": 0,
+    "start_time": "0.000000",
+    "duration_ts": 1200,
+    "duration": "50.000000",
+    "nb_read_frames": "1200",
+    "extradata_size": 3431,
+    "disposition": {
+      "default": 0,
+      "dub": 0,
+      "original": 0,
+      "comment": 0,
+      "lyrics": 0,
+      "karaoke": 0,
+      "forced": 0,
+      "hearing_impaired": 0,
+      "visual_impaired": 0,
+      "clean_effects": 0,
+      "attached_pic": 0,
+      "timed_thumbnails": 0,
+      "non_diegetic": 0,
+      "captions": 0,
+      "descriptions": 0,
+      "metadata": 0,
+      "dependent": 0,
+      "still_image": 0,
+      "multilayer": 0
+    },
+    "tags": {
+      "encoder": "Lavc62.28.101 libtheora",
+      "language": "und",
+      "handler_name": "VideoHandler",
+      "major_brand": "isom",
+      "minor_version": "512",
+      "compatible_brands": "isomiso2avc1mp41"
+    }
+  },
+  "review_frames": [
+    48,
+    239,
+    240,
+    243,
+    248,
+    288,
+    479,
+    483,
+    488,
+    528,
+    719,
+    723,
+    728,
+    768,
+    959,
+    963,
+    968,
+    1008,
+    1128,
+    1199
+  ],
+  "visual_review": "contact sheet requires reviewer inspection"
+}

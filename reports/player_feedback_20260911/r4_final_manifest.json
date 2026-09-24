@@ -1,0 +1,138 @@
+{
+  "status": "UI_AND_GAMEPLAY_FIXES_VERIFIED__PRONE_ART_PENDING",
+  "date": "2026-09-11",
+  "player_url": "http://127.0.0.1:8770/play/8c9a28da58f8/",
+  "service": {
+    "service": "lumenbound-local-player-v2",
+    "build": "builds/web_feedback_20260911_r4_player_verified",
+    "pid": 25380,
+    "play_path": "/play/8c9a28da58f8/"
+  },
+  "browser_suites": {
+    "r4k_ui_matrix": {
+      "passed": 391,
+      "total": 391,
+      "evidence": "reports\\player_feedback_20260911\\r4k_ui_matrix\\acceptance.json"
+    },
+    "r4j_party": {
+      "passed": 48,
+      "total": 48,
+      "evidence": "reports\\player_feedback_20260911\\r4j_party\\acceptance.json"
+    },
+    "r4j_story_map": {
+      "passed": 35,
+      "total": 35,
+      "evidence": "reports\\player_feedback_20260911\\r4j_story_map\\acceptance.json"
+    },
+    "r4m_onboarding": {
+      "passed": 35,
+      "total": 35,
+      "evidence": "reports\\player_feedback_20260911\\r4m_onboarding\\acceptance.json"
+    },
+    "r4k_intro": {
+      "passed": 6,
+      "total": 6,
+      "evidence": "reports\\player_feedback_20260911\\r4k_intro\\acceptance.json"
+    },
+    "r4_verified_player_boot": {
+      "passed": 4,
+      "total": 4,
+      "evidence": "reports\\player_feedback_20260911\\r4_verified_player_boot\\acceptance.json"
+    }
+  },
+  "headless_suites": {
+    "core": 295,
+    "map": 354,
+    "player_feedback": 23,
+    "r4_logic": 87,
+    "field_exploration": 342
+  },
+  "files": [
+    {
+      "path": "builds\\web_feedback_20260911_r4_player_verified\\index.html",
+      "bytes": 8417,
+      "sha256": "714b55795a3594658752a0cacb4c9d11c758ba6a0c64c17a56a254f2f940ba5e"
+    },
+    {
+      "path": "builds\\web_feedback_20260911_r4_player_verified\\index.js",
+      "bytes": 279815,
+      "sha256": "68586d6daafc93c6e697b3fb258976874aa7459b8931165ebb1dc3c9614cc42c"
+    },
+    {
+      "path": "builds\\web_feedback_20260911_r4_player_verified\\index.pck",
+      "bytes": 234799596,
+      "sha256": "8c9a28da58f829075ef34e046cf40868d1e473dc8ea5e798df7c588788144f13"
+    },
+    {
+      "path": "builds\\web_feedback_20260911_r4_player_verified\\index.wasm",
+      "bytes": 39513091,
+      "sha256": "35116f68540ac41acf7d71ea457added91b5e960a9cca3e2acc72918eaf01277"
+    },
+    {
+      "path": "godot\\screens\\app_shell.gd",
+      "bytes": 291874,
+      "sha256": "5e184bf8b3bf19844445c3131a37d0ad99307c5fc63c2a3ee912022ce5d79188"
+    },
+    {
+      "path": "godot\\screens\\command_presentation.gd",
+      "bytes": 22626,
+      "sha256": "fb9b0792b1441374bfeb395453e162006a29e72403af4ffe04bc9a19da77ff83"
+    },
+    {
+      "path": "godot\\chapter_map\\runtime\\chapter_map_screen.gd",
+      "bytes": 377771,
+      "sha256": "727af2ed3cf579a731b381a069ac7e08383cecf650cd3a3c08a847bd5cb6509d"
+    },
+    {
+      "path": "godot\\progression\\character_progression.gd",
+      "bytes": 7715,
+      "sha256": "64cd02a96a04bcf5e677c31cc4e05b6785c801af50a3f93b4af0c6894bde35b4"
+    },
+    {
+      "path": "godot\\ui\\game_ui_tokens.gd",
+      "bytes": 6956,
+      "sha256": "f5132b6e1ca39f06f38262b526b158e0bd5fec50572bcacaa82aee40e5e9444a"
+    },
+    {
+      "path": "godot\\web\\browser_intro.js",
+      "bytes": 2331,
+      "sha256": "dfe60e3ef87cadf759aebe5754682c6339823637ee75d3474a3cbba14114377d"
+    },
+    {
+      "path": "godot\\web\\browser_bgm.js",
+      "bytes": 5426,
+      "sha256": "a9e7adc4575c6127e8f7fc18a99ab55c9a7f198df1d66813f2e02b4c4ba49f81"
+    },
+    {
+      "path": "intro\\completed_1080p_50s\\intro_1080p_50s.mp4",
+      "bytes": 77343515,
+      "sha256": "f40997486189cbe74a56da2d3a2cdfbb8238169a9afc77bc61a2d59cf2418a6c"
+    },
+    {
+      "path": "godot\\assets\\art\\backgrounds\\BG_LANTERNLINE_HEADQUARTERS\\headquarters_1344x768.png",
+      "bytes": 2058354,
+      "sha256": "b214626d19230e8c776444e7438829dbb597e14b5f0fb645b6ec4a2304fb6c96"
+    },
+    {
+      "path": "godot\\assets\\fonts\\LanternSans-Black.ttf",
+      "bytes": 6221352,
+      "sha256": "5eb918df70cb4345d9249523736f76286c2c0c64f27aa612bf8fb90ecf143c77"
+    },
+    {
+      "path": "godot\\assets\\fonts\\LanternSans-Medium.ttf",
+      "bytes": 6223088,
+      "sha256": "16bb3ce95eb88f0a31fe7135b99acb4c9644f4533e1346836ac884b77540beda"
+    },
+    {
+      "path": "godot\\assets\\fonts\\LanternSans-SemiBold.ttf",
+      "bytes": 6220900,
+      "sha256": "395c17c6c31e8ae84fd7776816f555ef796ccec58446dd25367b79519a4e44bc"
+    }
+  ],
+  "outstanding": [
+    "Current-identity prone defeat illustrations: local attempts r1-r7 failed visual review and are quarantined; built-in ImageGen permission question remains unanswered. Runtime defeat art is not claimed fixed."
+  ],
+  "real_player_save_reset": false,
+  "online_deployment": false,
+  "external_generation_in_this_batch": false
+}

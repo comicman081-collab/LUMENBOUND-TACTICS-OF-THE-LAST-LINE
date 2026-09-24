@@ -1,0 +1,21 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "basic_attack visible 640x360 attack pose"
+    },
+    {
+      "pass": true,
+      "name": "normal_skill visible 640x360 attack pose"
+    },
+    {
+      "pass": true,
+      "name": "ultimate visible 640x360 attack pose"
+    },
+    {
+      "pass": true,
+      "name": "no small viewport runtime errors"
+    }
+  ],
+  "scope": "Actual 640x360 renderer with held art and damage fixtures. No resize pause overlay is accepted as visual evidence."
+}

@@ -1,0 +1,1652 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "CH01-N20 fixture created"
+    },
+    {
+      "pass": true,
+      "name": "Release entry rules active"
+    },
+    {
+      "pass": true,
+      "name": "real contact route exists"
+    },
+    {
+      "pass": true,
+      "name": "CH01-N20 rejection returns interactive map"
+    },
+    {
+      "pass": true,
+      "name": "CH01-N20 rejected pending contact cleared"
+    },
+    {
+      "pass": true,
+      "name": "CH01-N20 returns to pre-contact tile"
+    },
+    {
+      "pass": true,
+      "name": "CH01-N20 visible entry reason"
+    },
+    {
+      "pass": true,
+      "name": "CH01-N20 wait still usable"
+    },
+    {
+      "pass": true,
+      "name": "Release entry rules active"
+    },
+    {
+      "pass": true,
+      "name": "real contact route exists"
+    },
+    {
+      "pass": true,
+      "name": "CH01-N20 correct battle entered"
+    },
+    {
+      "pass": true,
+      "name": "CH01-H05 fixture created"
+    },
+    {
+      "pass": true,
+      "name": "Release entry rules active"
+    },
+    {
+      "pass": false,
+      "name": "Error: Action missing"
+    }
+  ],
+  "runs": [
+    {
+      "kind": "rejected",
+      "stage": "CH01-N20",
+      "map": {
+        "backdrop": {
+          "instances": 327,
+          "present": true
+        },
+        "battle_transition_active": false,
+        "camera_size": 13.1999998092651,
+        "camera_target": [
+          359.158050537109,
+          0,
+          -35.6399993896484
+        ],
+        "chapter": "CH01",
+        "detail": {
+          "rect": [
+            688.100952148438,
+            92.0499954223633,
+            240.10302734375,
+            208
+          ],
+          "visible": true,
+          "z": 80
+        },
+        "enemy_camera_history": [],
+        "enemy_camera_subject": "",
+        "enemy_pawns": 1,
+        "environment_meshes": [
+          "boulder",
+          "boulder_alt",
+          "canopy",
+          "canopy_alt",
+          "trunk"
+        ],
+        "field_events": [
+          {
+            "id": "EVENT_CRYSTAL_TRACE",
+            "screen": [
+              -7937.3740234375,
+              -4928.21533203125
+            ],
+            "state": "UNDISCOVERED",
+            "visible": false
+          },
+          {
+            "id": "EVENT_BROKEN_SWITCH",
+            "screen": [
+              -7128.82177734375,
+              -4521.62841796875
+            ],
+            "state": "UNDISCOVERED",
+            "visible": false
+          },
+          {
+            "id": "EVENT_COAST_LOG",
+            "screen": [
+              -5305.68017578125,
+              -3548.21020507812
+            ],
+            "state": "UNDISCOVERED",
+            "visible": false
+          }
+        ],
+        "full_map_open": false,
+        "grid_tiles": 3602,
+        "instance_id": 127171298856,
+        "minimap": {
+          "drawn_tiles": 181,
+          "explored_tiles": [
+            "-7,0",
+            "-7,1",
+            "-7,2",
+            "-7,3",
+            "-7,4",
+            "-7,5",
+            "-7,6",
+            "-7,7",
+            "-6,-1",
+            "-6,0",
+            "-6,1",
+            "-6,2",
+            "-6,3",
+            "-6,4",
+            "-6,5",
+            "-6,6",
+            "-6,7",
+            "-5,-2",
+            "-5,-1",
+            "-5,0",
+            "-5,1",
+            "-5,2",
+            "-5,3",
+            "-5,4",
+            "-5,5",
+            "-5,6",
+            "-5,7",
+            "-4,-3",
+            "-4,-2",
+            "-4,-1",
+            "-4,0",
+            "-4,1",
+            "-4,2",
+            "-4,3",
+            "-4,4",
+            "-4,5",
+            "-4,6",
+            "-4,7",
+            "-3,-4",
+            "-3,-3",
+            "-3,-2",
+            "-3,-1",
+            "-3,0",
+            "-3,1",
+            "-3,2",
+            "-3,3",
+            "-3,4",
+            "-3,5",
+            "-3,6",
+            "-3,7",
+            "-2,-5",
+            "-2,-4",
+            "-2,-3",
+            "-2,-2",
+            "-2,-1",
+            "-2,0",
+            "-2,1",
+            "-2,2",
+            "-2,3",
+            "-2,4",
+            "-2,5",
+            "-2,6",
+            "-2,7",
+            "-1,-6",
+            "-1,-5",
+            "-1,-4",
+            "-1,-3",
+            "-1,-2",
+            "-1,-1",
+            "-1,0",
+            "-1,1",
+            "-1,2",
+            "-1,3",
+            "-1,4",
+            "-1,5",
+            "-1,6",
+            "-1,7",
+            "0,-7",
+            "0,-6",
+            "0,-5",
+            "0,-4",
+            "0,-3",
+            "0,-2",
+            "0,-1",
+            "0,0",
+            "0,1",
+            "0,2",
+            "0,3",
+            "0,4",
+            "0,5",
+            "0,6",
+            "0,7",
+            "1,-7",
+            "1,-6",
+            "1,-5",
+            "1,-4",
+            "1,-3",
+            "1,-2",
+            "1,-1",
+            "1,0",
+            "1,1",
+            "1,2",
+            "1,3",
+            "1,4",
+            "1,5",
+            "1,6",
+            "2,-7",
+            "2,-6",
+            "2,-5",
+            "2,-4",
+            "2,-3",
+            "2,-2",
+            "2,-1",
+            "2,0",
+            "2,1",
+            "2,2",
+            "2,3",
+            "2,4",
+            "2,5",
+            "3,-7",
+            "3,-6",
+            "3,-5",
+            "3,-4",
+            "3,-3",
+            "3,-2",
+            "3,-1",
+            "3,0",
+            "3,1",
+            "3,2",
+            "3,3",
+            "3,4",
+            "3,5",
+            "4,-8",
+            "4,-7",
+            "4,-6",
+            "4,-5",
+            "4,-4",
+            "4,-3",
+            "4,-2",
+            "4,-1",
+            "4,0",
+            "4,1",
+            "4,2",
+            "4,3",
+            "4,4",
+            "5,-8",
+            "5,-7",
+            "5,-6",
+            "5,-5",
+            "5,-4",
+            "5,-3",
+            "5,-2",
+            "5,-1",
+            "5,0",
+            "5,1",
+            "5,2",
+            "5,3",
+            "6,-8",
+            "6,-7",
+            "6,-6",
+            "6,-5",
+            "6,-4",
+            "6,-3",
+            "6,-2",
+            "6,-1",
+            "6,0",
+            "6,1",
+            "6,2",
+            "7,-8",
+            "7,-7",
+            "7,-6",
+            "7,-5",
+            "7,-4",
+            "7,-3",
+            "7,-2",
+            "7,-1",
+            "7,0",
+            "7,1",
+            "8,-8",
+            "8,-7",
+            "8,-6",
+            "8,-5",
+            "8,-4",
+            "8,-3",
+            "8,-2",
+            "8,-1",
+            "8,0",
+            "195,-22",
+            "195,-21",
+            "195,-20",
+            "195,-19",
+            "195,-18",
+            "195,-17",
+            "195,-16",
+            "195,-15",
+            "195,-14",
+            "196,-23",
+            "196,-22",
+            "196,-21",
+            "196,-20",
+            "196,-19",
+            "196,-18",
+            "196,-17",
+            "196,-16",
+            "196,-15",
+            "197,-24",
+            "197,-23",
+            "197,-22",
+            "197,-21",
+            "197,-20",
+            "197,-19",
+            "197,-18",
+            "197,-17",
+            "197,-16",
+            "197,-15",
+            "198,-25",
+            "198,-24",
+            "198,-23",
+            "198,-22",
+            "198,-21",
+            "198,-20",
+            "198,-19",
+            "198,-18",
+            "198,-17",
+            "198,-16",
+            "198,-15",
+            "199,-26",
+            "199,-25",
+            "199,-24",
+            "199,-23",
+            "199,-22",
+            "199,-21",
+            "199,-20",
+            "199,-19",
+            "199,-18",
+            "199,-17",
+            "199,-16",
+            "199,-15",
+            "200,-27",
+            "200,-26",
+            "200,-25",
+            "200,-24",
+            "200,-23",
+            "200,-22",
+            "200,-21",
+            "200,-20",
+            "200,-19",
+            "200,-18",
+            "200,-17",
+            "200,-16",
+            "200,-15",
+            "201,-28",
+            "201,-27",
+            "201,-26",
+            "201,-25",
+            "201,-24",
+            "201,-23",
+            "201,-22",
+            "201,-21",
+            "201,-20",
+            "201,-19",
+            "201,-18",
+            "201,-17",
+            "201,-16",
+            "201,-15",
+            "202,-29",
+            "202,-28",
+            "202,-27",
+            "202,-26",
+            "202,-25",
+            "202,-24",
+            "202,-23",
+            "202,-22",
+            "202,-21",
+            "202,-20",
+            "202,-19",
+            "202,-18",
+            "202,-17",
+            "202,-16",
+            "202,-15",
+            "203,-29",
+            "203,-28",
+            "203,-27",
+            "203,-26",
+            "203,-25",
+            "203,-24",
+            "203,-23",
+            "203,-22",
+            "203,-21",
+            "203,-20",
+            "203,-19",
+            "203,-18",
+            "203,-17",
+            "203,-16",
+            "204,-29",
+            "204,-28",
+            "204,-27",
+            "204,-26",
+            "204,-25",
+            "204,-24",
+            "204,-23",
+            "204,-22",
+            "204,-21",
+            "204,-20",
+            "204,-19",
+            "204,-18",
+            "204,-17",
+            "205,-29",
+            "205,-28",
+            "205,-27",
+            "205,-26",
+            "205,-25",
+            "205,-24",
+            "205,-23",
+            "205,-22",
+            "205,-21",
+            "205,-20",
+            "205,-19",
+            "205,-18",
+            "206,-29",
+            "206,-28",
+            "206,-27",
+            "206,-26",
+            "206,-25",
+            "206,-24",
+            "206,-23",
+            "206,-22",
+            "206,-21",
+            "206,-20",
+            "206,-19",
+            "207,-29",
+            "207,-28",
+            "207,-27",
+            "207,-26",
+            "207,-25",
+            "207,-24",
+            "207,-23",
+            "207,-22",
+            "207,-21",
+            "207,-20",
+            "208,-29",
+            "208,-28",
+            "208,-27",
+            "208,-26",
+            "208,-25",
+            "208,-24",
+            "208,-23",
+            "208,-22",
+            "208,-21",
+            "209,-29",
+            "209,-28",
+            "209,-27",
+            "209,-26",
+            "209,-25",
+            "209,-24",
+            "209,-23",
+            "209,-22",
+            "194,-22",
+            "194,-21",
+            "194,-20",
+            "194,-19",
+            "194,-18",
+            "194,-17",
+            "194,-16",
+            "194,-15",
+            "194,-14",
+            "195,-23",
+            "196,-24",
+            "197,-25",
+            "198,-26"
+          ],
+          "full_map": false,
+          "markers": [
+            {
+              "coord": "3,0",
+              "kind": "relay"
+            },
+            {
+              "coord": "3,0",
+              "kind": "landmark"
+            },
+            {
+              "coord": "4,2",
+              "kind": "treasure"
+            },
+            {
+              "coord": "202,-22",
+              "kind": "enemy"
+            }
+          ],
+          "rect": [
+            20.951587677002,
+            387.194427490234,
+            180.281097412109,
+            117.862945556641
+          ],
+          "total_tiles": 3602
+        },
+        "movement_points": 3,
+        "movement_points_max": 3,
+        "moving": false,
+        "natural_bridge_tiles": 27,
+        "natural_chunks": 49,
+        "natural_river_chunks": 45,
+        "natural_terrain": true,
+        "next": "CH01-N20",
+        "palette": "FOREST",
+        "paused": false,
+        "pawn_texture": {
+          "atlas_path": "",
+          "atlas_size": [
+            1536,
+            768
+          ],
+          "height": 192,
+          "path": "",
+          "width": 192
+        },
+        "pending_encounter": {},
+        "persistent_grid_cells": 3602,
+        "persistent_grid_drawn": 167,
+        "player_rules": true,
+        "position": [
+          203,
+          -22
+        ],
+        "preview": [
+          [
+            203,
+            -22
+          ],
+          [
+            202,
+            -22
+          ]
+        ],
+        "reachable": 13,
+        "ready": true,
+        "selected_can_enter": false,
+        "selected_node": "NODE_N20",
+        "selected_target": [
+          202,
+          -22
+        ],
+        "selected_unlocked": true,
+        "stamina": 0,
+        "status": "적 턴 완료 · 다음 아군 턴 · 이동 3/3 · 순찰 3체 이동",
+        "terrain_samples": [
+          {
+            "blocked": true,
+            "coord": [
+              202,
+              -21
+            ],
+            "reachable": false,
+            "screen": [
+              284,
+              312.7
+            ],
+            "type": "SHALLOW_WATER"
+          },
+          {
+            "blocked": true,
+            "coord": [
+              201,
+              -20
+            ],
+            "reachable": false,
+            "screen": [
+              226.1,
+              323.2
+            ],
+            "type": "SHALLOW_WATER"
+          },
+          {
+            "blocked": true,
+            "coord": [
+              204,
+              -21
+            ],
+            "reachable": false,
+            "screen": [
+              366.4,
+              358.5
+            ],
+            "type": "RUINS"
+          },
+          {
+            "blocked": true,
+            "coord": [
+              201,
+              -21
+            ],
+            "reachable": false,
+            "screen": [
+              242.8,
+              280.6
+            ],
+            "type": "SHALLOW_WATER"
+          },
+          {
+            "blocked": true,
+            "coord": [
+              200,
+              -20
+            ],
+            "reachable": false,
+            "screen": [
+              184.9,
+              291.2
+            ],
+            "type": "SHALLOW_WATER"
+          },
+          {
+            "blocked": false,
+            "coord": [
+              202,
+              -24
+            ],
+            "reachable": true,
+            "screen": [
+              334.1,
+              185
+            ],
+            "type": "RUINS"
+          },
+          {
+            "blocked": true,
+            "coord": [
+              200,
+              -21
+            ],
+            "reachable": false,
+            "screen": [
+              201.6,
+              248.6
+            ],
+            "type": "SHALLOW_WATER"
+          },
+          {
+            "blocked": true,
+            "coord": [
+              200,
+              -16
+            ],
+            "reachable": false,
+            "screen": [
+              118.1,
+              424.9
+            ],
+            "type": "RUINS"
+          },
+          {
+            "blocked": true,
+            "coord": [
+              207,
+              -28
+            ],
+            "reachable": false,
+            "screen": [
+              607,
+              156.6
+            ],
+            "type": "RUINS"
+          },
+          {
+            "blocked": true,
+            "coord": [
+              206,
+              -28
+            ],
+            "reachable": false,
+            "screen": [
+              565.8,
+              124.6
+            ],
+            "type": "RUINS"
+          }
+        ],
+        "toolbar_rect": [
+          7.79593944549561,
+          56.4962959289551,
+          920.408081054688,
+          31.6574058532715
+        ],
+        "training_notes": 0,
+        "treasures": [
+          {
+            "id": "CH01_VT01",
+            "q": 4,
+            "r": 2,
+            "screen": [
+              -8259.2353515625,
+              -5059.546875
+            ],
+            "state": "REVEALED",
+            "visible": false
+          },
+          {
+            "id": "CH01_VT02",
+            "q": 18,
+            "r": -1,
+            "screen": [
+              -7632.21826171875,
+              -4738.58251953125
+            ],
+            "state": "REVEALED",
+            "visible": false
+          },
+          {
+            "id": "CH01_VT03",
+            "q": 31,
+            "r": -4,
+            "screen": [
+              -7046.4072265625,
+              -4449.666015625
+            ],
+            "state": "REVEALED",
+            "visible": false
+          },
+          {
+            "id": "CH01_VT04",
+            "q": 48,
+            "r": -8,
+            "screen": [
+              -6279.06201171875,
+              -4093.40771484375
+            ],
+            "state": "REVEALED",
+            "visible": false
+          },
+          {
+            "id": "CH01_VT05",
+            "q": 69,
+            "r": -11,
+            "screen": [
+              -5363.5927734375,
+              -3529.82177734375
+            ],
+            "state": "REVEALED",
+            "visible": false
+          },
+          {
+            "id": "CH01_VT06",
+            "q": 88,
+            "r": -14,
+            "screen": [
+              -4530.53759765625,
+              -3048.61303710938
+            ],
+            "state": "REVEALED",
+            "visible": false
+          },
+          {
+            "id": "CH01_HT01",
+            "q": 6,
+            "r": -1,
+            "screen": [
+              -8126.70458984375,
+              -5123.16748046875
+            ],
+            "state": "UNDISCOVERED",
+            "visible": false
+          },
+          {
+            "id": "CH01_HT02",
+            "q": 28,
+            "r": -5,
+            "screen": [
+              -7153.32373046875,
+              -4588.384765625
+            ],
+            "state": "UNDISCOVERED",
+            "visible": false
+          },
+          {
+            "id": "CH01_HT03",
+            "q": 55,
+            "r": -11,
+            "screen": [
+              -5940.49560546875,
+              -3996.78442382812
+            ],
+            "state": "UNDISCOVERED",
+            "visible": false
+          },
+          {
+            "id": "CH01_HT04",
+            "q": 80,
+            "r": -14,
+            "screen": [
+              -4860.19677734375,
+              -3305.0029296875
+            ],
+            "state": "UNDISCOVERED",
+            "visible": false
+          }
+        ],
+        "turn_transitioning": false,
+        "viewport_rect": [
+          10.7194166183472,
+          94.9722213745117,
+          662.452941894531,
+          420.312927246094
+        ]
+      }
+    },
+    {
+      "kind": "retry",
+      "stage": "CH01-N20",
+      "actors": [
+        {
+          "action_textures": {
+            "basic_attack": {
+              "atlas_path": "",
+              "atlas_size": [
+                1536,
+                1084
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "down": {
+              "atlas_path": "",
+              "atlas_size": [
+                768,
+                812
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "hit": {
+              "atlas_path": "",
+              "atlas_size": [
+                768,
+                812
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "idle": {
+              "atlas_path": "",
+              "atlas_size": [
+                1536,
+                1084
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "move": {
+              "atlas_path": "",
+              "atlas_size": [
+                1536,
+                1084
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "normal_skill": {
+              "atlas_path": "",
+              "atlas_size": [
+                1536,
+                1084
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "ultimate": {
+              "atlas_path": "",
+              "atlas_size": [
+                1536,
+                1084
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "victory": {
+              "atlas_path": "",
+              "atlas_size": [
+                768,
+                812
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            }
+          },
+          "body_scale": 0.461181640625,
+          "down_pose": {
+            "height": 512,
+            "path": "res://assets/runtime_web/combat_down_pose/CHR001/down_pose.png",
+            "width": 512
+          },
+          "foot": [
+            188.900024414062,
+            880.319946289062
+          ],
+          "ground_contact": {
+            "backdrop": "normal",
+            "body_scale": 0.461181640625,
+            "contact_error": 0,
+            "floor_position": [
+              93.1213455200195,
+              880.319946289062
+            ],
+            "opaque_contact_ground_y": 880.319946289062,
+            "shadow_ground_y": 880.319946289062
+          },
+          "hp": 1341,
+          "id": "CHR001",
+          "motion_track": {
+            "elapsed": 0.125,
+            "name": "move"
+          },
+          "rank": "PLAYER",
+          "source_asset_id": "chr001_spritegen_060de47013e893fc",
+          "team": "PLAYER",
+          "texture": {},
+          "uid": "P:CHR001"
+        },
+        {
+          "action_textures": {
+            "basic_attack": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                1000
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "down": {
+              "atlas_path": "",
+              "atlas_size": [
+                512,
+                1376
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "hit": {
+              "atlas_path": "",
+              "atlas_size": [
+                512,
+                1376
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "idle": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                1000
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "move": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                1000
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "normal_skill": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                1000
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "ultimate": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                1000
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "victory": {
+              "atlas_path": "",
+              "atlas_size": [
+                512,
+                1376
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            }
+          },
+          "body_scale": 0.461181640625,
+          "down_pose": {
+            "height": 512,
+            "path": "res://assets/runtime_web/combat_down_pose/CHR002/down_pose.png",
+            "width": 512
+          },
+          "foot": [
+            336.242004394531,
+            759.800048828125
+          ],
+          "ground_contact": {
+            "backdrop": "normal",
+            "body_scale": 0.461181640625,
+            "contact_error": 0,
+            "floor_position": [
+              240.463317871094,
+              759.800048828125
+            ],
+            "opaque_contact_ground_y": 759.800048828125,
+            "shadow_ground_y": 759.800048828125
+          },
+          "hp": 980,
+          "id": "CHR002",
+          "motion_track": {
+            "elapsed": 0.125,
+            "name": "move"
+          },
+          "rank": "PLAYER",
+          "source_asset_id": "chr002_spritegen_335d681c53d1b4ec",
+          "team": "PLAYER",
+          "texture": {},
+          "uid": "P:CHR002"
+        },
+        {
+          "action_textures": {
+            "basic_attack": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                1092
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "down": {
+              "atlas_path": "",
+              "atlas_size": [
+                1024,
+                628
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "hit": {
+              "atlas_path": "",
+              "atlas_size": [
+                1024,
+                628
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "idle": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                1092
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "move": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                1092
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "normal_skill": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                1092
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "ultimate": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                1092
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "victory": {
+              "atlas_path": "",
+              "atlas_size": [
+                1024,
+                628
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            }
+          },
+          "body_scale": 0.461181640625,
+          "down_pose": {
+            "height": 512,
+            "path": "res://assets/runtime_web/combat_down_pose/CHR003/down_pose.png",
+            "width": 512
+          },
+          "foot": [
+            483.584014892578,
+            880.319946289062
+          ],
+          "ground_contact": {
+            "backdrop": "normal",
+            "body_scale": 0.461181640625,
+            "contact_error": 0,
+            "floor_position": [
+              387.805328369141,
+              880.319946289062
+            ],
+            "opaque_contact_ground_y": 880.319946289062,
+            "shadow_ground_y": 880.319946289062
+          },
+          "hp": 760,
+          "id": "CHR003",
+          "motion_track": {
+            "elapsed": 0.125,
+            "name": "move"
+          },
+          "rank": "PLAYER",
+          "source_asset_id": "chr003_spritegen_bbd9a769ca63cd48",
+          "team": "PLAYER",
+          "texture": {},
+          "uid": "P:CHR003"
+        },
+        {
+          "action_textures": {
+            "basic_attack": {
+              "atlas_path": "",
+              "atlas_size": [
+                1280,
+                1748
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "down": {
+              "atlas_path": "",
+              "atlas_size": [
+                1536,
+                444
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "hit": {
+              "atlas_path": "",
+              "atlas_size": [
+                1536,
+                444
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "idle": {
+              "atlas_path": "",
+              "atlas_size": [
+                1280,
+                1748
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "move": {
+              "atlas_path": "",
+              "atlas_size": [
+                1280,
+                1748
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "normal_skill": {
+              "atlas_path": "",
+              "atlas_size": [
+                1280,
+                1748
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "ultimate": {
+              "atlas_path": "",
+              "atlas_size": [
+                1280,
+                1748
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "victory": {
+              "atlas_path": "",
+              "atlas_size": [
+                1536,
+                444
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            }
+          },
+          "body_scale": 0.461181640625,
+          "down_pose": {
+            "height": 512,
+            "path": "res://assets/runtime_web/combat_down_pose/CHR004/down_pose.png",
+            "width": 512
+          },
+          "foot": [
+            630.925964355469,
+            759.800048828125
+          ],
+          "ground_contact": {
+            "backdrop": "normal",
+            "body_scale": 0.461181640625,
+            "contact_error": 0,
+            "floor_position": [
+              535.147277832031,
+              759.800048828125
+            ],
+            "opaque_contact_ground_y": 759.800048828125,
+            "shadow_ground_y": 759.800048828125
+          },
+          "hp": 720,
+          "id": "CHR004",
+          "motion_track": {
+            "elapsed": 0.125,
+            "name": "move"
+          },
+          "rank": "PLAYER",
+          "source_asset_id": "chr004_spritegen_7f3036737bbde247",
+          "team": "PLAYER",
+          "texture": {},
+          "uid": "P:CHR004"
+        },
+        {
+          "action_textures": {
+            "basic_attack": {
+              "atlas_path": "",
+              "atlas_size": [
+                1280,
+                1748
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "down": {
+              "atlas_path": "",
+              "atlas_size": [
+                1536,
+                432
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "hit": {
+              "atlas_path": "",
+              "atlas_size": [
+                1536,
+                432
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "idle": {
+              "atlas_path": "",
+              "atlas_size": [
+                1280,
+                1748
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "move": {
+              "atlas_path": "",
+              "atlas_size": [
+                1280,
+                1748
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "normal_skill": {
+              "atlas_path": "",
+              "atlas_size": [
+                1280,
+                1748
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "ultimate": {
+              "atlas_path": "",
+              "atlas_size": [
+                1280,
+                1748
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "victory": {
+              "atlas_path": "",
+              "atlas_size": [
+                1536,
+                432
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            }
+          },
+          "body_scale": 0.461181640625,
+          "down_pose": {
+            "height": 512,
+            "path": "res://assets/runtime_web/combat_down_pose/CHR005/down_pose.png",
+            "width": 512
+          },
+          "foot": [
+            778.268005371094,
+            880.319946289062
+          ],
+          "ground_contact": {
+            "backdrop": "normal",
+            "body_scale": 0.461181640625,
+            "contact_error": 0,
+            "floor_position": [
+              682.489318847656,
+              880.319946289062
+            ],
+            "opaque_contact_ground_y": 880.319946289062,
+            "shadow_ground_y": 880.319946289062
+          },
+          "hp": 690,
+          "id": "CHR005",
+          "motion_track": {
+            "elapsed": 0,
+            "name": "ultimate",
+            "target_uid": ""
+          },
+          "rank": "PLAYER",
+          "source_asset_id": "chr005_spritegen_a31b257d25833ce2",
+          "team": "PLAYER",
+          "texture": {},
+          "uid": "P:CHR005"
+        },
+        {
+          "action_textures": {
+            "basic_attack": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                1068
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "down": {
+              "atlas_path": "",
+              "atlas_size": [
+                1024,
+                660
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "hit": {
+              "atlas_path": "",
+              "atlas_size": [
+                1024,
+                660
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "idle": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                1068
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "move": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                1068
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "normal_skill": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                1068
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "ultimate": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                1068
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "victory": {
+              "atlas_path": "",
+              "atlas_size": [
+                1024,
+                660
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            }
+          },
+          "body_scale": 0.712626689763187,
+          "down_pose": {},
+          "foot": [
+            1246.73999023438,
+            780.760009765625
+          ],
+          "ground_contact": {
+            "backdrop": "normal",
+            "body_scale": 0.712626689763187,
+            "contact_error": 0,
+            "floor_position": [
+              1353.38562011719,
+              780.760009765625
+            ],
+            "opaque_contact_ground_y": 780.760009765625,
+            "shadow_ground_y": 780.760009765625
+          },
+          "hp": 1699,
+          "id": "ENM003",
+          "motion_track": {
+            "elapsed": 0.0967333333333333,
+            "name": "move"
+          },
+          "rank": "NORMAL",
+          "source_asset_id": "enm003_spritegen_76c49f2c0c43196c",
+          "team": "ENEMY",
+          "texture": {},
+          "uid": "E:1:0:ENM003"
+        },
+        {
+          "action_textures": {
+            "basic_attack": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                800
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "down": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                364
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "hit": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                364
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "idle": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                800
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "move": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                800
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "normal_skill": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                800
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "ultimate": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                800
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            },
+            "victory": {
+              "atlas_path": "",
+              "atlas_size": [
+                1792,
+                364
+              ],
+              "height": 256,
+              "path": "",
+              "width": 256
+            }
+          },
+          "body_scale": 0.712626689763187,
+          "down_pose": {},
+          "foot": [
+            1605.65002441406,
+            854.119995117188
+          ],
+          "ground_contact": {
+            "backdrop": "normal",
+            "body_scale": 0.712626689763187,
+            "contact_error": 0,
+            "floor_position": [
+              1712.29565429688,
+              854.119995117188
+            ],
+            "opaque_contact_ground_y": 854.119995117188,
+            "shadow_ground_y": 854.119995117188
+          },
+          "hp": 1073,
+          "id": "ENM006",
+          "motion_track": {
+            "elapsed": 0.0967333333333333,
+            "name": "move"
+          },
+          "rank": "NORMAL",
+          "source_asset_id": "enm006_spritegen_48483d8a0a8c6583",
+          "team": "ENEMY",
+          "texture": {},
+          "uid": "E:1:1:ENM006"
+        }
+      ]
+    }
+  ],
+  "scope": "Actual browser map movement/contact with Release entry rules in an isolated developer save; covers rejection, input recovery and retry, not all-stage battle victories."
+}

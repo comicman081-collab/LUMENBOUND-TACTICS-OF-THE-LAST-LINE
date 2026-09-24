@@ -1,0 +1,77 @@
+{
+  "checks": [
+    {
+      "name": "N1 actual combat ends in victory",
+      "pass": true
+    },
+    {
+      "name": "five character tabs share one mobile row",
+      "pass": true
+    },
+    {
+      "name": "real finger drag scrolls growth content",
+      "pass": true
+    },
+    {
+      "name": "real level-up updates the selected character",
+      "pass": true
+    },
+    {
+      "name": "an owned compatible alternate equipment choice is available",
+      "pass": true
+    },
+    {
+      "name": "real equipment selection updates the character loadout",
+      "pass": true
+    },
+    {
+      "name": "N5 actual combat ends in victory",
+      "pass": true
+    },
+    {
+      "name": "N05 reward opens the authored mid-boss story",
+      "pass": true
+    },
+    {
+      "name": "N05 page 1 remains in the authored scenario",
+      "pass": true
+    },
+    {
+      "name": "N05 page 1 complete text fits its box",
+      "pass": true
+    },
+    {
+      "name": "N05 page 2 remains in the authored scenario",
+      "pass": true
+    },
+    {
+      "name": "N05 page 2 complete text fits its box",
+      "pass": true
+    },
+    {
+      "name": "N05 page 3 remains in the authored scenario",
+      "pass": true
+    },
+    {
+      "name": "N05 page 3 complete text fits its box",
+      "pass": true
+    },
+    {
+      "name": "N05 story advances through three distinct complete pages",
+      "pass": true
+    },
+    {
+      "name": "N05 story returns to the next normal encounter N06",
+      "pass": true
+    },
+    {
+      "name": "mobile progression has no Godot script errors or warnings",
+      "pass": true
+    },
+    {
+      "name": "progression remains inside isolated QA saves",
+      "pass": true
+    }
+  ],
+  "fixture": "Local reward-free N01/N05 neighbors with invincibility; actual 2x battle, UI and touch actions. Not physical-phone evidence."
+}

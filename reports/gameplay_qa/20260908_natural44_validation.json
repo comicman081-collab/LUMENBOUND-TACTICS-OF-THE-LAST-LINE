@@ -1,0 +1,40 @@
+{
+  "status": "LOCAL_QA_VERIFIED",
+  "build": "builds\\web_gameplay_qa_20260908_natural44_development",
+  "build_pck_sha256": "790bae56614d0aec58353e42a2ee00aea75ae761d0015cbb0492c3ff3aa47a65",
+  "pck_bytes": 162630916,
+  "checks": {
+    "20260908_natural44_layout": {
+      "passed": 49,
+      "evidence": "reports/gameplay_qa/20260908_natural44_layout/acceptance.json"
+    },
+    "20260908_natural43_regions": {
+      "passed": 56,
+      "evidence": "reports/gameplay_qa/20260908_natural43_regions/acceptance.json"
+    },
+    "20260908_natural44_battle": {
+      "passed": 223,
+      "evidence": "reports/gameplay_qa/20260908_natural44_battle/acceptance.json"
+    },
+    "20260908_natural44_gallery": {
+      "passed": 19,
+      "evidence": "reports/gameplay_qa/20260908_natural44_gallery/acceptance.json"
+    }
+  },
+  "geometry_evidence": "reports/gameplay_qa/20260908_natural42_geometry.log",
+  "geometry_maps": 20,
+  "geometry_samples": 308070,
+  "geometry_gaps": 0,
+  "hex_cells": 14379,
+  "hex_evidence": "reports/gameplay_qa/20260908_natural40_hex.log",
+  "asset_hash_evidence": "reports/gameplay_qa/20260908_natural44_asset_integrity.json",
+  "warm_battle_mean_ms": 7308.5,
+  "source_sha256": {
+    "godot\\chapter_map\\runtime\\chapter_map_screen.gd": "92e0993c87d52fac265164c7f96b31c1c6ea0474e1c3e7e5d216ca554a384fe4",
+    "godot\\autoload\\mobile_portrait_hotfix_v2.gd": "4d1ae90ac3eefc7c875c049a1ec4f579cdaa5036244ba795520d9fec6cc48542",
+    "godot\\autoload\\mobile_portrait_map_stability.gd": "0f6a82f1e271f23d1be1aa2fcaff4bdcc120a7a909120cb74bca552af8016c50",
+    "godot\\screens\\app_shell.gd": "970968fb5b887e1642186a553e9a2ce7fe8082bc1ca866c2a2bdf92d7bdbb342",
+    "godot\\chapter_map\\view\\natural_terrain_library.gd": "4f7d3d1bc3852044d1eb4a73add91c0d033040db4f991b40e3854705755663ae"
+  },
+  "scope": "Local Chrome touch emulation and isolated save fixtures. Three actual battles use invincibility. Not a physical-device/network benchmark or campaign balance completion. No deployment."
+}

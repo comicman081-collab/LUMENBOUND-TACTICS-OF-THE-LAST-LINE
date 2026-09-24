@@ -2,17 +2,17 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_boss002",
   "character_id": "BOSS002",
-  "display_name": "Night Bell Engine",
-  "status": "IMAGEGEN_STATIC_ANIMATED_SOURCE",
-  "source_status": "ORIGINAL_INTERNAL_GENERATED",
-  "source_root": "data_source/art_source/imagegen_enemy_sources/BOSS002_night_bell_engine_source.png",
-  "source_asset_id": "imggen_boss002_night_bell_engine_r7",
-  "creation_method": "imagegen_original_render_plus_deterministic_presentation_motion",
+  "display_name": "BOSS002",
+  "status": "LOCAL_REVIEWED_SD_ROSTER",
+  "source_status": "SPRITEGEN_ROSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/roster_replacements_20260911/BOSS002/source.png",
+  "source_asset_id": "boss002_spritegen_e7664f3f63fe7e27",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
-    68,
-    68
+    112,
+    112
   ],
   "foot_anchor": [
     0.5,
@@ -20,13 +20,13 @@
   ],
   "head_anchor": [
     0.5,
-    0.11
+    0.14
   ],
   "view": "THREE_QUARTER_LEFT_DOWN_30",
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "e88d76dda9d330454ead31dd080684cac8750bc63a00b12e4b872bfc19affa86",
+  "preview_sha256": "350adeaf89253a6ff454c729eafa49a64fd48dfedd1a8c056da5f989abbe6497",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "9c9e8b65684ef7da26045db5e90c5a05ceacd70e46013f24d7bde065b8dd6f3f"
+  "sha256": "e2e274badc5e88c95c376cfd830b9b900763e5b7d5ee7e7f4e590cf6f575d374"
 }

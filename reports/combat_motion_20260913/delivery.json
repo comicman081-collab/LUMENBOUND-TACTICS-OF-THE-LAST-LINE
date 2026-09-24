@@ -1,0 +1,104 @@
+{
+  "status": "LOCAL_VERIFIED_ACTIVE_COMPLETE",
+  "build": "builds/web_combat_motion_scout_final_20260913_release",
+  "play_url": "http://127.0.0.1:8770/play/f79324fa25e0/",
+  "pck_sha256": "f79324fa25e09ede602d637bd588aff844022cf8dd4587776c93ca75e098c0d7",
+  "new_actions": 32,
+  "new_pose_frames": 192,
+  "actors": [
+    "CHR001",
+    "CHR002",
+    "CHR003",
+    "CHR004",
+    "CHR005",
+    "CHR006",
+    "CHR007",
+    "CHR008",
+    "ENM001",
+    "ENM002",
+    "ENM003",
+    "BOSS001"
+  ],
+  "checks": {
+    "action_tests.json": {
+      "passed": 65,
+      "failed": 0,
+      "sha256": "f72b2e16e7e23ed609f8fe646f00e1f78b43d84ca2de0ddbae8946ae9a1a45cb"
+    },
+    "model.json": {
+      "passed": 146,
+      "failed": 0,
+      "sha256": "5b6039cb86b60c1e142ba8b2d602943bed4302e14d1d7c80b30e03496845084b"
+    },
+    "scout_identity.json": {
+      "passed": 680,
+      "failed": 0,
+      "sha256": "3547b5049b1533ea7494671104b88b48be3e24ddc596cf028d73d1974ba8f95b"
+    },
+    "frames_verified/acceptance.json": {
+      "passed": 125,
+      "failed": 0,
+      "sha256": "37f9ab4067c0c86de0734fca86959e4063403712bfabd7b0e7c955a40899e3f7"
+    },
+    "live_final/acceptance.json": {
+      "passed": 34,
+      "failed": 0,
+      "sha256": "2b6ad9c2858a42c9fb58d654096ba8048d84ab679a26f55a4b3d8f295aa99e26"
+    },
+    "small_verified/acceptance.json": {
+      "passed": 4,
+      "failed": 0,
+      "sha256": "ab2db40ce5880522ee36077283d5a978e0d62f3cb8d1fbcfff6d3f109120181a"
+    },
+    "scout_browser_final/acceptance.json": {
+      "passed": 37,
+      "failed": 0,
+      "sha256": "47f9373d60dea1b5c1a732df3748069dbdebf7a314d4b3cd81a12e4a801fd1c1"
+    },
+    "chapter_scout/acceptance.json": {
+      "passed": 26,
+      "failed": 0,
+      "sha256": "05655de3a6b4edf4973a3ffa039f05f6b9722e0a010d70650edaf35be07aa1d2"
+    },
+    "release_scout/acceptance.json": {
+      "passed": 4,
+      "failed": 0,
+      "sha256": "97151adbfd79c43fce31c2f32bbd175e22056c967e19167ee6d96b7ac7bdbc46"
+    }
+  },
+  "native_regression": {
+    "game": 301,
+    "map": 357,
+    "scout": 680
+  },
+  "runtime_assets": "artifact_verification.json",
+  "code_sha256": {
+    "godot/battle/view/combat_action_frames.gd": "25468ed63158386fb4b48841271e8ed24e3f4b928d105413715f0916e80bf02c",
+    "godot/battle/view/combat_weapon_effects.gd": "73ccbdc2a7afa248f636e9fb1b090a4356e2cf5e8acc20793e9e96369739fd7b",
+    "godot/battle/view/battle_view.gd": "d4302921ffe7135890613d66f1c63ab9fa171524a77e1eea57c17e262cae3547",
+    "godot/chapter_map/runtime/chapter_map_screen.gd": "0348d99433c3aca303e4a12a41e216fc15a16c719a04fd567a924bb7be5d448f",
+    "godot/chapter_map/view/natural_terrain_library.gd": "95b3251735dae0cd00a631c9412709dba945546f6040e22c847670c058273322",
+    "godot/chapter_map/view/natural_river_library.gd": "b18f3ce0f57191bc837bfe960243b568840ed4782e5cc5fce6799767f2b3a7f9",
+    "godot/qa/local_gameplay_probe.gd": "90d437554b4c307f9eda61b10a59a26b192ffa6656bca298b84d822ed333097a",
+    "godot/export_presets.cfg": "ab74ccc72df7062f12ffd124f3eaa6fe2c122443d9e44e6b9924427c1ae99643",
+    "tools/art/build_combat_motion_rows.py": "9028fb87de6bd89873f5d9573e8a20afb8ed5bea7799aa69d6e64a75ead1448f",
+    "tools/art/package_combat_action_frames.py": "a4696b9e1ed1e34de73f04ee79fe9397ac482887628c5a3694204b8e455c1e6c",
+    "tools/art/install_reviewed_combat_actions.py": "985c6455e99c99be614d1a21ab59d3a1e3aa564491636c9e994a80f2ba854bc5",
+    "tools/powershell/BUILD_WEB_R7.ps1": "b3b876312c801fe499660fd7c1dd0a235b4efcce39fdb26ce01b8b6ded560ab6",
+    "tools/powershell/START_LOCAL_GAME.ps1": "1d6ed0da7849bbebbb8b15303496a2fd736919246cb1078b89e868259f89ac88"
+  },
+  "actual_combat_video": "reports/combat_motion_20260913/live_final/actual_combat.webm",
+  "video_sha256": "c5842a9451d7cffeec9d6401b7a4a9f95251d4f3b9326839a5507eb366fbe375",
+  "video_note": "Actual game canvas, same final combat renderer/actions; recorded before the map-only scout fix. Recording overhead is not a performance baseline.",
+  "protected": "All audio, all prior intro videos, source masters, original models and quarantine/recovery archives preserved. No user-save reset, no remote deployment.",
+  "storage": {
+    "project_bytes": 16985476201,
+    "git_bytes": 4692841848,
+    "working_files_excluding_git_bytes": 12292634353,
+    "removed_bytes": 8716760242,
+    "removed_files": 29453,
+    "preserved_media_files_in_retired_outputs": 50,
+    "qa_poll_archive_bytes": 37154440
+  },
+  "post_cleanup_http_and_artifact_check": "PASS"
+}

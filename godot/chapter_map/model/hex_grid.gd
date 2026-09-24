@@ -19,7 +19,8 @@ func tile(coord: Vector2i) -> Dictionary:
 
 func traversable(coord: Vector2i) -> bool:
 	var definition := tile(coord)
-	return not definition.is_empty() and not bool(definition.get("movement_blocked", false))
+	# Water and solid walls fail closed even if old content omits its flag.
+	return not definition.is_empty() and not bool(definition.get("movement_blocked", false)) and str(definition.get("terrain_type", "")) not in ["SHALLOW_WATER", "DEEP_WATER", "RIVER", "WATER", "WALL"]
 
 func can_step(from: Vector2i, to: Vector2i) -> bool:
 	if not traversable(from) or not traversable(to) or HexCoordScript.distance(from, to) != 1:

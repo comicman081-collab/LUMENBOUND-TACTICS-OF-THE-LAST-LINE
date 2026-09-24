@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_enm017",
   "character_id": "ENM017",
-  "display_name": "ENM017",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/enm017_authority.png",
-  "source_asset_id": "enm017_silhouette_a_653de17864c26676_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_PRISM_GUNNER",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/ENM017/source.png",
+  "source_asset_id": "enm017_illustrated_a95919599ad52763",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "63878784096459f5318fd5e8ece2d57e60a120f3dec47f3f987265abd86d3582",
+  "preview_sha256": "e0c527630c4d0179af2e6e6b3d1d20c72a0a35cae44946508db38e0798b5c5eb",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "e935cee6deb9b61a40e795979fac138095d942591e30bc7544e10d0213b508d0"
+  "sha256": "8ffaf56e563638860be50c9ea70865cde69f86be48b20ec0e5dd39333a18385b"
 }

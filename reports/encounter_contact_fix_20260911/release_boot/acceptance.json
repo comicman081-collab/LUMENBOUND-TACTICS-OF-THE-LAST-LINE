@@ -1,0 +1,146 @@
+{
+  "checks": [
+    {
+      "ok": true,
+      "name": "player export does not expose developer command bridge"
+    },
+    {
+      "ok": true,
+      "name": "map BGM is playing one independent browser source",
+      "details": {
+        "backend": "browser_audio_buffer",
+        "requested": "audio_bgm_lobby",
+        "current": "audio_bgm_lobby",
+        "pending": "",
+        "active": true,
+        "position": 6.476333333333334,
+        "duration": 78.50542857142855,
+        "source_duration": 89.9355625,
+        "loop_start": 0.01935714285714,
+        "loop_end": 78.5247857142857,
+        "context_state": "running",
+        "context_time": 11.621333333333334,
+        "starts": {
+          "audio_bgm_story": 2,
+          "audio_bgm_lobby": 2
+        },
+        "attempts": {
+          "audio_bgm_story": 2,
+          "audio_bgm_lobby": 2
+        },
+        "failures": {},
+        "cached_tracks": 2,
+        "active_sources": 1,
+        "error": ""
+      }
+    },
+    {
+      "ok": true,
+      "name": "real player navigation reaches the tactical map"
+    },
+    {
+      "ok": true,
+      "name": "no Godot runtime errors during player startup",
+      "details": []
+    }
+  ],
+  "passed": true,
+  "logs": [
+    {
+      "type": "log",
+      "text": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org"
+    },
+    {
+      "type": "log",
+      "text": "OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL"
+    },
+    {
+      "type": "log",
+      "text": "Build configuration: Emscripten 4.0.20, single-threaded, no GDExtension support."
+    },
+    {
+      "type": "log",
+      "text": "LUMENBOUND_MOBILE_PORTRAIT_V2_READY"
+    },
+    {
+      "type": "log",
+      "text": "LUMENBOUND_MOBILE_MAP_STABILITY_READY"
+    },
+    {
+      "type": "log",
+      "text": "SAVE_LOAD_SOURCE source=new sandbox=false session=default"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 배경과 조명 677.90ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 지형 표현 579.80ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 환경 오브젝트 548.20ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 길과 다리 517.40ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 조우 표시 712.80ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 이동 경로 268.10ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 캐릭터 표시 267.30ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 1 / 7 827.60ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 2 / 7 817.70ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 3 / 7 448.00ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 4 / 7 360.70ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 5 / 7 319.70ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 6 / 7 368.00ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_SLICE 맵 재질 7 / 7 787.00ms"
+    },
+    {
+      "type": "log",
+      "text": "WEB_RENDER_WARMUP_COMPLETE 7634.40ms"
+    },
+    {
+      "type": "log",
+      "text": "LUMENBOUND_MOBILE_MAP_STABILITY_LOCKED size=634x357"
+    },
+    {
+      "type": "log",
+      "text": "WEB_MAP_DRESSING_READY tiles=1252 chunks=29 instances=6232"
+    },
+    {
+      "type": "log",
+      "text": "STAGE_ENTRY_PRELOAD_COMPLETE map=CH01_MAP elapsed_ms=2982 target_ms=5000 within_target=true cache_hit=false gpu_textures=4"
+    }
+  ]
+}

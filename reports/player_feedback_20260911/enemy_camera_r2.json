@@ -1,0 +1,181 @@
+{
+  "before": [
+    57.9890594482422,
+    0,
+    -6.48000001907349
+  ],
+  "samples": [
+    {
+      "screen": "STAGE_SELECT",
+      "map": {
+        "camera": [
+          57.7809410095215,
+          0,
+          -6.11953020095825
+        ],
+        "subject": "NODE_N03",
+        "history": [],
+        "transitioning": true
+      }
+    },
+    {
+      "screen": "STAGE_SELECT",
+      "map": {
+        "camera": [
+          57.0773048400879,
+          0,
+          -4.90079164505005
+        ],
+        "subject": "NODE_N03",
+        "history": [],
+        "transitioning": true
+      }
+    },
+    {
+      "screen": "STAGE_SELECT",
+      "map": {
+        "camera": [
+          57.8735427856445,
+          0,
+          -6.27991914749146
+        ],
+        "subject": "NODE_N03",
+        "history": [
+          {
+            "camera": [
+              57.0641822814941,
+              0,
+              -4.87806701660156
+            ],
+            "node_id": "NODE_N03",
+            "phase": "focus"
+          }
+        ],
+        "transitioning": true
+      }
+    },
+    {
+      "screen": "STAGE_SELECT",
+      "map": {
+        "camera": [
+          57.9890594482422,
+          0,
+          -6.48000001907349
+        ],
+        "subject": "NODE_N03",
+        "history": [
+          {
+            "camera": [
+              57.0641822814941,
+              0,
+              -4.87806701660156
+            ],
+            "node_id": "NODE_N03",
+            "phase": "focus"
+          }
+        ],
+        "transitioning": true
+      }
+    },
+    {
+      "screen": "STAGE_SELECT",
+      "map": {
+        "camera": [
+          57.9890594482422,
+          0,
+          -6.48000001907349
+        ],
+        "subject": "",
+        "history": [
+          {
+            "camera": [
+              57.0641822814941,
+              0,
+              -4.87806701660156
+            ],
+            "node_id": "NODE_N03",
+            "phase": "focus"
+          },
+          {
+            "camera": [
+              57.9890594482422,
+              0,
+              -6.48000001907349
+            ],
+            "node_id": "NODE_N03",
+            "phase": "arrived"
+          }
+        ],
+        "transitioning": true
+      }
+    },
+    {
+      "screen": "STAGE_SELECT",
+      "map": {
+        "camera": [
+          57.9890594482422,
+          0,
+          -6.48000001907349
+        ],
+        "subject": "",
+        "history": [
+          {
+            "camera": [
+              57.0641822814941,
+              0,
+              -4.87806701660156
+            ],
+            "node_id": "NODE_N03",
+            "phase": "focus"
+          },
+          {
+            "camera": [
+              57.9890594482422,
+              0,
+              -6.48000001907349
+            ],
+            "node_id": "NODE_N03",
+            "phase": "arrived"
+          }
+        ],
+        "transitioning": true
+      }
+    },
+    {
+      "screen": "STAGE_SELECT",
+      "map": {
+        "camera": [
+          57.9890594482422,
+          0,
+          -6.48000001907349
+        ],
+        "subject": "",
+        "history": [
+          {
+            "camera": [
+              57.0641822814941,
+              0,
+              -4.87806701660156
+            ],
+            "node_id": "NODE_N03",
+            "phase": "focus"
+          },
+          {
+            "camera": [
+              57.9890594482422,
+              0,
+              -6.48000001907349
+            ],
+            "node_id": "NODE_N03",
+            "phase": "arrived"
+          }
+        ],
+        "transitioning": true
+      }
+    },
+    {
+      "screen": "BATTLE",
+      "map": null
+    }
+  ]
+}

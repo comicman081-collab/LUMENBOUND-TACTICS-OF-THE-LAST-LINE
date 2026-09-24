@@ -1,0 +1,2725 @@
+{
+	"checks": [
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH01_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH02_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH03_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH04_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH05_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH06_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH07_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH08_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH09_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH10_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH11_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH12_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH13_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH14_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH15_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH16_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH17_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH18_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH19_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_1 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 commits",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=0 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=0 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=0 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=0 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=0 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=0 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=0 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=0 sibling blocks movement at its physical hex",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=1 defeated scout stays cleared",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=1 sibling stays logically alive",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=1 defeated pawn removed",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=1 sibling remains renderable after shared stage clear",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=1 canonical pawn remains renderable",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=1 guide retains the undefeated main encounter",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=1 sibling contact owns battle transaction",
+			"pass": true
+		},
+		{
+			"name": "sibling-test:CH20_MAP:NODE_N01_SCOUT_2 reload=1 sibling blocks movement at its physical hex",
+			"pass": true
+		}
+	],
+	"failures": 0
+}

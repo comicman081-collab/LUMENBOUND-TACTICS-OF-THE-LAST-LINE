@@ -1,0 +1,222 @@
+{
+  "audio": {
+    "active": true,
+    "active_sources": 1,
+    "attempts": {
+      "audio_bgm_battle": 1,
+      "audio_bgm_lobby": 3,
+      "audio_bgm_story": 1
+    },
+    "backend": "browser_audio_buffer",
+    "cached_tracks": 3,
+    "context_state": "running",
+    "context_time": 280.56,
+    "current": "audio_bgm_lobby",
+    "duration": 78.50542857142855,
+    "error": "",
+    "failures": {},
+    "loop_end": 78.5247857142857,
+    "loop_start": 0.01935714285714,
+    "pending": "",
+    "position": 28.073666666666668,
+    "requested": "audio_bgm_lobby",
+    "source_duration": 89.9355625,
+    "starts": {
+      "audio_bgm_battle": 1,
+      "audio_bgm_lobby": 3,
+      "audio_bgm_story": 1
+    }
+  },
+  "hdResources": [
+    {
+      "bytes": 1439752,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/map_density/r1/CHR001/atlas.png"
+    },
+    {
+      "bytes": 1255154,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/map_density/r1/ENM001/atlas.png"
+    },
+    {
+      "bytes": 3228190,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/CHR001/page_00.png"
+    },
+    {
+      "bytes": 2746278,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/CHR001/page_01.png"
+    },
+    {
+      "bytes": 2348341,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/CHR002/page_00.png"
+    },
+    {
+      "bytes": 2040068,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/CHR002/page_01.png"
+    },
+    {
+      "bytes": 2485375,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/CHR003/page_00.png"
+    },
+    {
+      "bytes": 1900745,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/CHR003/page_01.png"
+    },
+    {
+      "bytes": 2598226,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/CHR004/page_00.png"
+    },
+    {
+      "bytes": 2169989,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/CHR004/page_01.png"
+    },
+    {
+      "bytes": 2728903,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/CHR005/page_00.png"
+    },
+    {
+      "bytes": 2135017,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/CHR005/page_01.png"
+    },
+    {
+      "bytes": 2755285,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/ENM001/page_00.png"
+    },
+    {
+      "bytes": 2856942,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/ENM001/page_01.png"
+    },
+    {
+      "bytes": 1471450,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/ENM002/page_00.png"
+    },
+    {
+      "bytes": 1160641,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/ENM002/page_01.png"
+    },
+    {
+      "bytes": 1436574,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/ENM003/page_00.png"
+    },
+    {
+      "bytes": 790204,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density/r2/ENM003/page_01.png"
+    },
+    {
+      "bytes": 73158,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/05ffd10bb38903bf3c6d7caf0daaeaf85e63bfc4c830f1ab65cc8e08b9a0d8ba.png"
+    },
+    {
+      "bytes": 310629,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/74fdecabb409471609b82d59371816be464e624d90ca733da9bd02db777d0e64.png"
+    },
+    {
+      "bytes": 544543,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/c0763deff0f4645b16772431c407be2b6288e25994e25b244b7cb6f052000c50.png"
+    },
+    {
+      "bytes": 1014661,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/5534dd85dea973dfb827d1aa511cc37c267179dc5bde88871056b78ff4a9fddb.png"
+    },
+    {
+      "bytes": 78835,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/3982cb5fd9aa0ad710b2252482a27c2a9bffb619b7a92bdf339ec90e0fb2d869.png"
+    },
+    {
+      "bytes": 227231,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/559da3b0ecc8a4c9e7014951436496d3aab6b40d5e1d158fb77b7f4a7568e860.png"
+    },
+    {
+      "bytes": 400323,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/64fc5e3b1cfffc21bdf98f01bb69dc999eba25b92260792b63b47f3f0a1f32c4.png"
+    },
+    {
+      "bytes": 773939,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/5ab20d1e68a0aa5f23b0fceb1aca7da8fe76838f06ff53c916bfbedd01a9732a.png"
+    },
+    {
+      "bytes": 24639,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/4504284a5c9163571e2179955ffb3ec7d9f0d43ff4e2401a2c514e7a5470b509.png"
+    },
+    {
+      "bytes": 190427,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/08034c772a18aa65c7e32785b516230215552eb93f7e524dace312ddd62d70b4.png"
+    },
+    {
+      "bytes": 665063,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/4320e0e1135f2652936d87c1500c839a1ab2032844f86b729b78124040fd63dd.png"
+    },
+    {
+      "bytes": 1165873,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/3a7ea7dc4c222a0069e271b4c1a7191bf3768365805e2a8549c9eeb74ba0e28f.png"
+    },
+    {
+      "bytes": 106486,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/2a5ee1191609894f552e40819d7f5e50a71e61843800796eacc0da05e55dad97.png"
+    },
+    {
+      "bytes": 144977,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/5f95c86862aeaabd5c6183a28305e63e0ca643c80294b7af701a1ea43f5b63fe.png"
+    },
+    {
+      "bytes": 210888,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/79a6a70246e6244e4a06886adb389ae8b51f6e8252e19faee091a31d8fcfb119.png"
+    },
+    {
+      "bytes": 579531,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/037deb4b41a05e7cfa6e9f259847ecf58e152cfbf0b0dce8eedbd009b077dd47.png"
+    },
+    {
+      "bytes": 1290140,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/4e805236021cc9f7e180bb3950444125fe26f2decb7063deb4bb647ebcc13a5c.png"
+    },
+    {
+      "bytes": 73450,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/3a83fe17cc0fb4699adbd7329ed046ab3e2a2140295fc50f42f9b72fe162e6ac.png"
+    },
+    {
+      "bytes": 234255,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/65cee31bf559a9a8852cacfb79a112d7621c4439b0d5b7d0883c6377793aab62.png"
+    },
+    {
+      "bytes": 376271,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/4383a0cf72b96021686b5f3ef5e08466d84a972889e35b0928041125aad1b15d.png"
+    },
+    {
+      "bytes": 846464,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/9195437f4b774e597faeba7d9da98881d30a44b17eed9095586d67aae3d8168b.png"
+    },
+    {
+      "bytes": 110225,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/e7e224efddfcc03aff995be0f07fb43d8150898c43e6147d48b60521c9706d56.png"
+    },
+    {
+      "bytes": 164766,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/71f190e5ffea0d48b3ea6537d594bd6f6d66e76c127bfb1f4390707a738b90b7.png"
+    },
+    {
+      "bytes": 299243,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/5adb5cf6af70f6a729f6dee258518091ed96aa87a968a015d1441a472826204e.png"
+    },
+    {
+      "bytes": 773533,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/57e6203e1e24b5e19b2dd928795d039349dac3ddaaba7188f0fef61767b99fc3.png"
+    },
+    {
+      "bytes": 145369,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/76d196f9fe5ccce044d832979cc9b26d354f1e421fcc75e403680c88b9fe8a29.png"
+    },
+    {
+      "bytes": 158363,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/36fdb20ce37f529c5f7a4e3af2429d69eb171dd6c0c3fa5505fdf762d32f2821.png"
+    },
+    {
+      "bytes": 445856,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/acfc7935ef654861e98859643dd96b1c36d9b7654339ffbc0e8bce8d48c849c9.png"
+    },
+    {
+      "bytes": 1139158,
+      "url": "http://127.0.0.1:8770/play/471e2adea4a9/_hd/full_density_effects/r1/pages/fdf3923e1b9df53d0c8d3d994dbc801978cb2342db4b20c9bab1ec607a7098ee.png"
+    }
+  ],
+  "qaBridge": false,
+  "url": "http://127.0.0.1:8770/play/471e2adea4a9/?qa=player-build-check-20260911"
+}

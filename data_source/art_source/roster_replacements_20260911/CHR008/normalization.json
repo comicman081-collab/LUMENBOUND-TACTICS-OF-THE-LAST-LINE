@@ -1,0 +1,23 @@
+{
+  "entity_id": "CHR008",
+  "raw": "work/existing_roster_spritegen_20260911/gpt_candidates/CHR008.png.raw.png",
+  "raw_sha256": "7c7efaa56dc4bdc5e181859d2ad48aae3dfc64390b09871d6153896250e65637",
+  "raw_had_generated_alpha": false,
+  "green_master": "green_master.png",
+  "master_method": "Generated artwork composited without resizing onto uniform green with 64px safety border; raw preserved unchanged.",
+  "extractor": "sprite_gen.frames.cutout.cutout key=green; canonical Sprite Gen tool, no replacement extractor",
+  "stats": {
+    "out": "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\work\\existing_roster_spritegen_20260911\\normalized\\CHR008\\source.png",
+    "mode": "RGBA",
+    "size": "1382x1382",
+    "key": "green",
+    "route": "extract:green",
+    "chroma_key": [
+      0,
+      255,
+      0
+    ],
+    "alpha_zero_pct": 69.52
+  },
+  "status": "VISUAL_REVIEW_REQUIRED"
+}

@@ -14,6 +14,7 @@ static func create_default(definition: Dictionary) -> Dictionary:
 		"last_selected_node": "", "camera_zoom": 1.0, "camera_center": [0.0, 0.0],
 		"map_leader_id": "",
 		"processed_battle_tokens": [], "processed_reward_tokens": [],
+		"encounter_identity_revision": 1, "encounter_clear_receipts": {},
 		"current_party_hex": [int(start.get("q", 0)), int(start.get("r", 0))],
 		# The discrete hex occupied immediately before a hostile-contact step.
 		# This is a recovery guard, not a second party-position authority.
@@ -56,7 +57,7 @@ static func migrate_from_profile(profile: Dictionary, definition: Dictionary) ->
 			state.last_selected_node = str(current_node.node_id)
 	for node in definition.get("nodes", []):
 		var stage_id := str(node.get("stage_id", ""))
-		if stage_id != "" and int(profile.get("stage_stars", {}).get(stage_id, 0)) > 0:
+		if stage_id != "" and not bool(node.get("forward_patrol", false)) and int(profile.get("stage_stars", {}).get(stage_id, 0)) > 0:
 			state.cleared_nodes.append(str(node.node_id))
 	refresh_reveal(state, definition, highest_normal, highest_hard, bool(chapter_progress.get("hard_unlocked", false)))
 	return state
@@ -134,8 +135,25 @@ static func mark_visited(state: Dictionary, path: Array[Vector2i]) -> void:
 static func record_clear_once(state: Dictionary, node_id: String, battle_token: String) -> bool:
 	if state.processed_battle_tokens.has(battle_token): return false
 	state.processed_battle_tokens.append(battle_token)
+	if not state.has("encounter_clear_receipts"): state.encounter_clear_receipts = {}
+	state.encounter_clear_receipts[node_id] = battle_token
 	if not state.cleared_nodes.has(node_id): state.cleared_nodes.append(node_id)
 	return true
+
+static func migrate_encounter_identity(state: Dictionary, definition: Dictionary) -> void:
+	if int(state.get("encounter_identity_revision", 0)) >= 1: return
+	# Legacy saves recorded a stage clear against every scout of that stage.
+	# Keep earned campaign progress and canonical clears. Scouts without an
+	# individual receipt were group-cleared and are restored once, never per visit.
+	if not state.has("encounter_clear_receipts"): state.encounter_clear_receipts = {}
+	for node in definition.get("nodes", []):
+		var id := str(node.get("node_id", ""))
+		if not bool(node.get("forward_patrol", false)) or state.encounter_clear_receipts.has(id): continue
+		for field in ["cleared_nodes", "cleared_encounters"]:
+			if state.has(field): state[field].erase(id)
+		for field in ["encounter_states", "patrol_states", "patrol_positions"]:
+			if state.has(field): state[field].erase(id)
+	state.encounter_identity_revision = 1
 
 static func queue_reveal_once(state: Dictionary, reveal_id: String, source_stage_id: String, tile_keys: Array[String], unlocked_stage_ids: Array[String]) -> bool:
 	if reveal_id.is_empty() or (tile_keys.is_empty() and unlocked_stage_ids.is_empty()):

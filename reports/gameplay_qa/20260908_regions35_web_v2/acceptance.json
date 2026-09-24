@@ -1,0 +1,3498 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "CH01 map is ready"
+    },
+    {
+      "pass": true,
+      "name": "CH01 retained texture memory bounded"
+    },
+    {
+      "pass": true,
+      "name": "unearned region is locked"
+    },
+    {
+      "pass": true,
+      "name": "closing region selector resumes world"
+    },
+    {
+      "pass": true,
+      "name": "CH01 map is ready"
+    },
+    {
+      "pass": true,
+      "name": "CH01 retained texture memory bounded"
+    },
+    {
+      "pass": true,
+      "name": "repeated entry performs no additional HD downloads or decoding"
+    },
+    {
+      "pass": true,
+      "name": "region action fits 360px portrait"
+    },
+    {
+      "pass": true,
+      "name": "region modal fits portrait"
+    },
+    {
+      "pass": true,
+      "name": "CH02 map is ready"
+    },
+    {
+      "pass": true,
+      "name": "CH02 retained texture memory bounded"
+    },
+    {
+      "pass": true,
+      "name": "world pauses while region selector is open"
+    },
+    {
+      "pass": true,
+      "name": "CH01 map is ready"
+    },
+    {
+      "pass": true,
+      "name": "CH01 retained texture memory bounded"
+    },
+    {
+      "pass": true,
+      "name": "world pauses while region selector is open"
+    },
+    {
+      "pass": true,
+      "name": "CH02 map is ready"
+    },
+    {
+      "pass": true,
+      "name": "CH02 retained texture memory bounded"
+    },
+    {
+      "pass": true,
+      "name": "return to visited region does not repeat introduction"
+    },
+    {
+      "pass": true,
+      "name": "CH03 map is ready"
+    },
+    {
+      "pass": true,
+      "name": "CH03 retained texture memory bounded"
+    },
+    {
+      "pass": true,
+      "name": "CH04 map is ready"
+    },
+    {
+      "pass": true,
+      "name": "CH04 retained texture memory bounded"
+    },
+    {
+      "pass": true,
+      "name": "CH05 map is ready"
+    },
+    {
+      "pass": true,
+      "name": "CH05 retained texture memory bounded"
+    },
+    {
+      "pass": true,
+      "name": "CH07 map is ready"
+    },
+    {
+      "pass": true,
+      "name": "CH07 retained texture memory bounded"
+    },
+    {
+      "pass": true,
+      "name": "CH08 map is ready"
+    },
+    {
+      "pass": true,
+      "name": "CH08 retained texture memory bounded"
+    },
+    {
+      "pass": true,
+      "name": "CH09 map is ready"
+    },
+    {
+      "pass": true,
+      "name": "CH09 retained texture memory bounded"
+    },
+    {
+      "pass": true,
+      "name": "CH20 map is ready"
+    },
+    {
+      "pass": true,
+      "name": "CH20 retained texture memory bounded"
+    },
+    {
+      "pass": true,
+      "name": "all eight map environment families render"
+    },
+    {
+      "pass": true,
+      "name": "QA never accesses production saves"
+    },
+    {
+      "pass": false,
+      "name": "no script, shader or runtime warnings"
+    },
+    {
+      "pass": false,
+      "name": "Error: no script, shader or runtime warnings"
+    }
+  ],
+  "maps": [
+    {
+      "label": "cold_ch01",
+      "state": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@113",
+            "rect": [
+              21.3,
+              21.3,
+              80,
+              50.7
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@159",
+            "rect": [
+              21.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "일반 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@160",
+            "rect": [
+              115.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "위험 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@161",
+            "rect": [
+              209.3,
+              94.7,
+              77.3,
+              37.3
+            ],
+            "text": "맵 대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@162",
+            "rect": [
+              293.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "구역 개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@163",
+            "rect": [
+              387.3,
+              94.7,
+              116.7,
+              37.3
+            ],
+            "text": "이동 건너뛰기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@164",
+            "rect": [
+              510.7,
+              94.7,
+              57.3,
+              37.3
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@165",
+            "rect": [
+              574.7,
+              94.7,
+              80,
+              37.3
+            ],
+            "text": "파티 편성"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@167",
+            "rect": [
+              1171.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "지역 이동"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@235",
+            "rect": [
+              801.3,
+              153.3,
+              165.3,
+              34.7
+            ],
+            "text": "다음 조우"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@284",
+            "rect": [
+              386.2,
+              337.3,
+              79.3,
+              32
+            ],
+            "text": "◇ 일반 1"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@247",
+            "rect": [
+              1005.3,
+              362,
+              233.3,
+              38.7
+            ],
+            "text": "조우 방향 · 1칸 이동"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@254",
+            "rect": [
+              1005.3,
+              412.7,
+              233.3,
+              38.7
+            ],
+            "text": "선택 취소"
+          }
+        ],
+        "density_cache": {
+          "budget_bytes": 67108864,
+          "hits": 0,
+          "misses": 20,
+          "retained_bytes": 66060288,
+          "retained_pages": 14
+        },
+        "draw_calls": 211,
+        "map": {
+          "backdrop": {
+            "instances": 24034,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "chapter": "CH01",
+          "enemy_pawns": 25,
+          "grid_tiles": 3602,
+          "instance_id": 127221630577,
+          "moving": false,
+          "next": "CH01-N01",
+          "palette": "FOREST",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            13,
+            -6
+          ],
+          "preview": [
+            [
+              13,
+              -6
+            ],
+            [
+              12,
+              -5
+            ]
+          ],
+          "reachable": 16,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                14,
+                -6
+              ],
+              "reachable": false,
+              "screen": [
+                556.2,
+                480.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                13,
+                -5
+              ],
+              "reachable": false,
+              "screen": [
+                480,
+                494.2
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                15,
+                -6
+              ],
+              "reachable": false,
+              "screen": [
+                610.4,
+                450.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                15,
+                -7
+              ],
+              "reachable": false,
+              "screen": [
+                632.4,
+                466.5
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                13,
+                -4
+              ],
+              "reachable": false,
+              "screen": [
+                458.1,
+                526.2
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                11,
+                -4
+              ],
+              "reachable": true,
+              "screen": [
+                349.7,
+                465.9
+              ],
+              "type": "BRIDGE"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                11,
+                -7
+              ],
+              "reachable": false,
+              "screen": [
+                415.6,
+                297.7
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                11,
+                -3
+              ],
+              "reachable": false,
+              "screen": [
+                327.7,
+                521.9
+              ],
+              "type": "BRIDGE"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                10,
+                -6
+              ],
+              "reachable": true,
+              "screen": [
+                339.4,
+                311.6
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                11,
+                -8
+              ],
+              "reachable": false,
+              "screen": [
+                437.5,
+                241.7
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                17,
+                -9
+              ],
+              "reachable": false,
+              "screen": [
+                784.7,
+                438.8
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                8,
+                -4
+              ],
+              "reachable": false,
+              "screen": [
+                187,
+                339.3
+              ],
+              "type": "BRIDGE"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                16,
+                -4
+              ],
+              "reachable": false,
+              "screen": [
+                620.7,
+                628.7
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                8,
+                -3
+              ],
+              "reachable": false,
+              "screen": [
+                165.1,
+                395.3
+              ],
+              "type": "BRIDGE"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                7,
+                -3
+              ],
+              "reachable": false,
+              "screen": [
+                110.9,
+                353.1
+              ],
+              "type": "BRIDGE"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            25.3333339691162,
+            141.333343505859,
+            953.333374023438,
+            553.333374023438
+          ]
+        },
+        "map_preload_msec": 5504,
+        "modals": [],
+        "nodes": 1402,
+        "pending_story": [],
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 14,
+          "sandbox_session": "regions35v2"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [
+          {
+            "max": 439,
+            "name": "@ScrollContainer@241",
+            "page": 439,
+            "rect": [
+              1005.3,
+              158.7,
+              233.3,
+              338.7
+            ],
+            "value": 0
+          }
+        ],
+        "stage": "CH01-N01"
+      }
+    },
+    {
+      "label": "warm_ch01",
+      "state": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@459",
+            "rect": [
+              21.3,
+              21.3,
+              80,
+              50.7
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@465",
+            "rect": [
+              21.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "일반 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@466",
+            "rect": [
+              115.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "위험 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@467",
+            "rect": [
+              209.3,
+              94.7,
+              77.3,
+              37.3
+            ],
+            "text": "맵 대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@468",
+            "rect": [
+              293.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "구역 개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@469",
+            "rect": [
+              387.3,
+              94.7,
+              116.7,
+              37.3
+            ],
+            "text": "이동 건너뛰기"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@470",
+            "rect": [
+              510.7,
+              94.7,
+              57.3,
+              37.3
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@471",
+            "rect": [
+              574.7,
+              94.7,
+              80,
+              37.3
+            ],
+            "text": "파티 편성"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@473",
+            "rect": [
+              1171.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "지역 이동"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@541",
+            "rect": [
+              1077.3,
+              153.3,
+              165.3,
+              34.7
+            ],
+            "text": "다음 조우"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@574",
+            "rect": [
+              528.3,
+              322.7,
+              79.3,
+              32
+            ],
+            "text": "◇ 일반 1"
+          }
+        ],
+        "density_cache": {
+          "budget_bytes": 67108864,
+          "hits": 0,
+          "misses": 20,
+          "retained_bytes": 66060288,
+          "retained_pages": 14
+        },
+        "draw_calls": 195,
+        "map": {
+          "backdrop": {
+            "instances": 24034,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "chapter": "CH01",
+          "enemy_pawns": 25,
+          "grid_tiles": 3602,
+          "instance_id": 193139312203,
+          "moving": false,
+          "next": "CH01-N01",
+          "palette": "FOREST",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            13,
+            -6
+          ],
+          "preview": [],
+          "reachable": 16,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                14,
+                -6
+              ],
+              "reachable": false,
+              "screen": [
+                694.2,
+                480.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                13,
+                -5
+              ],
+              "reachable": false,
+              "screen": [
+                618,
+                494.2
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                15,
+                -6
+              ],
+              "reachable": false,
+              "screen": [
+                748.4,
+                450.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                15,
+                -7
+              ],
+              "reachable": false,
+              "screen": [
+                770.4,
+                466.5
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                13,
+                -4
+              ],
+              "reachable": false,
+              "screen": [
+                596.1,
+                526.2
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                11,
+                -4
+              ],
+              "reachable": true,
+              "screen": [
+                487.7,
+                465.9
+              ],
+              "type": "BRIDGE"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                11,
+                -7
+              ],
+              "reachable": false,
+              "screen": [
+                553.6,
+                297.7
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                11,
+                -3
+              ],
+              "reachable": false,
+              "screen": [
+                465.7,
+                521.9
+              ],
+              "type": "BRIDGE"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                10,
+                -6
+              ],
+              "reachable": true,
+              "screen": [
+                477.4,
+                311.6
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                11,
+                -8
+              ],
+              "reachable": false,
+              "screen": [
+                575.5,
+                241.7
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                17,
+                -9
+              ],
+              "reachable": false,
+              "screen": [
+                922.7,
+                438.8
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                8,
+                -4
+              ],
+              "reachable": false,
+              "screen": [
+                325,
+                339.3
+              ],
+              "type": "BRIDGE"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                16,
+                -4
+              ],
+              "reachable": false,
+              "screen": [
+                758.7,
+                628.7
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                8,
+                -3
+              ],
+              "reachable": false,
+              "screen": [
+                303.1,
+                395.3
+              ],
+              "type": "BRIDGE"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                7,
+                -3
+              ],
+              "reachable": false,
+              "screen": [
+                248.9,
+                353.1
+              ],
+              "type": "BRIDGE"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            25.3333339691162,
+            141.333343505859,
+            1229.33337402344,
+            553.333374023438
+          ]
+        },
+        "map_preload_msec": 1765,
+        "modals": [],
+        "nodes": 1378,
+        "pending_story": [],
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 16,
+          "sandbox_session": "regions35v2"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [],
+        "stage": "CH01-N01"
+      }
+    },
+    {
+      "label": "ch02_ruins",
+      "state": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@774",
+            "rect": [
+              6,
+              6,
+              82,
+              40.1
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@792",
+            "rect": [
+              6,
+              53.4,
+              42.3,
+              51.5
+            ],
+            "text": "일반"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@793",
+            "rect": [
+              50.1,
+              53.4,
+              42.3,
+              51.5
+            ],
+            "text": "위험"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@794",
+            "rect": [
+              94.1,
+              53.4,
+              42.3,
+              51.5
+            ],
+            "text": "대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@795",
+            "rect": [
+              138.2,
+              53.4,
+              42.3,
+              51.5
+            ],
+            "text": "개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@796",
+            "rect": [
+              182.3,
+              53.4,
+              42.3,
+              51.5
+            ],
+            "text": "스킵"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@797",
+            "rect": [
+              226.3,
+              53.4,
+              42.3,
+              51.5
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@798",
+            "rect": [
+              6,
+              110.3,
+              106.6,
+              51.5
+            ],
+            "text": "파티 편성"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@800",
+            "rect": [
+              114.4,
+              110.3,
+              42.3,
+              51.5
+            ],
+            "text": "지역"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@868",
+            "rect": [
+              226.9,
+              170.3,
+              120,
+              38
+            ],
+            "text": "탐색 방향"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@900",
+            "rect": [
+              146.9,
+              283.2,
+              66.1,
+              51.5
+            ],
+            "text": "◆ 거점"
+          }
+        ],
+        "density_cache": {
+          "budget_bytes": 67108864,
+          "hits": 12,
+          "misses": 26,
+          "retained_bytes": 66060288,
+          "retained_pages": 14
+        },
+        "draw_calls": 114,
+        "map": {
+          "backdrop": {
+            "instances": 24047,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "chapter": "CH02",
+          "enemy_pawns": 25,
+          "grid_tiles": 3504,
+          "instance_id": 270230621931,
+          "moving": false,
+          "next": "CH02-N01",
+          "palette": "RUINS",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            0,
+            0
+          ],
+          "preview": [],
+          "reachable": 18,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                225.9,
+                410.6
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                0,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                161.4,
+                442.7
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                -2,
+                0
+              ],
+              "reachable": true,
+              "screen": [
+                88.2,
+                323.8
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                207.3,
+                478.4
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                -1
+              ],
+              "reachable": false,
+              "screen": [
+                290.4,
+                419.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                271.8,
+                466.7
+              ],
+              "type": "SHALLOW_WATER"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            7.125,
+            164.266036987305,
+            345.75,
+            468.608276367188
+          ]
+        },
+        "map_preload_msec": 3120,
+        "modals": [],
+        "nodes": 1255,
+        "pending_story": [],
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 26,
+          "sandbox_session": "regions35v2"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [],
+        "stage": "CH02-N01"
+      }
+    },
+    {
+      "label": "CH03",
+      "state": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@1573",
+            "rect": [
+              21.3,
+              21.3,
+              80,
+              50.7
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1595",
+            "rect": [
+              21.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "일반 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1596",
+            "rect": [
+              115.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "위험 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1597",
+            "rect": [
+              209.3,
+              94.7,
+              77.3,
+              37.3
+            ],
+            "text": "맵 대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1598",
+            "rect": [
+              293.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "구역 개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1599",
+            "rect": [
+              387.3,
+              94.7,
+              116.7,
+              37.3
+            ],
+            "text": "이동 건너뛰기"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@1600",
+            "rect": [
+              510.7,
+              94.7,
+              57.3,
+              37.3
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1601",
+            "rect": [
+              574.7,
+              94.7,
+              80,
+              37.3
+            ],
+            "text": "파티 편성"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1603",
+            "rect": [
+              1171.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "지역 이동"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1671",
+            "rect": [
+              1077.3,
+              153.3,
+              165.3,
+              34.7
+            ],
+            "text": "탐색 방향"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@1703",
+            "rect": [
+              606,
+              296.7,
+              68,
+              32
+            ],
+            "text": "◆ 거점"
+          }
+        ],
+        "density_cache": {
+          "budget_bytes": 67108864,
+          "hits": 51,
+          "misses": 48,
+          "retained_bytes": 66060288,
+          "retained_pages": 14
+        },
+        "draw_calls": 184,
+        "map": {
+          "backdrop": {
+            "instances": 24038,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "chapter": "CH03",
+          "enemy_pawns": 25,
+          "grid_tiles": 3613,
+          "instance_id": 464242348453,
+          "moving": false,
+          "next": "CH03-N01",
+          "palette": "GLASS",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            0,
+            0
+          ],
+          "preview": [],
+          "reachable": 19,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                694.2,
+                456.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                0,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                618,
+                470.1
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                672.2,
+                512.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                748.4,
+                498.5
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                3,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                802.6,
+                540.7
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                -4
+              ],
+              "reachable": false,
+              "screen": [
+                782.1,
+                208
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                -5,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                347,
+                259.2
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                3
+              ],
+              "reachable": false,
+              "screen": [
+                682.5,
+                642.5
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                -6
+              ],
+              "reachable": false,
+              "screen": [
+                880.2,
+                162.2
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                -6,
+                5
+              ],
+              "reachable": false,
+              "screen": [
+                204.9,
+                441.2
+              ],
+              "type": "RUINS"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            25.3333339691162,
+            141.333343505859,
+            1229.33337402344,
+            553.333374023438
+          ]
+        },
+        "map_preload_msec": 3444,
+        "modals": [],
+        "nodes": 1279,
+        "pending_story": [],
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 36,
+          "sandbox_session": "regions35v2"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [],
+        "stage": "CH03-N01"
+      }
+    },
+    {
+      "label": "CH04",
+      "state": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@1825",
+            "rect": [
+              21.3,
+              21.3,
+              80,
+              50.7
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1835",
+            "rect": [
+              21.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "일반 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1836",
+            "rect": [
+              115.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "위험 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1837",
+            "rect": [
+              209.3,
+              94.7,
+              77.3,
+              37.3
+            ],
+            "text": "맵 대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1838",
+            "rect": [
+              293.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "구역 개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1839",
+            "rect": [
+              387.3,
+              94.7,
+              116.7,
+              37.3
+            ],
+            "text": "이동 건너뛰기"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@1840",
+            "rect": [
+              510.7,
+              94.7,
+              57.3,
+              37.3
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1841",
+            "rect": [
+              574.7,
+              94.7,
+              80,
+              37.3
+            ],
+            "text": "파티 편성"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1843",
+            "rect": [
+              1171.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "지역 이동"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@1911",
+            "rect": [
+              1077.3,
+              153.3,
+              165.3,
+              34.7
+            ],
+            "text": "탐색 방향"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@1943",
+            "rect": [
+              606,
+              296.7,
+              68,
+              32
+            ],
+            "text": "◆ 거점"
+          }
+        ],
+        "density_cache": {
+          "budget_bytes": 67108864,
+          "hits": 68,
+          "misses": 50,
+          "retained_bytes": 66060288,
+          "retained_pages": 14
+        },
+        "draw_calls": 187,
+        "map": {
+          "backdrop": {
+            "instances": 24037,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "chapter": "CH04",
+          "enemy_pawns": 25,
+          "grid_tiles": 3592,
+          "instance_id": 527609893193,
+          "moving": false,
+          "next": "CH04-N01",
+          "palette": "TIDAL",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            0,
+            0
+          ],
+          "preview": [],
+          "reachable": 19,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                0,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                618,
+                470.1
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                694.2,
+                456.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                748.4,
+                498.5
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                672.2,
+                512.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                -1
+              ],
+              "reachable": false,
+              "screen": [
+                770.4,
+                442.4
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                -2,
+                3
+              ],
+              "reachable": false,
+              "screen": [
+                465.7,
+                497.8
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                -3,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                477.4,
+                287.5
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                -1,
+                4
+              ],
+              "reachable": false,
+              "screen": [
+                497.9,
+                596.1
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                4,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                856.8,
+                534.7
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                5,
+                -4
+              ],
+              "reachable": false,
+              "screen": [
+                998.9,
+                376.8
+              ],
+              "type": "RUINS"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            25.3333339691162,
+            141.333343505859,
+            1229.33337402344,
+            553.333374023438
+          ]
+        },
+        "map_preload_msec": 2407,
+        "modals": [],
+        "nodes": 1259,
+        "pending_story": [],
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 46,
+          "sandbox_session": "regions35v2"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [],
+        "stage": "CH04-N01"
+      }
+    },
+    {
+      "label": "CH05",
+      "state": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@2065",
+            "rect": [
+              21.3,
+              21.3,
+              80,
+              50.7
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2081",
+            "rect": [
+              21.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "일반 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2082",
+            "rect": [
+              115.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "위험 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2083",
+            "rect": [
+              209.3,
+              94.7,
+              77.3,
+              37.3
+            ],
+            "text": "맵 대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2084",
+            "rect": [
+              293.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "구역 개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2085",
+            "rect": [
+              387.3,
+              94.7,
+              116.7,
+              37.3
+            ],
+            "text": "이동 건너뛰기"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@2086",
+            "rect": [
+              510.7,
+              94.7,
+              57.3,
+              37.3
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2087",
+            "rect": [
+              574.7,
+              94.7,
+              80,
+              37.3
+            ],
+            "text": "파티 편성"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2089",
+            "rect": [
+              1171.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "지역 이동"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2157",
+            "rect": [
+              1077.3,
+              153.3,
+              165.3,
+              34.7
+            ],
+            "text": "탐색 방향"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@2189",
+            "rect": [
+              606,
+              296.7,
+              68,
+              32
+            ],
+            "text": "◆ 거점"
+          }
+        ],
+        "density_cache": {
+          "budget_bytes": 67108864,
+          "hits": 85,
+          "misses": 55,
+          "retained_bytes": 66060288,
+          "retained_pages": 14
+        },
+        "draw_calls": 187,
+        "map": {
+          "backdrop": {
+            "instances": 24053,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "chapter": "CH05",
+          "enemy_pawns": 25,
+          "grid_tiles": 3525,
+          "instance_id": 592151840545,
+          "moving": false,
+          "next": "CH05-N01",
+          "palette": "ASH",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            0,
+            0
+          ],
+          "preview": [],
+          "reachable": 18,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                0,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                618,
+                470.1
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                694.2,
+                456.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                748.4,
+                498.5
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                672.2,
+                512.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                -1
+              ],
+              "reachable": false,
+              "screen": [
+                770.4,
+                442.4
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                -3,
+                3
+              ],
+              "reachable": false,
+              "screen": [
+                411.5,
+                455.6
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                -3
+              ],
+              "reachable": false,
+              "screen": [
+                760.1,
+                264.1
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                -1,
+                3
+              ],
+              "reachable": false,
+              "screen": [
+                519.9,
+                540
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                -1,
+                4
+              ],
+              "reachable": false,
+              "screen": [
+                497.9,
+                596.1
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                -4,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                423.2,
+                245.3
+              ],
+              "type": "RUINS"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            25.3333339691162,
+            141.333343505859,
+            1229.33337402344,
+            553.333374023438
+          ]
+        },
+        "map_preload_msec": 2906,
+        "modals": [],
+        "nodes": 1265,
+        "pending_story": [],
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 56,
+          "sandbox_session": "regions35v2"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [],
+        "stage": "CH05-N01"
+      }
+    },
+    {
+      "label": "CH07",
+      "state": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@2311",
+            "rect": [
+              21.3,
+              21.3,
+              80,
+              50.7
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2327",
+            "rect": [
+              21.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "일반 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2328",
+            "rect": [
+              115.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "위험 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2329",
+            "rect": [
+              209.3,
+              94.7,
+              77.3,
+              37.3
+            ],
+            "text": "맵 대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2330",
+            "rect": [
+              293.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "구역 개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2331",
+            "rect": [
+              387.3,
+              94.7,
+              116.7,
+              37.3
+            ],
+            "text": "이동 건너뛰기"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@2332",
+            "rect": [
+              510.7,
+              94.7,
+              57.3,
+              37.3
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2333",
+            "rect": [
+              574.7,
+              94.7,
+              80,
+              37.3
+            ],
+            "text": "파티 편성"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2335",
+            "rect": [
+              1171.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "지역 이동"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2403",
+            "rect": [
+              1077.3,
+              153.3,
+              165.3,
+              34.7
+            ],
+            "text": "탐색 방향"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@2435",
+            "rect": [
+              606,
+              296.7,
+              68,
+              32
+            ],
+            "text": "◆ 거점"
+          }
+        ],
+        "density_cache": {
+          "budget_bytes": 67108864,
+          "hits": 102,
+          "misses": 60,
+          "retained_bytes": 66060288,
+          "retained_pages": 14
+        },
+        "draw_calls": 195,
+        "map": {
+          "backdrop": {
+            "instances": 24028,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "chapter": "CH07",
+          "enemy_pawns": 25,
+          "grid_tiles": 3563,
+          "instance_id": 656979004378,
+          "moving": false,
+          "next": "CH07-N01",
+          "palette": "FROST",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            0,
+            0
+          ],
+          "preview": [],
+          "reachable": 19,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                0,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                618,
+                494.2
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                694.2,
+                480.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                -2,
+                1
+              ],
+              "reachable": true,
+              "screen": [
+                509.6,
+                409.8
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                672.2,
+                536.4
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                748.4,
+                498.5
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                726.4,
+                530.4
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                -3,
+                4
+              ],
+              "reachable": false,
+              "screen": [
+                389.5,
+                535.8
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                6,
+                -5
+              ],
+              "reachable": false,
+              "screen": [
+                1075.1,
+                362.9
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                5,
+                -6
+              ],
+              "reachable": false,
+              "screen": [
+                1042.8,
+                264.7
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                5,
+                -7
+              ],
+              "reachable": false,
+              "screen": [
+                1064.8,
+                208.7
+              ],
+              "type": "RUINS"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            25.3333339691162,
+            141.333343505859,
+            1229.33337402344,
+            553.333374023438
+          ]
+        },
+        "map_preload_msec": 2963,
+        "modals": [],
+        "nodes": 1282,
+        "pending_story": [],
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 66,
+          "sandbox_session": "regions35v2"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [],
+        "stage": "CH07-N01"
+      }
+    },
+    {
+      "label": "CH08",
+      "state": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@2557",
+            "rect": [
+              21.3,
+              21.3,
+              80,
+              50.7
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2567",
+            "rect": [
+              21.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "일반 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2568",
+            "rect": [
+              115.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "위험 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2569",
+            "rect": [
+              209.3,
+              94.7,
+              77.3,
+              37.3
+            ],
+            "text": "맵 대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2570",
+            "rect": [
+              293.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "구역 개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2571",
+            "rect": [
+              387.3,
+              94.7,
+              116.7,
+              37.3
+            ],
+            "text": "이동 건너뛰기"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@2572",
+            "rect": [
+              510.7,
+              94.7,
+              57.3,
+              37.3
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2573",
+            "rect": [
+              574.7,
+              94.7,
+              80,
+              37.3
+            ],
+            "text": "파티 편성"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2575",
+            "rect": [
+              1171.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "지역 이동"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2643",
+            "rect": [
+              1077.3,
+              153.3,
+              165.3,
+              34.7
+            ],
+            "text": "탐색 방향"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@2675",
+            "rect": [
+              606,
+              296.7,
+              68,
+              32
+            ],
+            "text": "◆ 거점"
+          }
+        ],
+        "density_cache": {
+          "budget_bytes": 67108864,
+          "hits": 119,
+          "misses": 62,
+          "retained_bytes": 66060288,
+          "retained_pages": 14
+        },
+        "draw_calls": 192,
+        "map": {
+          "backdrop": {
+            "instances": 24049,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "chapter": "CH08",
+          "enemy_pawns": 25,
+          "grid_tiles": 3542,
+          "instance_id": 720078114007,
+          "moving": false,
+          "next": "CH08-N01",
+          "palette": "DUNE",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            0,
+            0
+          ],
+          "preview": [],
+          "reachable": 19,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                694.2,
+                456.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                0,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                618,
+                470.1
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                672.2,
+                512.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                748.4,
+                498.5
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                -1
+              ],
+              "reachable": false,
+              "screen": [
+                770.4,
+                442.4
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                0,
+                4
+              ],
+              "reachable": false,
+              "screen": [
+                552.1,
+                614.2
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                -4
+              ],
+              "reachable": false,
+              "screen": [
+                782.1,
+                184
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                -5,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                369,
+                203.1
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                7,
+                -4
+              ],
+              "reachable": false,
+              "screen": [
+                1107.3,
+                485.2
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                -2,
+                7
+              ],
+              "reachable": false,
+              "screen": [
+                377.8,
+                673.9
+              ],
+              "type": "RUINS"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            25.3333339691162,
+            141.333343505859,
+            1229.33337402344,
+            553.333374023438
+          ]
+        },
+        "map_preload_msec": 2400,
+        "modals": [],
+        "nodes": 1273,
+        "pending_story": [],
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 76,
+          "sandbox_session": "regions35v2"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [],
+        "stage": "CH08-N01"
+      }
+    },
+    {
+      "label": "CH09",
+      "state": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@2797",
+            "rect": [
+              21.3,
+              21.3,
+              80,
+              50.7
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2813",
+            "rect": [
+              21.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "일반 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2814",
+            "rect": [
+              115.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "위험 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2815",
+            "rect": [
+              209.3,
+              94.7,
+              77.3,
+              37.3
+            ],
+            "text": "맵 대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2816",
+            "rect": [
+              293.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "구역 개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2817",
+            "rect": [
+              387.3,
+              94.7,
+              116.7,
+              37.3
+            ],
+            "text": "이동 건너뛰기"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@2818",
+            "rect": [
+              510.7,
+              94.7,
+              57.3,
+              37.3
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2819",
+            "rect": [
+              574.7,
+              94.7,
+              80,
+              37.3
+            ],
+            "text": "파티 편성"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2821",
+            "rect": [
+              1171.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "지역 이동"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@2889",
+            "rect": [
+              1077.3,
+              153.3,
+              165.3,
+              34.7
+            ],
+            "text": "탐색 방향"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@2921",
+            "rect": [
+              606,
+              296.7,
+              68,
+              32
+            ],
+            "text": "◆ 거점"
+          }
+        ],
+        "density_cache": {
+          "budget_bytes": 67108864,
+          "hits": 136,
+          "misses": 67,
+          "retained_bytes": 66060288,
+          "retained_pages": 14
+        },
+        "draw_calls": 200,
+        "map": {
+          "backdrop": {
+            "instances": 24055,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "chapter": "CH09",
+          "enemy_pawns": 25,
+          "grid_tiles": 3601,
+          "instance_id": 784552954245,
+          "moving": false,
+          "next": "CH09-N01",
+          "palette": "LUNAR",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            0,
+            0
+          ],
+          "preview": [],
+          "reachable": 18,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                694.2,
+                456.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                0,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                618,
+                470.1
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                672.2,
+                512.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                -1
+              ],
+              "reachable": false,
+              "screen": [
+                770.4,
+                442.4
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                748.4,
+                498.5
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                5,
+                -2
+              ],
+              "reachable": false,
+              "screen": [
+                955,
+                488.9
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                5,
+                -6
+              ],
+              "reachable": false,
+              "screen": [
+                1042.8,
+                288.8
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                -6,
+                5
+              ],
+              "reachable": false,
+              "screen": [
+                204.9,
+                441.2
+              ],
+              "type": "RUINS"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            25.3333339691162,
+            141.333343505859,
+            1229.33337402344,
+            553.333374023438
+          ]
+        },
+        "map_preload_msec": 2940,
+        "modals": [],
+        "nodes": 1275,
+        "pending_story": [],
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 86,
+          "sandbox_session": "regions35v2"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [],
+        "stage": "CH09-N01"
+      }
+    },
+    {
+      "label": "CH20",
+      "state": {
+        "buttons": [
+          {
+            "disabled": false,
+            "name": "@Button@3043",
+            "rect": [
+              21.3,
+              21.3,
+              80,
+              50.7
+            ],
+            "text": "‹ 뒤로"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@3059",
+            "rect": [
+              21.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "일반 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@3060",
+            "rect": [
+              115.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "위험 작전"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@3061",
+            "rect": [
+              209.3,
+              94.7,
+              77.3,
+              37.3
+            ],
+            "text": "맵 대표"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@3062",
+            "rect": [
+              293.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "구역 개요"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@3063",
+            "rect": [
+              387.3,
+              94.7,
+              116.7,
+              37.3
+            ],
+            "text": "이동 건너뛰기"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@3064",
+            "rect": [
+              510.7,
+              94.7,
+              57.3,
+              37.3
+            ],
+            "text": "대기"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@3065",
+            "rect": [
+              574.7,
+              94.7,
+              80,
+              37.3
+            ],
+            "text": "파티 편성"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@3067",
+            "rect": [
+              1171.3,
+              94.7,
+              87.3,
+              37.3
+            ],
+            "text": "지역 이동"
+          },
+          {
+            "disabled": false,
+            "name": "@Button@3135",
+            "rect": [
+              1077.3,
+              153.3,
+              165.3,
+              34.7
+            ],
+            "text": "탐색 방향"
+          },
+          {
+            "disabled": true,
+            "name": "@Button@3167",
+            "rect": [
+              606,
+              296.7,
+              68,
+              32
+            ],
+            "text": "◆ 거점"
+          }
+        ],
+        "density_cache": {
+          "budget_bytes": 67108864,
+          "hits": 150,
+          "misses": 72,
+          "retained_bytes": 66060288,
+          "retained_pages": 14
+        },
+        "draw_calls": 187,
+        "map": {
+          "backdrop": {
+            "instances": 24049,
+            "present": true
+          },
+          "camera_size": 13.1999998092651,
+          "chapter": "CH20",
+          "enemy_pawns": 25,
+          "grid_tiles": 3542,
+          "instance_id": 849480781343,
+          "moving": false,
+          "next": "CH20-N01",
+          "palette": "RUINS",
+          "paused": false,
+          "pawn_texture": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              768
+            ],
+            "height": 192,
+            "path": "",
+            "width": 192
+          },
+          "position": [
+            0,
+            0
+          ],
+          "preview": [],
+          "reachable": 19,
+          "ready": true,
+          "terrain_samples": [
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                694.2,
+                456.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                0,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                618,
+                470.1
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": false,
+              "coord": [
+                -2,
+                2
+              ],
+              "reachable": true,
+              "screen": [
+                487.7,
+                441.8
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                1
+              ],
+              "reachable": false,
+              "screen": [
+                672.2,
+                512.3
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                748.4,
+                498.5
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                2,
+                -1
+              ],
+              "reachable": false,
+              "screen": [
+                770.4,
+                442.4
+              ],
+              "type": "SHALLOW_WATER"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                1,
+                -3
+              ],
+              "reachable": false,
+              "screen": [
+                760.1,
+                288.1
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                3,
+                0
+              ],
+              "reachable": false,
+              "screen": [
+                802.6,
+                540.7
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                0,
+                3
+              ],
+              "reachable": false,
+              "screen": [
+                574.1,
+                582.2
+              ],
+              "type": "RUINS"
+            },
+            {
+              "blocked": true,
+              "coord": [
+                -1,
+                3
+              ],
+              "reachable": false,
+              "screen": [
+                519.9,
+                540
+              ],
+              "type": "RUINS"
+            }
+          ],
+          "turn_transitioning": false,
+          "viewport_rect": [
+            25.3333339691162,
+            141.333343505859,
+            1229.33337402344,
+            553.333374023438
+          ]
+        },
+        "map_preload_msec": 3149,
+        "modals": [],
+        "nodes": 1258,
+        "pending_story": [],
+        "sandbox": {
+          "production_backup_attempt_count": 0,
+          "production_path_resolve_count": 0,
+          "production_read_attempt_count": 0,
+          "production_reset_attempt_count": 0,
+          "production_write_attempt_count": 0,
+          "sandbox_active": true,
+          "sandbox_path_resolve_count": 96,
+          "sandbox_session": "regions35v2"
+        },
+        "screen": "STAGE_SELECT",
+        "scrolls": [],
+        "stage": "CH20-N01"
+      }
+    }
+  ],
+  "stories": [
+    "SCN_CH01_INTRO",
+    "SCN_CH02_INTRO",
+    "SCN_CH03_INTRO",
+    "SCN_CH04_INTRO",
+    "SCN_CH05_INTRO",
+    "SCN_CH07_INTRO",
+    "SCN_CH08_INTRO",
+    "SCN_CH09_INTRO",
+    "SCN_CH20_INTRO"
+  ],
+  "scope": "Local Chrome touch emulation; region fixtures unlock isolated saves only. Not a physical phone or balance run."
+}

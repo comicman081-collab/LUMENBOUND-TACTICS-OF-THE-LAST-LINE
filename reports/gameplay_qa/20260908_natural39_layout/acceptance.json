@@ -1,0 +1,56 @@
+{
+  "checks": [
+    {
+      "name": "360x640 retains map state",
+      "pass": true
+    },
+    {
+      "name": "360x640 toolbar is a single compact row (48.0046844482422px)",
+      "pass": true
+    },
+    {
+      "name": "360x640 selected card is above character overlay",
+      "pass": true
+    },
+    {
+      "name": "360x640 selection stays inside viewport",
+      "pass": true
+    },
+    {
+      "name": "360x640 hides desktop formation action",
+      "pass": true
+    },
+    {
+      "name": "360x640 card height is capped (196.019134521484px)",
+      "pass": true
+    },
+    {
+      "name": "360x640 map keeps at least 65 percent height",
+      "pass": true
+    },
+    {
+      "name": "selection cancel remains reachable",
+      "pass": true
+    },
+    {
+      "name": "1280x720 retains map state",
+      "pass": true
+    },
+    {
+      "name": "1280x720 toolbar is a single compact row (37.3333282470703px)",
+      "pass": true
+    },
+    {
+      "name": "1280x720 selected card is above character overlay",
+      "pass": true
+    },
+    {
+      "name": "1280x720 selection stays inside viewport",
+      "pass": false
+    },
+    {
+      "name": "Error: 1280x720 selection stays inside viewport",
+      "pass": false
+    }
+  ]
+}

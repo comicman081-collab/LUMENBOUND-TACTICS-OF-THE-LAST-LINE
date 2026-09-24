@@ -1,0 +1,1051 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "Tactical height mesh selected"
+    },
+    {
+      "pass": true,
+      "name": "Independent nearby scout exists"
+    },
+    {
+      "pass": true,
+      "name": "Unclaimed treasure is visible"
+    },
+    {
+      "pass": true,
+      "name": "Actual treasure movement and reward completes"
+    },
+    {
+      "pass": true,
+      "name": "Claimed treasure disappears"
+    },
+    {
+      "pass": true,
+      "name": "Treasure never removes either live monster"
+    },
+    {
+      "pass": true,
+      "name": "Exact scout visible at real physical position"
+    },
+    {
+      "pass": true,
+      "name": "Selecting the pawn targets its exact node identity"
+    },
+    {
+      "pass": true,
+      "name": "Real AUTO combat reaches results"
+    },
+    {
+      "pass": true,
+      "name": "Observed advancing formation and committed impact numbers"
+    },
+    {
+      "pass": true,
+      "name": "Actual victory awarded stage progress"
+    },
+    {
+      "pass": true,
+      "name": "Only defeated scout removed"
+    },
+    {
+      "pass": true,
+      "name": "Monster #1 survives killing monster #2"
+    },
+    {
+      "pass": true,
+      "name": "Exact encounter has durable victory receipt"
+    },
+    {
+      "pass": true,
+      "name": "Treasure state survives battle return"
+    },
+    {
+      "pass": true,
+      "name": "Browser reload preserves exact kill and surviving monster"
+    },
+    {
+      "pass": true,
+      "name": "Browser reload preserves claimed treasure"
+    },
+    {
+      "pass": true,
+      "name": "No browser or engine runtime errors"
+    }
+  ],
+  "timeline": [
+    {
+      "time": 0,
+      "wave": 1,
+      "contacts": 0,
+      "queue": 0,
+      "readout": "",
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 7069,
+          "foot": [
+            578.098266601562,
+            880.319946289062
+          ],
+          "action": "move"
+        },
+        {
+          "id": "CHR002",
+          "hp": 4797,
+          "foot": [
+            725.440551757812,
+            759.800048828125
+          ],
+          "action": "move"
+        },
+        {
+          "id": "CHR003",
+          "hp": 3586,
+          "foot": [
+            686.644226074219,
+            880.319946289062
+          ],
+          "action": "move"
+        },
+        {
+          "id": "CHR004",
+          "hp": 3408,
+          "foot": [
+            427.865966796875,
+            759.800048828125
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR005",
+          "hp": 3288,
+          "foot": [
+            576.14501953125,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "ENM003",
+          "hp": 3088,
+          "foot": [
+            1208.9599609375,
+            780.760009765625
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "ENM004",
+          "hp": 1910,
+          "foot": [
+            1652.875,
+            854.119995117188
+          ],
+          "action": "idle"
+        }
+      ]
+    },
+    {
+      "time": 0.0333333333333333,
+      "wave": 1,
+      "contacts": 0,
+      "queue": 0,
+      "readout": "",
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 7069,
+          "foot": [
+            906.719970703125,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR002",
+          "hp": 4797,
+          "foot": [
+            1010.61505126953,
+            759.800048828125
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR003",
+          "hp": 3586,
+          "foot": [
+            736.7099609375,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR004",
+          "hp": 3408,
+          "foot": [
+            415.579956054688,
+            759.800048828125
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR005",
+          "hp": 3288,
+          "foot": [
+            576.14501953125,
+            880.319946289062
+          ],
+          "action": "ultimate"
+        },
+        {
+          "id": "ENM003",
+          "hp": 3088,
+          "foot": [
+            1208.9599609375,
+            780.760009765625
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "ENM004",
+          "hp": 1910,
+          "foot": [
+            1652.875,
+            854.119995117188
+          ],
+          "action": "idle"
+        }
+      ]
+    },
+    {
+      "time": 0.0333333333333333,
+      "wave": 1,
+      "contacts": 0,
+      "queue": 0,
+      "readout": "",
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 7069,
+          "foot": [
+            906.719970703125,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR002",
+          "hp": 4797,
+          "foot": [
+            1010.61505126953,
+            759.800048828125
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR003",
+          "hp": 3586,
+          "foot": [
+            736.7099609375,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR004",
+          "hp": 3408,
+          "foot": [
+            415.579956054688,
+            759.800048828125
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR005",
+          "hp": 3288,
+          "foot": [
+            576.14501953125,
+            880.319946289062
+          ],
+          "action": "ultimate"
+        },
+        {
+          "id": "ENM003",
+          "hp": 3088,
+          "foot": [
+            1208.9599609375,
+            780.760009765625
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "ENM004",
+          "hp": 1910,
+          "foot": [
+            1652.875,
+            854.119995117188
+          ],
+          "action": "idle"
+        }
+      ]
+    },
+    {
+      "time": 0.0333333333333333,
+      "wave": 1,
+      "contacts": 0,
+      "queue": 0,
+      "readout": "",
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 7069,
+          "foot": [
+            901.685241699219,
+            900.007385253906
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR002",
+          "hp": 4797,
+          "foot": [
+            1011.94018554688,
+            772.109985351562
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR003",
+          "hp": 3586,
+          "foot": [
+            721.268188476562,
+            900.007385253906
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR004",
+          "hp": 3408,
+          "foot": [
+            380.480346679688,
+            772.109985351562
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR005",
+          "hp": 3288,
+          "foot": [
+            550.874328613281,
+            900.007385253906
+          ],
+          "action": "ultimate"
+        },
+        {
+          "id": "ENM003",
+          "hp": 3088,
+          "foot": [
+            1222.42663574219,
+            794.352966308594
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "ENM004",
+          "hp": 1910,
+          "foot": [
+            1693.51574707031,
+            872.203674316406
+          ],
+          "action": "idle"
+        }
+      ]
+    },
+    {
+      "time": 0.0333333333333333,
+      "wave": 1,
+      "contacts": 0,
+      "queue": 0,
+      "readout": "",
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 7069,
+          "foot": [
+            906.719970703125,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR002",
+          "hp": 4797,
+          "foot": [
+            1010.61505126953,
+            759.800048828125
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR003",
+          "hp": 3586,
+          "foot": [
+            736.7099609375,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR004",
+          "hp": 3408,
+          "foot": [
+            415.579956054688,
+            759.800048828125
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR005",
+          "hp": 3288,
+          "foot": [
+            576.14501953125,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "ENM003",
+          "hp": 3088,
+          "foot": [
+            1208.9599609375,
+            780.760009765625
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "ENM004",
+          "hp": 1910,
+          "foot": [
+            1652.875,
+            854.119995117188
+          ],
+          "action": "idle"
+        }
+      ]
+    },
+    {
+      "time": 0.133333333333333,
+      "wave": 1,
+      "contacts": 0,
+      "queue": 0,
+      "readout": "",
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 7069,
+          "foot": [
+            906.719970703125,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR002",
+          "hp": 4797,
+          "foot": [
+            1010.61505126953,
+            759.800048828125
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR003",
+          "hp": 3586,
+          "foot": [
+            736.7099609375,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR004",
+          "hp": 3408,
+          "foot": [
+            415.579956054688,
+            759.800048828125
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR005",
+          "hp": 3288,
+          "foot": [
+            576.14501953125,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "ENM003",
+          "hp": 3088,
+          "foot": [
+            1208.9599609375,
+            780.760009765625
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "ENM004",
+          "hp": 1910,
+          "foot": [
+            1652.875,
+            854.119995117188
+          ],
+          "action": "idle"
+        }
+      ]
+    },
+    {
+      "time": 0.666666666666667,
+      "wave": 1,
+      "contacts": 0,
+      "queue": 0,
+      "readout": "",
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 7069,
+          "foot": [
+            906.719970703125,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR002",
+          "hp": 4797,
+          "foot": [
+            1010.61505126953,
+            759.800048828125
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR003",
+          "hp": 3586,
+          "foot": [
+            736.7099609375,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR004",
+          "hp": 3408,
+          "foot": [
+            415.579956054688,
+            759.800048828125
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR005",
+          "hp": 3288,
+          "foot": [
+            576.14501953125,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "ENM003",
+          "hp": 3088,
+          "foot": [
+            1208.9599609375,
+            780.760009765625
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "ENM004",
+          "hp": 1910,
+          "foot": [
+            1652.875,
+            854.119995117188
+          ],
+          "action": "idle"
+        }
+      ]
+    },
+    {
+      "time": 1.2,
+      "wave": 1,
+      "contacts": 0,
+      "queue": 8,
+      "readout": "",
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 6980,
+          "foot": [
+            946.648193359375,
+            902.82568359375
+          ],
+          "action": "basic_attack"
+        },
+        {
+          "id": "CHR002",
+          "hp": 4797,
+          "foot": [
+            946.648193359375,
+            855.422912597656
+          ],
+          "action": "basic_attack"
+        },
+        {
+          "id": "CHR003",
+          "hp": 3586,
+          "foot": [
+            731.286376953125,
+            881.757690429688
+          ],
+          "action": "basic_attack"
+        },
+        {
+          "id": "CHR004",
+          "hp": 3408,
+          "foot": [
+            408.503814697266,
+            760.617614746094
+          ],
+          "action": "basic_attack"
+        },
+        {
+          "id": "CHR005",
+          "hp": 3288,
+          "foot": [
+            569.895141601562,
+            881.757690429688
+          ],
+          "action": "basic_attack"
+        },
+        {
+          "id": "ENM003",
+          "hp": 0,
+          "foot": [
+            1165.00122070312,
+            902.82568359375
+          ],
+          "action": "basic_attack"
+        },
+        {
+          "id": "ENM004",
+          "hp": 586,
+          "foot": [
+            1652.166015625,
+            855.422912597656
+          ],
+          "action": "basic_attack"
+        }
+      ]
+    },
+    {
+      "time": 2,
+      "wave": 1,
+      "contacts": 8,
+      "queue": 1,
+      "readout": "에다 → 장갑 중계기 격파",
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 6980,
+          "foot": [
+            904.208251953125,
+            881.113830566406
+          ],
+          "action": "normal_skill"
+        },
+        {
+          "id": "CHR002",
+          "hp": 4797,
+          "foot": [
+            1008.39855957031,
+            760.251525878906
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR003",
+          "hp": 3586,
+          "foot": [
+            733.715148925781,
+            881.113830566406
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR004",
+          "hp": 3408,
+          "foot": [
+            411.672668457031,
+            760.251525878906
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR005",
+          "hp": 3288,
+          "foot": [
+            572.694030761719,
+            881.113830566406
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "ENM003",
+          "hp": 0,
+          "foot": [
+            1166.43542480469,
+            902.133483886719
+          ],
+          "action": "down"
+        },
+        {
+          "id": "ENM004",
+          "hp": 586,
+          "foot": [
+            1652.4833984375,
+            854.839416503906
+          ],
+          "action": "hit"
+        }
+      ]
+    },
+    {
+      "time": 3.33333333333333,
+      "wave": 2,
+      "contacts": 18,
+      "queue": 4,
+      "readout": "로안 → 합창 파편 격파",
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 6980,
+          "foot": [
+            1249.56030273438,
+            904.477294921875
+          ],
+          "action": "basic_attack"
+        },
+        {
+          "id": "CHR002",
+          "hp": 4797,
+          "foot": [
+            1257.57409667969,
+            806.304626464844
+          ],
+          "action": "basic_attack"
+        },
+        {
+          "id": "CHR003",
+          "hp": 3586,
+          "foot": [
+            725.200927734375,
+            883.370910644531
+          ],
+          "action": "normal_skill"
+        },
+        {
+          "id": "CHR004",
+          "hp": 3408,
+          "foot": [
+            400.564147949219,
+            761.534973144531
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR005",
+          "hp": 3288,
+          "foot": [
+            562.882568359375,
+            883.370910644531
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "ENM001",
+          "hp": 0,
+          "foot": [
+            1202.60791015625,
+            782.723815917969
+          ],
+          "action": "down"
+        },
+        {
+          "id": "ENM005",
+          "hp": 0,
+          "foot": [
+            1651.37048339844,
+            856.884887695312
+          ],
+          "action": "down"
+        },
+        {
+          "id": "ENM006",
+          "hp": 1122,
+          "foot": [
+            1469.95581054688,
+            915.154357910156
+          ],
+          "action": "basic_attack"
+        }
+      ]
+    },
+    {
+      "time": 3.6,
+      "wave": 2,
+      "contacts": 22,
+      "queue": 3,
+      "readout": "로안 → 합창 파편 격파",
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 6980,
+          "foot": [
+            1266.42016601562,
+            903.935180664062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR002",
+          "hp": 4797,
+          "foot": [
+            1266.42016601562,
+            866.930847167969
+          ],
+          "action": "basic_attack"
+        },
+        {
+          "id": "CHR003",
+          "hp": 3586,
+          "foot": [
+            742.353088378906,
+            882.789794921875
+          ],
+          "action": "basic_attack"
+        },
+        {
+          "id": "CHR004",
+          "hp": 3408,
+          "foot": [
+            418.384307861328,
+            761.204528808594
+          ],
+          "action": "basic_attack"
+        },
+        {
+          "id": "CHR005",
+          "hp": 3288,
+          "foot": [
+            580.368774414062,
+            882.789794921875
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "ENM001",
+          "hp": 0,
+          "foot": [
+            1218.77783203125,
+            782.349792480469
+          ],
+          "action": "down"
+        },
+        {
+          "id": "ENM005",
+          "hp": 0,
+          "foot": [
+            1666.61694335938,
+            856.358215332031
+          ],
+          "action": "down"
+        },
+        {
+          "id": "ENM006",
+          "hp": 0,
+          "foot": [
+            1485.57556152344,
+            914.5078125
+          ],
+          "action": "basic_attack"
+        }
+      ]
+    },
+    {
+      "time": 3.6,
+      "wave": 2,
+      "contacts": 25,
+      "queue": 0,
+      "readout": "에다 → 먼지 렌즈 격파",
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 6980,
+          "foot": [
+            982.225646972656,
+            885.008728027344
+          ],
+          "action": "victory"
+        },
+        {
+          "id": "CHR002",
+          "hp": 4797,
+          "foot": [
+            1037.72119140625,
+            771.604919433594
+          ],
+          "action": "victory"
+        },
+        {
+          "id": "CHR003",
+          "hp": 3586,
+          "foot": [
+            736.202026367188,
+            880.454650878906
+          ],
+          "action": "victory"
+        },
+        {
+          "id": "CHR004",
+          "hp": 3408,
+          "foot": [
+            414.917236328125,
+            759.876647949219
+          ],
+          "action": "victory"
+        },
+        {
+          "id": "CHR005",
+          "hp": 3288,
+          "foot": [
+            575.559753417969,
+            880.454650878906
+          ],
+          "action": "victory"
+        },
+        {
+          "id": "ENM001",
+          "hp": 0,
+          "foot": [
+            1208.6796875,
+            780.846740722656
+          ],
+          "action": "down"
+        },
+        {
+          "id": "ENM005",
+          "hp": 0,
+          "foot": [
+            1652.80871582031,
+            854.242065429688
+          ],
+          "action": "down"
+        },
+        {
+          "id": "ENM006",
+          "hp": 0,
+          "foot": [
+            1473.26708984375,
+            911.909851074219
+          ],
+          "action": "down"
+        }
+      ]
+    },
+    {
+      "time": 3.6,
+      "wave": 2,
+      "contacts": 25,
+      "queue": 0,
+      "readout": "에다 → 먼지 렌즈 격파",
+      "actors": [
+        {
+          "id": "CHR001",
+          "hp": 6980,
+          "foot": [
+            906.719970703125,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR002",
+          "hp": 4797,
+          "foot": [
+            1010.61505126953,
+            759.800048828125
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR003",
+          "hp": 3586,
+          "foot": [
+            736.7099609375,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR004",
+          "hp": 3408,
+          "foot": [
+            415.579956054688,
+            759.800048828125
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "CHR005",
+          "hp": 3288,
+          "foot": [
+            576.14501953125,
+            880.319946289062
+          ],
+          "action": "idle"
+        },
+        {
+          "id": "ENM001",
+          "hp": 0,
+          "foot": [
+            1208.9599609375,
+            780.760009765625
+          ],
+          "action": "down"
+        },
+        {
+          "id": "ENM005",
+          "hp": 0,
+          "foot": [
+            1652.875,
+            854.119995117188
+          ],
+          "action": "down"
+        },
+        {
+          "id": "ENM006",
+          "hp": 0,
+          "foot": [
+            1473.419921875,
+            911.760009765625
+          ],
+          "action": "down"
+        }
+      ]
+    }
+  ],
+  "scope": "Isolated disposable save; actual treasure movement, exact scout contact, natural AUTO fight and reward return; no forced victory."
+}

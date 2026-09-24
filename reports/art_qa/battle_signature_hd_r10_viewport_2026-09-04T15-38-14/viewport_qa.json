@@ -1,0 +1,233 @@
+{
+  "active_signature_units": [
+    "CHR001",
+    "CHR002",
+    "CHR008",
+    "ENM001",
+    "BOSS001"
+  ],
+  "approval_status": "LOCAL_QA_ONLY",
+  "boss_signature_size": [
+    347,
+    248
+  ],
+  "captures": [
+    {
+      "file": "01_idle.png",
+      "height": 844,
+      "sha256": "18c4c78fc4fd2635518cb988ed8b5a46acbf55c8df7d159579c153138d5541ae",
+      "stage": "idle",
+      "width": 390
+    },
+    {
+      "file": "02_ultimate_windup.png",
+      "height": 844,
+      "sha256": "db9ca42f60a932fb7d8ffbba1a00a55d3f1054b4f19651b96899573bb45efb49",
+      "stage": "ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "03_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "d527cf75272d4665cdb67195ff5067cca7256315b9d3c729bc452efb35cee269",
+      "stage": "ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "04_ultimate_impact.png",
+      "height": 844,
+      "sha256": "71e9a5d42efb1e168fe21aff278461a4fe7a0cd6b63e37fde2c66e2ae90aeb2f",
+      "stage": "ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "05_boss_down.png",
+      "height": 844,
+      "sha256": "061afbb45b15d978e70fadf5994e171f276299e01789141432833f7e58b0c3ae",
+      "stage": "boss_down",
+      "width": 390
+    },
+    {
+      "file": "06_iri_idle.png",
+      "height": 844,
+      "sha256": "4608c4c443d3bfcaa79d426179dba7906ec7a43f05f9e5925e9d4570fd3a483a",
+      "stage": "iri_idle",
+      "width": 390
+    },
+    {
+      "file": "07_iri_ultimate_windup.png",
+      "height": 844,
+      "sha256": "3ddd3b7dd3547948899ca2bd008fa838e0796b8f898b8f23f131084824df27be",
+      "stage": "iri_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "08_iri_ultimate_release.png",
+      "height": 844,
+      "sha256": "2661c395e80181ad6704e1313e8435c2e7fca838635373cc7c34e63c9f1724ae",
+      "stage": "iri_ultimate_release",
+      "width": 390
+    },
+    {
+      "file": "09_boss_ultimate_windup.png",
+      "height": 844,
+      "sha256": "60d302c1aa00ebffb2c58c2f17bc469962b46748b4cb09bbc04ac122612bcd71",
+      "stage": "boss_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "10_boss_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "623d8f24042df770631a87785e5cb3d5eab665dec2d54b7d84d1f7db1b7db617",
+      "stage": "boss_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "11_boss_ultimate_impact.png",
+      "height": 844,
+      "sha256": "17df98957bc57b932b08ba1edfa9e1e164ac738742c7076a2061a7c469090831",
+      "stage": "boss_ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "12_enm001_ultimate_windup.png",
+      "height": 844,
+      "sha256": "dde228fae748c7f679bf1191e4ff66c23bb9594ed9619ffdd26a92782a6abc8a",
+      "stage": "enm001_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "13_enm001_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "1241c9378704d981699d6881eab0cf66f30c79faf8ec8243d7e2b378d122e626",
+      "stage": "enm001_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "14_enm001_ultimate_impact.png",
+      "height": 844,
+      "sha256": "9674c8540c1080e28e2397b102440e0458ff69d0510045bcb3cfa65ec16b8d4b",
+      "stage": "enm001_ultimate_impact",
+      "width": 390
+    }
+  ],
+  "effect_signature_core_resident_atlas_bytes": 3830912,
+  "effect_signature_load_error": "",
+  "effect_signature_pack_ready": true,
+  "effect_signature_resident_atlas_bytes": 3830912,
+  "effect_signature_revision": "r2",
+  "enm001_signature_size": [
+    329,
+    318
+  ],
+  "guardian_signature_size": [
+    284,
+    337
+  ],
+  "iri_signature_size": [
+    322,
+    316
+  ],
+  "kind": "BATTLE_SIGNATURE_HD_LOCAL_VIEWPORT_QA",
+  "motion_contract": {
+    "enemy_hit_x": 24.9945163726807,
+    "enemy_ultimate_lunge_x": -19.4386768341064,
+    "player_basic_lunge_x": 20.9640560150146,
+    "player_basic_windup_x": -5.07936525344849
+  },
+  "qa_staging": "Temporary in-memory non-signature-to-CHR008 slot swap while retaining CHR001 and CHR002; no save, roster, reward, or stage data changed.",
+  "reference_group": [
+    "CHR001",
+    "CHR002",
+    "CHR008",
+    "BOSS001",
+    "ENM001"
+  ],
+  "signature_core_resident_atlas_bytes": 37806080,
+  "signature_load_error": "",
+  "signature_pack_ready": true,
+  "signature_resident_atlas_bytes": 37806080,
+  "signature_revision": "r10",
+  "stage_source": "CH01-N20",
+  "ui_orb_contract": {
+    "control_count": 5,
+    "face_crop_resident_bytes": 884736,
+    "full_tactical_gauge": 10.0,
+    "ready_badges": 5,
+    "world_health_text_cards": 0
+  },
+  "ultimate_page_checks": {
+    "BOSS001": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 44916736,
+      "actor_texture_size": [
+        347,
+        248
+      ],
+      "actor_transient_entity_id": "BOSS001",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 5789504,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "BOSS001",
+      "ready": true
+    },
+    "CHR001": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 45060096,
+      "actor_texture_size": [
+        284,
+        337
+      ],
+      "actor_transient_entity_id": "CHR001",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 5789504,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "CHR001",
+      "ready": true
+    },
+    "CHR008": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 45572096,
+      "actor_texture_size": [
+        322,
+        316
+      ],
+      "actor_transient_entity_id": "CHR008",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 5789504,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "CHR008",
+      "ready": true
+    },
+    "ENM001": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 42999808,
+      "actor_texture_size": [
+        329,
+        318
+      ],
+      "actor_transient_entity_id": "ENM001",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 5789504,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "ENM001",
+      "ready": true
+    }
+  },
+  "viewport": [
+    390,
+    844
+  ]
+}

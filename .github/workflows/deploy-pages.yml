@@ -9,8 +9,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -18,9 +16,6 @@ concurrency:
 
 jobs:
   deploy:
-    environment:
-      name: lumenbound-public
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -146,17 +141,3 @@ jobs:
           print("WEB_PAYLOAD_VERIFY=PASS")
           PY
           echo "WEB_ROOT=$WEB_ROOT" >> "$GITHUB_ENV"
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
-      - name: Upload verified Web payload
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ${{ env.WEB_ROOT }}
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

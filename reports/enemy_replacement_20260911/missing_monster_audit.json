@@ -1,0 +1,527 @@
+{
+  "status": "52_PLACEHOLDERS_IDENTIFIED",
+  "total_enemies": 65,
+  "replacement_count": 52,
+  "entities": [
+    {
+      "id": "ENM011",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_GLASS_TRANSMITTER",
+      "design": "floating crystalline beetle drone, cobalt glass wings, ivory segmented shell, red camera lens, thin antennae",
+      "current_source": "data_source/art_source/expansion_static_sources/enm011_authority.png",
+      "current_source_asset_id": "enm011_silhouette_a_f430385f4a1db468_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM012",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_AFTERGLOW_SCREEN",
+      "design": "armored crustacean sentinel, silver interlocking shield plates, purple reactor, broad claw shields, low heavy body",
+      "current_source": "data_source/art_source/expansion_static_sources/enm012_authority.png",
+      "current_source_asset_id": "enm012_silhouette_a_46de47d313178e44_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM013",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_REVERSE_ELECTRODE",
+      "design": "twin pronged electrical mantis drone, black ceramic armor, red magnetic coils, sharp articulated legs",
+      "current_source": "data_source/art_source/expansion_static_sources/enm013_authority.png",
+      "current_source_asset_id": "enm013_silhouette_a_110818141de91cdd_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM014",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_FALLEN_BATTERY",
+      "design": "heavy artillery scorpion robot, bronze plated body, huge raised cannon tail, six steel legs, orange reactor",
+      "current_source": "data_source/art_source/expansion_static_sources/enm014_authority.png",
+      "current_source_asset_id": "enm014_silhouette_a_55c59e843e212ae1_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM015",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_VACANT_CHORUS",
+      "design": "floating mechanical jellyfish, purple cathedral bell shell, silver resonator tubes, curled metal tentacles",
+      "current_source": "data_source/art_source/expansion_static_sources/enm015_authority.png",
+      "current_source_asset_id": "enm015_silhouette_a_0a6ace76ccab4de8_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS004",
+      "rank": "BOSS",
+      "name_key": "ENEMY_REVERSE_GATEKEEPER",
+      "design": "towering gatekeeper quadruped machine, two enormous black gold gate shields, purple reactor, broad bladed legs, menacing ornate silhouette",
+      "current_source": "data_source/art_source/expansion_static_sources/boss004_authority.png",
+      "current_source_asset_id": "boss004_silhouette_a_e494dac7ad4b353b_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS005",
+      "rank": "BOSS",
+      "name_key": "ENEMY_RETURN_FORMATION_CORE",
+      "design": "floating formation core leviathan, black bronze central reactor, six articulated blade arms, red orbital machinery, intricate armored shell",
+      "current_source": "data_source/art_source/expansion_static_sources/boss005_authority.png",
+      "current_source_asset_id": "boss005_silhouette_a_fce4e5cfa926a3c6_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM016",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_GLASS_STALKER",
+      "design": "predatory glass wolf automaton, translucent cobalt armor, ivory metal skeleton, serrated fangs, four clawed legs",
+      "current_source": "data_source/art_source/expansion_static_sources/enm016_authority.png",
+      "current_source_asset_id": "enm016_silhouette_a_8c6cd8fc26b05e37_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM017",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_PRISM_GUNNER",
+      "design": "prism turret crab, sapphire crystal barrel, silver rounded armor, four stabilizer legs, purple lens",
+      "current_source": "data_source/art_source/expansion_static_sources/enm017_authority.png",
+      "current_source_asset_id": "enm017_silhouette_a_653de17864c26676_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM018",
+      "rank": "ELITE",
+      "name_key": "ENEMY_MIRROR_BULWARK",
+      "design": "colossal mirror tortoise, overlapping silver mirror shields, blue crystalline shell, heavy mechanical claws",
+      "current_source": "data_source/art_source/expansion_static_sources/enm018_authority.png",
+      "current_source_asset_id": "enm018_silhouette_a_5cf5f6bb8eafbd2d_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM019",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_DROWNED_SCOUT",
+      "design": "deep sea anglerfish machine, dark blue armored scales, orange lure, sharp steel teeth, fin thrusters",
+      "current_source": "data_source/art_source/expansion_static_sources/enm019_authority.png",
+      "current_source_asset_id": "enm019_silhouette_a_6d34f249774dc499_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM020",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_FOG_MORTAR",
+      "design": "amphibious mortar toad robot, corroded bronze shell, enormous dorsal mortar barrel, squat articulated limbs",
+      "current_source": "data_source/art_source/expansion_static_sources/enm020_authority.png",
+      "current_source_asset_id": "enm020_silhouette_a_439a2a24fe7f53ec_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM021",
+      "rank": "ELITE",
+      "name_key": "ENEMY_SILT_MEDIC",
+      "design": "nautilus repair automaton, spiral ivory shell, red medical reactor, elegant metal tendrils, broad brass claws",
+      "current_source": "data_source/art_source/expansion_static_sources/enm021_authority.png",
+      "current_source_asset_id": "enm021_silhouette_a_bb3613117af54f69_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM022",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_ASH_RUNNER",
+      "design": "burning mechanical jackal, black segmented armor, ember orange seams, taloned feet, long bladed tail",
+      "current_source": "data_source/art_source/expansion_static_sources/enm022_authority.png",
+      "current_source_asset_id": "enm022_silhouette_a_609273ac6af01886_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM023",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_CINDER_RIFLE",
+      "design": "cinder hornet drone, black steel carapace, orange reactor abdomen, twin rifle mandibles, pointed metallic wings",
+      "current_source": "data_source/art_source/expansion_static_sources/enm023_authority.png",
+      "current_source_asset_id": "enm023_silhouette_a_2b4609314c4f7188_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM024",
+      "rank": "ELITE",
+      "name_key": "ENEMY_SMOG_WARDEN",
+      "design": "smoke furnace rhinoceros robot, massive black iron armor, red furnace core, bronze horns, heavy hooves",
+      "current_source": "data_source/art_source/expansion_static_sources/enm024_authority.png",
+      "current_source_asset_id": "enm024_silhouette_a_7f840ea3732ea632_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM025",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_ARC_HARRIER",
+      "design": "lightning raptor machine, indigo feather blades, silver hooked beak, blue electrical coils, taloned legs",
+      "current_source": "data_source/art_source/expansion_static_sources/enm025_authority.png",
+      "current_source_asset_id": "enm025_silhouette_a_1fdc2b2a0ac80520_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM026",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_THUNDER_LENS",
+      "design": "thunder eye drone, circular gold gimbal, large sapphire lens, four white lightning fins, intricate cables",
+      "current_source": "data_source/art_source/expansion_static_sources/enm026_authority.png",
+      "current_source_asset_id": "enm026_silhouette_a_79a664371036b948_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM027",
+      "rank": "ELITE",
+      "name_key": "ENEMY_BRIDGE_ANCHOR",
+      "design": "bridge anchor guardian crab, giant steel anchor claws, navy armor, copper chains, squat armored legs",
+      "current_source": "data_source/art_source/expansion_static_sources/enm027_authority.png",
+      "current_source_asset_id": "enm027_silhouette_a_686cb3ba0be1b907_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM028",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_SNOW_TRACKER",
+      "design": "snow lynx automaton, white ceramic armor, cobalt joints, blade ears, crystal claws, four stalking legs",
+      "current_source": "data_source/art_source/expansion_static_sources/enm028_authority.png",
+      "current_source_asset_id": "enm028_silhouette_a_37041b5541cec5a3_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM029",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_ICE_RELAY",
+      "design": "ice relay moth drone, six symmetrical sapphire crystal wings, white mechanical body, orange sensor eye",
+      "current_source": "data_source/art_source/expansion_static_sources/enm029_authority.png",
+      "current_source_asset_id": "enm029_silhouette_a_a24267ab0d6d6c70_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM030",
+      "rank": "ELITE",
+      "name_key": "ENEMY_WHITE_MEDIC",
+      "design": "arctic shield mammoth robot, ivory armor plates, curved steel tusks, blue core, broad mechanical feet",
+      "current_source": "data_source/art_source/expansion_static_sources/enm030_authority.png",
+      "current_source_asset_id": "enm030_silhouette_a_a575ee24ca366a89_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM031",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_QUARRY_CUTTER",
+      "design": "quarry cutter mole machine, copper drill snout, dark iron shell, enormous excavator claws, orange lamps",
+      "current_source": "data_source/art_source/expansion_static_sources/enm031_authority.png",
+      "current_source_asset_id": "enm031_silhouette_a_1974329295ec21c4_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM032",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_MAGMA_CASTER",
+      "design": "magma artillery salamander, obsidian armor, orange molten reactor, dorsal cannon, four heavy clawed feet",
+      "current_source": "data_source/art_source/expansion_static_sources/enm032_authority.png",
+      "current_source_asset_id": "enm032_silhouette_a_32663f2e0422e674_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM033",
+      "rank": "ELITE",
+      "name_key": "ENEMY_ORE_BASTION",
+      "design": "ore bastion armadillo automaton, layered iron shell, ruby ore spikes, thick bronze limbs, glowing red seams",
+      "current_source": "data_source/art_source/expansion_static_sources/enm033_authority.png",
+      "current_source_asset_id": "enm033_silhouette_a_41eff090d1b7a909_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM034",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_DREAM_PATROL",
+      "design": "dream prowler mechanical panther, midnight purple armor, crescent silver blades, violet eye, sleek stalking legs",
+      "current_source": "data_source/art_source/expansion_static_sources/enm034_authority.png",
+      "current_source_asset_id": "enm034_silhouette_a_0c434ff71715043a_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM035",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_SLEEP_NEEDLE",
+      "design": "sleep needle wasp automaton, violet glass abdomen, elongated silver syringe stinger, delicate steel wings",
+      "current_source": "data_source/art_source/expansion_static_sources/enm035_authority.png",
+      "current_source_asset_id": "enm035_silhouette_a_3af9ccce82778079_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM036",
+      "rank": "ELITE",
+      "name_key": "ENEMY_DOCKET_GUARD",
+      "design": "archive guard owl machine, bronze armor, booklike layered wings, ivory mask, purple clockwork eyes",
+      "current_source": "data_source/art_source/expansion_static_sources/enm036_authority.png",
+      "current_source_asset_id": "enm036_silhouette_a_1c41109d852c396f_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM037",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_MOON_SKIRMISHER",
+      "design": "moon skirmisher silver fox automaton, crescent blade tail, navy body, blue crystal paws, long pointed ears",
+      "current_source": "data_source/art_source/expansion_static_sources/enm037_authority.png",
+      "current_source_asset_id": "enm037_silhouette_a_1aaa2b1b88001560_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM038",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_TIDAL_SNIPER",
+      "design": "tidal sniper mechanical seahorse, ivory spiral armor, long blue railgun snout, bronze fins, curled tail",
+      "current_source": "data_source/art_source/expansion_static_sources/enm038_authority.png",
+      "current_source_asset_id": "enm038_silhouette_a_37c1a30cbe6b38de_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM039",
+      "rank": "ELITE",
+      "name_key": "ENEMY_ECLIPSE_WARD",
+      "design": "eclipse ward stag beetle robot, black and gold armored shell, giant crescent mandibles, purple core",
+      "current_source": "data_source/art_source/expansion_static_sources/enm039_authority.png",
+      "current_source_asset_id": "enm039_silhouette_a_a05b1674b3dac3f4_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM040",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_SURGE_RUNNER",
+      "design": "surge runner mechanical shark, navy steel body, red sensor eyes, blade fins, four articulated crawler legs",
+      "current_source": "data_source/art_source/expansion_static_sources/enm040_authority.png",
+      "current_source_asset_id": "enm040_silhouette_a_03b54ba1864a76cb_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM041",
+      "rank": "NORMAL",
+      "name_key": "ENEMY_BRINE_CANNON",
+      "design": "brine cannon lobster machine, blue bronze segmented armor, oversized cannon claw, reinforced tail, six legs",
+      "current_source": "data_source/art_source/expansion_static_sources/enm041_authority.png",
+      "current_source_asset_id": "enm041_silhouette_a_5fda33712e526730_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "ENM042",
+      "rank": "ELITE",
+      "name_key": "ENEMY_BREAKWATER_GUARD",
+      "design": "breakwater guardian turtle, white battleship shell, bronze wavebreaker spikes, blue reactor, massive clawed limbs",
+      "current_source": "data_source/art_source/expansion_static_sources/enm042_authority.png",
+      "current_source_asset_id": "enm042_silhouette_a_5c46646e00acc65c_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS006",
+      "rank": "BOSS",
+      "name_key": "ENEMY_GLASS_MARSHAL",
+      "design": "gigantic glass dragon automaton, sapphire crystal armor, white steel horns, broad mechanical wings, heavy four clawed legs",
+      "current_source": "data_source/art_source/expansion_static_sources/boss006_authority.png",
+      "current_source_asset_id": "boss006_silhouette_a_6f1f9b4a92bb9780_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS007",
+      "rank": "BOSS",
+      "name_key": "ENEMY_TIDAL_SWITCHMASTER",
+      "design": "colossal tidal octopus engine, navy brass diving bell body, many armored tentacles, orange porthole reactor, enormous mechanical claws",
+      "current_source": "data_source/art_source/expansion_static_sources/boss007_authority.png",
+      "current_source_asset_id": "boss007_silhouette_a_41e9f722cbbdce67_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS008",
+      "rank": "BOSS",
+      "name_key": "ENEMY_ASH_CITADEL",
+      "design": "ash citadel walking fortress beetle, black iron furnace shell, bronze battlements, red molten vents, six massive spiked legs",
+      "current_source": "data_source/art_source/expansion_static_sources/boss008_authority.png",
+      "current_source_asset_id": "boss008_silhouette_a_ef03451f999dfedf_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS009",
+      "rank": "BOSS",
+      "name_key": "ENEMY_VOLT_ARCHON",
+      "design": "volt archon thunderbird automaton, gold silver armor, enormous cobalt blade wings, hooked beak, electrical reactor chest",
+      "current_source": "data_source/art_source/expansion_static_sources/boss009_authority.png",
+      "current_source_asset_id": "boss009_silhouette_a_a793d9006b07d292_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS010",
+      "rank": "BOSS",
+      "name_key": "ENEMY_FROST_CANTOR",
+      "design": "frost cantor mechanical ice dragon, ivory armor, sapphire crystal horns, broad bladed wings, huge clawed feet",
+      "current_source": "data_source/art_source/expansion_static_sources/boss010_authority.png",
+      "current_source_asset_id": "boss010_silhouette_a_1540ae623795c18d_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS011",
+      "rank": "BOSS",
+      "name_key": "ENEMY_SCARLET_EXCAVATOR",
+      "design": "scarlet excavator colossal scorpion, black red mining armor, huge drill claws, crane cannon tail, heavy steel legs",
+      "current_source": "data_source/art_source/expansion_static_sources/boss011_authority.png",
+      "current_source_asset_id": "boss011_silhouette_a_737e8df50f861d6a_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS012",
+      "rank": "BOSS",
+      "name_key": "ENEMY_DREAM_BAILIFF",
+      "design": "dream bailiff mechanical sphinx beast, deep purple armor, bronze clockwork wings, ivory lion mask, four massive paws",
+      "current_source": "data_source/art_source/expansion_static_sources/boss012_authority.png",
+      "current_source_asset_id": "boss012_silhouette_a_7a7d1f63ffbf8b4d_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS013",
+      "rank": "BOSS",
+      "name_key": "ENEMY_LUNAR_DIVIDER",
+      "design": "lunar divider mechanical mantis, silver moon blade forearms, black armored abdomen, blue core, four towering support legs",
+      "current_source": "data_source/art_source/expansion_static_sources/boss013_authority.png",
+      "current_source_asset_id": "boss013_silhouette_a_bc5015598ca6e738_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS014",
+      "rank": "BOSS",
+      "name_key": "ENEMY_TIDE_REAPER",
+      "design": "tide reaper mechanical kraken, blue iron carapace, enormous curved silver claws, bronze tentacles, red beacon eye",
+      "current_source": "data_source/art_source/expansion_static_sources/boss014_authority.png",
+      "current_source_asset_id": "boss014_silhouette_a_cca99b3b6d04b493_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS015",
+      "rank": "BOSS",
+      "name_key": "ENEMY_NAMELESS_PRELATE",
+      "design": "nameless prelate cathedral spider machine, tall ivory bell shell, violet reactor windows, gold spikes, eight armored legs",
+      "current_source": "data_source/art_source/expansion_static_sources/boss015_authority.png",
+      "current_source_asset_id": "boss015_silhouette_a_966f946752a99674_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS016",
+      "rank": "BOSS",
+      "name_key": "ENEMY_DUNE_STATIONMASTER",
+      "design": "dune stationmaster colossal sandworm machine, bronze segmented armor, circular drill maw, black steel fins, glowing orange eye",
+      "current_source": "data_source/art_source/expansion_static_sources/boss016_authority.png",
+      "current_source_asset_id": "boss016_silhouette_a_e837a6eaf41087bd_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS017",
+      "rank": "BOSS",
+      "name_key": "ENEMY_GRAVITY_AUDITOR",
+      "design": "gravity auditor floating mechanical whale, black silver armor, purple singularity engine, heavy orbital fins, imposing broad silhouette",
+      "current_source": "data_source/art_source/expansion_static_sources/boss017_authority.png",
+      "current_source_asset_id": "boss017_silhouette_a_3e68ebb05482ed0c_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS018",
+      "rank": "BOSS",
+      "name_key": "ENEMY_NULL_GARDENER",
+      "design": "null gardener mechanical carnivorous flower, black ceramic petals, magenta crystal heart, silver thorn arms, thick rooted steel legs",
+      "current_source": "data_source/art_source/expansion_static_sources/boss018_authority.png",
+      "current_source_asset_id": "boss018_silhouette_a_ea513dd743c82a85_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS019",
+      "rank": "BOSS",
+      "name_key": "ENEMY_CROWN_LANCER",
+      "design": "crown lancer mechanical lion, gold crowned armored mane, crimson reactor, massive steel blade claws, broad muscular quadruped body",
+      "current_source": "data_source/art_source/expansion_static_sources/boss019_authority.png",
+      "current_source_asset_id": "boss019_silhouette_a_7a9cdeb9a459d083_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS020",
+      "rank": "BOSS",
+      "name_key": "ENEMY_INDEX_PREDATOR",
+      "design": "index predator mechanical centipede, navy ivory armored segments, orange sensor arrays, huge jaw blades, many steel claws",
+      "current_source": "data_source/art_source/expansion_static_sources/boss020_authority.png",
+      "current_source_asset_id": "boss020_silhouette_a_953732322c348b33_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS021",
+      "rank": "BOSS",
+      "name_key": "ENEMY_DOOM_SIGNALER",
+      "design": "doom signaler mechanical raven, black bronze armor, red beacon crown, huge blade wings, powerful clawed landing legs",
+      "current_source": "data_source/art_source/expansion_static_sources/boss021_authority.png",
+      "current_source_asset_id": "boss021_silhouette_a_05d96957e9849d61_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS022",
+      "rank": "BOSS",
+      "name_key": "ENEMY_ETERNAL_TICKET",
+      "design": "eternal ticket clockwork serpent, ivory gold locomotive head, violet reactor, coiled articulated black steel body, bladed fins",
+      "current_source": "data_source/art_source/expansion_static_sources/boss022_authority.png",
+      "current_source_asset_id": "boss022_silhouette_a_a769727177f092b9_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    },
+    {
+      "id": "BOSS023",
+      "rank": "BOSS",
+      "name_key": "ENEMY_LAST_LINE_WARDEN",
+      "design": "last line warden colossal mechanical dragon, black gold cathedral armor, crimson heart reactor, huge silver wings, four massive clawed legs",
+      "current_source": "data_source/art_source/expansion_static_sources/boss023_authority.png",
+      "current_source_asset_id": "boss023_silhouette_a_5fe02819d6536805_sc112",
+      "target": "1024px full creature source, clean green master, separated RGBA, 256px battle atlas and 192px map atlas",
+      "death": "existing explosion-only effect; no prone corpse sprite"
+    }
+  ]
+}

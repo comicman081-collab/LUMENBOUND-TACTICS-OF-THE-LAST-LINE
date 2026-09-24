@@ -1,0 +1,1039 @@
+{
+  "schema_version": 1,
+  "asset_id": "runtime_web_combat_chr023",
+  "character_id": "CHR023",
+  "display_name": "CHR023",
+  "status": "LOCAL_QA_ONLY_FULL_DENSITY",
+  "source_status": "CANDIDATE_LOCAL_SD_UNIFICATION_PASS_DEV_RUNTIME",
+  "source_root": "data_source/art_source/combat_hd_sources/renewed/chr023_costume_c_sd_r1_rgba_authority.png",
+  "source_asset_id": "chr023_costume_c_ecc46527f2039986_sc112",
+  "creation_method": "costume_only_high_resolution_authority_candidate",
+  "ownership_status": "ORIGINAL_INTERNAL",
+  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "frame_size": [
+    256,
+    256
+  ],
+  "foot_anchor": [
+    0.5,
+    0.88
+  ],
+  "head_anchor": [
+    0.5,
+    0.14
+  ],
+  "view": "THREE_QUARTER_RIGHT_DOWN_30",
+  "facing_policy": "SEPARATE_LEFT_RIGHT",
+  "atlas_path": "",
+  "preview_path": "preview.png",
+  "preview_sha256": "35b569084cf479fdf87b5da22ae2c564e6bd4c36396a73b7179413cff236220c",
+  "atlas_columns": 10,
+  "total_frames": 84,
+  "animations": {
+    "idle": {
+      "fps": 12,
+      "loop": true,
+      "frame_indices": [
+        0,
+        1,
+        2,
+        1,
+        0,
+        3,
+        4,
+        3
+      ]
+    },
+    "move": {
+      "fps": 12,
+      "loop": true,
+      "frame_indices": [
+        0,
+        5,
+        6,
+        7,
+        6,
+        5,
+        0,
+        8,
+        9,
+        10,
+        9,
+        8
+      ]
+    },
+    "basic_attack": {
+      "fps": 12,
+      "loop": false,
+      "frame_indices": [
+        0,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ]
+    },
+    "normal_skill": {
+      "fps": 12,
+      "loop": false,
+      "frame_indices": [
+        0,
+        18,
+        19,
+        20,
+        21,
+        22,
+        22,
+        23,
+        24,
+        25,
+        26,
+        17
+      ]
+    },
+    "ultimate": {
+      "fps": 12,
+      "loop": false,
+      "frame_indices": [
+        0,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        0
+      ]
+    },
+    "hit": {
+      "fps": 12,
+      "loop": false,
+      "frame_indices": [
+        0,
+        42,
+        43,
+        17
+      ]
+    },
+    "down": {
+      "fps": 12,
+      "loop": false,
+      "frame_indices": [
+        0,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50
+      ]
+    },
+    "victory": {
+      "fps": 12,
+      "loop": false,
+      "frame_indices": [
+        0,
+        51,
+        52,
+        52,
+        51,
+        0,
+        53,
+        54,
+        54,
+        53
+      ]
+    },
+    "stun": {
+      "fps": 12,
+      "loop": true,
+      "frame_indices": [
+        0,
+        42,
+        43,
+        17
+      ]
+    }
+  },
+  "events": {
+    "basic_attack": {
+      "projectile_spawn_frame": 3,
+      "damage_frame": 4
+    },
+    "normal_skill": {
+      "vfx_frame": 5,
+      "damage_frame": 6
+    },
+    "ultimate": {
+      "vfx_frame": 8,
+      "damage_frame": 10
+    }
+  },
+  "sha256": "8e940f04e807922b136dc337b17fd687719e43b68f6022f253a26e2e7c6c8826",
+  "atlas_pages": [
+    {
+      "atlas_path": "page_00.png",
+      "atlas_sha256": "4192093e725dbcdd19cf8ef36c63d75395bdd6209d1bcabc33008ddab76f3615",
+      "size": [
+        2048,
+        840
+      ],
+      "rgba_bytes": 6881280
+    },
+    {
+      "atlas_path": "page_01.png",
+      "atlas_sha256": "43f7d1660d40f1e5f6cf73877db1fa279a85bef98d85a74ec72c8294ac09d4e3",
+      "size": [
+        1280,
+        436
+      ],
+      "rgba_bytes": 2232320
+    }
+  ],
+  "packed_frames": [
+    {
+      "page": 0,
+      "region": [
+        0,
+        0,
+        180,
+        213
+      ],
+      "margin": [
+        38,
+        11,
+        76,
+        43
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        180,
+        0,
+        180,
+        213
+      ],
+      "margin": [
+        38,
+        12,
+        76,
+        43
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        720,
+        0,
+        180,
+        212
+      ],
+      "margin": [
+        38,
+        13,
+        76,
+        44
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        360,
+        0,
+        180,
+        213
+      ],
+      "margin": [
+        38,
+        10,
+        76,
+        43
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        900,
+        0,
+        180,
+        212
+      ],
+      "margin": [
+        38,
+        10,
+        76,
+        44
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1080,
+        0,
+        180,
+        212
+      ],
+      "margin": [
+        39,
+        12,
+        76,
+        44
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1260,
+        0,
+        180,
+        212
+      ],
+      "margin": [
+        40,
+        13,
+        76,
+        44
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1800,
+        0,
+        179,
+        212
+      ],
+      "margin": [
+        41,
+        13,
+        77,
+        44
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        540,
+        0,
+        179,
+        213
+      ],
+      "margin": [
+        37,
+        10,
+        77,
+        43
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1440,
+        0,
+        180,
+        212
+      ],
+      "margin": [
+        36,
+        10,
+        76,
+        44
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        0,
+        216,
+        179,
+        212
+      ],
+      "margin": [
+        36,
+        10,
+        77,
+        44
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        180,
+        216,
+        183,
+        211
+      ],
+      "margin": [
+        43,
+        11,
+        73,
+        45
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1664,
+        216,
+        185,
+        209
+      ],
+      "margin": [
+        46,
+        10,
+        71,
+        47
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        376,
+        428,
+        186,
+        208
+      ],
+      "margin": [
+        49,
+        10,
+        70,
+        48
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        564,
+        428,
+        186,
+        208
+      ],
+      "margin": [
+        49,
+        10,
+        70,
+        48
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1852,
+        216,
+        185,
+        209
+      ],
+      "margin": [
+        46,
+        9,
+        71,
+        47
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        364,
+        216,
+        183,
+        211
+      ],
+      "margin": [
+        43,
+        10,
+        73,
+        45
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1620,
+        0,
+        180,
+        212
+      ],
+      "margin": [
+        38,
+        11,
+        76,
+        44
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        548,
+        216,
+        183,
+        211
+      ],
+      "margin": [
+        40,
+        10,
+        73,
+        45
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1288,
+        216,
+        186,
+        209
+      ],
+      "margin": [
+        42,
+        10,
+        70,
+        47
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        752,
+        428,
+        189,
+        207
+      ],
+      "margin": [
+        44,
+        10,
+        67,
+        49
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1520,
+        428,
+        190,
+        205
+      ],
+      "margin": [
+        46,
+        10,
+        66,
+        51
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        0,
+        636,
+        190,
+        204
+      ],
+      "margin": [
+        47,
+        10,
+        66,
+        52
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1712,
+        428,
+        190,
+        205
+      ],
+      "margin": [
+        46,
+        9,
+        66,
+        51
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        944,
+        428,
+        189,
+        207
+      ],
+      "margin": [
+        44,
+        9,
+        67,
+        49
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1476,
+        216,
+        186,
+        209
+      ],
+      "margin": [
+        42,
+        9,
+        70,
+        47
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        920,
+        216,
+        183,
+        210
+      ],
+      "margin": [
+        40,
+        10,
+        73,
+        46
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1104,
+        216,
+        182,
+        210
+      ],
+      "margin": [
+        41,
+        11,
+        74,
+        46
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        732,
+        216,
+        185,
+        210
+      ],
+      "margin": [
+        43,
+        10,
+        71,
+        46
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        0,
+        428,
+        187,
+        208
+      ],
+      "margin": [
+        46,
+        10,
+        69,
+        48
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1136,
+        428,
+        189,
+        206
+      ],
+      "margin": [
+        48,
+        10,
+        67,
+        50
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        192,
+        636,
+        190,
+        204
+      ],
+      "margin": [
+        50,
+        10,
+        66,
+        52
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        576,
+        636,
+        192,
+        203
+      ],
+      "margin": [
+        51,
+        10,
+        64,
+        53
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1156,
+        636,
+        192,
+        202
+      ],
+      "margin": [
+        52,
+        10,
+        64,
+        54
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        960,
+        636,
+        193,
+        202
+      ],
+      "margin": [
+        52,
+        10,
+        63,
+        54
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1348,
+        636,
+        192,
+        202
+      ],
+      "margin": [
+        52,
+        10,
+        64,
+        54
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        768,
+        636,
+        192,
+        203
+      ],
+      "margin": [
+        51,
+        9,
+        64,
+        53
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        384,
+        636,
+        190,
+        204
+      ],
+      "margin": [
+        50,
+        9,
+        66,
+        52
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        1328,
+        428,
+        189,
+        206
+      ],
+      "margin": [
+        48,
+        9,
+        67,
+        50
+      ]
+    },
+    {
+      "page": 0,
+      "region": [
+        188,
+        428,
+        187,
+        208
+      ],
+      "margin": [
+        46,
+        9,
+        69,
+        48
+      ]
+    },
+    {
+      "page": 1,
+      "region": [
+        184,
+        224,
+        185,
+        210
+      ],
+      "margin": [
+        43,
+        9,
+        71,
+        46
+      ]
+    },
+    {
+      "page": 1,
+      "region": [
+        1040,
+        0,
+        182,
+        211
+      ],
+      "margin": [
+        41,
+        10,
+        74,
+        45
+      ]
+    },
+    {
+      "page": 1,
+      "region": [
+        516,
+        0,
+        172,
+        216
+      ],
+      "margin": [
+        31,
+        15,
+        84,
+        40
+      ]
+    },
+    {
+      "page": 1,
+      "region": [
+        344,
+        0,
+        172,
+        217
+      ],
+      "margin": [
+        31,
+        14,
+        84,
+        39
+      ]
+    },
+    {
+      "page": 1,
+      "region": [
+        172,
+        0,
+        172,
+        218
+      ],
+      "margin": [
+        26,
+        22,
+        84,
+        38
+      ]
+    },
+    {
+      "page": 1,
+      "region": [
+        0,
+        0,
+        170,
+        221
+      ],
+      "margin": [
+        7,
+        35,
+        86,
+        35
+      ]
+    },
+    {
+      "page": 1,
+      "region": [
+        560,
+        224,
+        154,
+        202
+      ],
+      "margin": [
+        0,
+        54,
+        102,
+        54
+      ]
+    },
+    {
+      "page": 1,
+      "region": [
+        716,
+        224,
+        137,
+        178
+      ],
+      "margin": [
+        0,
+        78,
+        119,
+        78
+      ]
+    },
+    {
+      "page": 1,
+      "region": [
+        856,
+        224,
+        131,
+        158
+      ],
+      "margin": [
+        0,
+        98,
+        125,
+        98
+      ]
+    },
+    {
+      "page": 1,
+      "region": [
+        988,
+        224,
+        125,
+        145
+      ],
+      "margin": [
+        0,
+        111,
+        131,
+        111
+      ]
+    },
+    {
+      "page": 1,
+      "region": [
+        1116,
+        224,
+        119,
+        132
+      ],
+      "margin": [
+        0,
+        124,
+        137,
+        124
+      ]
+    },
+    {
+      "page": 1,
+      "region": [
+        0,
+        224,
+        182,
+        211
+      ],
+      "margin": [
+        39,
+        8,
+        74,
+        45
+      ]
+    },
+    {
+      "page": 1,
+      "region": [
+        372,
+        224,
+        185,
+        209
+      ],
+      "margin": [
+        39,
+        6,
+        71,
+        47
+      ]
+    },
+    {
+      "page": 1,
+      "region": [
+        864,
+        0,
+        176,
+        214
+      ],
+      "margin": [
+        38,
+        10,
+        80,
+        42
+      ]
+    },
+    {
+      "page": 1,
+      "region": [
+        688,
+        0,
+        173,
+        215
+      ],
+      "margin": [
+        38,
+        9,
+        83,
+        41
+      ]
+    }
+  ],
+  "source_manifest_sha256": "ecc46527f20399867934ede4847d2468338fbe4ff226f6729f75fdc61a4ce49d",
+  "density_provenance": "512px_or_larger_original_to_256px; compact_atlas_never_used",
+  "identity_change": false,
+  "costume_change": false,
+  "decoded_rgba_bytes": 9113600
+}

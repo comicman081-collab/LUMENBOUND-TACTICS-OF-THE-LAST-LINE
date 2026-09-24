@@ -1,0 +1,38 @@
+{
+  "entity_id": "BOSS003",
+  "raw": "work/existing_roster_spritegen_20260911/gpt_candidates/BOSS003.png.raw.png",
+  "raw_sha256": "c020fea260d0906fde5064e61201ac9b3b852fbefbc1c0a76d6922c2ab1ac996",
+  "raw_had_generated_alpha": false,
+  "green_master": "green_master.png",
+  "master_method": "Generated artwork composited without resizing onto uniform green with 64px safety border; raw preserved unchanged.",
+  "extractor": "sprite_gen.frames.extract.remove_chroma_background",
+  "stats": {
+    "out": "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\work\\existing_roster_spritegen_20260911\\normalized\\BOSS003\\source.png",
+    "mode": "RGBA",
+    "size": "1440x1327",
+    "key": "green",
+    "route": "extract:green",
+    "chroma_key": [
+      0,
+      255,
+      0
+    ],
+    "alpha_zero_pct": 54.52
+  },
+  "status": "VISUAL_REVIEW_REQUIRED",
+  "refinement": {
+    "extractor": "sprite_gen.frames.extract.remove_chroma_background",
+    "key": [
+      0,
+      255,
+      0
+    ],
+    "threshold": 16,
+    "fringe_threshold": 60,
+    "fringe_delta": 18,
+    "unmix_reach": 1,
+    "spill_max_fraction": 0,
+    "reason": "Preserve authored green energy/glass; broad default key removed interior material",
+    "review": "VISUAL_PASS"
+  }
+}

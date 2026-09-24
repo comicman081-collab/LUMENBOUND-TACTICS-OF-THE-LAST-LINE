@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_enm014",
   "character_id": "ENM014",
-  "display_name": "ENM014",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/enm014_authority.png",
-  "source_asset_id": "enm014_silhouette_a_55c59e843e212ae1_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_FALLEN_BATTERY",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/ENM014/source.png",
+  "source_asset_id": "enm014_illustrated_9ca1fcc325086b0a",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "d7d5bc4a6844e1497fa4b22e7b95d197fa337a7a7bc22a468f2112bd6dc7fc45",
+  "preview_sha256": "8eada7950bdffc3900f5c36f9e1be55e079a7c861701f3126093306b3ab09b27",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "c3645b9899aee6ef8f7d1b9cb6b5917f7d6d87df83e05d833d4595c3b52715c7"
+  "sha256": "44eafd3791b78a309b273fa01a0197630e1d41afc5a1bcdde5bfb1705c8a1b90"
 }

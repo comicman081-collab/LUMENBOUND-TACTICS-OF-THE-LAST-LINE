@@ -1,0 +1,374 @@
+{
+  "status": "SOURCE_POSE_VISUAL_REVIEW_AND_LOCAL_RUNTIME_QA_PASS",
+  "review": "All 192 poses reviewed in ordered six-pose full-resolution sheets against approved SD identity. Non-loop start/windup/release/follow-through/recovery assessed. Actual renderer and live battle validation remain separate.",
+  "actors": {
+    "CHR001": {
+      "note": "Lantern swing, planted shield thrust and heavy overhead lantern bash. Shield, chain and teal identity retained.",
+      "frames": 18,
+      "actions": [
+        "basic_attack",
+        "normal_skill",
+        "ultimate"
+      ],
+      "hashes": {
+        "manifest_sha256": "2efc3e2b78a3697d9e8537e3bb45cac3ac3915ef01bfbbad29be017b16f3bf54",
+        "atlas_sha256": "866baf072b5191ddcabe2df90c4321330c94f52349e850a16eb0defa5e9899e4",
+        "decoded_bytes": 4263936
+      },
+      "source_rows": {
+        "work\\combat_motion_20260913\\r2\\CHR001\\raw\\basic_attack_prepare.png": "cfe5ce11eeda0cb1a06204e45d18745c8f88052c6913d2d3b6b185704a713efb",
+        "work\\combat_motion_20260913\\r2\\CHR001\\raw\\basic_attack_prepare.png.raw.png": "cfe5ce11eeda0cb1a06204e45d18745c8f88052c6913d2d3b6b185704a713efb",
+        "work\\combat_motion_20260913\\r2\\CHR001\\raw\\basic_attack_release.png": "bbde81d9cdc20c9a03c92675b134ba94fe6c9d807f02277cf933fcab7ab8a620",
+        "work\\combat_motion_20260913\\r2\\CHR001\\raw\\basic_attack_release.png.raw.png": "bbde81d9cdc20c9a03c92675b134ba94fe6c9d807f02277cf933fcab7ab8a620",
+        "work\\combat_motion_20260913\\r2\\CHR001\\raw\\normal_skill_prepare.png": "89af696a7757852ffeabf22cda69a18a52e31f1d3f7ab6f453ebb352693b06ad",
+        "work\\combat_motion_20260913\\r2\\CHR001\\raw\\normal_skill_prepare.png.raw.png": "89af696a7757852ffeabf22cda69a18a52e31f1d3f7ab6f453ebb352693b06ad",
+        "work\\combat_motion_20260913\\r2\\CHR001\\raw\\normal_skill_release.png": "2589007b3e87ff0e9a550dfc43e7234b080690daa440a72002a781f7642dd7d4",
+        "work\\combat_motion_20260913\\r2\\CHR001\\raw\\normal_skill_release.png.raw.png": "2589007b3e87ff0e9a550dfc43e7234b080690daa440a72002a781f7642dd7d4",
+        "work\\combat_motion_20260913\\r2\\CHR001\\raw\\ultimate_prepare.png": "116050722728d65e2c92bd66bc886dce8d8ebb0abba8b2c2ce0b77849eb46cb9",
+        "work\\combat_motion_20260913\\r2\\CHR001\\raw\\ultimate_prepare.png.raw.png": "116050722728d65e2c92bd66bc886dce8d8ebb0abba8b2c2ce0b77849eb46cb9",
+        "work\\combat_motion_20260913\\r2\\CHR001\\raw\\ultimate_release.png": "8eefd561791516d3c6630a91973c49d9c6f6fcd465a57cbb3ae8550ef90b7f7b",
+        "work\\combat_motion_20260913\\r2\\CHR001\\raw\\ultimate_release.png.raw.png": "8eefd561791516d3c6630a91973c49d9c6f6fcd465a57cbb3ae8550ef90b7f7b"
+      }
+    },
+    "CHR002": {
+      "note": "r3 basic/ultimate release corrected from overhead anticipation to completed downward cleave. Normal rising slash from r2. Full blade and ribbons retained.",
+      "frames": 18,
+      "actions": [
+        "basic_attack",
+        "normal_skill",
+        "ultimate"
+      ],
+      "hashes": {
+        "manifest_sha256": "f42da5dd1b39930faec6e8ded1d3cf8c9f1d5e37afe5a6806ca2ffbcd52e3e6f",
+        "atlas_sha256": "d9e5fc96191a4e5241d71037f28e5445669cc39dd7d890cb7c550fa6f5ecb650",
+        "decoded_bytes": 4407296
+      },
+      "source_rows": {
+        "work\\combat_motion_20260913\\r3\\CHR002\\raw\\basic_attack_prepare.png": "6fc58a423bac741d4daaefd7623f50c3ff0d37601741503cca142e410ed6686f",
+        "work\\combat_motion_20260913\\r3\\CHR002\\raw\\basic_attack_release.png": "2f9d90bb386bcccb97a55491ece1b9cba484201ebd5d452ae3b5ae4adf2acc4a",
+        "work\\combat_motion_20260913\\r3\\CHR002\\raw\\basic_attack_release.png.raw.png": "2f9d90bb386bcccb97a55491ece1b9cba484201ebd5d452ae3b5ae4adf2acc4a",
+        "work\\combat_motion_20260913\\r3\\CHR002\\raw\\normal_skill_prepare.png": "e8c7d9c056362de18ce89513bcb610d1b4f741d15c882ff342990bc6c5e692be",
+        "work\\combat_motion_20260913\\r3\\CHR002\\raw\\normal_skill_release.png": "5522589e581392a7835870db68546d376d9629677d3cdd070787752042fef88c",
+        "work\\combat_motion_20260913\\r3\\CHR002\\raw\\ultimate_prepare.png": "33c25a3211b49f3a6e8a8e802b1757e11de9b5f0fe9d2d2f2a2939a8dca7f8ad",
+        "work\\combat_motion_20260913\\r3\\CHR002\\raw\\ultimate_release.png": "2c664f15e93f67ac0a4ca94db38701e76fe08f5fb3bb87d64fa44b10e59c8e72",
+        "work\\combat_motion_20260913\\r3\\CHR002\\raw\\ultimate_release.png.raw.png": "2c664f15e93f67ac0a4ca94db38701e76fe08f5fb3bb87d64fa44b10e59c8e72"
+      }
+    },
+    "CHR003": {
+      "note": "Shoulder aim/recoil, kneeling precision shot, wide braced charged shot. Rifle grip and silver-blue silhouette retained. Kneeling skill settles crouched before idle recovery.",
+      "frames": 18,
+      "actions": [
+        "basic_attack",
+        "normal_skill",
+        "ultimate"
+      ],
+      "hashes": {
+        "manifest_sha256": "231e5f997ed78396ec260db7b29382750b76fc6aae65116e6d84f55a901c1df2",
+        "atlas_sha256": "bd82d7d6bedd9ffd2e865dbf13a1eaf8594c922153ac509eedd6096991e7c2eb",
+        "decoded_bytes": 4243456
+      },
+      "source_rows": {
+        "work\\combat_motion_20260913\\r2\\CHR003\\raw\\basic_attack_prepare.png": "6c985eb0b2d857281d9c5fad0977461fff8b1b636a8fe348372df871549dc668",
+        "work\\combat_motion_20260913\\r2\\CHR003\\raw\\basic_attack_prepare.png.raw.png": "6c985eb0b2d857281d9c5fad0977461fff8b1b636a8fe348372df871549dc668",
+        "work\\combat_motion_20260913\\r2\\CHR003\\raw\\basic_attack_release.png": "67d1afd7f9773e87a44abf809dd8487be26de83cbfea5f1a6aa2a86336b2322c",
+        "work\\combat_motion_20260913\\r2\\CHR003\\raw\\basic_attack_release.png.raw.png": "67d1afd7f9773e87a44abf809dd8487be26de83cbfea5f1a6aa2a86336b2322c",
+        "work\\combat_motion_20260913\\r2\\CHR003\\raw\\normal_skill_prepare.png": "e46b598adbc50d6a022d374ce94987f05315714348a5c8ceb630b5fd8b4083e5",
+        "work\\combat_motion_20260913\\r2\\CHR003\\raw\\normal_skill_prepare.png.raw.png": "e46b598adbc50d6a022d374ce94987f05315714348a5c8ceb630b5fd8b4083e5",
+        "work\\combat_motion_20260913\\r2\\CHR003\\raw\\normal_skill_release.png": "842cb47220d28e4b0608ab34a8b6c9a09b644ec33eb551e213967d9d0abeec80",
+        "work\\combat_motion_20260913\\r2\\CHR003\\raw\\normal_skill_release.png.raw.png": "842cb47220d28e4b0608ab34a8b6c9a09b644ec33eb551e213967d9d0abeec80",
+        "work\\combat_motion_20260913\\r2\\CHR003\\raw\\ultimate_prepare.png": "b81b2f3e850aa4afb694c44292cd47f3597826f55709e1ed8ee4ac2cd171cc50",
+        "work\\combat_motion_20260913\\r2\\CHR003\\raw\\ultimate_prepare.png.raw.png": "b81b2f3e850aa4afb694c44292cd47f3597826f55709e1ed8ee4ac2cd171cc50",
+        "work\\combat_motion_20260913\\r2\\CHR003\\raw\\ultimate_release.png": "672d0355140a727c303ae1eae3947adb11f4af10987273b6c4352fb2bd6d3e0f",
+        "work\\combat_motion_20260913\\r2\\CHR003\\raw\\ultimate_release.png.raw.png": "672d0355140a727c303ae1eae3947adb11f4af10987273b6c4352fb2bd6d3e0f"
+      }
+    },
+    "CHR004": {
+      "note": "Short energy shot, low burst, lunging charged discharge. Real knee/arm/weapon poses with stable purple identity.",
+      "frames": 18,
+      "actions": [
+        "basic_attack",
+        "normal_skill",
+        "ultimate"
+      ],
+      "hashes": {
+        "manifest_sha256": "266e6078d005f8b4261b638e4892d41f72089b8fd92148a9b49a9550df636ae4",
+        "atlas_sha256": "6001d726a5c1e7b8d9329fd205ecee97bcc9dc2f640bf49f0631a430d0547bc9",
+        "decoded_bytes": 3317760
+      },
+      "source_rows": {
+        "work\\combat_motion_20260913\\r2\\CHR004\\raw\\basic_attack_prepare.png": "b0968f0896b4db89427b2fc43e3068134d1f6e28b47b5cd6824accc4ab45bb36",
+        "work\\combat_motion_20260913\\r2\\CHR004\\raw\\basic_attack_prepare.png.raw.png": "b0968f0896b4db89427b2fc43e3068134d1f6e28b47b5cd6824accc4ab45bb36",
+        "work\\combat_motion_20260913\\r2\\CHR004\\raw\\basic_attack_release.png": "24045b60c11991bf1e1ef5f5324743a04326053fba71e33837951e30d215bac1",
+        "work\\combat_motion_20260913\\r2\\CHR004\\raw\\basic_attack_release.png.raw.png": "24045b60c11991bf1e1ef5f5324743a04326053fba71e33837951e30d215bac1",
+        "work\\combat_motion_20260913\\r2\\CHR004\\raw\\normal_skill_prepare.png": "d28d8daf8b48f3751951ed9446b2825162a82ee1dc063852d46d4a05da2b528d",
+        "work\\combat_motion_20260913\\r2\\CHR004\\raw\\normal_skill_prepare.png.raw.png": "d28d8daf8b48f3751951ed9446b2825162a82ee1dc063852d46d4a05da2b528d",
+        "work\\combat_motion_20260913\\r2\\CHR004\\raw\\normal_skill_release.png": "26a294fa6f96cbd18a1861559d93cd5faa8464f8e211ff828afdde9e30f80cc6",
+        "work\\combat_motion_20260913\\r2\\CHR004\\raw\\normal_skill_release.png.raw.png": "26a294fa6f96cbd18a1861559d93cd5faa8464f8e211ff828afdde9e30f80cc6",
+        "work\\combat_motion_20260913\\r2\\CHR004\\raw\\ultimate_prepare.png": "08ed89fc483d35495d3e26c7ff5fed5ff489faf178e88bed6f96a64a853e60de",
+        "work\\combat_motion_20260913\\r2\\CHR004\\raw\\ultimate_prepare.png.raw.png": "08ed89fc483d35495d3e26c7ff5fed5ff489faf178e88bed6f96a64a853e60de",
+        "work\\combat_motion_20260913\\r2\\CHR004\\raw\\ultimate_release.png": "009e3e89e7d417a980bbd03cf6a07c33eabef9c3b1bea6b95fbe175af4713fad",
+        "work\\combat_motion_20260913\\r2\\CHR004\\raw\\ultimate_release.png.raw.png": "009e3e89e7d417a980bbd03cf6a07c33eabef9c3b1bea6b95fbe175af4713fad"
+      }
+    },
+    "CHR005": {
+      "note": "Heavy cannon brace/recoil, elevated mortar shot, wide charged shot. Emerald chamber is intentional solid material; canonical extractor chroma-adjacent threshold 450 applies only to this actor (observed maximum 399). No keyed chamber hole or edge spill in reviewed export.",
+      "frames": 18,
+      "actions": [
+        "basic_attack",
+        "normal_skill",
+        "ultimate"
+      ],
+      "hashes": {
+        "manifest_sha256": "6ab1d25139ae8c97f3eea33d3ea132b4e563a860dc593948f94806f052f66129",
+        "atlas_sha256": "a483059d28d2d9a24dfdfeba926aae0978a7430cfc7a6c824be09df8cbdb3c7b",
+        "decoded_bytes": 4308992
+      },
+      "source_rows": {
+        "work\\combat_motion_20260913\\r2\\CHR005\\raw\\basic_attack_prepare.png": "033f12367a820665bf6562f20b1a8ef3bee175c22d60e67614baa1179b5b3aff",
+        "work\\combat_motion_20260913\\r2\\CHR005\\raw\\basic_attack_prepare.png.raw.png": "033f12367a820665bf6562f20b1a8ef3bee175c22d60e67614baa1179b5b3aff",
+        "work\\combat_motion_20260913\\r2\\CHR005\\raw\\basic_attack_release.png": "65a8260992c4b143061a88f4814bd8123bf637d0b17f3a1d7ca9b831f13d1c64",
+        "work\\combat_motion_20260913\\r2\\CHR005\\raw\\basic_attack_release.png.raw.png": "65a8260992c4b143061a88f4814bd8123bf637d0b17f3a1d7ca9b831f13d1c64",
+        "work\\combat_motion_20260913\\r2\\CHR005\\raw\\normal_skill_prepare.png": "5ead9d7d50a8aca61d58288f263905b64c759247172dac2b6d81ecff131aca89",
+        "work\\combat_motion_20260913\\r2\\CHR005\\raw\\normal_skill_prepare.png.raw.png": "5ead9d7d50a8aca61d58288f263905b64c759247172dac2b6d81ecff131aca89",
+        "work\\combat_motion_20260913\\r2\\CHR005\\raw\\normal_skill_release.png": "9652b2ab9642535a21e31d496a93d1b58a097cbf9ccdcf8340427f37315346ca",
+        "work\\combat_motion_20260913\\r2\\CHR005\\raw\\normal_skill_release.png.raw.png": "9652b2ab9642535a21e31d496a93d1b58a097cbf9ccdcf8340427f37315346ca",
+        "work\\combat_motion_20260913\\r2\\CHR005\\raw\\ultimate_prepare.png": "2ed2312ad6e2711cf214b530bdab41fcce485ed0ba0dbf8e3bf67de434e93b72",
+        "work\\combat_motion_20260913\\r2\\CHR005\\raw\\ultimate_prepare.png.raw.png": "2ed2312ad6e2711cf214b530bdab41fcce485ed0ba0dbf8e3bf67de434e93b72",
+        "work\\combat_motion_20260913\\r2\\CHR005\\raw\\ultimate_release.png": "b93bf534ee9a26df8117e08d9353f22a2248b54cb6e4f95a1c919ec7ac93a3fc",
+        "work\\combat_motion_20260913\\r2\\CHR005\\raw\\ultimate_release.png.raw.png": "b93bf534ee9a26df8117e08d9353f22a2248b54cb6e4f95a1c919ec7ac93a3fc"
+      }
+    },
+    "CHR006": {
+      "note": "Focus draw, arm sweep and elevated two-arm cast. Sapphire focus, braid and coat identity retained.",
+      "frames": 18,
+      "actions": [
+        "basic_attack",
+        "normal_skill",
+        "ultimate"
+      ],
+      "hashes": {
+        "manifest_sha256": "bf8caa8e5078bc3e0bb938e30a7b614ed4fc776ff93597c289260c31dd16e64a",
+        "atlas_sha256": "9c71ee98a4e28a84d5c39116354b40cbdb8b117cf2c65f61b603aa4244ac865a",
+        "decoded_bytes": 4288512
+      },
+      "source_rows": {
+        "work\\combat_motion_20260913\\r2\\CHR006\\raw\\basic_attack_prepare.png": "386d22af8fb2f68dc58d25526d4a8ecf3c5b09af23d389fd151620434d267c5b",
+        "work\\combat_motion_20260913\\r2\\CHR006\\raw\\basic_attack_prepare.png.raw.png": "386d22af8fb2f68dc58d25526d4a8ecf3c5b09af23d389fd151620434d267c5b",
+        "work\\combat_motion_20260913\\r2\\CHR006\\raw\\basic_attack_release.png": "3249d25954c1c2bb1212ac4e6ddc79d06260f016b15b02dba3c775d44d2f0f7c",
+        "work\\combat_motion_20260913\\r2\\CHR006\\raw\\basic_attack_release.png.raw.png": "3249d25954c1c2bb1212ac4e6ddc79d06260f016b15b02dba3c775d44d2f0f7c",
+        "work\\combat_motion_20260913\\r2\\CHR006\\raw\\normal_skill_prepare.png": "80076077a5a4b63000e99c66f83f36d273e241c1ec170cd10c649743512155a4",
+        "work\\combat_motion_20260913\\r2\\CHR006\\raw\\normal_skill_prepare.png.raw.png": "80076077a5a4b63000e99c66f83f36d273e241c1ec170cd10c649743512155a4",
+        "work\\combat_motion_20260913\\r2\\CHR006\\raw\\normal_skill_release.png": "684f122e77b0e7002f3c68794577f4df891066b112ee0179ab31b45c3bd9db37",
+        "work\\combat_motion_20260913\\r2\\CHR006\\raw\\normal_skill_release.png.raw.png": "684f122e77b0e7002f3c68794577f4df891066b112ee0179ab31b45c3bd9db37",
+        "work\\combat_motion_20260913\\r2\\CHR006\\raw\\ultimate_prepare.png": "8d8f4fa617bea6894d4cc2828b33c74de4aec0efecb55433dffcfd04f29dff3f",
+        "work\\combat_motion_20260913\\r2\\CHR006\\raw\\ultimate_prepare.png.raw.png": "8d8f4fa617bea6894d4cc2828b33c74de4aec0efecb55433dffcfd04f29dff3f",
+        "work\\combat_motion_20260913\\r2\\CHR006\\raw\\ultimate_release.png": "f65e2c9e95acd6f1615ff83bfe42f93678ef1377a144f155a271d986d0716ab8",
+        "work\\combat_motion_20260913\\r2\\CHR006\\raw\\ultimate_release.png.raw.png": "f65e2c9e95acd6f1615ff83bfe42f93678ef1377a144f155a271d986d0716ab8"
+      }
+    },
+    "CHR007": {
+      "note": "Staff thrust, tome reading cast and overhead staff sweep. Tome and astrolabe remain held; no missing tips.",
+      "frames": 18,
+      "actions": [
+        "basic_attack",
+        "normal_skill",
+        "ultimate"
+      ],
+      "hashes": {
+        "manifest_sha256": "938cfbeac8a49993d22ae9cc1c7dadafdf42040adf0c130d4c5de1d43ebbfe45",
+        "atlas_sha256": "03086976d4152dfe68cfcbb775ad4adb4b6e8c159bc0616882af903190b772ec",
+        "decoded_bytes": 4182016
+      },
+      "source_rows": {
+        "work\\combat_motion_20260913\\r2\\CHR007\\raw\\basic_attack_prepare.png": "9d59a5e5886024498143b3f90beedd7fe40bfc62cbc483afd162c717af25d68f",
+        "work\\combat_motion_20260913\\r2\\CHR007\\raw\\basic_attack_prepare.png.raw.png": "9d59a5e5886024498143b3f90beedd7fe40bfc62cbc483afd162c717af25d68f",
+        "work\\combat_motion_20260913\\r2\\CHR007\\raw\\basic_attack_release.png": "65f6936b215409021d4172a3201fee4f2d442430932e460cd92cfea90cb4edd1",
+        "work\\combat_motion_20260913\\r2\\CHR007\\raw\\basic_attack_release.png.raw.png": "65f6936b215409021d4172a3201fee4f2d442430932e460cd92cfea90cb4edd1",
+        "work\\combat_motion_20260913\\r2\\CHR007\\raw\\normal_skill_prepare.png": "3f0857b8a97f27a89c8428306f5833b35a598dc3427742885ab6533322cf71b7",
+        "work\\combat_motion_20260913\\r2\\CHR007\\raw\\normal_skill_prepare.png.raw.png": "3f0857b8a97f27a89c8428306f5833b35a598dc3427742885ab6533322cf71b7",
+        "work\\combat_motion_20260913\\r2\\CHR007\\raw\\normal_skill_release.png": "fdc2c2f685b63c2f7f765cf7a332ff161e3ff75bcec831eb16f3dbf6c206fb32",
+        "work\\combat_motion_20260913\\r2\\CHR007\\raw\\normal_skill_release.png.raw.png": "fdc2c2f685b63c2f7f765cf7a332ff161e3ff75bcec831eb16f3dbf6c206fb32",
+        "work\\combat_motion_20260913\\r2\\CHR007\\raw\\ultimate_prepare.png": "15677a7fa2b5e1be92a1bba0f75a889cd3b6ea4f00e358d366b5fc568b2b5f32",
+        "work\\combat_motion_20260913\\r2\\CHR007\\raw\\ultimate_prepare.png.raw.png": "15677a7fa2b5e1be92a1bba0f75a889cd3b6ea4f00e358d366b5fc568b2b5f32",
+        "work\\combat_motion_20260913\\r2\\CHR007\\raw\\ultimate_release.png": "48005cfd284cb736d189c1093f186503051a306277460cca0100d7844299bdcd",
+        "work\\combat_motion_20260913\\r2\\CHR007\\raw\\ultimate_release.png.raw.png": "48005cfd284cb736d189c1093f186503051a306277460cca0100d7844299bdcd"
+      }
+    },
+    "CHR008": {
+      "note": "Staff thrust, gentle healing extension and open protective gesture. Medical shield, staff and lavender braid retained.",
+      "frames": 18,
+      "actions": [
+        "basic_attack",
+        "normal_skill",
+        "ultimate"
+      ],
+      "hashes": {
+        "manifest_sha256": "bbf48cf839e07fd721f350c00c90bc4b0505519f167c67c56796b041f9754a98",
+        "atlas_sha256": "cb2e1b12897e881974ffefaa83941f6446b421c6ca8d05d461b0430fefebb150",
+        "decoded_bytes": 3588096
+      },
+      "source_rows": {
+        "work\\combat_motion_20260913\\r2\\CHR008\\raw\\basic_attack_prepare.png": "dc30453967e4bd4a8fb7fe3fb8be47a6e5a36aa7ab12ac928903a52a85fd8a8e",
+        "work\\combat_motion_20260913\\r2\\CHR008\\raw\\basic_attack_prepare.png.raw.png": "dc30453967e4bd4a8fb7fe3fb8be47a6e5a36aa7ab12ac928903a52a85fd8a8e",
+        "work\\combat_motion_20260913\\r2\\CHR008\\raw\\basic_attack_release.png": "b2908f22f477e78d37890153c9ccea6e58bda822f63fd8c88b2ecc1816dc06ec",
+        "work\\combat_motion_20260913\\r2\\CHR008\\raw\\basic_attack_release.png.raw.png": "b2908f22f477e78d37890153c9ccea6e58bda822f63fd8c88b2ecc1816dc06ec",
+        "work\\combat_motion_20260913\\r2\\CHR008\\raw\\normal_skill_prepare.png": "a7114add1e6e340091b677c69fad8ac37f1a11f343e25b81f56a470acf507d77",
+        "work\\combat_motion_20260913\\r2\\CHR008\\raw\\normal_skill_prepare.png.raw.png": "a7114add1e6e340091b677c69fad8ac37f1a11f343e25b81f56a470acf507d77",
+        "work\\combat_motion_20260913\\r2\\CHR008\\raw\\normal_skill_release.png": "eeb43d54ce267ccfea094f9980bb3da8d3dd2fea7d2a6a8b7e1e9f3e519ff350",
+        "work\\combat_motion_20260913\\r2\\CHR008\\raw\\normal_skill_release.png.raw.png": "eeb43d54ce267ccfea094f9980bb3da8d3dd2fea7d2a6a8b7e1e9f3e519ff350",
+        "work\\combat_motion_20260913\\r2\\CHR008\\raw\\ultimate_prepare.png": "35b2e3a7e1110c6cd122e85494c21b96a4c5ef9703962c2c911726a6e6145fac",
+        "work\\combat_motion_20260913\\r2\\CHR008\\raw\\ultimate_prepare.png.raw.png": "35b2e3a7e1110c6cd122e85494c21b96a4c5ef9703962c2c911726a6e6145fac",
+        "work\\combat_motion_20260913\\r2\\CHR008\\raw\\ultimate_release.png": "76a4706477192fe75f26074b3c790d15043f518895e72045e7080c0de0af78c0",
+        "work\\combat_motion_20260913\\r2\\CHR008\\raw\\ultimate_release.png.raw.png": "76a4706477192fe75f26074b3c790d15043f518895e72045e7080c0de0af78c0"
+      }
+    },
+    "ENM001": {
+      "note": "Crouch/pounce/land and raised foreclaw slash; real forelimb articulation, left facing.",
+      "frames": 12,
+      "actions": [
+        "basic_attack",
+        "normal_skill"
+      ],
+      "hashes": {
+        "manifest_sha256": "192aa9da645530a45a85df2254003a3a34c671c73c777f72f11796b1a0b55aad",
+        "atlas_sha256": "777e860204686b47a5bc7dc36179ea74fb260a20279ccf14932d4b69a080cce6",
+        "decoded_bytes": 2142208
+      },
+      "source_rows": {
+        "work\\combat_motion_20260913\\r2\\ENM001\\raw\\basic_attack_prepare.png": "b62e266cebf39f2ab47f1355449fe0246f41dbc94f57164b8924b8c4cd1eeb41",
+        "work\\combat_motion_20260913\\r2\\ENM001\\raw\\basic_attack_prepare.png.raw.png": "b62e266cebf39f2ab47f1355449fe0246f41dbc94f57164b8924b8c4cd1eeb41",
+        "work\\combat_motion_20260913\\r2\\ENM001\\raw\\basic_attack_release.png": "586ad82bd60330093c13f89361b263079f6f9822690cdca1a565d951905776ae",
+        "work\\combat_motion_20260913\\r2\\ENM001\\raw\\basic_attack_release.png.raw.png": "586ad82bd60330093c13f89361b263079f6f9822690cdca1a565d951905776ae",
+        "work\\combat_motion_20260913\\r2\\ENM001\\raw\\normal_skill_prepare.png": "d99e72102645f0faa9c9807b94ee5ac2ba4de886224afc7ed2f1ea5753bed9a0",
+        "work\\combat_motion_20260913\\r2\\ENM001\\raw\\normal_skill_prepare.png.raw.png": "d99e72102645f0faa9c9807b94ee5ac2ba4de886224afc7ed2f1ea5753bed9a0",
+        "work\\combat_motion_20260913\\r2\\ENM001\\raw\\normal_skill_release.png": "68d3b4c3ac0df4ec69ac66632d1c2a3020048cbb265bec4133e1614abb31f6f1",
+        "work\\combat_motion_20260913\\r2\\ENM001\\raw\\normal_skill_release.png.raw.png": "68d3b4c3ac0df4ec69ac66632d1c2a3020048cbb265bec4133e1614abb31f6f1"
+      }
+    },
+    "ENM002": {
+      "note": "Cannon aim/recoil and fin-braced heavy shot; articulated barrel and fins, left facing.",
+      "frames": 12,
+      "actions": [
+        "basic_attack",
+        "normal_skill"
+      ],
+      "hashes": {
+        "manifest_sha256": "30977ee4da7fe2edfd01135fde2a2b7daae4e4d2153f02884898041c315498bd",
+        "atlas_sha256": "efa01a298c32465f11b4944dcd2e7e000f26b5014426b88391e5ebd6f60748f3",
+        "decoded_bytes": 1761280
+      },
+      "source_rows": {
+        "work\\combat_motion_20260913\\r2\\ENM002\\raw\\basic_attack_prepare.png": "06b409dddd2a0948d0223a7f2335a87cab35101e7a5e581a36d90c5ddba323c3",
+        "work\\combat_motion_20260913\\r2\\ENM002\\raw\\basic_attack_prepare.png.raw.png": "06b409dddd2a0948d0223a7f2335a87cab35101e7a5e581a36d90c5ddba323c3",
+        "work\\combat_motion_20260913\\r2\\ENM002\\raw\\basic_attack_release.png": "eadbc124fb537e7af237457db4abb07beaaaa4c46e703d07d0bed51d1a493dd1",
+        "work\\combat_motion_20260913\\r2\\ENM002\\raw\\basic_attack_release.png.raw.png": "eadbc124fb537e7af237457db4abb07beaaaa4c46e703d07d0bed51d1a493dd1",
+        "work\\combat_motion_20260913\\r2\\ENM002\\raw\\normal_skill_prepare.png": "f2f4df339d88945b863ccf8dd88850b613262c145469ee5e9d5e05a1cc5dd957",
+        "work\\combat_motion_20260913\\r2\\ENM002\\raw\\normal_skill_prepare.png.raw.png": "f2f4df339d88945b863ccf8dd88850b613262c145469ee5e9d5e05a1cc5dd957",
+        "work\\combat_motion_20260913\\r2\\ENM002\\raw\\normal_skill_release.png": "c474dbe55317d55a07d9c7289f7abb66133dc40b913590a883d8e9d2d2d889a6",
+        "work\\combat_motion_20260913\\r2\\ENM002\\raw\\normal_skill_release.png.raw.png": "c474dbe55317d55a07d9c7289f7abb66133dc40b913590a883d8e9d2d2d889a6"
+      }
+    },
+    "ENM003": {
+      "note": "Folded-fin shield ram and six-fin defensive pulse; intact teal shell and fins.",
+      "frames": 12,
+      "actions": [
+        "basic_attack",
+        "normal_skill"
+      ],
+      "hashes": {
+        "manifest_sha256": "f6bdc15676103717eacca1f545e4d2a3c58bfd3dc4dc3c00976d2bdc5ecb3b19",
+        "atlas_sha256": "831c8622cb7675b4a8d634f3ac410e538394a6f337cd0a19b9534e2c5c870478",
+        "decoded_bytes": 2523136
+      },
+      "source_rows": {
+        "work\\combat_motion_20260913\\r2\\ENM003\\raw\\basic_attack_prepare.png": "1afd27755607a005f6bb1d1e165135add6b67d5d26c11ab8c1a71c4b18d9998a",
+        "work\\combat_motion_20260913\\r2\\ENM003\\raw\\basic_attack_prepare.png.raw.png": "1afd27755607a005f6bb1d1e165135add6b67d5d26c11ab8c1a71c4b18d9998a",
+        "work\\combat_motion_20260913\\r2\\ENM003\\raw\\basic_attack_release.png": "02b6bae94a407b460cd25790a2a096bd9fe4001b3e575be5a98629e31ef7e2d6",
+        "work\\combat_motion_20260913\\r2\\ENM003\\raw\\basic_attack_release.png.raw.png": "02b6bae94a407b460cd25790a2a096bd9fe4001b3e575be5a98629e31ef7e2d6",
+        "work\\combat_motion_20260913\\r2\\ENM003\\raw\\normal_skill_prepare.png": "2ecfb339e9d512ea50df40e773067770b21c884e7bfc5b65b3d238ceffaf86eb",
+        "work\\combat_motion_20260913\\r2\\ENM003\\raw\\normal_skill_prepare.png.raw.png": "2ecfb339e9d512ea50df40e773067770b21c884e7bfc5b65b3d238ceffaf86eb",
+        "work\\combat_motion_20260913\\r2\\ENM003\\raw\\normal_skill_release.png": "e79ffd08725900b1bed5b874a40a4a8584834b7edb7c4ba144d7f0effd308e65",
+        "work\\combat_motion_20260913\\r2\\ENM003\\raw\\normal_skill_release.png.raw.png": "e79ffd08725900b1bed5b874a40a4a8584834b7edb7c4ba144d7f0effd308e65"
+      }
+    },
+    "BOSS001": {
+      "note": "Braced cannon recoil and shield lift/heavy cannon thrust; intact cathedral silhouette, joints and weapon.",
+      "frames": 12,
+      "actions": [
+        "basic_attack",
+        "normal_skill"
+      ],
+      "hashes": {
+        "manifest_sha256": "90d1908ab36d249a8ebc5fb8465e2f0bf946a729db249b8acb402f27978b5ba3",
+        "atlas_sha256": "a28d7d804b540ebd17744be0ea94e974d56023b405bc4744fbd2a5138d53e9ae",
+        "decoded_bytes": 2314240
+      },
+      "source_rows": {
+        "work\\combat_motion_20260913\\r2\\BOSS001\\raw\\basic_attack_prepare.png": "188da76cc5f60189c86e068af5c2319aee64324ee279d8edae2528a9751e17af",
+        "work\\combat_motion_20260913\\r2\\BOSS001\\raw\\basic_attack_prepare.png.raw.png": "188da76cc5f60189c86e068af5c2319aee64324ee279d8edae2528a9751e17af",
+        "work\\combat_motion_20260913\\r2\\BOSS001\\raw\\basic_attack_release.png": "f95cd811b79b57830d039a3f3f9be8674b387cc690a6110a0483b6d99bc46c44",
+        "work\\combat_motion_20260913\\r2\\BOSS001\\raw\\basic_attack_release.png.raw.png": "f95cd811b79b57830d039a3f3f9be8674b387cc690a6110a0483b6d99bc46c44",
+        "work\\combat_motion_20260913\\r2\\BOSS001\\raw\\normal_skill_prepare.png": "f1f16293e1559c3369ddc450843abad4381f1dd2ed5ccb957a074bee4a006495",
+        "work\\combat_motion_20260913\\r2\\BOSS001\\raw\\normal_skill_prepare.png.raw.png": "f1f16293e1559c3369ddc450843abad4381f1dd2ed5ccb957a074bee4a006495",
+        "work\\combat_motion_20260913\\r2\\BOSS001\\raw\\normal_skill_release.png": "ce7086baf2c170bfa56b8217b4584b0a62cee47fa412e07f2cb6719ac530aace",
+        "work\\combat_motion_20260913\\r2\\BOSS001\\raw\\normal_skill_release.png.raw.png": "ce7086baf2c170bfa56b8217b4584b0a62cee47fa412e07f2cb6719ac530aace"
+      }
+    }
+  },
+  "rejected": [
+    "initial six-subject strips: touching weapons and clipped components, not promoted",
+    "CHR002 r2 basic/ultimate release: overhead anticipation repeated at strike; replaced by r3"
+  ],
+  "provider": "Sprite Gen canonical GPT Codex route, previously explicitly authorized",
+  "runtime_review": {
+    "checks": {
+      "action_tests.json": {
+        "passed": 65,
+        "failed": 0,
+        "sha256": "f72b2e16e7e23ed609f8fe646f00e1f78b43d84ca2de0ddbae8946ae9a1a45cb"
+      },
+      "model.json": {
+        "passed": 146,
+        "failed": 0,
+        "sha256": "5b6039cb86b60c1e142ba8b2d602943bed4302e14d1d7c80b30e03496845084b"
+      },
+      "scout_identity.json": {
+        "passed": 680,
+        "failed": 0,
+        "sha256": "3547b5049b1533ea7494671104b88b48be3e24ddc596cf028d73d1974ba8f95b"
+      },
+      "frames_verified/acceptance.json": {
+        "passed": 125,
+        "failed": 0,
+        "sha256": "37f9ab4067c0c86de0734fca86959e4063403712bfabd7b0e7c955a40899e3f7"
+      },
+      "live_final/acceptance.json": {
+        "passed": 34,
+        "failed": 0,
+        "sha256": "2b6ad9c2858a42c9fb58d654096ba8048d84ab679a26f55a4b3d8f295aa99e26"
+      },
+      "small_verified/acceptance.json": {
+        "passed": 4,
+        "failed": 0,
+        "sha256": "ab2db40ce5880522ee36077283d5a978e0d62f3cb8d1fbcfff6d3f109120181a"
+      },
+      "scout_browser_final/acceptance.json": {
+        "passed": 37,
+        "failed": 0,
+        "sha256": "47f9373d60dea1b5c1a732df3748069dbdebf7a314d4b3cd81a12e4a801fd1c1"
+      },
+      "chapter_scout/acceptance.json": {
+        "passed": 26,
+        "failed": 0,
+        "sha256": "05655de3a6b4edf4973a3ffa039f05f6b9722e0a010d70650edaf35be07aa1d2"
+      },
+      "release_scout/acceptance.json": {
+        "passed": 4,
+        "failed": 0,
+        "sha256": "97151adbfd79c43fce31c2f32bbd175e22056c967e19167ee6d96b7ac7bdbc46"
+      }
+    },
+    "artifact_verification": "artifact_verification.json",
+    "notes": "All six poses observed through the actual renderer; real AUTO fights and 640x360 damage readout reviewed. Raw source masters and rejected batch retained."
+  }
+}

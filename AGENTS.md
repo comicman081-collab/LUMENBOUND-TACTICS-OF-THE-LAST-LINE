@@ -17,3 +17,11 @@ These rules apply to ChatGPT, Codex, and other coding agents working in this rep
 - Prefer local/static verification during normal development.
 - Never add broad `push`, `pull_request`, `schedule`, `workflow_run`, or recursive dispatch triggers without explicit user approval.
 - Keep `concurrency`/`cancel-in-progress` and finite timeouts on runner jobs.
+
+## Local storage (user request, 2026-09-11)
+- Retain the current verified local player build and only the candidate currently under verification. Retire replaced build copies after their replacement passes the relevant checks; record paths and hashes first.
+- Do not retain disposable browser profiles after QA. Preserve screenshots, assertions and console reports. Use the cleanup implemented in `tools/web_qa/gameplay_session.mjs`.
+- Preserve every previous intro video and all BGM, title songs and ending songs, including unused music and their source archives. The protected media inventories are under `reports/storage_cleanup_20260911/`.
+- Keep required source artwork and the existing failed-asset review gate. Do not accumulate duplicate export bundles, copied test templates or abandoned temporary pack files.
+- Additional cleanup must preserve every remaining audio file, not just currently used tracks. The September 11 second-pass inventory records this boundary.
+- `quarantine/retained_archive_20260911/` contains verified recovery copies of quarantined art and historical LFS builds. Preserve these archives and their manifests; recover selected files with `tools/qa/restore_legacy_storage.py`. Loose copies were consolidated, not discarded without recovery.

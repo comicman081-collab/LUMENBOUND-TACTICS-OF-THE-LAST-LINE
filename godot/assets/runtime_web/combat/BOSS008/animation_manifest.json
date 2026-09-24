@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_boss008",
   "character_id": "BOSS008",
-  "display_name": "BOSS008",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/boss008_authority.png",
-  "source_asset_id": "boss008_silhouette_a_ef03451f999dfedf_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_ASH_CITADEL",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/BOSS008/source.png",
+  "source_asset_id": "boss008_illustrated_a919d25142f09617",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "b8f1afa8e72c377f045a02c981dcfc1d23731418080bc341740475b03c39dbd3",
+  "preview_sha256": "913badac647348e29aa5eca81912d153aa0e8688e8eec0d3aad9ac8493982954",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "d69f69a5513b16b72a0f021b233ec21303f39e52afc30f04e9ca6789824a9bc6"
+  "sha256": "b3b3dd67820c4aa5f58f3f52b0fe322123ac75136acc23bdc98e8b175f7bd405"
 }

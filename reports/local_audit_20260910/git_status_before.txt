@@ -1,0 +1,729 @@
+ M .github/workflows/deploy-pages.yml
+ M data_source/chapter_maps/CH02_MAP.json
+ M data_source/chapter_maps/CH03_MAP.json
+ M data_source/chapter_maps/CH04_MAP.json
+ M data_source/chapter_maps/CH05_MAP.json
+ M data_source/chapter_maps/CH06_MAP.json
+ M data_source/chapter_maps/CH07_MAP.json
+ M data_source/chapter_maps/CH08_MAP.json
+ M data_source/chapter_maps/CH09_MAP.json
+ M data_source/chapter_maps/CH10_MAP.json
+ M data_source/chapter_maps/CH11_MAP.json
+ M data_source/chapter_maps/CH12_MAP.json
+ M data_source/chapter_maps/CH13_MAP.json
+ M data_source/chapter_maps/CH14_MAP.json
+ M data_source/chapter_maps/CH15_MAP.json
+ M data_source/chapter_maps/CH16_MAP.json
+ M data_source/chapter_maps/CH17_MAP.json
+ M data_source/chapter_maps/CH18_MAP.json
+ M data_source/chapter_maps/CH19_MAP.json
+ M data_source/chapter_maps/CH20_MAP.json
+ M data_source/chapter_story_triggers.json
+ M data_source/chapters.json
+ M data_source/localization/en.csv
+ M data_source/localization/ko.csv
+ M docs/DATA_SCHEMA.md
+ M docs/GAME_DESIGN.md
+ D exports/premium/chapter_map/R10/CH01_MAP_KIT_R10.glb
+ D exports/premium/chapter_map/R10/map_asset_manifest.json
+ D exports/premium/chapter_map/R11/CH01_MAP_KIT_R11.glb
+ D exports/premium/chapter_map/R11/map_asset_manifest.json
+ D exports/premium/chapter_map/R5/CH01_MAP_KIT_R5.glb
+ D exports/premium/chapter_map/R5/map_asset_manifest.json
+ D exports/premium/chapter_map/R6/CH01_MAP_KIT_R6.glb
+ D exports/premium/chapter_map/R6/map_asset_manifest.json
+ D exports/premium/chapter_map/R7/CH01_MAP_KIT_R7.glb
+ D exports/premium/chapter_map/R7/map_asset_manifest.json
+ D exports/premium/chapter_map/R8/CH01_MAP_KIT_R8.glb
+ D exports/premium/chapter_map/R8/map_asset_manifest.json
+ M godot/assets/runtime_web/combat/CHR002/animation_manifest.json
+ M godot/assets/runtime_web/combat/CHR002/atlas.png
+ M godot/assets/runtime_web/combat/CHR002/preview.png
+ M godot/assets/runtime_web/combat/CHR004/animation_manifest.json
+ M godot/assets/runtime_web/combat/CHR004/atlas.png
+ M godot/assets/runtime_web/combat/CHR004/preview.png
+ D godot/assets/runtime_web/combat_signature/r10/BOSS001/down.png
+ D godot/assets/runtime_web/combat_signature/r10/BOSS001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r10/BOSS001/hit.png
+ D godot/assets/runtime_web/combat_signature/r10/BOSS001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r10/BOSS001/idle.png
+ D godot/assets/runtime_web/combat_signature/r10/BOSS001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r10/BOSS001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r10/BOSS001/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r10/BOSS001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r10/BOSS001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r10/CHR001/down.png
+ D godot/assets/runtime_web/combat_signature/r10/CHR001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r10/CHR001/hit.png
+ D godot/assets/runtime_web/combat_signature/r10/CHR001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r10/CHR001/idle.png
+ D godot/assets/runtime_web/combat_signature/r10/CHR001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r10/CHR001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r10/CHR001/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r10/CHR001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r10/CHR001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r10/CHR002/down.png
+ D godot/assets/runtime_web/combat_signature/r10/CHR002/down.png.import
+ D godot/assets/runtime_web/combat_signature/r10/CHR002/hit.png
+ D godot/assets/runtime_web/combat_signature/r10/CHR002/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r10/CHR002/idle.png
+ D godot/assets/runtime_web/combat_signature/r10/CHR002/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r10/CHR002/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r10/CHR002/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r10/CHR002/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r10/CHR002/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r10/CHR008/down.png
+ D godot/assets/runtime_web/combat_signature/r10/CHR008/down.png.import
+ D godot/assets/runtime_web/combat_signature/r10/CHR008/hit.png
+ D godot/assets/runtime_web/combat_signature/r10/CHR008/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r10/CHR008/idle.png
+ D godot/assets/runtime_web/combat_signature/r10/CHR008/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r10/CHR008/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r10/CHR008/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r10/CHR008/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r10/CHR008/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r10/ENM001/down.png
+ D godot/assets/runtime_web/combat_signature/r10/ENM001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r10/ENM001/hit.png
+ D godot/assets/runtime_web/combat_signature/r10/ENM001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r10/ENM001/idle.png
+ D godot/assets/runtime_web/combat_signature/r10/ENM001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r10/ENM001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r10/ENM001/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r10/ENM001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r10/ENM001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r10/promotion_approval.json
+ D godot/assets/runtime_web/combat_signature/r12/BOSS001/down.png
+ D godot/assets/runtime_web/combat_signature/r12/BOSS001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r12/BOSS001/hit.png
+ D godot/assets/runtime_web/combat_signature/r12/BOSS001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r12/BOSS001/idle.png
+ D godot/assets/runtime_web/combat_signature/r12/BOSS001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r12/BOSS001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r12/BOSS001/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r12/BOSS001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r12/BOSS001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR001/down.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR001/hit.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR001/idle.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r12/CHR001/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r12/CHR001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR002/down.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR002/down.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR002/hit.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR002/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR002/idle.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR002/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR002/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r12/CHR002/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r12/CHR002/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR002/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR003/down.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR003/down.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR003/hit.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR003/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR003/idle.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR003/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR003/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r12/CHR003/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r12/CHR003/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR003/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR005/down.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR005/down.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR005/hit.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR005/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR005/idle.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR005/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR005/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r12/CHR005/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r12/CHR005/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR005/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR008/down.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR008/down.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR008/hit.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR008/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR008/idle.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR008/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r12/CHR008/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r12/CHR008/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r12/CHR008/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r12/CHR008/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r12/ENM001/down.png
+ D godot/assets/runtime_web/combat_signature/r12/ENM001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r12/ENM001/hit.png
+ D godot/assets/runtime_web/combat_signature/r12/ENM001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r12/ENM001/idle.png
+ D godot/assets/runtime_web/combat_signature/r12/ENM001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r12/ENM001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r12/ENM001/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r12/ENM001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r12/ENM001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r12/promotion_approval.json
+ D godot/assets/runtime_web/combat_signature/r13/BOSS001/down.png
+ D godot/assets/runtime_web/combat_signature/r13/BOSS001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r13/BOSS001/hit.png
+ D godot/assets/runtime_web/combat_signature/r13/BOSS001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r13/BOSS001/idle.png
+ D godot/assets/runtime_web/combat_signature/r13/BOSS001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r13/BOSS001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r13/BOSS001/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r13/BOSS001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r13/BOSS001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR001/down.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR001/hit.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR001/idle.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r13/CHR001/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r13/CHR001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR002/down.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR002/down.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR002/hit.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR002/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR002/idle.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR002/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR002/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r13/CHR002/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r13/CHR002/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR002/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR003/down.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR003/down.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR003/hit.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR003/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR003/idle.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR003/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR003/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r13/CHR003/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r13/CHR003/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR003/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR004/down.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR004/down.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR004/hit.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR004/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR004/idle.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR004/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR004/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r13/CHR004/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r13/CHR004/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR004/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR005/down.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR005/down.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR005/hit.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR005/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR005/idle.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR005/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR005/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r13/CHR005/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r13/CHR005/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR005/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR008/down.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR008/down.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR008/hit.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR008/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR008/idle.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR008/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r13/CHR008/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r13/CHR008/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r13/CHR008/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r13/CHR008/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r13/ENM001/down.png
+ D godot/assets/runtime_web/combat_signature/r13/ENM001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r13/ENM001/hit.png
+ D godot/assets/runtime_web/combat_signature/r13/ENM001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r13/ENM001/idle.png
+ D godot/assets/runtime_web/combat_signature/r13/ENM001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r13/ENM001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r13/ENM001/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r13/ENM001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r13/ENM001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r13/promotion_approval.json
+ D godot/assets/runtime_web/combat_signature/r2/BOSS001/down.png
+ D godot/assets/runtime_web/combat_signature/r2/BOSS001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r2/BOSS001/hit.png
+ D godot/assets/runtime_web/combat_signature/r2/BOSS001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r2/BOSS001/idle.png
+ D godot/assets/runtime_web/combat_signature/r2/BOSS001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r2/BOSS001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r2/BOSS001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r2/BOSS001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r2/CHR001/down.png
+ D godot/assets/runtime_web/combat_signature/r2/CHR001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r2/CHR001/hit.png
+ D godot/assets/runtime_web/combat_signature/r2/CHR001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r2/CHR001/idle.png
+ D godot/assets/runtime_web/combat_signature/r2/CHR001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r2/CHR001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r2/CHR001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r2/CHR001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r3/BOSS001/down.png
+ D godot/assets/runtime_web/combat_signature/r3/BOSS001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r3/BOSS001/hit.png
+ D godot/assets/runtime_web/combat_signature/r3/BOSS001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r3/BOSS001/idle.png
+ D godot/assets/runtime_web/combat_signature/r3/BOSS001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r3/BOSS001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r3/BOSS001/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r3/BOSS001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r3/BOSS001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r3/CHR001/down.png
+ D godot/assets/runtime_web/combat_signature/r3/CHR001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r3/CHR001/hit.png
+ D godot/assets/runtime_web/combat_signature/r3/CHR001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r3/CHR001/idle.png
+ D godot/assets/runtime_web/combat_signature/r3/CHR001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r3/CHR001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r3/CHR001/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r3/CHR001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r3/CHR001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r3/promotion_approval.json
+ D godot/assets/runtime_web/combat_signature/r4/BOSS001/down.png
+ D godot/assets/runtime_web/combat_signature/r4/BOSS001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r4/BOSS001/hit.png
+ D godot/assets/runtime_web/combat_signature/r4/BOSS001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r4/BOSS001/idle.png
+ D godot/assets/runtime_web/combat_signature/r4/BOSS001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r4/BOSS001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r4/BOSS001/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r4/BOSS001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r4/BOSS001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r4/CHR001/down.png
+ D godot/assets/runtime_web/combat_signature/r4/CHR001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r4/CHR001/hit.png
+ D godot/assets/runtime_web/combat_signature/r4/CHR001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r4/CHR001/idle.png
+ D godot/assets/runtime_web/combat_signature/r4/CHR001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r4/CHR001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r4/CHR001/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r4/CHR001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r4/CHR001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r4/CHR008/down.png
+ D godot/assets/runtime_web/combat_signature/r4/CHR008/down.png.import
+ D godot/assets/runtime_web/combat_signature/r4/CHR008/hit.png
+ D godot/assets/runtime_web/combat_signature/r4/CHR008/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r4/CHR008/idle.png
+ D godot/assets/runtime_web/combat_signature/r4/CHR008/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r4/CHR008/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r4/CHR008/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r4/CHR008/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r4/CHR008/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r4/promotion_approval.json
+ D godot/assets/runtime_web/combat_signature/r7/BOSS001/down.png
+ D godot/assets/runtime_web/combat_signature/r7/BOSS001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r7/BOSS001/hit.png
+ D godot/assets/runtime_web/combat_signature/r7/BOSS001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r7/BOSS001/idle.png
+ D godot/assets/runtime_web/combat_signature/r7/BOSS001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r7/BOSS001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r7/BOSS001/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r7/BOSS001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r7/BOSS001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r7/CHR001/down.png
+ D godot/assets/runtime_web/combat_signature/r7/CHR001/down.png.import
+ D godot/assets/runtime_web/combat_signature/r7/CHR001/hit.png
+ D godot/assets/runtime_web/combat_signature/r7/CHR001/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r7/CHR001/idle.png
+ D godot/assets/runtime_web/combat_signature/r7/CHR001/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r7/CHR001/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r7/CHR001/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r7/CHR001/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r7/CHR001/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r7/CHR002/down.png
+ D godot/assets/runtime_web/combat_signature/r7/CHR002/down.png.import
+ D godot/assets/runtime_web/combat_signature/r7/CHR002/hit.png
+ D godot/assets/runtime_web/combat_signature/r7/CHR002/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r7/CHR002/idle.png
+ D godot/assets/runtime_web/combat_signature/r7/CHR002/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r7/CHR002/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r7/CHR002/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r7/CHR002/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r7/CHR002/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r7/CHR008/down.png
+ D godot/assets/runtime_web/combat_signature/r7/CHR008/down.png.import
+ D godot/assets/runtime_web/combat_signature/r7/CHR008/hit.png
+ D godot/assets/runtime_web/combat_signature/r7/CHR008/hit.png.import
+ D godot/assets/runtime_web/combat_signature/r7/CHR008/idle.png
+ D godot/assets/runtime_web/combat_signature/r7/CHR008/idle.png.import
+ D godot/assets/runtime_web/combat_signature/r7/CHR008/signature_manifest.json
+ D godot/assets/runtime_web/combat_signature/r7/CHR008/signature_manifest.sha256
+ D godot/assets/runtime_web/combat_signature/r7/CHR008/ultimate.png
+ D godot/assets/runtime_web/combat_signature/r7/CHR008/ultimate.png.import
+ D godot/assets/runtime_web/combat_signature/r7/promotion_approval.json
+ D godot/assets/runtime_web/effect_signature/r1/BOSS001/effect_signature_manifest.json
+ D godot/assets/runtime_web/effect_signature/r1/BOSS001/effect_signature_manifest.sha256
+ D godot/assets/runtime_web/effect_signature/r1/BOSS001/projectile.png
+ D godot/assets/runtime_web/effect_signature/r1/BOSS001/projectile.png.import
+ D godot/assets/runtime_web/effect_signature/r1/BOSS001/ultimate.png
+ D godot/assets/runtime_web/effect_signature/r1/BOSS001/ultimate.png.import
+ D godot/assets/runtime_web/effect_signature/r1/CHR001/effect_signature_manifest.json
+ D godot/assets/runtime_web/effect_signature/r1/CHR001/effect_signature_manifest.sha256
+ D godot/assets/runtime_web/effect_signature/r1/CHR001/projectile.png
+ D godot/assets/runtime_web/effect_signature/r1/CHR001/projectile.png.import
+ D godot/assets/runtime_web/effect_signature/r1/CHR001/ultimate.png
+ D godot/assets/runtime_web/effect_signature/r1/CHR001/ultimate.png.import
+ D godot/assets/runtime_web/effect_signature/r1/CHR008/effect_signature_manifest.json
+ D godot/assets/runtime_web/effect_signature/r1/CHR008/effect_signature_manifest.sha256
+ D godot/assets/runtime_web/effect_signature/r1/CHR008/projectile.png
+ D godot/assets/runtime_web/effect_signature/r1/CHR008/projectile.png.import
+ D godot/assets/runtime_web/effect_signature/r1/CHR008/ultimate.png
+ D godot/assets/runtime_web/effect_signature/r1/CHR008/ultimate.png.import
+ D godot/assets/runtime_web/effect_signature/r1/promotion_approval.json
+ D godot/assets/runtime_web/effect_signature/r2/BOSS001/effect_signature_manifest.json
+ D godot/assets/runtime_web/effect_signature/r2/BOSS001/effect_signature_manifest.sha256
+ D godot/assets/runtime_web/effect_signature/r2/BOSS001/projectile.png
+ D godot/assets/runtime_web/effect_signature/r2/BOSS001/projectile.png.import
+ D godot/assets/runtime_web/effect_signature/r2/BOSS001/ultimate.png
+ D godot/assets/runtime_web/effect_signature/r2/BOSS001/ultimate.png.import
+ D godot/assets/runtime_web/effect_signature/r2/CHR001/effect_signature_manifest.json
+ D godot/assets/runtime_web/effect_signature/r2/CHR001/effect_signature_manifest.sha256
+ D godot/assets/runtime_web/effect_signature/r2/CHR001/projectile.png
+ D godot/assets/runtime_web/effect_signature/r2/CHR001/projectile.png.import
+ D godot/assets/runtime_web/effect_signature/r2/CHR001/ultimate.png
+ D godot/assets/runtime_web/effect_signature/r2/CHR001/ultimate.png.import
+ D godot/assets/runtime_web/effect_signature/r2/CHR008/effect_signature_manifest.json
+ D godot/assets/runtime_web/effect_signature/r2/CHR008/effect_signature_manifest.sha256
+ D godot/assets/runtime_web/effect_signature/r2/CHR008/projectile.png
+ D godot/assets/runtime_web/effect_signature/r2/CHR008/projectile.png.import
+ D godot/assets/runtime_web/effect_signature/r2/CHR008/ultimate.png
+ D godot/assets/runtime_web/effect_signature/r2/CHR008/ultimate.png.import
+ D godot/assets/runtime_web/effect_signature/r2/ENM001/effect_signature_manifest.json
+ D godot/assets/runtime_web/effect_signature/r2/ENM001/effect_signature_manifest.sha256
+ D godot/assets/runtime_web/effect_signature/r2/ENM001/projectile.png
+ D godot/assets/runtime_web/effect_signature/r2/ENM001/projectile.png.import
+ D godot/assets/runtime_web/effect_signature/r2/ENM001/ultimate.png
+ D godot/assets/runtime_web/effect_signature/r2/ENM001/ultimate.png.import
+ D godot/assets/runtime_web/effect_signature/r2/promotion_approval.json
+ D godot/assets/runtime_web/effect_signature/r3/BOSS001/effect_signature_manifest.json
+ D godot/assets/runtime_web/effect_signature/r3/BOSS001/effect_signature_manifest.sha256
+ D godot/assets/runtime_web/effect_signature/r3/BOSS001/projectile.png
+ D godot/assets/runtime_web/effect_signature/r3/BOSS001/projectile.png.import
+ D godot/assets/runtime_web/effect_signature/r3/BOSS001/ultimate.png
+ D godot/assets/runtime_web/effect_signature/r3/BOSS001/ultimate.png.import
+ D godot/assets/runtime_web/effect_signature/r3/CHR001/effect_signature_manifest.json
+ D godot/assets/runtime_web/effect_signature/r3/CHR001/effect_signature_manifest.sha256
+ D godot/assets/runtime_web/effect_signature/r3/CHR001/projectile.png
+ D godot/assets/runtime_web/effect_signature/r3/CHR001/projectile.png.import
+ D godot/assets/runtime_web/effect_signature/r3/CHR001/ultimate.png
+ D godot/assets/runtime_web/effect_signature/r3/CHR001/ultimate.png.import
+ D godot/assets/runtime_web/effect_signature/r3/CHR003/effect_signature_manifest.json
+ D godot/assets/runtime_web/effect_signature/r3/CHR003/effect_signature_manifest.sha256
+ D godot/assets/runtime_web/effect_signature/r3/CHR003/projectile.png
+ D godot/assets/runtime_web/effect_signature/r3/CHR003/projectile.png.import
+ D godot/assets/runtime_web/effect_signature/r3/CHR003/ultimate.png
+ D godot/assets/runtime_web/effect_signature/r3/CHR003/ultimate.png.import
+ D godot/assets/runtime_web/effect_signature/r3/CHR005/effect_signature_manifest.json
+ D godot/assets/runtime_web/effect_signature/r3/CHR005/effect_signature_manifest.sha256
+ D godot/assets/runtime_web/effect_signature/r3/CHR005/projectile.png
+ D godot/assets/runtime_web/effect_signature/r3/CHR005/projectile.png.import
+ D godot/assets/runtime_web/effect_signature/r3/CHR005/ultimate.png
+ D godot/assets/runtime_web/effect_signature/r3/CHR005/ultimate.png.import
+ D godot/assets/runtime_web/effect_signature/r3/CHR008/effect_signature_manifest.json
+ D godot/assets/runtime_web/effect_signature/r3/CHR008/effect_signature_manifest.sha256
+ D godot/assets/runtime_web/effect_signature/r3/CHR008/projectile.png
+ D godot/assets/runtime_web/effect_signature/r3/CHR008/projectile.png.import
+ D godot/assets/runtime_web/effect_signature/r3/CHR008/ultimate.png
+ D godot/assets/runtime_web/effect_signature/r3/CHR008/ultimate.png.import
+ D godot/assets/runtime_web/effect_signature/r3/ENM001/effect_signature_manifest.json
+ D godot/assets/runtime_web/effect_signature/r3/ENM001/effect_signature_manifest.sha256
+ D godot/assets/runtime_web/effect_signature/r3/ENM001/projectile.png
+ D godot/assets/runtime_web/effect_signature/r3/ENM001/projectile.png.import
+ D godot/assets/runtime_web/effect_signature/r3/ENM001/ultimate.png
+ D godot/assets/runtime_web/effect_signature/r3/ENM001/ultimate.png.import
+ D godot/assets/runtime_web/effect_signature/r3/promotion_approval.json
+ M godot/assets/runtime_web/effect_signature/r4/BOSS001/projectile.png.import
+ M godot/assets/runtime_web/effect_signature/r4/BOSS001/ultimate.png.import
+ M godot/assets/runtime_web/effect_signature/r4/CHR001/projectile.png.import
+ M godot/assets/runtime_web/effect_signature/r4/CHR001/ultimate.png.import
+ M godot/assets/runtime_web/effect_signature/r4/CHR003/projectile.png.import
+ M godot/assets/runtime_web/effect_signature/r4/CHR003/ultimate.png.import
+ M godot/assets/runtime_web/effect_signature/r4/CHR004/projectile.png.import
+ M godot/assets/runtime_web/effect_signature/r4/CHR004/ultimate.png.import
+ M godot/assets/runtime_web/effect_signature/r4/CHR005/projectile.png.import
+ M godot/assets/runtime_web/effect_signature/r4/CHR005/ultimate.png.import
+ M godot/assets/runtime_web/effect_signature/r4/CHR008/projectile.png.import
+ M godot/assets/runtime_web/effect_signature/r4/CHR008/ultimate.png.import
+ M godot/assets/runtime_web/effect_signature/r4/ENM001/projectile.png.import
+ M godot/assets/runtime_web/effect_signature/r4/ENM001/ultimate.png.import
+ M godot/assets/runtime_web/runtime_asset_manifest.json
+ M godot/assets/runtime_web/runtime_combat_manifest.json
+ M godot/autoload/app_state.gd
+ M godot/autoload/mobile_portrait_hotfix_v2.gd
+ M godot/autoload/mobile_portrait_map_stability.gd
+ M godot/autoload/stage_asset_cache.gd
+ M godot/autoload/web_soak_probe.gd
+ M godot/battle/view/battle_presentation_director.gd
+ M godot/battle/view/battle_sprite_library.gd
+ M godot/battle/view/battle_view.gd
+ M godot/battle/view/effect_signature_library.gd
+ M godot/chapter_map/model/hex_grid.gd
+ M godot/chapter_map/model/macro_world_generator.gd
+ M godot/chapter_map/model/map_exploration_service.gd
+ M godot/chapter_map/runtime/chapter_map_loader.gd
+ M godot/chapter_map/runtime/chapter_map_screen.gd
+ M godot/chapter_map/runtime/web_movement_overlay.gd
+ M godot/chapter_map/tests/map_test_runner.gd
+ M godot/data/compiled/chapter_maps/CH02_MAP.json
+ M godot/data/compiled/chapter_maps/CH03_MAP.json
+ M godot/data/compiled/chapter_maps/CH04_MAP.json
+ M godot/data/compiled/chapter_maps/CH05_MAP.json
+ M godot/data/compiled/chapter_maps/CH06_MAP.json
+ M godot/data/compiled/chapter_maps/CH07_MAP.json
+ M godot/data/compiled/chapter_maps/CH08_MAP.json
+ M godot/data/compiled/chapter_maps/CH09_MAP.json
+ M godot/data/compiled/chapter_maps/CH10_MAP.json
+ M godot/data/compiled/chapter_maps/CH11_MAP.json
+ M godot/data/compiled/chapter_maps/CH12_MAP.json
+ M godot/data/compiled/chapter_maps/CH13_MAP.json
+ M godot/data/compiled/chapter_maps/CH14_MAP.json
+ M godot/data/compiled/chapter_maps/CH15_MAP.json
+ M godot/data/compiled/chapter_maps/CH16_MAP.json
+ M godot/data/compiled/chapter_maps/CH17_MAP.json
+ M godot/data/compiled/chapter_maps/CH18_MAP.json
+ M godot/data/compiled/chapter_maps/CH19_MAP.json
+ M godot/data/compiled/chapter_maps/CH20_MAP.json
+ M godot/data/compiled/game_data.json
+ M godot/data/compiled/localization.json
+ M godot/export_presets.cfg
+ M godot/localization/en.csv
+ M godot/localization/en.text.translation
+ M godot/localization/ko.csv
+ M godot/localization/ko.text.translation
+ M godot/progression/breakthrough_service.gd
+ M godot/progression/character_progression.gd
+ M godot/progression/growth_affordability_analyzer.gd
+ M godot/progression/skill_upgrade_service.gd
+ M godot/project.godot
+ M godot/screens/app_shell.gd
+ M godot/tests/progression/r15_fresh_progression_bootstrap.gd
+ M godot/tests/progression/r15_fresh_progression_runner.gd
+ M godot/tests/stage_asset_cache_test.gd
+ M godot/tests/test_runner.gd
+ M godot/tools/capture_mobile_progression_qa.gd
+ M godot/tools/capture_signature_battle_qa.gd
+ M godot/ui/game_ui_tokens.gd
+ M reports/static_validation.json
+ M tools/campaign20.py
+ M tools/generate_data.py
+ M tools/powershell/BUILD_WEB_R7.ps1
+ M tools/validate_static.py
+ M tools/web/build_runtime_combat_packs.py
+ M tools/web/finalize_public_web.py
+ M tools/web/instrument_web_soak.py
+?? .codex_audit_diff.txt
+?? data_source/art_source/natural_environment_r1/
+?? data_source/art_source/natural_terrain_r1/
+?? data_source/chapter_field_locations.json
+?? godot/assets/runtime_web/combat_signature/r16/
+?? godot/assets/runtime_web/full_density/
+?? godot/assets/runtime_web/full_density_effects/
+?? godot/assets/runtime_web/map_density/
+?? godot/battle/view/battle_actor_choreography.gd
+?? godot/battle/view/battle_actor_choreography.gd.uid
+?? godot/battle/view/battle_grounding.gd
+?? godot/battle/view/battle_grounding.gd.uid
+?? godot/battle/view/density_texture_loader.gd
+?? godot/battle/view/density_texture_loader.gd.uid
+?? godot/battle/view/full_density_effects.gd
+?? godot/battle/view/full_density_effects.gd.uid
+?? godot/battle/view/runtime_texture_integrity.gd
+?? godot/battle/view/runtime_texture_integrity.gd.uid
+?? godot/chapter_map/model/river_geometry.gd
+?? godot/chapter_map/model/river_geometry.gd.uid
+?? godot/chapter_map/runtime/map_cell_grid.gd
+?? godot/chapter_map/runtime/map_cell_grid.gd.uid
+?? godot/chapter_map/shaders/environment_surface.gdshader
+?? godot/chapter_map/shaders/environment_surface.gdshader.uid
+?? godot/chapter_map/shaders/forest_backdrop.gdshader
+?? godot/chapter_map/shaders/forest_backdrop.gdshader.uid
+?? godot/chapter_map/shaders/ground_contact.gdshader
+?? godot/chapter_map/shaders/ground_contact.gdshader.uid
+?? godot/chapter_map/shaders/natural_river.gdshader
+?? godot/chapter_map/shaders/natural_river.gdshader.uid
+?? godot/chapter_map/shaders/natural_river_bank.gdshader
+?? godot/chapter_map/shaders/natural_river_bank.gdshader.uid
+?? godot/chapter_map/shaders/river_current.gdshader
+?? godot/chapter_map/shaders/river_current.gdshader.uid
+?? godot/chapter_map/shaders/terrain_surface.gdshader
+?? godot/chapter_map/shaders/terrain_surface.gdshader.uid
+?? godot/chapter_map/view/environment_mesh_library.gd
+?? godot/chapter_map/view/environment_mesh_library.gd.uid
+?? godot/chapter_map/view/map_backdrop.gd
+?? godot/chapter_map/view/map_backdrop.gd.uid
+?? godot/chapter_map/view/natural_river_library.gd
+?? godot/chapter_map/view/natural_river_library.gd.uid
+?? godot/chapter_map/view/natural_terrain_library.gd
+?? godot/chapter_map/view/natural_terrain_library.gd.uid
+?? godot/chapter_map/view/region_palette.gd
+?? godot/chapter_map/view/region_palette.gd.uid
+?? godot/chapter_map/view/web_map_material_policy.gd
+?? godot/chapter_map/view/web_map_material_policy.gd.uid
+?? godot/data/battle_contact_anchors_r1.json
+?? godot/data/runtime_texture_integrity.json
+?? godot/qa/
+?? godot/tests/campaign_story_continuity_runner.gd
+?? godot/tests/campaign_story_continuity_runner.gd.uid
+?? godot/tests/campaign_story_continuity_runner.tscn
+?? godot/tests/field_exploration_runner.gd
+?? godot/tests/field_exploration_runner.gd.uid
+?? godot/tests/field_exploration_runner.tscn
+?? godot/tests/full_density_runner.gd
+?? godot/tests/full_density_runner.gd.uid
+?? godot/tests/full_density_runner.tscn
+?? godot/tests/growth_service_authority_runner.gd
+?? godot/tests/growth_service_authority_runner.gd.uid
+?? godot/tests/growth_service_authority_runner.tscn
+?? godot/tests/inspect_http_defaults.gd
+?? godot/tests/inspect_http_defaults.gd.uid
+?? godot/tests/movement_hex_shape_runner.gd
+?? godot/tests/movement_hex_shape_runner.gd.uid
+?? godot/tests/movement_hex_shape_runner.tscn
+?? godot/tests/natural_terrain_runner.gd
+?? godot/tests/natural_terrain_runner.gd.uid
+?? godot/tests/natural_terrain_runner.tscn
+?? godot/tests/region_loading_runner.gd
+?? godot/tests/region_loading_runner.gd.uid
+?? godot/tests/region_loading_runner.tscn
+?? godot/tests/story_ui_build_gate_runner.gd
+?? godot/tests/story_ui_build_gate_runner.gd.uid
+?? godot/tests/story_ui_build_gate_runner.tscn
+?? godot/tools/export_field_locations.gd
+?? godot/tools/export_field_locations.gd.uid
+?? godot/tools/export_field_locations.tscn
+?? godot/tools/export_natural_environment.gd
+?? godot/tools/export_natural_environment.gd.uid
+?? godot/tools/export_natural_environment.tscn
+?? godot/tools/export_natural_terrain.gd
+?? godot/tools/export_natural_terrain.gd.uid
+?? godot/tools/export_natural_terrain.tscn
+?? godot/tools/inspect_render_settings.gd
+?? godot/tools/inspect_render_settings.gd.uid
+?? godot/ui/bounded_briefing.gd
+?? godot/ui/bounded_briefing.gd.uid
+?? godot/ui/touch_progression_scroll.gd
+?? godot/ui/touch_progression_scroll.gd.uid
+?? godot/web/landscape.html
+?? quarantine/
+?? reports/art_qa/BATTLE_EFFECT_SIGNATURE_R1_REPORT.json
+?? reports/art_qa/BATTLE_EFFECT_SIGNATURE_R2_REPORT.json
+?? reports/art_qa/BATTLE_EFFECT_SIGNATURE_R3_REPORT.json
+?? reports/art_qa/BATTLE_EFFECT_SIGNATURE_R4_REPORT.json
+?? reports/art_qa/BATTLE_SIGNATURE_HD_R10_REPORT.json
+?? reports/art_qa/BATTLE_SIGNATURE_HD_R11_REPORT.json
+?? reports/art_qa/BATTLE_SIGNATURE_HD_R12_CHR002_CHROMA_KEY_QA.json
+?? reports/art_qa/BATTLE_SIGNATURE_HD_R12_ENM001_CHROMA_KEY_QA.json
+?? reports/art_qa/BATTLE_SIGNATURE_HD_R12_REPORT.json
+?? reports/art_qa/BATTLE_SIGNATURE_HD_R13_CHR004_CHROMA_KEY_QA.json
+?? reports/art_qa/BATTLE_SIGNATURE_HD_R13_REPORT.json
+?? reports/art_qa/BATTLE_SIGNATURE_HD_R2_REPORT.json
+?? reports/art_qa/BATTLE_SIGNATURE_HD_R3_FINAL_REVIEW.json
+?? reports/art_qa/BATTLE_SIGNATURE_HD_R3_REPORT.json
+?? reports/art_qa/BATTLE_SIGNATURE_HD_R3_TECHNICAL_REVIEW.json
+?? reports/art_qa/BATTLE_SIGNATURE_HD_R4_REPORT.json
+?? reports/art_qa/BATTLE_SIGNATURE_HD_R7_CHR002_CHROMA_KEY_QA.json
+?? reports/art_qa/BATTLE_SIGNATURE_HD_R7_REPORT.json
+?? reports/art_qa/BATTLE_SIGNATURE_R12_COSTUME_CONTINUITY_LOCAL_REVIEW.md
+?? reports/art_qa/BATTLE_SIGNATURE_R13_COSTUME_CONTINUITY_LOCAL_REVIEW.md
+?? reports/art_qa/battle_signature_hd_r10_viewport_2026-09-04T15-11-51/
+?? reports/art_qa/battle_signature_hd_r10_viewport_2026-09-04T15-14-49/
+?? reports/art_qa/battle_signature_hd_r10_viewport_2026-09-04T15-38-14/
+?? reports/art_qa/battle_signature_hd_r12_viewport_2026-09-04T15-57-00/
+?? reports/art_qa/battle_signature_hd_r13_viewport_2026-09-04T16-19-48/
+?? reports/art_qa/battle_signature_hd_r13_viewport_2026-09-04T16-40-48/
+?? reports/art_qa/battle_signature_hd_r13_viewport_2026-09-04T16-50-36/
+?? reports/art_qa/battle_signature_hd_r13_viewport_2026-09-04T16-52-04/
+?? reports/art_qa/battle_signature_hd_r13_viewport_2026-09-04T17-01-21/
+?? reports/art_qa/battle_signature_hd_r3_viewport_2026-09-04T11-53-13/
+?? reports/art_qa/battle_signature_hd_r3_viewport_2026-09-04T11-54-29/
+?? reports/art_qa/battle_signature_hd_r3_viewport_2026-09-04T11-55-44/
+?? reports/art_qa/battle_signature_hd_r3_viewport_2026-09-04T11-59-53/
+?? reports/art_qa/battle_signature_hd_r4_viewport_2026-09-04T12-16-58/
+?? reports/art_qa/battle_signature_hd_r4_viewport_2026-09-04T12-39-06/
+?? reports/art_qa/battle_signature_hd_r4_viewport_2026-09-04T12-43-35/
+?? reports/art_qa/battle_signature_hd_r4_viewport_2026-09-04T12-44-30/
+?? reports/art_qa/battle_signature_hd_r4_viewport_2026-09-04T12-46-05/
+?? reports/art_qa/battle_signature_hd_r4_viewport_2026-09-04T12-49-13/
+?? reports/art_qa/battle_signature_hd_r4_viewport_2026-09-04T12-59-18/
+?? reports/art_qa/battle_signature_hd_r4_viewport_2026-09-04T13-03-21/
+?? reports/art_qa/battle_signature_hd_r4_viewport_2026-09-04T13-07-34/
+?? reports/art_qa/battle_signature_hd_r4_viewport_2026-09-04T13-10-06/
+?? reports/art_qa/battle_signature_hd_r4_viewport_2026-09-04T13-11-54/
+?? reports/art_qa/battle_signature_hd_r4_viewport_2026-09-04T13-34-19/
+?? reports/art_qa/battle_signature_hd_r4_viewport_2026-09-04T13-57-09/
+?? reports/art_qa/battle_signature_hd_r7_viewport_2026-09-04T14-16-22/
+?? reports/art_qa/mobile_n05_reward_growth_viewport_2026-09-04T16-32-17/
+?? reports/art_qa/mobile_n05_reward_growth_viewport_2026-09-04T16-35-58/
+?? reports/art_qa/mobile_n05_reward_growth_viewport_2026-09-04T16-55-51/
+?? reports/art_qa/mobile_n05_reward_growth_viewport_2026-09-04T17-02-13/
+?? reports/art_qa/mobile_n05_reward_growth_viewport_2026-09-05T02-28-07/
+?? reports/art_qa/mobile_n05_reward_growth_viewport_2026-09-07T08-12-04/
+?? reports/art_qa/mobile_n05_reward_growth_viewport_2026-09-07T08-12-56/
+?? reports/art_qa/mobile_n05_reward_growth_viewport_2026-09-07T09-01-11/
+?? reports/gameplay_qa/
+?? tools/art/assemble_repaired_density_batch.py
+?? tools/art/audit_enclosed_matte_runtime.py
+?? tools/art/build_battle_contact_anchors.py
+?? tools/art/build_battle_signature_pack.py
+?? tools/art/build_effect_signature_pack.py
+?? tools/art/build_full_density_effects.py
+?? tools/art/build_full_density_runtime.py
+?? tools/art/build_map_density.py
+?? tools/art/complete_repair_provenance.py
+?? tools/art/quarantine_battle_signature_candidates.py
+?? tools/art/quarantine_incomplete_candidate.py
+?? tools/art/render_chroma_key_qa.py
+?? tools/art/repair_enclosed_character_matte.py
+?? tools/blender/NATURAL_ENVIRONMENT_LICENSE.json
+?? tools/blender/NATURAL_TERRAIN_LICENSE.json
+?? tools/blender/build_natural_environment.py
+?? tools/blender/build_natural_terrain.py
+?? tools/blender/build_web_botanical_canopy.py
+?? tools/blender/build_web_environment_polish.py
+?? tools/blender/inspect_map_kit.py
+?? tools/powershell/CAPTURE_MOBILE_PROGRESSION_QA.ps1
+?? tools/powershell/CAPTURE_SIGNATURE_BATTLE_QA.ps1
+?? tools/powershell/QUARANTINE_BOTANICAL_R18.ps1
+?? tools/powershell/QUARANTINE_ENCLOSED_MATTE_FAILURES.ps1
+?? tools/powershell/QUARANTINE_GROUNDING_CANDIDATE32.ps1
+?? tools/powershell/QUARANTINE_GROUNDING_PREDECESSORS.ps1
+?? tools/powershell/QUARANTINE_HD_LOADING_CANDIDATES.ps1
+?? tools/powershell/QUARANTINE_STARTUP_28.ps1
+?? tools/qa/
+?? tools/video/analyze_combat_motion_reference.py
+?? tools/video/review_local_combat_recording.py
+?? tools/web/build_texture_integrity.py
+?? tools/web/stage_density_sidecars.py
+?? tools/web_qa/audio_continuity_audit.mjs
+?? tools/web_qa/audio_graph_probe.js
+?? tools/web_qa/battle_loading_audit.mjs
+?? tools/web_qa/boot_gpu_profile.mjs
+?? tools/web_qa/briefing_content_inventory.mjs
+?? tools/web_qa/device_orientation_audit.mjs
+?? tools/web_qa/field_exploration_audit.mjs
+?? tools/web_qa/final_route_audit.mjs
+?? tools/web_qa/first_touch_audit.mjs
+?? tools/web_qa/full_density_checks.mjs
+?? tools/web_qa/full_route_matrix_audit.mjs
+?? tools/web_qa/gameplay_session.mjs
+?? tools/web_qa/growth_clarity_audit.mjs
+?? tools/web_qa/hd_failure_recovery_audit.mjs
+?? tools/web_qa/landscape_only_audit.mjs
+?? tools/web_qa/map_art_gallery.mjs
+?? tools/web_qa/map_entry_loading_audit.mjs
+?? tools/web_qa/map_layout_rotation_audit.mjs
+?? tools/web_qa/mobile_briefing_audit.mjs
+?? tools/web_qa/mobile_elite_audit.mjs
+?? tools/web_qa/mobile_progression_audit.mjs
+?? tools/web_qa/motion_presentation_audit.mjs
+?? tools/web_qa/region_loading_audit.mjs
+?? tools/web_qa/soak_probe.test.mjs
+?? tools/web_qa/story_continuity_audit.mjs
+?? tools/web_qa/write_continuation_validation_manifest.mjs
+?? tools/web_qa/write_hd_validation_manifest.mjs
+?? tools/web_qa/write_local_validation_manifest.mjs

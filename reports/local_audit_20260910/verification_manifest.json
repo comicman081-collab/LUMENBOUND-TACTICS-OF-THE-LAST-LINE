@@ -1,0 +1,190 @@
+{
+  "scope": "local source repair; no deployment or external generation",
+  "source_files": {
+    "README.md": {
+      "bytes": 2728,
+      "sha256": "4be15695a0807c37e56ede144e26032908f6695e435f31260a1223c6e1a5a52f"
+    },
+    "godot/autoload/browser_save_journal.gd": {
+      "bytes": 1868,
+      "sha256": "dd333a8599501027932bf283feb767e8cde8f22f254c0508d6389f2c88e8553e"
+    },
+    "godot/autoload/save_service.gd": {
+      "bytes": 20710,
+      "sha256": "e1972db1f2e2f004e8ce5a8dc0011ef3c1802e4a644d059ab42357e60f960134"
+    },
+    "godot/tools/load_test.gd": {
+      "bytes": 4239,
+      "sha256": "845cab3f6fd95aeaf1ab707a0ea32d112f0c1847b34472bf332448e9fa19eef2"
+    },
+    "tools/web/stage_density_sidecars.py": {
+      "bytes": 3429,
+      "sha256": "8b14b5fc664b36559746b58589b72dc1b4c795ccf2676054f205e794682da137"
+    },
+    "tools/web/test_stage_density_sidecars.py": {
+      "bytes": 3102,
+      "sha256": "20227f2fc133e6b8e738f76c24462248a58ace8cbfad1b7fe3a33fb7fc4b1ab3"
+    },
+    "tools/web_qa/browser_save_journal.test.mjs": {
+      "bytes": 2129,
+      "sha256": "9d874db25722388d29654f384bfa1b4b09d66c9cfa99f47fa0f5906df46c2ab5"
+    },
+    "tools/web_qa/save_persistence_audit.mjs": {
+      "bytes": 3943,
+      "sha256": "e02ba9ca4ded379bfced8900007b2ef20217b421faf920b17a5ff6b1d3658113"
+    },
+    "tools/web_qa/device_orientation_audit.mjs": {
+      "bytes": 3779,
+      "sha256": "c1275cee98a20b29a3dc4eae33047877a342d56b9d7b636b805ae763f1fae238"
+    },
+    "tools/web_qa/audio_continuity_audit.mjs": {
+      "bytes": 5163,
+      "sha256": "68749273f99a0f9df408a06ac8a28407ef0f0657e041523d24524d139f780489"
+    },
+    "tools/powershell/BUILD_WEB_DEVELOPMENT.ps1": {
+      "bytes": 6579,
+      "sha256": "f4acda3bc111ca0a65fb590595783b5d27d10f428712d76af88371b03980a637"
+    },
+    "tools/powershell/BUILD_WEB_RELEASE.ps1": {
+      "bytes": 18516,
+      "sha256": "92bb947c23dad93dfe4a2f3f09d8696c414bd74788fbd642d385fbba1d64ba54"
+    },
+    "tools/powershell/BUILD_WEB_R7.ps1": {
+      "bytes": 11897,
+      "sha256": "48650eae91d0603efa697342522cfe521c328e304424d8d8f29dc36d3b458813"
+    },
+    "tools/powershell/PACKAGE_HTML.ps1": {
+      "bytes": 5896,
+      "sha256": "f8523429be45f996189f473b4b114cd65a24ad4a86c7cbccfe695097df5a4772"
+    },
+    "tools/powershell/RUN_LOCAL_WEB.ps1": {
+      "bytes": 1012,
+      "sha256": "7ee87c1cef5e5482c610928b75873a748718a3b699b61517858d89b121a79540"
+    }
+  },
+  "builds": {
+    "web_local_audit_20260910": {
+      "density_sidecars.json": {
+        "bytes": 126397,
+        "sha256": "a0feea9cc597ee8bf7ed71b14bf4e456c8843498c877049bd4e8716efbdbbeb4"
+      },
+      "index.apple-touch-icon.png": {
+        "bytes": 12160,
+        "sha256": "57e4f8786cf7af384d88463feba525ca59d780b569b9aac9b989da3421dce74b"
+      },
+      "index.audio.position.worklet.js": {
+        "bytes": 2973,
+        "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8"
+      },
+      "index.audio.worklet.js": {
+        "bytes": 7298,
+        "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3"
+      },
+      "index.html": {
+        "bytes": 8417,
+        "sha256": "d1673603d419f62d1daebd83f1bd4cac2f6c443c2cda17ad73cd779bb81c4174"
+      },
+      "index.icon.png": {
+        "bytes": 45330,
+        "sha256": "fa5899c58f176bbc4684533d06580c6e3ed47d4d6db4bc28441b422705ffb59a"
+      },
+      "index.js": {
+        "bytes": 279815,
+        "sha256": "68586d6daafc93c6e697b3fb258976874aa7459b8931165ebb1dc3c9614cc42c"
+      },
+      "index.pck": {
+        "bytes": 168648736,
+        "sha256": "d64295d8f340bcf4cabbcd25ff02e4914c3388eb07e757275155a0b45c6cec97"
+      },
+      "index.png": {
+        "bytes": 21443,
+        "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e"
+      },
+      "index.wasm": {
+        "bytes": 39513091,
+        "sha256": "35116f68540ac41acf7d71ea457added91b5e960a9cca3e2acc72918eaf01277"
+      },
+      "external_hd_pages": 644
+    },
+    "web_local_audit_20260910_release": {
+      "density_sidecars.json": {
+        "bytes": 126397,
+        "sha256": "a0feea9cc597ee8bf7ed71b14bf4e456c8843498c877049bd4e8716efbdbbeb4"
+      },
+      "index.144x144.png": {
+        "bytes": 8704,
+        "sha256": "784c404e16777cc324942ef34ed0923cdfccc7d8c9a9f9104cdb6bdeaddd2bc4"
+      },
+      "index.180x180.png": {
+        "bytes": 12160,
+        "sha256": "57e4f8786cf7af384d88463feba525ca59d780b569b9aac9b989da3421dce74b"
+      },
+      "index.512x512.png": {
+        "bytes": 45330,
+        "sha256": "fa5899c58f176bbc4684533d06580c6e3ed47d4d6db4bc28441b422705ffb59a"
+      },
+      "index.apple-touch-icon.png": {
+        "bytes": 12160,
+        "sha256": "57e4f8786cf7af384d88463feba525ca59d780b569b9aac9b989da3421dce74b"
+      },
+      "index.audio.position.worklet.js": {
+        "bytes": 2973,
+        "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8"
+      },
+      "index.audio.worklet.js": {
+        "bytes": 7298,
+        "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3"
+      },
+      "index.html": {
+        "bytes": 8508,
+        "sha256": "f4b079ea4ec203a2149867679d672cf5803560daa3144ed671e9ac52930c46b8"
+      },
+      "index.icon.png": {
+        "bytes": 45330,
+        "sha256": "fa5899c58f176bbc4684533d06580c6e3ed47d4d6db4bc28441b422705ffb59a"
+      },
+      "index.js": {
+        "bytes": 279815,
+        "sha256": "68586d6daafc93c6e697b3fb258976874aa7459b8931165ebb1dc3c9614cc42c"
+      },
+      "index.manifest.json": {
+        "bytes": 357,
+        "sha256": "2d4396723a6a2f516e6f3fd4a052d1010f6d9c859794eb525d0e2841e8b6896e"
+      },
+      "index.offline.html": {
+        "bytes": 719,
+        "sha256": "187b97136e9b21107aa67f48969b782471ea934caf688348420fa06ef99b64e3"
+      },
+      "index.pck": {
+        "bytes": 168648688,
+        "sha256": "d69de1b5f5ba416b17a44cf3fbb5acf3b64d122a335d64b5658e0087491af842"
+      },
+      "index.png": {
+        "bytes": 21443,
+        "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e"
+      },
+      "index.service.worker.js": {
+        "bytes": 5830,
+        "sha256": "b5e4384dfd66c05814007cd901eef7425a57646b71fc09c740811397465db029"
+      },
+      "index.wasm": {
+        "bytes": 39513091,
+        "sha256": "35116f68540ac41acf7d71ea457added91b5e960a9cca3e2acc72918eaf01277"
+      },
+      "external_hd_pages": 644
+    }
+  },
+  "validation": {
+    "static_and_engine_assertions": 2351,
+    "browser_assertions": 303,
+    "regression_unit_tests": 15,
+    "stage_cache_assertions": 12,
+    "all_counted_checks_passed": true,
+    "limitations": [
+      "No physical-device certification",
+      "No complete manual Campaign-20 clear",
+      "No long-duration browser thermal soak",
+      "No remote deployment or ZIP package run"
+    ]
+  }
+}

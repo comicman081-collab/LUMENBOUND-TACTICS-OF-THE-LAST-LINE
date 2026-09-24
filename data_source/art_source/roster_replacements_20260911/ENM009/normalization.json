@@ -1,0 +1,23 @@
+{
+  "entity_id": "ENM009",
+  "raw": "work/existing_roster_spritegen_20260911/gpt_candidates/ENM009.png.raw.png",
+  "raw_sha256": "4dc253ac9132db9cd740ccb522c85376e5f529f3bfc9a0e2e1a5c482ee12950f",
+  "raw_had_generated_alpha": false,
+  "green_master": "green_master.png",
+  "master_method": "Generated artwork composited without resizing onto uniform green with 64px safety border; raw preserved unchanged.",
+  "extractor": "sprite_gen.frames.cutout.cutout key=green; canonical Sprite Gen tool, no replacement extractor",
+  "stats": {
+    "out": "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\work\\existing_roster_spritegen_20260911\\normalized\\ENM009\\source.png",
+    "mode": "RGBA",
+    "size": "1664x1152",
+    "key": "green",
+    "route": "extract:green",
+    "chroma_key": [
+      0,
+      255,
+      0
+    ],
+    "alpha_zero_pct": 53.88
+  },
+  "status": "VISUAL_REVIEW_REQUIRED"
+}

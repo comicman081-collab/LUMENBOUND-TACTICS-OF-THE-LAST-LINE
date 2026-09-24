@@ -1,0 +1,75 @@
+{
+  "status": "LOCAL_VALIDATION_PASSED",
+  "build": "builds/web_gameplay_qa_20260908_environment49_development",
+  "pck_bytes": 168555364,
+  "pck_sha256": "ff9e5f2d1034597fb9e7d783522c0909abacc60dac6aa386ee797994590a1f92",
+  "browser_suites": {
+    "environment48_regions": {
+      "passed": 80,
+      "failed": 0,
+      "evidence": "reports/gameplay_qa/20260908_environment48_regions/acceptance.json"
+    },
+    "environment48_layout": {
+      "passed": 55,
+      "failed": 0,
+      "evidence": "reports/gameplay_qa/20260908_environment48_layout/acceptance.json"
+    },
+    "environment48_battle": {
+      "passed": 223,
+      "failed": 0,
+      "evidence": "reports/gameplay_qa/20260908_environment48_battle/acceptance.json"
+    },
+    "environment49_gallery": {
+      "passed": 23,
+      "failed": 0,
+      "evidence": "reports/gameplay_qa/20260908_environment49_gallery/acceptance.json"
+    }
+  },
+  "actual_combat_runs": [
+    {
+      "run": 1,
+      "battle_ready_ms": 10550,
+      "map_preload_ms": 6051,
+      "hd_requests": 45
+    },
+    {
+      "run": 2,
+      "battle_ready_ms": 7157,
+      "map_preload_ms": 1862,
+      "hd_requests": 15
+    },
+    {
+      "run": 3,
+      "battle_ready_ms": 7148,
+      "map_preload_ms": 1841,
+      "hd_requests": 15
+    }
+  ],
+  "asset_hashes_verified": 21,
+  "blender": "5.2.1 LTS",
+  "persistent_grid": {
+    "chapters": 20,
+    "cells": 71346,
+    "regular_walk_cells": 14379,
+    "maximum_shape_error": 8e-06,
+    "evidence": "reports/gameplay_qa/20260908_environment49_hex.log"
+  },
+  "native_suites": {
+    "general": {
+      "pass": 293,
+      "log": "20260908_environment47_general.log"
+    },
+    "map": {
+      "pass": 354,
+      "log": "20260908_environment46_map.log"
+    },
+    "region_cache_story": {
+      "pass": 197,
+      "log": "20260908_natural43_regions.log"
+    }
+  },
+  "scope": "Local Chrome touch emulation with isolated QA saves. Environment49 changes only the grid projection update to follow the camera in the same frame versus environment48; final gallery rechecks actual touches, rotation and cancelled selection. No physical-device or network benchmark; no deployment.",
+  "asset_integrity_evidence": "reports/gameplay_qa/20260908_environment46_assets.json",
+  "water_geometry_evidence": "reports/gameplay_qa/20260908_environment46_corridors.json",
+  "retained_quarantine": "data_source/art_source/natural_environment_r1/quarantine"
+}

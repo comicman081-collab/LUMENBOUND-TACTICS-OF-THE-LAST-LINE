@@ -12,6 +12,7 @@ const GrowthAffordabilityAnalyzerScript := preload("res://progression/growth_aff
 const GrowthPlanBuilderScript := preload("res://progression/growth_plan_builder.gd")
 const RelayServiceScript := preload("res://relay/relay_service.gd")
 const GameUI := preload("res://ui/game_ui_tokens.gd")
+const CommandPresentation := preload("res://screens/command_presentation.gd")
 const BattleUltimateOrbScript := preload("res://battle/view/battle_ultimate_orb.gd")
 const DESIGN_VIEWPORT_SIZE := Vector2(1920.0, 1080.0)
 const COMPACT_LANDSCAPE_MAX_WIDTH := 980.0
@@ -19,7 +20,7 @@ const MIN_TOUCH_CSS_PX := 56.0
 const SPECIAL_EVENT_CONTACT_DURATION := 1.85
 const BOSS_ENCOUNTER_CARD_DURATION := 0.82
 const INTRO_VIDEO_PATH := "res://assets/video/lumenbound_intro_full.ogv"
-const INTRO_VIDEO_DURATION_SECONDS := 53.0
+const INTRO_VIDEO_DURATION_SECONDS := 50.0
 const INTRO_VIDEO_FINISH_GUARD_SECONDS := 0.75
 const TRANSITION_LOADING_MAP_ENTRY := "MAP_ENTRY"
 const TRANSITION_LOADING_BATTLE_ENTRY := "BATTLE_ENTRY"
@@ -27,6 +28,9 @@ const TRANSITION_LOADING_BATTLE_RESULT := "BATTLE_RESULT"
 const TRANSITION_LOADING_MAX_PHASE_VALUE := 96.0
 const STAGE_ENTRY_PRELOAD_TARGET_MSEC := 5000
 const BATTLE_ENTRY_PRELOAD_TARGET_MSEC := 5000
+const LOADING_IDLE_TIMEOUT_MSEC := 12000
+const LOADING_HARD_TIMEOUT_MSEC := 45000
+var map_load_last_progress_msec := 0
 const TRANSITION_GPU_WARM_BATCH := 4
 const TRANSITION_LOADING_ART_PATH := "res://assets/art/backgrounds/BG_STORY_RELAY/bg_story_relay_1920x1080.png"
 const TRANSITION_LOADING_LOGO_PATH := "res://assets/art/title/title_logo_r1.png"
@@ -34,6 +38,7 @@ var content: VBoxContainer
 var footer_status: Label
 var safe_margin: MarginContainer
 var current_screen := "TITLE"
+var new_game_confirmation_layer: CanvasLayer
 var transition_loading_layer: CanvasLayer
 var transition_loading_surface: Control
 var transition_loading_panel: PanelContainer
@@ -104,6 +109,11 @@ var last_reward_report: Dictionary = {}
 var map_reward_layer: CanvasLayer
 var map_reward_surface: Control
 var map_reward_panel: PanelContainer
+var growth_tab := "레벨업"
+var growth_material := "TRAINING_NOTE_S"
+var growth_target_level := 0
+var growth_feedback := ""
+var growth_save_pending := false
 var last_growth_plan_actions: Array = []
 var last_growth_plan_report: Dictionary = {}
 var battle_party_ids: Array[String] = []
@@ -159,6 +169,7 @@ var intro_video_active := false
 var intro_video_generation := 0
 var intro_start_gate: Control
 var intro_title_lockup: Control
+var intro_still_backdrop: Control
 # Keep the title-card tween owned by the intro lifecycle. Skipping the movie
 # used to free its layer while this local-capture callback was still pending.
 var intro_title_tween: Tween
@@ -225,12 +236,28 @@ func _show_intro_video() -> void:
 	intro_video_player.expand = true
 	intro_video_player.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	intro_video_player.volume_db = -80.0 if not bool(SettingsService.values.get("audio_enabled", true)) else linear_to_db(clampf(float(SettingsService.values.get("master_volume", 0.8)), 0.01, 1.0))
-	intro_video_player.finished.connect(_finish_intro_video)
+	intro_video_player.finished.connect(_on_native_intro_finished)
 	video_frame.add_child(intro_video_player)
+	# The WebAudio consent frame is part of the title experience.  A
+	# VideoStreamPlayer has no decoded frame before a trusted click, and some
+	# file:// Web launches leave that empty surface black.  Keep the actual
+	# high-resolution title cast visible in that interval rather than presenting
+	# an orphaned logo and start button.
+	_build_intro_title_backdrop(surface)
 
 	var title_center := CenterContainer.new()
 	title_center.name = "StartupIntroTitleCenter"
-	title_center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	# The title and the WebAudio action need separate bands.  The former full
+	# screen center container allowed a large title card to visually collide with
+	# the start control on narrow desktop browser panes.
+	title_center.anchor_left = 0.055
+	title_center.anchor_right = 0.49
+	title_center.anchor_top = 0.22
+	title_center.anchor_bottom = 0.62
+	title_center.offset_left = 0.0
+	title_center.offset_right = 0.0
+	title_center.offset_top = 0.0
+	title_center.offset_bottom = 0.0
 	title_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	surface.add_child(title_center)
 	var title_lockup := PanelContainer.new()
@@ -238,7 +265,7 @@ func _show_intro_video() -> void:
 	intro_title_lockup = title_lockup
 	var intro_ui_scale := _responsive_control_scale()
 	var intro_portrait := _is_portrait_layout()
-	title_lockup.custom_minimum_size = (Vector2(340.0, 128.0) * intro_ui_scale) if intro_portrait else Vector2(920.0, 270.0)
+	title_lockup.custom_minimum_size = (Vector2(340.0, 128.0) * intro_ui_scale) if intro_portrait else Vector2(640.0, 340.0)
 	title_lockup.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var title_panel_style := GameUI.panel_style(
 		Color("050a11b8"),
@@ -250,14 +277,10 @@ func _show_intro_video() -> void:
 	)
 	title_lockup.add_theme_stylebox_override("panel", title_panel_style)
 	title_center.add_child(title_lockup)
-	var title_logo := TextureRect.new()
-	title_logo.name = "StartupIntroTitleLogo"
-	title_logo.texture = load("res://assets/art/title/title_logo_r1.png") as Texture2D
-	title_logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	title_logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	title_logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	title_lockup.add_child(title_logo)
-	var skip := _button("SKIP", _finish_intro_video, false, Vector2(148.0, 64.0))
+	title_lockup.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	var title_words := preload("res://screens/command_presentation.gd").label(self, "LUMEN\nBOUND", 106, Color("effaf7"))
+	title_lockup.add_child(title_words)
+	var skip := preload("res://screens/command_presentation.gd").button(self, "SKIP", _finish_intro_video, false, Vector2(190.0, 72.0))
 	skip.name = "StartupIntroSkipButton"
 	skip.tooltip_text = "인트로 영상 건너뛰기"
 	skip.anchor_left = 1.0
@@ -269,12 +292,16 @@ func _show_intro_video() -> void:
 	skip.grow_horizontal = Control.GROW_DIRECTION_BEGIN
 	surface.add_child(skip)
 
-	var stream := load(INTRO_VIDEO_PATH) as VideoStream
-	if stream == null:
-		push_error("Startup intro video could not be loaded: %s" % INTRO_VIDEO_PATH)
-		_finish_intro_video()
-		return
-	intro_video_player.stream = stream
+	# Public Web builds stream the reviewed 1080p MP4 from the Sites static
+	# asset. Keep the native OGV fallback for desktop exports, but do not make
+	# the browser startup depend on the duplicate 68 MiB embedded stream.
+	if not OS.has_feature("web"):
+		var stream := load(INTRO_VIDEO_PATH) as VideoStream
+		if stream == null:
+			push_error("Startup intro video could not be loaded: %s" % INTRO_VIDEO_PATH)
+			_finish_intro_video()
+			return
+		intro_video_player.stream = stream
 	var web_audio_needs_gesture := OS.has_feature("web") and bool(SettingsService.values.get("audio_enabled", true)) and not SettingsService.web_preview_audio_forced_muted()
 	if web_audio_needs_gesture:
 		_build_intro_audio_gate(active_generation, surface)
@@ -288,71 +315,117 @@ func _build_intro_audio_gate(active_generation: int, surface: Control) -> void:
 	# and audio together from the beginning.
 	intro_start_gate = PanelContainer.new()
 	intro_start_gate.name = "StartupIntroAudioGate"
-	intro_start_gate.anchor_left = 0.5
-	intro_start_gate.anchor_right = 0.5
-	intro_start_gate.anchor_top = 0.72
-	intro_start_gate.anchor_bottom = 0.72
-	intro_start_gate.offset_left = -300.0
-	intro_start_gate.offset_right = 300.0
-	intro_start_gate.offset_top = -72.0
-	intro_start_gate.offset_bottom = 72.0
+	intro_start_gate.anchor_left = 0.25
+	intro_start_gate.anchor_right = 0.25
+	intro_start_gate.anchor_top = 0.78
+	intro_start_gate.anchor_bottom = 0.78
+	intro_start_gate.offset_left = -220.0
+	intro_start_gate.offset_right = 220.0
+	intro_start_gate.offset_top = -76.0
+	intro_start_gate.offset_bottom = 76.0
 	intro_start_gate.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	intro_start_gate.grow_vertical = Control.GROW_DIRECTION_BOTH
 	intro_start_gate.mouse_filter = Control.MOUSE_FILTER_STOP
-	intro_start_gate.add_theme_stylebox_override("panel", GameUI.panel_style(Color("071521f2"), Color("74e1d4c8"), 1, GameUI.RADIUS_MODAL, Vector4(24.0, 18.0, 24.0, 18.0), 12))
+	intro_start_gate.add_theme_stylebox_override("panel", GameUI.panel_style(Color("071521ec"), Color("74e1d4c8"), 1, GameUI.RADIUS_MODAL, Vector4(20.0, 14.0, 20.0, 14.0), 12))
 	surface.add_child(intro_start_gate)
 	var gate_box := VBoxContainer.new()
 	gate_box.alignment = BoxContainer.ALIGNMENT_CENTER
-	gate_box.add_theme_constant_override("separation", 10)
+	gate_box.add_theme_constant_override("separation", 5)
 	intro_start_gate.add_child(gate_box)
 	var gate_label := Label.new()
 	gate_label.name = "StartupIntroAudioGateLabel"
-	gate_label.text = "SOUND ON  ·  인트로는 0초부터 시작됩니다"
+	gate_label.text = "꺼진 노선 위에서, 다시 빛을 잇다."
 	gate_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	gate_label.add_theme_color_override("font_color", GameUI.TEXT_MUTED)
-	gate_label.add_theme_font_size_override("font_size", 20)
+	gate_label.add_theme_color_override("font_color", GameUI.TEXT)
+	gate_label.add_theme_font_size_override("font_size", 25)
 	gate_box.add_child(gate_label)
-	var start_button := _button("소리 켜고 인트로 시작", _start_intro_video_playback.bind(active_generation), false, Vector2(420.0, 64.0))
+	var gate_hint := Label.new()
+	gate_hint.name = "StartupIntroAudioGateHint"
+	gate_hint.text = "50초의 프롤로그"
+	gate_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	gate_hint.add_theme_color_override("font_color", GameUI.TEXT_MUTED)
+	gate_hint.add_theme_font_size_override("font_size", 16)
+	gate_box.add_child(gate_hint)
+	var start_button := preload("res://screens/command_presentation.gd").button(self, "영상으로 시작  ›", _start_intro_video_playback.bind(active_generation), false, Vector2(350.0, 64.0))
 	start_button.name = "StartupIntroAudioStartButton"
 	GameUI.apply_button(start_button, "primary")
 	start_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	gate_box.add_child(start_button)
 	start_button.grab_focus()
 
+func _build_intro_title_backdrop(surface: Control) -> void:
+	intro_still_backdrop = Control.new()
+	intro_still_backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	intro_still_backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	surface.add_child(intro_still_backdrop)
+	preload("res://screens/command_presentation.gd").title_backdrop(self, intro_still_backdrop)
+
 func _start_intro_video_playback(active_generation: int) -> void:
 	if not intro_video_active or active_generation != intro_video_generation or intro_video_player == null:
 		return
+	# The replacement movie already contains the original intro soundtrack.
+	# Replaying it from the title must not layer lobby music over that track.
+	AudioService.stop_bgm()
 	AudioService.unlock_from_user_gesture()
 	if intro_start_gate != null and is_instance_valid(intro_start_gate):
 		intro_start_gate.queue_free()
 	intro_start_gate = null
-	intro_video_player.play()
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval(FileAccess.get_file_as_string("res://web/browser_intro.js"), true)
+		var intro_volume := float(SettingsService.values.get("master_volume", 0.8)) if bool(SettingsService.values.get("audio_enabled", true)) else 0.0
+		JavaScriptBridge.eval("window.__lumenIntro.start('/intro.mp4', %s)" % str(intro_volume), true)
+		_watch_browser_intro(active_generation)
+	else:
+		intro_video_player.play()
+		_watch_native_intro(active_generation)
+	if intro_still_backdrop != null and is_instance_valid(intro_still_backdrop):
+		var backdrop_to_release := intro_still_backdrop
+		var backdrop_fade := create_tween()
+		backdrop_fade.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+		backdrop_fade.tween_property(backdrop_to_release, "modulate:a", 0.0, 0.32).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		backdrop_fade.tween_callback(_queue_free_if_valid.bind(backdrop_to_release))
+	intro_still_backdrop = null
 	if intro_title_lockup != null and is_instance_valid(intro_title_lockup):
 		var title_parent := intro_title_lockup.get_parent()
 		intro_title_tween = create_tween()
 		intro_title_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-		intro_title_tween.tween_interval(5.0)
+		intro_title_tween.tween_interval(0.0)
 		intro_title_tween.tween_property(intro_title_lockup, "modulate:a", 0.0, 0.85).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		intro_title_tween.tween_callback(_queue_free_if_valid.bind(title_parent))
-	# Ogg/Theora reaches its last frame reliably on Web, but some browsers do
-	# not forward VideoStreamPlayer.finished.  This guard runs only after the
-	# complete authored duration plus a safety margin, so it can never shorten
-	# the 1,272-frame game intro and still prevents an infinite last-frame hold.
-	get_tree().create_timer(INTRO_VIDEO_DURATION_SECONDS + INTRO_VIDEO_FINISH_GUARD_SECONDS, true, false, true).timeout.connect(func():
-		if intro_video_active and active_generation == intro_video_generation:
+
+func _watch_browser_intro(generation: int) -> void:
+	while is_inside_tree() and intro_video_active and generation == intro_video_generation:
+		await get_tree().create_timer(0.2).timeout
+		if bool(JavaScriptBridge.eval("Boolean(window.__lumenIntro && window.__lumenIntro.done)", true)):
 			_finish_intro_video()
-	)
+			return
+
+func _watch_native_intro(generation: int) -> void:
+	while is_inside_tree() and intro_video_active and generation == intro_video_generation:
+		await get_tree().create_timer(0.2).timeout
+		if not is_instance_valid(intro_video_player): return
+		# Elapsed wall time is not playback time (loading, pause, focus loss).
+		if intro_video_player.stream_position >= INTRO_VIDEO_DURATION_SECONDS - 0.04:
+			_finish_intro_video()
+			return
+
+func _on_native_intro_finished() -> void:
+	# The stream's own end signal is authoritative; no wall-clock cutoff.
+	_finish_intro_video()
 
 func _finish_intro_video() -> void:
 	if not intro_video_active:
 		return
 	intro_video_active = false
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval("if(window.__lumenIntro) window.__lumenIntro.stop()", true)
 	intro_video_generation += 1
 	if intro_title_tween != null and intro_title_tween.is_valid():
 		intro_title_tween.kill()
 	intro_title_tween = null
 	intro_title_lockup = null
 	intro_start_gate = null
+	intro_still_backdrop = null
 	if intro_video_player != null:
 		intro_video_player.stop()
 	intro_video_player = null
@@ -460,7 +533,11 @@ func _begin_transition_loading(kind_value: String) -> int:
 	transition_loading_surface.add_child(art)
 	var scrim := ColorRect.new()
 	scrim.name = "TransitionLoadingScrim"
-	scrim.color = Color("030811c7")
+	# Map construction creates a live SubViewport underneath this owner. Keep the
+	# map-entry scrim nearly opaque so an incomplete fog/terrain frame can never
+	# leak through as a blank tactical map; battle/result retain their lighter
+	# contextual artwork treatment.
+	scrim.color = Color("020710f4") if kind_value == TRANSITION_LOADING_MAP_ENTRY else Color("030811c7")
 	scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	transition_loading_surface.add_child(scrim)
@@ -476,7 +553,12 @@ func _begin_transition_loading(kind_value: String) -> int:
 		Vector4(30.0, 22.0, 30.0, 24.0),
 		16
 	))
-	transition_loading_surface.add_child(transition_loading_panel)
+	var loading_center := CenterContainer.new()
+	loading_center.name = "TransitionLoadingCenter"
+	loading_center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	loading_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	transition_loading_surface.add_child(loading_center)
+	loading_center.add_child(transition_loading_panel)
 	var column := VBoxContainer.new()
 	column.name = "LoadingColumn"
 	column.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -545,40 +627,28 @@ func _begin_transition_loading(kind_value: String) -> int:
 func _transition_loading_title(kind_value: String) -> String:
 	match kind_value:
 		TRANSITION_LOADING_BATTLE_ENTRY:
-			return "LOADING — BATTLE"
+			return "전투 준비 중"
 		TRANSITION_LOADING_BATTLE_RESULT:
-			return "LOADING — RESULTS"
+			return "전투 결과 정리 중"
 		_:
-			return "LOADING — TACTICAL MAP"
+			return "전술 지도 준비 중"
 
 func _transition_loading_initial_phase(kind_value: String) -> String:
 	match kind_value:
 		TRANSITION_LOADING_BATTLE_ENTRY:
-			return "Preparing combat data"
+			return "곧 전투가 시작됩니다"
 		TRANSITION_LOADING_BATTLE_RESULT:
-			return "Preparing battle report"
+			return "전리품과 성장 결과를 확인하고 있습니다"
 		_:
-			return "Preparing stage data"
+			return "작전 정보를 준비하고 있습니다"
 
 func _apply_transition_loading_layout() -> void:
 	if transition_loading_panel == null or not is_instance_valid(transition_loading_panel):
 		return
-	var metrics := responsive_ui_metrics_for_size(_runtime_layout_size())
-	var portrait := bool(metrics.portrait)
-	var compact_landscape := bool(metrics.compact_landscape)
-	var ui_scale := float(metrics.ui_scale)
-	# Anchor-based bounds follow the same expanded 1920 canvas contract as the
-	# rest of AppShell. Portrait gets a wide lower card, compact landscape gets
-	# extra vertical reading room, and desktop stays deliberately restrained.
-	transition_loading_panel.anchor_left = 0.055 if portrait else (0.10 if compact_landscape else 0.26)
-	transition_loading_panel.anchor_right = 0.945 if portrait else (0.90 if compact_landscape else 0.74)
-	transition_loading_panel.anchor_top = 0.54 if portrait else (0.43 if compact_landscape else 0.59)
-	transition_loading_panel.anchor_bottom = 0.90 if portrait else (0.93 if compact_landscape else 0.90)
-	transition_loading_panel.offset_left = 0.0
-	transition_loading_panel.offset_right = 0.0
-	transition_loading_panel.offset_top = 0.0
-	transition_loading_panel.offset_bottom = 0.0
-	transition_loading_panel.custom_minimum_size = Vector2.ZERO
+	var ui_scale := GameUI.typography_scale(_runtime_layout_size())
+	# The center container measures the content before placing the panel. A
+	# lower-screen anchor allowed the minimum content height to escape the screen.
+	transition_loading_panel.custom_minimum_size = Vector2(1120.0, 0.0)
 	var column := transition_loading_panel.get_node_or_null("LoadingColumn") as VBoxContainer
 	if column != null:
 		column.add_theme_constant_override("separation", roundi(10.0 * ui_scale))
@@ -619,7 +689,7 @@ func _set_transition_loading_phase(token: int, phase_text: String, target_value:
 	transition_loading_phase_started_msec = Time.get_ticks_msec()
 	transition_loading_phase_duration_msec = maxi(1, roundi(duration_seconds * 1000.0))
 	if transition_loading_phase_label != null and is_instance_valid(transition_loading_phase_label):
-		transition_loading_phase_label.text = phase_text
+		transition_loading_phase_label.text = _transition_loading_initial_phase(transition_loading_kind)
 
 func _update_transition_loading_progress() -> void:
 	if not _transition_loading_token_is_valid(transition_loading_active_token) or transition_loading_progress_bar == null:
@@ -641,11 +711,11 @@ func _set_transition_loading_display_value(value: float) -> void:
 
 func _stage_asset_cache_phase_text(phase: String) -> String:
 	if phase.begins_with("MAP_ACTOR_MANIFEST"):
-		return "Reading map character animation data"
+		return "맵 캐릭터 정보를 확인하고 있습니다"
 	if phase.begins_with("MAP_ACTOR_ATLAS"):
-		return "Caching map character animations"
+		return "맵 캐릭터 동작을 준비하고 있습니다"
 	if phase == "MAP_READY":
-		return "Map character cache ready"
+		return "맵 캐릭터 준비를 마쳤습니다"
 	if phase.begins_with("ACTOR_MANIFEST"):
 		return "Reading character animation data"
 	if phase.begins_with("ACTOR_ATLAS"):
@@ -664,7 +734,7 @@ func _stage_asset_cache_phase_text(phase: String) -> String:
 		return "Preparing battle interface type"
 	if phase == "READY":
 		return "Combat resource cache ready"
-	return "Planning stage resources"
+	return "작전 자원을 확인하고 있습니다"
 
 func _on_stage_asset_cache_progress(value: float, phase: String, token: int) -> void:
 	if not _transition_loading_token_is_valid(token):
@@ -675,29 +745,30 @@ func _on_stage_asset_cache_progress(value: float, phase: String, token: int) -> 
 func _map_load_phase_text(phase: String) -> String:
 	match phase:
 		"map_data":
-			return "Restoring map progress"
+			return "탐색 기록을 불러오고 있습니다"
 		"shell":
-			return "Building the tactical map interface"
+			return "전술 지도 화면을 준비하고 있습니다"
 		"terrain":
-			return "Building terrain and elevation"
+			return "지형과 높낮이를 구성하고 있습니다"
 		"terrain_dressing":
-			return "Placing forests, roads, walls, and rocks"
+			return "숲과 길, 바위 지형을 배치하고 있습니다"
 		"map_presentation":
-			return "Placing treasures, encounters, and landmarks"
+			return "조우와 보급 지점을 배치하고 있습니다"
 		"unlocked_enemies":
-			return "Deploying unlocked enemies and patrols"
+			return "공개된 적과 순찰을 배치하고 있습니다"
 		"route_water":
-			return "Finishing rivers, coasts, and routes"
+			return "강과 경로를 마무리하고 있습니다"
 		"ready":
-			return "Enabling tactical map controls"
+			return "전술 지도 조작을 활성화하고 있습니다"
 		_:
-			return "Building the tactical map"
+			return "전술 지도를 준비하고 있습니다"
 
 func _on_chapter_map_load_progress(value: float, phase: String, token: int, show_generation: int) -> void:
 	if current_screen != "STAGE_SELECT" or show_generation != chapter_map_show_generation:
 		return
 	if not _transition_loading_token_is_valid(token):
 		return
+	map_load_last_progress_msec = Time.get_ticks_msec()
 	var target := lerpf(56.0, 96.0, clampf(value, 0.0, 1.0))
 	_set_transition_loading_phase(token, _map_load_phase_text(phase), target, 0.10)
 
@@ -735,7 +806,7 @@ func _warm_transition_gpu_textures(token: int, textures: Array[Texture2D]) -> in
 		await RenderingServer.frame_post_draw
 		warmed = batch_end
 		var ratio := float(warmed) / float(maxi(1, textures.size()))
-		_set_transition_loading_phase(token, "Uploading map character textures", lerpf(48.0, 56.0, ratio), 0.04)
+		_set_transition_loading_phase(token, "맵 캐릭터 텍스처를 준비하고 있습니다", lerpf(48.0, 56.0, ratio), 0.04)
 	for warm_rect in warm_rects:
 		if is_instance_valid(warm_rect):
 			warm_rect.queue_free()
@@ -777,21 +848,31 @@ func _dispose_transition_loading() -> void:
 	transition_loading_phase_start_value = 0.0
 	transition_loading_phase_target_value = 0.0
 
+static func loading_watchdog_expired(now_msec: int, started_msec: int, last_progress_msec: int) -> bool:
+	return now_msec - started_msec >= LOADING_HARD_TIMEOUT_MSEC or now_msec - last_progress_msec >= LOADING_IDLE_TIMEOUT_MSEC
+
 func _wait_for_map_ready_with_deadline(map_screen: Control, started_msec: int, show_generation: int) -> bool:
+	# Five seconds is a measured target, not proof of failure on a slow phone.
+	map_load_last_progress_msec = Time.get_ticks_msec()
 	while map_screen != null and is_instance_valid(map_screen) \
 		and current_screen == "STAGE_SELECT" and show_generation == chapter_map_show_generation:
 		if bool(map_screen.get("map_ready_complete")):
 			return true
-		if Time.get_ticks_msec() - started_msec >= STAGE_ENTRY_PRELOAD_TARGET_MSEC:
+		if loading_watchdog_expired(Time.get_ticks_msec(), started_msec, map_load_last_progress_msec):
 			return false
 		await get_tree().process_frame
 	return false
 
 func _wait_for_battle_assets_with_deadline(view: BattleView, started_msec: int) -> bool:
+	var last_phase := ""
+	var last_progress_msec := Time.get_ticks_msec()
 	while view != null and is_instance_valid(view) and current_screen == "BATTLE":
 		if view.assets_ready:
 			return true
-		if Time.get_ticks_msec() - started_msec >= BATTLE_ENTRY_PRELOAD_TARGET_MSEC:
+		if view.asset_warmup_phase != last_phase:
+			last_phase = view.asset_warmup_phase
+			last_progress_msec = Time.get_ticks_msec()
+		if loading_watchdog_expired(Time.get_ticks_msec(), started_msec, last_progress_msec):
 			return false
 		await get_tree().process_frame
 	return false
@@ -897,63 +978,20 @@ func _prepare_transition_loading_for_screen(previous_screen: String, next_screen
 				_cancel_transition_loading()
 
 func _make_theme() -> Theme:
-	var ui_scale := _responsive_control_scale()
+	var ui_scale := GameUI.typography_scale(_runtime_layout_size())
 	# The earlier subset deliberately reduced the Web payload, but it omitted
 	# glyphs introduced by localized reward names.  Use the project-owned OFL
 	# variable font so every Korean runtime string remains readable.
-	var bundled_font := load("res://assets/fonts/NotoSansKR-VF.ttf") as Font
+	var bundled_font := load("res://assets/fonts/LanternSans-Medium.ttf") as Font
 	if bundled_font != null:
 		interface_font = bundled_font
 	return GameUI.build_theme(bundled_font, ui_scale)
 
 func _build_viewport_gate() -> void:
-	viewport_gate = ColorRect.new()
-	viewport_gate.name = "R6ViewportGate"
-	viewport_gate.color = Color("05070bf2")
-	viewport_gate.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	viewport_gate.mouse_filter = Control.MOUSE_FILTER_STOP
-	viewport_gate.z_index = 1000
-	viewport_gate.visible = false
-	add_child(viewport_gate)
-	var center := CenterContainer.new()
-	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	viewport_gate.add_child(center)
-	var box := PanelContainer.new()
-	box.custom_minimum_size = Vector2(620, 260)
-	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	center.add_child(box)
-	var column := VBoxContainer.new()
-	column.alignment = BoxContainer.ALIGNMENT_CENTER
-	column.add_theme_constant_override("separation", 18)
-	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	box.add_child(column)
-	var gate_title := Label.new()
-	gate_title.text = "LANTERNLINE"
-	gate_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	if interface_font != null: gate_title.add_theme_font_override("font", interface_font)
-	gate_title.add_theme_font_size_override("font_size", 40)
-	gate_title.add_theme_color_override("font_color", Color("78e6d0"))
-	gate_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	column.add_child(gate_title)
-	viewport_gate_label = Label.new()
-	viewport_gate_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	viewport_gate_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	# This safety screen must not inherit a platform fallback font.  Explicitly
-	# bind the bundled Korean font because Web fallback chains can vary by host.
-	if interface_font != null: viewport_gate_label.add_theme_font_override("font", interface_font)
-	viewport_gate_label.add_theme_font_size_override("font_size", 22)
-	viewport_gate_label.add_theme_color_override("font_color", Color("f4f7fb"))
-	viewport_gate_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	column.add_child(viewport_gate_label)
-	_update_viewport_gate()
+	# Landscape is shown at every window shape; no rotation overlay is created.
+	pass
 
 func _update_viewport_gate() -> void:
-	# Portrait is a first-class responsive layout, not a blocked orientation.
-	# Keep the node for backwards-compatible scene ownership, but it never blocks
-	# input or pauses battle on a phone rotation.
-	if viewport_gate != null:
-		viewport_gate.visible = false
 	if orientation_forced_pause:
 		if battle_view != null: battle_view.paused = false
 		orientation_forced_pause = false
@@ -967,7 +1005,7 @@ func _refresh_responsive_shell_metrics() -> void:
 	_apply_safe_area()
 	_apply_transition_loading_layout()
 	if theme != null:
-		var ui_scale := _responsive_control_scale()
+		var ui_scale := GameUI.typography_scale(_runtime_layout_size())
 		theme.default_font_size = roundi(22.0 * ui_scale)
 		theme.set_font_size("font_size", "Button", roundi(20.0 * ui_scale))
 		theme.set_font_size("font_size", "Label", roundi(22.0 * ui_scale))
@@ -1005,6 +1043,7 @@ func _refresh_orientation_layout() -> void:
 	# screen on a phone rotation caused a second map load and visible transition
 	# hitch; its own responsive method can reflow the same instance safely.
 	if current_screen == "STAGE_SELECT" and active_chapter_map_screen != null and is_instance_valid(active_chapter_map_screen):
+		_rebuild_chapter_map_header()
 		active_chapter_map_screen.call("_apply_responsive_layout")
 		_apply_chapter_map_shell_overrides()
 		return
@@ -1014,17 +1053,26 @@ func _refresh_orientation_layout() -> void:
 	if current_screen in ["HOME", "TITLE", "RESULT", "ROSTER", "GROWTH", "CHARACTER_DETAIL", "INVENTORY", "ARCHIVE", "SETTINGS", "DEBUG", "LICENSE", "STAGE_DETAIL", "FORMATION"]:
 		_show_screen(current_screen)
 
+func _rebuild_chapter_map_header() -> void:
+	# Recreate only the two shell decorations. The terrain SubViewport, moving
+	# squad, map selection and simulation remain the same live instances.
+	for node_name in ["ScreenHeader", "ScreenHeaderAccent"]:
+		var old := content.get_node_or_null(NodePath(node_name))
+		if old != null:
+			content.remove_child(old)
+			old.queue_free()
+	var stage := DataRegistry.stage(AppState.selected_stage_id)
+	var chapter := DataRegistry.chapter(str(stage.get("chapter_id", "CH01")))
+	content.add_theme_constant_override("separation", 16)
+	_title(LocalizationService.tr_key(str(chapter.get("name_key", ""))), "탐색 경로를 따라 조우를 선택하고, 기존 실시간 전투에 진입합니다.")
+	content.move_child(content.get_node("ScreenHeader"), 0)
+	content.move_child(content.get_node("ScreenHeaderAccent"), 1)
+
 func _is_portrait_layout() -> bool:
 	var size := _runtime_layout_size()
 	return size.y > size.x
 
 func _runtime_layout_size() -> Vector2:
-	# Keep the AppShell and the portrait repair pass on the same coordinate
-	# authority during the isolated mobile regression scene.  Without this,
-	# headless QA built a landscape story tree and then applied portrait-only
-	# geometry to it, which cannot prove touch placement on a real phone canvas.
-	if OS.get_environment("LUMENBOUND_FORCE_PORTRAIT_QA") == "1":
-		return Vector2(390.0, 844.0)
 	var window_size := DisplayServer.window_get_size()
 	var width := float(window_size.x)
 	var height := float(window_size.y)
@@ -1033,13 +1081,13 @@ func _runtime_layout_size() -> Vector2:
 		var browser_height = JavaScriptBridge.eval("window.innerHeight", true)
 		if browser_width is int or browser_width is float: width = float(browser_width)
 		if browser_height is int or browser_height is float: height = float(browser_height)
-	return Vector2(maxf(1.0, width), maxf(1.0, height))
+	return GameUI.landscape_layout_size(Vector2(width, height))
 
 func responsive_ui_metrics_for_size(size: Vector2) -> Dictionary:
-	# `canvas_items` with aspect=expand uses the smaller physical/design ratio.
+	# The landscape composition uses the smaller layout/design ratio.
 	# Compact phones therefore need the inverse ratio applied to UI metrics or a
 	# nominal 56 logical-pixel button can collapse to about 21 CSS px at 915x412.
-	var safe_size := Vector2(maxf(1.0, size.x), maxf(1.0, size.y))
+	var safe_size := GameUI.landscape_layout_size(size)
 	var portrait := safe_size.y > safe_size.x
 	var compact_landscape := not portrait and safe_size.x <= COMPACT_LANDSCAPE_MAX_WIDTH
 	var canvas_scale := minf(safe_size.x / DESIGN_VIEWPORT_SIZE.x, safe_size.y / DESIGN_VIEWPORT_SIZE.y)
@@ -1096,13 +1144,7 @@ func _story_logical_px(target_css_px: float) -> int:
 	return story_font_size_for_size(target_css_px, _runtime_layout_size())
 
 func _story_weighted_font(weight: float, embolden: float = 0.0) -> Font:
-	if interface_font == null:
-		return null
-	var variation := FontVariation.new()
-	variation.base_font = interface_font
-	variation.variation_opentype = {"wght": weight}
-	variation.variation_embolden = embolden
-	return variation
+	return GameUI.weighted_font(interface_font, weight, embolden)
 
 func _is_compact_landscape_layout() -> bool:
 	return bool(responsive_ui_metrics_for_size(_runtime_layout_size()).compact_landscape)
@@ -1125,19 +1167,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	_request_story_advance("keyboard:%d" % int((event as InputEventKey).keycode))
 
 func _input(event: InputEvent) -> void:
-	if not pre_battle_event_input_active:
-		return
-	var pressed := false
-	var position := Vector2(-1, -1)
-	if event is InputEventMouseButton:
-		pressed = event.pressed and event.button_index == MOUSE_BUTTON_LEFT
-		position = event.position
-	elif event is InputEventScreenTouch:
-		pressed = event.pressed
-		position = event.position
-	if not pressed or not _handle_pre_battle_event_input(position):
-		return
+	# Pointer input belongs to ordinary Buttons and the scroll container. A
+	# touch-down in the reading area must not advance before a drag can begin.
+	if not pre_battle_event_input_active or not _is_story_advance_key_event(event): return
 	AudioService.unlock_from_user_gesture()
+	if pre_battle_event_advance.is_valid(): pre_battle_event_advance.call()
 	get_viewport().set_input_as_handled()
 
 func _handle_pre_battle_event_input(position: Vector2) -> bool:
@@ -1153,9 +1187,7 @@ func _handle_pre_battle_event_input(position: Vector2) -> bool:
 		if pre_battle_event_advance.is_valid():
 			pre_battle_event_advance.call()
 		return true
-	if pre_battle_event_advance.is_valid():
-		pre_battle_event_advance.call()
-	return true
+	return false
 
 func _is_story_advance_key_event(event: InputEvent) -> bool:
 	if not event is InputEventKey: return false
@@ -1233,6 +1265,7 @@ func _process(delta: float) -> void:
 		_update_battle_hud()
 
 func _clear() -> void:
+	_dispose_new_game_confirmation()
 	# A Story screen can be left while its copy is still typing.  Tween owns a
 	# property every frame, so it must be explicitly released before its old
 	# RichTextLabel is removed or a rebuilt portrait plate can inherit a partial
@@ -1350,10 +1383,11 @@ func _show_screen(screen_id: String) -> void:
 
 func _title(text_value: String, subtitle := "") -> void:
 	var portrait := _is_portrait_layout()
-	var ui_scale := _responsive_control_scale()
+	var ui_scale := minf(_responsive_control_scale(), 1.65)
 	# In portrait, the back action gets its own top-bar row. A long Korean
 	# chapter title must never be squeezed behind that control.
 	var header: BoxContainer = VBoxContainer.new() if portrait and current_screen not in ["TITLE", "HOME"] else HBoxContainer.new()
+	header.name = "ScreenHeader"
 	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_child(header)
 	if current_screen not in ["TITLE", "HOME"]:
@@ -1362,7 +1396,10 @@ func _title(text_value: String, subtitle := "") -> void:
 		# committed transaction after visiting Growth, which is both confusing and
 		# outside the map -> battle -> result authority flow.  Result exits always
 		# return to the canonical chapter map; other screens retain normal history.
-		header.add_child(_button("‹ 뒤로", _navigate_back_from_header, false, Vector2(104 if portrait else 120, 54 if portrait else 60)))
+		var back_button := CommandPresentation.button(self, "‹ 뒤로", _navigate_back_from_header, false, Vector2(220, 76))
+		back_button.name = "ScreenBackButton"
+		back_button.size_flags_horizontal = Control.SIZE_FILL
+		header.add_child(back_button)
 	var labels := VBoxContainer.new()
 	labels.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(labels)
@@ -1370,7 +1407,7 @@ func _title(text_value: String, subtitle := "") -> void:
 	title_label.text = text_value
 	title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title_label.custom_minimum_size.x = 0.0
-	title_label.add_theme_font_size_override("font_size", roundi((32.0 if portrait else 40.0) * ui_scale))
+	title_label.add_theme_font_size_override("font_size", roundi((26.0 if _is_compact_landscape_layout() else (32.0 if portrait else 40.0)) * ui_scale))
 	var title_font := GameUI.weighted_font(interface_font, 720.0, 0.05)
 	if title_font != null: title_label.add_theme_font_override("font", title_font)
 	title_label.add_theme_color_override("font_color", GameUI.TEXT)
@@ -1380,11 +1417,17 @@ func _title(text_value: String, subtitle := "") -> void:
 		var sub := Label.new()
 		sub.text = subtitle
 		sub.modulate = GameUI.TEXT_MUTED
-		sub.add_theme_font_size_override("font_size", roundi((18.0 if portrait else 20.0) * ui_scale))
+		sub.add_theme_font_size_override("font_size", roundi((13.0 if _is_compact_landscape_layout() else (18.0 if portrait else 20.0)) * ui_scale))
 		sub.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		if portrait and current_screen in ["GROWTH", "CHARACTER_DETAIL"]:
+			sub.name = "GrowthSectionHint"
+			sub.add_theme_font_size_override("font_size", roundi(14.0 * ui_scale))
+			sub.autowrap_mode = TextServer.AUTOWRAP_OFF
+			sub.clip_text = true
 		labels.add_child(sub)
 	var accent := ColorRect.new()
+	accent.name = "ScreenHeaderAccent"
 	accent.color = GameUI.SIGNAL
 	accent.custom_minimum_size = Vector2(0, 2)
 	accent.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1400,13 +1443,17 @@ func _button(text_value: String, callback: Callable, disabled := false, minimum 
 	var button := Button.new()
 	button.text = text_value
 	var metrics := responsive_ui_metrics_for_size(_runtime_layout_size())
-	button.custom_minimum_size = responsive_button_minimum_for_size(minimum, _runtime_layout_size())
+	# Menu controls share authored canvas geometry. The former second pass
+	# inflated every item to 56 screen pixels, even inside dense five-slot rows.
+	button.set_meta("composed_control", true)
+	button.custom_minimum_size = Vector2(minimum.x, maxf(minimum.y, 88.0 if bool(metrics.compact_landscape) else 64.0))
 	# A 390px phone must never expose a half-word action that cannot be read or
 	# tapped with confidence. Explicit two-line labels retain their authored line
 	# break, while long localized labels now wrap inside their real hit target.
 	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	if bool(metrics.portrait) or bool(metrics.compact_landscape):
-		button.add_theme_font_size_override("font_size", roundi(19.0 * float(metrics.ui_scale)))
+		button.add_theme_font_size_override("font_size", roundi(22.0 * GameUI.typography_scale(_runtime_layout_size())))
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.disabled = disabled
 	GameUI.apply_button(button)
 	# WebAudio must be resumed in the same call stack as a real button press.
@@ -1420,12 +1467,15 @@ func _button(text_value: String, callback: Callable, disabled := false, minimum 
 
 func _apply_compact_touch_targets(root: Node) -> void:
 	if root == null or not _is_compact_landscape_layout(): return
+	# The tactical map owns its dense landscape controls. Applying a second
+	# 56px global minimum here inflated every map button after its layout pass.
+	if current_screen in ["STAGE_SELECT", "STAGE_DETAIL"]: return
 	var metrics := responsive_ui_metrics_for_size(_runtime_layout_size())
 	var minimum_touch_logical := MIN_TOUCH_CSS_PX / float(metrics.canvas_scale)
 	# Touch accessibility is determined by the physical hit box, not oversized
 	# lettering. This cap lets dense story controls stay secondary on compact Web
 	# viewports while preserving the 56 CSS-pixel touch target.
-	var minimum_font_logical := roundi(18.0 * float(metrics.ui_scale))
+	var minimum_font_logical := roundi(22.0 * GameUI.typography_scale(_runtime_layout_size()))
 	_apply_compact_touch_targets_recursive(root, minimum_touch_logical, minimum_font_logical)
 
 func _apply_compact_touch_targets_recursive(root: Node, minimum_touch_logical: float, minimum_font_logical: int) -> void:
@@ -1436,6 +1486,7 @@ func _apply_compact_touch_targets_recursive(root: Node, minimum_touch_logical: f
 		if child is SubViewport:
 			continue
 		if child is Button:
+			if child.has_meta("composed_control"): continue
 			var button := child as Button
 			var current := button.custom_minimum_size
 			var target := Vector2(maxf(current.x, minimum_touch_logical), maxf(current.y, minimum_touch_logical))
@@ -1444,7 +1495,7 @@ func _apply_compact_touch_targets_recursive(root: Node, minimum_touch_logical: f
 			# Story controls have their own deliberately quieter type scale.  Their
 			# physical target is still enlarged above, so never re-inflate that type
 			# just because the viewport happens to be a compact landscape one.
-			if not button.has_meta("story_control"):
+			if not button.has_meta("story_control") and not button.has_meta("compact_growth_control") and not button.has_meta("compact_reward_control"):
 				var current_font := button.get_theme_font_size("font_size")
 				if current_font < minimum_font_logical:
 					button.add_theme_font_size_override("font_size", minimum_font_logical)
@@ -1456,7 +1507,10 @@ func _story_button(text_value: String, callback: Callable, disabled := false, mi
 	# read. Their generous physical hit area remains untouched, while the type
 	# stays clearly subordinate to a Korean narration line on every canvas scale.
 	button.set_meta("story_control", true)
-	button.add_theme_font_size_override("font_size", _story_logical_px(17.0))
+	button.set_meta("composed_control", true)
+	button.custom_minimum_size = Vector2(minimum.x, _story_logical_px(36.0))
+	button.autowrap_mode = TextServer.AUTOWRAP_OFF
+	button.add_theme_font_size_override("font_size", _story_logical_px(14.0))
 	return button
 
 func _apply_chapter_map_shell_overrides() -> void:
@@ -1478,9 +1532,7 @@ func _apply_chapter_map_shell_overrides() -> void:
 		status.position.y = (14.0 + MIN_TOUCH_CSS_PX + 8.0) * ui_scale
 		return
 	if bool(metrics.compact_landscape):
-		var compact_touch_height := MIN_TOUCH_CSS_PX / float(metrics.canvas_scale)
-		next_button.offset_bottom = next_button.offset_top + compact_touch_height
-		next_button.custom_minimum_size.y = maxf(next_button.custom_minimum_size.y, compact_touch_height)
+		return # Final map layout owns its compact encounter shortcut.
 
 func _make_primary_button(button: Button) -> void:
 	GameUI.apply_button(button, "primary")
@@ -1489,7 +1541,7 @@ func _label(text_value: String, size_value := 21, color := Color("dcecff")) -> L
 	var value := Label.new()
 	value.text = text_value
 	value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	value.add_theme_font_size_override("font_size", roundi(float(size_value) * _responsive_control_scale()))
+	value.add_theme_font_size_override("font_size", roundi(float(size_value) * GameUI.typography_scale(_runtime_layout_size())))
 	value.modulate = color
 	value.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	return value
@@ -1605,7 +1657,7 @@ func _format_reward_entries(entries: Array) -> String:
 	return "\n".join(lines)
 
 func _scroll_box() -> VBoxContainer:
-	var scroll := ScrollContainer.new()
+	var scroll := preload("res://ui/touch_progression_scroll.gd").new()
 	# Every menu below the header shares one explicit scroll contract.  The
 	# portrait repair pass can therefore give a Web phone a visible scroll rail
 	# and a real drag deadzone instead of relying on the desktop defaults.
@@ -1624,94 +1676,59 @@ func _scroll_box() -> VBoxContainer:
 	return box
 
 func _show_title() -> void:
-	# The authored MV owns the complete startup soundscape.  Do not append the
-	# generated title-loop music the instant its final frame clears: the title
-	# screen intentionally starts silent, while lobby/battle/story BGM remains
-	# selected by their own screen transitions.
-	AudioService.stop_bgm()
-	var portrait := _is_portrait_layout()
-	# Portrait is a composed title canvas, not a desktop title squeezed into a
-	# handset.  The canvas itself still uses the project-wide 1920×1080 logical
-	# surface, so every authored title metric below is converted back to the
-	# intended CSS-like physical size before it is presented on a phone.
-	var portrait_scale := _portrait_ui_scale() if portrait else 1.0
-	var stage := Control.new()
-	stage.name = "CommercialTitleStage"
-	stage.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	stage.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	# Leave a deliberate lower breathing zone on a 390×844 class display rather
-	# than forcing the title to consume every safe pixel and create a scrollable
-	# first impression.
-	stage.custom_minimum_size.y = (680.0 if portrait else 720.0) * portrait_scale
-	stage.clip_contents = true
-	content.add_child(stage)
-	var cast_plate := TextureRect.new()
-	cast_plate.name = "TitleBackdropPlate"
-	cast_plate.texture = load("res://assets/art/title/title_cast_plate_portrait_r1.png" if portrait else "res://assets/art/title/title_cast_plate_r1.png") as Texture2D
-	cast_plate.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	cast_plate.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	cast_plate.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	# The legacy portrait plate contains intentionally edge-cropped figures. It
-	# remains as atmospheric scenery, but must not be the readable cast layer on
-	# a narrow screen; the two whole-character plates below own that role.
-	cast_plate.modulate = Color(0.42, 0.48, 0.58, 0.34) if portrait else Color.WHITE
-	cast_plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	stage.add_child(cast_plate)
-	var center_scrim := ColorRect.new()
-	center_scrim.color = Color("020712b3") if portrait else Color("02071224")
-	center_scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	center_scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	stage.add_child(center_scrim)
-	if portrait:
-		# Keep both lead characters completely inside a 390×844-class safe frame.
-		# Their scale is deliberately subordinate to the start action, while the
-		# equal side insets make the composition survive narrow browser gutters.
-		# The title is a non-combat surface: use the canonical 8-head portraits,
-		# never the legacy compact cards which may contain SD placeholders.
-		var left_cast := _portrait_title_cast_member("PortraitTitleCastLeft", "res://assets/runtime_web/characters/CHR008/portrait.png", false, portrait_scale)
-		stage.add_child(left_cast)
-		var right_cast := _portrait_title_cast_member("PortraitTitleCastRight", "res://assets/runtime_web/characters/CHR001/portrait.png", true, portrait_scale)
-		stage.add_child(right_cast)
-	var logo := TextureRect.new()
-	logo.name = "FantasyTitleLogo"
-	logo.texture = load("res://assets/art/title/title_logo_r1.png") as Texture2D
-	logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	logo.set_anchors_preset(Control.PRESET_CENTER)
-	# The prior portrait logo used desktop logical pixels and therefore rendered
-	# as a small, low-contrast stamp.  Target a 300px-wide title mark that still
-	# leaves the center clear of the full-body cast plate.
-	logo.size = Vector2(300.0, 84.0) * portrait_scale if portrait else Vector2(1120, 300)
-	logo.position = -logo.size * 0.5 + (Vector2(0.0, -134.0) * portrait_scale if portrait else Vector2(0, -165))
-	logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	stage.add_child(logo)
-	var cta := VBoxContainer.new()
-	cta.name = "TitleCallToAction"
-	cta.alignment = BoxContainer.ALIGNMENT_CENTER
-	cta.add_theme_constant_override("separation", roundi(14.0 * portrait_scale) if portrait else 14)
-	cta.set_anchors_preset(Control.PRESET_CENTER)
-	cta.size = Vector2(330.0, 208.0) * portrait_scale if portrait else Vector2(620, 230)
-	cta.position = -cta.size * 0.5 + (Vector2(0.0, 138.0) * portrait_scale if portrait else Vector2(0, 192))
-	stage.add_child(cta)
-	var notice_copy := "턴제 탐험 · 실시간 SD 전투" if portrait else "프롤로그 · 제1장 · 제2장 탐색 / 실시간 SD 전투"
-	# `_label` already converts physical target type to the authored 1920px
-	# canvas. Passing the portrait scale here a second time turns this quiet
-	# support line into the largest object on a phone title screen.
-	var notice := _label(notice_copy, 20 if portrait else 22, Color("d8e9e7"))
-	notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	notice.add_theme_constant_override("outline_size", 4)
-	notice.add_theme_color_override("font_outline_color", Color("06101c"))
-	cta.add_child(notice)
-	var start := _button("START GAME  ·  기록 시작", _start_title_flow, false, Vector2(430, 88))
-	_make_title_start_button(start)
-	start.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	start.add_theme_font_size_override("font_size", roundi(23.0 * portrait_scale) if portrait else 25)
-	cta.add_child(start)
-	var guide := _label("START GAME을 눌러 시작" if portrait else "START GAME 버튼을 클릭 / 터치해 시작", 16 if portrait else 17, Color("f0cf7c"))
-	guide.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	guide.add_theme_color_override("font_outline_color", Color("06101c"))
-	guide.add_theme_constant_override("outline_size", 3)
-	cta.add_child(guide)
+	preload("res://screens/command_presentation.gd").title(self)
+
+func _dispose_new_game_confirmation() -> void:
+	if is_instance_valid(new_game_confirmation_layer): new_game_confirmation_layer.queue_free()
+	new_game_confirmation_layer = null
+
+func _request_new_game() -> void:
+	if current_screen != "TITLE" or is_instance_valid(new_game_confirmation_layer): return
+	new_game_confirmation_layer = CanvasLayer.new()
+	new_game_confirmation_layer.layer = 450
+	new_game_confirmation_layer.name = "NewGameConfirmationLayer"
+	add_child(new_game_confirmation_layer)
+	var surface := ColorRect.new()
+	surface.name = "NewGameConfirmation"
+	surface.color = Color("030914db")
+	surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	surface.mouse_filter = Control.MOUSE_FILTER_STOP
+	new_game_confirmation_layer.add_child(surface)
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	surface.add_child(center)
+	var panel := PanelContainer.new()
+	panel.name = "NewGamePanel"
+	panel.custom_minimum_size = Vector2(820,360)
+	panel.add_theme_stylebox_override("panel",GameUI.panel_style(GameUI.SURFACE,GameUI.BORDER_STRONG,2,18,Vector4(40,32,40,32),12))
+	center.add_child(panel)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation",22)
+	panel.add_child(column)
+	var presentation := preload("res://screens/command_presentation.gd")
+	column.add_child(presentation.label(self,"새로운 기록을 시작할까요?",34,GameUI.OBJECTIVE_SOFT))
+	var detail: Label = presentation.label(self,"캐릭터 성장, 보상과 탐색 기록이 초기화됩니다.\n프롤로그부터 다시 시작합니다.",24,GameUI.TEXT_MUTED)
+	detail.name = "NewGameDetail"
+	column.add_child(detail)
+	var actions := HBoxContainer.new()
+	actions.alignment = BoxContainer.ALIGNMENT_END
+	actions.add_theme_constant_override("separation",18)
+	column.add_child(actions)
+	var cancel: Button = presentation.button(self,"취소",_dispose_new_game_confirmation,false,Vector2(220,68))
+	cancel.name = "NewGameCancelButton"
+	actions.add_child(cancel)
+	var confirm: Button = presentation.button(self,"새 게임 시작",func():
+		var result := SaveService.start_new_game()
+		if not result.ok:
+			detail.text = "새 기록을 저장하지 못했습니다. 기존 기록은 보관되어 있습니다.\n다시 시도해 주세요."
+			return
+		_dispose_new_game_confirmation()
+		_start_title_flow()
+	,false,Vector2(280,68))
+	confirm.name = "NewGameConfirmButton"
+	GameUI.apply_button(confirm,"primary")
+	actions.add_child(confirm)
+	cancel.grab_focus()
 
 func _portrait_title_cast_member(node_name: String, texture_path: String, align_right: bool, portrait_scale: float) -> TextureRect:
 	var cast_member := TextureRect.new()
@@ -1780,11 +1797,8 @@ func _free_home_tutorial() -> void:
 	home_tutorial_step = 0
 
 func _build_home_tutorial() -> void:
-	if not _home_tutorial_active():
-		return
+	if not _home_tutorial_active(): return
 	_free_home_tutorial()
-	var portrait := _is_portrait_layout()
-	var ui_scale := _responsive_control_scale()
 	home_tutorial_layer = CanvasLayer.new()
 	home_tutorial_layer.name = "HomeFirstOperationTutorialCanvas"
 	home_tutorial_layer.layer = 120
@@ -1793,91 +1807,54 @@ func _build_home_tutorial() -> void:
 	home_tutorial_surface.name = "HomeFirstOperationTutorialSurface"
 	home_tutorial_surface.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	home_tutorial_surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	# Controls placed below a CanvasLayer do not reliably inherit the AppShell
-	# theme in the Web renderer. Without an explicit theme owner, the first-HQ
-	# guide falls back to a font without Korean glyph coverage while the lobby
-	# behind it remains readable. Bind the same bundled Noto Sans KR theme at the
-	# modal root so every label, RichTextLabel and button shares one font path.
 	home_tutorial_surface.theme = theme
 	home_tutorial_layer.add_child(home_tutorial_surface)
 	var dimmer := ColorRect.new()
-	dimmer.name = "HomeFirstOperationTutorialDimmer"
-	dimmer.color = Color("02060bc0") if portrait else Color("02060ba8")
+	dimmer.color = Color("02060bba")
 	dimmer.mouse_filter = Control.MOUSE_FILTER_STOP
 	dimmer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	home_tutorial_surface.add_child(dimmer)
-	home_tutorial_panel = PanelContainer.new()
+	var briefing := preload("res://ui/bounded_briefing.gd").new()
+	briefing.runtime_size_reader = _runtime_layout_size
+	briefing.preferred_height_css = 420.0
+	home_tutorial_panel = briefing
 	home_tutorial_panel.name = "HomeFirstOperationTutorial"
-	home_tutorial_panel.mouse_filter = Control.MOUSE_FILTER_STOP
-	home_tutorial_panel.anchor_left = 0.055 if portrait else 0.14
-	home_tutorial_panel.anchor_right = 0.945 if portrait else 0.86
-	home_tutorial_panel.anchor_top = 0.38 if portrait else 0.51
-	home_tutorial_panel.anchor_bottom = 0.94
-	var panel_style := GameUI.panel_style(GameUI.SURFACE, Color("e7bf68d9"), 1, GameUI.RADIUS_MODAL, Vector4.ZERO, 14)
-	home_tutorial_panel.add_theme_stylebox_override("panel", panel_style)
 	home_tutorial_surface.add_child(home_tutorial_panel)
-	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", roundi((26.0 if portrait else 34.0) * ui_scale))
-	margin.add_theme_constant_override("margin_right", roundi((26.0 if portrait else 34.0) * ui_scale))
-	margin.add_theme_constant_override("margin_top", roundi((20.0 if portrait else 26.0) * ui_scale))
-	margin.add_theme_constant_override("margin_bottom", roundi((18.0 if portrait else 24.0) * ui_scale))
-	home_tutorial_panel.add_child(margin)
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", roundi(12.0 * ui_scale))
-	margin.add_child(box)
-	var header := HBoxContainer.new()
-	box.add_child(header)
 	home_tutorial_eyebrow = Label.new()
 	home_tutorial_eyebrow.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	home_tutorial_eyebrow.add_theme_font_size_override("font_size", roundi(18.0 * ui_scale))
 	home_tutorial_eyebrow.add_theme_color_override("font_color", GameUI.SIGNAL)
-	header.add_child(home_tutorial_eyebrow)
-	home_tutorial_skip_button = _button("안내 건너뛰기", _complete_home_tutorial_and_launch, false, Vector2(172, 50))
-	home_tutorial_skip_button.name = "HomeTutorialSkipButton"
-	home_tutorial_skip_button.add_theme_font_size_override("font_size", roundi(18.0 * ui_scale))
-	header.add_child(home_tutorial_skip_button)
+	briefing.type_target(home_tutorial_eyebrow, 14.0)
+	briefing.header.add_child(home_tutorial_eyebrow)
 	home_tutorial_title = Label.new()
 	home_tutorial_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	home_tutorial_title.add_theme_font_size_override("font_size", roundi((28.0 if portrait else 34.0) * ui_scale))
 	home_tutorial_title.add_theme_color_override("font_color", GameUI.OBJECTIVE_SOFT)
-	home_tutorial_title.add_theme_color_override("font_outline_color", Color("02060b"))
-	home_tutorial_title.add_theme_constant_override("outline_size", 3)
-	box.add_child(home_tutorial_title)
-	var divider := ColorRect.new()
-	divider.color = Color("6ce6d070")
-	divider.custom_minimum_size = Vector2(0, 2)
-	box.add_child(divider)
-	var home_tutorial_scroll := ScrollContainer.new()
-	home_tutorial_scroll.name = "HomeTutorialBodyScroll"
-	home_tutorial_scroll.custom_minimum_size.y = roundi((92.0 if portrait else 106.0) * ui_scale)
-	home_tutorial_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	home_tutorial_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	box.add_child(home_tutorial_scroll)
+	briefing.type_target(home_tutorial_title, 22.0)
+	briefing.body.add_child(home_tutorial_title)
+	briefing.body_scroll.name = "HomeTutorialBodyScroll"
 	home_tutorial_body = RichTextLabel.new()
 	home_tutorial_body.bbcode_enabled = true
 	home_tutorial_body.fit_content = true
 	home_tutorial_body.scroll_active = false
 	home_tutorial_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	home_tutorial_body.add_theme_font_size_override("normal_font_size", roundi((20.0 if portrait else 22.0) * ui_scale))
-	home_tutorial_body.add_theme_font_size_override("bold_font_size", roundi((20.0 if portrait else 22.0) * ui_scale))
-	home_tutorial_body.add_theme_constant_override("line_separation", roundi(7.0 * ui_scale))
 	home_tutorial_body.add_theme_color_override("default_color", GameUI.TEXT)
-	home_tutorial_body.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	home_tutorial_scroll.add_child(home_tutorial_body)
-	var footer: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
-	footer.add_theme_constant_override("separation", roundi(12.0 * ui_scale))
-	box.add_child(footer)
+	briefing.type_target(home_tutorial_body, 18.0)
+	briefing.body.add_child(home_tutorial_body)
 	home_tutorial_progress_label = Label.new()
-	home_tutorial_progress_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	home_tutorial_progress_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	home_tutorial_progress_label.add_theme_font_size_override("font_size", roundi(18.0 * ui_scale))
+	home_tutorial_progress_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	home_tutorial_progress_label.add_theme_color_override("font_color", GameUI.TEXT_MUTED)
-	footer.add_child(home_tutorial_progress_label)
-	home_tutorial_continue_button = _button("다음 안내", _advance_home_tutorial, false, Vector2(250, 58))
+	briefing.type_target(home_tutorial_progress_label, 13.0)
+	briefing.body.add_child(home_tutorial_progress_label)
+	home_tutorial_skip_button = _button("안내 건너뛰기", _complete_home_tutorial_and_launch)
+	home_tutorial_skip_button.name = "HomeTutorialSkipButton"
+	briefing.type_target(home_tutorial_skip_button, 15.0)
+	briefing.footer.add_child(home_tutorial_skip_button)
+	home_tutorial_continue_button = _button("다음 안내", _advance_home_tutorial)
 	home_tutorial_continue_button.name = "HomeTutorialContinueButton"
 	_make_primary_button(home_tutorial_continue_button)
-	footer.add_child(home_tutorial_continue_button)
+	briefing.type_target(home_tutorial_continue_button, 16.0)
+	briefing.footer.add_child(home_tutorial_continue_button)
 	_set_home_tutorial_step(home_tutorial_resume_step)
+	briefing.reflow()
 
 func _start_home_tutorial() -> void:
 	if current_screen != "HOME" or not _home_tutorial_active():
@@ -1887,6 +1864,7 @@ func _start_home_tutorial() -> void:
 func _set_home_tutorial_step(step: int) -> void:
 	if home_tutorial_panel == null or not is_instance_valid(home_tutorial_panel):
 		return
+	if home_tutorial_panel.has_method("rewind"): home_tutorial_panel.call("rewind")
 	home_tutorial_step = clampi(step, 1, 4)
 	home_tutorial_resume_step = home_tutorial_step
 	home_tutorial_eyebrow.text = "첫 방문 안내  ·  %d / 4" % home_tutorial_step
@@ -1894,19 +1872,19 @@ func _set_home_tutorial_step(step: int) -> void:
 	match home_tutorial_step:
 		1:
 			home_tutorial_title.text = "본부에서는 ‘준비’와 ‘출동’을 고릅니다"
-			home_tutorial_body.text = "여기는 작전의 출발점입니다. [color=#8fe9d9][b]메인 스토리[/b][/color]는 이미 본 대화를 다시 확인하고, [color=#ffe6a2][b]챕터 / 스테이지[/b][/color]와 위의 [color=#ffe6a2][b]첫 작전 시작[/b][/color]이 실제 탐색과 전투로 이어집니다."
+			home_tutorial_body.text = "오른쪽 [color=#ffe6a2][b]작전 출동[/b][/color]을 누르면 탐색과 전투를 이어갑니다. 아래의 [color=#8fe9d9][b]스토리 기록[/b][/color]에서는 이미 읽은 장면을 다시 볼 수 있습니다."
 			home_tutorial_continue_button.text = "준비 메뉴 보기"
 		2:
 			home_tutorial_title.text = "전투 전에는 편성과 성장을 확인하세요"
-			home_tutorial_body.text = "[color=#8fe9d9][b]파티 편성[/b][/color]에서 이번 전투의 5명을 정하고, [color=#8fe9d9][b]캐릭터 / 성장[/b][/color]에서 레벨과 장비를 강화합니다. [color=#8fe9d9][b]인벤토리[/b][/color]에서는 작전으로 얻은 재료를 확인할 수 있습니다."
+			home_tutorial_body.text = "[color=#8fe9d9][b]파티 편성[/b][/color]에서 이번 전투의 5명을 정하고, [color=#8fe9d9][b]동료[/b][/color]에서 레벨과 장비를 강화합니다. 목표 레벨을 정하면 필요한 재료가 자동으로 선택됩니다. [color=#8fe9d9][b]인벤토리[/b][/color]에서는 작전으로 얻은 재료를 확인할 수 있습니다."
 			home_tutorial_continue_button.text = "기록 메뉴 보기"
 		3:
 			home_tutorial_title.text = "이야기와 시스템 메뉴도 이곳에 있습니다"
-			home_tutorial_body.text = "[color=#8fe9d9][b]릴레이 작전[/b][/color]은 해금 동료를 세 부대로 나누는 연속 전투입니다. [color=#8fe9d9][b]스토리 아카이브[/b][/color]는 읽은 장면을, [color=#8fe9d9][b]설정 / 라이선스[/b][/color]는 언어와 사운드를 관리합니다."
+			home_tutorial_body.text = "[color=#8fe9d9][b]릴레이 작전[/b][/color]은 해금 동료를 세 부대로 나누는 연속 전투입니다. [color=#8fe9d9][b]스토리 기록[/b][/color]은 읽은 장면을 모아두고, 오른쪽 위 [color=#8fe9d9][b]설정[/b][/color]에서는 언어와 사운드를 조절합니다."
 			home_tutorial_continue_button.text = "첫 작전 안내 받기"
 		4:
 			home_tutorial_title.text = "자, 이제 제1장 탐색을 시작합니다"
-			home_tutorial_body.text = "[color=#ffe6a2][b]챕터 / 스테이지[/b][/color]로 이동하면 제1장의 육각 탐색 맵이 열립니다. 그곳에서 노란 이동 범위, 조우 이벤트, 보물, 전투 진입법을 순서대로 안내합니다."
+			home_tutorial_body.text = "[color=#ffe6a2][b]작전 출동[/b][/color]으로 제1장의 육각 탐색 맵을 엽니다. 그곳에서 노란 이동 범위, 조우 이벤트, 보물, 전투 진입법을 순서대로 안내합니다."
 			home_tutorial_continue_button.text = "제1장 탐색 시작  ›"
 			var stage_button = home_menu_buttons.get("STAGE", null)
 			if stage_button is Button and is_instance_valid(stage_button):
@@ -1961,95 +1939,7 @@ func _commit_first_operation_navigation() -> void:
 	SceneRouter.go("STAGE_SELECT")
 
 func _show_home() -> void:
-	home_first_operation_navigation_pending = false
-	AudioService.play_bgm("audio_bgm_lobby")
-	AppState.refresh_stamina()
-	_title("랜턴라인 본부", "오프라인 싱글플레이 버티컬 슬라이스")
-	var resource_bar := _panel()
-	resource_bar.add_child(_label("계정 Lv.%d   작전력 %d/%d   크레딧 %s" % [AppState.profile.account.level, AppState.profile.account.stamina, AppState.account_max_stamina(), MathUtil.comma(AppState.inventory_count("CREDIT"))], 28, Color("ffe28a")))
-	var portrait := _is_portrait_layout()
-	var operation_row: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
-	operation_row.add_theme_constant_override("separation", 14)
-	resource_bar.add_child(operation_row)
-	var operation_copy := VBoxContainer.new()
-	operation_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	operation_row.add_child(operation_copy)
-	operation_copy.add_child(_label("다음 목적지  ·  제1장 탐색", 20, Color("8fe9d9")))
-	operation_copy.add_child(_label("처음이라면 이 버튼으로 출동하세요. 이동 · 조우 · 전투 안내가 이어집니다.", 17, Color("c7d4e4")))
-	var first_operation := _button("첫 작전 시작  ›", _launch_first_operation, false, Vector2(260, 62))
-	first_operation.name = "HomeFirstOperationButton"
-	_make_primary_button(first_operation)
-	operation_row.add_child(first_operation)
-	var home_scroll := ScrollContainer.new()
-	home_scroll.name = "HomeContentScroll"
-	home_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	home_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	home_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	content.add_child(home_scroll)
-	var home_flow := VBoxContainer.new()
-	home_flow.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	home_flow.add_theme_constant_override("separation", 14)
-	home_scroll.add_child(home_flow)
-	var body: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
-	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	body.add_theme_constant_override("separation", 18)
-	home_flow.add_child(body)
-	var menu := GridContainer.new()
-	menu.columns = 2 if portrait else 3
-	menu.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	menu.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	body.add_child(menu)
-	# Portrait owns five menu rows. The whole body is scrollable so all actions,
-	# the featured pilot and the persistent save control remain reachable on a
-	# 320–390px handset without shrinking the 56px touch contract.
-	var menu_height := 72.0 if portrait else 108.0
-	var main_story_button := _button("메인 스토리", func(): AppState.active_scenario_id = "SCN_PROLOGUE"; SceneRouter.go("STORY", {"after": "HOME"}), false, Vector2(235, menu_height))
-	main_story_button.name = "HomeMainStoryButton"
-	menu.add_child(main_story_button)
-	var chapter_stage_button := _button("챕터 / 스테이지", _launch_first_operation, false, Vector2(235, menu_height))
-	chapter_stage_button.name = "HomeChapterStageButton"
-	home_menu_buttons["STAGE"] = chapter_stage_button
-	menu.add_child(chapter_stage_button)
-	menu.add_child(_button("릴레이 작전", func(): SceneRouter.go("RELAY"), false, Vector2(235, menu_height)))
-	menu.add_child(_button("파티 편성", func(): SceneRouter.go("FORMATION"), false, Vector2(235, menu_height)))
-	menu.add_child(_button("캐릭터 / 성장", func(): SceneRouter.go("ROSTER"), false, Vector2(235, menu_height)))
-	menu.add_child(_button("인벤토리", func(): SceneRouter.go("INVENTORY"), false, Vector2(235, menu_height)))
-	menu.add_child(_button("스토리 아카이브", func(): SceneRouter.go("ARCHIVE"), false, Vector2(235, menu_height)))
-	menu.add_child(_button("설정 / 라이선스", func(): SceneRouter.go("SETTINGS"), false, Vector2(235, menu_height)))
-	if SettingsService.is_developer_mode():
-		menu.add_child(_button("개발자 도구", func(): SceneRouter.go("DEBUG"), false, Vector2(235, menu_height)))
-	for menu_item in menu.get_children():
-		if menu_item is Button:
-			(menu_item as Button).size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var pilot := PanelContainer.new()
-	pilot.custom_minimum_size = Vector2(0, (140.0 if portrait else 430.0) * _portrait_ui_scale())
-	body.add_child(pilot)
-	var pilot_box: BoxContainer = HBoxContainer.new() if portrait else VBoxContainer.new()
-	pilot_box.add_theme_constant_override("separation", 12)
-	pilot.add_child(pilot_box)
-	var featured := DataRegistry.character("CHR001")
-	var featured_art := _art_rect(str(featured.portrait_asset_id), Vector2(118 if portrait else 320, 116 if portrait else 340))
-	pilot_box.add_child(featured_art)
-	var featured_copy: BoxContainer = VBoxContainer.new()
-	featured_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	featured_copy.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	if portrait: pilot_box.add_child(featured_copy)
-	var featured_name := _label(LocalizationService.tr_key(featured.name_key), 25, Color("78e6d0"))
-	featured_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	(featured_copy if portrait else pilot_box).add_child(featured_name)
-	var featured_role := _label("%s • %s" % [featured.role, featured.preferred_position], 17, Color("a8b7ff"))
-	featured_role.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	(featured_copy if portrait else pilot_box).add_child(featured_role)
-	var row: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
-	home_flow.add_child(row)
-	row.add_child(_button("즉시 저장", func(): _report_result(SaveService.save_game()), false, Vector2(180, 58)))
-	var party_names: Array[String] = []
-	for character_id in AppState.get_party():
-		party_names.append(_display_character_name(str(character_id)))
-	row.add_child(_label("현재 파티: " + ", ".join(party_names), 18, Color("8ba8c8")))
-	if _home_tutorial_active():
-		call_deferred("_start_home_tutorial")
+	preload("res://screens/command_presentation.gd").home(self)
 
 func _show_relay() -> void:
 	AudioService.play_bgm("audio_bgm_lobby")
@@ -2176,6 +2066,7 @@ func _request_relay_battle_start() -> void:
 
 func _show_story(reuse_runtime_state := false) -> void:
 	story_navigation_pending = false
+	if not SettingsService.is_developer_mode(): story_ui_hidden = false
 	AudioService.play_bgm("audio_bgm_story")
 	var portrait := _is_portrait_layout()
 	var ui_scale := _portrait_ui_scale()
@@ -2206,7 +2097,8 @@ func _build_standard_story_presentation(portrait: bool, ui_scale: float) -> void
 	stage.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	stage.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(stage)
-	var layer := VBoxContainer.new()
+	var compact := _is_compact_landscape_layout()
+	var layer: BoxContainer = HBoxContainer.new() if compact else VBoxContainer.new()
 	layer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	layer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	stage.add_child(layer)
@@ -2214,9 +2106,12 @@ func _build_standard_story_presentation(portrait: bool, ui_scale: float) -> void
 	# Compact landscape gives priority to the reading panel and keeps just enough
 	# art height for the fixed 56px AUTO/SKIP rail; wide and portrait layouts retain
 	# the established character presentation band.
-	art_space.custom_minimum_size.y = float(_story_logical_px(76.0)) if _is_compact_landscape_layout() else (236.0 * ui_scale if portrait else 320.0)
+	art_space.custom_minimum_size.y = 0.0 if compact else (236.0 * ui_scale if portrait else 320.0)
 	art_space.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	art_space.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	if compact:
+		art_space.custom_minimum_size.x = 400.0
+		art_space.size_flags_stretch_ratio = 0.42
 	layer.add_child(art_space)
 	story_background = TextureRect.new()
 	story_background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -2234,19 +2129,21 @@ func _build_standard_story_presentation(portrait: bool, ui_scale: float) -> void
 	# Asset provenance is useful while authoring, but it is not player-facing
 	# story UI.  Keep the label available only in the developer build.
 	story_art_status = _label("", 16, Color("78e6d0"))
-	story_art_status.visible = SettingsService.is_developer_mode()
+	story_art_status.visible = false
 	story_art_status.position = Vector2(18.0 * ui_scale, 16.0 * ui_scale) if portrait else Vector2(24, 20)
 	story_art_status.size = Vector2(900.0 * ui_scale, 40.0 * ui_scale) if portrait else Vector2(900, 40)
 	art_space.add_child(story_art_status)
 	_build_story_top_right_controls(art_space, portrait, false)
 	var dialogue := PanelContainer.new()
 	dialogue.add_theme_stylebox_override("panel", _story_dialogue_style(false))
+	dialogue.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	layer.add_child(dialogue)
 	_build_story_dialogue_content(dialogue, portrait, false)
 
 func _build_prologue_story_presentation(portrait: bool, ui_scale: float, story_header: Dictionary) -> void:
 	var runtime_size := _runtime_layout_size()
 	var narrow_portrait := portrait and runtime_size.x <= 480.0
+	var compact := _is_compact_landscape_layout()
 	var stage := PanelContainer.new()
 	stage.name = "PrologueCinematicStage"
 	stage.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -2300,23 +2197,23 @@ func _build_prologue_story_presentation(portrait: bool, ui_scale: float, story_h
 	# Use the available portrait width instead of pinning phones and tablets to the
 	# same 324 CSS-pixel card.  The old fixed width wrapped the Korean title to two
 	# lines and then clipped that second line inside a 98px-high plate.
-	var chapter_plate_right_css := minf(506.0, maxf(300.0, runtime_size.x - 20.0)) if portrait else 506.0
+	var chapter_plate_right_css := 340.0 if compact else (minf(506.0, maxf(300.0, runtime_size.x - 20.0)) if portrait else 506.0)
 	chapter_plate.offset_right = float(_story_logical_px(chapter_plate_right_css))
-	chapter_plate.offset_bottom = float(_story_logical_px(124.0 if narrow_portrait else (116.0 if portrait else 88.0)))
+	chapter_plate.offset_bottom = float(_story_logical_px(72.0 if compact else (124.0 if narrow_portrait else (116.0 if portrait else 88.0))))
 	chapter_plate.add_theme_stylebox_override("panel", _prologue_plate_style(ui_scale))
 	canvas.add_child(chapter_plate)
 	var chapter_copy := VBoxContainer.new()
 	chapter_copy.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	chapter_plate.add_child(chapter_copy)
-	var eyebrow := _story_label("PROLOGUE · THE LAST LINE", 13.0, GameUI.SIGNAL)
+	var eyebrow := _story_label("PROLOGUE · THE LAST LINE", 10.0 if compact else 13.0, GameUI.SIGNAL)
 	eyebrow.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	chapter_copy.add_child(eyebrow)
-	var chapter_title := _story_label(str(story_header.title), 24.0 if narrow_portrait else 30.0, GameUI.TEXT)
+	var chapter_title := _story_label(str(story_header.title), 19.0 if compact else (24.0 if narrow_portrait else 30.0), GameUI.TEXT)
 	# Godot can initially allocate an autowrapped Label zero vertical space inside
 	# this anchored PanelContainer on narrow Web canvases.  The title is known to
 	# fit on one line at the responsive sizes above, so reserve that line explicitly.
 	chapter_title.autowrap_mode = TextServer.AUTOWRAP_OFF
-	chapter_title.custom_minimum_size.y = float(_story_logical_px(34.0 if narrow_portrait else 40.0))
+	chapter_title.custom_minimum_size.y = float(_story_logical_px(25.0 if compact else (34.0 if narrow_portrait else 40.0)))
 	chapter_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	chapter_title.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	chapter_copy.add_child(chapter_title)
@@ -2340,15 +2237,18 @@ func _build_prologue_story_presentation(portrait: bool, ui_scale: float, story_h
 
 	var dialogue_margin := MarginContainer.new()
 	dialogue_margin.name = "PrologueDialogueMargin"
+	# Choice rows may exceed the initial height. Keep the lower edge anchored
+	# inside the viewport and let the reading plate grow upward.
+	dialogue_margin.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	dialogue_margin.anchor_left = 0.0
 	dialogue_margin.anchor_top = 1.0
 	dialogue_margin.anchor_right = 1.0
 	dialogue_margin.anchor_bottom = 1.0
-	var dialogue_inset_css := 12.0 if narrow_portrait else (18.0 if portrait else 100.0)
+	var dialogue_inset_css := 20.0 if compact else (12.0 if narrow_portrait else (18.0 if portrait else 100.0))
 	dialogue_margin.offset_left = float(_story_logical_px(dialogue_inset_css))
-	dialogue_margin.offset_top = -float(_story_logical_px(348.0 if narrow_portrait else 282.0))
+	dialogue_margin.offset_top = -float(_story_logical_px(178.0 if compact else (348.0 if narrow_portrait else 282.0)))
 	dialogue_margin.offset_right = -float(_story_logical_px(dialogue_inset_css))
-	dialogue_margin.offset_bottom = -float(_story_logical_px(30.0 if narrow_portrait else 18.0))
+	dialogue_margin.offset_bottom = -float(_story_logical_px(12.0 if compact else (30.0 if narrow_portrait else 18.0)))
 	canvas.add_child(dialogue_margin)
 	var dialogue := PanelContainer.new()
 	dialogue.add_theme_stylebox_override("panel", _story_dialogue_style(true))
@@ -2357,10 +2257,12 @@ func _build_prologue_story_presentation(portrait: bool, ui_scale: float, story_h
 
 func _build_story_top_right_controls(parent: Control, portrait: bool, cinematic: bool) -> void:
 	var runtime_size := _runtime_layout_size()
-	var auto_minimum := responsive_button_minimum_for_size(Vector2(132, 64), runtime_size)
-	var skip_minimum := responsive_button_minimum_for_size(Vector2(142, 64), runtime_size)
-	var separation := float(_story_logical_px(10.0))
-	var right_inset := float(_story_logical_px(20.0))
+	var auto_width := float(_story_logical_px(60.0)) if _is_compact_landscape_layout() else 132.0
+	var skip_width := float(_story_logical_px(68.0)) if _is_compact_landscape_layout() else 142.0
+	var auto_minimum := Vector2(auto_width, _story_logical_px(36.0))
+	var skip_minimum := Vector2(skip_width, _story_logical_px(36.0))
+	var separation := float(_story_logical_px(6.0))
+	var right_inset := float(_story_logical_px(8.0))
 	var top_inset := float(_story_logical_px(126.0 if portrait and cinematic else 18.0))
 	story_controls = HBoxContainer.new()
 	story_controls.name = "PrologueTopRightControls" if cinematic else "StoryTopRightControls"
@@ -2375,11 +2277,11 @@ func _build_story_top_right_controls(parent: Control, portrait: bool, cinematic:
 	story_controls.offset_bottom = top_inset + maxf(auto_minimum.y, skip_minimum.y)
 	story_controls.add_theme_constant_override("separation", roundi(separation))
 	parent.add_child(story_controls)
-	story_auto_button = _story_button("AUTO", _toggle_story_auto, false, Vector2(132, 64))
+	story_auto_button = _story_button("AUTO", _toggle_story_auto, false, Vector2(auto_width, 64))
 	story_auto_button.name = "PrologueAutoButton" if cinematic else "StoryAutoButton"
 	_style_story_overlay_button(story_auto_button, Color("58d8c6"))
 	story_controls.add_child(story_auto_button)
-	story_skip_button = _story_button("SKIP  ▶", _skip_story_from_control, false, Vector2(142, 64))
+	story_skip_button = _story_button("SKIP  ▶", _skip_story_from_control, false, Vector2(skip_width, 64))
 	story_skip_button.name = "PrologueSkipButton" if cinematic else "StorySkipButton"
 	_style_story_overlay_button(story_skip_button, Color("e6bd68"))
 	story_controls.add_child(story_skip_button)
@@ -2396,11 +2298,11 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	# the secondary navigation that is useful beside the current line.
 	var compact := _is_compact_landscape_layout()
 	var narrow_portrait := portrait and _runtime_layout_size().x <= 480.0
-	dialogue.custom_minimum_size.y = float(_story_logical_px(304.0 if narrow_portrait else (244.0 if cinematic else (220.0 if compact else 284.0))))
+	dialogue.custom_minimum_size.y = float(_story_logical_px(304.0 if narrow_portrait else ((150.0 if compact else 244.0) if cinematic else (220.0 if compact else 284.0))))
 	var dialogue_frame := HBoxContainer.new()
 	dialogue_frame.name = "StoryDialogueFrame"
 	dialogue_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	dialogue_frame.add_theme_constant_override("separation", _story_logical_px(18.0))
+	dialogue_frame.add_theme_constant_override("separation", _story_logical_px(8.0 if compact else 18.0))
 	dialogue.add_child(dialogue_frame)
 	var signal_rail := ColorRect.new()
 	signal_rail.name = "StoryMintSignalRail"
@@ -2416,18 +2318,18 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	dialogue_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	dialogue_box.add_theme_constant_override("separation", _story_logical_px(5.0 if narrow_portrait else (4.0 if compact else 8.0)))
 	dialogue_frame.add_child(dialogue_box)
-	story_speaker_eyebrow = _story_label("LUMENBOUND · VOICE LINK", 14.0, GameUI.SIGNAL_SOFT)
+	story_speaker_eyebrow = _story_label("LUMENBOUND · VOICE LINK", 10.0 if compact else 14.0, GameUI.SIGNAL_SOFT)
 	story_speaker_eyebrow.name = "StorySpeakerEyebrow"
 	story_speaker_eyebrow.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	story_speaker_eyebrow.add_theme_color_override("font_outline_color", Color("01050a"))
 	story_speaker_eyebrow.add_theme_constant_override("outline_size", _story_logical_px(1.0))
 	var story_meta_font := _story_weighted_font(620.0, 0.04)
 	var story_title_font := _story_weighted_font(700.0, 0.07)
-	var story_body_font := _story_weighted_font(650.0, 0.07)
+	var story_body_font := _story_weighted_font(520.0, 0.0)
 	if story_meta_font != null:
 		story_speaker_eyebrow.add_theme_font_override("font", story_meta_font)
 	dialogue_box.add_child(story_speaker_eyebrow)
-	scenario_speaker = _story_label("", 28.0 if narrow_portrait else 32.0, GameUI.OBJECTIVE_SOFT)
+	scenario_speaker = _story_label("", 16.0 if compact else (28.0 if narrow_portrait else 32.0), GameUI.OBJECTIVE_SOFT)
 	scenario_speaker.add_theme_color_override("font_outline_color", Color("01050a"))
 	scenario_speaker.add_theme_color_override("font_shadow_color", Color("000000b8"))
 	scenario_speaker.add_theme_constant_override("outline_size", _story_logical_px(2.0))
@@ -2441,12 +2343,12 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	scenario_text.fit_content = true
 	scenario_text.scroll_active = false
 	scenario_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	scenario_text.custom_minimum_size.y = float(_story_logical_px(112.0 if narrow_portrait else (44.0 if compact else (96.0 if cinematic else 88.0))))
+	scenario_text.custom_minimum_size.y = float(_story_logical_px(112.0 if narrow_portrait else (24.0 if compact else (96.0 if cinematic else 88.0))))
 	scenario_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	# Render body copy at 28px and the speaker at 32px, independent of the authored
-	# 1920x1080 canvas. These values remain inside the requested 25-30 / 28-34px
-	# reading bands at 1280x720, compact landscape and portrait.
-	var story_body_css_px := 24.0 if narrow_portrait else 28.0
+	if not cinematic: scenario_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	# Compact reading copy uses 16 rendered pixels. Full desktop retains its
+	# larger reading band; navigation stays at the bottom of the dialogue plate.
+	var story_body_css_px := 16.0 if compact else (24.0 if narrow_portrait else 28.0)
 	scenario_text.add_theme_font_size_override("normal_font_size", _story_logical_px(story_body_css_px))
 	scenario_text.add_theme_font_size_override("bold_font_size", _story_logical_px(story_body_css_px))
 	scenario_text.add_theme_color_override("default_color", Color("fffaf0"))
@@ -2455,7 +2357,7 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	scenario_text.add_theme_constant_override("outline_size", 0)
 	scenario_text.add_theme_constant_override("shadow_offset_x", 0)
 	scenario_text.add_theme_constant_override("shadow_offset_y", 0)
-	scenario_text.add_theme_constant_override("line_separation", _story_logical_px(5.0 if narrow_portrait else 8.0))
+	scenario_text.add_theme_constant_override("line_separation", _story_logical_px(4.0 if compact else (5.0 if narrow_portrait else 8.0)))
 	if story_body_font != null:
 		scenario_text.add_theme_font_override("normal_font", story_body_font)
 	if story_title_font != null:
@@ -2473,7 +2375,7 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	story_footer.name = "StoryProgressFooter"
 	story_footer.mouse_filter = Control.MOUSE_FILTER_PASS
 	dialogue_box.add_child(story_footer)
-	story_click_hint = _story_label("대화창 클릭 / 터치로 계속  >", 14.0 if narrow_portrait else 16.0, GameUI.SIGNAL_SOFT)
+	story_click_hint = _story_label("대화창 클릭 / 터치로 계속  >", 10.0 if compact else (14.0 if narrow_portrait else 16.0), GameUI.SIGNAL_SOFT)
 	story_click_hint.name = "StoryClickAdvanceHint"
 	story_click_hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	story_click_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -2481,7 +2383,7 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	if story_meta_font != null:
 		story_click_hint.add_theme_font_override("font", story_meta_font)
 	story_footer.add_child(story_click_hint)
-	story_page_indicator = _story_label("PAGE · -- / --", 14.0 if narrow_portrait else 16.0, GameUI.TEXT_MUTED)
+	story_page_indicator = _story_label("PAGE · -- / --", 10.0 if compact else (14.0 if narrow_portrait else 16.0), GameUI.TEXT_MUTED)
 	story_page_indicator.name = "StoryPageIndicator"
 	story_page_indicator.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	story_page_indicator.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -2490,15 +2392,19 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	story_footer.add_child(story_page_indicator)
 	if cinematic:
 		return
+	dialogue_box.add_child(_build_story_secondary_controls(portrait))
+
+func _build_story_secondary_controls(portrait: bool) -> Control:
 	var story_secondary_controls: Control = GridContainer.new() if portrait else HBoxContainer.new()
 	story_secondary_controls.name = "StorySecondaryControls"
 	if story_secondary_controls is GridContainer:
 		(story_secondary_controls as GridContainer).columns = 2
-	dialogue_box.add_child(story_secondary_controls)
 	story_secondary_controls.add_child(_story_button("다음", func(): _request_story_advance("button:next"), false, Vector2(130, 58)))
 	story_secondary_controls.add_child(_story_button("로그", _show_story_log, false, Vector2(110, 58)))
-	story_secondary_controls.add_child(_story_button("UI 숨기기", _toggle_story_ui, false, Vector2(140, 58)))
-	if SettingsService.is_developer_mode(): story_secondary_controls.add_child(_story_button("DEV 전체 스킵", _dev_skip_story, false, Vector2(160, 58)))
+	if SettingsService.is_developer_mode():
+		story_secondary_controls.add_child(_story_button("UI 숨기기", _toggle_story_ui, false, Vector2(_story_logical_px(100.0), 58)))
+		story_secondary_controls.add_child(_story_button("DEV 전체 스킵", _dev_skip_story, false, Vector2(_story_logical_px(138.0), 58)))
+	return story_secondary_controls
 
 func _prologue_stage_style() -> StyleBoxFlat:
 	return GameUI.panel_style(Color("050a11f5"), Color("526f8777"), 1, GameUI.RADIUS_MODAL, Vector4.ZERO, 8)
@@ -2521,14 +2427,15 @@ func _story_dialogue_style(cinematic: bool) -> StyleBoxFlat:
 		Color("e7bf68cc"),
 		border_width,
 		radius,
-		Vector4(float(_story_logical_px(22.0)), float(_story_logical_px(18.0)), float(_story_logical_px(24.0)), float(_story_logical_px(16.0))),
+		Vector4(_story_logical_px(14.0),_story_logical_px(12.0),_story_logical_px(14.0),_story_logical_px(10.0)) if _is_compact_landscape_layout() else Vector4(float(_story_logical_px(22.0)), float(_story_logical_px(18.0)), float(_story_logical_px(24.0)), float(_story_logical_px(16.0))),
 		_story_logical_px(8.0)
 	)
 
 func _style_story_overlay_button(button: Button, accent: Color) -> void:
 	var border_width := maxi(1, _story_logical_px(1.25))
 	var radius := _story_logical_px(9.0)
-	var margins := Vector4(float(_story_logical_px(14.0)), 0.0, float(_story_logical_px(14.0)), 0.0)
+	var side_padding := float(_story_logical_px(8.0 if _is_compact_landscape_layout() else 14.0))
+	var margins := Vector4(side_padding, 0.0, side_padding, 0.0)
 	var normal := GameUI.panel_style(Color("081522f2"), accent, border_width, radius, margins, 0)
 	var hover := normal.duplicate()
 	hover.bg_color = Color(accent.r * 0.16, accent.g * 0.16, accent.b * 0.16, 0.96)
@@ -2538,7 +2445,7 @@ func _style_story_overlay_button(button: Button, accent: Color) -> void:
 	button.add_theme_stylebox_override("hover", hover)
 	button.add_theme_stylebox_override("pressed", pressed)
 	button.add_theme_stylebox_override("focus", hover)
-	button.add_theme_font_size_override("font_size", _story_logical_px(17.0))
+	button.add_theme_font_size_override("font_size", _story_logical_px(14.0))
 	button.add_theme_color_override("font_color", GameUI.TEXT)
 	button.add_theme_color_override("font_hover_color", accent.lightened(0.28))
 
@@ -2957,8 +2864,17 @@ func _commit_story_navigation(destination: String) -> void:
 	story_navigation_pending = false
 	if current_screen != "STORY":
 		return
+	var region_stage := str(AppState.route_payload.get("region_destination", ""))
+	var payload := {"story_return": true}
+	if not region_stage.is_empty() and AppState.is_stage_unlocked(region_stage):
+		var current_chapter := str(DataRegistry.stage(AppState.selected_stage_id).get("chapter_id", ""))
+		if AppState.next_pending_story_trigger(current_chapter).is_empty():
+			AppState.selected_stage_id = region_stage
+			AppState.selected_map_node_id = ""
+		else:
+			payload["region_destination"] = region_stage
 	scenario_runner = null
-	SceneRouter.go(destination, {"story_return": true})
+	SceneRouter.go(destination, payload)
 
 func _show_story_log() -> void:
 	if scenario_runner == null: return
@@ -2973,6 +2889,7 @@ func _show_story_log() -> void:
 	dialog.confirmed.connect(dialog.queue_free)
 
 func _toggle_story_ui() -> void:
+	if not SettingsService.is_developer_mode(): return
 	story_ui_hidden = not story_ui_hidden
 	scenario_text.visible = not story_ui_hidden
 	scenario_speaker.visible = not story_ui_hidden
@@ -2984,53 +2901,7 @@ func _toggle_story_ui() -> void:
 		footer_status.text = "UI 숨김 — 화면 하단 버튼으로 복구"
 
 func _show_formation() -> void:
-	_title("파티 편성", "전열 2 / 중열 2 / 후열 1 • 중복 편성 불가 • 프리셋 5개")
-	var portrait := _is_portrait_layout()
-	var preset_row: Container = GridContainer.new() if portrait else HBoxContainer.new()
-	if preset_row is GridContainer:
-		(preset_row as GridContainer).columns = 2
-	content.add_child(preset_row)
-	for i in range(5):
-		preset_row.add_child(_button("PRESET %d" % (i + 1), func(index := i): AppState.profile.active_party = index; _show_screen("FORMATION"), i == int(AppState.profile.active_party), Vector2(148 if portrait else 150, 56)))
-	var slots: Container = GridContainer.new() if portrait else HBoxContainer.new()
-	if slots is GridContainer:
-		(slots as GridContainer).columns = 2
-	slots.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	content.add_child(slots)
-	var position_names := ["전열 A", "전열 B", "중열 A", "중열 B", "후열"]
-	for i in range(5):
-		var character := DataRegistry.character(AppState.get_party()[i])
-		var card := VBoxContainer.new()
-		card.custom_minimum_size = Vector2(0, 0) if portrait else Vector2(220, 205)
-		card.add_theme_constant_override("separation", 6)
-		slots.add_child(card)
-		card.add_child(_art_rect(str(character.icon_asset_id), Vector2(126, 64) if portrait else Vector2(220, 112)))
-		var marker := "◆ " if formation_slot == i else ""
-		var button := _button("%s%s\n%s • %s" % [marker, position_names[i], LocalizationService.tr_key(character.name_key), character.role], func(index := i): formation_slot = index; _show_screen("FORMATION"), false, Vector2(148, 66) if portrait else Vector2(220, 82))
-		card.add_child(button)
-	var roster_box := _scroll_box()
-	roster_box.add_child(_label("선택 슬롯 %d에 배치할 캐릭터" % (formation_slot + 1), 24, Color("f1d77a")))
-	var grid := GridContainer.new()
-	grid.columns = 1 if portrait else 4
-	roster_box.add_child(grid)
-	for character in DataRegistry.list_of("characters"):
-		var unlocked := bool(AppState.profile.roster[character.id].unlocked)
-		var roster_card := VBoxContainer.new()
-		roster_card.custom_minimum_size = Vector2(0, 0) if portrait else Vector2(250, 184)
-		roster_card.add_theme_constant_override("separation", 5)
-		grid.add_child(roster_card)
-		roster_card.add_child(_art_rect(str(character.icon_asset_id), Vector2(300, 88) if portrait else Vector2(250, 104)))
-		roster_card.add_child(_button("%s\n%s / %s" % [LocalizationService.tr_key(character.name_key), character.role, character.preferred_position], func(character_id: String = str(character.id)): AppState.set_party_slot(formation_slot, character_id); SaveService.save_game(); _show_screen("FORMATION"), not unlocked, Vector2(300, 66) if portrait else Vector2(250, 74)))
-	var actions: Container = GridContainer.new() if portrait else HBoxContainer.new()
-	if actions is GridContainer:
-		(actions as GridContainer).columns = 1
-	content.add_child(actions)
-	var formation_destination := str(AppState.route_payload.get("after", "STAGE_SELECT"))
-	if formation_destination not in ["STAGE_DETAIL", "STAGE_SELECT"]:
-		formation_destination = "STAGE_SELECT"
-	var formation_action_text := "스테이지 상세로" if formation_destination == "STAGE_DETAIL" else "스테이지 선택으로"
-	actions.add_child(_button(formation_action_text, func(destination := formation_destination): SceneRouter.go(destination), false, Vector2(300 if portrait else 240, 64)))
-	actions.add_child(_button("저장", func(): _report_result(SaveService.save_game()), false, Vector2(300 if portrait else 140, 64)))
+	CommandPresentation.formation(self)
 
 func _show_stage_select() -> void:
 	var selected_stage: Dictionary = DataRegistry.stage(AppState.selected_stage_id)
@@ -3079,7 +2950,119 @@ func _show_stage_select() -> void:
 		var stage_name := LocalizationService.tr_key(str(stage.name_key))
 		grid.add_child(_button("%s%s\n권장 Lv.%d\n%s" % [stage_name, boss, stage.recommended_level, "★".repeat(stars) + "☆".repeat(3 - stars)], func(stage_id: String = str(stage.id)): AppState.selected_stage_id = stage_id; SceneRouter.go("STAGE_DETAIL"), not unlocked, Vector2(300 if portrait else 235, 120)))
 
+func region_entry_stage(chapter_id: String) -> String:
+	var chapter := DataRegistry.chapter(chapter_id)
+	if chapter.is_empty(): return ""
+	var progress: Dictionary = AppState.profile.get("chapter_progress", {}).get(chapter_id, {})
+	if not bool(progress.get("unlocked", false)): return ""
+	for route in ["required_stage_ids", "hard_stage_ids", "normal_stage_ids"]:
+		for stage_id in chapter.get(route, []):
+			if AppState.is_stage_unlocked(str(stage_id)) and not bool(AppState.profile.first_clear.get(stage_id, false)):
+				return str(stage_id)
+	var stages: Array = chapter.get("normal_stage_ids", [])
+	return str(stages[0]) if not stages.is_empty() else ""
+
+func _travel_to_region(chapter_id: String) -> void:
+	var stage_id := region_entry_stage(chapter_id)
+	if stage_id.is_empty(): return
+	var current_chapter := str(DataRegistry.stage(AppState.selected_stage_id).get("chapter_id", ""))
+	var pending := AppState.next_pending_story_trigger(current_chapter)
+	if not pending.is_empty():
+		# Finish the departing chapter before entering the new introduction. The
+		# destination survives every queued story without granting rewards again.
+		AppState.active_scenario_id = str(pending.scenario_id)
+		SceneRouter.go("STORY", {"after": "STAGE_SELECT", "region_destination": stage_id})
+		return
+	AppState.selected_stage_id = stage_id
+	AppState.selected_map_node_id = ""
+	stage_mode = "NORMAL"
+	SceneRouter.go("STAGE_SELECT")
+
+func _open_region_selector() -> void:
+	if get_node_or_null("RegionTravelOverlay") != null: return
+	var overlay := ColorRect.new()
+	overlay.name = "RegionTravelOverlay"
+	overlay.z_index = 250
+	overlay.color = Color("020810dd")
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(overlay)
+	var current_map = active_chapter_map_screen
+	var was_paused := false
+	if is_instance_valid(current_map):
+		was_paused = current_map.map_simulation_paused
+		current_map.map_simulation_paused = true
+	var close := func():
+		if is_instance_valid(current_map): current_map.map_simulation_paused = was_paused
+		overlay.queue_free()
+	var panel := PanelContainer.new()
+	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	panel.anchor_left = .06
+	panel.anchor_right = .94
+	panel.anchor_top = .08
+	panel.anchor_bottom = .92
+	panel.add_theme_stylebox_override("panel", GameUI.panel_style(Color("0b1728"), Color("7f969e"), 1, GameUI.RADIUS_PANEL, Vector4(20, 20, 20, 20), 0))
+	overlay.add_child(panel)
+	var box := VBoxContainer.new()
+	panel.add_child(box)
+	box.add_child(_label("지역 이동", 28, Color("f1d77a")))
+	box.add_child(_label("일반 작전의 마지막 보스를 격파하면 다음 지역이 열립니다. 위험 작전은 별도로 도전할 수 있습니다.", 17, Color("b3c2d2")))
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	box.add_child(scroll)
+	var entries := VBoxContainer.new()
+	entries.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(entries)
+	for chapter in DataRegistry.list_of("chapters"):
+		var id := str(chapter.id)
+		var unlocked := not region_entry_stage(id).is_empty()
+		var title := LocalizationService.tr_key(str(chapter.name_key))
+		var card := _panel_box(entries)
+		card.name = "RegionCard_" + id
+		var entry := _button(title + ("" if unlocked else " · 미개방"), func(target := id): close.call(); call_deferred("_travel_to_region", target), not unlocked, Vector2(300, 56))
+		entry.name = "Travel_" + id
+		entry.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		card.add_child(entry)
+		var objective := LocalizationService.tr_key(str(chapter.get("objective_key", "")))
+		if not objective.is_empty(): card.add_child(_label(objective, 16, GameUI.TEXT_MUTED))
+		var cleared := 0
+		for stage_id in chapter.normal_stage_ids + chapter.hard_stage_ids:
+			if bool(AppState.profile.first_clear.get(stage_id, false)): cleared += 1
+		var status := "작전 완료 %d / %d" % [cleared, chapter.normal_stage_ids.size() + chapter.hard_stage_ids.size()]
+		if not unlocked:
+			status += " · 제%d장 일반 작전 20 완료 시 개방" % (int(chapter.number) - 1)
+		elif cleared < chapter.normal_stage_ids.size() + chapter.hard_stage_ids.size():
+			status += " · 이어갈 작전 " + region_entry_stage(id).get_slice("-", 1)
+		else:
+			status += " · 탐험과 보급품 수집을 계속할 수 있습니다"
+		card.add_child(_label(status, 14, GameUI.SIGNAL_SOFT))
+	box.add_child(_button("목록형 접근성", func(): close.call(); SceneRouter.call_deferred("go", "STAGE_LIST_FALLBACK"), false, Vector2(260, 52)))
+	box.add_child(_button("닫기", close, false, Vector2(260, 52)))
+
 func _show_chapter_map() -> void:
+	# A persisted handoff owns the normal campaign route after a chapter finale.
+	# Finish the departing story first, then enter the next chapter exactly once.
+	# This also repairs saves made by the older N20 -> idle-map result flow.
+	var handoff: Dictionary = AppState.profile.get("campaign_transition", {})
+	var destination := str(handoff.get("to_stage", ""))
+	if not destination.is_empty() and AppState.is_stage_unlocked(destination):
+		var from_stage := str(handoff.get("from_stage", ""))
+		var from_chapter := str(DataRegistry.stage(from_stage).get("chapter_id", ""))
+		AppState.queue_story_event("MAP_ENTER", "", from_chapter)
+		var aftermath := AppState.next_pending_story_trigger(from_chapter)
+		if not aftermath.is_empty():
+			_cancel_transition_loading(_transition_loading_token_for(TRANSITION_LOADING_MAP_ENTRY))
+			AppState.selected_stage_id = from_stage
+			AppState.active_scenario_id = str(aftermath.scenario_id)
+			SaveService.save_game()
+			SceneRouter.go("STORY", {"after": "STAGE_SELECT", "region_destination": destination})
+			return
+		AppState.selected_stage_id = destination
+		AppState.selected_map_node_id = ""
+		AppState.profile.campaign_transition = {}
+		stage_mode = "NORMAL"
+		SaveService.save_game()
 	var show_generation := chapter_map_show_generation
 	var loading_token := _transition_loading_token_for(TRANSITION_LOADING_MAP_ENTRY)
 	var stage_preload_started_msec := Time.get_ticks_msec()
@@ -3094,19 +3077,19 @@ func _show_chapter_map() -> void:
 		_cancel_transition_loading(loading_token)
 		AppState.active_scenario_id = str(pending_story.get("scenario_id", ""))
 		SaveService.save_game()
-		SceneRouter.go("STORY", {"after": "STAGE_SELECT", "origin": "CHAPTER_MAP"})
+		SceneRouter.go("STORY", {"after": "STAGE_SELECT", "origin": "CHAPTER_MAP", "region_destination": AppState.route_payload.get("region_destination", "")})
 		return
 	AudioService.play_bgm("audio_bgm_lobby")
 	var chapter: Dictionary = DataRegistry.chapter(chapter_id)
 	var map_id := AppState.map_id_for_chapter(chapter_id)
 	_title(LocalizationService.tr_key(str(chapter.get("name_key", ""))), "탐색 경로를 따라 조우를 선택하고, 기존 실시간 전투에 진입합니다.")
-	var loading_label := _label("Building tactical map…", 24, Color("8de7d1"))
+	var loading_label := _label("전술 지도를 준비하고 있습니다…", 24, Color("8de7d1"))
 	loading_label.name = "ChapterMapLoadingFeedback"
 	content.add_child(loading_label)
 	# Let Web paint immediate feedback before terrain meshes and map pawns are
 	# constructed. Without this yield, a valid build looked like a crashed tab.
 	await get_tree().process_frame
-	_set_transition_loading_phase(loading_token, "Checking chapter and exploration records", 12.0, 0.20)
+	_set_transition_loading_phase(loading_token, "작전 정보와 탐색 기록을 확인하고 있습니다", 12.0, 0.20)
 	await get_tree().process_frame
 	if current_screen != "STAGE_SELECT" or show_generation != chapter_map_show_generation:
 		_cancel_transition_loading(loading_token)
@@ -3117,18 +3100,18 @@ func _show_chapter_map() -> void:
 	# return, even though the cached screen was used a few lines later.
 	var map_screen: Control = _take_cached_chapter_map(map_id)
 	if map_screen != null:
-		_set_transition_loading_phase(loading_token, "Restoring the retained tactical map", 88.0, 0.22)
+		_set_transition_loading_phase(loading_token, "보관된 전술 지도를 복원하고 있습니다", 88.0, 0.22)
 		content.add_child(map_screen)
 		active_chapter_map_screen = map_screen
 		map_screen.call("resume_from_cache")
 		if is_instance_valid(loading_label):
 			loading_label.queue_free()
 		_apply_chapter_map_shell_overrides()
-		_finish_transition_loading(loading_token, "Tactical map ready")
+		_finish_transition_loading(loading_token, "전술 지도 준비 완료")
 		return
-	_set_transition_loading_phase(loading_token, "Loading the map definition", 28.0, 0.24)
+	_set_transition_loading_phase(loading_token, "지도 정보를 불러오고 있습니다", 28.0, 0.24)
 	var definition: Dictionary = ChapterMapLoaderScript.load_map(map_id)
-	_set_transition_loading_phase(loading_token, "Validating routes and encounters", 44.0, 0.24)
+	_set_transition_loading_phase(loading_token, "경로와 조우 정보를 확인하고 있습니다", 44.0, 0.24)
 	var errors: Array[String] = ChapterMapLoaderScript.validate(definition)
 	if not errors.is_empty():
 		content.add_child(_label("맵 데이터 검증 실패\n" + "\n".join(errors), 22, Color("ff7f8a")))
@@ -3154,12 +3137,12 @@ func _show_chapter_map() -> void:
 			return
 		if not cache_warm_ok:
 			print("STAGE_ENTRY_PRELOAD_TIMEOUT map=%s phase=asset_cache elapsed_ms=%d" % [map_id, Time.get_ticks_msec() - stage_preload_started_msec])
-			_show_loading_failure_screen("TACTICAL MAP UNAVAILABLE", "Stage assets did not become ready within 5 seconds.", "STAGE_SELECT", true)
+			_show_loading_failure_screen("TACTICAL MAP UNAVAILABLE", "Stage asset loading stopped making progress.", "STAGE_SELECT", true)
 			return
 		elif not last_stage_preload_cache_hit:
 			var gpu_textures: Array[Texture2D] = StageAssetCache.gpu_warm_textures()
 			last_stage_preload_texture_count = await _warm_transition_gpu_textures(loading_token, gpu_textures)
-	_set_transition_loading_phase(loading_token, "Building the tactical map interface", 56.0, 0.18)
+	_set_transition_loading_phase(loading_token, "전술 지도 화면을 준비하고 있습니다", 56.0, 0.18)
 	map_screen = ChapterMapScene.instantiate()
 	map_screen.map_id = map_id
 	# Pass the already validated definition into the screen. `_ready()` only
@@ -3169,14 +3152,20 @@ func _show_chapter_map() -> void:
 	map_screen.battle_requested.connect(_map_battle_requested)
 	map_screen.formation_requested.connect(func(): SceneRouter.go("FORMATION"))
 	map_screen.fallback_requested.connect(func(): SceneRouter.go("STAGE_LIST_FALLBACK"))
+	map_screen.region_requested.connect(_open_region_selector)
 	map_screen.sweep_requested.connect(_map_sweep_requested)
 	map_screen.treasure_reward_requested.connect(_map_treasure_reward_requested)
 	var map_load_handler := Callable(self, "_on_chapter_map_load_progress").bind(loading_token, show_generation)
 	map_screen.map_load_progress.connect(map_load_handler)
+	# Never expose partially populated fog, an empty water plane, or a bare map
+	# frame. The screen is made visible only after its complete input/terrain
+	# boundary reports ready, then rendered once while the loading card still owns
+	# the viewport so first interaction cannot inherit a cold WebGL upload.
+	map_screen.visible = false
 	content.add_child(map_screen)
 	active_chapter_map_screen = map_screen
 	_apply_chapter_map_shell_overrides()
-	_set_transition_loading_phase(loading_token, "Placing terrain, routes, and objectives", 94.0, 1.65)
+	_set_transition_loading_phase(loading_token, "지형과 경로, 작전 목표를 배치하고 있습니다", 94.0, 1.65)
 	# Keep explicit feedback visible until the cooperatively-built world confirms
 	# that terrain, pawns and input authority are all ready. The map now yields
 	# between build batches so this label and the interface remain paintable.
@@ -3185,7 +3174,7 @@ func _show_chapter_map() -> void:
 		if is_instance_valid(map_screen) and map_screen.map_load_progress.is_connected(map_load_handler):
 			map_screen.map_load_progress.disconnect(map_load_handler)
 		print("STAGE_ENTRY_PRELOAD_TIMEOUT map=%s phase=map_ready elapsed_ms=%d" % [map_id, Time.get_ticks_msec() - stage_preload_started_msec])
-		_show_loading_failure_screen("TACTICAL MAP UNAVAILABLE", "The tactical map did not become ready within 5 seconds.", "STAGE_SELECT", true)
+		_show_loading_failure_screen("TACTICAL MAP UNAVAILABLE", "Map loading stopped making progress. Retry or use the safe stage list.", "STAGE_SELECT", true)
 		return
 	if current_screen != "STAGE_SELECT" or show_generation != chapter_map_show_generation or not is_instance_valid(map_screen):
 		_cancel_transition_loading(loading_token)
@@ -3194,13 +3183,29 @@ func _show_chapter_map() -> void:
 		map_screen.map_load_progress.disconnect(map_load_handler)
 	if is_instance_valid(loading_label):
 		loading_label.queue_free()
+	map_screen.visible = true
+	await get_tree().process_frame
+	if OS.has_feature("web"):
+		await RenderingServer.frame_post_draw
 	_apply_chapter_map_shell_overrides()
 	last_stage_preload_elapsed_msec = maxi(0, Time.get_ticks_msec() - stage_preload_started_msec)
 	print("STAGE_ENTRY_PRELOAD_COMPLETE map=%s elapsed_ms=%d target_ms=%d within_target=%s cache_hit=%s gpu_textures=%d" % [map_id, last_stage_preload_elapsed_msec, STAGE_ENTRY_PRELOAD_TARGET_MSEC, str(last_stage_preload_elapsed_msec <= STAGE_ENTRY_PRELOAD_TARGET_MSEC), str(last_stage_preload_cache_hit), last_stage_preload_texture_count])
-	_finish_transition_loading(loading_token, "Tactical map ready")
+	_finish_transition_loading(loading_token, "전술 지도 준비 완료")
 
 func _map_battle_requested(stage_id: String) -> void:
-	_request_battle_start("map:encounter", stage_id)
+	# The map locks before emitting this signal. An entry rejection must return
+	# ownership to that map instead of leaving an empty transaction and a hidden
+	# footer behind a permanently disabled screen. Duplicate accepted requests
+	# must never cancel the transition that already owns a paid battle token.
+	if battle_transition_active:
+		return
+	if _request_battle_start("map:encounter", stage_id):
+		return
+	var reason := AppState.stage_entry_block_reason(stage_id)
+	if reason.is_empty():
+		reason = "전투 요청이 겹쳤습니다 · 다시 시도하세요"
+	if is_instance_valid(active_chapter_map_screen):
+		active_chapter_map_screen.recover_rejected_encounter(stage_id, reason)
 
 func _map_sweep_requested(stage_id: String, count: int) -> void:
 	AppState.selected_stage_id = stage_id
@@ -3266,10 +3271,10 @@ func _show_map_reward_overlay() -> void:
 	column.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	column.add_theme_constant_override("separation", 12)
 	map_reward_panel.add_child(column)
-	var eyebrow := _label("FIELD ACQUISITION · 탐색은 중단되지 않습니다", 18, GameUI.SIGNAL)
+	var eyebrow := _label("FIELD SUPPLY", 18, GameUI.SIGNAL)
 	eyebrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(eyebrow)
-	var title := _label("탐색 보급품 확보", 34, GameUI.OBJECTIVE)
+	var title := _label("탐색 보급품", 34, GameUI.OBJECTIVE)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(title)
 	var separator := HSeparator.new()
@@ -3286,7 +3291,7 @@ func _show_map_reward_overlay() -> void:
 	report_box.add_theme_constant_override("separation", 10)
 	report_scroll.add_child(report_box)
 	_add_reward_clarity(report_box, 19 if portrait else 21)
-	var continue_button := _button("보상 확인 · 지도 계속", _close_map_reward_overlay, false, Vector2(420.0 if portrait else 360.0, 72.0))
+	var continue_button := preload("res://screens/command_presentation.gd").button(self, "확인 · 지도 계속", _close_map_reward_overlay, false, Vector2(560, 88))
 	continue_button.name = "MapRewardContinueButton"
 	continue_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	_make_primary_button(continue_button)
@@ -3351,7 +3356,8 @@ func _request_battle_start(source: String, stage_id := "") -> bool:
 func _start_battle() -> bool:
 	if battle_transition_active: return false
 	if not AppState.begin_battle_transaction(AppState.selected_stage_id):
-		footer_status.text = "입장 조건/작전력/일일 횟수를 확인하세요."
+		var reason := AppState.stage_entry_block_reason(AppState.selected_stage_id)
+		footer_status.text = reason if not reason.is_empty() else "이미 처리 중인 전투가 있습니다"
 		return false
 	battle_transition_active = true
 	_play_map_battle_transition()
@@ -3370,14 +3376,23 @@ func _route_to_battle_with_loading() -> void:
 	SceneRouter.go("BATTLE")
 
 func _play_map_battle_transition() -> void:
+	# Map pawns have their own CanvasLayer; a root Control veil sat behind them.
+	# The briefing must occlude both the scene and every map input surface.
+	var transition_layer := CanvasLayer.new()
+	transition_layer.name = "EncounterBriefingCanvas"
+	transition_layer.layer = 130
+	add_child(transition_layer)
 	var veil := ColorRect.new()
 	veil.name = "R7HexSignalTransition"
+	veil.theme = theme
 	veil.color = Color("06101c00")
 	veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	veil.mouse_filter = Control.MOUSE_FILTER_STOP
-	add_child(veil)
-	var special_event := AppState.pending_map_special_event()
-	var encounter_presentation := AppState.pending_map_encounter_presentation()
+	transition_layer.add_child(veil)
+	veil.tree_exited.connect(transition_layer.queue_free)
+	var encounter_map_id := AppState.map_id_for_stage(AppState.selected_stage_id)
+	var special_event := AppState.pending_map_special_event(encounter_map_id)
+	var encounter_presentation := AppState.pending_map_encounter_presentation(encounter_map_id)
 	var focus := Label.new()
 	var stage := DataRegistry.stage(AppState.selected_stage_id)
 	var encounter_title := LocalizationService.tr_key(str(stage.get("name_key", AppState.selected_stage_id)))
@@ -3598,278 +3613,127 @@ func _play_special_event_dialogue(veil: ColorRect, special_event: Dictionary, fo
 	var dialogue: Array = special_event.get("pre_battle_dialogue", [])
 	if dialogue.is_empty():
 		dialogue = [
-			{"speaker_kind": "COMMAND", "speaker_id": "", "text_key": str(special_event.get("body_key", "MAP_EVENT_DEFAULT_BODY"))},
-			{"speaker_kind": "COMMAND", "speaker_id": "", "text_key": str(special_event.get("contact_outcome_key", "MAP_EVENT_DEFAULT_BODY"))},
+			{"speaker_kind": "COMMAND", "text_key": str(special_event.get("body_key", "MAP_EVENT_DEFAULT_BODY"))},
+			{"speaker_kind": "COMMAND", "text_key": str(special_event.get("contact_outcome_key", "MAP_EVENT_DEFAULT_BODY"))},
 		]
-	var panel := PanelContainer.new()
+	var panel := preload("res://ui/bounded_briefing.gd").new()
 	panel.name = "PreBattleEventDialog"
-	panel.set_anchors_preset(Control.PRESET_CENTER)
-	var portrait_layout := _is_portrait_layout()
-	# The encounter is staged as a dialogue scene, not a centered text alert:
-	# a permanent left key-visual identifies the companion/special enemy while
-	# every command page continues on the right.  Keeping this art visible on
-	# command pages prevents the familiar VN problem where the player loses
-	# track of who the event is about between narration lines.
-	# This is the one high-attention surface in the map flow.  Treat it as a
-	# compact tactical briefing, not a legacy message box: the portrait gets a
-	# stable editorial column, the narrative owns the reading column, and the
-	# consequence plus the primary action remain visible without competing.
-	# Portrait keeps the same two-column encounter grammar, but it needs enough
-	# vertical room for a readable Korean paragraph and the 56px touch controls.
-	# This height is intentionally calculated against the expanded mobile canvas;
-	# it prevents children from spilling below the modal on a 390×844 class phone.
-	var panel_size := Vector2(1690, 1720) if portrait_layout else Vector2(1500, 750)
-	panel.position = Vector2(-845, -860) if portrait_layout else Vector2(-750, -375)
-	panel.size = panel_size
-	panel.custom_minimum_size = panel_size
-	panel.modulate = Color(1.0, 1.0, 1.0, 0.0)
-	# The event dialog is a modal interaction surface.  Explicit input filters
-	# keep its full copy/key-visual area tappable on Web while allowing the two
-	# bottom controls to remain ordinary Buttons.
-	panel.mouse_filter = Control.MOUSE_FILTER_STOP
-	var panel_style := StyleBoxFlat.new()
-	panel_style.bg_color = Color("08121ff8")
-	panel_style.border_color = Color("89ecd9")
-	panel_style.set_border_width_all(2)
-	panel_style.shadow_color = Color("02050bcf")
-	panel_style.shadow_size = 20
-	panel_style.shadow_offset = Vector2(0, 10)
-	panel_style.set_corner_radius_all(18)
-	panel_style.content_margin_left = 42
-	panel_style.content_margin_right = 42
-	panel_style.content_margin_top = 30
-	panel_style.content_margin_bottom = 28
-	panel.add_theme_stylebox_override("panel", panel_style)
+	panel.runtime_size_reader = _runtime_layout_size
+	panel.modulate.a = 0.0
 	veil.add_child(panel)
-	var layout := VBoxContainer.new()
-	layout.mouse_filter = Control.MOUSE_FILTER_PASS
-	layout.add_theme_constant_override("separation", 14)
-	panel.add_child(layout)
-	var header := HBoxContainer.new()
-	header.mouse_filter = Control.MOUSE_FILTER_PASS
-	header.add_theme_constant_override("separation", 18)
-	layout.add_child(header)
-	var signal_badge := PanelContainer.new()
-	signal_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var signal_badge_style := StyleBoxFlat.new()
-	signal_badge_style.bg_color = Color("113344")
-	signal_badge_style.border_color = Color("4fd9c2")
-	signal_badge_style.set_border_width_all(1)
-	signal_badge_style.set_corner_radius_all(7)
-	signal_badge_style.content_margin_left = 14
-	signal_badge_style.content_margin_right = 14
-	signal_badge_style.content_margin_top = 7
-	signal_badge_style.content_margin_bottom = 7
-	signal_badge.add_theme_stylebox_override("panel", signal_badge_style)
-	signal_badge.custom_minimum_size = Vector2(310 if portrait_layout else 230, 0)
-	header.add_child(signal_badge)
-	var contact_signal := _label(LocalizationService.tr_key("MAP_EVENT_CONTACT_SIGNAL"), 21 if not portrait_layout else 25, Color("9df5e4"))
-	contact_signal.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	contact_signal.add_theme_font_override("font", _story_weighted_font(650, 0.25))
-	signal_badge.add_child(contact_signal)
-	var header_spacer := Control.new()
-	header_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(header_spacer)
-	var page_counter := _label("", 21 if not portrait_layout else 25, Color("cce6ec"))
-	page_counter.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	page_counter.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	page_counter.add_theme_font_override("font", _story_weighted_font(600, 0.15))
-	header.add_child(page_counter)
-	var title := _label(LocalizationService.tr_key(str(special_event.get("title_key", "MAP_EVENT_DEFAULT_TITLE"))), 46 if not portrait_layout else 52, Color("ffe1a0"))
-	title.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	title.add_theme_font_override("font", _story_weighted_font(720, 0.35))
-	title.add_theme_constant_override("line_spacing", 2)
-	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	layout.add_child(title)
-	var main_row := HBoxContainer.new()
-	main_row.mouse_filter = Control.MOUSE_FILTER_PASS
-	main_row.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	main_row.add_theme_constant_override("separation", 34)
-	layout.add_child(main_row)
+	var signal_label := _label(LocalizationService.tr_key("MAP_EVENT_CONTACT_SIGNAL"), 14, Color("9df5e4"))
+	signal_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.type_target(signal_label, 14.0)
+	panel.header.add_child(signal_label)
+	var page_counter := _label("", 14, Color("cce6ec"))
+	page_counter.name = "EventDialoguePage"
+	page_counter.size_flags_horizontal = Control.SIZE_SHRINK_END
+	page_counter.autowrap_mode = TextServer.AUTOWRAP_OFF
+	panel.type_target(page_counter, 14.0)
+	panel.header.add_child(page_counter)
+	var hero := HBoxContainer.new()
+	hero.add_theme_constant_override("separation", _story_logical_px(12.0))
+	panel.body.add_child(hero)
 	var portrait_frame := PanelContainer.new()
 	portrait_frame.name = "EventKeyVisual"
-	portrait_frame.mouse_filter = Control.MOUSE_FILTER_PASS
-	portrait_frame.custom_minimum_size = Vector2(460, 440) if portrait_layout else Vector2(398, 380)
-	var portrait_style := StyleBoxFlat.new()
-	portrait_style.bg_color = Color("061925")
-	portrait_style.border_color = Color("4ed2bf")
-	portrait_style.set_border_width_all(1)
-	portrait_style.set_corner_radius_all(12)
-	portrait_style.content_margin_left = 12
-	portrait_style.content_margin_right = 12
-	portrait_style.content_margin_top = 12
-	portrait_style.content_margin_bottom = 12
-	portrait_frame.add_theme_stylebox_override("panel", portrait_style)
-	main_row.add_child(portrait_frame)
-	var copy := VBoxContainer.new()
-	copy.mouse_filter = Control.MOUSE_FILTER_PASS
-	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	copy.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	copy.add_theme_constant_override("separation", 16)
-	main_row.add_child(copy)
-	var speaker_label := _label("", 29 if not portrait_layout else 35, Color("91f5df"))
-	speaker_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	speaker_label.add_theme_font_override("font", _story_weighted_font(650, 0.25))
-	copy.add_child(speaker_label)
-	var dialogue_label := _label("", 36 if not portrait_layout else 42, Color("f7fbff"))
-	dialogue_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	dialogue_label.add_theme_font_override("font", _story_weighted_font(510, 0.08))
-	dialogue_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	dialogue_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	portrait_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.art_targets.append(portrait_frame)
+	hero.add_child(portrait_frame)
+	var identity := VBoxContainer.new()
+	identity.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	identity.alignment = BoxContainer.ALIGNMENT_CENTER
+	hero.add_child(identity)
+	var title := _label(LocalizationService.tr_key(str(special_event.get("title_key", "MAP_EVENT_DEFAULT_TITLE"))), 22, Color("ffe1a0"))
+	title.name = "EventDialogueTitle"
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title.add_theme_font_override("font", _story_weighted_font(700, 0.25))
+	panel.type_target(title, 22.0)
+	identity.add_child(title)
+	var speaker_label := _label("", 15, Color("91f5df"))
+	speaker_label.name = "EventDialogueSpeaker"
+	speaker_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	panel.type_target(speaker_label, 15.0)
+	identity.add_child(speaker_label)
+	var dialogue_label := _label("", 18, Color("f7fbff"))
+	dialogue_label.name = "EventDialogueBody"
 	dialogue_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	dialogue_label.add_theme_constant_override("line_spacing", 12)
-	dialogue_label.add_theme_constant_override("outline_size", 1)
-	dialogue_label.add_theme_color_override("font_outline_color", Color("08101b"))
-	copy.add_child(dialogue_label)
+	dialogue_label.add_theme_font_override("font", _story_weighted_font(510, 0.08))
+	panel.type_target(dialogue_label, 18.0)
+	panel.body.add_child(dialogue_label)
 	var outcome_panel := PanelContainer.new()
 	outcome_panel.name = "PreBattleEventOutcomeBand"
-	outcome_panel.mouse_filter = Control.MOUSE_FILTER_PASS
-	outcome_panel.custom_minimum_size = Vector2(0, 88 if not portrait_layout else 106)
-	var outcome_style := StyleBoxFlat.new()
-	outcome_style.bg_color = Color("0b2b35")
-	outcome_style.border_color = Color("4ecab7")
-	outcome_style.set_border_width_all(1)
-	outcome_style.set_corner_radius_all(12)
-	outcome_style.content_margin_left = 22
-	outcome_style.content_margin_right = 22
-	outcome_style.content_margin_top = 8
-	outcome_style.content_margin_bottom = 8
-	outcome_panel.add_theme_stylebox_override("panel", outcome_style)
-	layout.add_child(outcome_panel)
-	var outcome := _label(LocalizationService.tr_key(str(special_event.get("contact_outcome_key", "MAP_EVENT_DEFAULT_BODY"))), 25 if not portrait_layout else 30, Color("edfffb"))
-	outcome.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	outcome.add_theme_font_override("font", _story_weighted_font(590, 0.15))
+	outcome_panel.add_theme_stylebox_override("panel", GameUI.panel_style(Color("0b2b35"), Color("30685e"), 1, 8, Vector4.ZERO))
+	panel.body.add_child(outcome_panel)
+	var outcome := _label(LocalizationService.tr_key(str(special_event.get("contact_outcome_key", "MAP_EVENT_DEFAULT_BODY"))), 15, Color("c4e6dd"))
+	outcome.name = "EventDialogueOutcome"
 	outcome.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	outcome.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	outcome.add_theme_constant_override("outline_size", 1)
-	outcome.add_theme_color_override("font_outline_color", Color("103f48"))
+	panel.type_target(outcome, 15.0)
 	outcome_panel.add_child(outcome)
-	var controls: BoxContainer = VBoxContainer.new() if portrait_layout else HBoxContainer.new()
-	controls.mouse_filter = Control.MOUSE_FILTER_PASS
-	controls.alignment = BoxContainer.ALIGNMENT_END
-	controls.add_theme_constant_override("separation", 16)
-	layout.add_child(controls)
-	var hint := _label(LocalizationService.tr_key("MAP_EVENT_DIALOGUE_HINT"), 20 if not portrait_layout else 24, Color("b8d7dd"))
-	hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	controls.add_child(hint)
-	var skip_button := _button(LocalizationService.tr_key("MAP_EVENT_DIALOGUE_SKIP"), func() -> void: pass, false, Vector2(220 if not portrait_layout else 276, 72 if not portrait_layout else 86))
+	var hint := _label("다음 버튼으로 계속 · 긴 설명은 위로 밀어 읽기", 12, Color("9fb9c4"))
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	panel.type_target(hint, 12.0)
+	panel.body.add_child(hint)
+	var skip_button := _button(LocalizationService.tr_key("MAP_EVENT_DIALOGUE_SKIP"), func() -> void: pass)
 	skip_button.name = "EventDialogueSkip"
-	skip_button.add_theme_font_override("font", _story_weighted_font(620, 0.18))
-	skip_button.add_theme_font_size_override("font_size", _story_logical_px(17.0) if portrait_layout else 23)
-	var skip_normal := StyleBoxFlat.new()
-	skip_normal.bg_color = Color("132435")
-	skip_normal.border_color = Color("6b9ead")
-	skip_normal.set_border_width_all(1)
-	skip_normal.set_corner_radius_all(9)
-	var skip_hover := skip_normal.duplicate()
-	skip_hover.bg_color = Color("1d3b50")
-	skip_button.add_theme_stylebox_override("normal", skip_normal)
-	skip_button.add_theme_stylebox_override("hover", skip_hover)
-	skip_button.add_theme_stylebox_override("pressed", skip_hover)
-	skip_button.add_theme_color_override("font_color", Color("e2f3f4"))
-	var next_button := _button(LocalizationService.tr_key("MAP_EVENT_DIALOGUE_NEXT"), func() -> void: pass, false, Vector2(214 if not portrait_layout else 264, 72 if not portrait_layout else 86))
+	panel.type_target(skip_button, 16.0)
+	panel.footer.add_child(skip_button)
+	var next_button := _button(LocalizationService.tr_key("MAP_EVENT_DIALOGUE_NEXT"), func() -> void: pass)
 	next_button.name = "EventDialogueNext"
-	next_button.add_theme_font_override("font", _story_weighted_font(700, 0.30))
-	next_button.add_theme_font_size_override("font_size", _story_logical_px(18.0) if portrait_layout else 24)
 	_make_primary_button(next_button)
-	if portrait_layout:
-		# `_button` raises generic portrait controls to the full touch target on
-		# both axes.  In this paired action row we preserve the touch height while
-		# setting two truthful, side-by-side widths that leave the dialogue hint
-		# readable above them.
-		skip_button.custom_minimum_size = Vector2(_story_logical_px(112.0), _story_logical_px(56.0))
-		next_button.custom_minimum_size = Vector2(_story_logical_px(132.0), _story_logical_px(56.0))
-		var action_row := HBoxContainer.new()
-		action_row.alignment = BoxContainer.ALIGNMENT_END
-		action_row.add_theme_constant_override("separation", _story_logical_px(10.0))
-		action_row.add_child(skip_button)
-		action_row.add_child(next_button)
-		controls.add_child(action_row)
+	panel.type_target(next_button, 17.0)
+	panel.footer.add_child(next_button)
+	# Resolve exactly the registered subject; never invent or recrop its identity.
+	var art_id := ""
+	if str(special_event.get("event_kind", "")) == "COMPANION":
+		art_id = str(DataRegistry.character(str(special_event.get("character_id", ""))).get("portrait_asset_id", ""))
+	elif str(special_event.get("event_kind", "")) == "SPECIAL_ENEMY":
+		art_id = str(DataRegistry.enemy(str(special_event.get("enemy_id", ""))).get("asset_id", ""))
+	if not art_id.is_empty():
+		var art := _art_rect(art_id, Vector2.ZERO, TextureRect.STRETCH_KEEP_ASPECT_CENTERED)
+		art.custom_minimum_size = Vector2.ZERO
+		art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		portrait_frame.add_child(art)
 	else:
-		controls.add_child(skip_button)
-		controls.add_child(next_button)
-	var page_index := 0
-	var resolved := false
-	var update_page: Callable
-	var advance_page: Callable
-	update_page = func() -> void:
-		var page_value: Variant = dialogue[clampi(page_index, 0, dialogue.size() - 1)]
-		var page: Dictionary = page_value if page_value is Dictionary else {}
+		var glyph := _label("!", 40, Color("79ecda"))
+		glyph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		panel.type_target(glyph, 40.0)
+		portrait_frame.add_child(glyph)
+	# Lambdas capture scalar locals by value. Shared presentation state prevents
+	# Next from updating only a captured copy while the await loop waits forever.
+	var reading := {"page": 0, "resolved": false, "last_advance": -100000}
+	var update_page := func() -> void:
+		var page_index := int(reading.page)
+		var page: Dictionary = dialogue[clampi(page_index, 0, dialogue.size() - 1)]
 		speaker_label.text = _event_dialogue_speaker_name(page)
 		dialogue_label.text = LocalizationService.tr_key(str(page.get("text_key", special_event.get("body_key", "MAP_EVENT_DEFAULT_BODY"))))
 		page_counter.text = "%d / %d" % [page_index + 1, dialogue.size()]
 		next_button.text = LocalizationService.tr_key("MAP_EVENT_DIALOGUE_BATTLE") if page_index >= dialogue.size() - 1 else LocalizationService.tr_key("MAP_EVENT_DIALOGUE_NEXT")
-		for child in portrait_frame.get_children():
-			child.free()
-		var speaker_kind := str(page.get("speaker_kind", "COMMAND"))
-		var event_kind := str(special_event.get("event_kind", "COMPANION"))
-		var key_visual_added := false
-		if event_kind == "COMPANION":
-			var character := DataRegistry.character(str(special_event.get("character_id", "")))
-			if not character.is_empty():
-				# Non-combat contacts always use the established 8-head standing
-				# art.  COVERED makes the framed presentation a half-body crop
-				# without fabricating a second character variant.
-				# Keep the character's face and silhouette intact.  The former COVERED
-				# crop was visually forceful but could cut a head or hair detail; this
-				# briefing frame deliberately preserves a readable 8-head portrait.
-				var character_art := _art_rect(str(character.get("portrait_asset_id", "")), Vector2(436, 416) if portrait_layout else Vector2(374, 356), TextureRect.STRETCH_KEEP_ASPECT_CENTERED)
-				# `_art_rect` normally scales a standalone portrait for a mobile card.
-				# This event frame is already size-governed, so applying that scale here
-				# made it consume the whole horizontal row and collapsed the dialogue.
-				character_art.custom_minimum_size = Vector2(436, 416) if portrait_layout else Vector2(374, 356)
-				portrait_frame.add_child(character_art)
-				key_visual_added = true
-		elif event_kind == "SPECIAL_ENEMY":
-			var enemy := DataRegistry.enemy(str(special_event.get("enemy_id", "")))
-			if not enemy.is_empty():
-				# Special enemies deliberately use their registered combat preview:
-				# this keeps the map contact, warning marker, and coming battle
-				# recognisably about the same enemy rather than a generic icon.
-				var enemy_art := _art_rect(str(enemy.get("asset_id", "")), Vector2(436, 416) if portrait_layout else Vector2(374, 356), TextureRect.STRETCH_KEEP_ASPECT_CENTERED)
-				enemy_art.custom_minimum_size = Vector2(436, 416) if portrait_layout else Vector2(374, 356)
-				portrait_frame.add_child(enemy_art)
-				key_visual_added = true
-		if not key_visual_added:
-			var threat_glyph := _label("!", 144 if portrait_layout else 116, Color("ffb77a") if speaker_kind == "ENEMY" else Color("79ecda"))
-			threat_glyph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			threat_glyph.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-			portrait_frame.add_child(threat_glyph)
-	update_page.call()
-	advance_page = func() -> void:
-		if page_index < dialogue.size() - 1:
-			page_index += 1
+		panel.rewind()
+	var advance_page := func() -> void:
+		var now := Time.get_ticks_msec()
+		if bool(reading.resolved) or now - int(reading.last_advance) < 300: return
+		reading.last_advance = now
+		if int(reading.page) < dialogue.size() - 1:
+			reading.page += 1
 			update_page.call()
 		else:
-			resolved = true
-	skip_button.pressed.connect(func() -> void: resolved = true)
+			reading.resolved = true
+	skip_button.pressed.connect(func() -> void: reading.resolved = true)
 	next_button.pressed.connect(advance_page)
 	pre_battle_event_input_panel = panel
 	pre_battle_event_input_next = next_button
 	pre_battle_event_input_skip = skip_button
 	pre_battle_event_advance = advance_page
-	pre_battle_event_resolve = func() -> void: resolved = true
+	pre_battle_event_resolve = func() -> void: reading.resolved = true
 	pre_battle_event_input_active = true
-	# The whole event body is a VN-like advance target. Buttons keep their own
-	# input, while clicking/tapping any empty dialogue or key-visual area follows
-	# the same single advancement path as Next.  Skip remains intentionally
-	# separate: it resolves presentation only and never commits event rewards.
-	panel.gui_input.connect(func(event: InputEvent) -> void:
-		var clicked: bool = event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT
-		var touched: bool = event is InputEventScreenTouch and event.pressed
-		if clicked or touched:
-			_handle_pre_battle_event_input(event.position)
-			panel.accept_event()
-	)
+	update_page.call()
+	panel.reflow()
 	var intro := create_tween()
 	intro.tween_property(veil, "color", Color("06101cf4"), 0.12)
-	intro.parallel().tween_property(focus, "modulate", Color("fff0c8"), 0.12)
 	intro.parallel().tween_property(panel, "modulate", Color.WHITE, 0.12)
 	await intro.finished
 	focus.visible = false
-	while not resolved:
+	while not bool(reading.resolved):
 		await get_tree().process_frame
 	pre_battle_event_input_active = false
 	pre_battle_event_input_panel = null
@@ -3945,7 +3809,7 @@ func _show_battle() -> void:
 		battle_assets_ok = await _wait_for_battle_assets_with_deadline(battle_view, battle_preload_started_msec)
 	if not battle_assets_ok:
 		print("BATTLE_ENTRY_PRELOAD_TIMEOUT stage=%s elapsed_ms=%d" % [AppState.selected_stage_id, Time.get_ticks_msec() - battle_preload_started_msec])
-		_show_loading_failure_screen("BATTLE UNAVAILABLE", "Battle assets did not become ready within 5 seconds.", "BATTLE")
+		_show_loading_failure_screen("BATTLE UNAVAILABLE", "Battle asset loading stopped making progress.", "BATTLE")
 		return
 	if current_screen != "BATTLE" or battle_view == null or not is_instance_valid(battle_view):
 		_cancel_transition_loading(loading_token)
@@ -3958,6 +3822,10 @@ func _rebuild_battle_overlay() -> void:
 	var previous_overlay := battle_view.get_node_or_null("BattleOverlay")
 	if previous_overlay != null:
 		previous_overlay.free()
+	# The pause center is a sibling of BattleOverlay. Rebuilding on resize must
+	# retire it too, including while the battle is paused.
+	if is_instance_valid(battle_pause_center):
+		battle_pause_center.free()
 	ultimate_buttons.clear()
 	party_status_labels.clear()
 	battle_hud = null
@@ -3972,6 +3840,10 @@ func _build_battle_overlay() -> void:
 	var overlay := VBoxContainer.new()
 	overlay.name = "BattleOverlay"
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.offset_left = 20
+	overlay.offset_top = 20
+	overlay.offset_right = -20
+	overlay.offset_bottom = -24
 	overlay.mouse_filter = Control.MOUSE_FILTER_PASS
 	var portrait := _is_portrait_layout()
 	battle_portrait_layout = portrait
@@ -3983,6 +3855,8 @@ func _build_battle_overlay() -> void:
 	overlay.add_child(top)
 	battle_hud = _label("", 22, Color.WHITE)
 	battle_hud.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	battle_hud.autowrap_mode = TextServer.AUTOWRAP_OFF
+	battle_hud.clip_text = true
 	battle_hud.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER if portrait else HORIZONTAL_ALIGNMENT_LEFT
 	battle_hud.custom_minimum_size = Vector2(0.0, 28.0 * ui_scale) if portrait else Vector2.ZERO
 	top.add_child(battle_hud)
@@ -3995,17 +3869,18 @@ func _build_battle_overlay() -> void:
 	if portrait:
 		battle_actions.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	top.add_child(battle_actions)
-	battle_auto_button = _button("A·ON", _toggle_battle_auto, false, Vector2(64 if portrait else 130, 56))
+	battle_auto_button = CommandPresentation.button(self, "A·ON", _toggle_battle_auto, false, Vector2(160, 86))
 	battle_auto_button.name = "BattleAutoButton"
 	battle_auto_button.tooltip_text = "기본 공격·일반 스킬과 조건부 필살기를 자동 운용합니다."
 	battle_actions.add_child(battle_auto_button)
-	battle_speed_button = _button("×1", _cycle_battle_speed, false, Vector2(58 if portrait else 110, 56))
+	battle_speed_button = CommandPresentation.button(self, "×1", _cycle_battle_speed, false, Vector2(112, 86))
 	battle_speed_button.name = "BattleSpeedButton"
 	battle_actions.add_child(battle_speed_button)
-	var pause_button := _button("Ⅱ" if portrait else "일시정지", _toggle_battle_pause, false, Vector2(58 if portrait else 140, 56))
+	var pause_button := CommandPresentation.button(self, "Ⅱ", _toggle_battle_pause, false, Vector2(112, 86))
+	pause_button.name = "BattlePauseButton"
 	pause_button.tooltip_text = "전투를 일시정지합니다."
 	battle_actions.add_child(pause_button)
-	battle_skip_button = _button("▶▶" if portrait else "SKIP ▶", _skip_battle, false, Vector2(64 if portrait else 130, 56))
+	battle_skip_button = CommandPresentation.button(self, "SKIP", _skip_battle, false, Vector2(148, 86))
 	battle_skip_button.name = "BattleSkipButton"
 	battle_skip_button.tooltip_text = "현재 AUTO 설정과 전투 상태를 유지한 채 남은 전투를 즉시 계산합니다."
 	battle_actions.add_child(battle_skip_button)
@@ -4030,7 +3905,8 @@ func _build_battle_overlay() -> void:
 		var skill := DataRegistry.skill(definition.ultimate_skill_id)
 		var orb := BattleUltimateOrbScript.new() as Button
 		orb.name = "BattleUltimateOrb_%s" % str(unit.def_id)
-		orb.custom_minimum_size = responsive_button_minimum_for_size(Vector2(64 if portrait else 126, 64 if portrait else 126), _runtime_layout_size())
+		orb.set_meta("composed_control", true)
+		orb.custom_minimum_size = Vector2(126, 126)
 		var display_name := LocalizationService.tr_key(str(definition.get("name_key", ""))).replace(" (DEV)", "")
 		var fallback_portrait := _asset_texture(str(definition.get("portrait_asset_id", "")))
 		(orb as BattleUltimateOrb).configure(battle_view.ultimate_orb_texture_for(str(unit.def_id), fallback_portrait), display_name, int(skill.get("tactical_cost", 10)), _battle_skill_orb_accent(definition))
@@ -4060,7 +3936,7 @@ func _build_battle_overlay() -> void:
 	var pause_title := _label("전투 일시정지", 36, Color("f1d77a"))
 	pause_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	pause_box.add_child(pause_title)
-	var pause_help := _label("시뮬레이션 Tick 0 • 전투 설정", 18, Color("91aac8"))
+	var pause_help := _label("전투를 계속하거나 설정을 변경하세요", 18, Color("91aac8"))
 	pause_help.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	pause_box.add_child(pause_help)
 	pause_box.add_child(_button("계속", _toggle_battle_pause, false, Vector2(300, 62)))
@@ -4075,6 +3951,8 @@ func _build_battle_overlay() -> void:
 	_update_battle_hud()
 
 func _update_battle_hud() -> void:
+	var overlay := battle_view.get_node_or_null("BattleOverlay")
+	if overlay != null: overlay.visible = not battle_view.scene_transition_active()
 	var simulation := battle_view.simulation
 	var remain := maxf(0, simulation.state.time_limit - simulation.state.time_elapsed)
 	# On a phone the boss' world-head bar is the authoritative, immediately
@@ -4083,7 +3961,7 @@ func _update_battle_hud() -> void:
 	# battlefield from the actors. Keep only global timing/resource context in a
 	# deliberately single-line mobile rail; desktop retains the fuller encounter
 	# read where it has the horizontal room.
-	if battle_portrait_layout:
+	if battle_portrait_layout or _is_compact_landscape_layout():
 		battle_hud.text = "WAVE %d/%d  ·  %ds  ·  T %.0f/10" % [simulation.state.wave, simulation.state.wave_count, roundi(remain), simulation.state.tactical_gauge]
 	else:
 		var boss_text := ""
@@ -4472,6 +4350,9 @@ func _growth_candidate_text(candidate: Dictionary) -> String:
 	return "%s\nLv.%d → Lv.%d 가능" % [weapon_name, int(candidate.get("from_level", 0)), int(candidate.get("to_level", 0))]
 
 func _goto_growth_candidate(candidate: Dictionary) -> void:
+	growth_tab = "스킬업" if candidate.get("kind", "") == "SKILL" else ("레벨업" if candidate.get("kind", "") == "LEVEL" else "장비·돌파")
+	if candidate.has("material_id"): growth_material = str(candidate.material_id)
+	growth_feedback = ""
 	var character_id := str(candidate.get("character_id", ""))
 	if character_id.is_empty():
 		var weapon_id := str(candidate.get("weapon_id", ""))
@@ -4491,7 +4372,7 @@ func _growth_plan_action_text(action: Dictionary) -> String:
 	if kind == "BREAKTHROUGH":
 		return "%s · 돌파" % _display_character_name(character_id)
 	if kind == "SKILL":
-		return "%s · %s 강화" % [_display_character_name(character_id), str(action.get("slot", "")).to_upper()]
+		return "%s · %s 강화" % [_display_character_name(character_id), {"normal": "일반 스킬", "passive": "패시브", "ultimate": "궁극기"}.get(str(action.get("slot", "")), "스킬")]
 	var weapon_id := str(action.get("weapon_id", ""))
 	if kind == "WEAPON_LEVEL":
 		return "%s · %s 사용" % [_display_runtime_name(weapon_id), _display_item_name(str(action.get("material_id", "")))]
@@ -4521,14 +4402,20 @@ func _apply_recommended_party_growth(max_actions := 12) -> void:
 		"error": str(result.get("error", "")),
 	}
 	if not bool(result.get("ok", false)):
+		if not last_growth_plan_actions.is_empty():
+			var partial_save := SaveService.save_game()
+			growth_save_pending = not partial_save.ok
+		growth_feedback = "권장 성장 %d단계 적용 후 중단했습니다. 현재 재료와 조건을 확인하세요.%s" % [last_growth_plan_actions.size(), " 저장을 다시 시도하세요." if growth_save_pending else ""]
 		footer_status.text = "권장 성장 %d단계 적용 후 중단: %s" % [last_growth_plan_actions.size(), str(result.get("error", "UNKNOWN"))]
 		_show_screen("GROWTH")
 		return
 	if last_growth_plan_actions.is_empty():
 		footer_status.text = "현재 파티에 즉시 적용 가능한 권장 성장이 없습니다."
 	else:
-		SaveService.save_game()
+		var saved := SaveService.save_game()
+		growth_save_pending = not saved.ok
 		footer_status.text = "권장 성장 %d단계 적용 완료%s" % [last_growth_plan_actions.size(), " · 추가 권장 성장 있음" if bool(last_growth_plan_report.get("has_more", false)) else ""]
+	growth_feedback = footer_status.text + (" · 저장하지 못했습니다. 저장을 다시 시도하세요." if growth_save_pending else "")
 	_show_screen("GROWTH")
 
 func _party_growth_snapshot(profile_value: Dictionary) -> Dictionary:
@@ -4593,6 +4480,9 @@ func _reward_item_card(parent: Node, item_name: String, amount: int, before: int
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	heading.add_child(name_label)
 	var amount_label := _label("+%s" % MathUtil.comma(amount), font_size + 6, Color("76f1c9"))
+	amount_label.name = "RewardAmount"
+	amount_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	amount_label.size_flags_horizontal = Control.SIZE_SHRINK_END
 	amount_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	heading.add_child(amount_label)
 	body.add_child(_label("보유량   %s  →  %s" % [MathUtil.comma(before), MathUtil.comma(after)], font_size - 1, Color("b8d8e5")))
@@ -4618,7 +4508,7 @@ func _add_reward_clarity(parent: VBoxContainer, font_size: int) -> void:
 		# affordance below the fold. Two compact cards preserve item diffs while
 		# keeping the growth impact visible without a scroll on landscape screens.
 		var reward_grid := GridContainer.new()
-		reward_grid.columns = 1 if _is_portrait_layout() else 2
+		reward_grid.columns = 1 if _is_portrait_layout() or _runtime_layout_size().x < 1000 or source_type != "BATTLE" else 2
 		reward_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		reward_grid.add_theme_constant_override("h_separation", 10)
 		reward_grid.add_theme_constant_override("v_separation", 8)
@@ -4631,6 +4521,9 @@ func _add_reward_clarity(parent: VBoxContainer, font_size: int) -> void:
 			_reward_item_card(reward_grid, _display_item_name(str(item_id)), int(rewards[item_id]), before, after, font_size)
 	var growth: Dictionary = last_reward_report.get("growth", {})
 	var newly: Array = growth.get("newly_affordable", [])
+	if source_type != "BATTLE" and newly.is_empty():
+		parent.add_child(_label("획득한 보급품을 인벤토리에 보관했습니다.", font_size, GameUI.TEXT_MUTED))
+		return
 	parent.add_child(_label("이번 보상으로 새롭게 가능한 성장", font_size + 5, Color("f1d77a")))
 	if newly.is_empty():
 		_reward_summary_card(parent, "새로 열린 성장 없음\n이번 보상으로 새롭게 열린 성장 항목은 없습니다.", font_size - 1)
@@ -4780,46 +4673,31 @@ func _add_reward_celebration(parent: Node, font_size: int, compact := false) -> 
 	var celebrations := _reward_celebration_queue()
 	if celebrations.is_empty():
 		return
-	var card := Control.new()
+	var card := PanelContainer.new()
 	card.name = "RewardCelebrationQueue"
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var height := (188.0 if compact else 236.0) * _portrait_ui_scale()
-	card.custom_minimum_size = Vector2(0.0, height)
 	parent.add_child(card)
-	var backdrop := Panel.new()
-	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var card_style := GameUI.panel_style(Color("0a1d29f2"), GameUI.SIGNAL, 1, GameUI.RADIUS_MODAL, Vector4.ZERO, 8)
-	backdrop.add_theme_stylebox_override("panel", card_style)
-	card.add_child(backdrop)
-	# The translucent right-side half-body is a non-interactive presentation
-	# layer. A character-specific card is retained for ally joins; key items use
-	# the actual reporting lead, never a made-up illustration.
+	var card_style := GameUI.panel_style(Color("0a1d29f2"), GameUI.SIGNAL, 1, GameUI.RADIUS_MODAL, Vector4(14, 14, 14, 14), 8)
+	card.add_theme_stylebox_override("panel", card_style)
+	# Containers own the height. The former fixed-height Control let its bottom
+	# buttons grow past the card when the mobile font/touch-size policy ran.
+	var layout := VBoxContainer.new()
+	layout.add_theme_constant_override("separation", 14)
+	card.add_child(layout)
+	var copy_row := HBoxContainer.new()
+	layout.add_child(copy_row)
+	var copy := VBoxContainer.new()
+	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	copy.add_theme_constant_override("separation", 5)
+	copy_row.add_child(copy)
 	var art := TextureRect.new()
 	art.name = "RewardCelebrationHalfBodyArt"
 	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	art.set_anchor(SIDE_LEFT, 0.56)
-	art.set_anchor(SIDE_TOP, 0.0)
-	art.set_anchor(SIDE_RIGHT, 1.0)
-	art.set_anchor(SIDE_BOTTOM, 1.0)
-	art.offset_left = -10.0
-	art.offset_top = -height * 0.18
-	art.offset_right = -8.0
-	art.offset_bottom = 0.0
-	art.modulate = Color(1.0, 1.0, 1.0, 0.46)
+	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	art.custom_minimum_size = Vector2(140, 160) if not compact else Vector2.ZERO
+	art.modulate = Color(1.0, 1.0, 1.0, 0.72)
 	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	card.add_child(art)
-	var copy := VBoxContainer.new()
-	copy.set_anchor(SIDE_LEFT, 0.0)
-	copy.set_anchor(SIDE_TOP, 0.0)
-	copy.set_anchor(SIDE_RIGHT, 0.67)
-	copy.set_anchor(SIDE_BOTTOM, 1.0)
-	copy.offset_left = 22.0
-	copy.offset_top = 17.0
-	copy.offset_right = -6.0
-	copy.offset_bottom = -54.0
-	copy.add_theme_constant_override("separation", 3)
-	card.add_child(copy)
+	copy_row.add_child(art)
 	var eyebrow := _label("", font_size - 1, Color("81e9d5"))
 	copy.add_child(eyebrow)
 	var title := _label("", font_size + (7 if compact else 10), Color("fff4d4"))
@@ -4832,26 +4710,25 @@ func _add_reward_celebration(parent: Node, font_size: int, compact := false) -> 
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	copy.add_child(body)
 	var controls := HBoxContainer.new()
-	controls.set_anchor(SIDE_LEFT, 0.0)
-	controls.set_anchor(SIDE_TOP, 1.0)
-	controls.set_anchor(SIDE_RIGHT, 0.67)
-	controls.set_anchor(SIDE_BOTTOM, 1.0)
-	controls.offset_left = 18.0
-	controls.offset_top = -46.0
-	controls.offset_right = -8.0
-	controls.offset_bottom = -10.0
 	controls.add_theme_constant_override("separation", 8)
-	card.add_child(controls)
+	layout.add_child(controls)
 	var page_counter := _label("", font_size - 2, Color("b8d8e5"))
 	page_counter.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	page_counter.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	controls.add_child(page_counter)
-	var skip_button := _button("보상 스킵", func() -> void: pass, false, Vector2(132 if compact else 152, 42 if compact else 48))
+	var skip_button := CommandPresentation.button(self, "접기", func() -> void: pass, false, Vector2(190, 72))
 	skip_button.name = "RewardCelebrationSkip"
+	skip_button.size_flags_horizontal = Control.SIZE_FILL
 	controls.add_child(skip_button)
-	var next_button := _button("다음", func() -> void: pass, false, Vector2(112 if compact else 132, 42 if compact else 48))
+	var next_button := CommandPresentation.button(self, "다음", func() -> void: pass, false, Vector2(220, 72))
 	next_button.name = "RewardCelebrationNext"
+	next_button.size_flags_horizontal = Control.SIZE_FILL
 	controls.add_child(next_button)
+	if compact:
+		for button in [skip_button, next_button]:
+			button.set_meta("compact_reward_control", true)
+			button.custom_minimum_size = Vector2(106, 52) * _portrait_ui_scale()
+			button.add_theme_font_size_override("font_size", roundi(15.0 * _portrait_ui_scale()))
 	var queue_index := 0
 	var show_entry: Callable
 	show_entry = func() -> void:
@@ -4866,7 +4743,7 @@ func _add_reward_celebration(parent: Node, font_size: int, compact := false) -> 
 		next_button.text = "결과 보기" if queue_index >= celebrations.size() - 1 else "다음"
 		var entry_character: Dictionary = entry.get("character", {})
 		art.texture = _asset_texture(str(entry_character.get("portrait_asset_id", ""))) if not entry_character.is_empty() else null
-		art.visible = art.texture != null
+		art.visible = not compact and art.texture != null
 		card.modulate = Color(1.0, 1.0, 1.0, 0.0)
 		card.scale = Vector2(0.985, 0.985)
 		var reveal := create_tween()
@@ -4900,6 +4777,12 @@ func result_feature_character_for_report(report: Dictionary, party: Array) -> Di
 		if not event_character.is_empty():
 			return event_character
 	return DataRegistry.character(str(party[0])) if not party.is_empty() else {}
+
+func _result_map_action_text() -> String:
+	var target := str(AppState.profile.get("campaign_transition", {}).get("to_stage", ""))
+	if target.is_empty(): return "지도로"
+	var chapter := DataRegistry.chapter(str(DataRegistry.stage(target).get("chapter_id", "")))
+	return "제%d장으로 ›" % int(chapter.get("number", 1))
 
 func _show_result() -> void:
 	var loading_token := _transition_loading_token_for(TRANSITION_LOADING_BATTLE_RESULT)
@@ -4944,6 +4827,7 @@ func _show_result() -> void:
 	print("RESULT_BUILD_TRACE step=lead id=%s" % str(lead.get("id", "")))
 	var art_panel := PanelContainer.new()
 	art_panel.custom_minimum_size = Vector2(220, 360) if compact_landscape else Vector2(260, 500)
+	art_panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	hero.add_child(art_panel)
 	art_panel.add_child(_art_rect(str(lead.portrait_asset_id), Vector2(200, 330) if compact_landscape else Vector2(240, 470)))
 	print("RESULT_BUILD_TRACE step=art")
@@ -4964,9 +4848,9 @@ func _show_result() -> void:
 	# otherwise Godot infers Array[String] from the relay branch and aborts the
 	# RESULT tree at 96% when an ordinary map battle supplies the generic branch.
 	var growth_party: Array = battle_party_ids if result_is_relay and not battle_party_ids.is_empty() else AppState.get_party()
-	actions.add_child(_button("권장 파티 성장", func(party := growth_party): AppState.selected_character_id = str(party[0]); SceneRouter.go("GROWTH"), false, Vector2(220, 66)))
-	actions.add_child(_button("릴레이 작전으로" if result_is_relay else "챕터 맵으로", func(): SceneRouter.go("RELAY" if result_is_relay else "STAGE_SELECT", {"result_return": true}), false, Vector2(220, 66)))
-	actions.add_child(_button("홈", func(): SceneRouter.go("HOME"), false, Vector2(160, 66)))
+	actions.add_child(CommandPresentation.button(self, "파티 성장", func(party := growth_party): AppState.selected_character_id = str(party[0]); SceneRouter.go("GROWTH"), false, Vector2(300, 84)))
+	actions.add_child(CommandPresentation.button(self, "릴레이 작전" if result_is_relay else _result_map_action_text(), func(): SceneRouter.go("RELAY" if result_is_relay else "STAGE_SELECT", {"result_return": true}), false, Vector2(300, 84)))
+	actions.add_child(CommandPresentation.button(self, "본부", func(): SceneRouter.go("HOME"), false, Vector2(200, 84)))
 	print("RESULT_BUILD_TRACE step=actions")
 	_set_transition_loading_phase(loading_token, "Finalizing result actions", 99.0, 0.08)
 	AudioService.play_bgm("audio_bgm_lobby")
@@ -4975,7 +4859,7 @@ func _show_result() -> void:
 
 func _show_result_portrait() -> void:
 	var ui_scale := _portrait_ui_scale()
-	var report_scroll := ScrollContainer.new()
+	var report_scroll := preload("res://ui/touch_progression_scroll.gd").new()
 	report_scroll.name = "PrimaryContentScroll"
 	report_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	report_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
@@ -5008,7 +4892,7 @@ func _show_result_portrait() -> void:
 	var result_is_relay := str(last_reward_report.get("source_type", "")) == "RELAY"
 	var growth_party: Array = battle_party_ids if result_is_relay and not battle_party_ids.is_empty() else AppState.get_party()
 	actions.add_child(_button("권장 파티 성장", func(party := growth_party): AppState.selected_character_id = str(party[0]); SceneRouter.go("GROWTH"), false, Vector2(320, 52)))
-	actions.add_child(_button("릴레이 작전으로" if result_is_relay else "챕터 맵으로", func(): SceneRouter.go("RELAY" if result_is_relay else "STAGE_SELECT", {"result_return": true}), false, Vector2(320, 52)))
+	actions.add_child(_button("릴레이 작전으로" if result_is_relay else _result_map_action_text(), func(): SceneRouter.go("RELAY" if result_is_relay else "STAGE_SELECT", {"result_return": true}), false, Vector2(320, 52)))
 	actions.add_child(_button("홈", func(): SceneRouter.go("HOME"), false, Vector2(320, 52)))
 
 func _sweep(count: int) -> void:
@@ -5030,93 +4914,133 @@ func _sweep(count: int) -> void:
 	else: footer_status.text = result.error
 
 func _show_roster() -> void:
-	_title("캐릭터 목록", "44명 • 역할/위치/공격/방어 계통 검증")
-	var portrait := _is_portrait_layout()
-	var roster_box := _scroll_box()
-	var grid := GridContainer.new()
-	grid.columns = 1 if portrait else 4
-	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	roster_box.add_child(grid)
-	for character in DataRegistry.list_of("characters"):
-		var progress: Dictionary = AppState.profile.roster[character.id]
-		var lock_prefix := "잠김 · " if not bool(progress.unlocked) else ""
-		grid.add_child(_button("%s%s\n%s • %s\nLv.%d B%d • 관계 %d" % [lock_prefix, LocalizationService.tr_key(character.name_key), character.role, character.preferred_position, progress.level, progress.breakthrough, progress.relationship_level], func(character_id: String = str(character.id)): AppState.selected_character_id = character_id; SceneRouter.go("CHARACTER_DETAIL"), false, Vector2(300 if portrait else 290, 112 if portrait else 130)))
+	preload("res://screens/command_presentation.gd").roster(self)
 
 func _show_growth() -> void:
-	var cid := AppState.selected_character_id
+	preload("res://screens/command_presentation.gd").growth(self)
+
+func _growth_cost_rows(parent: Node, cost: Dictionary) -> bool:
+	var affordable := not cost.is_empty()
+	for id_value in cost:
+		var id := str(id_value)
+		var need := int(cost[id])
+		var have := AppState.inventory_count(id)
+		var shortage := maxi(0, need - have)
+		affordable = affordable and shortage == 0
+		parent.add_child(_label("%s  ·  필요 %s / 보유 %s%s" % [_display_item_name(id), MathUtil.comma(need), MathUtil.comma(have), "  ·  %s 부족" % MathUtil.comma(shortage) if shortage > 0 else ""], 18, Color("f1b4a2") if shortage > 0 else Color("c7d9ed")))
+		if shortage > 0:
+			parent.add_child(_button("%s 획득처" % _display_item_name(id), func(value := id): _go_to_item_source(value), false, Vector2(1, 44)))
+	return affordable
+
+func _growth_level_reason(cid: String, preview: Dictionary) -> String:
+	var state: Dictionary = AppState.profile.roster[cid]
+	if int(state.level) >= int(preview.cap):
+		if int(state.level) >= 100: return "최고 레벨입니다."
+		if int(state.level) >= int(AppState.profile.account.level):
+			return "계정 레벨 상한입니다. 작전을 완료해 계정 레벨을 먼저 올리세요."
+		return "돌파가 필요합니다. 장비·돌파 탭에서 레벨 상한을 높이세요."
+	if int(preview.unused_xp) > 0: return "이 재료는 현재 상한을 넘습니다. 더 작은 훈련 노트를 선택하세요."
+	return ""
+
+func _build_growth_level(parent: Node, cid: String) -> void:
+	preload("res://screens/command_presentation.gd").level(self, parent, cid)
+
+func _growth_skill_effect(cid: String, slot: String, value: float) -> String:
 	var definition := DataRegistry.character(cid)
-	var progress: Dictionary = AppState.profile.roster[cid]
-	_title(LocalizationService.tr_key(definition.name_key), "정보 • 능력치 • 스킬 • 레벨업 • 돌파 • 무기 • 관계 • 프로필")
-	var portrait := _is_portrait_layout()
-	var growth_content := _scroll_box()
-	var hero: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
-	hero.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hero.add_theme_constant_override("separation", 18)
-	growth_content.add_child(hero)
-	var portrait_panel := PanelContainer.new()
-	portrait_panel.custom_minimum_size = Vector2(300, 292) if portrait else Vector2(306, 372)
-	hero.add_child(portrait_panel)
-	portrait_panel.add_child(_art_rect(str(definition.portrait_asset_id), Vector2(276, 270) if portrait else Vector2(282, 350)))
-	var summary := _panel_box(hero)
-	summary.add_child(_label("%s / %s / %s→%s" % [definition.role, definition.preferred_position, definition.attack_type, definition.defense_type], 23, Color("91d8d0")))
-	summary.add_child(_label("Lv.%d (상한 %d)  EXP %d   B%d   관계 Lv.%d" % [progress.level, CharacterProgression.level_cap(progress), progress.xp, progress.breakthrough, progress.relationship_level], 25))
-	summary.add_child(_label("상세 능력치\n%s" % _format_stats(CharacterProgression.final_stats(cid)), 19, Color("a8bed8")))
-	if not bool(progress.unlocked):
-		summary.add_child(_label("스토리 해금 전 프로필입니다. 초상화·역할·기본 능력치는 확인할 수 있지만 성장, 장비, 편성 및 보상 적용은 해금 후에만 가능합니다.", 18, Color("f1d77a")))
-		return
-	var level_preview := CharacterProgression.preview(cid, "TRAINING_NOTE_L", 1)
-	summary.add_child(_label("레벨업 예상: Lv.%d / EXP %d • 크레딧 %s • 잉여 EXP %d" % [level_preview.level, level_preview.xp, MathUtil.comma(int(level_preview.credit_cost)), level_preview.unused_xp], 18, Color("f1d77a") if int(level_preview.unused_xp) > 0 else Color("8fe0b6")))
-	var weapon_id := str(progress.equipped_weapon_id)
+	var skill := DataRegistry.skill(str(definition[slot + "_skill_id"]))
+	var effect := str(skill.get("effect", ""))
+	if slot == "passive":
+		var stat := "체력" if definition.role == "GUARDIAN" else ("회복력" if definition.role == "MEDIC" else "공격력")
+		return "%s +%.1f%%" % [stat, value * 100.0]
+	if slot == "ultimate" and effect == "BUFF": return "아군 전체 공격 속도 +20% · 7초"
+	if slot == "ultimate" and effect == "DEBUFF": return "적 1명 방어력 -25% · 7초"
+	if effect == "HEAL": return "%s · 회복력의 %.1f%% 회복" % ["아군 전체" if slot == "ultimate" else "체력이 가장 낮은 아군", value * (0.72 if slot == "ultimate" else 1.0) * 100.0]
+	if effect in ["SHIELD", "TAUNT"]: return "%s · 회복력의 %.1f%% 보호막%s" % ["아군 전체" if slot == "ultimate" else ("자신" if effect == "TAUNT" else "체력이 가장 낮은 아군"), value * (0.8 if effect == "TAUNT" else 1.0) * 100.0, " · 도발 4초" if effect == "TAUNT" else ""]
+	return "%s · 공격력의 %.1f%% 공격 계수%s" % ["적 전체" if effect == "AOE_DAMAGE" else "적 1명", value * ((0.82 if slot == "ultimate" else 0.62) if effect == "AOE_DAMAGE" else 1.0) * 100.0, " · 감속 3초" if slot == "normal" and effect == "SLOW" else ""]
+
+func _build_growth_skills(parent: Node, cid: String) -> void:
+	parent.add_child(_label("강화할 스킬을 선택하세요. 비용은 스킬마다 다릅니다.", 18))
+	var cards := GridContainer.new()
+	cards.columns = 1 if _is_portrait_layout() or _is_compact_landscape_layout() else 3
+	cards.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	parent.add_child(cards)
+	var definition := DataRegistry.character(cid)
+	for slot in ["normal", "passive", "ultimate"]:
+		var box := _panel_box(cards)
+		box.name = "GrowthSkill_" + slot
+		var skill := DataRegistry.skill(str(definition[slot + "_skill_id"]))
+		var level := int(AppState.profile.roster[cid].skills[slot])
+		var comparison := SkillUpgradeService.comparison(cid, slot)
+		var fixed := not SkillUpgradeService.supports_upgrade(cid, slot)
+		box.add_child(_label("%s · Lv.%d\n%s" % [{"normal": "일반 스킬", "passive": "패시브", "ultimate": "궁극기"}[slot], level, LocalizationService.tr_key(str(skill.name_key)).replace(" (DEV)", "")], 21, Color("f1d77a")))
+		box.add_child(_label("현재  " + _growth_skill_effect(cid, slot, float(comparison.current)), 18))
+		var affordable := false
+		if fixed:
+			box.add_child(_label("효과가 고정된 스킬입니다. 추가 강화에 재화를 쓰지 않습니다.", 18))
+		elif comparison.max:
+			box.add_child(_label("최고 레벨에 도달했습니다.", 18, Color("8fe0b6")))
+		else:
+			box.add_child(_label("강화 후  " + _growth_skill_effect(cid, slot, float(comparison.next)), 18, Color("8fe0b6")))
+			affordable = _growth_cost_rows(box, SkillUpgradeService.next_cost(cid, slot))
+		var action := _button("추가 강화 불필요" if fixed else ("강화 완료" if comparison.max else "Lv.%d → %d 강화" % [level, level + 1]), func(value: String = slot, target := level + 1):
+			_finish_growth_action(SkillUpgradeService.upgrade(cid, value), "%s 스킬 Lv.%d 강화 완료" % [{"normal": "일반", "passive": "패시브", "ultimate": "궁극기"}[value], target]), not affordable or growth_save_pending, Vector2(1, 52))
+		_apply_skill_icon(action, skill, roundi(32 * _responsive_control_scale()))
+		action.name = "GrowthSkillApply_" + slot
+		_make_primary_button(action)
+		box.add_child(action)
+	parent.add_child(_label("공격 계수는 방어력·상성·치명타 적용 전 기준입니다. 회복과 보호막 수치는 회복력에 비례합니다.", 16, Color("91aac8")))
+
+func _finish_growth_action(result: GameResult, message: String) -> void:
+	if result.ok:
+		var saved := SaveService.save_game()
+		growth_save_pending = not saved.ok
+		growth_feedback = message + (" · 저장 완료" if saved.ok else " · 적용됐지만 저장하지 못했습니다. 저장을 다시 시도하세요.")
+	else:
+		growth_feedback = "강화하지 않았습니다. 재료와 성장 조건을 다시 확인하세요."
+	_show_screen("GROWTH")
+
+func _retry_growth_save() -> void:
+	var saved := SaveService.save_game()
+	growth_save_pending = not saved.ok
+	growth_feedback = "변경 내용 저장 완료" if saved.ok else "아직 저장하지 못했습니다. 화면을 유지하고 다시 시도하세요."
+	_show_screen("GROWTH")
+
+func _build_growth_equipment(parent: Node, cid: String) -> void:
+	var state: Dictionary = AppState.profile.roster[cid]
+	var box := _panel_box(parent)
+	box.add_child(_label("돌파 · 레벨 상한 높이기", 21, Color("f1d77a")))
+	var breakthrough := int(state.breakthrough)
+	var cap := int([20, 40, 60, 80, 90, 100][breakthrough])
+	box.add_child(_label("현재 돌파 %d · 돌파 상한 Lv.%d\n계정 레벨 %d도 함께 적용됩니다." % [breakthrough, cap, AppState.profile.account.level], 18))
+	var cost := BreakthroughService.next_cost(cid)
+	var affordable := _growth_cost_rows(box, cost)
+	if int(state.level) < cap: box.add_child(_label("캐릭터 Lv.%d에 도달하면 돌파할 수 있습니다." % cap, 18))
+	box.add_child(_button("최종 돌파 완료" if breakthrough >= 5 else "돌파 %d → %d" % [breakthrough, breakthrough + 1], func(): _finish_growth_action(BreakthroughService.upgrade(cid), "돌파 완료"), breakthrough >= 5 or int(state.level) < cap or not affordable or growth_save_pending, Vector2(1, 52)))
+	var weapon_id := str(state.equipped_weapon_id)
 	var weapon_state: Dictionary = AppState.profile.weapons[weapon_id]
-	var party_selector: Container = GridContainer.new() if portrait else HBoxContainer.new()
-	if party_selector is GridContainer:
-		(party_selector as GridContainer).columns = 2
-	party_selector.add_theme_constant_override("separation", 8)
-	growth_content.add_child(party_selector)
-	for party_id_variant in AppState.get_party():
-		var party_id := str(party_id_variant)
-		party_selector.add_child(_button(_display_character_name(party_id), func(value: String = party_id): AppState.selected_character_id = value; _show_screen("GROWTH"), party_id == cid, Vector2(156, 52)))
-	if portrait:
-		# Result -> Growth must not make a phone player hunt through a long
-		# character dossier before the two progression actions they just earned.
-		# Keep one compact, real-action rail above the detailed report; the full
-		# material and skill controls remain below for deliberate comparison.
-		var quick_box := _panel_box(growth_content)
-		quick_box.name = "MobileGrowthQuickActions"
-		quick_box.add_child(_label("바로 성장", 20, Color("f1d77a")))
-		var quick_grid := GridContainer.new()
-		quick_grid.columns = 2
-		quick_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		quick_grid.add_theme_constant_override("h_separation", 8)
-		quick_grid.add_theme_constant_override("v_separation", 8)
-		quick_box.add_child(quick_grid)
-		var quick_level_preview := CharacterProgression.preview(cid, "TRAINING_NOTE_L", 1)
-		var quick_level_disabled := AppState.inventory_count("TRAINING_NOTE_L") < 1 or AppState.inventory_count("CREDIT") < int(quick_level_preview.credit_cost) or int(quick_level_preview.unused_xp) > 0 or int(progress.level) >= CharacterProgression.level_cap(progress)
-		quick_grid.add_child(_button("레벨업\n%s · Lv.%d" % [_display_item_name("TRAINING_NOTE_L"), int(quick_level_preview.level)], func(): _report_result(CharacterProgression.use_material(cid, "TRAINING_NOTE_L", 1)); _show_screen("GROWTH"), quick_level_disabled, Vector2(152, 64)))
-		var quick_weapon_preview := WeaponUpgradeService.preview(weapon_id, "WEAPON_CHIP_M", 1)
-		var quick_weapon_disabled := AppState.inventory_count("WEAPON_CHIP_M") < 1 or not quick_weapon_preview.ok or int(quick_weapon_preview.value.get("unused_xp", 0)) > 0
-		quick_grid.add_child(_button("무기 강화\nLv.%d · T%d" % [int(weapon_state.level), int(weapon_state.tier)], func(): _report_result(WeaponUpgradeService.use_material(weapon_id, "WEAPON_CHIP_M", 1)); _show_screen("GROWTH"), quick_weapon_disabled, Vector2(152, 64)))
-		quick_grid.add_child(_button("무기 티어업", func(): _report_result(WeaponUpgradeService.tier_up(weapon_id)); _show_screen("GROWTH"), int(weapon_state.tier) >= 6, Vector2(152, 58)))
-		quick_grid.add_child(_button("보유 장비 보기", func(): SceneRouter.go("INVENTORY"), false, Vector2(152, 58)))
-		var equipment_box := _panel_box(growth_content)
-		equipment_box.name = "MobileEquipmentChoices"
-		equipment_box.add_child(_label("장비 교체", 19, Color("91aac8")))
-		var equipment_grid := GridContainer.new()
-		equipment_grid.columns = 2
-		equipment_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		equipment_grid.add_theme_constant_override("h_separation", 8)
-		equipment_grid.add_theme_constant_override("v_separation", 8)
-		equipment_box.add_child(equipment_grid)
-		for weapon in DataRegistry.list_of("weapons"):
-			if weapon.weapon_class == definition.weapon_class:
-				var equipment_button := _button(_mobile_equipment_option_text(weapon), func(value: String = str(weapon.id)): progress.equipped_weapon_id = value; SaveService.save_game(); _show_screen("GROWTH"), weapon.id == weapon_id, Vector2(152, 64))
-				equipment_button.name = "MobileEquipmentOption_%s" % str(weapon.id)
-				equipment_button.tooltip_text = "%s · %s" % [_display_runtime_name(str(weapon.id)), "Equip" if LocalizationService.language == "en" else "장비 교체"]
-				equipment_grid.add_child(equipment_button)
+	var equipment := _panel_box(parent)
+	equipment.add_child(_label("장비 · %s Lv.%d / T%d" % [_display_runtime_name(weapon_id), weapon_state.level, weapon_state.tier], 21))
+	var preview := WeaponUpgradeService.preview(weapon_id, "WEAPON_CHIP_M", 1)
+	var can_level := _growth_cost_rows(equipment, {"WEAPON_CHIP_M": 1})
+	equipment.add_child(_button("무기 강화 · 중급 칩 1개", func(): _finish_growth_action(WeaponUpgradeService.use_material(weapon_id, "WEAPON_CHIP_M", 1), "무기 강화 완료"), not can_level or not preview.ok or int(preview.value.get("unused_xp", 0)) > 0 or growth_save_pending, Vector2(1, 52)))
+	var tier_cost := WeaponUpgradeService.tier_up_cost(weapon_id)
+	var can_tier := _growth_cost_rows(equipment, tier_cost)
+	var tier_cap := int(WeaponUpgradeService.CAPS[int(weapon_state.tier) - 1])
+	if int(weapon_state.level) < tier_cap: equipment.add_child(_label("무기 Lv.%d에 도달하면 티어업할 수 있습니다." % tier_cap, 18))
+	equipment.add_child(_button("무기 티어업", func(): _finish_growth_action(WeaponUpgradeService.tier_up(weapon_id), "무기 티어업 완료"), not can_tier or int(weapon_state.level) < tier_cap or growth_save_pending, Vector2(1, 52)))
+	for weapon in DataRegistry.list_of("weapons"):
+		if weapon.weapon_class == DataRegistry.character(cid).weapon_class and bool(AppState.profile.weapons.get(str(weapon.id), {}).get("owned", false)):
+			var choice := _button(_mobile_equipment_option_text(weapon), func(value: String = str(weapon.id)):
+				state.equipped_weapon_id = value
+				_finish_growth_action(GameResult.success(value), "장비 교체 완료"), weapon.id == weapon_id or growth_save_pending, Vector2(1, 48))
+			choice.name = "MobileEquipmentOption_" + str(weapon.id)
+			equipment.add_child(choice)
+	_build_growth_party_plan(parent)
+
+func _build_growth_party_plan(parent: Node) -> void:
 	var next_plan_action: Dictionary = GrowthPlanBuilderScript.next_legal_action(AppState.get_party())
 	var plan_preview: Dictionary = GrowthPlanBuilderScript.preview_recommended_batch(AppState.get_party(), 12) if not next_plan_action.is_empty() else {}
-	var plan_box := _panel_box(growth_content)
+	var plan_box := _panel_box(parent)
 	plan_box.add_child(_label("권장 파티 성장", 22, Color("f1d77a")))
 	if next_plan_action.is_empty():
 		plan_box.add_child(_label("현재 보유 재료로 즉시 적용 가능한 파티 성장 항목이 없습니다.", 17, Color("91aac8")))
@@ -5126,9 +5050,14 @@ func _show_growth() -> void:
 		for preview_action_value in preview_actions.slice(0, 3):
 			preview_texts.append(_growth_plan_action_text(preview_action_value))
 		var preview_suffix := " 외 %d건" % (preview_actions.size() - preview_texts.size()) if preview_actions.size() > preview_texts.size() else ""
-		plan_box.add_child(_label("다음: %s\n예정 %d단계: %s%s\n균형 우선으로 실제 재료·크레딧을 검증해 최대 12단계만 적용합니다. 개별 성장 규칙과 재료 차감은 동일 서비스가 처리합니다." % [_growth_plan_action_text(next_plan_action), preview_actions.size(), " / ".join(preview_texts), preview_suffix], 17, Color("c7d9ed")))
+		plan_box.add_child(_label("다음: %s\n예정 %d단계: %s%s\n파티 전체가 공유 재료를 사용합니다. 아래 비용을 확인한 뒤 적용하세요." % [_growth_plan_action_text(next_plan_action), preview_actions.size(), " / ".join(preview_texts), preview_suffix], 17, Color("c7d9ed")))
+		var batch_cost: Dictionary = {}
+		for item_id in plan_preview.get("accounting", {}).get("inventory_delta", {}):
+			var delta := int(plan_preview.accounting.inventory_delta[item_id])
+			if delta < 0: batch_cost[item_id] = -delta
+		_growth_cost_rows(plan_box, batch_cost)
 		var recommended_label := "권장 성장 계속 · 최대 12단계" if bool(last_growth_plan_report.get("has_more", false)) and not last_growth_plan_actions.is_empty() else "권장 파티 성장 적용 · 최대 12단계"
-		var recommended_button := _button(recommended_label, func(): _apply_recommended_party_growth(12), false, Vector2(360, 62))
+		var recommended_button := _button(recommended_label, func(): _apply_recommended_party_growth(12), growth_save_pending, Vector2(360, 62))
 		_make_primary_button(recommended_button)
 		plan_box.add_child(recommended_button)
 	if not last_growth_plan_actions.is_empty():
@@ -5138,67 +5067,6 @@ func _show_growth() -> void:
 		var suffix := " 외 %d건" % (last_growth_plan_actions.size() - action_texts.size()) if last_growth_plan_actions.size() > action_texts.size() else ""
 		plan_box.add_child(_label("직전 적용 %d단계: %s%s" % [last_growth_plan_actions.size(), " / ".join(action_texts), suffix], 15, Color("8fe0b6")))
 		plan_box.add_child(_label(_growth_plan_result_text(last_growth_plan_report), 16, Color("c7d9ed")))
-	var grid := GridContainer.new()
-	grid.columns = 1 if portrait else 3
-	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	growth_content.add_child(grid)
-	# Offer every authored training-note denomination.  The actual preview/service
-	# remains the authority, so an oversized note cannot silently waste EXP at a
-	# breakthrough cap and smaller legal notes remain usable in the Web UI.
-	for material_id in ["TRAINING_NOTE_S", "TRAINING_NOTE_M", "TRAINING_NOTE_L", "TRAINING_NOTE_XL"]:
-		var material_preview := CharacterProgression.preview(cid, material_id, 1)
-		var material_disabled: bool = AppState.inventory_count(material_id) < 1 or AppState.inventory_count("CREDIT") < int(material_preview.credit_cost) or int(material_preview.unused_xp) > 0 or int(progress.level) >= CharacterProgression.level_cap(progress)
-		grid.add_child(_button("레벨업\n%s %d개 · Lv.%d" % [_display_item_name(material_id), AppState.inventory_count(material_id), int(material_preview.level)], func(value: String = material_id): _report_result(CharacterProgression.use_material(cid, value, 1)); _show_screen("GROWTH"), material_disabled, Vector2(290, 86)))
-	grid.add_child(_button("돌파 B%d→B%d" % [progress.breakthrough, mini(5, int(progress.breakthrough) + 1)], func(): _report_result(BreakthroughService.upgrade(cid)); _show_screen("GROWTH"), int(progress.breakthrough) >= 5, Vector2(290, 86)))
-	grid.add_child(_button("관계 경험 +50 (DEV 선물)", func(): RelationshipService.grant(cid, 50); _show_screen("GROWTH"), int(progress.relationship_level) >= 20, Vector2(290, 86)))
-	for slot in ["normal", "passive", "ultimate"]:
-		var comparison := SkillUpgradeService.comparison(cid, slot)
-		var max_level := 5 if slot == "ultimate" else 10
-		var next_text := "MAX" if comparison.max else "%.3f→%.3f (+%.3f)" % [comparison.current, comparison.next, comparison.increase]
-		var skill_id := str(definition.get(slot + "_skill_id", ""))
-		var skill := DataRegistry.skill(skill_id)
-		var skill_button := _button("%s Lv.%d/%d\n%s" % [LocalizationService.tr_key(str(skill.get("name_key", slot.to_upper()))).replace(" (DEV)", ""), progress.skills[slot], max_level, next_text], func(value: String = str(slot)): _report_result(SkillUpgradeService.upgrade(cid, value)); _show_screen("GROWTH"), comparison.max, Vector2(290, 98))
-		_apply_skill_icon(skill_button, skill, 64)
-		grid.add_child(skill_button)
-	var weapon_preview := WeaponUpgradeService.preview(weapon_id, "WEAPON_CHIP_M", 1)
-	var weapon_level_disabled: bool = AppState.inventory_count("WEAPON_CHIP_M") < 1 or not weapon_preview.ok or int(weapon_preview.value.get("unused_xp", 0)) > 0
-	grid.add_child(_button("%s 강화\nLv.%d T%d" % [_display_runtime_name(weapon_id), weapon_state.level, weapon_state.tier], func(): _report_result(WeaponUpgradeService.use_material(weapon_id, "WEAPON_CHIP_M", 1)); _show_screen("GROWTH"), weapon_level_disabled, Vector2(290, 86)))
-	grid.add_child(_button("%s 티어업" % _display_runtime_name(weapon_id), func(): _report_result(WeaponUpgradeService.tier_up(weapon_id)); _show_screen("GROWTH"), int(weapon_state.tier) >= 6, Vector2(290, 86)))
-	var detail_box := _panel_box(growth_content)
-	var detail_lines: Array[String] = []
-	detail_lines.append("레벨업 재료: %s 1/%d • %s %s/%s" % [_display_item_name("TRAINING_NOTE_L"), AppState.inventory_count("TRAINING_NOTE_L"), _display_item_name("CREDIT"), MathUtil.comma(AppState.inventory_count("CREDIT")), MathUtil.comma(int(level_preview.credit_cost))])
-	detail_lines.append("돌파 요구: %s" % _cost_detail(BreakthroughService.next_cost(cid)))
-	for slot in ["normal", "passive", "ultimate"]:
-		var comparison := SkillUpgradeService.comparison(cid, slot)
-		var value_text := "MAX" if comparison.max else "%.3f → %.3f / 실제 +%.3f" % [comparison.current, comparison.next, comparison.increase]
-		detail_lines.append("%s: %s • 요구 %s" % [slot.to_upper(), value_text, _cost_detail(SkillUpgradeService.next_cost(cid, slot))])
-	detail_lines.append("무기 강화: %s 1/%d • 현재 추가 %s" % [_display_item_name("WEAPON_CHIP_M"), AppState.inventory_count("WEAPON_CHIP_M"), _format_counts(WeaponUpgradeService.flat_stats_for(weapon_id, weapon_state), false)])
-	detail_lines.append("무기 티어업 요구: %s" % _cost_detail(WeaponUpgradeService.tier_up_cost(weapon_id)))
-	detail_box.add_child(_label("\n".join(detail_lines), 17, Color("b8cae0")))
-	if not portrait:
-		var compatible: BoxContainer = HBoxContainer.new()
-		growth_content.add_child(compatible)
-		compatible.add_child(_label("호환 %s:" % definition.weapon_class, 19, Color("91aac8")))
-		for weapon in DataRegistry.list_of("weapons"):
-			if weapon.weapon_class == definition.weapon_class:
-				compatible.add_child(_button("%s 장착" % _display_runtime_name(str(weapon.id)), func(value: String = str(weapon.id)): progress.equipped_weapon_id = value; SaveService.save_game(); _show_screen("GROWTH"), weapon.id == weapon_id, Vector2(150, 58)))
-	var missing_items: Array[String] = []
-	var current_costs: Array = [BreakthroughService.next_cost(cid), SkillUpgradeService.next_cost(cid, "normal"), SkillUpgradeService.next_cost(cid, "passive"), SkillUpgradeService.next_cost(cid, "ultimate"), WeaponUpgradeService.tier_up_cost(weapon_id)]
-	for cost in current_costs:
-		for item_id in cost:
-			if AppState.inventory_count(str(item_id)) < int(cost[item_id]) and not missing_items.has(str(item_id)):
-				missing_items.append(str(item_id))
-	if AppState.inventory_count("TRAINING_NOTE_L") < 1: missing_items.append("TRAINING_NOTE_L")
-	if AppState.inventory_count("WEAPON_CHIP_M") < 1: missing_items.append("WEAPON_CHIP_M")
-	var footer: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
-	growth_content.add_child(footer)
-	if missing_items.is_empty():
-		footer.add_child(_button("재료 획득처 보기", func(): SceneRouter.go("STAGE_SELECT"), false, Vector2(230, 60)))
-	else:
-		for item_id in missing_items.slice(0, 3):
-			footer.add_child(_button("%s 획득처" % _display_item_name(str(item_id)), func(value: String = str(item_id)): _go_to_item_source(value), false, Vector2(230, 60)))
-	footer.add_child(_button("인벤토리", func(): SceneRouter.go("INVENTORY"), false, Vector2(170, 60)))
-	footer.add_child(_label("B3 프로필 추가 / B5 승리 테두리 해제", 18, Color("879fba")))
 
 func _cost_detail(cost: Dictionary) -> String:
 	if cost.is_empty(): return "MAX / 없음"
@@ -5223,11 +5091,17 @@ func _source_stages_for_item(item_id: String) -> Array[String]:
 
 func _go_to_item_source(item_id: String) -> void:
 	var stages := _source_stages_for_item(item_id)
-	if stages.is_empty():
-		footer_status.text = "%s: 현재 Chapter 1 반복 획득처 없음" % _display_item_name(item_id)
-		return
-	AppState.selected_stage_id = stages[0]
-	SceneRouter.go("STAGE_DETAIL")
+	for stage_id in stages:
+		if AppState.is_stage_unlocked(stage_id):
+			AppState.selected_stage_id = stage_id
+			SceneRouter.go("STAGE_DETAIL")
+			return
+	var message := "%s: 아직 입장 가능한 획득처가 없습니다. 작전을 진행해 다음 지역을 여세요." % _display_item_name(item_id)
+	if stages.is_empty(): message = "%s: 작전 보상 목록에 획득처가 없습니다." % _display_item_name(item_id)
+	if current_screen == "GROWTH":
+		growth_feedback = message
+		_show_screen("GROWTH")
+	else: footer_status.text = message
 
 func _show_inventory() -> void:
 	_title("인벤토리", "통화·경험치·돌파·스킬·무기·조각")
@@ -5258,16 +5132,16 @@ func _show_archive() -> void:
 func _show_settings() -> void:
 	_title("설정", "로컬 설정은 저장 파일에 보존")
 	var box := _scroll_box()
-	box.add_child(_button("언어: %s" % SettingsService.values.language, func(): SettingsService.values.language = "en" if SettingsService.values.language == "ko" else "ko"; _show_screen("SETTINGS"), false, Vector2(300, 64)))
-	box.add_child(_button("로컬 오디오: %s" % ("ON" if SettingsService.values.audio_enabled else "OFF"), func():
+	box.add_child(_button("언어: %s" % ("한국어" if SettingsService.values.language == "ko" else "English"), func(): SettingsService.values.language = "en" if SettingsService.values.language == "ko" else "ko"; _show_screen("SETTINGS"), false, Vector2(300, 64)))
+	box.add_child(_button("배경음악·효과음: %s" % ("켜짐" if SettingsService.values.audio_enabled else "꺼짐"), func():
 		AudioService.set_enabled(not bool(SettingsService.values.audio_enabled))
 		SaveService.save_game()
 		_show_screen("SETTINGS"), false, Vector2(300, 64)))
 	box.add_child(_button("텍스트 속도: %.2fs" % SettingsService.values.text_speed, func(): SettingsService.values.text_speed = .01 if float(SettingsService.values.text_speed) >= .03 else float(SettingsService.values.text_speed) + .01; _show_screen("SETTINGS"), false, Vector2(300, 64)))
-	box.add_child(_button("전투 AUTO 기본: %s" % SettingsService.values.battle_auto, func(): SettingsService.values.battle_auto = not SettingsService.values.battle_auto; _show_screen("SETTINGS"), false, Vector2(300, 64)))
+	box.add_child(_button("자동 전투: %s" % ("켜짐" if SettingsService.values.battle_auto else "꺼짐"), func(): SettingsService.values.battle_auto = not SettingsService.values.battle_auto; _show_screen("SETTINGS"), false, Vector2(300, 64)))
 	box.add_child(_button("맵 카메라 추적: %d%%" % roundi(float(SettingsService.values.map_camera_follow_strength) * 100.0), func(): SettingsService.values.map_camera_follow_strength = 0.35 if float(SettingsService.values.map_camera_follow_strength) > 0.7 else float(SettingsService.values.map_camera_follow_strength) + 0.2; _show_screen("SETTINGS"), false, Vector2(360, 64)))
-	box.add_child(_button("맵 집중선 감소: %s" % SettingsService.values.map_reduced_transition, func(): SettingsService.values.map_reduced_transition = not SettingsService.values.map_reduced_transition; _show_screen("SETTINGS"), false, Vector2(360, 64)))
-	box.add_child(_button("맵 즉시 포커스: %s" % SettingsService.values.map_instant_focus, func(): SettingsService.values.map_instant_focus = not SettingsService.values.map_instant_focus; _show_screen("SETTINGS"), false, Vector2(360, 64)))
+	box.add_child(_button("지도 이동 효과 줄이기: %s" % ("켜짐" if SettingsService.values.map_reduced_transition else "꺼짐"), func(): SettingsService.values.map_reduced_transition = not SettingsService.values.map_reduced_transition; _show_screen("SETTINGS"), false, Vector2(360, 64)))
+	box.add_child(_button("지도 카메라 즉시 이동: %s" % ("켜짐" if SettingsService.values.map_instant_focus else "꺼짐"), func(): SettingsService.values.map_instant_focus = not SettingsService.values.map_instant_focus; _show_screen("SETTINGS"), false, Vector2(360, 64)))
 	box.add_child(_button("오픈소스 / 제3자 라이선스", func(): SceneRouter.go("LICENSE"), false, Vector2(360, 64)))
 	box.add_child(_button("설정 저장", func(): _report_result(SaveService.save_game()), false, Vector2(220, 64)))
 

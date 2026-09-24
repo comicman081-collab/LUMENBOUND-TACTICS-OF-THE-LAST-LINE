@@ -38,9 +38,12 @@ func _run() -> void:
 	grid = HexGridScript.new()
 	grid.load_tiles(definition.get("tiles", []))
 	_test_data()
+	_test_baked_terrain_signature()
 	_test_user_facing_labels()
 	_test_coordinates()
 	_test_paths()
+	_test_river_and_wall_contract()
+	_test_background_coverage()
 	_test_geometry_grounding_contract()
 	_test_unlock_and_progress()
 	_test_save_and_migration()
@@ -56,6 +59,64 @@ func _run() -> void:
 	print("MAP_TEST_SUMMARY total=%d pass=%d fail=%d" % [passed + failed, passed, failed])
 	if not failures.is_empty(): print("FAILURES=", JSON.stringify(failures))
 	get_tree().quit(0 if failed == 0 else 1)
+
+func _test_baked_terrain_signature() -> void:
+	var library := preload("res://chapter_map/view/natural_terrain_library.gd")
+	var signature := library.tile_fingerprint(definition)
+	check(signature.length() == 64, "Complete authored terrain retains its baked fingerprint")
+	var sparse := definition.duplicate(true)
+	sparse.tiles[0].erase("elevation")
+	check(library.tile_fingerprint(sparse).is_empty() and library.descriptor(sparse).is_empty(), "Sparse terrain rejects baked assets without aborting map construction")
+	check(library.tile_fingerprint(definition) == signature, "Sparse cache rejection leaves canonical terrain unchanged")
+
+func _test_background_coverage() -> void:
+	var backdrop_script := preload("res://chapter_map/view/map_backdrop.gd")
+	var bounds: Rect2 = backdrop_script.bounds_for(definition.tiles)
+	var covered := true
+	for node in definition.nodes:
+		var world := HexCoordScript.axial_to_world(Vector2i(int(node.q), int(node.r)), 1.08)
+		covered = covered and bounds.grow(-80).has_point(Vector2(world.x, world.z))
+	check(covered, "MAP_BACKGROUND_01 every NORMAL/HARD stage keeps at least 80 world units of backdrop beyond it")
+	var grid_before := JSON.stringify(grid.tiles)
+	var backdrop := backdrop_script.new()
+	backdrop.configure(definition, grid)
+	check(int(backdrop.get_meta("background_instance_count", 0)) > 0 and grid_before == JSON.stringify(grid.tiles) and backdrop.BED_Y < 0.0, "MAP_BACKGROUND_02 grounded scenery fills the background without modifying navigation or covering gameplay ground")
+	backdrop.free()
+	var polished := preload("res://chapter_map/view/environment_mesh_library.gd").load_once()
+	var valid_kit := polished.size() == 5 and polished.has("canopy_alt") and polished.has("boulder_alt")
+	for mesh in polished.values():
+		var bounds_3d: AABB = mesh.get_aabb()
+		valid_kit = valid_kit and bounds_3d.size.y > .1 and bounds_3d.size.y < .6 and bounds_3d.size.x < .6
+	check(valid_kit, "MAP_ART_KIT_01 Blender environment families load with bounded upright runtime footprints")
+	var map_preview := ChapterMapScreenScript.new()
+	var leaf_material := map_preview._environment_material(Color("3c664b"), 0)
+	check(leaf_material == map_preview._environment_material(Color("3c664b"), 0) and leaf_material.get_shader_parameter("surface_kind") == 0, "MAP_ART_KIT_02 detailed foliage material is cached instead of allocated during movement")
+	check(map_preview._ground_contact_material() == map_preview._ground_contact_material(), "MAP_ART_KIT_03 contact shading reuses one immutable material without real-time shadow maps")
+	map_preview.free()
+
+func _test_river_and_wall_contract() -> void:
+	var river_count := 0
+	var bridge_count := 0
+	var valid := true
+	var footprint: Dictionary = definition.get("river_geometry", {}).get("footprint", {})
+	for tile in definition.tiles:
+		var coord := Vector2i(int(tile.q), int(tile.r))
+		if not footprint.has(HexCoordScript.key(coord)): continue
+		if str(tile.terrain_type) == "BRIDGE":
+			bridge_count += 1
+			valid = valid and grid.traversable(coord)
+		else:
+			river_count += 1
+			valid = valid and not grid.traversable(coord) and bool(tile.movement_blocked)
+	check(valid and river_count > 0 and bridge_count > 0, "RIVER_NAV_01 every visible river footprint is blocked or an explicit bridge", "river=%d bridges=%d" % [river_count, bridge_count])
+	var synthetic := HexGridScript.new()
+	for terrain in ["SHALLOW_WATER", "DEEP_WATER", "RIVER", "WATER", "WALL"]:
+		synthetic.load_tiles([{"q": 0, "r": 0}, {"q": 1, "r": 0, "terrain_type": terrain, "movement_blocked": false}])
+		check(not synthetic.can_step(Vector2i.ZERO, Vector2i(1, 0)) and HexPathfinderScript.find_path(synthetic, Vector2i.ZERO, Vector2i(1, 0)).is_empty() and not HexPathfinderScript.reachable_within(synthetic, Vector2i.ZERO, 3).has("1,0"), "RIVER_NAV_02 %s is excluded from movement, preview and range even with a stale flag" % terrain)
+	var source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd").replace("\r\n", "\n")
+	check(not _source_function_body(source, "_build_interface").contains("FX 조정"), "MAP_UI_01 no FX authoring control occupies the playable toolbar")
+	check(_source_function_body(source, "_create_terrain_dressing").contains('terrain == "RUINS" and movement_blocked'), "WALL_NAV_01 desktop ruin arches cannot occupy an open movement lane")
+	print("RIVER_NAV_COUNTS blocked=%d bridges=%d" % [river_count, bridge_count])
 
 func _test_data() -> void:
 	check(not definition.is_empty(), "CH01 map JSON parses")
@@ -184,7 +245,7 @@ func _test_user_facing_labels() -> void:
 	check(release_reveal.contains(localized_n02) and not release_reveal.contains("CH01-"), "MAP_COPY_03 route-reveal notice resolves localized stage names")
 	check(developer_full.contains("CH01-N02") and developer_reveal.contains("CH01-N02"), "MAP_COPY_04 developer diagnostics retain canonical stage IDs")
 	check(screen.relay_status_display("ACTIVE") == "신호 연결됨" and screen.relay_status_display("OFFLINE") == "신호 복구 필요", "MAP_COPY_05 relay panel converts internal states to player-facing status copy")
-	var source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd")
+	var source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd").replace("\r\n", "\n")
 	var app_source := FileAccess.get_file_as_string("res://autoload/app_state.gd")
 	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
 	check(not source.contains("stage_id.replace(\"CH01-\", \"\")") and not source.contains("join(unlocked)"), "MAP_COPY_06 release map source no longer formats canonical IDs directly")
@@ -321,6 +382,14 @@ func _test_geometry_grounding_contract() -> void:
 	var causeway_normal_y := (to_left - from_left).cross(to_right - from_left).y
 	check(causeway_normal_y < -0.0001, "P0_VIS_01 signal causeway top triangles use Godot front-face winding")
 	check(absf(causeway_normal_y) > 0.0001, "P0_VIS_01 signal causeway top triangles are non-degenerate")
+	var bridge_tops_visible := true
+	for angle in range(12):
+		var axis := Vector3(cos(float(angle) * PI / 6.0), 0, sin(float(angle) * PI / 6.0))
+		var side := Vector3(-axis.z, 0, axis.x)
+		for args in [[-axis, axis, side, .99], [-side, side, axis, .065]]:
+			var quad := ChapterMapScreenScript.causeway_quad_vertices(args[0], args[1], args[2], args[3])
+			bridge_tops_visible = bridge_tops_visible and (quad[1] - quad[0]).cross(quad[2] - quad[0]).y < -.001
+	check(bridge_tops_visible, "P0_VIS_01 bridge decks and perpendicular planks preserve visible front faces at all twelve headings")
 	# P0-VIS-01 finally covers every fan wedge used by a twelve-sided encounter
 	# landing terrace.  It is a real visual socket for a player or hostile pawn.
 	var terrace_upward := true
@@ -338,7 +407,7 @@ func _test_geometry_grounding_contract() -> void:
 	# P0-VIS-02: no two-sided material workaround.  The normal gameplay
 	# material must use production back-face culling, so these geometric tests
 	# continue to catch any inverted source winding.
-	var map_screen_source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd")
+	var map_screen_source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd").replace("\r\n", "\n")
 	check(map_screen_source.contains("MovementRangeYellowFill") and map_screen_source.contains("MovementRangeYellowCellGrid") and map_screen_source.contains("MovementRangeYellowBoundary") and map_screen_source.contains("TRANSPARENCY_ALPHA") and map_screen_source.contains("%d칸 후 중간 정지"), "MOVE_RANGE_06 runtime draws translucent yellow cells, per-cell seams, a stronger outer boundary and explicit partial-stop copy")
 	check(map_screen_source.contains("material.cull_mode = BaseMaterial3D.CULL_BACK"), "P0_VIS_02 map top surfaces retain production back-face culling")
 	check(map_screen_source.contains("EnemyGroundingTerrace"), "P0_VIS_02 hostile patrols retain a physical terrain socket")
@@ -423,7 +492,7 @@ func _test_geometry_grounding_contract() -> void:
 	check(save_service_source.contains("func request_save_game") and save_service_source.contains("deferred_save_generation") and turn_complete_body.contains("SaveService.request_save_game()"), "MAP_WEB_PERF_03 ordinary move persistence is coalesced outside the arrival and enemy-turn critical frame")
 	check(map_screen_source.contains("ContinuousRouteRiver") and map_screen_source.contains("ForestCanopiesLight") and map_screen_source.contains("SphereMesh.new()") and map_screen_source.contains("BrokenRuinWalls"), "MAP_BIOME_PRESENTATION_01 Web terrain uses a continuous river, rounded grove canopies and authored broken-wall masses")
 	var waterway_body := _source_function_body(map_screen_source, "_create_signal_waterway")
-	check(waterway_body.contains("_normal_route_polyline()") and waterway_body.contains("river_point.y = _waterway_surface_y(river_point)") and waterway_body.contains("lateral_offset") and waterway_body.contains("_add_route_landing") and not waterway_body.contains("river_point.y = -0.24"), "MAP_BIOME_PRESENTATION_02 river follows one continuous route polyline above sampled ground and closes its bends")
+	check(waterway_body.contains('definition.get("river_geometry"') and waterway_body.contains("point.y = _waterway_surface_y(point)") and waterway_body.contains("RiverGeometry.HALF_WIDTH") and waterway_body.contains("_add_route_landing") and map_screen_source.contains("RiverCrossingDecks"), "MAP_BIOME_PRESENTATION_02 river rendering shares the navigation geometry and explicit bridge decks")
 	check(web_dressing_body.contains("var movement_blocked") and web_dressing_body.contains("if movement_blocked:") and web_dressing_body.contains("Passable ruins keep one low edge fragment") and web_dressing_body.contains("_web_road_axis"), "MAP_BIOME_PRESENTATION_03 dense groves and walls match blocked metadata while passable forest/ruins keep a clear centre and aligned road")
 	var camera_screen := ChapterMapScreenScript.new()
 	camera_screen.definition = definition
@@ -444,7 +513,7 @@ func _test_geometry_grounding_contract() -> void:
 	check(is_equal_approx(camera_screen._compact_ui_scale(Vector2(1920.0, 1080.0)), 1.0), "MAP_RESPONSIVE_03 desktop layout remains unscaled")
 	check(map_screen_source.contains("(10.0 if portrait else 14.0) * ui_scale") and map_screen_source.contains("sheet_height := 280.0 if portrait") and map_screen_source.contains("detail_scroll.find_children"), "MAP_RESPONSIVE_04 portrait keeps the next-encounter shortcut above the status row and minimizes the scrollable detail sheet")
 	var portrait_hotfix_source := FileAccess.get_file_as_string("res://autoload/mobile_portrait_hotfix_v2.gd")
-	check(portrait_hotfix_source.contains("(size.x - 22.0) / 6.0") and portrait_hotfix_source.contains("compact_labels := [\"일반\", \"위험\", \"부대\", \"개요\", \"스킵\"]") and portrait_hotfix_source.contains("var sheet_css := clampf(size.y * 0.29, 222.0, 258.0)") and portrait_hotfix_source.contains("panel.anchor_top = 0.49") and portrait_hotfix_source.contains("panel.anchor_bottom = 0.95") and portrait_hotfix_source.contains("_font(17.0, size)"), "MAP_RESPONSIVE_05 final portrait pass preserves a single tactical rail, readable compact sheet, and map-visible tutorial")
+	check(portrait_hotfix_source.contains("(size.x - 28.0) / 7.0") and portrait_hotfix_source.contains("compact_labels := [\"일반\", \"위험\", \"부대\", \"개요\", \"스킵\", \"지역\"]") and portrait_hotfix_source.contains("var sheet_css := clampf(size.y * 0.29, 222.0, 244.0)") and portrait_hotfix_source.contains("panel.anchor_top = 0.49") and portrait_hotfix_source.contains("panel.anchor_bottom = 0.95") and portrait_hotfix_source.contains("_font(17.0, size)"), "MAP_RESPONSIVE_05 final portrait pass preserves a single tactical rail, readable compact sheet, and map-visible tutorial")
 	camera_screen.free()
 	# The runtime combat manifest owns both animation frame indices and the
 	# normalized foot anchor.  Map pawns must use that data instead of silently
@@ -541,6 +610,11 @@ func _test_unlock_and_progress() -> void:
 	check(AppState.is_stage_unlocked("CH01-H02"), "H01 clear unlocks H02 exactly")
 	var state := AppState.chapter_map_state()
 	var h01 := LoaderScript.node_for_stage(definition, "CH01-H01")
+	# This fixture represents completed physical operations as well as campaign
+	# stars. Shared scout rewards alone are no longer authority to remove pawns.
+	for stage_id in definition.normal_route:
+		ExplorationScript.mark_encounter_cleared(state, str(LoaderScript.node_for_stage(definition, str(stage_id)).node_id))
+	ExplorationScript.mark_encounter_cleared(state, str(h01.node_id))
 	AppState.set_chapter_map_position(Vector2i(int(h01.q), int(h01.r)), str(h01.node_id))
 	check(ChapterMapScreenScript._hard_overlay_from_state(state, definition), "H01 battle return restores HARD route overlay")
 	var hard_screen := ChapterMapScreenScript.new()
@@ -548,6 +622,12 @@ func _test_unlock_and_progress() -> void:
 	hard_screen.map_state = state
 	hard_screen.hard_overlay = ChapterMapScreenScript._hard_overlay_from_state(state, definition)
 	check(str(hard_screen._next_encounter_node().get("stage_id", "")) == "CH01-H02", "H01 battle return next encounter is H02, never N01")
+	hard_screen.hard_overlay = false
+	check(hard_screen._next_encounter_node().is_empty(), "completed NORMAL route does not misdirect the squad back to N01")
+	hard_screen.hard_overlay = true
+	hard_screen.definition = definition.duplicate(true)
+	hard_screen.definition.hard_route = ["CH01-H01"]
+	check(hard_screen._next_encounter_node().is_empty(), "completed HARD route does not target a cleared marker")
 	hard_screen.free()
 	check(state.revealed_tiles.has("%d,%d" % [int(h01.q), int(h01.r)]), "HARD route reveal follows N20 clear")
 	var fresh := ProgressScript.create_default(definition)
@@ -568,7 +648,8 @@ func _test_save_and_migration() -> void:
 	var state: Dictionary = migrated.value.chapter_map.CH01_MAP
 	var node := LoaderScript.node_for_stage(definition, "CH01-N06")
 	check(int(state.current_q) == int(node.q) and int(state.current_r) == int(node.r), "migration restores highest cleared node position")
-	check(state.cleared_nodes.size() == 6, "migration restores cleared-node set")
+	var main_clears: Array = state.cleared_nodes.filter(func(id): return not str(id).contains("_SCOUT_"))
+	check(main_clears.size() == 6 and main_clears.has("NODE_N06") and not main_clears.has("NODE_N07") and not state.cleared_nodes.has("NODE_N01_SCOUT_1") and not state.cleared_nodes.has("NODE_N01_SCOUT_2"), "migration preserves six earned stages without inventing scout kills")
 	check(not state.revealed_tiles.is_empty(), "migration restores route reveal")
 	var compact_v2 := old.duplicate(true)
 	compact_v2.save_schema_version = 2
@@ -588,11 +669,13 @@ func _test_save_and_migration() -> void:
 	check(not sanitized.chapter_map.CH01_MAP.cleared_nodes.has("UNKNOWN_NODE") and sanitized.quarantined_unknown_map_node_ids.has("UNKNOWN_NODE"), "unknown map node quarantined")
 	var saved_profile := AppState.profile.duplicate(true)
 	AppState.profile = migrated.value
-	AppState.set_chapter_map_position(Vector2i(3, -2), "NODE_N06")
+	# Use real route ground; (3,-2) is a river bank after shared-water collision.
+	var persisted_coord := MacroWorldGeneratorScript.route_to_stage(definition, "CH01-N01")[2]
+	AppState.set_chapter_map_position(persisted_coord, "NODE_N06")
 	var save_result := SaveService.save_game()
 	AppState.profile.chapter_map.CH01_MAP.current_q = 99
 	var load_result := SaveService.load_game()
-	check(save_result.ok and load_result.ok and int(AppState.chapter_map_state().current_q) == 3, "map q/r survives atomic save-load")
+	check(save_result.ok and load_result.ok and Vector2i(int(AppState.chapter_map_state().current_q), int(AppState.chapter_map_state().current_r)) == persisted_coord, "map q/r survives atomic save-load")
 	var void_party_state := ProgressScript.create_default(definition)
 	void_party_state.current_q = 999
 	void_party_state.current_r = -999
@@ -649,7 +732,7 @@ func _test_transactions_and_roundtrip() -> void:
 	split_clear_state.encounter_states.erase("NODE_N01")
 	AppState.set_chapter_map_position(Vector2i(1, 0), "")
 	var repaired_clear_state := AppState.chapter_map_state()
-	check(ExplorationScript.encounter_cleared(repaired_clear_state, "NODE_N01") and str(repaired_clear_state.encounter_states.get("NODE_N01", "")) == "CLEARED", "victory stars repair a missing encounter clear after a treasure detour so the defeated pawn cannot respawn")
+	check(ExplorationScript.encounter_cleared(repaired_clear_state, "NODE_N01") and str(repaired_clear_state.encounter_states.get("NODE_N01", "")) == "CLEARED", "exact victory receipt repairs missing clear arrays without affecting another pawn")
 	var n01_node := LoaderScript.node_for_stage(definition, "CH01-N01")
 	AppState.set_chapter_map_position(Vector2i(int(n01_node.q), int(n01_node.r)), "NODE_N01")
 	check(AppState.is_stage_unlocked("CH01-N02"), "victory unlocks exactly the next stage")
@@ -661,6 +744,7 @@ func _test_transactions_and_roundtrip() -> void:
 	var pre_contact: Vector2i = n02_contact_path[-2]
 	AppState.prepare_map_encounter("CH01-N02", "NODE_N02", pre_contact)
 	AppState.pending_battle_token = "DEFEAT_TOKEN"
+	AppState.chapter_map_state().pending_encounter.token = "DEFEAT_TOKEN"
 	AppState.apply_battle_result_to_map("CH01-N02", false)
 	check(not AppState.chapter_map_state().cleared_nodes.has("NODE_N02") and not AppState.is_stage_unlocked("CH01-N03"), "defeat does not clear or unlock next node")
 	check(int(AppState.chapter_map_state().current_q) == pre_contact.x and int(AppState.chapter_map_state().current_r) == pre_contact.y, "defeat restores squad to pre-contact map hex")
@@ -720,14 +804,14 @@ func _test_transactions_and_roundtrip() -> void:
 	check(bool(disengaged.get("contact_suppressed", false)) and str(disengaged.get("patrol_state", "")) == MapSimulationScript.PATROL_RETURN, "PATROL_DISENGAGE_04 restored patrol enters persisted disengage state")
 	var idle_contacts := 0
 	for _tick in range(24):
-		idle_contacts += MapSimulationScript.advance_ticks(patrol_state, definition, grid, patrol_contact, 1).get("contacts", []).size()
+		if MapSimulationScript.advance_ticks(patrol_state, definition, grid, patrol_contact, 1).get("contacts", []).has(str(n01.node_id)): idle_contacts += 1
 	check(idle_contacts == 0 and bool(patrol_state.patrol_states.get(str(n01.node_id), {}).get("contact_suppressed", false)), "PATROL_DISENGAGE_05 elapsed map ticks cannot auto-restart the defeated encounter")
 	var serialized_patrol := JSON.stringify(patrol_state)
 	var patrol_parser := JSON.new()
 	patrol_parser.parse(serialized_patrol)
 	var reloaded_patrol: Dictionary = patrol_parser.data
 	ExplorationScript.ensure_state(reloaded_patrol, definition, grid)
-	check(MapSimulationScript.advance_ticks(reloaded_patrol, definition, grid, patrol_contact, 1).get("contacts", []).is_empty() and bool(reloaded_patrol.patrol_states.get(str(n01.node_id), {}).get("contact_suppressed", false)), "PATROL_DISENGAGE_06 reload preserves no-auto-rematch state")
+	check(not MapSimulationScript.advance_ticks(reloaded_patrol, definition, grid, patrol_contact, 1).get("contacts", []).has(str(n01.node_id)) and bool(reloaded_patrol.patrol_states.get(str(n01.node_id), {}).get("contact_suppressed", false)), "PATROL_DISENGAGE_06 reload preserves no-auto-rematch state")
 	var retry_enemy := MapSimulationScript.coord_for(reloaded_patrol, str(n01.node_id))
 	reloaded_patrol.patrol_states[str(n01.node_id)].next_move_tick = 999999
 	var retry_contact := MapSimulationScript.advance_ticks(reloaded_patrol, definition, grid, retry_enemy, 1)
@@ -760,7 +844,7 @@ func _test_preboss_staging_and_reveal_one_shot() -> void:
 	var n18_coord := Vector2i(int(n18.q), int(n18.r))
 	var n19_coord := Vector2i(int(n19.q), int(n19.r))
 	var n20_coord := Vector2i(int(n20.q), int(n20.r))
-	AppState.set_chapter_map_position(n18_coord, str(n18.node_id))
+	AppState.set_chapter_map_position(n19_coord, str(n19.node_id))
 	check(AppState.prepare_map_encounter("CH01-N19", str(n19.node_id), n18_coord), "PREBOSS_STAGING_01 N19 encounter prepares from the prior grounded staging hex")
 	check(AppState.begin_battle_transaction("CH01-N19"), "PREBOSS_STAGING_02 N19 battle owns one transaction")
 	var reveal_token := AppState.pending_battle_token
@@ -1175,6 +1259,12 @@ func _test_direct_move_turn_contracts() -> void:
 	ExplorationScript.ensure_state(route_screen.map_state, definition, grid)
 	var blocking_node := LoaderScript.node_by_id(definition, "NODE_N01")
 	var blocking_coord := route_screen._encounter_coord(blocking_node)
+	var guide_state_before := JSON.stringify(route_screen.map_state)
+	var visible_guide := route_screen._visible_objective_guide_path(blocking_node)
+	var visible_guide_valid := visible_guide.size() > 1 and visible_guide.size() <= ExplorationScript.movement_remaining(route_screen.map_state, definition) + 1
+	for guide_coord in visible_guide:
+		visible_guide_valid = visible_guide_valid and route_screen._coord_is_in_player_vision(guide_coord)
+	check(visible_guide_valid and JSON.stringify(route_screen.map_state) == guide_state_before, "OBJECTIVE_GUIDE_01 the hidden first encounter offers a bounded visible route without revealing or mutating map state")
 	route_screen.preview_path = [Vector2i(int(route_screen.map_state.current_q), int(route_screen.map_state.current_r)), blocking_coord]
 	route_screen.selected_event = {"event_id": "TEST_DISTANT_EVENT", "q": blocking_coord.x + 4, "r": blocking_coord.y}
 	check(route_screen._retarget_truncated_path_to_encounter(blocking_coord + Vector2i(4, 0)) and str(route_screen.selected_node.get("node_id", "")) == "NODE_N01" and route_screen.selected_event.is_empty() and route_screen.selected_relay.is_empty(), "DIRECT_MOVE_PATH_01 a side-target route truncated by an unresolved encounter selects the actual blocking encounter")
@@ -1201,15 +1291,15 @@ func _test_direct_move_turn_contracts() -> void:
 	var tutorial_outer_style := tutorial_screen.tutorial_panel.get_theme_stylebox("panel") as StyleBoxFlat
 	var modal_geometry_ok: bool = tutorial_screen.tutorial_canvas_layer != null and tutorial_screen.tutorial_canvas_layer.layer == 90 and tutorial_screen.tutorial_panel.get_parent() == tutorial_screen.tutorial_surface and tutorial_screen.tutorial_dimmer != null and is_equal_approx(tutorial_screen.tutorial_panel.anchor_left, 0.16) and is_equal_approx(tutorial_screen.tutorial_panel.anchor_right, 0.84) and is_equal_approx(tutorial_screen.tutorial_panel.anchor_top, 0.20) and is_equal_approx(tutorial_screen.tutorial_panel.anchor_bottom, 0.80) and tutorial_outer_style != null and tutorial_outer_style.border_width_left == 1 and tutorial_screen.tutorial_inner_frame != null and tutorial_screen.tutorial_body.get_parent() is ScrollContainer and tutorial_screen.tutorial_title.has_theme_font_override("font") and tutorial_screen.tutorial_body.has_theme_font_override("normal_font") and tutorial_screen.tutorial_body.has_theme_font_override("bold_font")
 	check(modal_geometry_ok, "TUTORIAL_MODAL_01 first-map guidance uses a focused desktop briefing card with a restrained gold frame and scrolling body")
-	var portrait_scale := tutorial_screen._compact_ui_scale(Vector2(390, 844))
+	var portrait_scale := 1920.0 / 390.0
 	tutorial_screen._apply_tutorial_layout(Vector2(390, 844), true, true, portrait_scale)
-	check(tutorial_screen.tutorial_dismiss_button.visible and tutorial_screen.tutorial_dismiss_button.custom_minimum_size.x <= 102.1 * portrait_scale and tutorial_screen.tutorial_dismiss_button.custom_minimum_size.y >= 43.9 * portrait_scale and is_equal_approx(tutorial_screen.tutorial_panel.anchor_top, 0.46) and is_equal_approx(tutorial_screen.tutorial_panel.anchor_bottom, 0.97) and tutorial_screen.tutorial_continue_button.custom_minimum_size.x <= 228.1 * portrait_scale and tutorial_screen.tutorial_body.get_theme_font_size("normal_font_size") >= roundi(20.0 * portrait_scale) and tutorial_screen.tutorial_body.get_theme_font_size("bold_font_size") == tutorial_screen.tutorial_body.get_theme_font_size("normal_font_size") and tutorial_screen.tutorial_dimmer.color.a < 0.60, "TUTORIAL_MODAL_02 portrait uses a map-visible lower instruction sheet with equal regular/bold copy, a centered footer and an explicit skip control")
+	check(tutorial_screen.tutorial_dismiss_button.visible and tutorial_screen.tutorial_dismiss_button.custom_minimum_size.x <= 102.1 * portrait_scale and tutorial_screen.tutorial_dismiss_button.custom_minimum_size.y >= 43.9 * portrait_scale and is_equal_approx(tutorial_screen.tutorial_panel.anchor_top, 0.46) and is_equal_approx(tutorial_screen.tutorial_panel.anchor_bottom, 0.97) and tutorial_screen.tutorial_continue_button.custom_minimum_size.x <= 228.1 * portrait_scale and absf(tutorial_screen.tutorial_body.get_theme_font_size("normal_font_size") * 390.0 / 1920.0 - 17.0) < 0.5 and tutorial_screen.tutorial_body.get_theme_font_size("bold_font_size") == tutorial_screen.tutorial_body.get_theme_font_size("normal_font_size") and tutorial_screen.tutorial_dimmer.color.a < 0.60, "TUTORIAL_MODAL_02 portrait uses a map-visible lower instruction sheet with equal regular/bold copy, a centered footer and an explicit skip control")
 	check(ChapterMapScreenScript.tutorial_short_tap_policy(Vector2.ZERO, Vector2(8, 4), 240, false, 18.0, 800) and not ChapterMapScreenScript.tutorial_short_tap_policy(Vector2.ZERO, Vector2(40, 0), 240, false, 18.0, 800) and not ChapterMapScreenScript.tutorial_short_tap_policy(Vector2.ZERO, Vector2(2, 0), 900, false, 18.0, 800) and not ChapterMapScreenScript.tutorial_short_tap_policy(Vector2.ZERO, Vector2.ZERO, 120, true, 18.0, 800), "TUTORIAL_MODAL_03 any short body/title tap dismisses while drag, long press and canceled touch remain scroll-safe")
 	tutorial_screen._set_tutorial_step(3)
 	check(tutorial_screen.tutorial_panel.visible and not tutorial_screen.moving and not tutorial_screen.turn_transitioning, "TUTORIAL_MODAL_04 showing the third briefing step is presentation-only and never takes movement authority")
 	tutorial_screen.free()
 
-	var map_screen_source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd")
+	var map_screen_source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd").replace("\r\n", "\n")
 	var process_body := _source_function_body(map_screen_source, "_process")
 	var move_body := _source_function_body(map_screen_source, "_move_along")
 	var skip_body := _source_function_body(map_screen_source, "skip_movement")
@@ -1244,9 +1334,9 @@ func _test_direct_move_turn_contracts() -> void:
 	check(patrol_cue_body.contains("OS.has_feature(\"web\")") and patrol_cue_body.find("return") < patrol_cue_body.find("MeshInstance3D.new()"), "MOVE_ANIMATION_02 Web patrol movement avoids transient tween-owned render nodes that can stale the live SubViewport")
 	check(move_body.find("var arrival_outcome") < move_body.find("call_deferred(\"_build_map_content_visuals\")") and map_screen_source.contains("_emit_battle_request_after_map_callback") and map_screen_source.contains("_emit_treasure_reward_after_map_callback"), "MOVE_TRANSITION_01 arrival resolves before deferred Web hydration and battle/reward navigation unwinds the map callback first")
 	check(map_screen_source.contains("Pick the actual visible ground cell first") and map_screen_source.contains("not movement_range_reachable.has(ground_key)") and not map_screen_source.contains("for key_value in movement_range_reachable.keys():\n\t\tvar coord := HexCoordScript.from_key"), "DIRECT_MOVE_INPUT_04 blocked ground is rejected at its own projected hex instead of snapping to a reachable neighbour")
-	check(enemy_turn_body.contains("presented_moves") and enemy_turn_body.contains("get_tree().create_timer(0.24)") and not enemy_turn_body.contains("_focus_coord(destination, false)") and enemy_turn_body.contains("_focus_current(false)"), "TURN_SOURCE_03 visible enemy pawns animate concurrently without serial camera sweeps through fog")
+	check(enemy_turn_body.contains("presented_moves") and enemy_turn_body.contains("_coord_is_in_player_vision(destination)") and enemy_turn_body.contains("_focus_coord(start_coord, false)") and enemy_turn_body.contains("get_tree().create_timer(0.36)") and enemy_turn_body.contains("get_tree().create_timer(0.48)") and enemy_turn_body.contains("_focus_current(false)") and enemy_turn_body.find("_focus_coord(start_coord, false)") < enemy_turn_body.find("_update_enemy_pawn_from_simulation(node_id, true)"), "TURN_SOURCE_03 camera follows visible enemy movement then returns to the party without revealing fog")
 	check(map_screen_source.contains("signal map_ready") and map_screen_source.contains("await _build_world()") and map_screen_source.contains("await _build_web_map_detail()") and map_screen_source.contains("stream_batch_size := 4 if OS.has_feature(\"web\") else 18") and map_screen_source.contains("_finish_web_build_slice(\"map_node_%02d\"") and map_screen_source.contains("func _build_map_content_visuals") and map_screen_source.contains("func _build_web_unlocked_enemy_pawns") and map_screen_source.contains("func _queue_web_enemy_pawn_stream") and map_screen_source.contains("if OS.has_feature(\"web\"):\n\t\treturn") and map_screen_source.contains("map_ready_complete = true\n\tmap_ready.emit()") and app_shell_source.contains("await _wait_for_map_ready_with_deadline"), "MAP_LOAD_COOPERATIVE_01 initial Web map cooperatively completes all static map work before releasing map_ready")
-	check(arrival_body.contains("map_state[POST_REWARD_TURN_PENDING_KEY] = true") and arrival_body.find("SaveService.save_game()") > arrival_body.find("POST_REWARD_TURN_PENDING_KEY") and not reward_resume_body.is_empty() and reward_resume_body.contains("exhausted_legacy_edge") and reward_resume_body.contains("selected_treasure.clear()") and reward_resume_body.find("selected_treasure.clear()") < reward_resume_body.find("await _complete_player_turn(\"보물 획득\")") and reward_resume_body.contains("turn_transitioning = false") and reward_resume_body.find("turn_transitioning = false") < reward_resume_body.find("await _complete_player_turn(\"보물 획득\")") and not reward_resume_body.contains("moving or turn_transitioning or map_simulation_paused") and map_screen_source.contains("call_deferred(\"_resume_post_reward_turn\")"), "TREASURE_TURN_01 a treasure result clears its claimed route, releases its owned transition lock, and resumes the owed enemy phase, including legacy zero-movement saves, instead of returning to a softlock or stale selection")
+	check(arrival_body.contains("map_state[POST_REWARD_TURN_PENDING_KEY] = true") and arrival_body.find("SaveService.save_game()") > arrival_body.find("POST_REWARD_TURN_PENDING_KEY") and not reward_resume_body.is_empty() and reward_resume_body.contains("exhausted_legacy_edge") and reward_resume_body.contains("_reset_selected_objects()") and reward_resume_body.find("_reset_selected_objects()") < reward_resume_body.find("await _complete_player_turn(\"보물 획득\")") and reward_resume_body.contains("turn_transitioning = false") and reward_resume_body.find("turn_transitioning = false") < reward_resume_body.find("await _complete_player_turn(\"보물 획득\")") and not reward_resume_body.contains("moving or turn_transitioning or map_simulation_paused") and map_screen_source.contains("call_deferred(\"_resume_post_reward_turn\")"), "TREASURE_TURN_01 a treasure result clears its claimed route, releases its owned transition lock, and resumes the owed enemy phase, including legacy zero-movement saves, instead of returning to a softlock or stale selection")
 	check(confirm_body.find("_set_tutorial_step(3)") >= 0 and confirm_body.find("_move_along(pulse_path)") > confirm_body.find("_set_tutorial_step(3)"), "TUTORIAL_FLOW_01 direct movement starts in the same confirmation call after step-three guidance is displayed")
 	AppState.profile = backup
 
@@ -1299,7 +1389,7 @@ func _test_exploration_pulses_and_companion_events() -> void:
 	AppState.profile.inventory.EXPEDITION_ROUTE_MODULE_B = 1
 	var module_capacity := ExplorationScript.movement_capacity(AppState.profile, definition)
 	check(module_capacity == 5 and ExplorationScript.player_vision_radius(AppState.profile, definition) == 10, "PULSE_04 owned exploration modules extend movement and reveal one fog ring per gained step")
-	var map_screen_source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd")
+	var map_screen_source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd").replace("\r\n", "\n")
 	check(map_screen_source.contains("노선 모듈 +%d · 최종 상한 %d") and map_screen_source.contains("account_level_milestones") and map_screen_source.contains("mobility_items") and map_screen_source.contains("노란 영역 안에서만 이동"), "PULSE_UI_01 map detail exposes base, account-level, route-module and global movement-cap sources")
 	var vera := ExplorationScript.event_encounter_for_node(definition, "NODE_N08")
 	check(str(vera.get("character_id", "")) == "CHR006" and str(vera.get("marker", "")) == "BANG", "EVENT_PAWN_01 authored event encounter maps to Vera and the bang marker")
@@ -1404,12 +1494,12 @@ func _test_exploration_pulses_and_companion_events() -> void:
 	before_fifth.append_array(ExplorationScript.resolve_deferred_recruitments(five_battle_state, five_battle_definition, "CH01-N06"))
 	var fifth_result := ExplorationScript.resolve_deferred_recruitments(five_battle_state, five_battle_definition, "CH01-N07")
 	check(not bool(five_battle_contact.get("recruit_now", true)) and before_fifth.is_empty() and fifth_result == ["CHR020"] and int(five_battle_state.recruitment_progress.CHR020.get("victories", 0)) == 5, "EVENT_PAWN_ROUTE_01 a five-battle recruit counts unique operation victories and joins exactly on victory five")
-	var source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd")
+	var source := FileAccess.get_file_as_string("res://chapter_map/runtime/chapter_map_screen.gd").replace("\r\n", "\n")
 	check(source.contains("CompanionEventMapPawn_") and source.contains("event_marker_base_y") and source.contains("! 구조 신호 방향"), "EVENT_PAWN_07 runtime renders companion event pawns with a grounded, pulsing ! marker instead of a generic hostile label")
 	check(LocalizationService.tr_key("MAP_EVENT_CONTACT_SIGNAL") != "[MAP_EVENT_CONTACT_SIGNAL]" and LocalizationService.tr_key("RESULT_EVENT_RECRUITED") != "[RESULT_EVENT_RECRUITED]", "EVENT_PAWN_08 special-contact and companion-result copy resolves without runtime text")
 	var app_source := FileAccess.get_file_as_string("res://autoload/app_state.gd")
 	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd")
-	check(app_source.contains("special_event") and app_source.contains("contact_outcome_key") and app_source.contains("pre_battle_dialogue") and app_source.contains("pending_map_special_event") and shell_source.contains("_play_special_event_dialogue") and shell_source.contains("PreBattleEventDialog") and shell_source.contains("EventKeyVisual") and shell_source.contains("MAP_EVENT_DIALOGUE_SKIP") and shell_source.contains("panel.gui_input.connect") and shell_source.contains("TextureRect.STRETCH_KEEP_ASPECT_COVERED"), "EVENT_PAWN_09 contact opens an input-advanced pre-battle dialogue with a fixed outcome band and left key visual")
+	check(app_source.contains("special_event") and app_source.contains("contact_outcome_key") and app_source.contains("pre_battle_dialogue") and app_source.contains("pending_map_special_event") and shell_source.contains("_play_special_event_dialogue") and shell_source.contains("PreBattleEventDialog") and shell_source.contains("EventKeyVisual") and shell_source.contains("MAP_EVENT_DIALOGUE_SKIP") and shell_source.contains("res://ui/bounded_briefing.gd") and shell_source.contains("TextureRect.STRETCH_KEEP_ASPECT_CENTERED") and shell_source.contains("panel.body.add_child(outcome_panel)") and shell_source.contains("panel.footer.add_child(next_button)"), "EVENT_PAWN_09 contact opens a bounded scrolling briefing with registered key art, readable outcome and fixed explicit actions")
 	check(shell_source.contains("_newly_recruited_character_ids") and shell_source.contains("RESULT_EVENT_TRACKING"), "EVENT_PAWN_10 battle result distinguishes immediate companion joins from later signal tracking")
 	AppState.profile = backup
 

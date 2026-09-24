@@ -1,0 +1,20 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "portrait boot does not start the game"
+    },
+    {
+      "pass": true,
+      "name": "portrait boot has no miniature game or instruction"
+    },
+    {
+      "pass": true,
+      "name": "portrait boot does not download the game pack or WASM"
+    },
+    {
+      "pass": false,
+      "name": "Error: {\"exceptionId\":1,\"text\":\"Uncaught (in promise) Error: Local sandbox developer probe unavailable\",\"lineNumber\":3,\"columnNumber\":28,\"scriptId\":\"9\",\"stackTrace\":{\"callFrames\":[{\"functionName\":\"\",\"scriptId\":\"9\",\"url\":\"\",\"lineNumber\":2,\"columnNumber\":27},{\"functionName\":\"\",\"scriptId\":\"9\",\"url\":\"\",\"lineNumber\":0,\"columnNumber\":0}]},\"exception\":{\"type\":\"object\",\"subtype\":\"error\",\"className\":\"Error\",\"description\":\"Error: Local sandbox developer probe unavailable\\n    at <anonymous>:3:28\\n    at new Promise (<anonymous>)\\n    at <anonymous>:1:1\",\"objectId\":\"6412437579356052946.2.1\"}}"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "file launch creates the landscape host frame",
+      "detail": {
+        "rotated": "0",
+        "device_class": "desktop",
+        "client": [
+          960,
+          540
+        ],
+        "rect": [
+          0,
+          270,
+          960,
+          540
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "tall Windows desktop stays upright even when the host reports a mobile hint",
+      "detail": {
+        "rotated": "0",
+        "device_class": "desktop",
+        "client": [
+          960,
+          540
+        ],
+        "rect": [
+          0,
+          270,
+          960,
+          540
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "desktop first screen retains one complete 16:9 game frame",
+      "detail": {
+        "rotated": "0",
+        "device_class": "desktop",
+        "client": [
+          960,
+          540
+        ],
+        "rect": [
+          0,
+          270,
+          960,
+          540
+        ]
+      }
+    },
+    {
+      "pass": true,
+      "name": "desktop first screen frame is fully visible without clipping",
+      "detail": {
+        "rotated": "0",
+        "device_class": "desktop",
+        "client": [
+          960,
+          540
+        ],
+        "rect": [
+          0,
+          270,
+          960,
+          540
+        ]
+      }
+    }
+  ],
+  "url": "file:///D:/AI%20%EC%A2%85%ED%95%A9%20%ED%8F%B4%EB%8D%94/Games/%EB%B8%94%EC%95%84%20like/SD_STORY_RPG_GODOT/builds/web_map_entry_local_20260909/index.html?direct-file-first-screen-qa=1",
+  "scope": "Actual Chrome file:// launch on a tall Windows desktop viewport; screenshot is cropped only to the complete rendered 16:9 game frame."
+}

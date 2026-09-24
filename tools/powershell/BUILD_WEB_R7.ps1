@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$Tag = 'r7_current',
     [string]$MapRevision = 'R7',
     [switch]$ReplaceExisting
@@ -38,7 +38,7 @@ function ConvertTo-HashedR7RuntimeArtifacts([string]$Directory) {
     # the runtime artifact name only; it never creates another R build name.
     $pckPath = Join-Path $Directory 'index.pck'
     $wasmPath = Join-Path $Directory 'index.wasm'
-    $pckHash = (Get-FileHash -LiteralPath $pckPath -Algorithm SHA256).Hash.ToLowerInvariant()
+    $pckHash = Get-FileSha256 $pckPath
     $artifactBase = "r7_current_$($pckHash.Substring(0, 12))"
     $pckName = "$artifactBase.pck"
     $wasmName = "$artifactBase.wasm"
@@ -49,6 +49,7 @@ function ConvertTo-HashedR7RuntimeArtifacts([string]$Directory) {
 
     Move-Item -LiteralPath $pckPath -Destination $pckTarget
     Move-Item -LiteralPath $wasmPath -Destination $wasmTarget
+    if ((Get-FileSha256 $pckTarget) -ne $pckHash) { throw 'PCK changed while fingerprinting the export.' }
 
     $htmlPath = Join-Path $Directory 'index.html'
     $html = Get-Content -LiteralPath $htmlPath -Raw
@@ -120,14 +121,37 @@ foreach ($directory in @($development, $release)) {
         if ($existing.Count -gt 0) {
             if (-not $ReplaceExisting) { throw "Refusing to overwrite non-empty Web build directory without -ReplaceExisting: $directory" }
             Assert-ReplaceableWebOutput $directory
-            Remove-Item -LiteralPath $directory -Recurse -Force
+            # ReplaceExisting is not permission to dispose of a failed batch.
+            # Preserve the exact output and hashes under project quarantine.
+            $retainedRoot = [IO.Path]::GetFullPath((Join-Path $root 'work/build_output_quarantine'))
+            $retainedName = (Split-Path -Leaf $directory) + '_' + [Guid]::NewGuid().ToString('N')
+            $retainedOutput = [IO.Path]::GetFullPath((Join-Path $retainedRoot $retainedName))
+            if (-not $retainedOutput.StartsWith($retainedRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Quarantine destination escaped its project root.' }
+            $retainedFiles = @(Get-ChildItem -LiteralPath $directory -Recurse -File | ForEach-Object {
+                @{path=$_.FullName; bytes=$_.Length; sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash}
+            })
+            New-Item -ItemType Directory -Path $retainedRoot -Force | Out-Null
+            @{status='RETAIN_NO_DISPOSAL'; source=$directory; destination=$retainedOutput; files=$retainedFiles} | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath ($retainedOutput + '.retention.json') -Encoding utf8
+            Move-Item -LiteralPath $directory -Destination $retainedOutput
         }
     }
     New-Item -ItemType Directory -Path $directory -Force | Out-Null
 }
 
+$importLog = Join-Path $development 'import.log'
+& $godot --headless --editor --path (Join-Path $root 'godot') --import --quit 2>&1 | Tee-Object -FilePath $importLog
+# Godot can exit zero after reporting a script parse error. Never package that
+# candidate just because its process status looked successful; retain the log.
+if ($LASTEXITCODE -ne 0 -or (Select-String -LiteralPath $importLog -Pattern 'SCRIPT ERROR:|ERROR:' -Quiet)) {
+    throw "Web import/compile gate failed. Candidate retained at $development"
+}
+Invoke-Checked 'python' @((Join-Path $root 'tools\web\build_texture_integrity.py'))
 Invoke-Checked $godot @('--headless', '--path', (Join-Path $root 'godot'), '--export-debug', 'Web Development', (Join-Path $development 'index.html'))
+Invoke-Checked 'python' @((Join-Path $root 'tools\web\stage_density_sidecars.py'), $development)
+Invoke-Checked 'python' @((Join-Path $root 'tools\web\stage_audio_sidecars.py'), $development)
 Invoke-Checked $godot @('--headless', '--path', (Join-Path $root 'godot'), '--export-release', 'Web HTML Release', (Join-Path $release 'index.html'))
+Invoke-Checked 'python' @((Join-Path $root 'tools\web\stage_density_sidecars.py'), $release)
+Invoke-Checked 'python' @((Join-Path $root 'tools\web\stage_audio_sidecars.py'), $release)
 $runtimeArtifacts = ConvertTo-HashedR7RuntimeArtifacts $release
 $compressor = Join-Path $root 'tools\web\compress_web_wasm.py'
 if (-not (Test-Path -LiteralPath $compressor -PathType Leaf)) { throw "Web WASM compressor missing: $compressor" }
@@ -167,5 +191,7 @@ foreach ($name in $required) {
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { throw "Required R7 Web file missing: $path" }
     if ((Get-Item -LiteralPath $path).Length -le 0) { throw "Required R7 Web file empty: $path" }
 }
+$finalPckHash = Get-FileSha256 (Join-Path $release $runtimeArtifacts.pck_name)
+if ($finalPckHash -ne $runtimeArtifacts.pck_sha256) { throw 'Final PCK differs from its filename/VERSION fingerprint.' }
 Write-Host "WEB_R7_DEVELOPMENT=$development"
 Write-Host "WEB_R7_RELEASE=$release"

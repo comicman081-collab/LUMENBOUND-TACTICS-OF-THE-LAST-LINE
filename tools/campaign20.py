@@ -264,3 +264,85 @@ def regular_enemy_ids_for_chapter(number: int) -> tuple[str, str, str]:
 
 def story_recruit_set() -> set[str]:
     return set(STORY_RECRUIT_IDS)
+
+
+# Field observations describe places, not dialogue by potentially unmet allies.
+# The second report follows the existing N04 discovery scene.
+CHAPTER_FIELD_NOTES = {
+    "CH02": ("겹쳐 찍힌 출발표", "Overprinted departure card", "같은 열차의 출발 도장이 두 번 찍혀 있다. 시곗바늘 대신 종이의 찢어진 순서를 따라 원래 출발 지점을 표시한다.", "The same train has two departure stamps. Follow the tears in the paper, rather than the clock hands, to mark its original departure point."),
+    "CH03": ("금이 간 차창", "Cracked carriage window", "차창 속 발자국은 우리가 멈춘 뒤에도 한 번 더 움직였다. 반사면에서 떨어진 선로에 실제 발자국을 표시한다.", "Footsteps in the window move once more after the party stops. Mark the real tracks on the rail away from the reflection."),
+    "CH04": ("물에 잠긴 호출함", "Submerged call box", "호출함의 표시등은 물결과 다른 간격으로 깜빡인다. 구조음을 따라 뛰어들기 전에 마른 점검로를 확보한다.", "The call light blinks out of time with the waves. Secure a dry inspection route before following the rescue signal."),
+    "CH05": ("봉쇄문 아래의 통풍로", "Vent beneath the blockade", "닫힌 문 아래에서 따뜻한 공기가 흘러나온다. 안쪽을 지나는 사람들을 방해하지 않도록 통풍로 옆에 우회 표식을 남긴다.", "Warm air flows beneath the sealed gate. Mark a detour beside the vent without obstructing the people moving inside."),
+    "CH06": ("낙뢰를 맞은 접지판", "Lightning-struck ground plate", "교량의 접지판마다 그을린 방향이 다르다. 최근 낙뢰가 빠져나간 쪽을 기록해 다음 점검 구간을 고른다.", "The bridge's ground plates are scorched in different directions. Record the latest discharge path to choose the next inspection section."),
+    "CH07": ("눈 아래의 수신선", "Receiver wire under snow", "눈을 털어내자 방송이 다시 선명해진다. 선을 끊기 전에 명령이 들어오는 방향부터 추적한다.", "Brushing away the snow makes the broadcast clear again. Trace the incoming command before cutting the wire."),
+    "CH08": ("떨어진 궤도 고정쇠", "Fallen orbit clamp", "고정쇠에 새겨진 하중 눈금이 끝까지 밀려 있다. 붉은 분진에 남은 낙하 흔적을 피해 점검로를 정한다.", "The load gauge on the clamp is pinned at its limit. Choose an inspection path clear of the fall marks in the red dust."),
+    "CH09": ("주인 없는 접수대", "Unattended reception desk", "잠든 접수대가 빈 서류에도 판결 번호를 찍는다. 새 서류를 넣지 않고 배출구의 기록만 회수한다.", "The sleeping desk stamps verdict numbers even on blank forms. Recover the output records without feeding it another document."),
+    "CH10": ("두 겹의 승강장 시계", "Double platform clock", "한 승강장에 서로 다른 날짜가 켜져 있다. 어느 쪽도 지우지 않고 각 신호가 연결된 선로를 따로 표시한다.", "Two different dates shine above one platform. Preserve both and mark the rails linked to each signal separately."),
+    "CH11": ("검게 물든 수위계", "Blackened tide gauge", "검은 물이 빠진 뒤에도 수위계의 신호는 오르고 있다. 실제 수면과 방송 수위를 나란히 기록한다.", "The gauge's signal keeps rising after the black water recedes. Record the real waterline beside the broadcast level."),
+    "CH12": ("이름이 지워진 열쇠함", "Key cabinet without names", "열쇠는 남아 있지만 소유자 이름은 모두 비어 있다. 이름 대신 열쇠의 홈 모양으로 보관 위치를 복원한다.", "The keys remain, but every owner's name is blank. Restore their positions using the shapes of their teeth instead of names."),
+    "CH13": ("모래 위의 정차선", "Stop line on the sand", "바퀴 자국이 없는 정차선에 도착 표시만 남아 있다. 유령 시간표가 가리키는 방향과 실제 길을 대조한다.", "An arrival mark remains at a stop with no wheel tracks. Compare the ghost timetable's direction with the actual path."),
+    "CH14": ("뒤집힌 출입 표지", "Inverted entrance sign", "출입 표지 아래로 먼지가 떨어지지 않는다. 방향 표시를 믿기 전에 작은 돌로 중력이 흐르는 쪽을 확인한다.", "Dust refuses to fall beneath the entrance sign. Test gravity with a small stone before trusting the arrows."),
+    "CH15": ("되풀이되는 화단 표찰", "Repeating garden marker", "방금 읽은 표찰의 날짜가 처음 값으로 돌아갔다. 정원 밖에서 기록을 대조할 수 있도록 종이 표식을 남긴다.", "The date on the marker returns to its initial value. Leave a paper marker so the record can be compared outside the garden."),
+    "CH16": ("부서진 양쪽 검문패", "Broken rival checkpoint seals", "같은 길을 두 왕관의 검문패가 막고 있다. 어느 쪽 명령도 전달하지 않고 민간 이동로를 먼저 표시한다.", "Seals from two crowns block the same path. Mark the civilian route before carrying either side's orders."),
+    "CH17": ("덧씌워진 서가 색인", "Overwritten shelf index", "새 색인 아래에 지워지지 않은 책 번호가 비친다. 원본 종이를 훼손하지 않고 겹쳐진 순서를 기록한다.", "An older book number shows through the new index. Record the order of the layers without damaging the original sheet."),
+    "CH18": ("앞당겨진 개통 예고", "Advanced opening notice", "개통 예고의 남은 시간이 점검 시계보다 빠르게 줄어든다. 두 시계를 함께 기록해 신호 기준의 차이를 찾는다.", "The opening countdown falls faster than the inspection clock. Record both to find the difference in their signal reference."),
+    "CH19": ("돌아온 회수 표식", "Returned recovery marker", "앞에 남겨둔 회수 표식이 다시 발밑에서 발견된다. 표식을 덧그리지 않고 이동 순서를 번호로 구분한다.", "A recovery marker left ahead appears underfoot again. Number the order of movement instead of painting over it."),
+    "CH20": ("불씨를 지키는 차폐판", "Shield around the ember", "마지막 선로의 차폐판 틈으로 작은 빛이 새어 나온다. 불씨를 건드리지 않고 바람이 들어오는 틈부터 막는다.", "A small light leaks through the shield at the final rail. Close the gaps admitting wind without disturbing the ember."),
+}
+
+
+def field_localization() -> dict[str, tuple[str, str]]:
+    result = {
+        "FIELD_SURVEY": ("경로를 조사한다 · 주변 시야 확보", "Survey the route · reveal nearby ground"),
+        "FIELD_SUPPLY": ("남은 보급품 회수 · 훈련 노트", "Recover supplies · training notes"),
+        "FIELD_ARCHIVE": ("증거를 기록한다 · 보급함 위치 표시", "File the evidence · mark a supply cache"),
+        "FIELD_SALVAGE": ("정비 부품 회수 · 기술 교본", "Recover maintenance supplies · skill books"),
+        "FIELD_CACHE": ("노선 점검 보급함", "Rail inspection supply cache"),
+    }
+    for chapter in chapter_rows():
+        cid = chapter["id"]
+        result[f"FIELD_{cid}_OBJECTIVE"] = (chapter["conflict_ko"], chapter["conflict_en"])
+        if cid not in CHAPTER_FIELD_NOTES:
+            continue
+        title_ko, title_en, body_ko, body_en = CHAPTER_FIELD_NOTES[cid]
+        result[f"FIELD_{cid}_ENTRY_TITLE"] = (title_ko, title_en)
+        result[f"FIELD_{cid}_ENTRY_BODY"] = (body_ko, body_en)
+        result[f"FIELD_{cid}_EVIDENCE_TITLE"] = (f"{title_ko} · 대조 기록", f"{title_en} · comparison record")
+        truth = CHAPTER_STORY_ARCS[cid][1] if cid in CHAPTER_STORY_ARCS else (
+            "되감기는 표와 실제 이동 기록이 일치하지 않는다. 역송 신호가 지나간 구간을 분리해 표시해야 한다.",
+            "The rewinding card disagrees with the travel log. Mark the sections carrying the reverse signal separately.")
+        result[f"FIELD_{cid}_EVIDENCE_BODY"] = (truth[0] + " 현장 기록을 보관하거나 남은 정비 물자를 회수할 수 있다.", truth[1] + " Preserve this field record or recover the remaining maintenance supplies.")
+    return result
+
+
+def chapter_field_content(chapter_id: str, locations: dict) -> tuple[list[dict], list[dict]]:
+    if chapter_id not in CHAPTER_FIELD_NOTES:
+        return [], []
+    points = locations[chapter_id]["positions"]
+    tier = min(4, 1 + (int(chapter_id[2:]) - 1) // 5)
+    cache_id = chapter_id + "_FIELD_CACHE"
+    events = []
+    for index, kind in enumerate(("ENTRY", "EVIDENCE")):
+        point = points[index]
+        events.append({
+            "event_id": f"FIELD_{chapter_id}_{kind}", "type": "DISCOVERY" if index == 0 else "CHOICE",
+            "q": point["q"], "r": point["r"], "existing_path_only": True, "discover_radius": 2,
+            "required_stage_id": "" if index == 0 else chapter_id + "-N04",
+            "title_key": f"FIELD_{chapter_id}_{kind}_TITLE", "body_key": f"FIELD_{chapter_id}_{kind}_BODY",
+            "choices": [
+                {"choice_id": "RECORD", "label_key": "FIELD_SURVEY" if index == 0 else "FIELD_ARCHIVE",
+                 "intel_id": f"INTEL_{chapter_id}_{kind}",
+                 "effects": {"reveal_radius": 3} if index == 0 else {"hint_treasure_id": cache_id}},
+                {"choice_id": "RECOVER", "label_key": "FIELD_SUPPLY" if index == 0 else "FIELD_SALVAGE",
+                 "rewards": {"TRAINING_NOTE_S": 2} if index == 0 else {f"SKILL_BOOK_T{tier}": 1}, "effects": {}},
+            ],
+        })
+    cache = {"treasure_id": cache_id, "q": points[2]["q"], "r": points[2]["r"],
+             "existing_path_only": True, "visibility": "HIDDEN", "landmark_key": "FIELD_CACHE",
+             "rewards": {"TRAINING_NOTE_M": 1, "CREDIT": 200 * tier}}
+    return events, [cache]
+
+
+def required_normal_numbers(cid: str) -> list[int]:
+    chapter = next(row for row in chapter_rows() if row["id"] == cid)
+    return sorted({1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 19, 20, int(chapter["recruit_stage"][1:])})

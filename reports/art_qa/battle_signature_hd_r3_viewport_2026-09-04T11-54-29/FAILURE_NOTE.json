@@ -1,0 +1,6 @@
+{
+  "verdict": "FAIL_NOT_PROMOTABLE",
+  "reason": "The first two captures were saved while the mandatory 100-percent battle loading layer was still visible. The remaining captures show the battle canvas, but this mixed set is not a complete four-state visual QA record.",
+  "retention": "Retained as failed QA evidence. Do not delete or reuse this mixed capture set as visual approval.",
+  "replacement_required": "Wait for AppShell.transition_loading_layer disposal after BattleView.assets_ready before every capture."
+}

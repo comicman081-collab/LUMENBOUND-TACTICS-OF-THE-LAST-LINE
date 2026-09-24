@@ -1,0 +1,1325 @@
+{
+  "schema_version": 1,
+  "textures": {
+    "res://assets/runtime_web/combat_signature/r16/BOSS001/idle.png": {
+      "source_sha256": "c036d727ed1a6a18917bbd46e112997ad53e972c085b27727c82419616aea64b",
+      "imported_path": "res://.godot/imported/idle.png-76d9eeda41582e622015e1b4205d53cd.ctex",
+      "imported_sha256": "69c5d5830fcb28521d89e65fdc2fdea56d087baa4a40b1e185b4d52cf31ebb92"
+    },
+    "res://assets/runtime_web/combat_signature/r16/BOSS001/ultimate.png": {
+      "source_sha256": "1c9b29bf3474d4932e8bc0e756dabf2af1d4565b3ccb676a881b159088885db4",
+      "imported_path": "res://.godot/imported/ultimate.png-fa724135b8e434a7404b0c18cbfdb313.ctex",
+      "imported_sha256": "3c1a22c137c9b639d6cb6ace506eb06eaf10458e37d7a43616627a25af69f7b7"
+    },
+    "res://assets/runtime_web/combat_signature/r16/BOSS001/hit.png": {
+      "source_sha256": "1e70c9021a129f2d423228099aeed9ac2cb830465197a2baaa794d930030ae92",
+      "imported_path": "res://.godot/imported/hit.png-98ff6794f963ff13ec903617a69faf9d.ctex",
+      "imported_sha256": "2954944c386f5e2dd5d0587d98a086c7cc4ef297360237aa24a52a2a2c51a2ce"
+    },
+    "res://assets/runtime_web/combat_signature/r16/BOSS001/down.png": {
+      "source_sha256": "813ff769e3b0973f20b39aefe1d1fd187a85ae8a881ee1f7deb7ef2ad91503f9",
+      "imported_path": "res://.godot/imported/down.png-495b26f06467182da9234a0c2705674a.ctex",
+      "imported_sha256": "0cfb9901ab5a19e398b574d6e1654009b83d3caa10590d3aefb7de895ea51b24"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR001/idle.png": {
+      "source_sha256": "3c22cc8fce39f6acc169a9cbc971fac6369b141de13152fc6f0f27c5666b65ec",
+      "imported_path": "res://.godot/imported/idle.png-b1bbd1479054770ab3fefb378f0edfc2.ctex",
+      "imported_sha256": "a53049e323e6e2e0da02dc213dbd744196186b66616badc122d8d87925984c0c"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR001/ultimate.png": {
+      "source_sha256": "badcfaceddf68a9efb6866d6e1f74e07a59977ee5388f0a7e1345971b7d54b20",
+      "imported_path": "res://.godot/imported/ultimate.png-bb527ab65a1202f4e9f44bcb45d37ae4.ctex",
+      "imported_sha256": "9c6d3bd2b56ae48dd7ecc72f62992c4d2c696073608eec490cd06f787300e38f"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR001/hit.png": {
+      "source_sha256": "0d5eea659f67f82112522bce4da9c92cee5a520f2d482a74e86b837e5fba0f9a",
+      "imported_path": "res://.godot/imported/hit.png-5a97f6bca2c7754f95299d70caf1da87.ctex",
+      "imported_sha256": "b07ef14083c7e1f6cedc9edcb2ae992c175762b869bcfd700c14cf93ebb8e4a6"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR001/down.png": {
+      "source_sha256": "d0921b419af054898d7c9cc2d37ef9a29d1a9e4e1f7d70138d3b55d9d97a8625",
+      "imported_path": "res://.godot/imported/down.png-1e8e4fe02e0be14c9bf7885066f61a0d.ctex",
+      "imported_sha256": "6166f7d3f40a7a7f1467c0b620b43b627e5a4f7bdb53b0e7829c609d76ab8f2a"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR002/idle.png": {
+      "source_sha256": "8fb42b9317b6892452fad125c5cd59ae0500e7c12c6b8948f6e432dd91047d31",
+      "imported_path": "res://.godot/imported/idle.png-82cd68b56db155dbc84571ea39b5c85d.ctex",
+      "imported_sha256": "1827b5d4c7ad03889ce0de3059d374ef2a7716336ed2fc3c63101a804222ff12"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR002/ultimate.png": {
+      "source_sha256": "aaee6ced96181ea1d4136026768828e132c6d2453d38156825dfcfddda3b31f1",
+      "imported_path": "res://.godot/imported/ultimate.png-2fa8538a49938bf156212c411d567b45.ctex",
+      "imported_sha256": "b8614300124c38edabb85499642777b84c43dc8a99672f8d08eef9be528e12d3"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR002/hit.png": {
+      "source_sha256": "d6d9c0e5bf5576482682ad586b16e022478f6197c9406358e19752633753f952",
+      "imported_path": "res://.godot/imported/hit.png-01919d000781044fd82b2b49c9fa7aa6.ctex",
+      "imported_sha256": "2e74cb986fb459c25676584dd12e13fda81286349b936a42e7b3f210cfbf681b"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR002/down.png": {
+      "source_sha256": "68b1eda08cf8a73cf70deaad4cb67da530202fa360063a65bf1ab446a961e06b",
+      "imported_path": "res://.godot/imported/down.png-d335ba860a362e4fad3c9f1c3eddc7a2.ctex",
+      "imported_sha256": "47d0598a9dd6b22948936485bb8cb9a29df56197445dbd60b76b21e7ea414c50"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR003/idle.png": {
+      "source_sha256": "ba4e39fb3719b4d901e3171e61f2855dd857fc215054c65cc48cb77148aa3259",
+      "imported_path": "res://.godot/imported/idle.png-7fb8765f3e6541e8e5f7dbca1efbfcee.ctex",
+      "imported_sha256": "516b018ac772997376b0330dd9ae1e43ce4d12488f7141b2196a17b810b06b5c"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR003/ultimate.png": {
+      "source_sha256": "cbfb2db5b123014b2dc632ac8029f165613c9508c3dfb473a8e4de34fe612075",
+      "imported_path": "res://.godot/imported/ultimate.png-3f73c78fd2874ba24cf9ef34b4a22eab.ctex",
+      "imported_sha256": "7eb16e40e991b6049224fdef05c52cec0b8e53e0c3a941fff626b26780e09034"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR003/hit.png": {
+      "source_sha256": "1153c520f68bc35048899fa75c6fbb6552f19a82ded312c58f341daedd1ed2b0",
+      "imported_path": "res://.godot/imported/hit.png-422b46aa8ee662bce7643a9666dc44ef.ctex",
+      "imported_sha256": "ac4e0a30703741bc47350e4c0825c0887056a58623b4df55a514fd900a2f5fae"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR003/down.png": {
+      "source_sha256": "72006e254c92bec147601b75193fb0f9fe16110ff926e5904142d102ef16f066",
+      "imported_path": "res://.godot/imported/down.png-be86f0ecfcdf29b5e92283230ddb2eb0.ctex",
+      "imported_sha256": "f1177dc4ef967f555c4753da1f0644e678ef5a5ce75f009136914393b96b3bd5"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR004/idle.png": {
+      "source_sha256": "a01c7514acdf3aaeec09bd58e07647c726939b6342175f1bb0e5b25172be4c06",
+      "imported_path": "res://.godot/imported/idle.png-733edc0170516e1796a36fed676ef57e.ctex",
+      "imported_sha256": "d13b14862dcefc03a36a445dfc30db84a043062d59075af1cf1dcbf4b4b8ebd7"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR004/ultimate.png": {
+      "source_sha256": "48e6461bdc3e114230f590d6aeb6efe146ff2a28ac1adca7813ca08924ed98d7",
+      "imported_path": "res://.godot/imported/ultimate.png-7103a2517bd188843c0b7546093150ab.ctex",
+      "imported_sha256": "ce01360ee650acd320c6b0ab1e99ebaedbb239608663f74828526f83d42aaf84"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR004/hit.png": {
+      "source_sha256": "7ff4bafacfcb1c49571319929a979c60383f34c8cc20b6c597849675745abf8f",
+      "imported_path": "res://.godot/imported/hit.png-afdd375b59e67b44b929bd7a3f72637d.ctex",
+      "imported_sha256": "67f0b48d092459f422f9f967d52d3abab924e28cea557f8a3dc9fd99d655d0c3"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR004/down.png": {
+      "source_sha256": "8cc59e6d67be9979f5b0f1c4505c116578ce22254bfdd61bd793a0dc5f46ad6c",
+      "imported_path": "res://.godot/imported/down.png-f904551907c771d0dd6b99d1281afdba.ctex",
+      "imported_sha256": "ac7caae30386b6b40b05818adf6b4e1564679c366825ddf327800b4c4222870f"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR005/idle.png": {
+      "source_sha256": "19f32c3f3b4b9a85cb7b7d429029912193cbbfa589f5076dc0b2d4c249a8948a",
+      "imported_path": "res://.godot/imported/idle.png-88bf4370fe9f23fe149d65efd968f9ff.ctex",
+      "imported_sha256": "30cd4ebc01bbc3136d2e865a55af661b1d19c4c8faebee686718253ec80beeab"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR005/ultimate.png": {
+      "source_sha256": "5451042a0a90290952cf1cc9379a0af16c2f04c3555262fe2317cb9699681bd8",
+      "imported_path": "res://.godot/imported/ultimate.png-125e9c1a6ae5f8f6a01326acb02d7627.ctex",
+      "imported_sha256": "1f652c577607a252d24fb5ce2e048ac7934b57afc6be72329e59065eb038190f"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR005/hit.png": {
+      "source_sha256": "6e84948c824b6dedcd6ae014a19978b523f121b1b242b3693faa62b1ac0dc01b",
+      "imported_path": "res://.godot/imported/hit.png-7d734ac88ee741496694bebbfaf2323c.ctex",
+      "imported_sha256": "b4cbc07eb5c87ac13ca0b84ed8eb9d1b9d4db32c6f920e3ff7d8dd8f874a6c34"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR005/down.png": {
+      "source_sha256": "3b6c08ed7cf7b62157746656cc725265cd6c9cb01eb2b334fe4f094f4b441f6d",
+      "imported_path": "res://.godot/imported/down.png-59fa1a94a0d6f1ba5ec5a48345ba73b9.ctex",
+      "imported_sha256": "d56af1f01e5e22fc7908a0269cc0f9b2389049ed1e8b924963031f70345e7094"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR008/idle.png": {
+      "source_sha256": "0f419a90e820f75308fd6d226fa254750282e1ec07c89bcf47f7a21dfc66ceca",
+      "imported_path": "res://.godot/imported/idle.png-6effeb42739893d768bd385de20d5f6d.ctex",
+      "imported_sha256": "ff40395a1997d7f521ebacdff2271149d4727e64cc59561d2c2b70b09e0cb874"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR008/ultimate.png": {
+      "source_sha256": "5d25b5fb1d38296cb49ebe25b7cc544483a1fa6527b431fb1345910406ceea3c",
+      "imported_path": "res://.godot/imported/ultimate.png-98e0c15dcab99cd585850a8b2b2f4ee4.ctex",
+      "imported_sha256": "ecbf64a901a21f153b42fb08f2d4fd43aab64a3385f185404b0fa816c24874ac"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR008/hit.png": {
+      "source_sha256": "ba27371a470976bd761e542989593bf681dc004d0f8f3023d8f7cdf375b8ab2a",
+      "imported_path": "res://.godot/imported/hit.png-87d0581b44279c31308e19e124109ff8.ctex",
+      "imported_sha256": "1aa510db1897b1c26a5d9aeee46ecf518ccdd58da56c7cdfa1b3fa28e219ad8b"
+    },
+    "res://assets/runtime_web/combat_signature/r16/CHR008/down.png": {
+      "source_sha256": "7d4868b893bc2c49b1d2c6d2b9f3b6a10ec725a42d4a95160e4b5cd35fbf1be2",
+      "imported_path": "res://.godot/imported/down.png-a2dbef4e03dc9289a8fe51cd7580691e.ctex",
+      "imported_sha256": "9a3826716df84ae3346342b0c96065352c4f5d70480ecb0baa4649af4056acbc"
+    },
+    "res://assets/runtime_web/combat_signature/r16/ENM001/idle.png": {
+      "source_sha256": "a6039e1377b7b2cdb651762cd4281a553da9d3506be9a94f62f2ef23e0d6cff7",
+      "imported_path": "res://.godot/imported/idle.png-8d93c6aabb4b9700950914ef13bbf9ce.ctex",
+      "imported_sha256": "d5d70871f59033969febdc4a92379039af7919292a9ae83476071083d38d826a"
+    },
+    "res://assets/runtime_web/combat_signature/r16/ENM001/ultimate.png": {
+      "source_sha256": "f655ef2f0fe48a73795af035c855d6d1fc8aa539f155c0690a285c25e77d4004",
+      "imported_path": "res://.godot/imported/ultimate.png-fb6b5be585a5f1246ed7fcc2ec742ea8.ctex",
+      "imported_sha256": "adfe87443bdd426f0fa9fa0b3e6f757c24da6787afd45786952a2f2fedf589e0"
+    },
+    "res://assets/runtime_web/combat_signature/r16/ENM001/hit.png": {
+      "source_sha256": "55aa4646a20b85d8997acfa51374ffc2d7c58dc0556a4e2e6e10d2636617bcb2",
+      "imported_path": "res://.godot/imported/hit.png-4cf919367db36ccb41281a96e19ae776.ctex",
+      "imported_sha256": "9b2e6ca68e9697f76ab845bfc153a056aaeabebd1b6bf3faeb06c5f32155e0cc"
+    },
+    "res://assets/runtime_web/combat_signature/r16/ENM001/down.png": {
+      "source_sha256": "83f675352d4c0dd085abd1f24e45be77d63065f34d92c28b00b6e556d5bb21cd",
+      "imported_path": "res://.godot/imported/down.png-bb41f7c1efa75562609cface956b315b.ctex",
+      "imported_sha256": "88426da568426a2c9c39bb12d0d919521d5a0eaa85f1065ccb52a04b1da34a1c"
+    },
+    "res://assets/runtime_web/effect_signature/r4/BOSS001/projectile.png": {
+      "source_sha256": "00925d214475bd8c4c2b7b6c83ddfd8310f2e42cdc95422a0f5250db5e659238",
+      "imported_path": "res://.godot/imported/projectile.png-59544c6a27342382f841b1a907e3ebac.ctex",
+      "imported_sha256": "21cdca585aaa2a40a9f90edd3c6f196973165baec564135080a6987474a467d6"
+    },
+    "res://assets/runtime_web/effect_signature/r4/BOSS001/ultimate.png": {
+      "source_sha256": "fc2e19c0355c059875106383f9372d2ba5a0a5f9cd9b1a783a33f6c0e25a7d15",
+      "imported_path": "res://.godot/imported/ultimate.png-efef08e24bcd160613bb85d6e2f4ba6e.ctex",
+      "imported_sha256": "a10bc94ce68097c91e2635ab267c4937dc7ca136b0fe890b0c1ad90413e3aae3"
+    },
+    "res://assets/runtime_web/effect_signature/r4/CHR001/projectile.png": {
+      "source_sha256": "7468aff379e68478ceb9459f331eaf9eea4c93221e27a52a2b8cc1fc35c648d1",
+      "imported_path": "res://.godot/imported/projectile.png-e725470d72221e1efe1ad90f2b46b70b.ctex",
+      "imported_sha256": "c321d515724d4e09bfcf944cb8f31c7be90b592db244f8fd71f352ae5b6c1b30"
+    },
+    "res://assets/runtime_web/effect_signature/r4/CHR001/ultimate.png": {
+      "source_sha256": "1cea452b3ac82086877b53faba5a8b9013a7f6f517b0b3aba79551de4bd34d93",
+      "imported_path": "res://.godot/imported/ultimate.png-7bedce399400a93b547e8efb13db0315.ctex",
+      "imported_sha256": "96485f7b84f46beddb2db4e59f33ee2ee1470b3ab5c014582c157cfee87a8a48"
+    },
+    "res://assets/runtime_web/effect_signature/r4/CHR003/projectile.png": {
+      "source_sha256": "1c19fd43520ebba699554ba93f91b372b1fd6115a96dc248f5997e4b5f782f1d",
+      "imported_path": "res://.godot/imported/projectile.png-e857a828b0bfb49f2e0bfb12ab307108.ctex",
+      "imported_sha256": "5cf6dfe5fa621a07d0d59c7559292557d6438451fa2fe8075f21cc4cb3ff25a8"
+    },
+    "res://assets/runtime_web/effect_signature/r4/CHR003/ultimate.png": {
+      "source_sha256": "125aa2bb96c34edd8e8d0258e518da2c9630caed928a8ac413c09aa2ef0de931",
+      "imported_path": "res://.godot/imported/ultimate.png-dcc398328a5afddcfe34c169be8088e7.ctex",
+      "imported_sha256": "455894c17b49228fded05c619a504fc70d6ca3f637463b507b40ec38481b6d04"
+    },
+    "res://assets/runtime_web/effect_signature/r4/CHR004/projectile.png": {
+      "source_sha256": "060042fd70c8298e887670abd3ef020c3dc6ed83aca07245cb202cd8de718ee0",
+      "imported_path": "res://.godot/imported/projectile.png-71af2bb0c4a1aa787697b6cef0f2c69b.ctex",
+      "imported_sha256": "1bba4842d5a809bf9a9a3cc6b2c34a905fdd36f0e2d9189cd795f5f45e00d3d7"
+    },
+    "res://assets/runtime_web/effect_signature/r4/CHR004/ultimate.png": {
+      "source_sha256": "125aa2bb96c34edd8e8d0258e518da2c9630caed928a8ac413c09aa2ef0de931",
+      "imported_path": "res://.godot/imported/ultimate.png-22558144538f7dae8f035cf43abbcff8.ctex",
+      "imported_sha256": "455894c17b49228fded05c619a504fc70d6ca3f637463b507b40ec38481b6d04"
+    },
+    "res://assets/runtime_web/effect_signature/r4/CHR005/projectile.png": {
+      "source_sha256": "12338c23d793f1cfe3a0e13b4953c5c27300e20a296fbc06d3028eeb79918d53",
+      "imported_path": "res://.godot/imported/projectile.png-f46740c10f88641107d12562af8e1cc5.ctex",
+      "imported_sha256": "5bd8f3f08e5a3d74e1a21a514ba137ace8f5999bd35f56b97df02a7cfd26a255"
+    },
+    "res://assets/runtime_web/effect_signature/r4/CHR005/ultimate.png": {
+      "source_sha256": "4e700cb3d1b8744fe3b87ddd765debb04f4bac36b7c749846d1923ab69b9c1e9",
+      "imported_path": "res://.godot/imported/ultimate.png-22b595e888f80d174445bfe7b2eb5f0e.ctex",
+      "imported_sha256": "cee762d73bd0b7a25cf53b3b5a566eb3f57db7bd81cb0c98083c2cee349da100"
+    },
+    "res://assets/runtime_web/effect_signature/r4/CHR008/projectile.png": {
+      "source_sha256": "aa8ffd00935f7b914d4882b0f8714c1fa5012926ca96329eeea27fe719270d7e",
+      "imported_path": "res://.godot/imported/projectile.png-d654d69c3060c15432753047ccc1469c.ctex",
+      "imported_sha256": "8259fcf3cf1cb9aaceab4fc864e7220f3d62d65251d434d7ae368048873384c9"
+    },
+    "res://assets/runtime_web/effect_signature/r4/CHR008/ultimate.png": {
+      "source_sha256": "6c08f1709801dd70f5d7e225aab507bee1d37699087d5f7333044d65d16a0225",
+      "imported_path": "res://.godot/imported/ultimate.png-2d9130eb2e39bc4440849fa1ea19fc71.ctex",
+      "imported_sha256": "0970b2577c5cc5c44f523690c69a2dea89c59b5a94da4275fe62fa2e5de7785e"
+    },
+    "res://assets/runtime_web/effect_signature/r4/ENM001/projectile.png": {
+      "source_sha256": "f151f875a1ab27c83fa0b5c856f2bcd13f02390771b6726ba08b8658db23fbe4",
+      "imported_path": "res://.godot/imported/projectile.png-3231a32893c2d03611fb8bf6b04bac37.ctex",
+      "imported_sha256": "89be01980bbecaef09cd170f63c692c3cb8b34b293192867fc09b81764d3b6fe"
+    },
+    "res://assets/runtime_web/effect_signature/r4/ENM001/ultimate.png": {
+      "source_sha256": "96cba9850beecff8f0201ef1ce311b6a478c71d39a5522e9b5044eeb72a45274",
+      "imported_path": "res://.godot/imported/ultimate.png-3618cdbbe6faffa617129e50af15762d.ctex",
+      "imported_sha256": "99940a54719f689a8a66d975e262402a5d145fc7124e1f332ac7f7d67b06bcd1"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS001/page_00.png": {
+      "source_sha256": "d2149e50ffcc13bb6e9073dd923471abda0f145bdebc95dcb04e577bb45a49ca",
+      "imported_path": "res://.godot/imported/page_00.png-6bc7135ad7fa0918aeceaf8600263f1a.ctex",
+      "imported_sha256": "9ddfa00273e4369ddd06185c9093732f50091ad43997084bf5e2ecc97b0e0897"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS001/page_01.png": {
+      "source_sha256": "a81c9f949cb0edb097b511e64e9210b45b0c07d8e9a3f39d9920519631921a6a",
+      "imported_path": "res://.godot/imported/page_01.png-506f1beba7007a5dd315c9f7aab373f8.ctex",
+      "imported_sha256": "9f87ba72e3b93007cb457f3a7e0e2d1adea91981e4781df31235e814440965df"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS002/page_00.png": {
+      "source_sha256": "f76ef2ec5701162de2f24f152c471ac2a734d53d9c2c54522a7e4d2ad2ffa38f",
+      "imported_path": "res://.godot/imported/page_00.png-6441846f603958882ca96fa849bbd3d8.ctex",
+      "imported_sha256": "ffdda691f99b0566a01d44daf15910cf8f9831a46e1d7d8be67cb0b41045b0a3"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS002/page_01.png": {
+      "source_sha256": "57491b3c5820e78286eed4a9dac97976fc79b9cf5ad840e2ff075045fed5988f",
+      "imported_path": "res://.godot/imported/page_01.png-6be8316ec7eb62e1a377bb56e060e2f3.ctex",
+      "imported_sha256": "9d1ece9b5cdb41b25590370a40d9ff11c560fe5de9a7090990c2145558c5c668"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS003/page_00.png": {
+      "source_sha256": "0207c27247a05e446212638bdd256dabea9492663561496f7cd72557f3c0e477",
+      "imported_path": "res://.godot/imported/page_00.png-fee839e9db4aab769deb20997a65a3f0.ctex",
+      "imported_sha256": "e26fe07939ff7f95c90b9ab80af0a8109f8df5ad291084b96ecbc06d96ec78dc"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS003/page_01.png": {
+      "source_sha256": "cc070bf1ba829f0c16cd95a6816a2d483b7c5e3f74d4ef6fbc200ea0223038c8",
+      "imported_path": "res://.godot/imported/page_01.png-ff7ca56e3fb04879bd1c02ca91a868ca.ctex",
+      "imported_sha256": "c760a76e46cbadd31fb93861e781bc6a6811ba7d98e8a89b7425f7ff1076335c"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS004/page_00.png": {
+      "source_sha256": "9527d1e78ca30e445922c97ed6438a81f07ac5ccc54ed11f7a7a31f922a890e9",
+      "imported_path": "res://.godot/imported/page_00.png-bafe7587fdfa425eadb6bb5f8f7ca11f.ctex",
+      "imported_sha256": "a58f6d5423ea27e767910486d1c0ebab61110a6e7f6a8b8d0c0aa911830faf95"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS004/page_01.png": {
+      "source_sha256": "2842c974d323a61380a4030ae3eb5c11056aa96b285c6b9a0f3c0b0bee24f48d",
+      "imported_path": "res://.godot/imported/page_01.png-81be0a24b6a2357c62298fb8069531d6.ctex",
+      "imported_sha256": "d31036163e801398a87f5058208efd1cf066f7d4d69528116fe79d07fd80e3c0"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS005/page_00.png": {
+      "source_sha256": "97f3fd5c4c7954ed6a45c6d37aed924e368093cdbb20b79c99d3432cbcb65420",
+      "imported_path": "res://.godot/imported/page_00.png-4868bccba08e8a5289ea0f5dd32718fc.ctex",
+      "imported_sha256": "070bd247e5392b2892323ad981aff3d3c67644f6468226025ff466d3e54d2825"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS005/page_01.png": {
+      "source_sha256": "9bcec834d30ae4c8420378d195d0741c8c60d705b0bfb985d96c61f01a3cd9bf",
+      "imported_path": "res://.godot/imported/page_01.png-6237fc6d64cd47bda60659c9a0f0e9e9.ctex",
+      "imported_sha256": "14df1c24136edb5d03e063723c7d88722f2c4db5cbc2d8f641382ba02bd02eda"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS006/page_00.png": {
+      "source_sha256": "faf9591c3c2638c666d76d164878fed723874787383eec829562340e9cd0f1e7",
+      "imported_path": "res://.godot/imported/page_00.png-6c4fc735111f2b166b17be96440bbfd0.ctex",
+      "imported_sha256": "ab3d1c8da448099e9494ca1a1046b159ed21d86dc4d626ae7b0bad9019fe96bb"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS006/page_01.png": {
+      "source_sha256": "473a24559da58b4b1415130ce45e6f9f73a62e1516ecd8aa320e3b58d75520bc",
+      "imported_path": "res://.godot/imported/page_01.png-e6307cb6f59a47b3386c98ceb6ade141.ctex",
+      "imported_sha256": "c6d4fae394f975b329020e2c2ac7afd16e3e291056fbdc5f8d652e3974fcd0b9"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS007/page_00.png": {
+      "source_sha256": "1b9b5593b2dcaacdfff629559794a3c30380ac89c9a2b710acfd1b57b981db72",
+      "imported_path": "res://.godot/imported/page_00.png-4511dc2166bc90cdf828642c5e8a6a03.ctex",
+      "imported_sha256": "02b6e536d04b02fcb06abb8cca480e33b5c715d470ce94d7a2fd51549b3c68e5"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS007/page_01.png": {
+      "source_sha256": "a989eb2f9a0588b6681ec2194f57ddbc5e35d93b1299cbe425cfe1dc47bbaa04",
+      "imported_path": "res://.godot/imported/page_01.png-c20b0caa5560c97b9cafeb7a611a46d0.ctex",
+      "imported_sha256": "0c4c8a8005134d9da5044e1d5952d0995baee420f37fc80b7742d4f510a643c5"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS008/page_00.png": {
+      "source_sha256": "18209adba767dc8fab673e4f17757e4a57b204c96d44a39b33120b5ce8fe5a0a",
+      "imported_path": "res://.godot/imported/page_00.png-0b171db65633da3524176ec6755a38d3.ctex",
+      "imported_sha256": "3b5d8a9bc3bf0e73bb4d67e38563263f7f9dc4d3025ab2ef1dccfe3724d70cc5"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS008/page_01.png": {
+      "source_sha256": "692f770ea5a67342348e65ca8859907964af0aa8e4b80d19e1353a2687ec2a4e",
+      "imported_path": "res://.godot/imported/page_01.png-971430a6b29ecc521731469496c39104.ctex",
+      "imported_sha256": "e049b6afa9ec2beb0be8a082649e6ea1f28c9b0460391988825821334cb051c9"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS009/page_00.png": {
+      "source_sha256": "07de971fef72342e5b3e70644772ef15d5229ce02df25a2b2a08103e5a7f9eea",
+      "imported_path": "res://.godot/imported/page_00.png-468cf2816d31d170449474588eb8b122.ctex",
+      "imported_sha256": "7f57a5e445f2b986491871de3623562b0c19d2ab6f2c219330a822e55bbf28cb"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS009/page_01.png": {
+      "source_sha256": "678383e87d40864d7690cad14922fee465c7361b44829ffa313a323e9ed22bd6",
+      "imported_path": "res://.godot/imported/page_01.png-d85bca8368900489b885a7e963b461f4.ctex",
+      "imported_sha256": "d1822878c338cd5c3694c6fbcb434376e2011df8be479c15da70151698e2da7e"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS010/page_00.png": {
+      "source_sha256": "960b5ddd2cfbabf21c0e4c4ecb382ab0176fdf8c20a4b1e946b6eb247a65e9d1",
+      "imported_path": "res://.godot/imported/page_00.png-1b0826f272a3702870f837f6a5a12cb0.ctex",
+      "imported_sha256": "ce42454bcd769d84f84b213ba6bf4fa8122922b44bf43b4de6b2eeec59155d24"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS010/page_01.png": {
+      "source_sha256": "41eda52411d6627f838bf233b3f2443730b67698797ee5d76f7b8506a47b325d",
+      "imported_path": "res://.godot/imported/page_01.png-83742eb11bf003574eb601be0106f6d3.ctex",
+      "imported_sha256": "c376774bdd91bd671529de7bb8a1ab92c21d224251002ee69fb6c04a22cd6a0c"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS011/page_00.png": {
+      "source_sha256": "78a49e9e1d47fa685dab110f7c2f001ad35cbc2feedd5d6ee8d5908946f5b034",
+      "imported_path": "res://.godot/imported/page_00.png-2cbdb450d5b859aa1eff65994de1d567.ctex",
+      "imported_sha256": "969912b51e4cb121d47a83c0ae660847a8935642c5d91143e77f8f4a8106d898"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS011/page_01.png": {
+      "source_sha256": "f74f183d96ef196977fe23780d5210e8fbbb165b393ad7ac5013a43dcad31140",
+      "imported_path": "res://.godot/imported/page_01.png-4e9b038f343b452d4afd2ab8be926385.ctex",
+      "imported_sha256": "d4a9f114ee7359812c54f288acb3b7d189e1934c5b37037bfb08d334753fdc93"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS012/page_00.png": {
+      "source_sha256": "bad8530f611f83dec324f571f91208a61f3c9056767dc4750537aca3d37c9b45",
+      "imported_path": "res://.godot/imported/page_00.png-8807a2c3a9ac7468cb51dbf2fbd152ee.ctex",
+      "imported_sha256": "96e4c452bd9b68952426096fac57d80bf3ce9cc5a81d902ab5ba1e638e578820"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS012/page_01.png": {
+      "source_sha256": "da8d447575a4e332d545c51eeb7756258aa89a985635b7fbfe7c7817a612ee84",
+      "imported_path": "res://.godot/imported/page_01.png-d9a8c7c4e21b7b40ee91186baaf0913e.ctex",
+      "imported_sha256": "fbdcbd7180a63e9002d962216e746ccfe9d55109f75ba7a8ee629fd5e4a690a0"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS013/page_00.png": {
+      "source_sha256": "14b6a77d77202cba97b403e9235ffea831110e32df56fd969af0bddecb65da41",
+      "imported_path": "res://.godot/imported/page_00.png-4d8a10b2c490d2194fc8611404bd336d.ctex",
+      "imported_sha256": "5102b451f92d2236bdb9997999cdfbe21e976603c6df3278fed345cf218c79cc"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS013/page_01.png": {
+      "source_sha256": "f2d512d9d9a35bf72cb069cc931395d4e9c13ca20a352dcaa6e339eb06756730",
+      "imported_path": "res://.godot/imported/page_01.png-ac1d28c77e87b933d789ebc98b1cac72.ctex",
+      "imported_sha256": "41c8d870981545c32fd1eae38452b8932da0d569d61b1dbc4f8f081b72ecbe51"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS014/page_00.png": {
+      "source_sha256": "e783566f70e30b26bb96b9827795534c0824fcf53799d1705a683f365cd2e2db",
+      "imported_path": "res://.godot/imported/page_00.png-eaf17e077f819910a500a6d0ecd38554.ctex",
+      "imported_sha256": "b38a92adbad5f22d83ed551de49c7b020f32c4ecd37b2ee9353559538baf7eb7"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS014/page_01.png": {
+      "source_sha256": "4741e978bded14051c13d47569cbc41b53d0198aeaaf61a07f7b9cf955f4a94b",
+      "imported_path": "res://.godot/imported/page_01.png-58239f5b38107ecdfe4c31d94f332d82.ctex",
+      "imported_sha256": "553bf8ccf1a348f348610496828f2363fc45ec99ed26d6df3eab5e4a1d13a320"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS015/page_00.png": {
+      "source_sha256": "1d8503a9ab9aeff47aa43fb71af44c508b56ca0d44d8540d0eecdcf37e4e18c4",
+      "imported_path": "res://.godot/imported/page_00.png-4aaa88b034bbdb63ea15b7a29f72cd99.ctex",
+      "imported_sha256": "ccf0e39a1d5c74b2ddcd059b5a88a16fe6901470b193756f7214d9837031a6c9"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS015/page_01.png": {
+      "source_sha256": "bbd05285a2ddab7f9c6dc58504baa63cb0cd85939ed8ce8d692e176f69eb09d7",
+      "imported_path": "res://.godot/imported/page_01.png-52c624dc043e5c483a3b905bac678392.ctex",
+      "imported_sha256": "7674138443d6b6a513db0b6942b258130c9f6c262e53af15add950afc1b0f842"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS016/page_00.png": {
+      "source_sha256": "5ae7cf23a72e3d2fcc83d7e881320f231aa4f22b1f1303094241ce202f6ca586",
+      "imported_path": "res://.godot/imported/page_00.png-2c8284674317a28747ea63d32fa08998.ctex",
+      "imported_sha256": "3c4ded81696fed14f8719bb7452dab6a929dba154d8058d2d3f1805a0a821e28"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS016/page_01.png": {
+      "source_sha256": "9f38127f35e0cbfc7912d3e3c877ebc9927cf13d01d2d1c48aa9f9a729971b61",
+      "imported_path": "res://.godot/imported/page_01.png-e71041124ec7c0498dad3fe76a6259ff.ctex",
+      "imported_sha256": "c11ef92ef3f611176c1086f45b4e727fbe85fccda7cb0b589aee574b8552dd94"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS017/page_00.png": {
+      "source_sha256": "d669e3a483e0b34910999bbd7ab073f1229520274e71c9c18009fd51501191bf",
+      "imported_path": "res://.godot/imported/page_00.png-d74f94dc14f35b3900b761a751070c42.ctex",
+      "imported_sha256": "7f3777d433e1a0f6bbce5d46418c14a476570b28ff2c90a89a82b1e91e1a8d84"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS017/page_01.png": {
+      "source_sha256": "17a7250366888ee20307648f53ca41f79b1d39bf21a509c54fc897270c344bab",
+      "imported_path": "res://.godot/imported/page_01.png-559807908c7acd6fb1255beb547a1a4f.ctex",
+      "imported_sha256": "31a38056ed9dac842eeb5d5a9f3bd2ab35ea275811bce6345a5606220bb8646b"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS018/page_00.png": {
+      "source_sha256": "0b67048e18b9d877006fe30a23f57417402cc246d48f49d7ad302485e1121951",
+      "imported_path": "res://.godot/imported/page_00.png-95d7f104688d1f5ac0d82c593c3d6ff2.ctex",
+      "imported_sha256": "aff6518e97b59de83b18680f72d5f12f6673e15898ea04c3f5f70f3e73f4b639"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS018/page_01.png": {
+      "source_sha256": "0d8af14509cd6c5bd350c3fa6982d0ac1babe180f3807b5a023efb1fc973a929",
+      "imported_path": "res://.godot/imported/page_01.png-4804b6bf0f35c7a527aa21f4cf2ff64d.ctex",
+      "imported_sha256": "0715c839e7dc11cb8e40a7222c672baf34546cfc20c31704d83c9dbc1d6d104d"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS019/page_00.png": {
+      "source_sha256": "78d7e15dc9c4733ab6798febc9e5217037e76114841162a368fd38e9bce4f2f5",
+      "imported_path": "res://.godot/imported/page_00.png-7175d1d3f6000034b2f580fb4ebd80b0.ctex",
+      "imported_sha256": "514dc889ec42fdfc5d933c508402a0d1fa2774ee0e8ef31563c45bbb640e252a"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS019/page_01.png": {
+      "source_sha256": "c4ea0eaf13859b811a9fee0367b4a6e4770f26b00dd3fe7246a41bc832c03299",
+      "imported_path": "res://.godot/imported/page_01.png-24f159910e1b9a597ff45b0289833958.ctex",
+      "imported_sha256": "0c30960b5333ab1127b689a2e8200b68f6b300e93d9e4e753640dadf77db87c5"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS020/page_00.png": {
+      "source_sha256": "3d32e1d7351be51bba171f1f89ce8ea4350c4af5a7385f0da17411f05ac8b73c",
+      "imported_path": "res://.godot/imported/page_00.png-3deee453cb0e2ecbb7c15ece823a3946.ctex",
+      "imported_sha256": "01deb7cca6e554d909328b08a16f3d2310ce8d9c92758afc176956156d5040de"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS020/page_01.png": {
+      "source_sha256": "a1c3d5e018485baa53fb1d659c3aa812c10c9c614dd4b935002852e4f6444d3b",
+      "imported_path": "res://.godot/imported/page_01.png-cf93d81e80f1963b718929033964afa2.ctex",
+      "imported_sha256": "30362f7aaff1c07d73dd3a6d978819f011a7564c869c79c00373a438bc5ca0fd"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS021/page_00.png": {
+      "source_sha256": "c7102ffb45e57271357b2b578e8f624c8f734cfdb7d5bb04b0525ebf81cd496b",
+      "imported_path": "res://.godot/imported/page_00.png-a6659c4e4887b2e4eb6a51673f0d83cf.ctex",
+      "imported_sha256": "7ab87a68677b656381f08f2bd376689b54f232e9340ad621aa99866c97336a84"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS021/page_01.png": {
+      "source_sha256": "6a922a9691bcb297610f9609533b8d3230735b6c36726a98a8a002967e04243c",
+      "imported_path": "res://.godot/imported/page_01.png-2eacffa85adff181e3fe1cf0ed1b561f.ctex",
+      "imported_sha256": "ff0015dc5430127063247ab98c8bb25a150fbe3557d5a30d8f0c4e8415c865d3"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS022/page_00.png": {
+      "source_sha256": "84531dc1790ba75160b67d9d903d29b4ccdb1f25f9c850f8e654db18fe2dd278",
+      "imported_path": "res://.godot/imported/page_00.png-95a1b474bb7b301a642a28ae112b0703.ctex",
+      "imported_sha256": "e0cfb7de153668df51087419ac4b85c7c79fdad0558c8a446ad994ccb6bc820d"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS022/page_01.png": {
+      "source_sha256": "722aea34ed658cfe7fee2270738f6270a13ef8f7bde0d88c88f9a17d1897840a",
+      "imported_path": "res://.godot/imported/page_01.png-917cba0042b8e73c3719a4c9ef711b6c.ctex",
+      "imported_sha256": "8cd46dd6f5ec1e72d85331019264302465ede4a30820fb9bf66815960f2da8be"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS023/page_00.png": {
+      "source_sha256": "d65a755d49fdb405d9c0ec284934f99a23922f65ca61b2152cb497141df26071",
+      "imported_path": "res://.godot/imported/page_00.png-dc915a65119cf03b2ef196be69d900a2.ctex",
+      "imported_sha256": "4d70d27a93a8468b1e2193b50bb01a4b9f8e3ea3e4489a7193692527b31e9698"
+    },
+    "res://assets/runtime_web/full_density/r2/BOSS023/page_01.png": {
+      "source_sha256": "dc52198e360809bf6083ffdfe7978edd0dc9be40ad14293b5c5b7accb78d8fb9",
+      "imported_path": "res://.godot/imported/page_01.png-7828cf49369a76065305935fdce89a2a.ctex",
+      "imported_sha256": "f1cb7816839bfe940d180b575e7ff910af1aa769fddfd1298361b507b7d9ddce"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR001/page_00.png": {
+      "source_sha256": "60a4321ef49370b5867d60085bbbc89a29a1fbf76c5158afebea68d36d0143e6",
+      "imported_path": "res://.godot/imported/page_00.png-2f7d75c312c854520fa25f41b1c5c0b5.ctex",
+      "imported_sha256": "271db7403675dd14c698515999d53a5a4407f796b2114a98f5465f246dbe96c4"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR001/page_01.png": {
+      "source_sha256": "c0edfceaed6aae75be3f5896f2c154f8f20bffb2e82f8efdab4f8d236a251363",
+      "imported_path": "res://.godot/imported/page_01.png-6a54a4c444b4dd3172dfd61a0ce1ec62.ctex",
+      "imported_sha256": "1973215493afdfad300014d859965743ece507e037765d822c6bc5c9ac622810"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR002/page_00.png": {
+      "source_sha256": "31e8fb93ddc1f9528b55fd934bb3255799aeb91944395150ccd1d69e4ba9d01d",
+      "imported_path": "res://.godot/imported/page_00.png-914e60a3a884807c27a9d130315ea7b4.ctex",
+      "imported_sha256": "f1180460701579b4d43c151016ffc366f7ac3ecac74a141bf74f456b52264785"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR002/page_01.png": {
+      "source_sha256": "5ce5f2b981e8dcceb181c597c72338bfd1a495c82af576f798838a83dc563748",
+      "imported_path": "res://.godot/imported/page_01.png-b8be6b4f332025b1d76a99c8f26e4b35.ctex",
+      "imported_sha256": "f082f56ebf3d5477c76a7ca0ace20d10b69601811c5ac23701fb0536b3529497"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR003/page_00.png": {
+      "source_sha256": "735294be081b3717200a1bb50061a196714856c13f252d42d6fed7cecf6ee744",
+      "imported_path": "res://.godot/imported/page_00.png-932fd1a7d2da3301a3ecd39af07a4ea2.ctex",
+      "imported_sha256": "538081dec8bcb82da36f2c602b13c60ef37bcf9cf0211d060564986afa7fca75"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR003/page_01.png": {
+      "source_sha256": "b4b8fac8e58a83c0f469a675181f05f93a88bca5298db0c4bf0dd998e8d0758b",
+      "imported_path": "res://.godot/imported/page_01.png-b80f86ae4f8ceabf7e16e26c252319b6.ctex",
+      "imported_sha256": "b393c81993dc6542647e53fbf049894108eb283d5f37daf98a83e12f77a4ccd9"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR004/page_00.png": {
+      "source_sha256": "f7f04b43276157ed8441726b06c08284e36f18f95c5668d72632e45ff6f5fa4d",
+      "imported_path": "res://.godot/imported/page_00.png-4e02df4770ec09b436091b539e98875b.ctex",
+      "imported_sha256": "ed87204085c748ba21bfabd79c172315f5f75d08339bccf8feac0d64d6601022"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR004/page_01.png": {
+      "source_sha256": "0ba3e821d054b8209435d9e9fcec834b9f59c8f48dcd57751dc858732faabe68",
+      "imported_path": "res://.godot/imported/page_01.png-e2e3b7a80867f7168ff233e88cecda06.ctex",
+      "imported_sha256": "34366845a8b80566323f3756077fc25bbb7ad57d34d48c26cb4d7de4c7478413"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR005/page_00.png": {
+      "source_sha256": "a750033f03e2ebd2e8d49df79556d1486770bd7f7d44557625d6b692189ea06d",
+      "imported_path": "res://.godot/imported/page_00.png-08cf193e996d27bc96fc132fc400db7f.ctex",
+      "imported_sha256": "711c9142f907d27920666a48854463295fb6e3911542ecdaab6151fe74823bba"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR005/page_01.png": {
+      "source_sha256": "59b817cf2183edec146f6b13765b98105cab793162c0c1ff89d7b689d1a930df",
+      "imported_path": "res://.godot/imported/page_01.png-7e63c5a5fabd334c900c321b3c012957.ctex",
+      "imported_sha256": "0329ddbf483afc87e380446f32e01fd3324d6149b1015a2eba4d5d92e0f754c9"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR006/page_00.png": {
+      "source_sha256": "2ae448890b9954f64b6855abd1eeca2e81395cdc66d0f641c781f29f263f592c",
+      "imported_path": "res://.godot/imported/page_00.png-265312178a7b6e4b856998651f64f48b.ctex",
+      "imported_sha256": "9a288f3e7df35972339ed0a88a1531a22a1a128433b4d81febc56217a5d5c7c2"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR006/page_01.png": {
+      "source_sha256": "87f3823f8bfd2aa7b8d8075a69efcca92e9552d0c160bd056050787c3f259b10",
+      "imported_path": "res://.godot/imported/page_01.png-7dc3c41c5e52260def678eb3a9de775b.ctex",
+      "imported_sha256": "93726c25763bdacb1d3c3c2046398b1f29797634de1c34d6f09823e2c2296659"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR007/page_00.png": {
+      "source_sha256": "ac3856c5d862ad127d861f41a32612f5cd477bf70c34183d07c4d75b0d7dee8d",
+      "imported_path": "res://.godot/imported/page_00.png-d50e8e48ed82a0a10a5a2ca0c1a1859a.ctex",
+      "imported_sha256": "deaf983dfdd3c50ad41ee6a6bfe08507b3b1aa3eca390bbaa09e69d9d82cd0a3"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR007/page_01.png": {
+      "source_sha256": "8b2f3ae1ad797b223f6cfc2c44c0a6357bfcd4ed04b6b638fc07030fabf3237b",
+      "imported_path": "res://.godot/imported/page_01.png-f7d92642368dc6e3518a40286edfdde7.ctex",
+      "imported_sha256": "4c32332b54a17a624088eff7b456302df106c27a070aecd660c4f08f3026c838"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR008/page_00.png": {
+      "source_sha256": "3290e8bac6f93626c1bff646f0517504045f92fbeecfb50269b2e7939db615f4",
+      "imported_path": "res://.godot/imported/page_00.png-3757b9bce69774c0e2f48f88d0cf00a3.ctex",
+      "imported_sha256": "31a5a4f2d479eac1cba4d569d4157e0ddfa5f96298fd1c821fd2aa0cacdd0390"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR008/page_01.png": {
+      "source_sha256": "d3bc1b710d16d153b2b141e677b1db43ea6d46c487afd7763b894608c04878d0",
+      "imported_path": "res://.godot/imported/page_01.png-8e457d45cc2c82ebaad65828333cc23b.ctex",
+      "imported_sha256": "e780f6ec613db5956bb56019f8534c52923cf7ab07ae3b9a26572da77183f0a8"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR009/page_00.png": {
+      "source_sha256": "d66c9a2faf657bb86f37f2199f4ad2e53519be729398edbe5ee19c47a46bdba2",
+      "imported_path": "res://.godot/imported/page_00.png-1df9e0321292ce55504eb83d93545c7d.ctex",
+      "imported_sha256": "d3f724bb2c3ec2ed3f94a5bba79152e030ddc116d4b2128dd462c2f3f8923cb6"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR009/page_01.png": {
+      "source_sha256": "102e278b624fc3d04ccda625f50910355d226dff9e27840d0f48ceb2882452d7",
+      "imported_path": "res://.godot/imported/page_01.png-b411496ec3b95d79edd9cdb29f73ba39.ctex",
+      "imported_sha256": "6703505a84ae00c8cb5e314c443cb538d495d4f44385255de1299a9f6b939e75"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR010/page_00.png": {
+      "source_sha256": "f6a2090d91ec5946a79364d973b6282e3b7170268c50e2eba399795f2abaf877",
+      "imported_path": "res://.godot/imported/page_00.png-ce13650341acc146fac714b993536398.ctex",
+      "imported_sha256": "22ea02820cd034f9521593efd89ad1e642d035887f6608794de5f914a964b869"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR010/page_01.png": {
+      "source_sha256": "768f119ce636e7d3b029630b7070be5ca5e6052574f3b1094e9a5914d5aceb4c",
+      "imported_path": "res://.godot/imported/page_01.png-2d0f88b654d587a2d6db212772d8501b.ctex",
+      "imported_sha256": "835ed3d97510ac983f6379f1903c0ebf6c98f9e14a330ea111d2ec678448e667"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR011/page_00.png": {
+      "source_sha256": "9132445d51d1d9f95d4af101093de4436e15bca525f30177430b4b451af52d03",
+      "imported_path": "res://.godot/imported/page_00.png-01af9fca4eb113ae67d327f9cb2c4727.ctex",
+      "imported_sha256": "9a9b32090740abb8ee04f64f65aa794049d35ed0c407e6b77b49b22bb1c20c4e"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR011/page_01.png": {
+      "source_sha256": "4387673287dd7822d277ad25fce52c7d65f30f4a0fad3cac60079c184f1f8c9c",
+      "imported_path": "res://.godot/imported/page_01.png-7d1da90c6330eef9b1fcdae51b0c4b58.ctex",
+      "imported_sha256": "7c037ab201798c4f5f8084f9c3380abf3a9735e5ce224dafaaf31ce81e2626fe"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR012/page_00.png": {
+      "source_sha256": "8b9a00e13241525c2f406a492adda47ac2249240cb94c142779741d3b77ceb1d",
+      "imported_path": "res://.godot/imported/page_00.png-eab13da8efc360bd2afd3023a784210b.ctex",
+      "imported_sha256": "ae425725ee681064191b41c19cebac44c58bf2df49b18568bf0db7aa8496e97a"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR012/page_01.png": {
+      "source_sha256": "e0833ee94e5e9e6414255abc8fd32391d663caa718e8959de4064c2ca584282c",
+      "imported_path": "res://.godot/imported/page_01.png-99478120423b0ce39bcc6bfeaa168809.ctex",
+      "imported_sha256": "8365d498cca30a056d09730f910d8f24d9df70a280b1b55a2b170b79feb4a4ba"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR013/page_00.png": {
+      "source_sha256": "96f475006393d9bba2959bd1af6d774bbc51eb70eb9f09b11270fd2b82fac1b5",
+      "imported_path": "res://.godot/imported/page_00.png-4da714c8d19758e54a627654a0f4ad17.ctex",
+      "imported_sha256": "9383684af7b3416ef24d2a844d592f383b8b53dc3ab2af634062d17eb9b2512a"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR013/page_01.png": {
+      "source_sha256": "a2a6186ba57b95fa2fde82e006b60cef32932a135871d39d1102ef772bad6b9a",
+      "imported_path": "res://.godot/imported/page_01.png-44a93de84d1c2c53b2f596ef1d03b50d.ctex",
+      "imported_sha256": "49b0f031f87d1d3e2444c4bcce5f515d799e5ce8d653646100b7ab3af211d596"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR014/page_00.png": {
+      "source_sha256": "42a4966afd7f8165ce30c1ce0dab4d9ca07c6e7402a06834cfcc3e66538ec2d8",
+      "imported_path": "res://.godot/imported/page_00.png-d30a7c3e7595234262cf20c8bdd36ce8.ctex",
+      "imported_sha256": "659c64bdc19cc65d92ab0aec198abb6f27788fb18bfce9899cc30e29d1fe62c3"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR014/page_01.png": {
+      "source_sha256": "bcabff3888b39a6dd9fa9df54b84d949961b33552649812124da86a122e55a7b",
+      "imported_path": "res://.godot/imported/page_01.png-7427319e40e525135e2957096e5ba491.ctex",
+      "imported_sha256": "305f78776ae39194b26ee359e5c9d5ecdd8de2f46ba46555820d49a4f81c3769"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR015/page_00.png": {
+      "source_sha256": "20f0232c72e6171dc4965ca5e366528f9177671a003e51a9bc2ee5a537bdd91b",
+      "imported_path": "res://.godot/imported/page_00.png-ab28d7d595a353735b18ac38be09a0c6.ctex",
+      "imported_sha256": "dcaae9fdb5878591b03abe00956d5e60ec0d02b4349e0f4f307483ed319f0481"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR015/page_01.png": {
+      "source_sha256": "52b4e0579ec65e6dd588c78b020fe4f09abef2a86d9d7da241434092e71db4aa",
+      "imported_path": "res://.godot/imported/page_01.png-ff0f549b85c117e8cd0151039fbd4a13.ctex",
+      "imported_sha256": "ae5ff4f6c00cbf05db92164a6f5ffa1cd7341d4ca2cccf6516358513ee6a4907"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR016/page_00.png": {
+      "source_sha256": "fc1387b467bbce62610b8cba460a9ebaa412f503d7338618ef1009842c3bcec9",
+      "imported_path": "res://.godot/imported/page_00.png-11d0bb014f55db1e9ab28f1bf1a05cf2.ctex",
+      "imported_sha256": "544f34c1f4845895df3ec7fd31866a0e2c73970c6599f57e72cc2ce3f5747f02"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR016/page_01.png": {
+      "source_sha256": "8042ce25d28848641f00ebc89d31b28e81189971db1371a8c351975612c29555",
+      "imported_path": "res://.godot/imported/page_01.png-657b4f484eeee4d69ef975a0d4d15254.ctex",
+      "imported_sha256": "7ecbc5c7288bee039d5da72ffe6f427fc9a9a058b922c5cbc82f239171b57b5d"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR017/page_00.png": {
+      "source_sha256": "39a8066adcafdcfeca567bdc2ade297a145c10b28282048490a5f3286ca24a61",
+      "imported_path": "res://.godot/imported/page_00.png-bab2f29b607b4168954952cbad7a5848.ctex",
+      "imported_sha256": "9058e3db055d9396d629bd39a1f869fd62d1c5a3abda525551de12fc0ad76fca"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR017/page_01.png": {
+      "source_sha256": "0c72674b7bb51053eafbe8b86eb528608e84faf841764d1b36c52f7c91d0684e",
+      "imported_path": "res://.godot/imported/page_01.png-94ced5bf6ff44646efed99ce7d648c18.ctex",
+      "imported_sha256": "eb8b02b39e5ba5129d6e0f698a48c2c6b477b9a911fa8e119e212d999d6671c5"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR018/page_00.png": {
+      "source_sha256": "546939dc91f3d77bb304726ef4f1581ce11e6e91a4b207fa0f31de8161a65b26",
+      "imported_path": "res://.godot/imported/page_00.png-32fd31ca859677db3432c6bc07e804ce.ctex",
+      "imported_sha256": "beef18e72ea255346f6e3b4c6310fb261940a892d281a932b3cead35ce2ea447"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR018/page_01.png": {
+      "source_sha256": "c9f80edcce8792dd5d9274230ac52f39daca65bf3cece6bd5daf1d0e50421c21",
+      "imported_path": "res://.godot/imported/page_01.png-239b9117de2cee59df93de2bf4897044.ctex",
+      "imported_sha256": "922660733d7e6b84a7192b2ff9db6f114fbfdfd7279ed04a8f6747ddde1c91b5"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR019/page_00.png": {
+      "source_sha256": "4fe12fd8b45edd0cefb78f7142b66f0ea046c1069d64de5946486c3f1719aab5",
+      "imported_path": "res://.godot/imported/page_00.png-8509ffe844319fd50243ced7c46b87fa.ctex",
+      "imported_sha256": "ec8c9a6f6ad5cf79f906a5cb5157bf64cc50108c1661b1f34c799d911a27cc0e"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR019/page_01.png": {
+      "source_sha256": "746d2bbf577cabcc77331624659057da1ad1da64fa258e0709ffd0d55f62bf48",
+      "imported_path": "res://.godot/imported/page_01.png-56f8f28ab322722073d83df40a7dc814.ctex",
+      "imported_sha256": "813d2d6fdd4544c9fb44170f3ce0af74e9da67d7752d137a24ff7f6833d5b5af"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR020/page_00.png": {
+      "source_sha256": "1bf08d6f7f3ea0388f7c1f04f5e44aa1f22b7f21d5034a2fc8c7d644adab14c9",
+      "imported_path": "res://.godot/imported/page_00.png-eaea270e822a5f2500e6b9dc4fe84eed.ctex",
+      "imported_sha256": "8ebfcb5ea17a9f7e8a7085a4586049fd191353487cf11d42fc7f64b7c69f6639"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR020/page_01.png": {
+      "source_sha256": "c9ad6b542e908ec3e56e1950b44bf3601b90bd4b9689afe4c51e8fd444dac177",
+      "imported_path": "res://.godot/imported/page_01.png-2bce7fdf5b1389ebee5d76201e8b529a.ctex",
+      "imported_sha256": "7aa9e48d0f3fb32962e67e7a13b9a67ff0ad3ea768899600dff3ce6723de35fe"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR021/page_00.png": {
+      "source_sha256": "bd988213f43afdc75a61117d93b3262a5ad1a95a6ac78c4c6dd94c60f4df1e90",
+      "imported_path": "res://.godot/imported/page_00.png-0871823094ca70038ad7b8f9815f077a.ctex",
+      "imported_sha256": "da2f9eb8e8c6066502ec632841d94f6e6298c4ac00aae0d12ac34a038a5fb9ef"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR021/page_01.png": {
+      "source_sha256": "3ba70e40350789f26a8d36e155e569abe6232042fdf67508e8d6a7c7eb4d3f4d",
+      "imported_path": "res://.godot/imported/page_01.png-0ea6d2fea2effd9aa10a25a03c160789.ctex",
+      "imported_sha256": "7e5a7eb78a0c0c1994f8511282ede259f50879753aa073a46f999a77ab9dd4e3"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR022/page_00.png": {
+      "source_sha256": "14369695102cf85a0a21bdcbd5e72f7abe397d8d00c1b4f2787465e397b744af",
+      "imported_path": "res://.godot/imported/page_00.png-fae7a46126bd7067089cecad224b4f01.ctex",
+      "imported_sha256": "53630e174397237a6fe8fb2e78e5c57b78035e31dae34f05156b5586495221f5"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR022/page_01.png": {
+      "source_sha256": "8d400267607526feaa8266414768a8b60dbab05c5da3d0d87842b165094be893",
+      "imported_path": "res://.godot/imported/page_01.png-9ead7d9d2613b72cb9d278d6fcff3543.ctex",
+      "imported_sha256": "7a7fd82dd4be52add1014ab7895e0164968677d59f1a40141f9cf1b36be273f3"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR023/page_00.png": {
+      "source_sha256": "4192093e725dbcdd19cf8ef36c63d75395bdd6209d1bcabc33008ddab76f3615",
+      "imported_path": "res://.godot/imported/page_00.png-006cd334c9a4f23cc5a5e01f1fa158ad.ctex",
+      "imported_sha256": "32874b000fc54d6b58a0f11a142ee9d7e5a5610a5649c2c0c2bba73699cb39bc"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR023/page_01.png": {
+      "source_sha256": "43f7d1660d40f1e5f6cf73877db1fa279a85bef98d85a74ec72c8294ac09d4e3",
+      "imported_path": "res://.godot/imported/page_01.png-58ef043e91b2f8b3a28167e6df3ecec8.ctex",
+      "imported_sha256": "c0c503c7aea52e9c637da070912b19aa03d926f11825589496dda287ce0b091c"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR024/page_00.png": {
+      "source_sha256": "80180801aa7ef746cc88a1eb380f8a0ba8ebc4500a8d6f005401d1def4679ccc",
+      "imported_path": "res://.godot/imported/page_00.png-a0c5bd2cc9e65cdcd326c60663e02c65.ctex",
+      "imported_sha256": "885ee2b1dc0baffcc1e45181591c3b3320b37cb9a4b0a864ee1124dc10c7be0b"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR024/page_01.png": {
+      "source_sha256": "cf46c1a018111d38eaa636e4043041e8f64b5b9a35ff24be268367d91b40e61a",
+      "imported_path": "res://.godot/imported/page_01.png-41a101ca7e46d9c003af7c3a883c1d4e.ctex",
+      "imported_sha256": "5969c66afa36dc9db53a7ff3443a0eb51df40b9424eda046fb9cc4a5f42f9ee1"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR025/page_00.png": {
+      "source_sha256": "de04e8c7bc4e76a0df1a12f8e814b5dfe9df484782a514c5f460befa59e068ac",
+      "imported_path": "res://.godot/imported/page_00.png-55960ccbe91737c213c37ecb99636a86.ctex",
+      "imported_sha256": "4c65b67b857dc36fbf38aa80b4661d1d4b474fbe455512acd565a91365f74158"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR025/page_01.png": {
+      "source_sha256": "4aa8017e6b308c8b317f1ee875489253b8d277676106e34c24bd6fe229ce2014",
+      "imported_path": "res://.godot/imported/page_01.png-6065cbd608a3de573aeae35c4bce45e9.ctex",
+      "imported_sha256": "92560d0590e9b37e67a8d1788f25f3d0790cf7453f206feff60da5ba6b256868"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR026/page_00.png": {
+      "source_sha256": "80ca78cd726d11b87d0c9fe6caae330acb5ea2d88787dc6cf6faf87f9b8a0f2a",
+      "imported_path": "res://.godot/imported/page_00.png-4ecbc24146e2887d415b4f6cf088981e.ctex",
+      "imported_sha256": "a04363a4dfc66a7e9bd3e835c016f6bfc7548ba3d7ea8d9c953940c4ab61e95f"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR026/page_01.png": {
+      "source_sha256": "ca4a054015147ba4b8c1efe99cab485c49b0f7cb9dac17f1fff5688c8411013c",
+      "imported_path": "res://.godot/imported/page_01.png-77e3b11d1e2dc4a77ef80254f63f1b73.ctex",
+      "imported_sha256": "08dba9367d9f55681a7f5e6786eaccaad6ff5d09feac58ee2a230d08d01be291"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR027/page_00.png": {
+      "source_sha256": "4186f20bc3c621179b9061a2d436e95bdabbbe76efb0bdc10d950e235a730ecf",
+      "imported_path": "res://.godot/imported/page_00.png-cfba00671bf7885e26c6ab33222ff416.ctex",
+      "imported_sha256": "1209dd11aae987766267f57a64d2505bdfd40af9f06c672ee4a162ec1e9325e9"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR027/page_01.png": {
+      "source_sha256": "968f612d1f8921dbedecb7ec8874b994b31545dc712e77e6d10659d193cbf041",
+      "imported_path": "res://.godot/imported/page_01.png-01870ed0fd10169d081501daab20d5cc.ctex",
+      "imported_sha256": "49fe6c4aa4ff7c2b9e39a7329783456917583dfe229c8407f3d7906d73aca969"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR028/page_00.png": {
+      "source_sha256": "1e0f73905eee60c2d539ab864d6d908c8c6ea9ac4e694c24f95de25d782eeacd",
+      "imported_path": "res://.godot/imported/page_00.png-2c4a96b5e4a1a413e0ad09797d2d7e6a.ctex",
+      "imported_sha256": "9def7719097d1023b1a46d4fa754b54ff3c19365ee214ab4b5fdbaef248a1023"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR028/page_01.png": {
+      "source_sha256": "494b1f2dd5e5fc29851dde51b883a272fddc816504fe3cae08647be1a073c590",
+      "imported_path": "res://.godot/imported/page_01.png-1f7a3b9aa06d7135abece8be4206ffa4.ctex",
+      "imported_sha256": "f86f7a801bd9e6abbe9202da15b96f541bc20cb5eaa5265319651d0756565b63"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR029/page_00.png": {
+      "source_sha256": "4ea6fa40394adfbd769eecbea61bd70ae6be7da3558af44019e27ba3e17ef1e7",
+      "imported_path": "res://.godot/imported/page_00.png-a5998c1b85758839e75ad8ed5fa2c592.ctex",
+      "imported_sha256": "ae7be6100fc1a303c9b5f057790bfa5e7c842955ce33621ed5cdcc52e9c9b808"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR029/page_01.png": {
+      "source_sha256": "bf63e5ac93873afceeec6425edec10d12688ea82e7beda222a0fc71189f68566",
+      "imported_path": "res://.godot/imported/page_01.png-af43ec2762e82992832a069975a37716.ctex",
+      "imported_sha256": "19211ec3196026486ff979dc2ffbc0b761e664172db29cd07345a17a9bb1322f"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR030/page_00.png": {
+      "source_sha256": "52881f72900c7a366e5af81cf9317b9848d32dd3f41fce72999aabb5c8e4a901",
+      "imported_path": "res://.godot/imported/page_00.png-c072b53235bcd1746a784682aa3c838a.ctex",
+      "imported_sha256": "fc29da541902371751c3b5110f04c01613bd4ae0a110e879588e17f9a191501f"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR030/page_01.png": {
+      "source_sha256": "8cbd0d1d5ca1c35edb3da0bc709f0ffc288fe07aa14a483bbbc52a8f0724f972",
+      "imported_path": "res://.godot/imported/page_01.png-437cf7490a67ffcc554cfe0cfeafff7c.ctex",
+      "imported_sha256": "c9c45662a59b482a10b587c6aed368ace548d1e4313c493775ea731d1561636b"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR031/page_00.png": {
+      "source_sha256": "fe217ce037a5f971c2415f20b95c0f83660d868fcc49a3060915aa4b4a8e061d",
+      "imported_path": "res://.godot/imported/page_00.png-88b0195c56822783df8f4628dfa368a8.ctex",
+      "imported_sha256": "caeebfb4bff3356ddb32345d5aa43bcbbbdf1a62870a1a3145e8797a8d588573"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR031/page_01.png": {
+      "source_sha256": "df0a00ca3e8e2e31955b37675ff3d42f74b0f4016dbb88a8fc4a2e70520159eb",
+      "imported_path": "res://.godot/imported/page_01.png-720f542a6fe3179436321d284f79aed1.ctex",
+      "imported_sha256": "3587c04e92f1479b1f4e7f9d7c806cd9003c2e79b3d4463018b132e9d6a22b64"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR032/page_00.png": {
+      "source_sha256": "7cecdf5a04b2cf2501f540d66785daf57a0a9c75dd223c18593a2cdbc0315c6c",
+      "imported_path": "res://.godot/imported/page_00.png-2413e7edd0b67e01b623fe85891357b0.ctex",
+      "imported_sha256": "2ec790896dc563baecc4b508a6102d4cebf4c1beb7aa90a914c8264295d41006"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR032/page_01.png": {
+      "source_sha256": "5b9c60b7e259444073fcaa153bdefa70c3c21d751d90a6f6951d69537bdc4370",
+      "imported_path": "res://.godot/imported/page_01.png-e7c6dc0cb66a8d6572b47f4f9bb71249.ctex",
+      "imported_sha256": "6721defb4a7284596c63e3636ee290167907e928c0caed5d2e6a924d89c9aa25"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR033/page_00.png": {
+      "source_sha256": "e99539066f393a3d6b0592d019622334fc9d03e9ef4ab0fcdc885e3d55c435d1",
+      "imported_path": "res://.godot/imported/page_00.png-ca20053157e2b2bdc893c4801a9a03dd.ctex",
+      "imported_sha256": "8858035a6e04c5b603efa4b8bac445450ca810821bc7bf5de0898d4895f3991d"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR033/page_01.png": {
+      "source_sha256": "b7ef9f4e79670ef072e6f64a77cec0112f5243b3adcd92fff162a878a1962d18",
+      "imported_path": "res://.godot/imported/page_01.png-641cbbcfea27a3e78bd1188da1a78ab9.ctex",
+      "imported_sha256": "ca24226212e53562fc3d2c014e7724f8194f2f2abcbc778311ff372ae248f1aa"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR034/page_00.png": {
+      "source_sha256": "84a3f9a1893ea449bfcbc274a695063eb4351a45a791d2774e28c40e4ad89358",
+      "imported_path": "res://.godot/imported/page_00.png-33e08654d277dadb05854fed3210b7ff.ctex",
+      "imported_sha256": "29a4c82f1d960a801f317b5dc8868914af8843417b09452137e5fdff77780ca4"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR034/page_01.png": {
+      "source_sha256": "5a24a2cf24842fb6da934ceeb45a25a17aa533101ed5453792b464445a2c23e3",
+      "imported_path": "res://.godot/imported/page_01.png-52899a88f6a4e7ca0c2e830a8107ae61.ctex",
+      "imported_sha256": "8310445e95d7b2aea084562f0fed145a79301df92ae3f1257aad104c2e55103a"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR035/page_00.png": {
+      "source_sha256": "a9f534c76fd5272d5ebf794f29a087c090db61fcad084e13d4ff9c356c781a45",
+      "imported_path": "res://.godot/imported/page_00.png-9ce07d0c90f482e5a9c53526a4865f26.ctex",
+      "imported_sha256": "34124b2e0dc5af448001b93a6af7f42d05f53bda4169ac3e90c569e0427cd226"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR035/page_01.png": {
+      "source_sha256": "80783c2147242e3ee68ea81bc8e75eba4b4bab9665557dff7b971aace48aee09",
+      "imported_path": "res://.godot/imported/page_01.png-103ba29dd9087e251dca7e2bc99227de.ctex",
+      "imported_sha256": "18e0492757cdf5d443db1ad5c886d426de2f3afb1d15317aade5ccfade137a48"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR036/page_00.png": {
+      "source_sha256": "a00ccbdfbb988ccc7f665342fd8a9e8460553917d56e03926d1638795db69223",
+      "imported_path": "res://.godot/imported/page_00.png-0ab7b2f780543be6839cd337c82e1660.ctex",
+      "imported_sha256": "f558b03f2e28a0c2d428ff5dc9e0dca54cf826a9214822983e1dda2095b3aa5d"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR036/page_01.png": {
+      "source_sha256": "6c63f7e663c8cd2066ad7d58c944e416b5fc28fc2c72a780e8f9dae8673fd45d",
+      "imported_path": "res://.godot/imported/page_01.png-f08f25d55bfffdbb46e2dd828b10a72b.ctex",
+      "imported_sha256": "a66e5cd33fa9482e425ee63962c60cfe4beb49e71dccd5f62b77554094f4db78"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR037/page_00.png": {
+      "source_sha256": "2312fa57d294f04c5af33f9134df46f95b35c7d9dc9d7a6f68f2d223401d4f2b",
+      "imported_path": "res://.godot/imported/page_00.png-69e84703fb388376e99ab31e877cf581.ctex",
+      "imported_sha256": "a7c6586caea43ec62410c6a2add70547213504ce32e3321aa03ea285cdcef040"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR037/page_01.png": {
+      "source_sha256": "2dad176c1267b9d49c947dac4c3ae32d99220477bd9654f7d840cb65f249cc6b",
+      "imported_path": "res://.godot/imported/page_01.png-79762bb0a8cbdb347f9afe719c1ec935.ctex",
+      "imported_sha256": "5532403adc35bbae948f1a1a39e540b30a5fc4345c142a6da36ae4b2ebaf6331"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR038/page_00.png": {
+      "source_sha256": "46b205c9ba3a02cfe78903a4fca568c66e22fe30dadbc75c6e8ccb77e149c595",
+      "imported_path": "res://.godot/imported/page_00.png-1c2f83051127ea84a36eb3845b8b6015.ctex",
+      "imported_sha256": "52e033335874ec4dedeff2418df6ed5e6771657d12d7a9a785c03e3313293b26"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR038/page_01.png": {
+      "source_sha256": "0fe5b1403fbb0a4e19ba3bd6ae1703866ab6ffbce809872b50e6d1e114e523c0",
+      "imported_path": "res://.godot/imported/page_01.png-b89ca9d28679ee99a584f159d64df8da.ctex",
+      "imported_sha256": "eaa2509e5b36b8646b22310ff4da08b415420d032730fb2e724d826b3f982206"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR039/page_00.png": {
+      "source_sha256": "df72925b24f8c887eec48524ae8ae7e63040cbeda24c3294874d4d9708c1e830",
+      "imported_path": "res://.godot/imported/page_00.png-0f233663499507a8d9f75e751fdf0795.ctex",
+      "imported_sha256": "57f75be71f5dd51df8d2022b54fd0f9fbd06217e044d65d5e01b4df166a72501"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR039/page_01.png": {
+      "source_sha256": "6a1f3b0e423a7f19ac6cf41ef0666c183a7aa56f0605192e3bb12b4b8d0df7e0",
+      "imported_path": "res://.godot/imported/page_01.png-61259726e7aa501c301c4cfe1c0f6c10.ctex",
+      "imported_sha256": "4627a5be04cbe3cba833474b83a88a6bee5d813f4a6061b01503bb8b9b649090"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR040/page_00.png": {
+      "source_sha256": "8d14424325ba26757e250bf00d5d8d21938cea2c74a09fd19d5e2becc09fea91",
+      "imported_path": "res://.godot/imported/page_00.png-f7f6a23a1c813150c0c626cc1f3129ee.ctex",
+      "imported_sha256": "dcc9734c60c982ecdd22dd47898fe085ce1043da2ea47261d2d83e3a499d98fc"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR040/page_01.png": {
+      "source_sha256": "2747ed0aadf3de296e0cc14e11dd03eebf197998648530692b6028bfa29cdd18",
+      "imported_path": "res://.godot/imported/page_01.png-b35bfaec860546080c73a0d63cd766e2.ctex",
+      "imported_sha256": "079519d96561b609fe014d4efe504e892345870e6ef1b5b8fc2eb41ac046015d"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR041/page_00.png": {
+      "source_sha256": "83b745c5030b9ec9860cb1dfada37ed0a16ef8ed443ba3a20f6b54815972ed26",
+      "imported_path": "res://.godot/imported/page_00.png-e2a1039b6c4e6d5315711cb93c64dd76.ctex",
+      "imported_sha256": "67ed66d1eaae14b5c1047739a904afbda04ce1bc0036dc2cab38da9ce56cb619"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR041/page_01.png": {
+      "source_sha256": "664220d8fe898c2595361e2df57b080d134223cce12a5dc1850b7e2dac07f45a",
+      "imported_path": "res://.godot/imported/page_01.png-d48d2a03e0f5fd7441154f9c776cfae5.ctex",
+      "imported_sha256": "195b70f5b1ba93cc2174d274df51403e751a06f93946d8721c6223df10a6b9ab"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR042/page_00.png": {
+      "source_sha256": "ba30c2894cf6a140079c3b838f7064dd253d2c80eeac7ac96f2564ea196fdaca",
+      "imported_path": "res://.godot/imported/page_00.png-cdc916a28948f2d88ed12c3ca671a753.ctex",
+      "imported_sha256": "c6a0d5bafa61f414aad072d928b60f63b96cb74dd65e6d4ca03795097a0b0834"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR042/page_01.png": {
+      "source_sha256": "c2047f60ea6cb0b9f4811eedffb049504010ed92376100d5f9a57e65431afad2",
+      "imported_path": "res://.godot/imported/page_01.png-19c5db757e88ef40cdd8dcdd8ea082c3.ctex",
+      "imported_sha256": "b0aa4036f8424c5f48c577156d6e5a56c24347f154a85e427cb84b4b4f0fb6a5"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR043/page_00.png": {
+      "source_sha256": "f925e6efc4ac97c4d1f7ec1b4b7a535183bbbe756634fd2fbb3c14fea80a7304",
+      "imported_path": "res://.godot/imported/page_00.png-92411e4457ad27ad309ed4d105c66b30.ctex",
+      "imported_sha256": "a370843e9ec4591fee466f0d51500f99321110485f98031f97482360c8194099"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR043/page_01.png": {
+      "source_sha256": "007ecfbb0efee03841241806fae11c2b4eef9f9109f8e57f663b0bd247e479a3",
+      "imported_path": "res://.godot/imported/page_01.png-4369b0ba7b89be4544c355ec77d442a6.ctex",
+      "imported_sha256": "adf4b7f2e2dfd7fb6ade6efbc1da6bec3cda486f7d1644b61a800d64a492dd8d"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR044/page_00.png": {
+      "source_sha256": "b883f4917b784105f4f319c2db09e769a874617894a5866a0b6e6567d4b19233",
+      "imported_path": "res://.godot/imported/page_00.png-1428f0467cd3cfda3d2fe337ff763656.ctex",
+      "imported_sha256": "0a5e8548821a2fc0e3881b39700ddc6e032d0287500b69f1d3892de35e6ea4b4"
+    },
+    "res://assets/runtime_web/full_density/r2/CHR044/page_01.png": {
+      "source_sha256": "21b5488458d903e77d49e73d5e0551bf1fbee9aa4629229b01d1a936e7c51b6e",
+      "imported_path": "res://.godot/imported/page_01.png-23f46fd98f4b6a99c8d7e3ed4d8bac06.ctex",
+      "imported_sha256": "140e953ec662d185e80dbaf26bd07f56fa8ac62b6100f20079b0bb7ad6893678"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM001/page_00.png": {
+      "source_sha256": "7310c66d8f4af62c59e64037df2dd4910f9e09bf90f5d7878bdf20770a9fd830",
+      "imported_path": "res://.godot/imported/page_00.png-dbbc4e95f55609230d598436229753e8.ctex",
+      "imported_sha256": "5f69d2cfca9d2a57355daa6a17951f7864b767c740555776997f42bb8546cc50"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM001/page_01.png": {
+      "source_sha256": "0102f190f817ae9be29e685cee5e7158af96760c936930c526ff8393d830a19a",
+      "imported_path": "res://.godot/imported/page_01.png-b39d6ea0833f0bee7651c97c19364347.ctex",
+      "imported_sha256": "10df38dc809d20d86fa0248e7e41bec2e35568faccb67d558474fe3effc5eda5"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM002/page_00.png": {
+      "source_sha256": "40bf818a9cee0f221fa957f8855cd5971b8aa4c7fd14ee40d5421ab7bd9497da",
+      "imported_path": "res://.godot/imported/page_00.png-2c1bc4fdfb7975fa1f1b4c6da777ba8b.ctex",
+      "imported_sha256": "09f4f8c2023c0d64d0008872aed126aaaa8ef380cd146224d97e346d9e777ab9"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM002/page_01.png": {
+      "source_sha256": "8b56ebac7283b761c32da28d639d53cdcad5b03b383e4fb099ed6954a8413e10",
+      "imported_path": "res://.godot/imported/page_01.png-968ec9ef93fa1fa4ebada0f03e3c9e18.ctex",
+      "imported_sha256": "c5d9d5c386d9255b6daeb3abdc579c5743ca949798ee806e5453d22735b5f863"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM003/page_00.png": {
+      "source_sha256": "8b74846d78ef5a5bd344b2f03f7faa30096f6a0f8002ce3e8377e0c9ef30b27e",
+      "imported_path": "res://.godot/imported/page_00.png-bdc2e69278cbdead6919a8e54f4d325e.ctex",
+      "imported_sha256": "df5b0206f4bcf21a46a8bac2b1fe1f058de0dc753b52f4b769742ee8c3317d52"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM003/page_01.png": {
+      "source_sha256": "36d72002e302c4f2c4c94f6c9cdbdc4451d2bd6863729cf4027a8ca5ff5a4aea",
+      "imported_path": "res://.godot/imported/page_01.png-cfbd7aaa0b160e5d24956d8dff3de042.ctex",
+      "imported_sha256": "5f089be2152fcc415eb8efc91715231927d4c7dd7645c160750ef63616417109"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM004/page_00.png": {
+      "source_sha256": "a94e0143962668747d3c7b9d095f25659366928a8b183b15b90dabba1a23ef33",
+      "imported_path": "res://.godot/imported/page_00.png-ac4ff3756fa8a00b5abdac671dee4953.ctex",
+      "imported_sha256": "229daf970e4198043dec6f2f9777b6802faa954a79d2a26c70d20ce92f24c6fd"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM004/page_01.png": {
+      "source_sha256": "487af474b74a83ebcb9d3d2c74288e773a10f084bcc42401a54c86b4ecb34895",
+      "imported_path": "res://.godot/imported/page_01.png-bfb480de49f5cf16659383f3c70dd00a.ctex",
+      "imported_sha256": "d9cc9289c15f959775fcddaa71111939dec8f37270c0b8d79b1080aa1f7cdcb8"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM005/page_00.png": {
+      "source_sha256": "f0a1736f4f75f44fbf1f12c0cdecf8680eb795f01e04d6648e5df9ab8fed7702",
+      "imported_path": "res://.godot/imported/page_00.png-8218188d264cd663b8acf08bbdb5321f.ctex",
+      "imported_sha256": "9bde2d42bb080f0e6e4e5a89242a1425c2bb5d968ac416d122e67e091f6f4bcd"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM005/page_01.png": {
+      "source_sha256": "107c9346c90a981957f968fd0b95ad48c1e3058481caa9e2188b2bcf018616a9",
+      "imported_path": "res://.godot/imported/page_01.png-daa876428eb018d2d7e587b16e1cc43b.ctex",
+      "imported_sha256": "fb3c14ae13620a6d970a5bdf2152294925b6459c9769fae504aff701fafdccb6"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM006/page_00.png": {
+      "source_sha256": "68147e88145ca8d732a9e701d01548f0de66a0b263de86ffb6e83b0d8926f6c2",
+      "imported_path": "res://.godot/imported/page_00.png-1bb00ab843d78a4375ed3e5a7fd33a96.ctex",
+      "imported_sha256": "85d140bf306d198193ab8b4ab68deb237c940e35bb9e9447d4ee22abbbb8cda7"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM006/page_01.png": {
+      "source_sha256": "a71e67671b1b9a2e73a0bf5a83c67275190cec7c20688c15833ed575edf6315c",
+      "imported_path": "res://.godot/imported/page_01.png-443bab82142e1d153cfc73cad504001c.ctex",
+      "imported_sha256": "10f75046bb2a5c962400a0de43ac4c98211188ae9bf1fedc1d7b1e2b7da2c0fc"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM007/page_00.png": {
+      "source_sha256": "1247f9d8f7903906a48b5dbc23f2965418b26e89ab8c6c89cea6c363787c7e26",
+      "imported_path": "res://.godot/imported/page_00.png-764e45725bb7729a42ea468e8179982a.ctex",
+      "imported_sha256": "6556cae55bd2a22f5c8c1747af4d2afa90d29feb9f57f8b6bcb8e8e9e4fc421c"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM007/page_01.png": {
+      "source_sha256": "d804ad55174bd5c7a40d4da9f0060b2e70325a93d5c2199318fc5f286d002f4a",
+      "imported_path": "res://.godot/imported/page_01.png-912ac832980ddbea6a7a194ec6a4a230.ctex",
+      "imported_sha256": "f89d5eb5dc2f71cea11d0c29f46dbf50a03692b095556c2bab8733725a6eb305"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM008/page_00.png": {
+      "source_sha256": "27ee45b77b3726fc1acf4fff1d2677ccce0f20b1c317afa7b193ec428bb81364",
+      "imported_path": "res://.godot/imported/page_00.png-92bda7f19a618466edc7b67b9884b04e.ctex",
+      "imported_sha256": "802cd4b067d35434a4d6abd3798fdede96a63277ae2023239be6fff29dd86389"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM008/page_01.png": {
+      "source_sha256": "b9653f49b17bb4991a6cb7879b0b5ad5c2c389bee1228c12f8ec2c13ce77b7e7",
+      "imported_path": "res://.godot/imported/page_01.png-3011a9b2801b8f90ecb040ca08781e2b.ctex",
+      "imported_sha256": "8487995675154bd86c4cecffe8fbd5fd1caec3c89bae2d91b491b00084861502"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM009/page_00.png": {
+      "source_sha256": "e772ea0427bd502e8120a7c4e59e22af94db4388f3221e32a2c251bae8ac364f",
+      "imported_path": "res://.godot/imported/page_00.png-fd6b75d5ae102537f0de360f6a204a8a.ctex",
+      "imported_sha256": "eeed0fdb8404be26642b08de78834385329cd38a8d1459c6882a2b23b9724685"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM009/page_01.png": {
+      "source_sha256": "14531a6d25e8d98e730839803c3facf488b7d0cb1128e8f07efc16904ac53fc2",
+      "imported_path": "res://.godot/imported/page_01.png-c043b3fcfe916ee9524a2843956f3acb.ctex",
+      "imported_sha256": "ef23511d2fc0c2be8acd63735a328c11e559381967053445c521a5cf3af53ff0"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM010/page_00.png": {
+      "source_sha256": "ca3c023cf65620b3a6f2a001502eda24238b739ec633292898589078af5b3700",
+      "imported_path": "res://.godot/imported/page_00.png-30df1cb1aadd9f4390395ae88d55522a.ctex",
+      "imported_sha256": "46ec8ba698f03ad5513eabd7a0d78867c9ccc868469317dd54d75366813cea3f"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM010/page_01.png": {
+      "source_sha256": "16922d3e45a13e37b11d0a8db3d1017a545bec1c4f601f7338820e3238547784",
+      "imported_path": "res://.godot/imported/page_01.png-e417c0ecacbf600381cb49ad4b396891.ctex",
+      "imported_sha256": "9f7057007c68d407157339bbeb715ef0813c4786d3716b10271d672adef6794c"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM011/page_00.png": {
+      "source_sha256": "0ab64023696a8450b19b1572b26897bcfd5fc5339f93258bf170f7211c2fc042",
+      "imported_path": "res://.godot/imported/page_00.png-4c7214c5336fa7aedaf49693f0b5778c.ctex",
+      "imported_sha256": "2669e75ca9aae8ed10a3d69b6e4aee712c2bb2153552e8f163100c5a708b013d"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM011/page_01.png": {
+      "source_sha256": "9df0d76f50e38f1abbb6e870fc78a1f779dca52fb9fd8c1a1962121cb41b63d2",
+      "imported_path": "res://.godot/imported/page_01.png-cab86d41d293360cc65de3c07efc1aa7.ctex",
+      "imported_sha256": "0cfd4cfb8f17719e1848397647642acd9bbaee5ffc8f1b2755fa3f96dab53888"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM012/page_00.png": {
+      "source_sha256": "675870d02786c3bd1074a62ae28a90775456994a5cc3272cc3c9b2cd66cbfb0e",
+      "imported_path": "res://.godot/imported/page_00.png-a06c948ef7a0cbac4313a4b26810a6b2.ctex",
+      "imported_sha256": "eb703a277812694cb8ea61d911c025d08eb90746dc865664d96e531fdfbd5259"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM012/page_01.png": {
+      "source_sha256": "b9f08cb7ea96cb2c83112b40ff9e1dd57edf8f85b5f218f0eaf3573ceebe0c3a",
+      "imported_path": "res://.godot/imported/page_01.png-2a288b82e274ab99d1021a5dbb3a68c2.ctex",
+      "imported_sha256": "432a2d7d960644585721c68b13ec9e55bda97513b8d5861e6a3fdb7d0a9f5304"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM013/page_00.png": {
+      "source_sha256": "70e31b961c2c05e5f254826de5bc1248426fe08764b5e6abb2d96c67d7c95e74",
+      "imported_path": "res://.godot/imported/page_00.png-0744b014908b799c00ca8f5cd28e6d5f.ctex",
+      "imported_sha256": "cc3a1078fac886b3d39f7065303e6b3b2dffd78cc5a511c2f917ddef17c30ce2"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM013/page_01.png": {
+      "source_sha256": "710bc92457334b5ef40c08de0a7d1a228ba2aa483a4d7dd907dfd6b8998770c9",
+      "imported_path": "res://.godot/imported/page_01.png-b277acf47115d4fba108869c882688a9.ctex",
+      "imported_sha256": "e8b6bcf249ab45b0d40e874656009aaeb6151ad2079cab47df9f6f56122b6901"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM014/page_00.png": {
+      "source_sha256": "a06a69e7744f7561c17f25f007501dce09228709d1c9d6b0396d2df58b2501f7",
+      "imported_path": "res://.godot/imported/page_00.png-74281f23d93e8e5d3fff85820d4832b0.ctex",
+      "imported_sha256": "97baec46877cce541beaf2bc395c1c946b0a165a0ee1c39ece9e72d64750ba15"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM014/page_01.png": {
+      "source_sha256": "b98b49c158ab1f7e0be1679a2d95a3547522072d7496ff69e0e70d5ececb412b",
+      "imported_path": "res://.godot/imported/page_01.png-cc240299826c44f528de618cd49da67f.ctex",
+      "imported_sha256": "78a9453bab3827e1c4f43c8cf810f4aabfbea07587be1954e62dab20aa5a9773"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM015/page_00.png": {
+      "source_sha256": "d8fe227373ee4f62233ee86897539501a2e398362ddd906df696ca3321a087cc",
+      "imported_path": "res://.godot/imported/page_00.png-fd21e2e450bfb651f67aaf4b7230a3cf.ctex",
+      "imported_sha256": "08aab15bcca50e7d482b1c4c457fd05b4325c2c1ac48b7e528f62839310dfbfe"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM015/page_01.png": {
+      "source_sha256": "46b82a14cc047af89d89f7ec3d07fb2b01d56fa25b3ec712c565cd18ca50845a",
+      "imported_path": "res://.godot/imported/page_01.png-57dbdf7f0f0319123ea9993b8b3e20b1.ctex",
+      "imported_sha256": "6929fec13f70e2830be9d9a07282f3bc8f254bafe0051402f654d8480e32c51f"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM016/page_00.png": {
+      "source_sha256": "bf673f109f7708de1824804a917a5ea0973ad9323dad06c53a2e02e055b6a32c",
+      "imported_path": "res://.godot/imported/page_00.png-c490b278e7f5925a98ba56c9cf48eadd.ctex",
+      "imported_sha256": "0bd92e07171a88855bf0e2b3e8527159dece74b194293af14e56078cb6c6cb72"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM016/page_01.png": {
+      "source_sha256": "e3d855da87c68dbfebfa3aa43c9fd635de59b3988b9bb2a6d8de5247b2f8303b",
+      "imported_path": "res://.godot/imported/page_01.png-d4e85fcdf73dfd33f09b99fa639a1423.ctex",
+      "imported_sha256": "3f7ae4c0fbd1ad97d43313c578037c8a08965d32e1914bb2bd6e620e500203d5"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM017/page_00.png": {
+      "source_sha256": "43b1c8dc2b7cb81954988f521d30429a95a9196fbf11932a328516968b0b8227",
+      "imported_path": "res://.godot/imported/page_00.png-5bdd916d3cd92ea89ecee915c1ba3885.ctex",
+      "imported_sha256": "bed73005400cbbbbd72da2b0ee525db025d8a4e1d0d160fed53a6a3370e546c9"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM017/page_01.png": {
+      "source_sha256": "9996afcae6e41117325e7025a084efa3c03e6e79750c3fa47917e673982c4a30",
+      "imported_path": "res://.godot/imported/page_01.png-800f3695ce3555430605d474e54fc560.ctex",
+      "imported_sha256": "d67a755edb97658a14cc6e6bea6a428ff17d03d679ee03f546eb8fcee4f9e76d"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM018/page_00.png": {
+      "source_sha256": "4741c12ac9d0a343f0a5dc6b7a49f61c3aad7768d9feda3c26b1cac19a927886",
+      "imported_path": "res://.godot/imported/page_00.png-485019497c39c0bac7d0688af229909e.ctex",
+      "imported_sha256": "e305a0f361be1cc4a1b7343bc5692df4929edf8d3542d57dbc0a0abc5f2288c2"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM018/page_01.png": {
+      "source_sha256": "7a1875817adb27b2664b88875f3a7d48e08eae84a6b2df43ae52da8c16acb9f8",
+      "imported_path": "res://.godot/imported/page_01.png-c3f7ab34e4c049ef89347775fd4287a5.ctex",
+      "imported_sha256": "da1413eb1e021bda4e0efb99124746218ceddf1e055556a998e0fb2d9a99919a"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM019/page_00.png": {
+      "source_sha256": "9f7efcffd256e6849914bc7efc6836a28e30f45381d11f4346e7ff62c9c6ee56",
+      "imported_path": "res://.godot/imported/page_00.png-71d50ddf45c568fc27cabed3286e94ad.ctex",
+      "imported_sha256": "b7f6a2249c78744baf3f69c2139af287cbe5ecb5c713676a63b8cf34e5c032db"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM019/page_01.png": {
+      "source_sha256": "6bec47cd155fe2091a85d44c3aadcf4ae3053d9357afbc705b7c3ffd64296f8a",
+      "imported_path": "res://.godot/imported/page_01.png-67cc56baf38ab6dfa1cdfcdd882f8d4d.ctex",
+      "imported_sha256": "b6b90c7f9ba1d99291b50249ff22dbcddd402fd4e741f96e67179b6000a1b92a"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM020/page_00.png": {
+      "source_sha256": "bf5bf808107d6fdab5c1a12412063712263b0a189f56af221332eb82fc2facb8",
+      "imported_path": "res://.godot/imported/page_00.png-18f6b8baefb036171d421b0377a5e1a9.ctex",
+      "imported_sha256": "1240fcf8d7d768a11b4248aac8a12f77418877ddaa4a7204c8943befc440613d"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM020/page_01.png": {
+      "source_sha256": "ee6004b625ae8b2ea81a13eec767025fc13e7bf40271a0dcd590282d0d24a4ca",
+      "imported_path": "res://.godot/imported/page_01.png-e72c375c8414577cdea40c67dbbf7570.ctex",
+      "imported_sha256": "cc8c99c45da143fd8f1a1749c7b040cce532e5928937129467b9c529da11a868"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM021/page_00.png": {
+      "source_sha256": "3887de7c942dcf9046857df2219a4c7ca16c513f1678c77dc6220580e5e692d3",
+      "imported_path": "res://.godot/imported/page_00.png-fbe1581cd6868187483592cf0fc32d05.ctex",
+      "imported_sha256": "e22136a7e7a669741bd763ce79aaa68b020cd71517c2f1c97c95a25e9fa8b097"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM021/page_01.png": {
+      "source_sha256": "6f07556e5f7a28497bc1a975d74d436b3c6b43b2d5a44111daeb6b3ba2f4c149",
+      "imported_path": "res://.godot/imported/page_01.png-beeb12aa6a81f734fb7e389c80ad6709.ctex",
+      "imported_sha256": "98f32ce99681cbc281d98de269b3921abf3e965bb5bd62f0a40c4cdc1283f000"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM022/page_00.png": {
+      "source_sha256": "f99a86ec1f69a62bdc9a4f4dc8cc2221af79d481280b16e933131ec1cb267cc1",
+      "imported_path": "res://.godot/imported/page_00.png-80fd8f4044ffb7dd284c5e6c914c86d2.ctex",
+      "imported_sha256": "6f1ec900ce4b466fb509d743249cc50e6704308bb500e1b1c00015047221f5c0"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM022/page_01.png": {
+      "source_sha256": "0faf2f23c5013b0d6be28f135c135b1f2701f37965a500eb151874495425e5ba",
+      "imported_path": "res://.godot/imported/page_01.png-25db99b58460b420717797842fc8500b.ctex",
+      "imported_sha256": "3e2743436f376ef87f44e8af8922829c06cd829180ce66f184fbbe3ce16aece9"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM023/page_00.png": {
+      "source_sha256": "95c21f28e968be1855809ad10d6331e0f8d9f1cd330f1da0784ff342f7963003",
+      "imported_path": "res://.godot/imported/page_00.png-020586e53975c9b09e213901dcf6b1ab.ctex",
+      "imported_sha256": "c091bf4876f74284b618e49a704c2e73584d7eb947e9b79c3149a3b3ef8e270d"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM023/page_01.png": {
+      "source_sha256": "2fccf164a325cf00a18617abf40fca325e3f49a20447acad829d80d1ac7d6faf",
+      "imported_path": "res://.godot/imported/page_01.png-779691bd3f4178bd8046ce0e2feed486.ctex",
+      "imported_sha256": "2d7d04e22ed1055ce1a50f6404e7870bd71ebfffc8ccc165733ed861c8cbdcf2"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM024/page_00.png": {
+      "source_sha256": "9b5a729aed32732a6baa120f95f8c90c0bdc0dc391da2a353e9541f6ae145b8e",
+      "imported_path": "res://.godot/imported/page_00.png-24d9806ceb50999b367e3df9ffc6b91a.ctex",
+      "imported_sha256": "775a412a62aafaf651ae341371c94761ba3834aae8211410b9fbc13b8ee1164f"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM024/page_01.png": {
+      "source_sha256": "2c0cb0aa2738ae9910eb83b793ce153f5b5000588c14ef47922a5b5b16307f04",
+      "imported_path": "res://.godot/imported/page_01.png-051e8b3d1419d036f0f6d7465c3ce57e.ctex",
+      "imported_sha256": "b669cd137f402e96a5dc25d9e9c48386c7fcc486638d6c29261575161912d658"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM025/page_00.png": {
+      "source_sha256": "b3dbc457354ba92315dbc95bb9e5fc3c495cc8b6d0b527ed9914358e20e571d3",
+      "imported_path": "res://.godot/imported/page_00.png-64fbdd16af27cb3e99d926aacb7a4345.ctex",
+      "imported_sha256": "231b913cfda8a301e6959e9536dbcfc338a9a9b59b60719ea63f8828ed11b563"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM025/page_01.png": {
+      "source_sha256": "68d52f1c79cb3173ce727ca76d03375132b37fbd8a9daa1e9048f13e68689c5a",
+      "imported_path": "res://.godot/imported/page_01.png-5c26d683ebf31d5aa2eb1f77bed59b0c.ctex",
+      "imported_sha256": "23ca3278c68f7bc4e2003e956c3139decaac4fd93d655dfa5c645d19bc681534"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM026/page_00.png": {
+      "source_sha256": "9c48e3fe839e8d9296b1073756426d7e8d059f1b8684ac55b770f292ef57c537",
+      "imported_path": "res://.godot/imported/page_00.png-9dccb53a05fa3191b07599df0dc1347e.ctex",
+      "imported_sha256": "84716dc2a89d0c1689d61e25496252a8569ccc28db079e943f85b8c2e7183f28"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM026/page_01.png": {
+      "source_sha256": "f5324cdcc7218fb7c0042cc85161d8ca4b4979755fef182535c264c79a3ad8a7",
+      "imported_path": "res://.godot/imported/page_01.png-d8c1a436964a2ae5b886ce0ae4e1690e.ctex",
+      "imported_sha256": "5bf04807167809871be4ee54e5043e2159e096a9eee7d0f18ab1121cd5b23aba"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM027/page_00.png": {
+      "source_sha256": "8ccf69dc8d6815dd86e7ae562559639773eabdd40def11f197fb669a2fc6baba",
+      "imported_path": "res://.godot/imported/page_00.png-5a69eab9731952fa38c08501e284b66c.ctex",
+      "imported_sha256": "e946a5147756f3ae4ae1f3181645becffeff33673af6f699bfd28379dcf82b59"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM027/page_01.png": {
+      "source_sha256": "fffc1c817b0278cab8e3359abb9c628f65ffd6a8965cd25dfb06cd68a0e556fc",
+      "imported_path": "res://.godot/imported/page_01.png-57250b4bc1d0530a2cc1026445051a5e.ctex",
+      "imported_sha256": "ff618101119a232ca1a489592b39acc401846bdb6165fd87244d7de39650feee"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM028/page_00.png": {
+      "source_sha256": "863a032740bf336f628b9d91f1da660c717f10e684a24c380312402464033e54",
+      "imported_path": "res://.godot/imported/page_00.png-7ad3d39af0fe9dbc3856d2e1d2973bbd.ctex",
+      "imported_sha256": "c8f123c94ec807392c501fc0c5adc174fdc443188bb3b58b6e136f8d1b36be33"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM028/page_01.png": {
+      "source_sha256": "d42d4ec6ae5423ebfc29b0f73140d9f012f0333e6380217b8cfd20d025dcaa22",
+      "imported_path": "res://.godot/imported/page_01.png-bfb03af0afb84f35a26a34848fccfa2d.ctex",
+      "imported_sha256": "29ee0d07e905bd418f29c62156d36364267c439376d0437c8ee2619a71e0d640"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM029/page_00.png": {
+      "source_sha256": "aefc0e59d2750f7d2223cde1f1885b369378352ee916d09ab2f8999ac27e4495",
+      "imported_path": "res://.godot/imported/page_00.png-8240c7d05af6e5565d8a06efca302577.ctex",
+      "imported_sha256": "f06b73b9d340b2c46ca773590fa2a24c11fbb0bef46bdc7872ee8b6225a1e1a2"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM029/page_01.png": {
+      "source_sha256": "964a1400cbe8a1bbff3eabc29d70d22a31aebc662fdbe7146e2c61886c4740e1",
+      "imported_path": "res://.godot/imported/page_01.png-b985b15fe49ad2745874a44b1a7852b3.ctex",
+      "imported_sha256": "04aabe8500aa3cbdf959fdb7041973acbdc5031da49b69f696be49c10d7662e9"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM030/page_00.png": {
+      "source_sha256": "dfcf1fcab66096154311623693a60653a017759af8d9020e02d02084b9de71a6",
+      "imported_path": "res://.godot/imported/page_00.png-c6f116080f1e8dd2e7627129e023f445.ctex",
+      "imported_sha256": "6b899b16664c8dd62354cd2162da77469ae4c9d961cbad0bbfbcd58295e36c55"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM030/page_01.png": {
+      "source_sha256": "b3d9d9880914c0bcd3dec815139253b30c016e6a89e971d278b55520f617cb2c",
+      "imported_path": "res://.godot/imported/page_01.png-a3f61c1c99d7431c3a8767542ab44e0d.ctex",
+      "imported_sha256": "ddb1554785c463c77481a7f0ac1e06a73f8b683cfed93e200908b39b2207d837"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM031/page_00.png": {
+      "source_sha256": "f33cc5cf0e4bf5c92198cd4659233a4bf840257b707bb7e71056944bd42b107a",
+      "imported_path": "res://.godot/imported/page_00.png-8b7ddfec54f93ef045582dfc88b63a58.ctex",
+      "imported_sha256": "8091ff2f000eded64306394d8c8083c5e6fccf86f5e7d3d24f2d6008cd6a949e"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM031/page_01.png": {
+      "source_sha256": "e0840e9cbae1a59777c23401a669f5bb0becf249d6d5bab4c543188862e358d4",
+      "imported_path": "res://.godot/imported/page_01.png-1ef01b86968139e958fd9007125a46d7.ctex",
+      "imported_sha256": "498a24e4459075c3890bb1a9b5e562f740f06b48074bd1445bdd9b586e6cdbdd"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM032/page_00.png": {
+      "source_sha256": "f87f3d3e9d73028bca2f67276a49886e1f6e0e32da91b398ae296740e585e0ac",
+      "imported_path": "res://.godot/imported/page_00.png-7956ba1fa8573e36fe50cf8fe3478288.ctex",
+      "imported_sha256": "23903d2b5371ebddb56c7bd6bc40b557c3db3cec9b5b2c87147047c1b83b01d9"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM032/page_01.png": {
+      "source_sha256": "8ab0ad8f61d1c906054bfea36bbc02b9f972955beee49b8b96de157fa69451c9",
+      "imported_path": "res://.godot/imported/page_01.png-88a815502b07a4b16b32379e20f431e8.ctex",
+      "imported_sha256": "2dbb853c04a645c2c2c302865dd82f1eb59c98e409ed7d796694f63f7e85cb59"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM033/page_00.png": {
+      "source_sha256": "c5e264829e7d8746eb9698ec98cf493cf38d13875a1c33a555c4f10b0aebc881",
+      "imported_path": "res://.godot/imported/page_00.png-bd8407e059c7bf191f10dfcd40e6757c.ctex",
+      "imported_sha256": "1626492a14802ffa49b224806f230ad30367c7cc75210ba08dca06c3aaa09d53"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM033/page_01.png": {
+      "source_sha256": "6ae65c4d3f6b5f18c53c117a9bbd83c1610ff1405dc384b4170cb30461ba06d7",
+      "imported_path": "res://.godot/imported/page_01.png-30a661ce2b32508ed87176689d7e6fc5.ctex",
+      "imported_sha256": "dd6d57bd124f44ec5dd81f5819e8e88f379ad58f9661a46ffcb6295a7555f18c"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM034/page_00.png": {
+      "source_sha256": "92769e308f9da27cf93a6c659f1ad02c6835501999e0a7012bf5c0f7b8e94e14",
+      "imported_path": "res://.godot/imported/page_00.png-71f55c42e5d21296cca224a2a5c0799c.ctex",
+      "imported_sha256": "7f1681e5585e89c89d429c7f9b8d86ca6abea7a53cccb53c713d97329cc2f2fd"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM034/page_01.png": {
+      "source_sha256": "8b4e80ba47c29a9269569a0571754d8424d5ededce747fa54b4b64a2404ea470",
+      "imported_path": "res://.godot/imported/page_01.png-886e1339702e33e8e50562d03fa6309f.ctex",
+      "imported_sha256": "095203b27c6d88418503d6275b3099fb287bfc9e47058fdf2aeef80c64e6aefc"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM035/page_00.png": {
+      "source_sha256": "79fd1f5edcb349158df2076bea1663c0f7788b959421c37e6035357db804d6e3",
+      "imported_path": "res://.godot/imported/page_00.png-22dce44c7f6249ae9ca516f0959ec9f7.ctex",
+      "imported_sha256": "446e585d140380b6303491bb9c7a87f2331c675fb17f0cb3766bf742e6619d3c"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM035/page_01.png": {
+      "source_sha256": "87611add4b2aa97595bcc3f1481cb79279d8e82920a556bcd3cd477875c40135",
+      "imported_path": "res://.godot/imported/page_01.png-98cbdbea97fa90d9831322e2a78931ba.ctex",
+      "imported_sha256": "4ecc86b19e3de5def841f6002775819278aa686333342d54488d4826e2e0b5e7"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM036/page_00.png": {
+      "source_sha256": "78c6af25df02e70fe520e02ab57444bffb128193b96f5ce412674928e19e3149",
+      "imported_path": "res://.godot/imported/page_00.png-1cfd0863c68418d33357c03db9601c39.ctex",
+      "imported_sha256": "6eca799835bedd3e34d768cc7f5d498cf143f09d9e3d7a281ba3f5c2099fbb15"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM036/page_01.png": {
+      "source_sha256": "67a90be32fc9b8a02d9ef249ad7f7236e70e490e6370f4c4780984f183ab6acc",
+      "imported_path": "res://.godot/imported/page_01.png-397dde1195acf9ae39145b65c929318a.ctex",
+      "imported_sha256": "df1b899d361d394a4fa82ec692371e05fa0f9eda519f079c34a7022fa0dc7544"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM037/page_00.png": {
+      "source_sha256": "c02ce4e8988e04f9705a6876b1e3d8914f865612ef5d4cb8b0ed355ca200d198",
+      "imported_path": "res://.godot/imported/page_00.png-abd7308241226ee859f6e019d6f857de.ctex",
+      "imported_sha256": "81c957483dafbded7109a123701af0deefa8ca710756b57833708b7333be53cb"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM037/page_01.png": {
+      "source_sha256": "4ce2115dc530059f85f57dcf63866323d9af6ba83479c6f2a9ed20eda3744c6a",
+      "imported_path": "res://.godot/imported/page_01.png-8525eaaff01337dca74db2d0e5f939a3.ctex",
+      "imported_sha256": "5cf1b955adb3e802135563b2850ce4008d1b0953f5f349a8270a2975e45c7584"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM038/page_00.png": {
+      "source_sha256": "fb201c4160cbdd278488805f79f7a0a1b8c397d2e512693a3526cfddb54181e6",
+      "imported_path": "res://.godot/imported/page_00.png-9ffae540c2f6a6f4fab477a6fb07b118.ctex",
+      "imported_sha256": "d997caebbbbcafa29bf252f13c2c99f062bb19821ae37371fd605d6ba6e19470"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM038/page_01.png": {
+      "source_sha256": "340e3e32ba0e1b2d3f398a83132901ad6c6c04832943f2a4771d983a70deb074",
+      "imported_path": "res://.godot/imported/page_01.png-f9831d8fd199c18567943e84b433d704.ctex",
+      "imported_sha256": "fb9288e338dc74eb34061a422e8d4e819aab0587f681548d031c8b2bcb074857"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM039/page_00.png": {
+      "source_sha256": "58c7e4e4f908a5bb7a0156cab26ccd31a48cc49251d54f7e69da28b6781b2490",
+      "imported_path": "res://.godot/imported/page_00.png-e776c4d4bd16a0941f87620406f12ddd.ctex",
+      "imported_sha256": "83f1864a2a1d6dc2258dffe3784a5fd12492b7159b14e50d90c7ac85ed8bf732"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM039/page_01.png": {
+      "source_sha256": "ae947d252b2da2768435a62f2b6fbb7d3ad03101b87f6bec8f8356736cc35ef2",
+      "imported_path": "res://.godot/imported/page_01.png-7660f88aab6a6a2e9476d7bf601f56be.ctex",
+      "imported_sha256": "8915c729ddfd64ad6f768175089dd93567d8abf4a0941cc8a359ec7909f8771d"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM040/page_00.png": {
+      "source_sha256": "b65ab221e692f534fed91ce52e91bfd17447adf072f2e08ae18ec00732fb2c02",
+      "imported_path": "res://.godot/imported/page_00.png-f2afa0814381a884a05764ee487c38e1.ctex",
+      "imported_sha256": "683551ac7394918d4ca72aa90541263163cb6b5a11ae54c37921c6e5de00a2b1"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM040/page_01.png": {
+      "source_sha256": "eda0f52cd6c1bbf911d5b4aef1cc7dd47f6abc37f7ec4df5b5f8fd590bc44c61",
+      "imported_path": "res://.godot/imported/page_01.png-0dc0ed4d875dc871a7548083e0779949.ctex",
+      "imported_sha256": "231e03f7177257f9394ab936d872d77075685c44bcc08d47e3fb7ec3c76659ba"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM041/page_00.png": {
+      "source_sha256": "9d59cd7ca958f6b75edaa2cd26a0b7790d814c10d468b7f1992837e9aeb1113f",
+      "imported_path": "res://.godot/imported/page_00.png-aa107c34ec54c95dd6f9256eab5dba5c.ctex",
+      "imported_sha256": "5aef1ebbb75932ec5452d4705d39da24332d5ff266c365428911abc3a4109bf9"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM041/page_01.png": {
+      "source_sha256": "a2197e9e4054b24a05249b07e524fc19852d00f30f37e2867cd77fb631b86514",
+      "imported_path": "res://.godot/imported/page_01.png-09c195eebefdb7befb3196f996e736a5.ctex",
+      "imported_sha256": "265c13405a89d81c2c2068b4340ad21e1fc82787075cfa4f7e71bba6492edff8"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM042/page_00.png": {
+      "source_sha256": "2fa71d96c6e6393e3bc6185a3f4b3c62c37a91dfc0583fe5395cb507131cff21",
+      "imported_path": "res://.godot/imported/page_00.png-e5398a8afc26129457371536edf16973.ctex",
+      "imported_sha256": "a01505c11b50199be1bf92b85ed8363c539c77f54cf17c2b16cfc72fc48a7423"
+    },
+    "res://assets/runtime_web/full_density/r2/ENM042/page_01.png": {
+      "source_sha256": "7e75d7c88a1a6f6971acc72c584ce3f08c63489b01754bac883411ea4e5b2f09",
+      "imported_path": "res://.godot/imported/page_01.png-e1b2ff033931770bcdf77aa5f6fafd15.ctex",
+      "imported_sha256": "ee3bbf2f45d9f884cae41c0578ef05273d47e559366b92f91177103e3e6a50c1"
+    }
+  }
+}

@@ -6,3 +6,6 @@
 
 Resource 계약은 `godot/data/definitions/`의 CharacterDef, CharacterArchetypeDef, SkillDef, WeaponDef, EnemyDef, StageDef, ChapterDef, RewardTableDef, ItemDef, ScenarioDef, StatusEffectDef, AffinityMatrixDef에 선언되어 있다. 현재 런타임은 빠른 오프라인 로드를 위해 검증된 JSON을 사용한다.
 
+`chapter_story_triggers`의 선택 필드 `fallback_stage_ids`는 원래 선택 작전을 생략했을 때 같은 장면을 연결할 후속 필수 작전 ID 배열이다. 원래 `stage_id`, 장면 ID, 완료 플래그는 유지한다. 어느 경로로 장면을 마쳐도 다시 재생하거나 보상을 중복 지급하지 않는다. 같은 지역으로 진입할 때 저장된 `first_clear`에 대응하지만 아직 완료되지 않은 장면을 우선순위대로 복구한다. 미클리어·다른 지역의 장면은 복구하지 않는다.
+
+일반 작전 해금은 `required_stage_ids`의 직전 필수 작전까지 진행했는지로 판정한다. 선택 작전과 다음 필수 작전은 함께 열리며, 위험 작전의 순차 해금과 다음 지역의 최종 위험 작전 클리어 조건은 유지한다. 지역 복귀는 미완료 필수 작전 → 위험 작전 → 남은 선택 작전 순서로 안내한다.

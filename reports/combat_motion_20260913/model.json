@@ -1,0 +1,589 @@
+{
+	"checks": [
+		{
+			"name": "CH01_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH01_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH01_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH01_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH01_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH01_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH02_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH02_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH02_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH02_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH02_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH02_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH03_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH03_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH03_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH03_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH03_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH03_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH04_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH04_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH04_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH04_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH04_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH04_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH05_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH05_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH05_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH05_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH05_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH05_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH06_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH06_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH06_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH06_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH06_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH06_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH07_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH07_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH07_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH07_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH07_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH07_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH08_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH08_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH08_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH08_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH08_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH08_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH09_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH09_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH09_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH09_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH09_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH09_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH10_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH10_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH10_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH10_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH10_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH10_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH11_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH11_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH11_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH11_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH11_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH11_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH12_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH12_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH12_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH12_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH12_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH12_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH13_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH13_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH13_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH13_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH13_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH13_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH14_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH14_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH14_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH14_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH14_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH14_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH15_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH15_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH15_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH15_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH15_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH15_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH16_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH16_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH16_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH16_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH16_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH16_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH17_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH17_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH17_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH17_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH17_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH17_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH18_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH18_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH18_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH18_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH18_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH18_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH19_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH19_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH19_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH19_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH19_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH19_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "CH20_MAP prepares exact scout",
+			"pass": true
+		},
+		{
+			"name": "CH20_MAP scout result commits",
+			"pass": true
+		},
+		{
+			"name": "CH20_MAP kill #2 leaves #1 alive",
+			"pass": true
+		},
+		{
+			"name": "CH20_MAP victory preserves physical contact position",
+			"pass": true
+		},
+		{
+			"name": "CH20_MAP reload cannot group-clear survivors",
+			"pass": true
+		},
+		{
+			"name": "CH20_MAP duplicate result rejected",
+			"pass": true
+		},
+		{
+			"name": "Pursuit step 0 approaches player",
+			"pass": true
+		},
+		{
+			"name": "Off-route chase survives reload step 0",
+			"pass": true
+		},
+		{
+			"name": "Pursuit step 1 approaches player",
+			"pass": true
+		},
+		{
+			"name": "Off-route chase survives reload step 1",
+			"pass": true
+		},
+		{
+			"name": "Pursuit step 2 approaches player",
+			"pass": true
+		},
+		{
+			"name": "Off-route chase survives reload step 2",
+			"pass": true
+		},
+		{
+			"name": "Pursuit step 3 approaches player",
+			"pass": true
+		},
+		{
+			"name": "Off-route chase survives reload step 3",
+			"pass": true
+		},
+		{
+			"name": "Pursuit step 4 approaches player",
+			"pass": true
+		},
+		{
+			"name": "Off-route chase survives reload step 4",
+			"pass": true
+		},
+		{
+			"name": "Movement reserves occupied cells 0",
+			"pass": true
+		},
+		{
+			"name": "Movement reserves occupied cells 1",
+			"pass": true
+		},
+		{
+			"name": "Movement reserves occupied cells 2",
+			"pass": true
+		},
+		{
+			"name": "Movement reserves occupied cells 3",
+			"pass": true
+		},
+		{
+			"name": "Movement reserves occupied cells 4",
+			"pass": true
+		},
+		{
+			"name": "Lost player search expires and returns home",
+			"pass": true
+		},
+		{
+			"name": "Attack queues a visible contact",
+			"pass": true
+		},
+		{
+			"name": "HP never drops before strike arrives",
+			"pass": true
+		},
+		{
+			"name": "Windup and flight preserve target HP",
+			"pass": true
+		},
+		{
+			"name": "Contact commits actual model damage exactly",
+			"pass": true
+		},
+		{
+			"name": "Opening preserves separated resting columns",
+			"pass": true
+		},
+		{
+			"name": "Real melee motion available for contact travel",
+			"pass": true
+		},
+		{
+			"name": "Authored melee strike closes the target gap",
+			"pass": true
+		},
+		{
+			"name": "Melee recovery returns to its reserved lane",
+			"pass": true
+		},
+		{
+			"name": "Death waits for the killing contact",
+			"pass": true
+		},
+		{
+			"name": "Killing contact creates enemy explosion",
+			"pass": true
+		}
+	],
+	"failures": 0
+}

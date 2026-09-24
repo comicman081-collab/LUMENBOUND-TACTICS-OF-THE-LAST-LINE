@@ -2,17 +2,17 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_enm005",
   "character_id": "ENM005",
-  "display_name": "Signal Jammer",
-  "status": "IMAGEGEN_STATIC_ANIMATED_SOURCE",
-  "source_status": "ORIGINAL_INTERNAL_GENERATED",
-  "source_root": "data_source/art_source/imagegen_enemy_sources/ENM005_signal_jammer_source.png",
-  "source_asset_id": "imggen_enm005_signal_jammer_r7",
-  "creation_method": "imagegen_original_render_plus_deterministic_presentation_motion",
+  "display_name": "ENM005",
+  "status": "LOCAL_REVIEWED_SD_ROSTER",
+  "source_status": "SPRITEGEN_ROSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/roster_replacements_20260911/ENM005/source.png",
+  "source_asset_id": "enm005_spritegen_6e5c84c0876b801b",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
-    68,
-    68
+    112,
+    112
   ],
   "foot_anchor": [
     0.5,
@@ -20,13 +20,13 @@
   ],
   "head_anchor": [
     0.5,
-    0.16
+    0.14
   ],
   "view": "THREE_QUARTER_LEFT_DOWN_30",
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "56fc7f71e378c87c18197cdcf4c4dd0b108336bdd4162fb94dffdd9e4643563e",
+  "preview_sha256": "861f6a0f3578e14223be3a9441209882b1a79a51ed8986be2378b11e572108f4",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "10acfe1d0b6f6a61973c4e692a661ce0caf5efc776d6b5c078fc44e32ec9b7c2"
+  "sha256": "6c19fa0c95ce3cf0cf8780cdb7482cee37c769040a4f357b0c3b9fe6cf30ae2f"
 }

@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_boss018",
   "character_id": "BOSS018",
-  "display_name": "BOSS018",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/boss018_authority.png",
-  "source_asset_id": "boss018_silhouette_a_ea513dd743c82a85_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_NULL_GARDENER",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/BOSS018/source.png",
+  "source_asset_id": "boss018_illustrated_fb3bbfa1a729a89d",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "5500d6eaf5ad55756e02707eb8913a66d630978220f83bd29e9c4d64a0009e49",
+  "preview_sha256": "45c9ed6fc7a067993fdf18a47c10945b669e36d13093abfdbfa1153145a163ed",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "48429ed798e073229eeef07d9522bec8204062883e3f784724371f221a2bf7fa"
+  "sha256": "41e900c067731193c4da872e594fc5b2ce3281e7f5649de00beef1f953ce9a2e"
 }

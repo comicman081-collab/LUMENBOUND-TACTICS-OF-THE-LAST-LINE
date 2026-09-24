@@ -1,0 +1,23 @@
+{
+  "entity_id": "BOSS002",
+  "raw": "work/existing_roster_spritegen_20260911/gpt_candidates/BOSS002.png.raw.png",
+  "raw_sha256": "56dee9a04dd29f30de0b8779eb5f54b6ab9235a6d6120f4d9bb7f13f33a1b05f",
+  "raw_had_generated_alpha": false,
+  "green_master": "green_master.png",
+  "master_method": "Generated artwork composited without resizing onto uniform green with 64px safety border; raw preserved unchanged.",
+  "extractor": "sprite_gen.frames.cutout.cutout key=green; canonical Sprite Gen tool, no replacement extractor",
+  "stats": {
+    "out": "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\work\\existing_roster_spritegen_20260911\\normalized\\BOSS002\\source.png",
+    "mode": "RGBA",
+    "size": "1664x1152",
+    "key": "green",
+    "route": "extract:green",
+    "chroma_key": [
+      0,
+      255,
+      0
+    ],
+    "alpha_zero_pct": 58.8
+  },
+  "status": "VISUAL_REVIEW_REQUIRED"
+}

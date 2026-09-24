@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_boss016",
   "character_id": "BOSS016",
-  "display_name": "BOSS016",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/boss016_authority.png",
-  "source_asset_id": "boss016_silhouette_a_e837a6eaf41087bd_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_DUNE_STATIONMASTER",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/BOSS016/source.png",
+  "source_asset_id": "boss016_illustrated_045fd4b7c01fd225",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "f16ba88ca76e55343488f457fa1eac27c4741fecc76fd8e327fc5d4fd9a47ba7",
+  "preview_sha256": "55719b0096f918e48c6dfa705e8425762eff07eae1708a4aa8205b17e281d0c1",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "0173de0b98108cd3370099abb817650de74bdcf017b57dc0d124bad02f74eda9"
+  "sha256": "8975e8fe44af70515cb33eaf931c7c16eddf4a8e58760c53de06c928705bd712"
 }

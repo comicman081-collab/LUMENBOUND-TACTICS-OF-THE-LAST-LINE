@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_boss012",
   "character_id": "BOSS012",
-  "display_name": "BOSS012",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/boss012_authority.png",
-  "source_asset_id": "boss012_silhouette_a_7a7d1f63ffbf8b4d_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_DREAM_BAILIFF",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/BOSS012/source.png",
+  "source_asset_id": "boss012_illustrated_a9b5333aa2c5257d",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "1e44f60770aedcc79068b852b8e34ffaea244219afcb9b202d9ccacace0ce736",
+  "preview_sha256": "974a697bbe9c7975a7c3cef5baf2b367ba9490957b8408ac0220d1b2f7b3c9d2",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "94e49a01a24f1242077ecb2933cdc1b4748ac98187141b2300e6a725453aa4de"
+  "sha256": "a517ee6ea60cc7135d00723c400ae4fd1eb4fa1fb574ca83b543c62770724857"
 }

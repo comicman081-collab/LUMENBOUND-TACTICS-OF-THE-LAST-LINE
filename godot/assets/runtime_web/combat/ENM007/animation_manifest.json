@@ -2,14 +2,17 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_enm007",
   "character_id": "ENM007",
-  "status": "RUNTIME_WEB_COMBAT_ATLAS",
-  "source_status": "ART_QA_CANDIDATE",
-  "source_root": "assets/art/enemies/ENM007",
-  "source_asset_id": "sd_enm007_premium_r6p2",
+  "display_name": "ENM007",
+  "status": "LOCAL_REVIEWED_SD_ROSTER",
+  "source_status": "SPRITEGEN_ROSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/roster_replacements_20260911/ENM007/source.png",
+  "source_asset_id": "enm007_spritegen_5debeb4903547f2c",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_reference_redraw_plus_canonical_cutout_and_deterministic_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
-    128,
-    128
+    112,
+    112
   ],
   "foot_anchor": [
     0.5,
@@ -17,13 +20,13 @@
   ],
   "head_anchor": [
     0.5,
-    0.12
+    0.14
   ],
   "view": "THREE_QUARTER_LEFT_DOWN_30",
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "745ce9bed15240d81a9b743c1f962ebb1053d72d6247161fe4fb8fdccd163346",
+  "preview_sha256": "dfdf30e7234d5105f1e95fe36e15ff91bd7354010f4ae2c37496551da3511861",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -175,5 +178,19 @@
       "events": []
     }
   },
-  "sha256": "da8190f18539220f7ff8795a016ce75d9b59f98104d06a8253f4de42a24ea301"
+  "events": {
+    "basic_attack": {
+      "projectile_spawn_frame": 3,
+      "damage_frame": 4
+    },
+    "normal_skill": {
+      "vfx_frame": 5,
+      "damage_frame": 6
+    },
+    "ultimate": {
+      "vfx_frame": 8,
+      "damage_frame": 10
+    }
+  },
+  "sha256": "8bfbba2cc3520245a7fe652072fcb193ed99a3bf59d8422569440eba08f1f218"
 }

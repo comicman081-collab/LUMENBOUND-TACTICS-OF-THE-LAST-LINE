@@ -1,0 +1,85 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "CH1 missing optional-branch scenes play in order"
+    },
+    {
+      "pass": true,
+      "name": "CH1 story rewards granted once"
+    },
+    {
+      "pass": true,
+      "name": "CH1 returns to the map with no stale story queue"
+    },
+    {
+      "pass": true,
+      "name": "CH1 region entry advances to the next mandatory operation"
+    },
+    {
+      "pass": true,
+      "name": "CH1 reload does not replay completed scenes"
+    },
+    {
+      "pass": true,
+      "name": "CH1 reload cannot duplicate story rewards"
+    },
+    {
+      "pass": true,
+      "name": "isolated saves only"
+    },
+    {
+      "pass": true,
+      "name": "CH2 missing optional-branch scenes play in order"
+    },
+    {
+      "pass": true,
+      "name": "CH2 story rewards granted once"
+    },
+    {
+      "pass": true,
+      "name": "CH2 returns to the map with no stale story queue"
+    },
+    {
+      "pass": true,
+      "name": "CH2 region entry advances to the next mandatory operation"
+    },
+    {
+      "pass": true,
+      "name": "CH2 reload does not replay completed scenes"
+    },
+    {
+      "pass": true,
+      "name": "CH2 reload cannot duplicate story rewards"
+    },
+    {
+      "pass": true,
+      "name": "isolated saves only"
+    },
+    {
+      "pass": true,
+      "name": "no runtime or shader warnings"
+    }
+  ],
+  "runs": [
+    {
+      "chapter": 1,
+      "scenes": [
+        "SCN_CH01_MID_A",
+        "SCN_CH01_MID_B",
+        "SCN_CH01_MID_C"
+      ],
+      "reward_shards": 15,
+      "restored_shards": 15
+    },
+    {
+      "chapter": 2,
+      "scenes": [
+        "SCN_CH02_MID_A"
+      ],
+      "reward_shards": 5,
+      "restored_shards": 5
+    }
+  ],
+  "scope": "Isolated first-clear fixtures; actual story controls, rewards, browser reload and map return. Not actual combat clears."
+}

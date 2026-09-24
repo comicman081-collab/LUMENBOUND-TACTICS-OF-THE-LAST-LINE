@@ -1,0 +1,1388 @@
+{
+  "battle": {
+    "actor_error": "",
+    "actors": [
+      {
+        "action_textures": {
+          "basic_attack": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              1116
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "down": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              1552
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "hit": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              1552
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "idle": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              1116
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "move": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              1116
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "normal_skill": {
+            "atlas_path": "",
+            "atlas_size": [
+              1536,
+              1116
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "ultimate": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              1552
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "victory": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              1552
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          }
+        },
+        "body_scale": 0.453125,
+        "foot": [
+          185.599975585938,
+          853.440002441406
+        ],
+        "ground_contact": {
+          "backdrop": "normal",
+          "body_scale": 0.453125,
+          "contact_error": 0,
+          "floor_position": [
+            159.931121826172,
+            853.440002441406
+          ],
+          "opaque_contact_ground_y": 853.440002441406,
+          "shadow_ground_y": 853.440002441406
+        },
+        "hp": 1341,
+        "id": "CHR001",
+        "motion_track": {
+          "elapsed": 0.400332666666667,
+          "name": "move"
+        },
+        "rank": "PLAYER",
+        "team": "PLAYER",
+        "texture": {
+          "atlas_path": "res://assets/runtime_web/combat_signature/r16/CHR001/idle.png",
+          "atlas_size": [
+            1280,
+            656
+          ],
+          "height": 325,
+          "path": "",
+          "width": 274
+        },
+        "uid": "P:CHR001"
+      },
+      {
+        "action_textures": {
+          "basic_attack": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1616
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "down": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1432
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "hit": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1432
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "idle": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1616
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "move": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1616
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "normal_skill": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1616
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "ultimate": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1432
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "victory": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1432
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          }
+        },
+        "body_scale": 0.453125,
+        "foot": [
+          330.368041992188,
+          736.600036621094
+        ],
+        "ground_contact": {
+          "backdrop": "normal",
+          "body_scale": 0.453125,
+          "contact_error": 0,
+          "floor_position": [
+            304.699188232422,
+            736.600036621094
+          ],
+          "opaque_contact_ground_y": 736.600036621094,
+          "shadow_ground_y": 736.600036621094
+        },
+        "hp": 980,
+        "id": "CHR002",
+        "motion_track": {
+          "elapsed": 0.400332666666667,
+          "name": "move"
+        },
+        "rank": "PLAYER",
+        "team": "PLAYER",
+        "texture": {
+          "atlas_path": "res://assets/runtime_web/combat_signature/r16/CHR002/idle.png",
+          "atlas_size": [
+            1024,
+            880
+          ],
+          "height": 291,
+          "path": "",
+          "width": 337
+        },
+        "uid": "P:CHR002"
+      },
+      {
+        "action_textures": {
+          "basic_attack": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              1128
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "down": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              904
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "hit": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              904
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "idle": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              1128
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "move": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              1128
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "normal_skill": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              1128
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "ultimate": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              1128
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "victory": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              904
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          }
+        },
+        "body_scale": 0.453125,
+        "foot": [
+          475.136016845703,
+          853.440002441406
+        ],
+        "ground_contact": {
+          "backdrop": "normal",
+          "body_scale": 0.453125,
+          "contact_error": 0,
+          "floor_position": [
+            449.467163085938,
+            853.440002441406
+          ],
+          "opaque_contact_ground_y": 853.440002441406,
+          "shadow_ground_y": 853.440002441406
+        },
+        "hp": 760,
+        "id": "CHR003",
+        "motion_track": {
+          "elapsed": 0.400332666666667,
+          "name": "move"
+        },
+        "rank": "PLAYER",
+        "team": "PLAYER",
+        "texture": {
+          "atlas_path": "res://assets/runtime_web/combat_signature/r16/CHR003/idle.png",
+          "atlas_size": [
+            1280,
+            328
+          ],
+          "height": 327,
+          "path": "",
+          "width": 313
+        },
+        "uid": "P:CHR003"
+      },
+      {
+        "action_textures": {
+          "basic_attack": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1800
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "down": {
+            "atlas_path": "",
+            "atlas_size": [
+              2048,
+              912
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "hit": {
+            "atlas_path": "",
+            "atlas_size": [
+              2048,
+              912
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "idle": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1800
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "move": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1800
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "normal_skill": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1800
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "ultimate": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1800
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "victory": {
+            "atlas_path": "",
+            "atlas_size": [
+              2048,
+              912
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          }
+        },
+        "body_scale": 0.453125,
+        "foot": [
+          619.903991699219,
+          736.600036621094
+        ],
+        "ground_contact": {
+          "backdrop": "normal",
+          "body_scale": 0.453125,
+          "contact_error": 0,
+          "floor_position": [
+            594.235107421875,
+            736.600036621094
+          ],
+          "opaque_contact_ground_y": 736.600036621094,
+          "shadow_ground_y": 736.600036621094
+        },
+        "hp": 720,
+        "id": "CHR004",
+        "motion_track": {
+          "elapsed": 0.400332666666667,
+          "name": "move"
+        },
+        "rank": "PLAYER",
+        "team": "PLAYER",
+        "texture": {
+          "atlas_path": "res://assets/runtime_web/combat_signature/r16/CHR004/idle.png",
+          "atlas_size": [
+            1536,
+            328
+          ],
+          "height": 327,
+          "path": "",
+          "width": 333
+        },
+        "uid": "P:CHR004"
+      },
+      {
+        "action_textures": {
+          "basic_attack": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1760
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "down": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1332
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "hit": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1332
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "idle": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1760
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "move": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1760
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "normal_skill": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1760
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "ultimate": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1760
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "victory": {
+            "atlas_path": "",
+            "atlas_size": [
+              1280,
+              1332
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          }
+        },
+        "body_scale": 0.453125,
+        "foot": [
+          764.671997070312,
+          853.440002441406
+        ],
+        "ground_contact": {
+          "backdrop": "normal",
+          "body_scale": 0.453125,
+          "contact_error": 0,
+          "floor_position": [
+            739.003112792969,
+            853.440002441406
+          ],
+          "opaque_contact_ground_y": 853.440002441406,
+          "shadow_ground_y": 853.440002441406
+        },
+        "hp": 690,
+        "id": "CHR005",
+        "motion_track": {
+          "elapsed": 0.349986666666667,
+          "name": "ultimate",
+          "target_uid": ""
+        },
+        "rank": "PLAYER",
+        "team": "PLAYER",
+        "texture": {
+          "atlas_path": "res://assets/runtime_web/combat_signature/r16/CHR005/idle.png",
+          "atlas_size": [
+            1536,
+            320
+          ],
+          "height": 319,
+          "path": "",
+          "width": 335
+        },
+        "uid": "P:CHR005"
+      },
+      {
+        "action_textures": {
+          "basic_attack": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              1716
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "down": {
+            "atlas_path": "",
+            "atlas_size": [
+              768,
+              836
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "hit": {
+            "atlas_path": "",
+            "atlas_size": [
+              768,
+              836
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "idle": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              1716
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "move": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              1716
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "normal_skill": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              1716
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "ultimate": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              1716
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "victory": {
+            "atlas_path": "",
+            "atlas_size": [
+              768,
+              836
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          }
+        },
+        "body_scale": 0.722388704528455,
+        "foot": [
+          1224.96008300781,
+          756.919982910156
+        ],
+        "ground_contact": {
+          "backdrop": "normal",
+          "body_scale": 0.722388704528455,
+          "contact_error": 0,
+          "floor_position": [
+            1253.2841796875,
+            756.919982910156
+          ],
+          "opaque_contact_ground_y": 756.919982910156,
+          "shadow_ground_y": 756.919982910156
+        },
+        "hp": 1699,
+        "id": "ENM003",
+        "motion_track": {
+          "elapsed": 0.383666,
+          "name": "move"
+        },
+        "rank": "NORMAL",
+        "team": "ENEMY",
+        "texture": {},
+        "uid": "E:1:0:ENM003"
+      },
+      {
+        "action_textures": {
+          "basic_attack": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              1564
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "down": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              356
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "hit": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              356
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "idle": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              1564
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "move": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              1564
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "normal_skill": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              1564
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "ultimate": {
+            "atlas_path": "",
+            "atlas_size": [
+              1024,
+              1564
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          },
+          "victory": {
+            "atlas_path": "",
+            "atlas_size": [
+              1792,
+              356
+            ],
+            "height": 256,
+            "path": "",
+            "width": 256
+          }
+        },
+        "body_scale": 0.775505518104686,
+        "foot": [
+          1577.60009765625,
+          828.039978027344
+        ],
+        "ground_contact": {
+          "backdrop": "normal",
+          "body_scale": 0.775505518104686,
+          "contact_error": 0,
+          "floor_position": [
+            1605.92419433594,
+            828.039978027344
+          ],
+          "opaque_contact_ground_y": 828.039978027344,
+          "shadow_ground_y": 828.039978027344
+        },
+        "hp": 1073,
+        "id": "ENM006",
+        "motion_track": {
+          "elapsed": 0.383666,
+          "name": "move"
+        },
+        "rank": "NORMAL",
+        "team": "ENEMY",
+        "texture": {},
+        "uid": "E:1:1:ENM006"
+      }
+    ],
+    "ended": false,
+    "hd": {
+      "budget_bytes": 150994944,
+      "cell_size": 256,
+      "decoded_rgba_bytes": 128954368,
+      "entity_ids": [
+        "CHR001",
+        "CHR002",
+        "CHR003",
+        "CHR004",
+        "CHR005",
+        "ENM003",
+        "ENM006",
+        "ENM007",
+        "ENM008",
+        "BOSS001"
+      ],
+      "error": ""
+    },
+    "paused": true,
+    "phase": "READY",
+    "presentation": {
+      "active_batch": {
+        "ability_id": "SK_CHR005_ULTIMATE",
+        "cue": {
+          "extra": {
+            "skill_id": "SK_CHR005_ULTIMATE"
+          },
+          "source": "P:CHR005",
+          "target": "",
+          "tick": 1,
+          "type": "ULTIMATE",
+          "value": 2
+        },
+        "end_index": 6,
+        "events": [
+          {
+            "extra": {
+              "skill_id": "SK_CHR005_ULTIMATE"
+            },
+            "source": "P:CHR005",
+            "target": "",
+            "tick": 1,
+            "type": "ULTIMATE",
+            "value": 2
+          },
+          {
+            "extra": {
+              "miss": true,
+              "source": "ULTIMATE"
+            },
+            "source": "P:CHR005",
+            "target": "E:1:0:ENM003",
+            "tick": 1,
+            "type": "DAMAGE",
+            "value": 0
+          },
+          {
+            "extra": {
+              "miss": true,
+              "source": "ULTIMATE"
+            },
+            "source": "P:CHR005",
+            "target": "E:1:1:ENM006",
+            "tick": 1,
+            "type": "DAMAGE",
+            "value": 0
+          }
+        ],
+        "id": "ULT:1:P:CHR005:SK_CHR005_ULTIMATE:3",
+        "source": "P:CHR005",
+        "start_index": 3
+      },
+      "director": {
+        "active": true,
+        "batch": {
+          "ability_id": "SK_CHR005_ULTIMATE",
+          "cue": {
+            "extra": {
+              "skill_id": "SK_CHR005_ULTIMATE"
+            },
+            "source": "P:CHR005",
+            "target": "",
+            "tick": 1,
+            "type": "ULTIMATE",
+            "value": 2
+          },
+          "end_index": 6,
+          "events": [
+            {
+              "extra": {
+                "skill_id": "SK_CHR005_ULTIMATE"
+              },
+              "source": "P:CHR005",
+              "target": "",
+              "tick": 1,
+              "type": "ULTIMATE",
+              "value": 2
+            },
+            {
+              "extra": {
+                "miss": true,
+                "source": "ULTIMATE"
+              },
+              "source": "P:CHR005",
+              "target": "E:1:0:ENM003",
+              "tick": 1,
+              "type": "DAMAGE",
+              "value": 0
+            },
+            {
+              "extra": {
+                "miss": true,
+                "source": "ULTIMATE"
+              },
+              "source": "P:CHR005",
+              "target": "E:1:1:ENM006",
+              "tick": 1,
+              "type": "DAMAGE",
+              "value": 0
+            }
+          ],
+          "id": "ULT:1:P:CHR005:SK_CHR005_ULTIMATE:3",
+          "source": "P:CHR005",
+          "start_index": 3
+        },
+        "combat_focus": 0,
+        "combat_focus_direction": 0,
+        "combat_hitstop_remaining": 0,
+        "combat_impulse": 0,
+        "cutin_visibility": 1,
+        "elapsed": 0.349986666666667,
+        "impact_committed": false,
+        "progress": 0.166660317460318,
+        "recovery": 0
+      },
+      "presented_cursor": 3,
+      "read_cursor": 6
+    },
+    "projectile_error": "",
+    "projectiles": 0,
+    "ready": true,
+    "signature": {
+      "active_encounter_ids": [
+        "CHR001",
+        "CHR002",
+        "CHR003",
+        "CHR004",
+        "CHR005"
+      ],
+      "actor_core_resident_atlas_bytes": 38133760,
+      "actor_resident_atlas_bytes": 44253184,
+      "candidate_signature_entity_ids": [
+        "CHR001",
+        "CHR002",
+        "CHR003",
+        "CHR004",
+        "CHR005",
+        "CHR008",
+        "BOSS001",
+        "ENM001"
+      ],
+      "effect_core_resident_atlas_bytes": 3830912,
+      "effect_resident_atlas_bytes": 5789504,
+      "face_crop_entity_ids": [
+        "CHR001",
+        "CHR002",
+        "CHR003",
+        "CHR004",
+        "CHR005"
+      ],
+      "face_crop_resident_bytes": 737280,
+      "face_crop_resident_bytes_by_entity": {
+        "CHR001": 147456,
+        "CHR002": 147456,
+        "CHR003": 147456,
+        "CHR004": 147456,
+        "CHR005": 147456
+      },
+      "fallback_error": "",
+      "fallback_target_ids": [],
+      "full_density": {
+        "budget_bytes": 150994944,
+        "cell_size": 256,
+        "decoded_rgba_bytes": 128954368,
+        "entity_ids": [
+          "CHR001",
+          "CHR002",
+          "CHR003",
+          "CHR004",
+          "CHR005",
+          "ENM003",
+          "ENM006",
+          "ENM007",
+          "ENM008",
+          "BOSS001"
+        ],
+        "error": ""
+      },
+      "full_density_effects": {
+        "budget_bytes": 83886080,
+        "decoded_rgba_bytes": 71958528,
+        "effect_keys": [
+          "chr001_basic",
+          "chr001_normal",
+          "chr001_ultimate",
+          "chr002_basic",
+          "chr002_normal",
+          "chr002_ultimate",
+          "chr003_basic",
+          "chr003_normal",
+          "chr003_ultimate",
+          "chr004_basic",
+          "chr004_normal",
+          "chr004_ultimate",
+          "chr005_basic",
+          "chr005_normal",
+          "chr005_ultimate",
+          "enm003_basic",
+          "enm003_normal",
+          "enm003_ultimate",
+          "enm006_basic",
+          "enm006_normal",
+          "enm006_ultimate",
+          "enm007_basic",
+          "enm007_normal",
+          "enm007_ultimate",
+          "enm008_basic",
+          "enm008_normal",
+          "enm008_ultimate",
+          "boss001_basic",
+          "boss001_normal",
+          "boss001_ultimate"
+        ],
+        "error": "",
+        "projectile_ids": [
+          "CHR001",
+          "CHR002",
+          "CHR003",
+          "CHR004",
+          "CHR005",
+          "ENM003",
+          "ENM006",
+          "ENM007",
+          "ENM008",
+          "BOSS001"
+        ]
+      },
+      "inactive_candidate_ids": [
+        "CHR008",
+        "BOSS001",
+        "ENM001"
+      ],
+      "resident_actor_ids": [
+        "CHR001",
+        "CHR002",
+        "CHR003",
+        "CHR004",
+        "CHR005"
+      ],
+      "resident_effect_entity_ids": [
+        "CHR001",
+        "CHR002",
+        "CHR003",
+        "CHR004",
+        "CHR005"
+      ],
+      "resident_effect_profile_ids": [
+        "CHR001",
+        "CHR003",
+        "CHR004",
+        "CHR005"
+      ],
+      "rollover_active": false
+    },
+    "time": 0.4,
+    "vfx": 0,
+    "wave": 1,
+    "wave_count": 3
+  },
+  "buttons": [
+    {
+      "disabled": false,
+      "name": "@Button@365",
+      "rect": [
+        446.7,
+        332,
+        386.7,
+        133.3
+      ],
+      "text": "계속"
+    },
+    {
+      "disabled": false,
+      "name": "@Button@366",
+      "rect": [
+        446.7,
+        474.7,
+        386.7,
+        133.3
+      ],
+      "text": "AUTO 전환"
+    },
+    {
+      "disabled": false,
+      "name": "@Button@367",
+      "rect": [
+        446.7,
+        617.3,
+        386.7,
+        133.3
+      ],
+      "text": "배속 변경"
+    },
+    {
+      "disabled": false,
+      "name": "@Button@368",
+      "rect": [
+        446.7,
+        760,
+        386.7,
+        133.3
+      ],
+      "text": "전투 SKIP"
+    },
+    {
+      "disabled": false,
+      "name": "@Button@370",
+      "rect": [
+        505.3,
+        902.7,
+        133.3,
+        133.3
+      ],
+      "text": "재시작"
+    },
+    {
+      "disabled": false,
+      "name": "@Button@371",
+      "rect": [
+        641.3,
+        902.7,
+        133.3,
+        133.3
+      ],
+      "text": "나가기"
+    },
+    {
+      "disabled": false,
+      "name": "BattleAutoButton",
+      "rect": [
+        902.7,
+        21.3,
+        86.7,
+        37.3
+      ],
+      "text": "A·ON"
+    },
+    {
+      "disabled": false,
+      "name": "BattleSpeedButton",
+      "rect": [
+        994.7,
+        21.3,
+        73.3,
+        37.3
+      ],
+      "text": "×2"
+    },
+    {
+      "disabled": false,
+      "name": "@Button@489",
+      "rect": [
+        1073.3,
+        21.3,
+        93.3,
+        37.3
+      ],
+      "text": "일시정지"
+    },
+    {
+      "disabled": false,
+      "name": "BattleSkipButton",
+      "rect": [
+        1172,
+        21.3,
+        86.7,
+        37.3
+      ],
+      "text": "SKIP ▶"
+    },
+    {
+      "disabled": true,
+      "name": "BattleUltimateOrb_CHR001",
+      "rect": [
+        424.7,
+        614.7,
+        84,
+        84
+      ],
+      "text": ""
+    },
+    {
+      "disabled": true,
+      "name": "BattleUltimateOrb_CHR002",
+      "rect": [
+        511.3,
+        614.7,
+        84,
+        84
+      ],
+      "text": ""
+    },
+    {
+      "disabled": true,
+      "name": "BattleUltimateOrb_CHR003",
+      "rect": [
+        598,
+        614.7,
+        84,
+        84
+      ],
+      "text": ""
+    },
+    {
+      "disabled": true,
+      "name": "BattleUltimateOrb_CHR004",
+      "rect": [
+        684.7,
+        614.7,
+        84,
+        84
+      ],
+      "text": ""
+    },
+    {
+      "disabled": true,
+      "name": "BattleUltimateOrb_CHR005",
+      "rect": [
+        771.3,
+        614.7,
+        84,
+        84
+      ],
+      "text": ""
+    },
+    {
+      "disabled": false,
+      "name": "@Button@497",
+      "rect": [
+        446.7,
+        269.3,
+        386.7,
+        41.3
+      ],
+      "text": "계속"
+    },
+    {
+      "disabled": false,
+      "name": "@Button@498",
+      "rect": [
+        446.7,
+        320,
+        386.7,
+        41.3
+      ],
+      "text": "AUTO 전환"
+    },
+    {
+      "disabled": false,
+      "name": "@Button@499",
+      "rect": [
+        446.7,
+        370.7,
+        386.7,
+        41.3
+      ],
+      "text": "배속 변경"
+    },
+    {
+      "disabled": false,
+      "name": "@Button@500",
+      "rect": [
+        446.7,
+        421.3,
+        386.7,
+        41.3
+      ],
+      "text": "전투 SKIP"
+    },
+    {
+      "disabled": false,
+      "name": "@Button@502",
+      "rect": [
+        512,
+        472,
+        126.7,
+        41.3
+      ],
+      "text": "재시작"
+    },
+    {
+      "disabled": false,
+      "name": "@Button@503",
+      "rect": [
+        641.3,
+        472,
+        126.7,
+        41.3
+      ],
+      "text": "나가기"
+    }
+  ],
+  "density_cache": {
+    "budget_bytes": 67108864,
+    "hits": 0,
+    "misses": 73,
+    "retained_bytes": 64094208,
+    "retained_pages": 33,
+    "timing": {
+      "batch_usec": 4704200,
+      "batches": 29,
+      "decode_usec": 987400,
+      "hash_usec": 271100,
+      "pages": 73,
+      "response_wait_usec": 6747300,
+      "upload_usec": 21200
+    }
+  },
+  "draw_calls": 156,
+  "layout": {
+    "paused": false,
+    "portrait": false,
+    "rotation_prompt": false,
+    "size": [
+      1280,
+      720
+    ],
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  "map_preload_msec": 3235,
+  "modals": [],
+  "nodes": 89,
+  "pending_story": [],
+  "region_resume_stage": "CH01-N20",
+  "sandbox": {
+    "production_backup_attempt_count": 0,
+    "production_path_resolve_count": 0,
+    "production_read_attempt_count": 0,
+    "production_reset_attempt_count": 0,
+    "production_write_attempt_count": 0,
+    "sandbox_active": true,
+    "sandbox_path_resolve_count": 5,
+    "sandbox_session": "verification-r3-20260911"
+  },
+  "screen": "BATTLE",
+  "scrolls": [],
+  "stage": "CH01-N20",
+  "story_shards": 30,
+  "transition_loading": {
+    "active": false,
+    "kind": ""
+  }
+}

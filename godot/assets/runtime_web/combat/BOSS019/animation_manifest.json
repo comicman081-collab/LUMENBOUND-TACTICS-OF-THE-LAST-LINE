@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_boss019",
   "character_id": "BOSS019",
-  "display_name": "BOSS019",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/boss019_authority.png",
-  "source_asset_id": "boss019_silhouette_a_7a9cdeb9a459d083_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_CROWN_LANCER",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/BOSS019/source.png",
+  "source_asset_id": "boss019_illustrated_8a63b535e16a95a7",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "eb79cb0c8975559194ffbd1563539ee6e5da0d515632ff670a6968adce6fdc96",
+  "preview_sha256": "bd7aab579fd51e218d751493f607d5ea1552080b6a3871e4512d548c26fbba14",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "c675d174ecfe01fa86bcdb078a6d80cee6fed3f9533c328918d6ee611b8d01d6"
+  "sha256": "402f2d5254f3f8064c6a0565f169f5131143e0aeeef36e038048407aed5952ae"
 }

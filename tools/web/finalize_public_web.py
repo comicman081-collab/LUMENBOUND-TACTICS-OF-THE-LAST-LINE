@@ -201,8 +201,8 @@ def write_companion_files(
     manifest_path = root / "index.manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest["name"] = PUBLIC_TITLE
-    if manifest.get("orientation") != "any":
-        raise SystemExit(f"PWA orientation must support desktop and mobile, got {manifest.get('orientation')!r}")
+    if manifest.get("orientation") != "landscape":
+        raise SystemExit(f"PWA orientation must be landscape, got {manifest.get('orientation')!r}")
     manifest_path.write_text(
         json.dumps(manifest, ensure_ascii=False, separators=(",", ":")) + "\n",
         encoding="utf-8", newline="\n",
@@ -216,7 +216,7 @@ def write_companion_files(
         "source_commit": source_commit, "release_pack_mode": "fresh_full_web_export",
         "pck_sha256": pck_hash, "pck_size": pck.stat().st_size,
         "wasm_sha256": wasm_hash, "wasm_size": wasm.stat().st_size,
-        "mobile_orientation": "landscape_and_portrait",
+        "mobile_orientation": "landscape_only",
         "created_utc": datetime.now(timezone.utc).isoformat(),
     }
     (root / "VERSION.json").write_text(
@@ -231,8 +231,8 @@ def write_companion_files(
     )
     (root / "README_HTML.md").write_text(
         "# LUMENBOUND R7 Web MVP\n\nFresh Godot 4.7.1 Compatibility Web export. "
-        "Serve this directory over HTTP.\nDesktop, mobile landscape and mobile portrait "
-        "layouts are supported.\n",
+        "Serve this directory over HTTP.\nDesktop and mobile landscape "
+        "layouts are supported. Portrait windows retain the landscape composition without a rotation prompt.\n",
         encoding="utf-8", newline="\n",
     )
 

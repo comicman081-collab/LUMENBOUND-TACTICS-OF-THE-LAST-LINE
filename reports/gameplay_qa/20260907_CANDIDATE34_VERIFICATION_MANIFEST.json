@@ -1,0 +1,113 @@
+{
+  "created_at": "2026-09-07T23:55:00+09:00",
+  "status": "LOCAL_QA_APPROVED_NOT_DEPLOYED",
+  "candidate": 34,
+  "build": "builds/web_gameplay_qa_20260907_candidate34_development",
+  "no_deployment": true,
+  "no_github_actions": true,
+  "no_push_or_commit": true,
+  "no_asset_deletion": true,
+  "physical_phone_tested": false,
+  "native": {
+    "general": {
+      "summary": "TEST_SUMMARY total=290 pass=290 fail=0",
+      "path": "reports/gameplay_qa/20260907_motion34_native_final.log",
+      "bytes": 45589,
+      "sha256": "6f5ac9db8e7a1b895f2b7fa6ae564fcbaab499d292eea4c8d20d4880bafe31cd"
+    },
+    "map": {
+      "summary": "MAP_TEST_SUMMARY total=354 pass=354 fail=0",
+      "path": "reports/gameplay_qa/20260907_motion34_map_native.log",
+      "bytes": 29846,
+      "sha256": "21df36e53ca177df046dcb381c85347563f2a93dcdbc4dbea41887ba994e2afd"
+    },
+    "full_density": {
+      "summary": "FULL_DENSITY_TEST actors=109 effects=436 map_actors=109 failures=[]",
+      "path": "reports/gameplay_qa/20260907_candidate34_density_native_scene_pass.log",
+      "bytes": 220,
+      "sha256": "75b8ae4d7f09d7a776983f8f30e96c9106a4ccdb60cb4499d607eaf732d0d672"
+    }
+  },
+  "browser": {
+    "motion": {
+      "checks": 5,
+      "passed": 5,
+      "path": "reports/gameplay_qa/20260907_motion34_audit_pass/acceptance.json",
+      "sha256": "c0c3f2997bcbbc526555142e8ac33755dcdec19d19d2915c3af3db6cc9293177"
+    },
+    "final_n20": {
+      "checks": 231,
+      "passed": 231,
+      "path": "reports/gameplay_qa/20260907_final34_audit/acceptance.json",
+      "sha256": "54a62bba23fdf9115533c2fcc0fb40bc5e073e862c5f4cbfe5e019b78a8e048e"
+    },
+    "briefing": {
+      "checks": 346,
+      "passed": 346,
+      "stages": [6, 8, 13],
+      "path": "reports/gameplay_qa/20260907_briefing34_audit/acceptance.json",
+      "sha256": "dd50da3ba9490fcbbaea6fcef2dd95fd6037a08573d3651409497b0bf83a00fb"
+    },
+    "map_gallery": {
+      "checks": 19,
+      "passed": 19,
+      "stages": [1, 5, 10, 20],
+      "path": "reports/gameplay_qa/20260907_map34_gallery/acceptance.json",
+      "sha256": "243a5856f676e99248968d870444afd9f3c6f72c8a3dbbe1ff05c67e50a5e8a4"
+    },
+    "route": {
+      "stages": 20,
+      "waves": 45,
+      "successful_segments": [
+        {
+          "stages": "1-8",
+          "path": "reports/gameplay_qa/20260907_route34_matrix/route_progress.json",
+          "termination": "retained N09 automation early-read failure"
+        },
+        {
+          "stages": "9-15",
+          "path": "reports/gameplay_qa/20260907_route34_matrix_n09_n20/route_progress.json",
+          "termination": "retained N16 single-touch suppression failure"
+        },
+        {
+          "stages": "16-20",
+          "path": "reports/gameplay_qa/20260907_route34_matrix_n16_n20/acceptance.json",
+          "termination": "PASS"
+        }
+      ]
+    }
+  },
+  "build_hashes": {
+    "index_pck": {
+      "bytes": 157906136,
+      "sha256": "edbd08fe6563773ca3f9896bc4788be7cbe2051134f9ca381c26fcb1a081d934"
+    },
+    "index_wasm": {
+      "bytes": 37900721,
+      "sha256": "f33199ca285b7a135e9133684d23439eee156cae2a3ee599386e9169f47ff8f3"
+    }
+  },
+  "external_review": {
+    "conversation": "전투 연출 설계 검토",
+    "model_ui": "Pro",
+    "verdict": "APPROVED",
+    "mandatory_fixes": 0,
+    "local_blockers": 0,
+    "stage_label_correction_confirmed": true,
+    "scope": "Structural review of supplied implementation and local evidence; not independent access to local pixels or reports."
+  },
+  "retained_failures": [
+    "reports/gameplay_qa/20260907_motion34_audit",
+    "reports/gameplay_qa/20260907_route34_matrix",
+    "reports/gameplay_qa/20260907_route34_matrix_n09_n20",
+    "reports/gameplay_qa/20260907_candidate34_density_native.log",
+    "reports/gameplay_qa/20260907_candidate34_density_native_pass.log"
+  ],
+  "remaining_gates": [
+    "Physical Android/iOS thermal, peak-memory and first-touch verification.",
+    "Actual mobile-browser p95/p99 frame-time measurement.",
+    "Human audio listening certification.",
+    "New joint/frame animation and overall commercial-art parity with the reference video.",
+    "Public deployment, promotion and failed-asset disposal approval."
+  ]
+}

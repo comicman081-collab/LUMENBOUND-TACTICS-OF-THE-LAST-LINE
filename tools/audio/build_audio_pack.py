@@ -1,6 +1,7 @@
 """Build the runtime audio pack from local, auditable source material.
 
-The user's BGM remains in the adjacent Sound folder. Public SFX are checked into
+The five BGM source masters are retained in data_source/audio_source/user_bgm.
+Public SFX are checked into
 ``data_source/audio_source/public_cc0`` with source-page and CC0 lineage. The
 96 kHz/24-bit firearm masters are transient-trimmed, peak-normalized and reduced
 to 48 kHz/16-bit stereo for the offline Web build; the masters are never edited.
@@ -21,7 +22,7 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE_ROOT = ROOT.parent / "Sound"
+SOURCE_ROOT = ROOT / "data_source" / "audio_source" / "user_bgm"
 MANIFEST_PATH = ROOT / "data_source" / "audio_manifest.json"
 OUTPUT_ROOT = ROOT / "godot" / "assets" / "audio"
 REPORT_ROOT = ROOT / "reports" / "audio"
@@ -34,6 +35,22 @@ def sha256(path: Path) -> str:
         for block in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def bgm_loop_region(path: Path) -> dict:
+    """Skip leading/trailing PCM silence without changing any music bytes."""
+    if path.suffix.lower() != '.wav':
+        return {}
+    with wave.open(str(path), 'rb') as stream:
+        if stream.getsampwidth() != 2:
+            return {}
+        samples = np.frombuffer(stream.readframes(stream.getnframes()), dtype='<i2')
+        samples = samples.reshape(-1, stream.getnchannels()).astype(np.int32)
+        audible = np.flatnonzero(np.max(np.abs(samples), axis=1) > 0)
+        if len(audible) == 0:
+            raise ValueError('Silent BGM: ' + path.name)
+        return {'playback_loop_start_seconds': int(audible[0]) / stream.getframerate(),
+                'playback_loop_end_seconds': (int(audible[-1]) + 1) / stream.getframerate()}
 
 
 def _asset_fragment(value: str) -> str:
@@ -450,7 +467,10 @@ def main() -> int:
         "commercial_use", "attribution_required", "gain_db", "pitch_scale",
     )
     for entry in resolved:
-        runtime_entries.append({key: entry[key] for key in runtime_keys if key in entry})
+        runtime_entry = {key: entry[key] for key in runtime_keys if key in entry}
+        if entry.get('category') == 'BGM':
+            runtime_entry.update(bgm_loop_region(ROOT / 'godot' / entry['runtime_path'].removeprefix('res://')))
+        runtime_entries.append(runtime_entry)
     output_manifest = {
         "schema_version": 1,
         "generated_by": "tools/audio/build_audio_pack.py",

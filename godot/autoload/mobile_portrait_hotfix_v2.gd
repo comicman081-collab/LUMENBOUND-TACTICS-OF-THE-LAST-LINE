@@ -1,6 +1,7 @@
 extends Node
 
-# Final portrait presentation pass for the fixed 1920x1080 authored canvas.
+# Retained compact-landscape map helpers for the fixed 1920x1080 canvas.
+# Portrait-specific entry points are inactive under the landscape-only policy.
 # It never changes scenario/map/battle authority; it only repairs geometry,
 # type sizes and touch targets after the normal screen has been constructed.
 
@@ -64,8 +65,6 @@ func _find_shell(node: Node) -> Control:
 	return null
 
 func _runtime_size() -> Vector2:
-	if OS.get_environment("LUMENBOUND_FORCE_PORTRAIT_QA") == "1":
-		return Vector2(390.0, 844.0)
 	var size := DisplayServer.window_get_size()
 	var width := float(size.x)
 	var height := float(size.y)
@@ -76,7 +75,7 @@ func _runtime_size() -> Vector2:
 			width = float(browser_width)
 		if browser_height is int or browser_height is float:
 			height = float(browser_height)
-	return Vector2(maxf(width, 1.0), maxf(height, 1.0))
+	return preload("res://ui/game_ui_tokens.gd").landscape_layout_size(Vector2(width, height))
 
 func _canvas_scale(size: Vector2) -> float:
 	return maxf(minf(size.x / DESIGN_VIEWPORT_SIZE.x, size.y / DESIGN_VIEWPORT_SIZE.y), 0.001)
@@ -360,18 +359,20 @@ func _fix_map_shell_header(content: VBoxContainer, map_screen: Control, size: Ve
 	var back := _find_button_text(content, "‹ 뒤로", map_screen)
 	if back != null:
 		back.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-		_set_button(back, 82.0, 40.0, 14.0, size)
+		_set_button(back, 82.0 if size.y > size.x else 72.0, 40.0 if size.y > size.x else 32.0, 14.0, size)
 	var subtitle := _find_label_text(content, MAP_SUBTITLE_FULL, map_screen)
 	if subtitle == null:
 		subtitle = _find_label_text(content, MAP_SUBTITLE_COMPACT, map_screen)
 	if subtitle != null:
 		subtitle.text = MAP_SUBTITLE_COMPACT
 		_set_label(subtitle, 12.0, size)
-		subtitle.visible = size.x > 410.0
+		subtitle.visible = size.y > size.x and size.x > 410.0
 		var parent := subtitle.get_parent()
 		if parent != null and parent.get_child_count() > 0 and parent.get_child(0) is Label:
 			var title := parent.get_child(0) as Label
-			_set_label(title, 21.0, size)
+			_set_label(title, 17.0, size)
+			title.visible = size.x > size.y
+			title.custom_minimum_size.y = _px(22.0, size) if title.visible else 0.0
 			title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			title.clip_text = true
 
@@ -379,13 +380,13 @@ func _fix_map_toolbar(map_screen: Control, size: Vector2) -> void:
 	var toolbar_value = map_screen.get("toolbar")
 	if toolbar_value is HFlowContainer:
 		var toolbar := toolbar_value as HFlowContainer
-		# The six core controls are compact *named* actions, rather than a
+		# The seven core controls are compact named actions, including region travel.
 		# multi-row desktop toolbar.  This reserves a single 48–56px rail and
 		# gives the tactical map its height back on common 360–390px phones.
 		toolbar.add_theme_constant_override("h_separation", roundi(_px(2.0, size)))
 		toolbar.add_theme_constant_override("v_separation", 0)
-	var width_css := clampf((size.x - 22.0) / 6.0, 48.0, 56.0)
-	var compact_labels := ["일반", "위험", "부대", "개요", "스킵"]
+	var width_css := clampf((size.x - 28.0) / 7.0, 44.0, 52.0)
+	var compact_labels := ["일반", "위험", "부대", "개요", "스킵", "지역"]
 	var buttons_value = map_screen.get("map_toolbar_buttons")
 	if buttons_value is Array:
 		var buttons := buttons_value as Array
@@ -407,10 +408,10 @@ func _fix_map_overlay(map_screen: Control, size: Vector2) -> void:
 	if status_value is Label:
 		var status := status_value as Label
 		status.position = Vector2(_px(6.0, size), _px(6.0, size))
-		status.size = Vector2(_px(190.0, size), _px(34.0, size))
+		status.size = Vector2(_px(maxf(190.0, size.x - 150.0), size), _px(48.0, size))
 		status.custom_minimum_size = status.size
 		status.add_theme_font_size_override("font_size", _font(12.0, size))
-		status.autowrap_mode = TextServer.AUTOWRAP_OFF
+		status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		status.clip_text = true
 	var next_value = map_screen.get("next_encounter_button")
 	if next_value is Button:
@@ -424,10 +425,29 @@ func _fix_map_overlay(map_screen: Control, size: Vector2) -> void:
 		next_button.add_theme_font_size_override("font_size", _font(13.0, size))
 	var minimap_value = map_screen.get("route_minimap")
 	if minimap_value is Control:
-		(minimap_value as Control).visible = false
+		(minimap_value as Control).visible = true
 	var legend_value = map_screen.get("legend_card")
 	if legend_value is Control:
 		(legend_value as Control).visible = false
+
+func _fix_map_landscape_overlay(map_screen: Control, size: Vector2) -> void:
+	var frame := map_screen.get("map_frame") as Control
+	var status := map_screen.get("status_label") as Label
+	var next_button := map_screen.get("next_encounter_button") as Button
+	if frame == null or status == null or next_button == null: return
+	status.position = Vector2(_px(8.0, size), _px(8.0, size))
+	status.custom_minimum_size = Vector2.ZERO
+	status.size = Vector2(maxf(_px(120.0, size), frame.size.x - _px(134.0, size)), _px(34.0, size))
+	status.add_theme_font_size_override("font_size", _font(12.0, size))
+	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	status.clip_text = true
+	next_button.add_theme_font_size_override("font_size", _font(13.0, size))
+	next_button.custom_minimum_size = Vector2(_px(112.0, size), _px(32.0, size))
+	next_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	next_button.offset_left = -_px(120.0, size)
+	next_button.offset_right = -_px(8.0, size)
+	next_button.offset_top = _px(8.0, size)
+	next_button.offset_bottom = _px(40.0, size)
 
 func _fix_map_sheet(map_screen: Control, size: Vector2) -> void:
 	var panel_value = map_screen.get("detail_panel")
@@ -436,7 +456,7 @@ func _fix_map_sheet(map_screen: Control, size: Vector2) -> void:
 	var panel := panel_value as PanelContainer
 	# A selection is contextual, not an inspector.  Keep the card scrollable,
 	# but cap it below a third of a portrait viewport.
-	var sheet_css := clampf(size.y * 0.29, 222.0, 258.0)
+	var sheet_css := clampf(size.y * 0.29, 222.0, 244.0)
 	panel.anchor_left = 0.0
 	panel.anchor_top = 1.0
 	panel.anchor_right = 1.0
@@ -459,7 +479,7 @@ func _fix_map_sheet(map_screen: Control, size: Vector2) -> void:
 	var body_value = map_screen.get("detail_body")
 	if body_value is RichTextLabel:
 		var body := body_value as RichTextLabel
-		body.custom_minimum_size.y = _px(58.0, size)
+		body.custom_minimum_size = Vector2(0.0, _px(90.0, size))
 		body.add_theme_font_size_override("normal_font_size", _font(16.0, size))
 		body.add_theme_font_size_override("bold_font_size", _font(16.0, size))
 		body.add_theme_constant_override("line_separation", roundi(_px(3.0, size)))
@@ -467,7 +487,7 @@ func _fix_map_sheet(map_screen: Control, size: Vector2) -> void:
 		for child in (scroll_value as ScrollContainer).find_children("*", "Button", true, false):
 			if child is Button:
 				var action := child as Button
-				action.custom_minimum_size.y = _px(46.0, size)
+				action.custom_minimum_size = Vector2(0.0, _px(44.0, size))
 				action.add_theme_font_size_override("font_size", _font(15.0, size))
 
 func _fix_map_nodes(map_screen: Control, size: Vector2) -> void:
@@ -479,9 +499,9 @@ func _fix_map_nodes(map_screen: Control, size: Vector2) -> void:
 		var value = nodes[key]
 		if value is Button:
 			var button := value as Button
+			button.add_theme_font_size_override("font_size", _font(12.0, size))
 			button.custom_minimum_size = Vector2(_px(54.0, size), _px(38.0, size))
 			button.size = button.custom_minimum_size
-			button.add_theme_font_size_override("font_size", _font(12.0, size))
 
 func _fix_map_tutorial(map_screen: Control, size: Vector2) -> void:
 	var dimmer_value = map_screen.get("tutorial_dimmer")

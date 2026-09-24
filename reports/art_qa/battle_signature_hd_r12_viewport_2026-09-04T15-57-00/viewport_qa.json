@@ -1,0 +1,363 @@
+{
+  "active_signature_units": [
+    "CHR001",
+    "CHR002",
+    "CHR003",
+    "CHR005",
+    "CHR008",
+    "ENM001",
+    "BOSS001"
+  ],
+  "approval_status": "LOCAL_QA_ONLY",
+  "boss_signature_size": [
+    347,
+    248
+  ],
+  "captures": [
+    {
+      "file": "01_idle.png",
+      "height": 844,
+      "sha256": "3901863633085e269a88bd87b72324272880168137ba6506c127081ce7b0c6c6",
+      "stage": "idle",
+      "width": 390
+    },
+    {
+      "file": "02_chr001_ultimate_windup.png",
+      "height": 844,
+      "sha256": "bfb892b0799407dd8533f8129e89d73c0a5f9cb33b59b158e49adf04834cf393",
+      "stage": "chr001_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "03_chr001_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "9f4cff622d8625bc96c5dce919e4980578a5c426475aabf5c27bd00653d8010d",
+      "stage": "chr001_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "04_chr001_ultimate_impact.png",
+      "height": 844,
+      "sha256": "5bc55a7a084a5e40c89afd4a3144f190001bc1147b297468478b54c51c4eef1b",
+      "stage": "chr001_ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "05_boss_down.png",
+      "height": 844,
+      "sha256": "38d0833a2969c6c795d68aa282f886099efd80d4c1bf3d7e8bf056242a3e3edf",
+      "stage": "boss_down",
+      "width": 390
+    },
+    {
+      "file": "06_chr002_ultimate_windup.png",
+      "height": 844,
+      "sha256": "936c3bab4bdfd65f9cf1573c8c54f18006020fd22f7a4e0cea0644af5bccc2aa",
+      "stage": "chr002_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "07_chr002_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "c0bdaecb96acdd325cdba17187be1c032fc3a11c767d62e0722393ee783c376d",
+      "stage": "chr002_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "08_chr002_ultimate_impact.png",
+      "height": 844,
+      "sha256": "153e4a30ccd8cbfa585a825af7e14a0e2501bfed376001421978aa4273f3f333",
+      "stage": "chr002_ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "09_chr003_ultimate_windup.png",
+      "height": 844,
+      "sha256": "20a8032f4afbc8bb363be10426b602de553d5b0006fcc633c1f961185e7223bf",
+      "stage": "chr003_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "10_chr003_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "5aae7fd8c2dc99206c328ddaa2a79e8a3e1086f1cae0aa276c7b4237763fbcd7",
+      "stage": "chr003_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "11_chr003_ultimate_impact.png",
+      "height": 844,
+      "sha256": "636eb158c6ef6648e6a2933572232b4371370b85911fe45f04b811dfbfb11779",
+      "stage": "chr003_ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "12_chr005_ultimate_windup.png",
+      "height": 844,
+      "sha256": "62824b0c66e59570dd2c29f55632f589428e6329be7122ae8c630b095900c736",
+      "stage": "chr005_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "13_chr005_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "6b936937997bb29d4ca3935ab417249d408e7a661ebce6aaf0011300338eb0f7",
+      "stage": "chr005_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "14_chr005_ultimate_impact.png",
+      "height": 844,
+      "sha256": "b7b5faf75d387ffd7cb9e32a3686865c44931fee2b283e8873d9292f74af4b97",
+      "stage": "chr005_ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "15_chr008_ultimate_windup.png",
+      "height": 844,
+      "sha256": "2565e99ff9cac8a6bfca8c28037f2cf7ae2e0fb10699226a3f8915ef47389bd4",
+      "stage": "chr008_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "16_chr008_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "18679e0732b3e54330dabe63c5f6e0489f0f803c7460201d7a0ac2dbf7e8e24d",
+      "stage": "chr008_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "17_chr008_ultimate_impact.png",
+      "height": 844,
+      "sha256": "0fd355ff93d9caa93d33db8bd2ead9494f4102e7b71dd5e1d8bd05b4f764f85b",
+      "stage": "chr008_ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "18_boss_ultimate_windup.png",
+      "height": 844,
+      "sha256": "e7ab584ceeffb5f76a54fdf517224ab1f35e7aceb92826d861f3464523f4a4f5",
+      "stage": "boss_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "19_boss_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "57eed824b59b4df8f2a0e85846d4526f577a3c2ce0fc676efa2f37909d7dd642",
+      "stage": "boss_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "20_boss_ultimate_impact.png",
+      "height": 844,
+      "sha256": "3045cbcce81d4258bf5a81ca8a548b5228ff3be1f0f2cd6c82c95df3c1782f97",
+      "stage": "boss_ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "21_enm001_ultimate_windup.png",
+      "height": 844,
+      "sha256": "1b89b605701fe1039da9d558198873e981a5a80d278c15f8e92e995b00e8866a",
+      "stage": "enm001_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "22_enm001_ultimate_projectile_travel.png",
+      "height": 844,
+      "sha256": "5986693a9e90470fd9560dc7540db30de9ffda26e9262d776113e4c518ead062",
+      "stage": "enm001_ultimate_projectile_travel",
+      "width": 390
+    },
+    {
+      "file": "23_enm001_ultimate_impact.png",
+      "height": 844,
+      "sha256": "b78f85da422d2daece48d5e892654a1e15ee488ad81de2cfd050ce55e9de08f1",
+      "stage": "enm001_ultimate_impact",
+      "width": 390
+    }
+  ],
+  "effect_signature_core_resident_atlas_bytes": 5746368,
+  "effect_signature_load_error": "",
+  "effect_signature_pack_ready": true,
+  "effect_signature_resident_atlas_bytes": 5746368,
+  "effect_signature_revision": "r3",
+  "enm001_signature_size": [
+    329,
+    318
+  ],
+  "guardian_signature_size": [
+    284,
+    337
+  ],
+  "iri_signature_size": [
+    322,
+    316
+  ],
+  "kind": "BATTLE_SIGNATURE_HD_LOCAL_VIEWPORT_QA",
+  "motion_contract": {
+    "enemy_hit_x": 24.9945163726807,
+    "enemy_ultimate_lunge_x": -19.4386768341064,
+    "player_basic_lunge_x": 20.9640560150146,
+    "player_basic_windup_x": -5.07936525344849
+  },
+  "narin_signature_size": [
+    333,
+    333
+  ],
+  "qa_staging": "Temporary in-memory exact five-player signature group (CHR001/002/003/005/008) plus BOSS001/ENM001; no save, roster, reward, or stage data changed.",
+  "reference_group": [
+    "CHR001",
+    "CHR002",
+    "CHR003",
+    "CHR005",
+    "CHR008",
+    "BOSS001",
+    "ENM001"
+  ],
+  "roan_signature_size": [
+    352,
+    302
+  ],
+  "signature_core_resident_atlas_bytes": 51146752,
+  "signature_load_error": "",
+  "signature_pack_ready": true,
+  "signature_resident_atlas_bytes": 51146752,
+  "signature_revision": "r12",
+  "soren_signature_size": [
+    357,
+    330
+  ],
+  "stage_source": "CH01-N20",
+  "ui_orb_contract": {
+    "control_count": 5,
+    "face_crop_resident_bytes": 884736,
+    "full_tactical_gauge": 10.0,
+    "ready_badges": 5,
+    "world_health_text_cards": 0
+  },
+  "ultimate_page_checks": {
+    "BOSS001": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 58257408,
+      "actor_texture_size": [
+        347,
+        248
+      ],
+      "actor_transient_entity_id": "BOSS001",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 7704960,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "BOSS001",
+      "ready": true
+    },
+    "CHR001": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 58400768,
+      "actor_texture_size": [
+        284,
+        337
+      ],
+      "actor_transient_entity_id": "CHR001",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 7704960,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "CHR001",
+      "ready": true
+    },
+    "CHR002": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 59891712,
+      "actor_texture_size": [
+        352,
+        302
+      ],
+      "actor_transient_entity_id": "CHR002",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 7704960,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "CHR001",
+      "ready": true
+    },
+    "CHR003": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 56668160,
+      "actor_texture_size": [
+        333,
+        333
+      ],
+      "actor_transient_entity_id": "CHR003",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 7704960,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "CHR003",
+      "ready": true
+    },
+    "CHR005": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 57266176,
+      "actor_texture_size": [
+        357,
+        330
+      ],
+      "actor_transient_entity_id": "CHR005",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 7704960,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "CHR005",
+      "ready": true
+    },
+    "CHR008": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 58912768,
+      "actor_texture_size": [
+        322,
+        316
+      ],
+      "actor_transient_entity_id": "CHR008",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 7704960,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "CHR008",
+      "ready": true
+    },
+    "ENM001": {
+      "actor_budget_bytes": 75497472,
+      "actor_resident_atlas_bytes": 56340480,
+      "actor_texture_size": [
+        329,
+        318
+      ],
+      "actor_transient_entity_id": "ENM001",
+      "effect_budget_bytes": 12582912,
+      "effect_resident_atlas_bytes": 7704960,
+      "effect_texture_size": [
+        202,
+        202
+      ],
+      "effect_transient_profile_id": "ENM001",
+      "ready": true
+    }
+  },
+  "viewport": [
+    390,
+    844
+  ]
+}

@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_enm035",
   "character_id": "ENM035",
-  "display_name": "ENM035",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/enm035_authority.png",
-  "source_asset_id": "enm035_silhouette_a_3af9ccce82778079_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_SLEEP_NEEDLE",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/ENM035/source.png",
+  "source_asset_id": "enm035_illustrated_072105fef5f18842",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "baea00f7f5b7aa39e431fa5598af71ce52b760653bc11d575d4ef89780eeff07",
+  "preview_sha256": "d1146882b92b90b0f077ed8a4104d43fb8121f70c55333d3ee6f5dbc5cca934f",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "f04b169aaff5fdc09970d1d6658d5c5bd876150b2ab420e921290bf2c04d1e3b"
+  "sha256": "1db9280cac72a17157565670d82c740808c24b6f861b3c1df42a19ee980aa6e7"
 }

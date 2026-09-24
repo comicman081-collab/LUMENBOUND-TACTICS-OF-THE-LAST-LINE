@@ -1,0 +1,86 @@
+{
+  "approval_status": "LOCAL_QA_ONLY",
+  "boss_signature_size": [
+    384,
+    384
+  ],
+  "captures": [
+    {
+      "file": "01_idle.png",
+      "height": 844,
+      "sha256": "46ee7d34e200d476ffae8bdf66fe672110ff3b65510c9a36614229af14c9aebf",
+      "stage": "idle",
+      "width": 390
+    },
+    {
+      "file": "02_ultimate_windup.png",
+      "height": 844,
+      "sha256": "39b38add6809f2e1ada2f3aa66e434a21ea20055b8be3293a4f015106cfd2587",
+      "stage": "ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "03_ultimate_impact.png",
+      "height": 844,
+      "sha256": "c4cf4496630dab7c9639b55d5442c35160496e5549d84cc95a4e6296e31cbae0",
+      "stage": "ultimate_impact",
+      "width": 390
+    },
+    {
+      "file": "04_boss_down.png",
+      "height": 844,
+      "sha256": "457d3b48ab2768c965323ecc6528875283b7bb622a54a827406f59d67627de79",
+      "stage": "boss_down",
+      "width": 390
+    },
+    {
+      "file": "05_iri_idle.png",
+      "height": 844,
+      "sha256": "c6d199bf6b63cb8c9eca304ad0b7b95c97afad9550ce69eb62c03d459ffdaa25",
+      "stage": "iri_idle",
+      "width": 390
+    },
+    {
+      "file": "06_iri_ultimate_windup.png",
+      "height": 844,
+      "sha256": "d2b7a48bafbdf221715719970c341aa6f129fa8d9c07fcbf53cefd62d54a8961",
+      "stage": "iri_ultimate_windup",
+      "width": 390
+    },
+    {
+      "file": "07_iri_ultimate_release.png",
+      "height": 844,
+      "sha256": "881cba45f5ecb47ac571ffb695f44968c187d60fcb27f0e3ff2936d268b0c030",
+      "stage": "iri_ultimate_release",
+      "width": 390
+    }
+  ],
+  "guardian_signature_size": [
+    384,
+    384
+  ],
+  "iri_signature_size": [
+    384,
+    384
+  ],
+  "kind": "BATTLE_SIGNATURE_HD_LOCAL_VIEWPORT_QA",
+  "motion_contract": {
+    "enemy_hit_x": 24.9945163726807,
+    "player_basic_lunge_x": 20.9640560150146,
+    "player_basic_windup_x": -5.07936525344849
+  },
+  "qa_staging": "Temporary in-memory CHR001-to-CHR008 slot swap after the first four captures; no save, roster, reward, or stage data changed.",
+  "reference_group": [
+    "CHR001",
+    "CHR008",
+    "BOSS001"
+  ],
+  "signature_load_error": "",
+  "signature_pack_ready": true,
+  "signature_resident_atlas_bytes": 70778880,
+  "stage_source": "CH01-N20",
+  "viewport": [
+    390,
+    844
+  ]
+}

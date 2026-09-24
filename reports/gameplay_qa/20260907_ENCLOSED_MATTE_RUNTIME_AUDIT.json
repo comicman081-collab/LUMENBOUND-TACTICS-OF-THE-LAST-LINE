@@ -1,0 +1,53 @@
+{
+  "checks": [
+    {
+      "entity": "CHR002",
+      "check": "every user-reported enclosed matte seed is fully transparent",
+      "pass": true
+    },
+    {
+      "entity": "CHR002",
+      "check": "packed all-action runtime alpha equals repaired source alpha",
+      "frames": 80,
+      "maximum_alpha_difference": 0,
+      "pass": true
+    },
+    {
+      "entity": "CHR002",
+      "check": "every signature frame keeps hash-verified green master and keyed RGBA",
+      "frames": 38,
+      "pass": true
+    },
+    {
+      "entity": "CHR004",
+      "check": "every user-reported enclosed matte seed is fully transparent",
+      "pass": true
+    },
+    {
+      "entity": "CHR004",
+      "check": "packed all-action runtime alpha equals repaired source alpha",
+      "frames": 80,
+      "maximum_alpha_difference": 0,
+      "pass": true
+    },
+    {
+      "entity": "CHR004",
+      "check": "every signature frame keeps hash-verified green master and keyed RGBA",
+      "frames": 28,
+      "pass": true
+    },
+    {
+      "check": "all 500 authored stages fit HD actor budget even with the five largest party assets",
+      "stages": 500,
+      "worst": {
+        "stage": "CH20-N20",
+        "bytes": 142376960
+      },
+      "budget_bytes": 150994944,
+      "pass": true
+    }
+  ],
+  "no_model_used": true,
+  "no_deployment": true,
+  "no_deletion": true
+}

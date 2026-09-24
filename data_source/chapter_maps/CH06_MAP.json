@@ -82,7 +82,66 @@
   },
   "patrols": [],
   "relays": [],
-  "map_events": [],
+  "map_events": [
+    {
+      "event_id": "FIELD_CH06_ENTRY",
+      "type": "DISCOVERY",
+      "q": -1,
+      "r": 0,
+      "existing_path_only": true,
+      "discover_radius": 2,
+      "required_stage_id": "",
+      "title_key": "FIELD_CH06_ENTRY_TITLE",
+      "body_key": "FIELD_CH06_ENTRY_BODY",
+      "choices": [
+        {
+          "choice_id": "RECORD",
+          "label_key": "FIELD_SURVEY",
+          "intel_id": "INTEL_CH06_ENTRY",
+          "effects": {
+            "reveal_radius": 3
+          }
+        },
+        {
+          "choice_id": "RECOVER",
+          "label_key": "FIELD_SUPPLY",
+          "rewards": {
+            "TRAINING_NOTE_S": 2
+          },
+          "effects": {}
+        }
+      ]
+    },
+    {
+      "event_id": "FIELD_CH06_EVIDENCE",
+      "type": "CHOICE",
+      "q": 79,
+      "r": -12,
+      "existing_path_only": true,
+      "discover_radius": 2,
+      "required_stage_id": "CH06-N04",
+      "title_key": "FIELD_CH06_EVIDENCE_TITLE",
+      "body_key": "FIELD_CH06_EVIDENCE_BODY",
+      "choices": [
+        {
+          "choice_id": "RECORD",
+          "label_key": "FIELD_ARCHIVE",
+          "intel_id": "INTEL_CH06_EVIDENCE",
+          "effects": {
+            "hint_treasure_id": "CH06_FIELD_CACHE"
+          }
+        },
+        {
+          "choice_id": "RECOVER",
+          "label_key": "FIELD_SALVAGE",
+          "rewards": {
+            "SKILL_BOOK_T2": 1
+          },
+          "effects": {}
+        }
+      ]
+    }
+  ],
   "event_encounters": [
     {
       "event_encounter_id": "EVENT_CH06_N13",
@@ -568,6 +627,20 @@
       "marker_asset_id": "map_marker_elite_r7",
       "repeatable": true,
       "fast_travel_allowed": true
+    }
+  ],
+  "treasures": [
+    {
+      "treasure_id": "CH06_FIELD_CACHE",
+      "q": 159,
+      "r": -20,
+      "existing_path_only": true,
+      "visibility": "HIDDEN",
+      "landmark_key": "FIELD_CACHE",
+      "rewards": {
+        "TRAINING_NOTE_M": 1,
+        "CREDIT": 400
+      }
     }
   ]
 }

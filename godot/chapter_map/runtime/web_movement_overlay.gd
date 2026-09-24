@@ -4,9 +4,9 @@ var cell_polygons: Array[PackedVector2Array] = []
 var grid_segments := PackedVector2Array()
 var boundary_segments := PackedVector2Array()
 
-const FILL_COLOR := Color("f6b93f68")
-const GRID_COLOR := Color("ffd36ba8")
-const BOUNDARY_COLOR := Color("fff0a6f5")
+const FILL_COLOR := Color("edcb772b")
+const GRID_COLOR := Color("e8d19a70")
+const BOUNDARY_COLOR := Color("ffe4a3d9")
 
 func set_geometry(cells: Array[PackedVector2Array], grid: PackedVector2Array, boundary: PackedVector2Array) -> void:
 	cell_polygons = cells

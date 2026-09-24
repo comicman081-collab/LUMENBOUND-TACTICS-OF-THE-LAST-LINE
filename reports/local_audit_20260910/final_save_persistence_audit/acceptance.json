@@ -1,0 +1,41 @@
+{
+  "checks": [
+    {
+      "pass": true,
+      "name": "failed persistence retains one applied upgrade in memory"
+    },
+    {
+      "pass": true,
+      "name": "storage failure does not claim save completion"
+    },
+    {
+      "pass": true,
+      "name": "unconfirmed save blocks another material charge"
+    },
+    {
+      "pass": true,
+      "name": "explicit retry confirms persistence"
+    },
+    {
+      "pass": true,
+      "name": "save retry never charges or upgrades twice"
+    },
+    {
+      "pass": true,
+      "name": "immediate reload restores confirmed skill state"
+    },
+    {
+      "pass": true,
+      "name": "immediate reload restores exact paid inventory"
+    },
+    {
+      "pass": true,
+      "name": "fault injection stays in the isolated QA save"
+    },
+    {
+      "pass": true,
+      "name": "no unhandled browser exceptions"
+    }
+  ],
+  "scope": "Actual browser storage failure, UI retry, and immediate reload in a new isolated profile."
+}

@@ -2,14 +2,14 @@
   "schema_version": 1,
   "asset_id": "runtime_web_combat_enm037",
   "character_id": "ENM037",
-  "display_name": "ENM037",
-  "status": "ORIGINAL_INTERNAL_PROCEDURAL_CANDIDATE",
-  "source_status": "COSTUME_CONTRACT_PENDING_GPT_REVIEW",
-  "source_root": "data_source/art_source/expansion_static_sources/enm037_authority.png",
-  "source_asset_id": "enm037_silhouette_a_1aaa2b1b88001560_sc112",
-  "creation_method": "deterministic_unique_sd_authority_candidate",
+  "display_name": "ENEMY_MOON_SKIRMISHER",
+  "status": "LOCAL_REVIEWED_SD_MONSTER",
+  "source_status": "ILLUSTRATED_MONSTER_VISUAL_PASS",
+  "source_root": "data_source/art_source/enemy_replacements_20260911/ENM037/source.png",
+  "source_asset_id": "enm037_illustrated_0160f8cf30df74ac",
+  "creation_method": "Codex_GPT_imagegen_via_Sprite_Gen_2.1.0_plus_canonical_green_cutout_and_existing_presentation_motion",
   "ownership_status": "ORIGINAL_INTERNAL",
-  "license": "USER_AUTHORIZED_INTERNAL_GENERATION",
+  "license": "USER_AUTHORIZED_ORIGINAL_GPT_GENERATION",
   "frame_size": [
     112,
     112
@@ -26,7 +26,7 @@
   "facing_policy": "MIRROR_SAFE",
   "atlas_path": "atlas.png",
   "preview_path": "preview.png",
-  "preview_sha256": "3586871cc3ce1a40a8ec85c9395dc67720e47e3e5066412493bf50f156d32484",
+  "preview_sha256": "762fba79d66cf52f0ac34b9d6cc9fadfa4a72769b2e070a847396a2cdedc8e28",
   "atlas_columns": 10,
   "total_frames": 84,
   "animations": {
@@ -183,5 +183,5 @@
       "damage_frame": 10
     }
   },
-  "sha256": "64b0d231b837cfe03ca14d627d1ac7f264a54574ce7ecf16116d66e7ceb974d9"
+  "sha256": "a7f25528c486e8d5c93286eba3692e86d41b54322f7a24f03d272282ead1003f"
 }

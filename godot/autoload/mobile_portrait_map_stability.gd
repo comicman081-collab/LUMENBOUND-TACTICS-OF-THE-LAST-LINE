@@ -15,6 +15,7 @@ var _refresh_left := 0.0
 var _map_mode := false
 var _last_map_instance_id := 0
 var _last_runtime_size := Vector2.ZERO
+var _last_layout_signature := ""
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -44,7 +45,8 @@ func _process(delta: float) -> void:
 		return
 	var runtime_size := runtime_value as Vector2
 	var screen := str(_shell.get("current_screen"))
-	var wants_map_lock := runtime_size.y > runtime_size.x and screen in ["STAGE_SELECT", "STAGE_DETAIL"]
+	var portrait := runtime_size.y > runtime_size.x
+	var wants_map_lock := (portrait or runtime_size.x <= 980.0) and screen in ["STAGE_SELECT", "STAGE_DETAIL"]
 	if not wants_map_lock:
 		_release_map_mode()
 		return
@@ -56,20 +58,34 @@ func _process(delta: float) -> void:
 	var instance_id := map_screen.get_instance_id()
 	var size_changed := absf(runtime_size.x - _last_runtime_size.x) > SIZE_EPSILON or absf(runtime_size.y - _last_runtime_size.y) > SIZE_EPSILON
 	var new_map := not _map_mode or instance_id != _last_map_instance_id
+	var layout_signature := str(map_screen.get("responsive_layout_signature"))
 
 	# Stop V2's 10 Hz full-map probe while this screen is active. The stability
 	# layer applies that same full layout once on entry/real viewport change, then
 	# only locks the two top overlay controls after ChapterMapScreen each frame.
 	if _portrait_hotfix.is_processing():
 		_portrait_hotfix.set_process(false)
-	if new_map or size_changed:
-		_portrait_hotfix.call("_fix_map", runtime_size)
+	if new_map or size_changed or layout_signature != _last_layout_signature:
+		# Landscape boot never runs V2._apply's portrait-only shell discovery.
+		# Bind the already verified shell before taking over V2 on rotation.
+		_portrait_hotfix.set("_shell", _shell)
+		if portrait:
+			_portrait_hotfix.call("_fix_map", runtime_size)
+		else:
+			_portrait_hotfix.call("_safe_margin", runtime_size, 8.0)
+			var content_value = _shell.get("content")
+			if content_value is VBoxContainer:
+				_portrait_hotfix.call("_fix_map_shell_header", content_value, map_screen, runtime_size)
 		_last_map_instance_id = instance_id
 		_last_runtime_size = runtime_size
+		_last_layout_signature = layout_signature
 		if new_map:
 			print("LUMENBOUND_MOBILE_MAP_STABILITY_LOCKED size=%sx%s" % [roundi(runtime_size.x), roundi(runtime_size.y)])
 
-	_portrait_hotfix.call("_fix_map_overlay", map_screen, runtime_size)
+	if portrait:
+		_portrait_hotfix.call("_fix_map_overlay", map_screen, runtime_size)
+	else:
+		_portrait_hotfix.call("_fix_map_landscape_overlay", map_screen, runtime_size)
 	_map_mode = true
 
 func _refresh_refs() -> void:
@@ -96,6 +112,7 @@ func _release_map_mode() -> void:
 	_map_mode = false
 	_last_map_instance_id = 0
 	_last_runtime_size = Vector2.ZERO
+	_last_layout_signature = ""
 	_release_v2_process()
 
 func _release_v2_process() -> void:

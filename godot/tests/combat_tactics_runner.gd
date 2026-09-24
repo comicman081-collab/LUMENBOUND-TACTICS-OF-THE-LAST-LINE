@@ -24,6 +24,7 @@ func _ready() -> void:
 	_test_level_scaled_buffs()
 	_test_boss_windup()
 	_test_same_tick_victory()
+	_test_enemy_role_skills()
 	_test_determinism()
 	print("COMBAT_TACTICS total=%d pass=%d fail=%d" % [passed + failed, passed, failed])
 	get_tree().quit(0 if failed == 0 else 1)
@@ -200,6 +201,53 @@ func _test_same_tick_victory() -> void:
 		enemy.alive = false
 	sim._check_flow()
 	check(sim.state.ended and sim.state.victory and str(sim.state.reason) == "ALL_WAVES_CLEARED", "FLOW_01 a final kill on the timeout tick is a victory")
+
+const ROLE_STAGE := "CH02-N10"
+
+func _role_unit(sim: BattleSimulation, role: String) -> Dictionary:
+	var unit: Dictionary = sim.state.enemies[0]
+	unit.role = role
+	unit.rank = "NORMAL"
+	return unit
+
+func _test_enemy_role_skills() -> void:
+	# Role skills start in chapter 2; chapter 1 keeps the introductory behaviour.
+	check(_simulation("CH01-N06").enemy_role_potency() == 0.0 and _simulation(ROLE_STAGE).enemy_role_potency() > 0.0, "ROLE_00 enemy role skills begin after the chapter 1 introduction")
+	var sim := _simulation(ROLE_STAGE)
+	var healer := _role_unit(sim, "HEALER")
+	var patient: Dictionary = sim.state.enemies[1]
+	patient.hp = int(patient.max_hp * .4)
+	var before_hp := int(patient.hp)
+	check(sim._use_enemy_role_skill(healer) and int(patient.hp) > before_hp, "ROLE_01 an enemy healer mends its most wounded ally")
+	patient.hp = patient.max_hp
+	healer.hp = healer.max_hp
+	check(not sim._use_enemy_role_skill(healer) and float(healer.normal_cd) < 2.0, "ROLE_02 a healer with nobody hurt holds its skill and retries soon")
+	sim = _simulation(ROLE_STAGE)
+	var defender := _role_unit(sim, "DEFENDER")
+	check(sim._use_enemy_role_skill(defender) and int(defender.shield) > 0, "ROLE_03 an enemy defender raises a barrier")
+	sim = _simulation(ROLE_STAGE)
+	var buffer := _role_unit(sim, "BUFFER")
+	sim._use_enemy_role_skill(buffer)
+	check(UnitState.has_status(sim.state.enemies[1], "HASTE"), "ROLE_04 an enemy buffer hastes its allies")
+	sim = _simulation(ROLE_STAGE)
+	var debuffer := _role_unit(sim, "DEBUFFER")
+	sim._use_enemy_role_skill(debuffer)
+	var weakened := false
+	for unit in sim.state.party:
+		if UnitState.has_status(unit, "ATK_DOWN"): weakened = true
+	check(weakened, "ROLE_05 an enemy debuffer weakens the ally it targets")
+	sim = _simulation(ROLE_STAGE)
+	var area := _role_unit(sim, "AREA")
+	var log_size := sim.event_log.size()
+	sim._use_enemy_role_skill(area)
+	var hit := {}
+	for event in sim.event_log.slice(log_size):
+		if str(event.type) == BattleEvent.DAMAGE and str(event.source) == str(area.uid): hit[str(event.target)] = true
+	check(hit.size() == sim.state.party.size(), "ROLE_06 an area enemy strikes the whole party")
+	var skill_event := false
+	for event in sim.event_log.slice(log_size):
+		if str(event.type) == BattleEvent.NORMAL_SKILL and not str(event.extra.get("label", "")).is_empty(): skill_event = true
+	check(skill_event, "ROLE_07 role skills emit a named skill event for the battle view")
 
 func _test_determinism() -> void:
 	var left := _simulation("CH01-N20", 20260924)

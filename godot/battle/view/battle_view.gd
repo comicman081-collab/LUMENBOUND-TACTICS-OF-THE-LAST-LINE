@@ -34,6 +34,7 @@ var defeat_hold_left := 0.0
 var active_presentation_batch: Dictionary = {}
 var presentation_director = BattlePresentationDirectorScript.new()
 var floating_texts: Array = []
+var floating_serial := 0
 var projectiles: Array = []
 var free_floating_texts: Array = []
 var free_projectiles: Array = []
@@ -210,6 +211,10 @@ var engagement_targets: Dictionary = {}
 var opening_elapsed := 0.0
 var combat_readout := ""
 var combat_readout_left := 0.0
+const WAVE_BANNER_DURATION := 1.7
+var wave_banner_left := 0.0
+var wave_banner_title := ""
+var wave_banner_subtitle := ""
 var contact_commits := 0
 
 func _ready() -> void:
@@ -1086,6 +1091,7 @@ func _process(delta: float) -> void:
 		_advance_engagement(actor_delta)
 		_advance_contacts(actor_delta)
 		combat_readout_left = maxf(0.0, combat_readout_left - presentation_delta)
+		wave_banner_left = maxf(0.0, wave_banner_left - presentation_delta)
 		_consume_events()
 	for text in floating_texts:
 		text.age = float(text.age) + presentation_delta
@@ -1305,6 +1311,13 @@ func _present_regular_event(event: Dictionary) -> void:
 		var phase_id := str(event.extra.get("phase", ""))
 		if BOSS_PHASE_PRESENTATION.has(phase_id):
 			_spawn_boss_phase_presentation(str(event.source), phase_id)
+	elif event.type == BattleEvent.WAVE:
+		# The boss wave owns its own descent cinematic; other waves get a banner.
+		if not simulation.has_boss():
+			var wave_number := int(event.value)
+			wave_banner_title = "작전 개시" if wave_number <= 1 else "WAVE %d" % wave_number
+			wave_banner_subtitle = "WAVE %d / %d" % [wave_number, simulation.state.wave_count] if wave_number <= 1 else "남은 웨이브 %d" % maxi(0, simulation.state.wave_count - wave_number)
+			wave_banner_left = WAVE_BANNER_DURATION
 	elif event.type == BattleEvent.BATTLE_END and int(event.value) == 1:
 		for unit in simulation.state.party:
 			if UnitState.alive(unit): _play_animation(str(unit.uid), "victory")
@@ -1723,11 +1736,15 @@ func _spawn_floating_text(data: Dictionary) -> void:
 	item.merge(data)
 	item["duration"] = 1.35 if bool(item.get("crit",false)) else 1.15
 	item["stack"] = 0.0
+	# Scatter successive numbers sideways so rapid hits form a readable cluster
+	# instead of one tall column climbing into the backdrop.
+	floating_serial += 1
+	item["jitter"] = float((floating_serial * 5) % 7 - 3) * 22.0 / _damage_screen_scale()
 	var target := _actor_model(str(item.get("target","")))
 	item["anchor"] = _damage_head_anchor(target) if not target.is_empty() else size * .5
 	for previous in floating_texts:
 		if previous.target == item.target and float(previous.age) < .65:
-			previous.stack = float(previous.get("stack",0.0)) + 27.0 / _damage_screen_scale()
+			previous.stack = float(previous.get("stack",0.0)) + 15.0 / _damage_screen_scale()
 	if floating_texts.size() >= MAX_ACTIVE_FLOATING_TEXTS:
 		free_floating_texts.append(floating_texts.pop_front())
 	floating_texts.append(item)
@@ -2191,6 +2208,7 @@ func _draw() -> void:
 	_draw_boss_telegraph_warnings()
 	for text in floating_texts:
 		_draw_damage_number(text)
+	_draw_wave_banner()
 	_draw_ultimate_cutin()
 	_draw_boss_scene()
 
@@ -2198,16 +2216,18 @@ func damage_number_layout(text: Dictionary) -> Dictionary:
 	var screen_scale := _damage_screen_scale()
 	var css_size := clampf(size.x * screen_scale * .023,21.0,34.0)
 	var critical := bool(text.get("crit",false))
-	var font_size := roundi(css_size * (1.38 if critical else 1.0) / screen_scale)
+	# Misses are secondary information: smaller, so they never mask real damage.
+	var miss := str(text.get("text","")) == "MISS"
+	var font_size := roundi(css_size * (1.38 if critical else (.72 if miss else 1.0)) / screen_scale)
 	var age := float(text.get("age",0.0))
-	var pop := 1.0 + (0.30 if critical else .10) * pow(1.0-clampf(age/.20,0.0,1.0),2.0)
+	var pop := 1.0 + (0.55 if critical else .16) * pow(1.0-clampf(age/.22,0.0,1.0),2.0)
 	var anchor: Vector2 = text.get("anchor",size*.5)
 	var target := _actor_model(str(text.get("target",""))) if simulation != null else {}
 	if not target.is_empty() and UnitState.alive(target): anchor = _damage_head_anchor(target)
 	var width := DAMAGE_FONT.get_string_size(str(text.text),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x
 	var ascent := DAMAGE_FONT.get_ascent(font_size)
 	var descent := DAMAGE_FONT.get_descent(font_size)
-	var position := anchor + Vector2(0,-(12.0+age*34.0)/screen_scale-float(text.get("stack",0.0)))
+	var position := anchor + Vector2(float(text.get("jitter",0.0)),-(12.0+age*34.0)/screen_scale-float(text.get("stack",0.0)))
 	position.x = clampf(position.x,width*pop*.5+8.0/screen_scale,size.x-width*pop*.5-8.0/screen_scale)
 	position.y = maxf(position.y,(50.0/screen_scale)+ascent*pop)
 	var duration := float(text.get("duration",1.15))
@@ -2218,7 +2238,18 @@ func _draw_damage_number(text: Dictionary) -> void:
 	var metrics := damage_number_layout(text)
 	var position: Vector2 = metrics.position
 	var ink: Color = text.color
-	ink.a = float(metrics.alpha)
+	if bool(metrics.crit):
+		# Critical hits read as gold with a small CRITICAL tag above the number.
+		ink = Color("ffd24a")
+	elif str(text.get("text","")) == "MISS":
+		ink = Color(.78, .82, .88)
+	ink.a = float(metrics.alpha) * (.8 if str(text.get("text","")) == "MISS" else 1.0)
+	if bool(metrics.crit):
+		var tag_size := maxi(10, roundi(float(metrics.font_size) * .42))
+		var tag_width := DAMAGE_FONT.get_string_size("CRITICAL", HORIZONTAL_ALIGNMENT_LEFT, -1, tag_size).x
+		var tag_base := position + Vector2(-tag_width * .5, -float(metrics.ascent) * float(metrics.pop) - 4.0 / float(metrics.screen_scale))
+		draw_string_outline(DAMAGE_FONT, tag_base, "CRITICAL", HORIZONTAL_ALIGNMENT_LEFT, -1, tag_size, maxi(2, roundi(2.0 / float(metrics.screen_scale))), Color(.25, .08, 0.0, ink.a))
+		draw_string(DAMAGE_FONT, tag_base, "CRITICAL", HORIZONTAL_ALIGNMENT_LEFT, -1, tag_size, Color(1.0, .62, .25, ink.a))
 	var baseline := Vector2(-float(metrics.width)*.5,-float(metrics.descent))
 	draw_set_transform(position,0.0,Vector2.ONE*float(metrics.pop))
 	var font_size := int(metrics.font_size)
@@ -2593,11 +2624,16 @@ func _draw_contact_shadow(unit: Dictionary) -> void:
 	_draw_ellipse_polygon(p, Vector2(65 * width, 9) * zoom, Color(0, 0, 0, .25))
 	_draw_ellipse_polygon(p + Vector2(float(pose.get("contact_x", 0)), 0), Vector2(21, 4) * zoom, Color(0, 0, 0, .46))
 	if UnitState.alive(unit):
+		# Team-coloured footing: a soft glow pool plus a breathing ring, so allies
+		# (cyan) and enemies (red) separate at a glance even in busy effects.
+		var team_color := Color(.27, .88, .84) if str(unit.team) == "PLAYER" else Color(1, .30, .22)
+		var pulse := .5 + .5 * sin(float(Time.get_ticks_msec()) / 1000.0 * TAU * .6 + float(absi(hash(str(unit.uid))) % 100))
+		_draw_ellipse_polygon(p, Vector2(52 * width, 12) * zoom, Color(team_color.r, team_color.g, team_color.b, .10 + .06 * pulse))
 		var ring := PackedVector2Array()
 		for index in range(33):
 			var angle := float(index) / 32.0 * TAU
 			ring.append(p + Vector2(cos(angle) * 45 * width, sin(angle) * 10) * zoom)
-		draw_polyline(ring, Color(.27, .88, .84, .68) if str(unit.team) == "PLAYER" else Color(1, .30, .22, .68), 2.2 * zoom, true)
+		draw_polyline(ring, Color(team_color.r, team_color.g, team_color.b, .58 + .3 * pulse), (2.2 + .8 * pulse) * zoom, true)
 
 func _draw_weapon_action(unit: Dictionary, ground_layer: bool) -> void:
 	if not UnitState.alive(unit): return
@@ -2648,6 +2684,33 @@ func _draw_unit(unit: Dictionary) -> void:
 		draw_circle(p + Vector2(-49, -57), 5, Color("ff7a70"))
 	else:
 		_draw_nonhuman_enemy(p, color, str(unit.role), alive)
+
+## Full-width wave banner: a gilt band sweeps open, the title punches in, then
+## both fade. Timed in presentation seconds, so pause and speed are respected.
+func _draw_wave_banner() -> void:
+	if wave_banner_left <= 0.0 or wave_banner_title.is_empty(): return
+	var elapsed := WAVE_BANNER_DURATION - wave_banner_left
+	var open := smoothstep(0.0, .28, elapsed)
+	var fade := 1.0 - smoothstep(WAVE_BANNER_DURATION - .45, WAVE_BANNER_DURATION, elapsed)
+	var readout := _readout_scale()
+	var center_y := size.y * .36
+	var band_height := 118.0 * readout
+	var band_width := size.x * open
+	var band := Rect2(Vector2((size.x - band_width) * .5, center_y - band_height * .5), Vector2(band_width, band_height))
+	draw_rect(band, Color(.02, .04, .09, .78 * fade))
+	var gold := Color(.95, .80, .45, .95 * fade)
+	draw_rect(Rect2(band.position, Vector2(band.size.x, 3.0 * readout)), gold)
+	draw_rect(Rect2(band.position + Vector2(0, band.size.y - 3.0 * readout), Vector2(band.size.x, 3.0 * readout)), gold)
+	var font := battle_font if battle_font != null else ThemeDB.fallback_font
+	var punch := 1.0 + .35 * (1.0 - smoothstep(.12, .40, elapsed))
+	var title_size := roundi(58.0 * readout * punch)
+	var title_width := font.get_string_size(wave_banner_title, HORIZONTAL_ALIGNMENT_LEFT, -1, title_size).x
+	var title_base := Vector2(size.x * .5 - title_width * .5, center_y + title_size * .18)
+	draw_string_outline(font, title_base, wave_banner_title, HORIZONTAL_ALIGNMENT_LEFT, -1, title_size, roundi(8.0 * readout), Color(.12, .06, .01, fade))
+	draw_string(font, title_base, wave_banner_title, HORIZONTAL_ALIGNMENT_LEFT, -1, title_size, Color(1.0, .95, .80, fade))
+	var sub_size := roundi(20.0 * readout)
+	var sub_width := font.get_string_size(wave_banner_subtitle, HORIZONTAL_ALIGNMENT_LEFT, -1, sub_size).x
+	draw_string(font, Vector2(size.x * .5 - sub_width * .5, center_y + band_height * .40), wave_banner_subtitle, HORIZONTAL_ALIGNMENT_LEFT, -1, sub_size, Color(.72, .92, 1.0, .9 * fade))
 
 func _readout_scale() -> float:
 	return clampf(.62 / _damage_screen_scale(), 1.0, 2.6)
@@ -2867,11 +2930,32 @@ func _draw_combat_sprite(unit: Dictionary, p: Vector2, alive: bool) -> bool:
 		draw_texture_rect(texture, destination_rect, false, ghost_tint)
 	# Transform around the planted foot. It makes existing authored key poses
 	# read as anticipation → lunge → recoil instead of a static atlas flip; the
-	# model and event log remain untouched.
-	draw_set_transform(p + motion_offset, float(motion.get("rotation", 0.0)), motion_scale)
+	# model and event log remain untouched. The live layer adds breathing and a
+	# foot-pinned sway on top (Live2D-style idle), so no unit stands frozen.
+	var live := _live_motion(unit, animation_name)
+	draw_set_transform_matrix(Transform2D(float(motion.get("rotation", 0.0)), motion_scale * (live.scale as Vector2), float(live.skew), p + motion_offset + (live.offset as Vector2)))
 	draw_texture_rect(texture, destination_rect, false, modulate)
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 	return true
+
+## Presentation-only idle life for every combat sprite. Breathing stretches the
+## body upward from the feet, a skew sways the upper body while the feet stay
+## planted, and bosses hover with a slower, heavier rhythm. Each unit has its
+## own phase; the layer fades to a third during authored action poses.
+func _live_motion(unit: Dictionary, animation_name: String) -> Dictionary:
+	var t := float(Time.get_ticks_msec()) / 1000.0
+	var phase := float(absi(hash(str(unit.get("uid", "")))) % 1000) / 1000.0 * TAU
+	var boss := str(unit.get("rank", "")) == "BOSS"
+	var facing := 1.0 if str(unit.get("team", "")) == "PLAYER" else -1.0
+	var weight := 1.0 if animation_name in ["idle", "move", "victory"] else .35
+	var breath := sin(t * TAU * (.34 if boss else .52) + phase)
+	var sway := sin(t * TAU * (.19 if boss else .31) + phase * 1.7)
+	var hover := sin(t * TAU * .42 + phase) * -7.0 * _battlefield_camera_zoom() if boss else 0.0
+	return {
+		"scale": Vector2(1.0 - breath * .007 * weight, 1.0 + breath * (.022 if boss else .017) * weight),
+		"skew": sway * (.020 if boss else .034) * weight * facing,
+		"offset": Vector2(0.0, hover),
+	}
 
 static func combat_motion_snapshot(team: String, animation_name: String, elapsed: float, duration: float, role := "") -> Dictionary:
 	## The source packs preserve the silhouette; this local pose layer supplies
@@ -3252,6 +3336,8 @@ func _advance_contacts(delta: float) -> void:
 		contact_commits += 1
 
 func _action_label(event: Dictionary) -> String:
+	var authored_label := str(event.get("extra", {}).get("label", ""))
+	if not authored_label.is_empty(): return authored_label
 	var skill_id := str(event.get("extra", {}).get("skill_id", ""))
 	for skill in simulation.data.get("skills", []):
 		if str(skill.get("id", "")) == skill_id:

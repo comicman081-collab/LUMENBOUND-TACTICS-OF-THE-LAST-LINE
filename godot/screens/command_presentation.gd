@@ -2,6 +2,7 @@ extends RefCounted
 
 const GameUI := preload("res://ui/game_ui_tokens.gd")
 const GrowthAdvisorScript := preload("res://progression/growth_advisor.gd")
+const CinematicFx := preload("res://ui/cinematic_fx.gd")
 const ResultPresentation := preload("res://screens/result_presentation.gd")
 
 const INK := Color("081421")
@@ -75,41 +76,66 @@ static func scene_surface(s, name_value: String) -> Control:
 	s.content.add_child(stage)
 	return stage
 
+## Layered title stage: drifting cathedral, light shafts behind the heroine,
+## a breathing (Live2D-style) full-body cast, rising lantern motes and low fog.
 static func title_backdrop(s, parent: Node) -> void:
-	var bg := TextureRect.new()
-	bg.texture = load("res://assets/art/backgrounds/BG_BOSS_SIGNAL_CATHEDRAL/bg_boss_signal_cathedral_1920x1080.png")
-	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	parent.add_child(bg)
-	shade(parent, Color("050d18e8"), Color("0c24383a"))
-	art(s, parent, "CHR001", Rect2(.43, -.015, .56, 1.10))
+	CinematicFx.drift_background(parent, load("res://assets/art/backgrounds/BG_BOSS_SIGNAL_CATHEDRAL/bg_boss_signal_cathedral_1920x1080.png"), {"zoom_base": 1.08, "tint": Color("b8d4ff"), "tint_strength": 0.12, "vignette": 0.32, "brightness": 1.3})
+	# Keep the left side dark enough for the logo, but let the set read on the right.
+	shade(parent, Color("050d18d0"), Color("0c243800"))
+	CinematicFx.light_rays(parent, {"origin": Vector2(0.70, -0.10), "ray_color": Color("ffd98a"), "intensity": 0.5})
+	var hero := art(s, parent, "CHR001", Rect2(.43, -.015, .56, 1.10))
+	CinematicFx.live_portrait(hero, "TITLE_CHR001", {"breath_amount": 0.010, "sway_amount": 0.006, "rim_color": Color("ffe3a0"), "rim_strength": 0.55})
+	CinematicFx.fog(parent, {"fog_color": Color("7fa3c4"), "intensity": 0.30, "top": 0.62})
+	CinematicFx.motes(parent, {"intensity": 0.85})
 	shade(parent, Color("030a1600"), Color("030a1699"), false)
 
 static func title(s) -> void:
-	AudioService.stop_bgm()
+	# The title follows the intro (a trusted gesture already happened), so the
+	# title theme can play instead of leaving the key art in silence.
+	AudioService.play_bgm("audio_bgm_title_en")
 	var stage := scene_surface(s, "TitleHeroStage")
 	title_backdrop(s, stage)
-	var identity = area(stage, Rect2(.055, .30, .45, .47))
+	var identity = area(stage, Rect2(.055, .24, .45, .56))
 	var column := VBoxContainer.new()
 	column.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	column.add_theme_constant_override("separation", 18)
+	column.add_theme_constant_override("separation", 14)
 	identity.add_child(column)
-	column.add_child(label(s, "L A N T E R N L I N E   /   01", 20, GOLD))
-	column.add_child(label(s, "LUMEN\nBOUND", 106, Color("effaf7")))
-	column.add_child(label(s, "꺼진 노선 위에서, 다시 빛을 잇다.", 25, Color("bfd0d9")))
-	var start = button(s, "기록 이어가기  ›" if not AppState.profile.get("stage_stars", {}).is_empty() else "기록 시작  ›", s._start_title_flow, false, Vector2(390, 72))
+	var eyebrow_row := HBoxContainer.new()
+	eyebrow_row.add_theme_constant_override("separation", 14)
+	column.add_child(eyebrow_row)
+	var rule := ColorRect.new()
+	rule.color = GOLD
+	rule.custom_minimum_size = Vector2(64, 2)
+	rule.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	eyebrow_row.add_child(rule)
+	var eyebrow := label(s, "L A N T E R N L I N E   ·   C H A P T E R   0 1", 19, GOLD)
+	eyebrow.autowrap_mode = TextServer.AUTOWRAP_OFF
+	eyebrow_row.add_child(eyebrow)
+	var logo := label(s, "LUMEN\nBOUND", 128, Color("fff6dd"))
+	logo.name = "TitleLogo"
+	CinematicFx.heroic_text(logo, Color("2a1606"), Color("000000c0"))
+	CinematicFx.shine(logo, {"shine_color": Color("fff2c4")})
+	column.add_child(logo)
+	var tagline := label(s, "꺼진 노선 위에서, 다시 빛을 잇다.", 27, Color("e3eef4"))
+	CinematicFx.heroic_text(tagline, Color("06121c"), Color("000000a0"))
+	tagline.add_theme_constant_override("outline_size", 6)
+	column.add_child(tagline)
+	var spacer := Control.new()
+	spacer.custom_minimum_size = Vector2(0, 10)
+	column.add_child(spacer)
+	var start = button(s, "기록 이어가기  ›" if not AppState.profile.get("stage_stars", {}).is_empty() else "기록 시작  ›", s._start_title_flow, false, Vector2(410, 78))
 	start.name = "TitleStartButton"
-	GameUI.apply_button(start, "primary")
+	GameUI.apply_button(start, "objective")
 	start.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	var starts := HBoxContainer.new()
-	starts.add_theme_constant_override("separation",16)
+	starts.add_theme_constant_override("separation",18)
 	column.add_child(starts)
 	starts.add_child(start)
-	var fresh := button(s,"새 게임",s._request_new_game,false,Vector2(230,72))
+	CinematicFx.pulse_glow(start, Color("ffd27a"), 22)
+	var fresh := button(s,"새 게임",s._request_new_game,false,Vector2(230,78))
 	fresh.name = "TitleNewGameButton"
 	starts.add_child(fresh)
+	CinematicFx.entrance(identity, 0.15, Vector2(-36, 0), 0.9)
 	var utility = area(stage, Rect2(.055, .89, .40, .065))
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 16)
@@ -215,7 +241,7 @@ static func character_card(s, cid: String, badge: String, callback: Callable, se
 	card.name = "CharacterCard_" + cid
 	card.clip_contents = true
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	if selected: GameUI.apply_button(card, "primary")
+	if selected: GameUI.apply_button(card, "selected")
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for side in ["left","top","right","bottom"]: margin.add_theme_constant_override("margin_" + side,12)
@@ -310,7 +336,9 @@ static func growth(s) -> void:
 	s._title("파티 성장", "크레딧 %s  ·  목표 %s 권장 Lv.%d" % [MathUtil.comma(AppState.inventory_count("CREDIT")), LocalizationService.tr_key(str(target_stage.get("name_key", advice.stage_id))), int(advice.recommended_level)])
 	var stage := scene_surface(s, "CharacterPresentation")
 	shade(stage, Color("153d50"), Color("06101e"))
-	art(s, stage, cid, Rect2(.03,.025,.51,.97))
+	CinematicFx.light_rays(stage, {"origin": Vector2(0.28, -0.1), "ray_color": Color("bfe8ff"), "intensity": 0.22})
+	CinematicFx.live_portrait(art(s, stage, cid, Rect2(.03,.025,.51,.97)), "GROWTH_" + cid, {"rim_strength": 0.5})
+	CinematicFx.motes(stage, {"intensity": 0.45, "density": 0.6})
 	var identity = area(stage, Rect2(.025,.035,.28,.20))
 	var identity_col := VBoxContainer.new()
 	identity_col.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

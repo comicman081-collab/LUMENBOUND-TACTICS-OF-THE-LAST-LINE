@@ -70,8 +70,13 @@ func set_charge(tactical_gauge: float, maximum_gauge: float, ready: bool) -> voi
 	is_ready = ready
 	if ready_badge != null:
 		ready_badge.visible = is_ready
+		# The badge bobs gently so a ready ultimate catches the eye.
+		ready_badge.position.y = ready_backdrop.position.y + sin(Time.get_ticks_msec() * .006) * 2.5 if is_ready and ready_backdrop != null else ready_badge.position.y
 	if ready_backdrop != null:
 		ready_backdrop.visible = is_ready
+	if portrait_material != null:
+		portrait_material.set_shader_parameter("saturation", 1.0 if is_ready else .15 + .45 * charge_ratio)
+		portrait_material.set_shader_parameter("brightness", 1.08 if is_ready else .55 + .3 * charge_ratio)
 	queue_redraw()
 
 
@@ -177,8 +182,26 @@ func _draw() -> void:
 	if charge_ratio > 0.002:
 		draw_arc(center, ring_radius, -PI * .5, -PI * .5 + TAU * charge_ratio, 64, charge_color, ring_width, true)
 	if is_ready:
-		var pulse := .72 + .28 * (sin(Time.get_ticks_msec() * .008) * .5 + .5)
-		draw_arc(center, outer_radius + ring_width * .18, -PI * .5, TAU - PI * .5, 64, Color(accent.r, accent.g, accent.b, .64 * pulse * alpha_scale), maxf(1.5, ring_width * .24), true)
+		var now := Time.get_ticks_msec() * .001
+		var pulse := .72 + .28 * (sin(now * 8.0) * .5 + .5)
+		# Double halo plus a bright spark orbiting the ring.
+		draw_circle(center, outer_radius + ring_width * 1.1, Color(accent.r, accent.g, accent.b, .16 * pulse * alpha_scale))
+		draw_arc(center, outer_radius + ring_width * .18, -PI * .5, TAU - PI * .5, 64, Color(accent.r, accent.g, accent.b, .80 * pulse * alpha_scale), maxf(2.0, ring_width * .34), true)
+		draw_arc(center, outer_radius + ring_width * .75, -PI * .5, TAU - PI * .5, 64, Color(accent.r, accent.g, accent.b, .35 * pulse * alpha_scale), maxf(1.5, ring_width * .20), true)
+		var spark_angle := now * 3.2
+		var spark := center + Vector2(cos(spark_angle), sin(spark_angle)) * ring_radius
+		draw_circle(spark, ring_width * .85, Color(1.0, 1.0, 1.0, .9 * alpha_scale))
+		draw_circle(spark, ring_width * 1.6, Color(accent.r, accent.g, accent.b, .35 * alpha_scale))
+	# Gauge cost chip at the bottom of the disc.
+	var chip_radius := diameter * .13
+	var chip_center := center + Vector2(0.0, outer_radius - chip_radius * .55)
+	draw_circle(chip_center, chip_radius, Color(.02, .05, .10, .95 * alpha_scale))
+	draw_arc(chip_center, chip_radius, 0.0, TAU, 32, Color(accent.r, accent.g, accent.b, .9 * alpha_scale), maxf(1.5, diameter * .012), true)
+	var chip_font := get_theme_default_font()
+	var chip_size := roundi(maxf(11.0, diameter * .15))
+	var chip_text := str(tactical_cost)
+	var chip_width := chip_font.get_string_size(chip_text, HORIZONTAL_ALIGNMENT_LEFT, -1, chip_size).x
+	draw_string(chip_font, chip_center + Vector2(-chip_width * .5, chip_size * .36), chip_text, HORIZONTAL_ALIGNMENT_LEFT, -1, chip_size, Color(1.0, .95, .75, alpha_scale))
 	if is_hovered() and not disabled:
 		draw_circle(center, outer_radius, Color(1.0, 1.0, 1.0, .075), false, maxf(1.5, ring_width * .24), true)
 	if has_focus():

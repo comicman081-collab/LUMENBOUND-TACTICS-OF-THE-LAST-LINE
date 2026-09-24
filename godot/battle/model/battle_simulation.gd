@@ -140,9 +140,73 @@ func _tick_unit(unit: Dictionary) -> void:
 	if float(unit.normal_cd) <= 0 and unit.team == "PLAYER":
 		_use_normal(unit)
 		return
+	if float(unit.normal_cd) <= 0 and unit.team == "ENEMY" and unit.rank != "BOSS" and ENEMY_ROLE_SKILLS.has(str(unit.role)) and enemy_role_potency() > 0.0 and not has_boss():
+		if _use_enemy_role_skill(unit):
+			return
 	if float(unit.attack_cd) <= 0:
 		_basic_attack(unit)
 		unit.attack_cd = float(unit.attack_interval)
+
+# Enemy roles act on their skill timer instead of every enemy only
+# auto-attacking. Values are percentages of the enemy's own stats so they scale
+# with stage level without new data columns.
+const ENEMY_ROLE_SKILLS := {
+	"HEALER": {"cooldown": 9.0, "label": "응급 수복"},
+	"BUFFER": {"cooldown": 11.0, "label": "출력 증폭"},
+	"DEBUFFER": {"cooldown": 8.5, "label": "간섭 신호"},
+	"AREA": {"cooldown": 9.5, "coefficient": .24, "label": "확산 방전"},
+	"ARTILLERY": {"cooldown": 10.5, "coefficient": .28, "label": "포격 지원"},
+	"DEFENDER": {"cooldown": 12.0, "label": "방벽 전개"},
+}
+
+func _use_enemy_role_skill(unit: Dictionary) -> bool:
+	var role := str(unit.role)
+	var spec: Dictionary = ENEMY_ROLE_SKILLS[role]
+	unit.normal_cd = float(spec.cooldown)
+	var skill_id := "ENEMY_ROLE_" + role
+	var potency := enemy_role_potency()
+	match role:
+		"HEALER":
+			var wounded := TargetResolver.lowest_hp(state.enemies)
+			if wounded.is_empty() or UnitState.hp_ratio(wounded) > .8:
+				unit.normal_cd = 1.5
+				return false
+			_emit(BattleEvent.make(state.tick, BattleEvent.NORMAL_SKILL, unit.uid, wounded.uid, 0, {"skill_id": skill_id, "label": spec.label}))
+			var amount := mini(roundi(float(wounded.max_hp) * .10 * potency), int(wounded.max_hp) - int(wounded.hp))
+			wounded.hp = int(wounded.hp) + amount
+			_emit(BattleEvent.make(state.tick, BattleEvent.HEAL, unit.uid, wounded.uid, amount))
+		"BUFFER":
+			_emit(BattleEvent.make(state.tick, BattleEvent.NORMAL_SKILL, unit.uid, "", 0, {"skill_id": skill_id, "label": spec.label}))
+			for ally in state.enemies:
+				if UnitState.alive(ally): _apply_status(ally, "HASTE", 5.0, unit.uid, .15 * potency)
+		"DEBUFFER":
+			var target := TargetResolver.choose(unit, state.party)
+			if target.is_empty(): return false
+			_emit(BattleEvent.make(state.tick, BattleEvent.NORMAL_SKILL, unit.uid, target.uid, 0, {"skill_id": skill_id, "label": spec.label}))
+			_deal_damage(unit, target, .40 * potency, "NORMAL")
+			_apply_status(target, "ATK_DOWN", 3.0 + 3.0 * potency, unit.uid)
+		"AREA", "ARTILLERY":
+			_emit(BattleEvent.make(state.tick, BattleEvent.NORMAL_SKILL, unit.uid, "", 0, {"skill_id": skill_id, "label": spec.label}))
+			for target in state.party:
+				if UnitState.alive(target): _deal_damage(unit, target, float(spec.coefficient) * potency, "NORMAL")
+		"DEFENDER":
+			_emit(BattleEvent.make(state.tick, BattleEvent.NORMAL_SKILL, unit.uid, unit.uid, 0, {"skill_id": skill_id, "label": spec.label}))
+			var barrier := roundi(float(unit.max_hp) * .08 * potency)
+			unit.shields[unit.uid] = barrier
+			_recalculate_shield(unit)
+			_emit(BattleEvent.make(state.tick, BattleEvent.SHIELD, unit.uid, unit.uid, barrier))
+	return true
+
+## Chapter 1 (recommended level 20 or below) is the introduction and keeps the
+## plain enemy behaviour its tuning and fresh-save progression gate assume.
+## From chapter 2, role skills start at 45% strength and reach full at level 40.
+## Boss stages keep their own tuning, and adds hold their role skills whenever a
+## boss is alive, so the boss telegraphs stay the one pattern to read.
+func enemy_role_potency() -> float:
+	var level := float(stage.get("recommended_level", 1))
+	if level <= 20.0 or bool(stage.get("boss", false)):
+		return 0.0
+	return clampf((level - 5.0) / 35.0, .45, 1.0)
 
 func _basic_attack(attacker: Dictionary) -> void:
 	# The normal tick loop already filters downed units, but this method is also

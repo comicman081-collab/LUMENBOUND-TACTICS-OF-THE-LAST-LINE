@@ -72,7 +72,7 @@ static func panel_style(
 
 static func _button_palette(role: String, state: String) -> Dictionary:
 	match role:
-		"primary":
+		"primary", "selected":
 			return {
 				"fill": SIGNAL_SOFT if state == "hover" else (Color("52cdb7") if state == "pressed" else SIGNAL),
 				"border": Color("d5fff7"),
@@ -92,17 +92,39 @@ static func _button_palette(role: String, state: String) -> Dictionary:
 			}
 		_:
 			return {
-				"fill": SURFACE_HOVER if state == "hover" else (SURFACE_PRESSED if state == "pressed" else SURFACE_RAISED),
-				"border": SIGNAL if state in ["hover", "focus"] else BORDER,
+				"fill": SURFACE_HOVER if state == "hover" else (SURFACE_PRESSED if state == "pressed" else Color("1a3248f8")),
+				"border": SIGNAL if state in ["hover", "focus"] else Color("7c9ab4d8"),
 				"text": TEXT,
 			}
 
 static func button_style(role := "secondary", state := "normal", margins := Vector4(18.0, 11.0, 18.0, 11.0)) -> StyleBoxFlat:
 	var palette := _button_palette(role, state)
 	var width := 2 if state == "focus" else 1
+	var call_to_action := role in ["primary", "objective"]
+	if call_to_action:
+		# Slanted, game-style call-to-action plates need a little extra side room.
+		margins += Vector4(10.0, 0.0, 10.0, 0.0)
 	if state == "disabled":
-		return panel_style(Color("0a121c"), Color("2d3b49"), 1, RADIUS_CONTROL, margins, 0)
+		var disabled := panel_style(Color("0a121c"), Color("2d3b49"), 1, RADIUS_CONTROL, margins, 0)
+		if call_to_action: disabled.skew = Vector2(0.18, 0.0)
+		return disabled
 	var style := panel_style(palette.fill, palette.border, width, RADIUS_CONTROL, margins, 0)
+	# A darker drop edge gives every button physical depth; pressing it removes
+	# the edge so the plate visibly sinks.
+	style.border_width_bottom = width + (0 if state == "pressed" else 2)
+	style.shadow_color = Color(0.0, 0.0, 0.0, 0.45)
+	style.shadow_size = 4
+	style.shadow_offset = Vector2(0.0, 3.0 if state != "pressed" else 1.0)
+	if state in ["hover", "focus"] or role == "selected":
+		# Hover / keyboard focus glows in the role's accent colour; a selected
+		# card glows permanently (it keeps its rectangular shape).
+		var glow: Color = palette.fill if call_to_action or role == "selected" else SIGNAL
+		style.shadow_color = Color(glow.r, glow.g, glow.b, 0.55)
+		style.shadow_size = 14
+		style.shadow_offset = Vector2.ZERO
+	if call_to_action:
+		style.skew = Vector2(0.18, 0.0)
+		style.set_corner_radius_all(6)
 	if state == "pressed":
 		style.content_margin_top += 1.0
 		style.content_margin_bottom -= 1.0

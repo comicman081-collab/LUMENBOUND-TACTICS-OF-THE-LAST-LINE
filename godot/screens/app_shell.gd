@@ -12,6 +12,7 @@ const GrowthAffordabilityAnalyzerScript := preload("res://progression/growth_aff
 const GrowthPlanBuilderScript := preload("res://progression/growth_plan_builder.gd")
 const GrowthAdvisorScript := preload("res://progression/growth_advisor.gd")
 const ResultPresentation := preload("res://screens/result_presentation.gd")
+const CinematicFx := preload("res://ui/cinematic_fx.gd")
 const RelayServiceScript := preload("res://relay/relay_service.gd")
 const GameUI := preload("res://ui/game_ui_tokens.gd")
 const CommandPresentation := preload("res://screens/command_presentation.gd")
@@ -442,7 +443,9 @@ func _finish_intro_video() -> void:
 	intro_video_layer = null
 	_show_screen("TITLE")
 
-func _queue_free_if_valid(node: Node) -> void:
+# Untyped on purpose: a skipped intro can free the node before the fade's
+# callback runs, and a typed Node argument rejects the freed instance.
+func _queue_free_if_valid(node) -> void:
 	if is_instance_valid(node):
 		node.queue_free()
 
@@ -2225,14 +2228,24 @@ func _build_standard_story_presentation(portrait: bool, ui_scale: float) -> void
 	story_background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	story_background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	story_background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	story_background.modulate = Color(.48, .58, .68, .55)
+	story_background.modulate = Color(.70, .78, .88, .86)
+	story_background.material = CinematicFx.material(CinematicFx.DRIFT, {"zoom_base": 1.07, "tint": Color("a8c6ff"), "tint_strength": 0.14, "vignette": 0.45, "brightness": 1.2})
 	art_space.add_child(story_background)
+	CinematicFx.motes(art_space, {"intensity": 0.6, "density": 0.7})
 	story_portrait = TextureRect.new()
-	story_portrait.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
-	story_portrait.position = Vector2(-262.0 * ui_scale, -142.0 * ui_scale) if portrait else Vector2(-500, -245)
-	story_portrait.size = Vector2(262.0 * ui_scale, 304.0 * ui_scale) if portrait else Vector2(500, 500)
+	if portrait or compact:
+		story_portrait.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
+		story_portrait.position = Vector2(-262.0 * ui_scale, -142.0 * ui_scale) if portrait else Vector2(-500, -245)
+		story_portrait.size = Vector2(262.0 * ui_scale, 304.0 * ui_scale) if portrait else Vector2(500, 500)
+	else:
+		# Visual-novel staging: a large standing illustration planted at the
+		# bottom right that the dialogue plate overlaps, instead of a small inset.
+		story_portrait.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+		story_portrait.position = Vector2(-720, -570)
+		story_portrait.size = Vector2(660, 740)
 	story_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	story_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	CinematicFx.live_portrait(story_portrait, "STORY_STANDARD", {"emphasis": 1.0, "rim_strength": 0.5})
 	art_space.add_child(story_portrait)
 	# Asset provenance is useful while authoring, but it is not player-facing
 	# story UI.  Keep the label available only in the developer build.
@@ -2269,9 +2282,12 @@ func _build_prologue_story_presentation(portrait: bool, ui_scale: float, story_h
 	story_background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	story_background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	story_background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	story_background.modulate = Color(0.72, 0.82, 0.94, 0.72)
+	story_background.modulate = Color(0.80, 0.88, 0.98, 0.86)
 	story_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Slow push-in and grade: the still backdrop reads as a living set.
+	story_background.material = CinematicFx.material(CinematicFx.DRIFT, {"zoom_base": 1.07, "tint": Color("a8c6ff"), "tint_strength": 0.14, "vignette": 0.4, "brightness": 1.25})
 	canvas.add_child(story_background)
+	CinematicFx.light_rays(canvas, {"origin": Vector2(0.5, -0.12), "ray_color": Color("cfe6ff"), "intensity": 0.18})
 	var cinematic_scrim := ColorRect.new()
 	cinematic_scrim.name = "PrologueCinematicScrim"
 	cinematic_scrim.color = Color(0.008, 0.016, 0.045, 0.38)
@@ -2293,6 +2309,9 @@ func _build_prologue_story_presentation(portrait: bool, ui_scale: float, story_h
 	story_portrait_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	story_portrait_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	canvas.add_child(story_portrait_layer)
+	CinematicFx.fog(canvas, {"intensity": 0.26, "top": 0.58})
+	CinematicFx.motes(canvas, {"intensity": 0.7, "density": 0.8})
+	CinematicFx.letterbox(canvas, 0.045)
 
 	var chapter_plate := PanelContainer.new()
 	chapter_plate.name = "PrologueChapterPlate"
@@ -2497,6 +2516,10 @@ func _build_story_dialogue_content(dialogue: PanelContainer, portrait: bool, cin
 	if story_meta_font != null:
 		story_click_hint.add_theme_font_override("font", story_meta_font)
 	story_footer.add_child(story_click_hint)
+	if story_click_hint.is_inside_tree():
+		var hint_pulse := story_click_hint.create_tween().set_loops()
+		hint_pulse.tween_property(story_click_hint, "modulate:a", 0.35, 0.75).set_trans(Tween.TRANS_SINE)
+		hint_pulse.tween_property(story_click_hint, "modulate:a", 1.0, 0.75).set_trans(Tween.TRANS_SINE)
 	story_page_indicator = _story_label("PAGE · -- / --", 10.0 if compact else (14.0 if narrow_portrait else 16.0), GameUI.TEXT_MUTED)
 	story_page_indicator.name = "StoryPageIndicator"
 	story_page_indicator.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -2536,14 +2559,21 @@ func _prologue_plate_style(ui_scale: float) -> StyleBoxFlat:
 func _story_dialogue_style(cinematic: bool) -> StyleBoxFlat:
 	var border_width := maxi(1, _story_logical_px(1.25))
 	var radius := _story_logical_px(14.0)
-	return GameUI.panel_style(
-		Color(0.009, 0.021, 0.052, 0.93 if cinematic else 0.90),
-		Color("e7bf68cc"),
+	var style := GameUI.panel_style(
+		Color(0.012, 0.026, 0.060, 0.94 if cinematic else 0.92),
+		Color("f0cd7ee6"),
 		border_width,
 		radius,
 		Vector4(_story_logical_px(14.0),_story_logical_px(12.0),_story_logical_px(14.0),_story_logical_px(10.0)) if _is_compact_landscape_layout() else Vector4(float(_story_logical_px(22.0)), float(_story_logical_px(18.0)), float(_story_logical_px(24.0)), float(_story_logical_px(16.0))),
 		_story_logical_px(8.0)
 	)
+	# A heavier gilt top edge and a warm halo frame the reading plate like a
+	# cinematic subtitle card.
+	style.border_width_top = maxi(2, _story_logical_px(3.0))
+	style.shadow_color = Color(0.94, 0.78, 0.42, 0.22)
+	style.shadow_size = _story_logical_px(16.0)
+	style.shadow_offset = Vector2.ZERO
+	return style
 
 func _style_story_overlay_button(button: Button, accent: Color) -> void:
 	var border_width := maxi(1, _story_logical_px(1.25))
@@ -2845,7 +2875,10 @@ func _refresh_prologue_portrait_layer() -> void:
 		art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var is_active := active_asset_id.is_empty() or active_asset_id == asset_id
-		art.modulate = Color(0.88, 0.94, 1.0, 0.60 if is_active else 0.30)
+		# The speaker stands forward at full presence; listeners stay solid but
+		# recede into shadow instead of turning into translucent ghosts.
+		art.modulate = Color.WHITE if is_active else Color(0.60, 0.65, 0.76, 1.0)
+		CinematicFx.live_portrait(art, "STORY_" + asset_id, {"emphasis": 1.0 if is_active else 0.0, "rim_strength": 0.55 if is_active else 0.18, "breath_amount": 0.012 if is_active else 0.008})
 		_configure_prologue_portrait_rect(art, slot, portrait_layout, ui_scale)
 		story_portrait_layer.add_child(art)
 
@@ -3983,10 +4016,25 @@ func _build_battle_overlay() -> void:
 	var ui_scale := _portrait_ui_scale()
 	overlay.add_theme_constant_override("separation", roundi(6.0 * ui_scale) if portrait else 8)
 	battle_view.add_child(overlay)
+	# A dark gilt-edged bar keeps wave/time and the controls legible over any
+	# battlefield backdrop or effect.
+	var top_bar := PanelContainer.new()
+	top_bar.name = "BattleTopBar"
+	top_bar.mouse_filter = Control.MOUSE_FILTER_PASS
+	var top_bar_style := GameUI.panel_style(Color(0.016, 0.035, 0.075, 0.78), Color(0.94, 0.80, 0.48, 0.55), 1, GameUI.RADIUS_PANEL, Vector4(16.0, 8.0, 12.0, 8.0), 10)
+	top_bar_style.border_width_top = 0
+	top_bar_style.border_width_left = 0
+	top_bar_style.border_width_right = 0
+	top_bar_style.border_width_bottom = 2
+	top_bar.add_theme_stylebox_override("panel", top_bar_style)
+	overlay.add_child(top_bar)
 	var top: BoxContainer = VBoxContainer.new() if portrait else HBoxContainer.new()
 	top.add_theme_constant_override("separation", roundi(5.0 * ui_scale) if portrait else 8)
-	overlay.add_child(top)
-	battle_hud = _label("", 22, Color.WHITE)
+	top_bar.add_child(top)
+	battle_hud = _label("", 24, Color("fff4d8"))
+	battle_hud.add_theme_color_override("font_outline_color", Color("050a12"))
+	battle_hud.add_theme_constant_override("outline_size", 5)
+	battle_hud.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	battle_hud.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	battle_hud.autowrap_mode = TextServer.AUTOWRAP_OFF
 	battle_hud.clip_text = true
@@ -4115,6 +4163,10 @@ func _update_battle_hud() -> void:
 		battle_gauge.queue_redraw()
 	if battle_auto_button != null:
 		battle_auto_button.text = "A·ON" if simulation.auto_enabled else "A·OFF"
+		# AUTO on glows in the signal colour; restyle only when the state flips.
+		if not battle_auto_button.has_meta("styled_auto") or bool(battle_auto_button.get_meta("styled_auto")) != simulation.auto_enabled:
+			battle_auto_button.set_meta("styled_auto", simulation.auto_enabled)
+			GameUI.apply_button(battle_auto_button, "primary" if simulation.auto_enabled else "secondary")
 	if battle_speed_button != null:
 		battle_speed_button.text = "×%d" % battle_view.speed
 	for i in range(ultimate_buttons.size()):

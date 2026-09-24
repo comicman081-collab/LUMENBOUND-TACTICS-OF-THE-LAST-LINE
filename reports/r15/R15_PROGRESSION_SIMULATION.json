@@ -5,7 +5,7 @@
   "final_account": {
     "level": 23.0,
     "stamina": 120.0,
-    "stamina_updated_at": 1790208523.0,
+    "stamina_updated_at": 1790220209.0,
     "xp": 125.0
   },
   "final_inventory": {
@@ -187,7 +187,7 @@
       "account": {
         "level": 20,
         "stamina": 120,
-        "stamina_updated_at": 1790208523,
+        "stamina_updated_at": 1790220209,
         "xp": 50
       },
       "applied_growth": [
@@ -580,7 +580,7 @@
             "unit_id": "E:2:1:ENM003"
           }
         ],
-        "event_hash": "7e811f6abf271f82376108ee67a88e6bbef63eab92b1e8c6a47bad89ca22fe7e",
+        "event_hash": "f516095c06c4b1b69387886aabbd70ebb7f550d831da88a24d071d30654c828b",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515000,
@@ -792,7 +792,7 @@
       "account": {
         "level": 20,
         "stamina": 120,
-        "stamina_updated_at": 1790208523,
+        "stamina_updated_at": 1790220209,
         "xp": 100
       },
       "applied_growth": [
@@ -873,7 +873,7 @@
             "unit_id": "E:2:1:ENM004"
           }
         ],
-        "event_hash": "0306df1e8abea85abe326efae7e5af067592c89fa396f29e7c5f54ced13fc8fe",
+        "event_hash": "1d2da6719bf4642a5feb4f16fbc77fd37543e868276fe5de1dce07217b78aa9b",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515001,
@@ -1125,7 +1125,7 @@
       "account": {
         "level": 20.0,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 150.0
       },
       "applied_growth": [
@@ -1156,11 +1156,11 @@
       ],
       "battle": {
         "damage": {
-          "CHR001": 1757,
-          "CHR002": 1956,
+          "CHR001": 1795,
+          "CHR002": 2228,
           "CHR003": 1662,
-          "CHR004": 1862,
-          "CHR005": 3172
+          "CHR004": 1875,
+          "CHR005": 2860
         },
         "deaths": [
           {
@@ -1182,32 +1182,32 @@
             "unit_id": "E:2:0:ENM002"
           },
           {
-            "source": "BASIC",
-            "source_uid": "P:CHR002",
-            "tick": 345,
+            "source": "NORMAL",
+            "source_uid": "P:CHR005",
+            "tick": 374,
             "unit_id": "E:2:1:ENM006"
           },
           {
             "source": "BASIC",
             "source_uid": "P:CHR001",
-            "tick": 424,
+            "tick": 457,
             "unit_id": "E:2:2:ENM001"
           }
         ],
-        "event_hash": "540997637fe10ce7e3eced06a1aa2da5d037dcbdcc505daed9066b6f810ecf35",
+        "event_hash": "fe1f4513df3be4eca57d15969a1abba0fcfebaa316a05292149d9dbdf446731d",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515002,
         "survivors": 5,
-        "ticks": 424,
-        "time": 14.1333333333333,
+        "ticks": 457,
+        "time": 15.2333333333333,
         "ultimate_uses": 3,
         "ultimate_uses_by_character": {
-          "CHR001": 1,
+          "CHR001": 2,
           "CHR002": 0,
           "CHR003": 0,
           "CHR004": 0,
-          "CHR005": 2
+          "CHR005": 1
         },
         "victory": true
       },
@@ -1438,17 +1438,17 @@
       "account": {
         "level": 20.0,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 205
       },
       "applied_growth": [],
       "battle": {
         "damage": {
-          "CHR001": 822,
-          "CHR002": 2067,
-          "CHR003": 2028,
-          "CHR004": 1156,
-          "CHR005": 6250
+          "CHR001": 616,
+          "CHR002": 2256,
+          "CHR003": 2002,
+          "CHR004": 1442,
+          "CHR005": 6001
         },
         "deaths": [
           {
@@ -1470,6 +1470,12 @@
             "unit_id": "E:2:0:ENM001"
           },
           {
+            "source": "BASIC",
+            "source_uid": "E:2:2:ENM006",
+            "tick": 351,
+            "unit_id": "P:CHR001"
+          },
+          {
             "source": "ULTIMATE",
             "source_uid": "P:CHR005",
             "tick": 391,
@@ -1477,24 +1483,18 @@
           },
           {
             "source": "BASIC",
-            "source_uid": "E:2:2:ENM006",
-            "tick": 395,
-            "unit_id": "P:CHR001"
-          },
-          {
-            "source": "BASIC",
-            "source_uid": "P:CHR002",
-            "tick": 415,
+            "source_uid": "P:CHR005",
+            "tick": 426,
             "unit_id": "E:2:2:ENM006"
           }
         ],
-        "event_hash": "8b7841831249cbf2b706617244dd22177e13578f7f055a7e7ced3249f0b3df11",
+        "event_hash": "bffcf3b57996cc3028a3cbcae1fc5a24a6f16ff94945944cc4c6a888f16261e4",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515003,
         "survivors": 4,
-        "ticks": 415,
-        "time": 13.8333333333333,
+        "ticks": 426,
+        "time": 14.2,
         "ultimate_uses": 4,
         "ultimate_uses_by_character": {
           "CHR001": 0,
@@ -1698,7 +1698,7 @@
       "account": {
         "level": 20.0,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 260
       },
       "applied_growth": [],
@@ -1736,7 +1736,7 @@
             "unit_id": "E:2:0:ENM007"
           }
         ],
-        "event_hash": "4d202299fb67cf80d0b51c546396fa31136eeac690c7fbc545b382f41e785d70",
+        "event_hash": "94f6bffc397389ba4e6a5890d3a4b26707fb0961af66f29c44804644ae6e67da",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515004,
@@ -1947,7 +1947,7 @@
       "account": {
         "level": 20.0,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 315.0
       },
       "applied_growth": [
@@ -2022,7 +2022,7 @@
             "unit_id": "E:3:0:ENM007"
           }
         ],
-        "event_hash": "cc121c5998afb097e1942cc8306c4318f3ba4c4665e7dc3a9cbea8cba8eedfd7",
+        "event_hash": "faeeb3702e6944bb058c87c6cd2788e1f2c367826d419b50816a77d4e8b61b4f",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515005,
@@ -2331,7 +2331,7 @@
       "account": {
         "level": 21,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 15
       },
       "applied_growth": [
@@ -2380,7 +2380,7 @@
             "unit_id": "E:2:0:ENM008"
           }
         ],
-        "event_hash": "7fd2e750e4aa3f23b99e19351fd177a35eb9bc839fa376aecf9cf0424d0b041e",
+        "event_hash": "f8de661b261fd826ac739fa22e276e038d799d2191f7e4b41874bfd11e2f81f9",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515006,
@@ -2682,7 +2682,7 @@
       "account": {
         "level": 21,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 75
       },
       "applied_growth": [],
@@ -2726,7 +2726,7 @@
             "unit_id": "E:2:1:ENM001"
           }
         ],
-        "event_hash": "2381a201d838f7b4a865ef5c1f4aa2b08a9f36624c7d2f1cab2c6f106c0fefff",
+        "event_hash": "83493ba263e1a7014992e2843b74df58a424292594052e968e686f799d851302",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515007,
@@ -2939,7 +2939,7 @@
       "account": {
         "level": 21,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 135
       },
       "applied_growth": [
@@ -2990,7 +2990,7 @@
             "unit_id": "E:3:0:ENM009"
           }
         ],
-        "event_hash": "83032163422d0cc95c6521e5aaf10b1f2e076087a4cc3c31ba894aaa7d5c0e12",
+        "event_hash": "f40a2ea3db9f681200e07ce71282dc4fa36400bff6e11edde0e84ab6fbf1d861",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515008,
@@ -3284,17 +3284,17 @@
       "account": {
         "level": 21.0,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 200.0
       },
       "applied_growth": [],
       "battle": {
         "damage": {
-          "CHR001": 2123,
-          "CHR002": 2072,
-          "CHR003": 3557,
-          "CHR004": 3567,
-          "CHR005": 6072
+          "CHR001": 2398,
+          "CHR002": 2833,
+          "CHR003": 3556,
+          "CHR004": 3404,
+          "CHR005": 5170
         },
         "deaths": [
           {
@@ -3310,38 +3310,38 @@
             "unit_id": "E:1:1:ENM006"
           },
           {
-            "source": "ULTIMATE",
-            "source_uid": "P:CHR005",
-            "tick": 241,
+            "source": "BASIC",
+            "source_uid": "P:CHR003",
+            "tick": 248,
             "unit_id": "E:2:0:ENM007"
           },
           {
             "source": "NORMAL",
-            "source_uid": "P:CHR005",
-            "tick": 374,
+            "source_uid": "P:CHR003",
+            "tick": 398,
             "unit_id": "E:2:1:ENM008"
           },
           {
-            "source": "NORMAL",
-            "source_uid": "P:CHR005",
-            "tick": 615,
+            "source": "BASIC",
+            "source_uid": "P:CHR004",
+            "tick": 626,
             "unit_id": "E:3:0:ENM009"
           }
         ],
-        "event_hash": "d85eae6aa9a0155ffb62665cbb80f7498ee067282c054cfb76fff41da0e8fef1",
+        "event_hash": "f9f41821e372c2db5c9713ece6786cff7739da4fbaecf40543c04af5deaaba43",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515009,
         "survivors": 5,
-        "ticks": 615,
-        "time": 20.5,
+        "ticks": 626,
+        "time": 20.8666666666667,
         "ultimate_uses": 4,
         "ultimate_uses_by_character": {
-          "CHR001": 1,
+          "CHR001": 2,
           "CHR002": 0,
           "CHR003": 0,
           "CHR004": 0,
-          "CHR005": 3
+          "CHR005": 2
         },
         "victory": true
       },
@@ -3544,7 +3544,7 @@
       "account": {
         "level": 21.0,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 265
       },
       "applied_growth": [
@@ -3601,7 +3601,7 @@
             "unit_id": "E:2:2:ENM002"
           }
         ],
-        "event_hash": "1bc14618ade51c7a42876dd7120c182981e95bf3c031741643c6788c5d1f2dfc",
+        "event_hash": "5401f9a3f31d0079da29830bc5341963219a248038deb92d32149d311c4883f8",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515010,
@@ -3887,7 +3887,7 @@
       "account": {
         "level": 21.0,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 330
       },
       "applied_growth": [],
@@ -3925,7 +3925,7 @@
             "unit_id": "E:2:1:ENM008"
           }
         ],
-        "event_hash": "41727055e3b840b2a9ff5e07630d39a66dc3e6b5357a496b0b0c2e8dde39d7d9",
+        "event_hash": "2baa4033e38871e87cba03527389d141d8472d87d3bcd0e181da70c323471f76",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515011,
@@ -4137,7 +4137,7 @@
       "account": {
         "level": 22,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 10
       },
       "applied_growth": [
@@ -4188,7 +4188,7 @@
             "unit_id": "E:2:0:ENM009"
           }
         ],
-        "event_hash": "ba6e81307db86147e44033d657a69c59e2b12a39fa4e8015440e64116a9ef866",
+        "event_hash": "47187766987bdb42b24b4a062bd4d170e67d481554739fd6b2343d556e99e778",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515012,
@@ -4465,7 +4465,7 @@
       "account": {
         "level": 22,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 80
       },
       "applied_growth": [],
@@ -4503,7 +4503,7 @@
             "unit_id": "E:2:1:ENM005"
           }
         ],
-        "event_hash": "fdc29c96c3dd9a60c9cb00665290e56554e4b69b0743ac2a9654c5e0e20a4aac",
+        "event_hash": "64d90ff92c04d18e3a9b994a39c48cca34ddebf056841ce774fe63fb0a5d7658",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515013,
@@ -4715,7 +4715,7 @@
       "account": {
         "level": 22.0,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 150.0
       },
       "applied_growth": [
@@ -4772,7 +4772,7 @@
             "unit_id": "E:2:2:ENM010"
           }
         ],
-        "event_hash": "8552ce9ee7ea86d38884e896223ab6111cecb591724c2aa74f53e6cefeaf71e6",
+        "event_hash": "a77d1b63fd0f0336fdc497554fbc0cb2bdf6b3c8e27d9f57ad68297b070bf3ac",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515014,
@@ -5041,7 +5041,7 @@
       "account": {
         "level": 22.0,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 225
       },
       "applied_growth": [],
@@ -5079,7 +5079,7 @@
             "unit_id": "E:2:1:ENM009"
           }
         ],
-        "event_hash": "d46b407fbf9c365e972f0e17a753b4963f7d95490ff8a0001eb6230dedb6bf6b",
+        "event_hash": "e7e210b2a345fd113510f20da48d4b213fff3240b86cf1e65f4222e7cab0fb5e",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515015,
@@ -5292,7 +5292,7 @@
       "account": {
         "level": 22.0,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 300
       },
       "applied_growth": [
@@ -5343,7 +5343,7 @@
             "unit_id": "E:2:1:ENM012"
           }
         ],
-        "event_hash": "e8d44654393facee6747cbae0b08a2b304a1583be662c2762914bd6fab28f3ae",
+        "event_hash": "10d5a5b89d44fab8c5c7783ea540648b34273a1a1d4cd0b90e372d227bb2f35a",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515016,
@@ -5606,17 +5606,17 @@
       "account": {
         "level": 22.0,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 375
       },
       "applied_growth": [],
       "battle": {
         "damage": {
-          "CHR001": 1471,
-          "CHR002": 2095,
-          "CHR003": 3155,
-          "CHR004": 2335,
-          "CHR005": 4002
+          "CHR001": 1499,
+          "CHR002": 2404,
+          "CHR003": 3543,
+          "CHR004": 2336,
+          "CHR005": 3585
         },
         "deaths": [
           {
@@ -5639,31 +5639,37 @@
           },
           {
             "source": "BASIC",
-            "source_uid": "P:CHR002",
-            "tick": 275,
+            "source_uid": "P:CHR003",
+            "tick": 320,
             "unit_id": "E:2:0:ENM009"
           },
           {
             "source": "BASIC",
-            "source_uid": "P:CHR004",
-            "tick": 404,
+            "source_uid": "E:2:1:ENM007",
+            "tick": 396,
+            "unit_id": "P:CHR001"
+          },
+          {
+            "source": "BASIC",
+            "source_uid": "P:CHR003",
+            "tick": 464,
             "unit_id": "E:2:1:ENM007"
           }
         ],
-        "event_hash": "93c31acd343f03c10aa788c04efeedd373bd33b064d5a0a4907af465280cc90c",
+        "event_hash": "8ed774905de636833976b09f80435bde0ee74807fc589237ebe795c751bfc74c",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515017,
-        "survivors": 5,
-        "ticks": 404,
-        "time": 13.4666666666667,
+        "survivors": 4,
+        "ticks": 464,
+        "time": 15.4666666666667,
         "ultimate_uses": 3,
         "ultimate_uses_by_character": {
-          "CHR001": 0,
+          "CHR001": 1,
           "CHR002": 0,
           "CHR003": 0,
           "CHR004": 0,
-          "CHR005": 3
+          "CHR005": 2
         },
         "victory": true
       },
@@ -5858,13 +5864,13 @@
         "ULT_BOOK_T2": 1
       },
       "stage_id": "CH01-N18",
-      "stars": 3
+      "stars": 2
     },
     {
       "account": {
         "level": 23.0,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 45.0
       },
       "applied_growth": [
@@ -5921,7 +5927,7 @@
             "unit_id": "E:3:0:ENM009"
           }
         ],
-        "event_hash": "70d0d8b55c67c91c6d38ee6debcc8e76e2335b824f4f4e1198ba7ea73a98f6ef",
+        "event_hash": "170458150a6ff743af47d93f44993feafaccd1a2ebe4604bebee9f3cf2400746",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515018,
@@ -6176,17 +6182,17 @@
       "account": {
         "level": 23.0,
         "stamina": 120.0,
-        "stamina_updated_at": 1790208523.0,
+        "stamina_updated_at": 1790220209.0,
         "xp": 125.0
       },
       "applied_growth": [],
       "battle": {
         "damage": {
-          "CHR001": 1425,
-          "CHR002": 6126,
-          "CHR003": 7620,
-          "CHR004": 5287,
-          "CHR005": 6578
+          "CHR001": 2331,
+          "CHR002": 5532,
+          "CHR003": 8580,
+          "CHR004": 5036,
+          "CHR005": 5497
         },
         "deaths": [
           {
@@ -6203,43 +6209,43 @@
           },
           {
             "source": "BASIC",
-            "source_uid": "P:CHR003",
-            "tick": 248,
+            "source_uid": "P:CHR004",
+            "tick": 256,
             "unit_id": "E:2:0:ENM007"
           },
           {
-            "source": "NORMAL",
-            "source_uid": "P:CHR002",
-            "tick": 349,
+            "source": "BASIC",
+            "source_uid": "P:CHR003",
+            "tick": 392,
             "unit_id": "E:2:1:ENM008"
           },
           {
             "source": "BASIC",
             "source_uid": "E:3:0:BOSS001",
-            "tick": 594,
+            "tick": 798,
             "unit_id": "P:CHR001"
           },
           {
             "source": "BASIC",
-            "source_uid": "P:CHR002",
-            "tick": 1150,
+            "source_uid": "P:CHR003",
+            "tick": 1112,
             "unit_id": "E:3:0:BOSS001"
           }
         ],
-        "event_hash": "f056251f1c3f6b8098b05ca458cabf049efd16ceabfcc2cc3e31073fae14c921",
+        "event_hash": "846ab28d7fd8cff1c70de2a2687f046d278fa8551bca7e65c5e3dc087dd0c36d",
         "healing": {},
         "reason": "ALL_WAVES_CLEARED",
         "seed": 1515019,
         "survivors": 4,
-        "ticks": 1150,
-        "time": 38.3333333333333,
+        "ticks": 1112,
+        "time": 37.0666666666667,
         "ultimate_uses": 6,
         "ultimate_uses_by_character": {
-          "CHR001": 1,
-          "CHR002": 2,
+          "CHR001": 3,
+          "CHR002": 1,
           "CHR003": 0,
           "CHR004": 0,
-          "CHR005": 3
+          "CHR005": 2
         },
         "victory": true
       },

@@ -10,6 +10,7 @@ extends RefCounted
 
 const GameUI := preload("res://ui/game_ui_tokens.gd")
 const GrowthAdvisorScript := preload("res://progression/growth_advisor.gd")
+const CinematicFx := preload("res://ui/cinematic_fx.gd")
 const GOLD := Color("f1d77a")
 const MUTED := Color("9fb4cc")
 const GOOD := Color("7ee8a8")
@@ -107,7 +108,11 @@ static func build_header(s, parent: Node, scale: float) -> void:
 	var outcome := VBoxContainer.new()
 	outcome.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(outcome)
-	outcome.add_child(s._label("VICTORY" if victory else "DEFEAT", roundi(50 * scale), GOLD if victory else BAD))
+	var outcome_label: Label = s._label("VICTORY" if victory else "DEFEAT", roundi(64 * scale), GOLD if victory else BAD)
+	outcome_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	CinematicFx.heroic_text(outcome_label, Color("2a1606") if victory else Color("2a0608"), Color("000000b0"))
+	if victory: CinematicFx.shine(outcome_label, {"shine_color": Color("fff2c4")})
+	outcome.add_child(outcome_label)
 	var stage := result_stage(s)
 	var stage_name := LocalizationService.tr_key(str(stage.get("name_key", ""))) if not stage.is_empty() else ""
 	if is_battle_report(s):
@@ -117,11 +122,18 @@ static func build_header(s, parent: Node, scale: float) -> void:
 		return
 	var stars := VBoxContainer.new()
 	stars.add_theme_constant_override("separation", 2)
+	stars.size_flags_horizontal = Control.SIZE_SHRINK_END
 	row.add_child(stars)
 	var count := star_count(s)
-	stars.add_child(s._label("★".repeat(count) + "☆".repeat(3 - count), roundi(40 * scale), GOLD))
+	# Labels in this shrink column must not autowrap, or each wraps to one
+	# character per line and the header grows to the full screen height.
+	var star_label: Label = s._label("★".repeat(count) + "☆".repeat(3 - count), roundi(40 * scale), GOLD)
+	star_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	stars.add_child(star_label)
 	for condition in star_conditions(s):
-		stars.add_child(s._label("● " + str(condition.label), roundi(16 * scale), GOOD if bool(condition.met) else Color("6f8196")))
+		var condition_label: Label = s._label("● " + str(condition.label), roundi(16 * scale), GOOD if bool(condition.met) else Color("6f8196"))
+		condition_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+		stars.add_child(condition_label)
 	if victory and count < 3:
 		box.add_child(s._label("별 3개를 모으면 이 작전의 소탕이 열립니다. 빠진 조건: %s" % _missing_conditions(s), roundi(16 * scale), GOLD))
 	elif not victory:
@@ -156,6 +168,7 @@ static func build_mvp(s, parent: Node, scale: float) -> void:
 	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	art.custom_minimum_size = Vector2(96, 128) * scale
 	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	CinematicFx.live_portrait(art, "MVP_" + best_id, {"rim_color": Color("ffe3a0"), "rim_strength": 0.6})
 	row.add_child(art)
 	var copy := VBoxContainer.new()
 	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL

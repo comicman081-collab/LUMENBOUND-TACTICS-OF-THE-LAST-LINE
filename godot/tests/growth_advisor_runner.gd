@@ -23,6 +23,7 @@ func _ready() -> void:
 	_test_post_cap_skill_requirement()
 	await _test_result_screen()
 	await _test_growth_screen()
+	await _test_growth_menu()
 	print("GROWTH_ADVISOR total=%d pass=%d fail=%d" % [passed + failed, passed, failed])
 	get_tree().quit(0 if failed == 0 else 1)
 
@@ -103,16 +104,55 @@ func _test_result_screen() -> void:
 	await get_tree().process_frame
 	var header: Node = shell.find_child("ResultHeader", true, false)
 	var contribution: Node = shell.find_child("ResultContribution", true, false)
-	var advice: Node = shell.find_child("ResultGrowthAdvice", true, false)
-	check(header != null and contribution != null and advice != null and shell.find_child("ResultMvp", true, false) != null, "RESULT_UI_01 result shows header, MVP, contribution and growth advice")
+	check(header != null and contribution != null and shell.find_child("ResultMvp", true, false) != null, "RESULT_UI_01 result shows header, MVP and contribution")
 	var texts: Array[String] = []
 	for label_value in shell.find_children("*", "Label", true, false): texts.append((label_value as Label).text)
 	var joined := "\n".join(texts)
 	check(joined.contains("★★☆") and joined.contains("전원 생존 4/5") and joined.contains("소탕"), "RESULT_UI_02 stars and the missed condition are spelled out")
 	check(joined.contains("쓰러짐") and joined.contains("MVP"), "RESULT_UI_03 contribution marks who went down and names the MVP")
-	check(shell.find_child("GrowthAdviceApply", true, false) != null, "RESULT_UI_04 the top recommendation can be applied from the result")
+	var buttons: Array[String] = []
+	for button_value in shell.find_children("*", "Button", true, false): buttons.append((button_value as Button).text)
+	var growth_free: bool = shell.find_child("ResultGrowthAdvice", true, false) == null and shell.find_child("GrowthAdviceApply", true, false) == null \
+		and not buttons.any(func(text): return text.contains("파티 성장") or text.begins_with("NEW")) and not joined.contains("새롭게 가능한 성장")
+	check(growth_free, "RESULT_UI_04 the result offers no party growth (it lives in the lobby / map menu)")
 	shell.queue_free()
 	await get_tree().process_frame
+
+func _test_growth_menu() -> void:
+	_advance_to(6)
+	AppState.profile.inventory["CREDIT"] = 500000
+	AppState.profile.inventory["TRAINING_NOTE_M"] = 200
+	var shell = await _shell()
+	shell._show_screen("HOME")
+	await get_tree().process_frame
+	var home_menu: Button = shell.find_child("GrowthMenuButton", true, false)
+	check(home_menu != null and home_menu.text == "메뉴", "MENU_01 the lobby has a 메뉴 button")
+	home_menu.pressed.emit()
+	await get_tree().process_frame
+	var level_entry: Button = shell.find_child("GrowthMenuLevelUp", true, false)
+	var skill_entry: Button = shell.find_child("GrowthMenuSkillUp", true, false)
+	check(level_entry != null and skill_entry != null and level_entry.text.begins_with("레벨업") and skill_entry.text.begins_with("스킬업"), "MENU_02 the menu holds separate 레벨업 and 스킬업 entries")
+	check(level_entry.text.contains("지금 가능"), "MENU_03 each entry says whether growth is affordable now")
+	skill_entry.pressed.emit()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	check(shell.current_screen == "GROWTH" and str(shell.growth_tab) == "스킬업" and shell.find_child("GrowthMenuLayer", true, false) == null, "MENU_04 스킬업 closes the menu and opens growth on the skill tab")
+	check(AppState.get_party().has(str(AppState.selected_character_id)), "MENU_05 the growth screen opens on a party member")
+	shell.current_screen = "HOME"
+	shell._open_growth_menu_tab("레벨업")
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var header: Node = shell.find_child("ScreenHeader", true, false)
+	var titled := false
+	if header != null:
+		for label_value in header.find_children("*", "Label", true, false): titled = titled or (label_value as Label).text == "레벨업"
+	check(shell.current_screen == "GROWTH" and str(shell.growth_tab) == "레벨업" and titled, "MENU_06 레벨업 opens growth on the level tab, titled by the tab")
+	shell.queue_free()
+	await get_tree().process_frame
+	var map_script := load("res://chapter_map/runtime/chapter_map_screen.gd")
+	var map_screen: Control = map_script.new()
+	check(map_screen.has_signal("menu_requested"), "MENU_07 the chapter map (relay camp and field movement) exposes the menu")
+	map_screen.free()
 
 func _test_growth_screen() -> void:
 	_advance_to(6)

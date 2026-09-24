@@ -3,6 +3,7 @@ extends Control
 
 signal battle_requested(stage_id: String)
 signal formation_requested
+signal menu_requested
 signal fallback_requested
 signal region_requested
 signal sweep_requested(stage_id: String, count: int)
@@ -268,6 +269,8 @@ var map_toolbar_buttons: Array[Button] = []
 var detail_panel: PanelContainer
 var detail_scroll: ScrollContainer
 var compact_optional_buttons: Array[Control] = []
+var menu_button: Button
+var camp_menu_button: Button
 var wait_button: Button
 var map_simulation_paused := false
 var map_notice := ""
@@ -702,6 +705,11 @@ func _build_interface() -> void:
 	var formation := _button("파티 편성", func(): formation_requested.emit(), Vector2(116, 56))
 	toolbar.add_child(formation)
 	compact_optional_buttons.append(formation)
+	# Level-up and skill-up for the relay camp and field movement. Unlike
+	# formation it stays on compact layouts: growth is no longer on the result.
+	menu_button = _button("메뉴", func(): menu_requested.emit(), Vector2(96, 56))
+	menu_button.name = "GrowthMenuButton"
+	toolbar.add_child(menu_button)
 	toolbar_spacer = Control.new()
 	toolbar_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	toolbar.add_child(toolbar_spacer)
@@ -903,6 +911,13 @@ func _build_interface() -> void:
 		var sweep := _button("소탕 %d" % count, func(value: int = count): _request_sweep(value), Vector2(112, 58))
 		sweep_buttons.append(sweep)
 		sweep_row.add_child(sweep)
+	# The relay camp is where the party regroups: offer the same growth menu as
+	# the toolbar right in its detail panel.
+	camp_menu_button = _button("정비 메뉴 · 레벨업 / 스킬업", func(): menu_requested.emit())
+	camp_menu_button.name = "CampGrowthMenuButton"
+	GameUI.apply_button(camp_menu_button, "objective")
+	camp_menu_button.visible = false
+	detail_box.add_child(camp_menu_button)
 	detail_box.add_child(_button("선택 취소", _clear_selection))
 	_build_first_map_tutorial()
 	get_viewport().size_changed.connect(_apply_responsive_layout)
@@ -1345,6 +1360,9 @@ func _apply_responsive_layout() -> void:
 		wait_button.custom_minimum_size = Vector2((46.0 if portrait else 78.0) * ui_scale, (56.0 if portrait else 32.0) * ui_scale) if compact else Vector2(86, 56)
 		wait_button.add_theme_font_size_override("font_size", roundi((17.0 if portrait else 13.0) * ui_scale) if compact else 24)
 		wait_button.text = "대기"
+	if menu_button != null:
+		menu_button.custom_minimum_size = Vector2((46.0 if portrait else 78.0) * ui_scale, (56.0 if portrait else 32.0) * ui_scale) if compact else Vector2(96, 56)
+		menu_button.add_theme_font_size_override("font_size", roundi((17.0 if portrait else 13.0) * ui_scale) if compact else 24)
 	if toolbar_spacer != null:
 		toolbar_spacer.visible = not compact
 	if status_label != null:
@@ -5798,6 +5816,7 @@ func _update_panel() -> void:
 	if wait_button != null: wait_button.disabled = moving or turn_transitioning or map_simulation_paused
 	_apply_responsive_layout()
 	_update_route_minimap()
+	if camp_menu_button != null: camp_menu_button.visible = false
 	if selected_node.is_empty() and selected_treasure.is_empty() and selected_relay.is_empty() and selected_event.is_empty():
 		detail_title.text = "조우 타일을 선택하세요"
 		detail_body.text = "[color=#91aac8]한 번 클릭하면 경로 확인 · 더블클릭 또는 터치하면 노란 범위 안에서 즉시 이동합니다.[/color]\n\n이동 완료: 적 턴 자동 진행 → 다음 아군 턴\n클리어 타일: 빠른 이동\n3성 타일: 원격 소탕\n맵 이동: 작전력 소비 없음"
@@ -5857,7 +5876,8 @@ func _update_panel() -> void:
 	var stage_id := str(selected_node.get("stage_id", ""))
 	if stage_id == "":
 		detail_title.text = "기점 • 릴레이 캠프"
-		detail_body.text = "[color=#78e6d0]출발 거점[/color]\n부대의 탐색 기준점입니다."
+		detail_body.text = "[color=#78e6d0]출발 거점[/color]\n부대의 탐색 기준점입니다. 정비 메뉴에서 레벨업·스킬업을 할 수 있습니다."
+		if camp_menu_button != null: camp_menu_button.visible = true
 		move_button.visible = false
 		fast_travel_button.visible = false
 		battle_button.visible = false

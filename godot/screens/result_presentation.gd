@@ -4,9 +4,9 @@ extends RefCounted
 ##   1. Did we win, how many stars, and which star conditions were missed?
 ##   2. Who carried the fight and who went down?
 ##   3. What did we get?
-##   4. What should we grow next, and why? (GrowthAdvisor)
-## Reward and progression data are read from the committed report only; the
-## one-tap growth action goes through the normal progression services.
+## Growth is not offered here: level-up and skill-up live in the lobby / map
+## "메뉴" (growth_menu.gd). The readiness bar and recommendation row below are
+## shared with the growth screen. Reward data are read from the committed report.
 
 const GameUI := preload("res://ui/game_ui_tokens.gd")
 const GrowthAdvisorScript := preload("res://progression/growth_advisor.gd")
@@ -75,17 +75,15 @@ static func build_landscape(s) -> void:
 	if is_battle_report(s):
 		build_mvp(s, left, 1.0)
 		build_contribution(s, left, 1.0)
-	build_growth_advice(s, left, 1.0)
 	s._add_reward_celebration(right, 20)
 	var rewards: VBoxContainer = s._panel_box(right)
-	s._add_reward_clarity(rewards, 20)
+	s._add_reward_clarity(rewards, 20, false)
 
 static func build_portrait(s, parent: VBoxContainer, scale: float) -> void:
 	build_header(s, parent, scale)
 	if is_battle_report(s):
 		build_mvp(s, parent, scale)
 		build_contribution(s, parent, scale)
-	build_growth_advice(s, parent, scale)
 
 static func _card(parent: Node, border: Color) -> VBoxContainer:
 	var panel := PanelContainer.new()
@@ -230,31 +228,7 @@ static func build_contribution(s, parent: Node, scale: float) -> void:
 		status.autowrap_mode = TextServer.AUTOWRAP_OFF
 		row.add_child(status)
 	if not downed.is_empty():
-		box.add_child(s._label("적은 전열부터 노립니다. 쓰러진 동료는 아래 추천에서 우선 보강됩니다.", roundi(15 * scale), MUTED))
-
-static func build_growth_advice(s, parent: Node, scale: float) -> void:
-	var party := result_party(s)
-	var downed := GrowthAdvisorScript.downed_ids_from_result(s.last_battle_result)
-	var report := GrowthAdvisorScript.party_report(party, downed)
-	var box := _card(parent, GOLD)
-	box.name = "ResultGrowthAdvice"
-	box.add_child(s._label("다음 성장 추천", roundi(22 * scale), GOLD))
-	var stage := DataRegistry.stage(str(report.stage_id))
-	var skill_requirement := GrowthAdvisorScript.skill_requirement_text(stage)
-	box.add_child(s._label("목표 작전  %s  ·  권장 Lv.%d" % [LocalizationService.tr_key(str(stage.get("name_key", report.stage_id))), int(report.recommended_level)] + ("  ·  " + skill_requirement if not skill_requirement.is_empty() else ""), roundi(16 * scale), MUTED))
-	add_readiness_bar(s, box, report, scale)
-	var entries := GrowthAdvisorScript.recommendations(party, downed, 2)
-	if entries.is_empty():
-		box.add_child(s._label("지금 파티는 목표 작전의 권장 수준입니다. 작전을 진행하며 재료를 모으세요.", roundi(16 * scale), GOOD))
-	for entry in entries:
-		add_recommendation_row(s, box, entry, scale, "RESULT")
-	var more: Button = s._button("성장 화면에서 자세히 보기", func():
-		AppState.selected_character_id = str(entries[0].character_id) if not entries.is_empty() else str(party[0])
-		s.growth_tab = "레벨업"
-		s.growth_target_level = 0
-		SceneRouter.go("GROWTH"), false, Vector2(0, 52 * scale))
-	more.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	box.add_child(more)
+		box.add_child(s._label("적은 전열부터 노립니다. 쓰러진 동료는 본부나 지도의 메뉴에서 레벨업·스킬업으로 보강하세요.", roundi(15 * scale), MUTED))
 
 static func add_readiness_bar(s, parent: Node, report: Dictionary, scale: float) -> void:
 	var readiness := float(report.readiness)

@@ -16,6 +16,7 @@ const CinematicFx := preload("res://ui/cinematic_fx.gd")
 const RelayServiceScript := preload("res://relay/relay_service.gd")
 const GameUI := preload("res://ui/game_ui_tokens.gd")
 const CommandPresentation := preload("res://screens/command_presentation.gd")
+const GrowthMenu := preload("res://screens/growth_menu.gd")
 const BattleUltimateOrbScript := preload("res://battle/view/battle_ultimate_orb.gd")
 const DESIGN_VIEWPORT_SIZE := Vector2(1920.0, 1080.0)
 const COMPACT_LANDSCAPE_MAX_WIDTH := 980.0
@@ -123,6 +124,7 @@ var growth_material := "TRAINING_NOTE_S"
 var growth_target_level := 0
 var growth_feedback := ""
 var growth_save_pending := false
+var growth_menu_layer: CanvasLayer
 var last_growth_plan_actions: Array = []
 var last_growth_plan_report: Dictionary = {}
 var battle_party_ids: Array[String] = []
@@ -1337,6 +1339,7 @@ func _clear() -> void:
 	chapter_map_show_generation += 1
 	_dispose_transaction_save_failure()
 	_dispose_map_reward_overlay(false)
+	GrowthMenu.close(self)
 	_free_home_tutorial()
 	home_menu_buttons.clear()
 	for child in content.get_children():
@@ -3298,6 +3301,7 @@ func _show_chapter_map() -> void:
 	map_screen.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	map_screen.battle_requested.connect(_map_battle_requested)
 	map_screen.formation_requested.connect(func(): SceneRouter.go("FORMATION"))
+	map_screen.menu_requested.connect(func(): GrowthMenu.open(self))
 	map_screen.fallback_requested.connect(func(): SceneRouter.go("STAGE_LIST_FALLBACK"))
 	map_screen.region_requested.connect(_open_region_selector)
 	map_screen.sweep_requested.connect(_map_sweep_requested)
@@ -4716,7 +4720,7 @@ func _reward_summary_card(parent: VBoxContainer, text_value: String, font_size: 
 	parent.add_child(card)
 	card.add_child(_label(text_value, font_size, Color("e6edf8")))
 
-func _add_reward_clarity(parent: VBoxContainer, font_size: int) -> void:
+func _add_reward_clarity(parent: VBoxContainer, font_size: int, include_growth := true) -> void:
 	var source_type := str(last_reward_report.get("source_type", "BATTLE"))
 	parent.add_child(_label("보상 내역 · 탐색 보상" if source_type != "BATTLE" else "보상 내역 · 전투 보상", font_size + 5, Color("8fe0b6")))
 	var rewards: Dictionary = last_reward_report.get("rewards", last_rewards)
@@ -4740,6 +4744,9 @@ func _add_reward_clarity(parent: VBoxContainer, font_size: int) -> void:
 			var before := int(before_inventory.get(item_id, 0))
 			var after := int(after_inventory.get(item_id, before + int(rewards[item_id])))
 			_reward_item_card(reward_grid, _display_item_name(str(item_id)), int(rewards[item_id]), before, after, font_size)
+	if not include_growth:
+		_add_progress_unlock_summary(parent, font_size)
+		return
 	var growth: Dictionary = last_reward_report.get("growth", {})
 	var newly: Array = growth.get("newly_affordable", [])
 	if source_type != "BATTLE" and newly.is_empty():
@@ -5032,20 +5039,15 @@ func _show_result() -> void:
 		print("RESULT_SCREEN_READY elapsed_ms=%d layout=portrait" % maxi(0, Time.get_ticks_msec() - result_build_started_msec))
 		_finish_transition_loading(loading_token, "Battle results ready")
 		return
-	# Header (stars and missed conditions) → MVP and contribution → rewards →
-	# explained growth recommendation. The report scrolls independently from
+	# Header (stars and missed conditions) → MVP and contribution → rewards.
+	# Growth lives in the lobby / map "메뉴". The report scrolls independently from
 	# the action rail so map return is never pushed below the safe area.
 	ResultPresentation.build_landscape(self)
 	print("RESULT_BUILD_TRACE step=report")
 	var actions := HBoxContainer.new()
 	content.add_child(actions)
 	var result_is_relay := str(last_reward_report.get("source_type", "")) == "RELAY"
-	# `battle_party_ids` is Array[String] while `AppState.get_party()` returns a
-	# generic Array.  Let the result rail own the common Array type explicitly;
-	# otherwise Godot infers Array[String] from the relay branch and aborts the
-	# RESULT tree at 96% when an ordinary map battle supplies the generic branch.
-	var growth_party: Array = battle_party_ids if result_is_relay and not battle_party_ids.is_empty() else AppState.get_party()
-	actions.add_child(CommandPresentation.button(self, "파티 성장", func(party := growth_party): _open_recommended_growth(party), false, Vector2(300, 84)))
+	# Growth is reached from the lobby / map "메뉴", not from the result.
 	actions.add_child(CommandPresentation.button(self, "릴레이 작전" if result_is_relay else _result_map_action_text(), func(): SceneRouter.go("RELAY" if result_is_relay else "STAGE_SELECT", {"result_return": true}), false, Vector2(300, 84)))
 	actions.add_child(CommandPresentation.button(self, "본부", func(): SceneRouter.go("HOME"), false, Vector2(200, 84)))
 	print("RESULT_BUILD_TRACE step=actions")
@@ -5072,26 +5074,25 @@ func _show_result_portrait() -> void:
 	ResultPresentation.build_portrait(self, report, ui_scale * .8)
 	var box := _panel_box(report)
 	_add_reward_celebration(box, 15, true)
-	_add_reward_clarity(box, 16)
+	_add_reward_clarity(box, 16, false)
 	var actions := GridContainer.new()
 	actions.columns = 2
 	actions.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	actions.add_theme_constant_override("separation", roundi(7.0 * ui_scale))
 	content.add_child(actions)
 	var result_is_relay := str(last_reward_report.get("source_type", "")) == "RELAY"
-	var growth_party: Array = battle_party_ids if result_is_relay and not battle_party_ids.is_empty() else AppState.get_party()
-	actions.add_child(_button("권장 파티 성장", func(party := growth_party): _open_recommended_growth(party), false, Vector2(320, 52)))
 	actions.add_child(_button("릴레이 작전으로" if result_is_relay else _result_map_action_text(), func(): SceneRouter.go("RELAY" if result_is_relay else "STAGE_SELECT", {"result_return": true}), false, Vector2(320, 52)))
 	actions.add_child(_button("홈", func(): SceneRouter.go("HOME"), false, Vector2(320, 52)))
 
-# The growth screen opens on the member the advisor ranks first (e.g. the one
-# who went down or is furthest below the next operation's level).
-func _open_recommended_growth(party: Array) -> void:
-	var entries := GrowthAdvisorScript.recommendations(party, GrowthAdvisorScript.downed_ids_from_result(last_battle_result), 1)
-	AppState.selected_character_id = str(entries[0].character_id) if not entries.is_empty() else str(party[0])
-	growth_tab = "레벨업"
+func _open_growth_menu_tab(tab: String) -> void:
+	AppState.selected_character_id = GrowthMenu.member_for(tab)
+	growth_tab = tab
 	growth_target_level = 0
+	growth_feedback = ""
 	SceneRouter.go("GROWTH")
+
+func _growth_menu_button(minimum := Vector2(128, 56)) -> Button:
+	return GrowthMenu.button(self, minimum)
 
 func _sweep(count: int) -> void:
 	var pre_profile := _reward_profile_snapshot()

@@ -66,7 +66,7 @@ func _run() -> void:
 	shell._battle_finished(simulation.result_snapshot())
 	await _wait(1.5)
 	await _save("08_result.png")
-	shell._open_recommended_growth(AppState.get_party())
+	shell._open_growth_menu_tab("레벨업")
 	await _wait(1.0)
 	await _save("09_growth.png")
 	print("CINEMATIC_QA_DONE path=%s" % output_dir)

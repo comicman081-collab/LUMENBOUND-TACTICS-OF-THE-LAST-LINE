@@ -145,7 +145,9 @@ func _capture_reward_growth_and_equipment() -> void:
 	shell.call("_show_screen", "RESULT")
 	await _settle(.34)
 	var result_scroll := _primary_scroll()
-	var result_growth_button := _find_button("권장 파티 성장")
+	# Growth moved to the lobby / map "메뉴"; the result rail keeps map and home.
+	var result_home_button := _find_button("홈") if _find_button("홈") != null else _find_button("본부")
+	_require(_find_button("권장 파티 성장") == null, "result offers no party growth action", "")
 	var celebration := shell.find_child("RewardCelebrationQueue", true, false) as Control
 	var celebration_next := shell.find_child("RewardCelebrationNext", true, false) as Control
 	var celebration_skip := shell.find_child("RewardCelebrationSkip", true, false) as Control
@@ -157,7 +159,7 @@ func _capture_reward_growth_and_equipment() -> void:
 	await _capture("reward_result_top", "RESULT_TOP")
 	var result_top := _scroll_snapshot(result_scroll)
 	_require(result_scroll != null and bool(result_top.get("scrollable", false)), "result ledger exposes a real vertical scroll range", JSON.stringify(result_top))
-	_require(_fully_visible(result_growth_button), "result growth action remains above the scrollable report", JSON.stringify(_control_snapshot(result_growth_button)))
+	_require(_fully_visible(result_home_button), "result action rail remains above the scrollable report", JSON.stringify(_control_snapshot(result_home_button)))
 	if result_scroll != null:
 		result_scroll.scroll_vertical = 1000000
 		await _settle(.16)
@@ -166,11 +168,11 @@ func _capture_reward_growth_and_equipment() -> void:
 	checks["reward_result"] = {
 		"top": result_top,
 		"bottom": result_bottom,
-		"growth_action_fully_visible": _fully_visible(result_growth_button),
+		"action_rail_fully_visible": _fully_visible(result_home_button),
 	}
 	_require(float(result_bottom.get("position", 0.0)) > float(result_top.get("position", 0.0)), "result report scroll reaches its lower content", JSON.stringify(checks["reward_result"]))
 
-	# The same route the result rail invokes is rendered immediately afterward.
+	# The growth screen the lobby / map menu opens is rendered immediately afterward.
 	shell.call("_show_screen", "GROWTH")
 	await _settle(.34)
 	var growth_scroll := _primary_scroll()

@@ -2064,6 +2064,7 @@ func _show_relay() -> void:
 	var relay_id := str(specification.get("id", ""))
 	var active := RelayServiceScript.active_run(AppState.profile)
 	_title("삼중 노선 릴레이", str(specification.get("subtitle", "기존 전투를 연속 작전으로 재구성합니다.")))
+	_add_header_growth_menu()
 	var scroll := _scroll_box()
 	if not active.is_empty():
 		_show_relay_active_run(scroll, specification, active)
@@ -5093,6 +5094,16 @@ func _open_growth_menu_tab(tab: String) -> void:
 
 func _growth_menu_button(minimum := Vector2(128, 56)) -> Button:
 	return GrowthMenu.button(self, minimum)
+
+# The relay operation screen carries the growth "메뉴" at the right of its header.
+func _add_header_growth_menu() -> void:
+	var header := content.get_node_or_null("ScreenHeader") as BoxContainer
+	if header == null: return
+	var menu := _growth_menu_button(Vector2(160, 76))
+	menu.size_flags_horizontal = Control.SIZE_SHRINK_END
+	menu.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	GameUI.apply_button(menu, "objective")
+	header.add_child(menu)
 
 func _sweep(count: int) -> void:
 	var pre_profile := _reward_profile_snapshot()

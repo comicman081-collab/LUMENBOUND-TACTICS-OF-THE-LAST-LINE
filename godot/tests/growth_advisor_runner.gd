@@ -147,6 +147,14 @@ func _test_growth_menu() -> void:
 	if header != null:
 		for label_value in header.find_children("*", "Label", true, false): titled = titled or (label_value as Label).text == "레벨업"
 	check(shell.current_screen == "GROWTH" and str(shell.growth_tab) == "레벨업" and titled, "MENU_06 레벨업 opens growth on the level tab, titled by the tab")
+	shell._show_screen("RELAY")
+	await get_tree().process_frame
+	var relay_menu: Button = shell.find_child("GrowthMenuButton", true, false)
+	var relay_header: Node = shell.find_child("ScreenHeader", true, false)
+	check(shell.current_screen == "RELAY" and relay_menu != null and relay_menu.is_visible_in_tree() and relay_header != null and relay_menu.get_parent() == relay_header, "MENU_08 the relay operation screen has a 메뉴 button in its header")
+	relay_menu.pressed.emit()
+	await get_tree().process_frame
+	check(shell.find_child("GrowthMenuSkillUp", true, false) != null, "MENU_09 the relay 메뉴 opens the same level-up / skill-up menu")
 	shell.queue_free()
 	await get_tree().process_frame
 	var map_script := load("res://chapter_map/runtime/chapter_map_screen.gd")

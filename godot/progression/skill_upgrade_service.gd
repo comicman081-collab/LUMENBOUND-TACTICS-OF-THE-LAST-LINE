@@ -1,8 +1,9 @@
 class_name SkillUpgradeService
 extends RefCounted
 
-# These ultimate branches apply a fixed status in BattleSimulation. Their
-# authored coefficient is unused; charging to increase it would buy no effect.
+# BUFF/DEBUFF ultimates used to apply a fixed status, so they were excluded.
+# BattleSimulation now scales HASTE / DEF_DOWN strength with the ultimate's
+# level, so every skill slot buys a real effect.
 static func supports_upgrade(character_id: String, slot: String) -> bool:
 	if not slot in ["normal", "passive", "ultimate"]:
 		return false
@@ -10,7 +11,7 @@ static func supports_upgrade(character_id: String, slot: String) -> bool:
 	if definition.is_empty():
 		return false
 	var skill := DataRegistry.skill(str(definition.get(slot + "_skill_id", "")))
-	return not skill.is_empty() and not (slot == "ultimate" and str(skill.get("effect", "")) in ["BUFF", "DEBUFF"])
+	return not skill.is_empty()
 
 static func upgrade(character_id: String, slot: String) -> GameResult:
 	if not AppState.profile.get("roster", {}).has(character_id) or DataRegistry.character(character_id).is_empty():

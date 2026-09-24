@@ -1,6 +1,8 @@
 extends RefCounted
 
 const GameUI := preload("res://ui/game_ui_tokens.gd")
+const GrowthAdvisorScript := preload("res://progression/growth_advisor.gd")
+const ResultPresentation := preload("res://screens/result_presentation.gd")
 
 const INK := Color("081421")
 const GOLD := Color("edcc81")
@@ -303,7 +305,9 @@ static func growth(s) -> void:
 	var cid := str(AppState.selected_character_id)
 	var definition := DataRegistry.character(cid)
 	var state: Dictionary = AppState.profile.roster[cid]
-	s._title("동료 상세", "크레딧  %s" % MathUtil.comma(AppState.inventory_count("CREDIT")))
+	var advice := GrowthAdvisorScript.party_report(AppState.get_party())
+	var target_stage := DataRegistry.stage(str(advice.stage_id))
+	s._title("파티 성장", "크레딧 %s  ·  목표 %s 권장 Lv.%d" % [MathUtil.comma(AppState.inventory_count("CREDIT")), LocalizationService.tr_key(str(target_stage.get("name_key", advice.stage_id))), int(advice.recommended_level)])
 	var stage := scene_surface(s, "CharacterPresentation")
 	shade(stage, Color("153d50"), Color("06101e"))
 	art(s, stage, cid, Rect2(.03,.025,.51,.97))
@@ -335,14 +339,29 @@ static func growth(s) -> void:
 	var selectors := HBoxContainer.new()
 	selectors.name = "GrowthPartySelector"
 	body.add_child(selectors)
+	# Each tab shows the member's level; members below the next operation's
+	# recommended level are tinted so the weak link is visible at a glance.
 	for member_id in AppState.get_party():
 		var id := str(member_id)
-		var button = button(s, s._display_character_name(id), func(): AppState.selected_character_id = id; s.growth_target_level = 0; s._show_screen("GROWTH"), id == cid, Vector2(1,46))
+		var member_level := int(AppState.profile.roster[id].level)
+		var button = button(s, "%s Lv.%d" % [s._display_character_name(id), member_level], func(): AppState.selected_character_id = id; s.growth_target_level = 0; s._show_screen("GROWTH"), id == cid, Vector2(1,46))
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.add_theme_font_size_override("font_size", 18)
+		if member_level < int(advice.recommended_level):
+			button.add_theme_color_override("font_color", Color("ff9a8a"))
+			button.tooltip_text = "권장 Lv.%d보다 낮습니다" % int(advice.recommended_level)
 		selectors.add_child(button)
+	if bool(state.unlocked):
+		_growth_guide(s, body, advice)
 	var stats := CharacterProgression.final_stats(cid)
 	var stat_box = s._panel_box(body)
+	var member_report: Dictionary = {}
+	for member_value in advice.members:
+		if str(member_value.character_id) == cid: member_report = member_value
 	stat_box.add_child(label(s, "전투 능력", 23, SIGNAL))
+	if not member_report.is_empty():
+		var below: bool = int(member_report.combat_power) < int(member_report.recommended_power)
+		stat_box.add_child(label(s, "전투력 %s  /  권장 %s" % [MathUtil.comma(int(member_report.combat_power)), MathUtil.comma(int(member_report.recommended_power))], 26, Color("ff9a8a") if below else Color("7ee8a8")))
 	stat_box.add_child(label(s, "체력 %s     공격력 %s     방어력 %s" % [MathUtil.comma(stats.HP),MathUtil.comma(stats.ATK),MathUtil.comma(stats.DEF)], 23, Color.WHITE))
 	if not bool(state.unlocked):
 		stat_box.add_child(label(s, "스토리에서 합류하면 성장할 수 있습니다.", 22))
@@ -363,6 +382,20 @@ static func growth(s) -> void:
 		"장비·돌파": s._build_growth_equipment(body,cid)
 		_: body.add_child(label(s, "돌파 %d · 관계 %d\n선호 위치: %s" % [int(state.breakthrough),int(state.relationship_level),{"FRONT":"전열","MIDDLE":"중열","BACK":"후열","REAR":"후열"}.get(str(definition.preferred_position),str(definition.preferred_position))],23))
 
+## Party-wide guide: readiness against the next operation and the single most
+## useful upgrade, with the reason it was chosen.
+static func _growth_guide(s, parent: Node, advice: Dictionary) -> void:
+	var box = s._panel_box(parent)
+	box.name = "GrowthGuide"
+	box.add_child(label(s, "성장 가이드", 22, GOLD))
+	ResultPresentation.add_readiness_bar(s, box, advice, 1.0)
+	var entries := GrowthAdvisorScript.recommendations(AppState.get_party(), GrowthAdvisorScript.downed_ids_from_result(s.last_battle_result), 1)
+	if entries.is_empty():
+		box.add_child(label(s, "파티가 목표 작전의 권장 수준입니다. 작전을 진행하세요.", 18, Color("7ee8a8")))
+		return
+	box.add_child(label(s, "지금 가장 효과적인 성장", 17, Color("b8cbd8")))
+	ResultPresentation.add_recommendation_row(s, box, entries[0], 1.0, "GROWTH")
+
 static func level(s, parent: Node, cid: String) -> void:
 	var state: Dictionary = AppState.profile.roster[cid]
 	var current := int(state.level)
@@ -376,7 +409,10 @@ static func level(s, parent: Node, cid: String) -> void:
 	var controls := HBoxContainer.new()
 	controls.add_theme_constant_override("separation",10)
 	box.add_child(controls)
-	for option in [["MIN",current+1],["−",target-1],["+",target+1],["+5",target+5],["MAX",CharacterProgression.maximum_target(cid)]]:
+	# "권장" jumps straight to the next operation's recommended level (or as
+	# close as current materials allow) instead of making the player guess.
+	var recommended := mini(int(DataRegistry.stage(GrowthAdvisorScript.target_stage_id()).get("recommended_level", current + 1)), CharacterProgression.maximum_target(cid))
+	for option in [["MIN",current+1],["−",target-1],["+",target+1],["권장",maxi(recommended, current + 1)],["MAX",CharacterProgression.maximum_target(cid)]]:
 		var value := int(option[1])
 		var button = button(s, str(option[0]), func(): s.growth_target_level = clampi(value,mini(current+1,cap),cap); s._show_screen("GROWTH"), current >= cap or s.growth_save_pending, Vector2(1,50))
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL

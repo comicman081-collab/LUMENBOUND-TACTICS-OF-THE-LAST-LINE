@@ -10,6 +10,8 @@ const HexGridScript := preload("res://chapter_map/model/hex_grid.gd")
 const HexCoordScript := preload("res://chapter_map/model/hex_coord.gd")
 const GrowthAffordabilityAnalyzerScript := preload("res://progression/growth_affordability_analyzer.gd")
 const GrowthPlanBuilderScript := preload("res://progression/growth_plan_builder.gd")
+const GrowthAdvisorScript := preload("res://progression/growth_advisor.gd")
+const ResultPresentation := preload("res://screens/result_presentation.gd")
 const RelayServiceScript := preload("res://relay/relay_service.gd")
 const GameUI := preload("res://ui/game_ui_tokens.gd")
 const CommandPresentation := preload("res://screens/command_presentation.gd")
@@ -36,9 +38,14 @@ const TRANSITION_LOADING_ART_PATH := "res://assets/art/backgrounds/BG_STORY_RELA
 const TRANSITION_LOADING_LOGO_PATH := "res://assets/art/title/title_logo_r1.png"
 var content: VBoxContainer
 var footer_status: Label
+var status_toast: PanelContainer
+var status_toast_label: Label
+var status_toast_last_text := ""
+var status_toast_left := 0.0
 var safe_margin: MarginContainer
 var current_screen := "TITLE"
 var new_game_confirmation_layer: CanvasLayer
+var save_protection_layer: CanvasLayer
 var transition_loading_layer: CanvasLayer
 var transition_loading_surface: Control
 var transition_loading_panel: PanelContainer
@@ -86,6 +93,7 @@ var story_controls: Control
 var story_typewriter_tween: Tween
 var battle_view: BattleView
 var battle_hud: Label
+var battle_gauge: Control
 var ultimate_buttons: Array[Button] = []
 var party_status_labels: Array[Label] = []
 var battle_auto_button: Button
@@ -1263,6 +1271,58 @@ func _process(delta: float) -> void:
 			_advance_story()
 	if current_screen == "BATTLE" and battle_view != null and battle_view.simulation != null:
 		_update_battle_hud()
+	_update_status_toast(delta)
+
+# The footer bar is hidden by the layout, but many flows report failures and
+# confirmations through `footer_status.text`. Surface each new message as a
+# short toast so save errors, blocked battles and sweeps are never silent.
+func _update_status_toast(delta: float) -> void:
+	if footer_status == null:
+		return
+	var message := footer_status.text
+	if message != status_toast_last_text:
+		status_toast_last_text = message
+		if not message.is_empty() and message != "오프라인 탐색 기록":
+			_show_status_toast(message)
+	if status_toast != null and status_toast.visible:
+		status_toast_left -= delta
+		if status_toast_left <= 0.0:
+			status_toast.visible = false
+
+func _notify(message: String) -> void:
+	# Repeating the same message (e.g. pressing a blocked button twice) must
+	# still show the toast again.
+	if footer_status == null:
+		return
+	footer_status.text = message
+	status_toast_last_text = message
+	_show_status_toast(message)
+
+func _show_status_toast(message: String) -> void:
+	if not is_inside_tree():
+		return
+	if status_toast == null or not is_instance_valid(status_toast):
+		status_toast = PanelContainer.new()
+		status_toast.name = "StatusToast"
+		status_toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		status_toast.z_index = 90
+		status_toast.add_theme_stylebox_override("panel", GameUI.panel_style(Color("07111bf0"), Color("e9c97999"), 1, GameUI.RADIUS_CONTROL, Vector4(18.0, 10.0, 18.0, 10.0), 0))
+		status_toast_label = Label.new()
+		status_toast_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		status_toast_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		status_toast_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		status_toast_label.add_theme_color_override("font_color", Color("f3e6c4"))
+		status_toast.add_child(status_toast_label)
+		add_child(status_toast)
+	status_toast_label.text = message
+	status_toast_label.add_theme_font_size_override("font_size", roundi(20.0 * (_portrait_ui_scale() if _is_portrait_layout() else 1.0)))
+	var width := minf(size.x - 48.0, 760.0)
+	status_toast.custom_minimum_size = Vector2(width, 0.0)
+	status_toast.size = Vector2(width, 0.0)
+	status_toast.position = Vector2((size.x - width) * 0.5, size.y - 150.0)
+	move_child(status_toast, get_child_count() - 1)
+	status_toast.visible = true
+	status_toast_left = 3.2
 
 func _clear() -> void:
 	_dispose_new_game_confirmation()
@@ -1677,6 +1737,53 @@ func _scroll_box() -> VBoxContainer:
 
 func _show_title() -> void:
 	preload("res://screens/command_presentation.gd").title(self)
+	if not SaveService.write_lock_reason.is_empty():
+		_show_save_protection_notice()
+
+# Shown when a save exists but this build cannot read it. Nothing is written
+# until the player chooses to archive it; closing the tab keeps it untouched.
+func _show_save_protection_notice() -> void:
+	if is_instance_valid(save_protection_layer):
+		return
+	save_protection_layer = CanvasLayer.new()
+	save_protection_layer.name = "SaveProtectionLayer"
+	save_protection_layer.layer = 460
+	add_child(save_protection_layer)
+	var surface := ColorRect.new()
+	surface.color = Color("030914ee")
+	surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	surface.mouse_filter = Control.MOUSE_FILTER_STOP
+	save_protection_layer.add_child(surface)
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	surface.add_child(center)
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(minf(size.x - 64.0, 900.0), 380)
+	panel.add_theme_stylebox_override("panel", GameUI.panel_style(GameUI.SURFACE, Color("f1c75b"), 2, 18, Vector4(40, 32, 40, 32), 12))
+	center.add_child(panel)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 20)
+	panel.add_child(column)
+	var presentation := preload("res://screens/command_presentation.gd")
+	column.add_child(presentation.label(self, "저장 기록을 읽지 못했습니다", 34, Color("f1c75b")))
+	var detail: Label = presentation.label(self, "기존 기록이 손상되었거나 더 새로운 버전의 게임에서 저장되었습니다.\n기록을 덮어쓰지 않도록 저장을 멈췄습니다. 최신 버전으로 열면 그대로 이어서 할 수 있습니다.\n여기서 새로 시작하면 기존 기록은 별도 파일로 보관됩니다.\n(%s)" % SaveService.write_lock_reason, 22, GameUI.TEXT_MUTED)
+	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(detail)
+	var confirm: Button = presentation.button(self, "기존 기록 보관 후 새로 시작", func():
+		var archived := SaveService.archive_unreadable_save_and_unlock()
+		if not archived.ok:
+			detail.text = "기존 기록을 보관하지 못해 계속할 수 없습니다: %s" % archived.error
+			return
+		var started := SaveService.start_new_game()
+		if not started.ok:
+			detail.text = "새 기록을 저장하지 못했습니다: %s" % started.error
+			return
+		save_protection_layer.queue_free()
+		save_protection_layer = null
+		_start_title_flow()
+	, false, Vector2(360, 68))
+	GameUI.apply_button(confirm, "primary")
+	column.add_child(confirm)
 
 func _dispose_new_game_confirmation() -> void:
 	if is_instance_valid(new_game_confirmation_layer): new_game_confirmation_layer.queue_free()
@@ -2083,7 +2190,8 @@ func _show_story(reuse_runtime_state := false) -> void:
 		_refresh_story_control_states()
 		return
 	scenario_runner = ScenarioRunner.new()
-	var loaded := scenario_runner.load_scenario(AppState.active_scenario_id, true)
+	scenario_runner.replay = _is_archive_replay(AppState.active_scenario_id)
+	var loaded := scenario_runner.load_scenario(AppState.active_scenario_id, not scenario_runner.replay)
 	if not loaded.ok:
 		scenario_text.text = loaded.error
 		return
@@ -3201,7 +3309,9 @@ func _map_battle_requested(stage_id: String) -> void:
 		return
 	if _request_battle_start("map:encounter", stage_id):
 		return
-	var reason := AppState.stage_entry_block_reason(stage_id)
+	var reason := "" if AppState.relay_active() else AppState.party_block_reason()
+	if reason.is_empty():
+		reason = AppState.stage_entry_block_reason(stage_id)
 	if reason.is_empty():
 		reason = "전투 요청이 겹쳤습니다 · 다시 시도하세요"
 	if is_instance_valid(active_chapter_map_screen):
@@ -3355,9 +3465,14 @@ func _request_battle_start(source: String, stage_id := "") -> bool:
 
 func _start_battle() -> bool:
 	if battle_transition_active: return false
+	if not AppState.relay_active():
+		var party_reason := AppState.party_block_reason()
+		if not party_reason.is_empty():
+			_notify(party_reason)
+			return false
 	if not AppState.begin_battle_transaction(AppState.selected_stage_id):
 		var reason := AppState.stage_entry_block_reason(AppState.selected_stage_id)
-		footer_status.text = reason if not reason.is_empty() else "이미 처리 중인 전투가 있습니다"
+		_notify(reason if not reason.is_empty() else "이미 처리 중인 전투가 있습니다")
 		return false
 	battle_transition_active = true
 	_play_map_battle_transition()
@@ -3775,13 +3890,16 @@ func _show_battle() -> void:
 	await get_tree().process_frame
 	var party_snapshot := AppState.relay_party_snapshot() if AppState.relay_active() else AppState.create_party_snapshot()
 	if party_snapshot.size() != 5:
-		footer_status.text = "전투 편성 데이터가 유효하지 않습니다."
+		AppState.abandon_battle_transaction(AppState.selected_stage_id)
+		SaveService.save_game()
+		_notify("전투 편성 데이터가 유효하지 않습니다. 입장 비용을 돌려드렸습니다.")
 		_cancel_transition_loading(loading_token)
 		SceneRouter.go("RELAY" if AppState.relay_active() else "FORMATION")
 		return
 	_set_transition_loading_phase(loading_token, "Initializing the real-time battle simulation", 64.0, 0.32)
 	await get_tree().process_frame
-	simulation.setup(party_snapshot, stage, AppState.battle_seed, DataRegistry.data, AppState.effective_battle_debug_options())
+	AppState.current_battle_seed = AppState.next_battle_seed()
+	simulation.setup(party_snapshot, stage, AppState.current_battle_seed, DataRegistry.data, AppState.effective_battle_debug_options())
 	simulation.auto_enabled = bool(SettingsService.values.battle_auto)
 	_set_transition_loading_phase(loading_token, "Deploying combatants and effects", 82.0, 0.26)
 	await get_tree().process_frame
@@ -3808,7 +3926,16 @@ func _show_battle() -> void:
 	if not battle_assets_ok:
 		battle_assets_ok = await _wait_for_battle_assets_with_deadline(battle_view, battle_preload_started_msec)
 	if not battle_assets_ok:
+		# Leaving BATTLE while assets load also ends the wait with `false`; that is
+		# a normal exit handled by the new screen, not a loading failure.
+		if current_screen != "BATTLE":
+			_cancel_transition_loading(loading_token)
+			return
 		print("BATTLE_ENTRY_PRELOAD_TIMEOUT stage=%s elapsed_ms=%d" % [AppState.selected_stage_id, Time.get_ticks_msec() - battle_preload_started_msec])
+		# The battle never started: release its token and entry cost so the map
+		# and the next battle are not blocked until a browser reload.
+		AppState.abandon_battle_transaction(AppState.selected_stage_id)
+		SaveService.save_game()
 		_show_loading_failure_screen("BATTLE UNAVAILABLE", "Battle asset loading stopped making progress.", "BATTLE")
 		return
 	if current_screen != "BATTLE" or battle_view == null or not is_instance_valid(battle_view):
@@ -3884,6 +4011,15 @@ func _build_battle_overlay() -> void:
 	battle_skip_button.name = "BattleSkipButton"
 	battle_skip_button.tooltip_text = "현재 AUTO 설정과 전투 상태를 유지한 채 남은 전투를 즉시 계산합니다."
 	battle_actions.add_child(battle_skip_button)
+	# The shared tactical gauge is the resource every ultimate spends. A ten-cell
+	# bar reads at a glance; the old "TACTICAL 0.24/10" text did not.
+	battle_gauge = Control.new()
+	battle_gauge.name = "BattleTacticalGauge"
+	battle_gauge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	battle_gauge.custom_minimum_size = Vector2(0.0, 30.0 * ui_scale) if portrait else Vector2(520.0, 32.0)
+	battle_gauge.size_flags_horizontal = Control.SIZE_EXPAND_FILL if portrait else Control.SIZE_SHRINK_BEGIN
+	battle_gauge.draw.connect(_draw_battle_gauge)
+	overlay.add_child(battle_gauge)
 	# Character health and shield are deliberately represented only at their
 	# world positions. Repeating five HP/SH text cards over a portrait battle
 	# hides the scene and competes with the head bars the player actually tracks.
@@ -3962,13 +4098,15 @@ func _update_battle_hud() -> void:
 	# deliberately single-line mobile rail; desktop retains the fuller encounter
 	# read where it has the horizontal room.
 	if battle_portrait_layout or _is_compact_landscape_layout():
-		battle_hud.text = "WAVE %d/%d  ·  %ds  ·  T %.0f/10" % [simulation.state.wave, simulation.state.wave_count, roundi(remain), simulation.state.tactical_gauge]
+		battle_hud.text = "웨이브 %d/%d  ·  %d초" % [simulation.state.wave, simulation.state.wave_count, roundi(remain)]
 	else:
 		var boss_text := ""
 		var boss: Dictionary = battle_view.presentation_boss()
 		if not boss.is_empty():
-			boss_text = "  보스 %d/%d [%s]" % [boss.hp, boss.max_hp, _boss_phase_hud_label(str(boss.get("phase", "PHASE_1")))]
-		battle_hud.text = "WAVE %d/%d   %.1fs   TACTICAL %.2f/10%s" % [simulation.state.wave, simulation.state.wave_count, remain, simulation.state.tactical_gauge, boss_text]
+			boss_text = "   보스 %d/%d [%s]" % [boss.hp, boss.max_hp, _boss_phase_hud_label(str(boss.get("phase", "PHASE_1")))]
+		battle_hud.text = "웨이브 %d/%d   남은 시간 %.1f초%s" % [simulation.state.wave, simulation.state.wave_count, remain, boss_text]
+	if battle_gauge != null and is_instance_valid(battle_gauge):
+		battle_gauge.queue_redraw()
 	if battle_auto_button != null:
 		battle_auto_button.text = "A·ON" if simulation.auto_enabled else "A·OFF"
 	if battle_speed_button != null:
@@ -3980,6 +4118,28 @@ func _update_battle_hud() -> void:
 		ultimate_buttons[i].disabled = not ready
 		if ultimate_buttons[i] is BattleUltimateOrb:
 			(ultimate_buttons[i] as BattleUltimateOrb).set_charge(simulation.state.tactical_gauge, float(skill.get("tactical_cost", 10)), ready)
+
+func _draw_battle_gauge() -> void:
+	if battle_gauge == null or battle_view == null or not is_instance_valid(battle_view) or battle_view.simulation == null:
+		return
+	var gauge := clampf(float(battle_view.simulation.state.tactical_gauge), 0.0, 10.0)
+	var font := get_theme_default_font()
+	var height := battle_gauge.size.y
+	var font_size := roundi(height * .62)
+	var label_width := height * 2.3
+	var value_width := height * 3.6
+	battle_gauge.draw_string(font, Vector2(0.0, height * .76), "전술", HORIZONTAL_ALIGNMENT_LEFT, label_width, font_size, Color("f1d77a"))
+	var bar := Rect2(label_width, height * .18, maxf(40.0, battle_gauge.size.x - label_width - value_width - 8.0), height * .64)
+	var gap := 3.0
+	var cell_width := (bar.size.x - gap * 9.0) / 10.0
+	for index in range(10):
+		var cell := Rect2(bar.position + Vector2(index * (cell_width + gap), 0.0), Vector2(cell_width, bar.size.y))
+		battle_gauge.draw_rect(cell, Color(0.03, 0.07, 0.12, .86))
+		var fill := clampf(gauge - index, 0.0, 1.0)
+		if fill > 0.0:
+			battle_gauge.draw_rect(Rect2(cell.position, Vector2(cell.size.x * fill, cell.size.y)), Color("f1d77a") if fill >= 1.0 else Color("7fa9c9"))
+		battle_gauge.draw_rect(cell, Color(0.95, 0.84, 0.48, .35), false, 1.0)
+	battle_gauge.draw_string(font, Vector2(battle_gauge.size.x - value_width, height * .76), "%.1f / 10" % gauge, HORIZONTAL_ALIGNMENT_RIGHT, value_width, font_size, Color.WHITE)
 
 func _battle_skill_orb_accent(definition: Dictionary) -> Color:
 	# Role accents preserve quick visual recognition without creating a second
@@ -4114,9 +4274,11 @@ func _battle_finished(result: Dictionary) -> void:
 		# tokenless/stale victory callbacks remain presentation-only no-ops.
 		if AppState.claim_pending_reward_once(stage.id, battle_map_id):
 			first = AppState.record_stage_clear(stage.id, stars)
-			last_rewards = RewardService.resolve(stage.id, 1, AppState.battle_seed + int(result.ticks), first)
+			last_rewards = RewardService.resolve(stage.id, 1, AppState.current_battle_seed + int(result.ticks), first)
 			AccountProgression.grant_stage_xp(int(stage.stamina_cost), 20 if first else 0)
-			for character_id in AppState.get_party(): RelationshipService.grant(character_id, 10)
+			# Relationship XP goes to the members who actually fought (relay squads
+			# included), not to whatever preset is active.
+			for character_id in (battle_party_ids if not battle_party_ids.is_empty() else AppState.get_party()): RelationshipService.grant(character_id, 10)
 			story_queued = AppState.queue_story_event("STAGE_CLEAR", str(stage.id))
 	_set_transition_loading_phase(loading_token, "Applying rewards and growth updates", 68.0, 0.30)
 	if is_inside_tree():
@@ -4626,7 +4788,9 @@ func _reward_celebration_queue() -> Array[Dictionary]:
 	# turns a visual acknowledgement into a second grant.
 	var entries: Array[Dictionary] = []
 	var progress: Dictionary = last_reward_report.get("progress", {})
-	if bool(last_battle_result.get("victory", false)):
+	# The result header already says VICTORY. A card is only worth a tap when
+	# something new happened: a first clear, a recruit or a key item.
+	if bool(last_battle_result.get("victory", false)) and bool(progress.get("first_clear", false)):
 		entries.append({
 			"kind": "CLEAR",
 			"eyebrow": "FIRST CLEAR" if bool(progress.get("first_clear", false)) else "OPERATION COMPLETE",
@@ -4740,7 +4904,7 @@ func _add_reward_celebration(parent: Node, font_size: int, compact := false) -> 
 		title.text = str(entry.get("title", ""))
 		body.text = str(entry.get("body", ""))
 		page_counter.text = "%d / %d" % [queue_index + 1, celebrations.size()]
-		next_button.text = "결과 보기" if queue_index >= celebrations.size() - 1 else "다음"
+		next_button.text = "확인" if queue_index >= celebrations.size() - 1 else "다음"
 		var entry_character: Dictionary = entry.get("character", {})
 		art.texture = _asset_texture(str(entry_character.get("portrait_asset_id", ""))) if not entry_character.is_empty() else null
 		art.visible = not compact and art.texture != null
@@ -4809,37 +4973,11 @@ func _show_result() -> void:
 		print("RESULT_SCREEN_READY elapsed_ms=%d layout=portrait" % maxi(0, Time.get_ticks_msec() - result_build_started_msec))
 		_finish_transition_loading(loading_token, "Battle results ready")
 		return
-	# Keep the full report scrollable independently from the action rail.  The
-	# former expanding HBox consumed the complete landscape height and could
-	# leave the return/growth actions below the visible safe area.
-	var report_scroll := ScrollContainer.new()
-	report_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	report_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	report_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	content.add_child(report_scroll)
-	var compact_landscape := _is_compact_landscape_layout()
-	var hero := HBoxContainer.new()
-	hero.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	hero.custom_minimum_size = Vector2(0.0, 360.0 if compact_landscape else 500.0)
-	hero.add_theme_constant_override("separation", 18)
-	report_scroll.add_child(hero)
-	var lead := _result_feature_character()
-	print("RESULT_BUILD_TRACE step=lead id=%s" % str(lead.get("id", "")))
-	var art_panel := PanelContainer.new()
-	art_panel.custom_minimum_size = Vector2(220, 360) if compact_landscape else Vector2(260, 500)
-	art_panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	hero.add_child(art_panel)
-	art_panel.add_child(_art_rect(str(lead.portrait_asset_id), Vector2(200, 330) if compact_landscape else Vector2(240, 470)))
-	print("RESULT_BUILD_TRACE step=art")
-	var box := _panel_box(hero)
-	box.add_child(_label("VICTORY" if last_battle_result.get("victory", false) else "DEFEAT", 52, Color("f1d77a") if last_battle_result.get("victory", false) else Color("ff7f8a")))
-	box.add_child(_label("시간 %.2fs  ·  생존 %d" % [last_battle_result.get("time", 0), last_battle_result.get("survivors", 0)], 26))
-	_add_reward_celebration(box, 20)
-	print("RESULT_BUILD_TRACE step=celebration")
-	_add_reward_clarity(box, 23)
-	print("RESULT_BUILD_TRACE step=clarity")
-	box.add_child(_label("가한 피해\n%s\n\n회복\n%s" % [_format_counts(last_battle_result.get("damage", {})), _format_counts(last_battle_result.get("healing", {}))], 19, Color("cdd5e3")))
-	print("RESULT_BUILD_TRACE step=counts")
+	# Header (stars and missed conditions) → MVP and contribution → rewards →
+	# explained growth recommendation. The report scrolls independently from
+	# the action rail so map return is never pushed below the safe area.
+	ResultPresentation.build_landscape(self)
+	print("RESULT_BUILD_TRACE step=report")
 	var actions := HBoxContainer.new()
 	content.add_child(actions)
 	var result_is_relay := str(last_reward_report.get("source_type", "")) == "RELAY"
@@ -4848,7 +4986,7 @@ func _show_result() -> void:
 	# otherwise Godot infers Array[String] from the relay branch and aborts the
 	# RESULT tree at 96% when an ordinary map battle supplies the generic branch.
 	var growth_party: Array = battle_party_ids if result_is_relay and not battle_party_ids.is_empty() else AppState.get_party()
-	actions.add_child(CommandPresentation.button(self, "파티 성장", func(party := growth_party): AppState.selected_character_id = str(party[0]); SceneRouter.go("GROWTH"), false, Vector2(300, 84)))
+	actions.add_child(CommandPresentation.button(self, "파티 성장", func(party := growth_party): _open_recommended_growth(party), false, Vector2(300, 84)))
 	actions.add_child(CommandPresentation.button(self, "릴레이 작전" if result_is_relay else _result_map_action_text(), func(): SceneRouter.go("RELAY" if result_is_relay else "STAGE_SELECT", {"result_return": true}), false, Vector2(300, 84)))
 	actions.add_child(CommandPresentation.button(self, "본부", func(): SceneRouter.go("HOME"), false, Vector2(200, 84)))
 	print("RESULT_BUILD_TRACE step=actions")
@@ -4872,18 +5010,10 @@ func _show_result_portrait() -> void:
 	report.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	report.add_theme_constant_override("separation", roundi(10.0 * ui_scale))
 	report_scroll.add_child(report)
-	var lead := _result_feature_character()
-	var art_panel := PanelContainer.new()
-	art_panel.custom_minimum_size = Vector2(0.0, 224.0 * ui_scale)
-	report.add_child(art_panel)
-	art_panel.add_child(_art_rect(str(lead.portrait_asset_id), Vector2(310, 218)))
+	ResultPresentation.build_portrait(self, report, ui_scale * .8)
 	var box := _panel_box(report)
-	box.add_child(_label("VICTORY" if last_battle_result.get("victory", false) else "DEFEAT", 40, Color("f1d77a") if last_battle_result.get("victory", false) else Color("ff7f8a")))
-	box.add_child(_label("시간 %.2fs  ·  생존 %d" % [last_battle_result.get("time", 0), last_battle_result.get("survivors", 0)], 20))
-	box.add_child(_label("결정론 기록  %s" % str(last_battle_result.get("event_hash", "")).left(16), 14, Color("7e9dbd")))
 	_add_reward_celebration(box, 15, true)
 	_add_reward_clarity(box, 16)
-	box.add_child(_label("가한 피해\n%s\n\n회복\n%s" % [_format_counts(last_battle_result.get("damage", {})), _format_counts(last_battle_result.get("healing", {}))], 15, Color("cdd5e3")))
 	var actions := GridContainer.new()
 	actions.columns = 2
 	actions.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -4891,15 +5021,25 @@ func _show_result_portrait() -> void:
 	content.add_child(actions)
 	var result_is_relay := str(last_reward_report.get("source_type", "")) == "RELAY"
 	var growth_party: Array = battle_party_ids if result_is_relay and not battle_party_ids.is_empty() else AppState.get_party()
-	actions.add_child(_button("권장 파티 성장", func(party := growth_party): AppState.selected_character_id = str(party[0]); SceneRouter.go("GROWTH"), false, Vector2(320, 52)))
+	actions.add_child(_button("권장 파티 성장", func(party := growth_party): _open_recommended_growth(party), false, Vector2(320, 52)))
 	actions.add_child(_button("릴레이 작전으로" if result_is_relay else _result_map_action_text(), func(): SceneRouter.go("RELAY" if result_is_relay else "STAGE_SELECT", {"result_return": true}), false, Vector2(320, 52)))
 	actions.add_child(_button("홈", func(): SceneRouter.go("HOME"), false, Vector2(320, 52)))
 
+# The growth screen opens on the member the advisor ranks first (e.g. the one
+# who went down or is furthest below the next operation's level).
+func _open_recommended_growth(party: Array) -> void:
+	var entries := GrowthAdvisorScript.recommendations(party, GrowthAdvisorScript.downed_ids_from_result(last_battle_result), 1)
+	AppState.selected_character_id = str(entries[0].character_id) if not entries.is_empty() else str(party[0])
+	growth_tab = "레벨업"
+	growth_target_level = 0
+	SceneRouter.go("GROWTH")
+
 func _sweep(count: int) -> void:
 	var pre_profile := _reward_profile_snapshot()
-	var result := RewardService.sweep(AppState.selected_stage_id, count, AppState.battle_seed + count)
+	var sweep_seed := AppState.next_battle_seed() + count
+	var result := RewardService.sweep(AppState.selected_stage_id, count, sweep_seed)
 	if result.ok:
-		last_battle_result = {"victory": true, "time": 0.0, "survivors": 5, "seed": AppState.battle_seed + count, "event_hash": "SWEEP_USES_REWARD_RESOLVER", "damage": {}, "healing": {}}
+		last_battle_result = {"victory": true, "time": 0.0, "survivors": 5, "seed": sweep_seed, "event_hash": "SWEEP_USES_REWARD_RESOLVER", "damage": {}, "healing": {}}
 		last_rewards = result.value
 		var post_profile := _reward_profile_snapshot()
 		last_reward_report = {
@@ -5125,9 +5265,32 @@ func _show_archive() -> void:
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	grid.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	archive_box.add_child(grid)
-	for scenario in DataRegistry.list_of("scenarios"):
-		var relation_locked: bool = str(scenario.chapter_id) == "REL" and ((str(scenario.id) == "SCN_REL_MAERU" and int(AppState.profile.roster.CHR001.relationship_level) < 2) or (str(scenario.id) == "SCN_REL_IRI" and int(AppState.profile.roster.CHR008.relationship_level) < 2))
-		grid.add_child(_button("%s\n%s" % [LocalizationService.tr_key(scenario.title_key), scenario.chapter_id], func(scenario_id: String = str(scenario.id)): AppState.active_scenario_id = scenario_id; AppState.profile.last_scenario_position.erase(scenario_id); SceneRouter.go("STORY", {"after": "ARCHIVE"}), relation_locked, Vector2(300 if portrait else 320, 90)))
+	var scenarios := DataRegistry.list_of("scenarios")
+	var available := 0
+	for scenario in scenarios:
+		var scenario_id := str(scenario.id)
+		# Campaign scenes open only after they were reached in play, so the
+		# archive neither spoils later chapters nor replays unearned rewards.
+		# Personal stories open by relationship level and may be first seen here.
+		if str(scenario.chapter_id) == "REL":
+			if _relation_story_locked(scenario_id): continue
+		elif not AppState.scenario_seen(scenario_id):
+			continue
+		available += 1
+		grid.add_child(_button("%s\n%s" % [LocalizationService.tr_key(scenario.title_key), scenario.chapter_id], func(): AppState.active_scenario_id = scenario_id; AppState.profile.last_scenario_position.erase(scenario_id); SceneRouter.go("STORY", {"after": "ARCHIVE"}), false, Vector2(300 if portrait else 320, 90)))
+	archive_box.add_child(_label("열람 가능한 기록 %d / %d · 진행하면 새 기록이 열립니다" % [available, scenarios.size()], 18, GameUI.TEXT_MUTED))
+	archive_box.move_child(archive_box.get_child(archive_box.get_child_count() - 1), 0)
+
+func _relation_story_locked(scenario_id: String) -> bool:
+	return (scenario_id == "SCN_REL_MAERU" and int(AppState.profile.roster.CHR001.relationship_level) < 2) or (scenario_id == "SCN_REL_IRI" and int(AppState.profile.roster.CHR008.relationship_level) < 2)
+
+func _is_archive_replay(scenario_id: String) -> bool:
+	if str(AppState.route_payload.get("after", "")) != "ARCHIVE":
+		return false
+	# A personal story that was never finished grants its reward once.
+	if str(DataRegistry.by_id("scenarios", scenario_id).get("chapter_id", "")) == "REL":
+		return AppState.scenario_completed(scenario_id)
+	return true
 
 func _show_settings() -> void:
 	_title("설정", "로컬 설정은 저장 파일에 보존")

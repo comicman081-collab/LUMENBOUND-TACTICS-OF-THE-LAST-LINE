@@ -364,7 +364,10 @@ static func disengage_after_battle(state: Dictionary, definition: Dictionary, en
 	state.patrol_positions[encounter_id] = [retreat.x, retreat.y]
 	return true
 
-static func advance_ticks(state: Dictionary, definition: Dictionary, grid, party_coord: Vector2i, tick_count := 1, vision_radius := BASE_PLAYER_VISION_RADIUS) -> Dictionary:
+## `dormant_ids` lists encounters whose stage is still locked. Their pawns are
+## not shown, so they wait unaware at their home hex and can never make contact;
+## otherwise they would chase the squad invisibly and fight the moment they unlock.
+static func advance_ticks(state: Dictionary, definition: Dictionary, grid, party_coord: Vector2i, tick_count := 1, vision_radius := BASE_PLAYER_VISION_RADIUS, dormant_ids: Dictionary = {}) -> Dictionary:
 	ensure_state(state, definition, grid)
 	var result := {"changed": [], "moves": [], "contacts": [], "awareness": {}}
 	if bool(state.get("map_simulation_state", {}).get("paused", false)):
@@ -391,6 +394,22 @@ static func advance_ticks(state: Dictionary, definition: Dictionary, grid, party
 				continue
 			var previous := Vector2i(int(runtime.get("q", 0)), int(runtime.get("r", 0)))
 			occupied.erase(HexCoordScript.key(previous))
+			if dormant_ids.has(encounter_id):
+				var dormant_home_value: Dictionary = patrol.get("return_hex", {"q": previous.x, "r": previous.y})
+				var dormant_home := Vector2i(int(dormant_home_value.q), int(dormant_home_value.r))
+				if occupied.has(HexCoordScript.key(dormant_home)):
+					dormant_home = previous
+				runtime.q = dormant_home.x
+				runtime.r = dormant_home.y
+				runtime.awareness = UNAWARE
+				runtime.patrol_state = PATROL_IDLE
+				runtime.search_turns = 0
+				runtime.erase("last_seen")
+				state.patrol_states[encounter_id] = runtime
+				state.patrol_positions[encounter_id] = [dormant_home.x, dormant_home.y]
+				result.awareness[encounter_id] = UNAWARE
+				occupied[HexCoordScript.key(dormant_home)] = encounter_id
+				continue
 			if patrol_is_stationary(definition, patrol):
 				runtime.awareness = UNAWARE
 				runtime.patrol_state = PATROL_IDLE

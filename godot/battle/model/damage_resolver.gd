@@ -9,7 +9,8 @@ static func calculate(attacker: Dictionary, defender: Dictionary, coefficient: f
 		return {"hit": false, "crit": false, "amount": 0, "hit_chance": hit_chance}
 	var defense_factor := 700.0 / (700.0 + maxf(0.0, float(defender_stats.get("DEF", 0))))
 	if UnitState.has_status(defender, "DEF_DOWN"):
-		defense_factor = 700.0 / (700.0 + maxf(0.0, float(defender_stats.get("DEF", 0)) * 0.75))
+		var def_down := clampf(UnitState.status_strength(defender, "DEF_DOWN", .25), 0.0, .6)
+		defense_factor = 700.0 / (700.0 + maxf(0.0, float(defender_stats.get("DEF", 0)) * (1.0 - def_down)))
 	var level_factor := clampf(1.0 + 0.0125 * (int(attacker.level) - int(defender.level)), 0.70, 1.30)
 	var crit_chance := clampf(0.05 + (float(attacker_stats.get("CRIT", 0)) - float(defender_stats.get("CRIT_RES", 0))) / 1200.0, 0.05, 0.60)
 	var critical := rng.randf() < crit_chance

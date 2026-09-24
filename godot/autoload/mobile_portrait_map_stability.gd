@@ -8,6 +8,12 @@ extends Node
 
 const REFRESH_INTERVAL := 0.10
 const SIZE_EPSILON := 1.0
+# `_runtime_size()` runs two JavaScriptBridge.eval calls on Web. Probing it on
+# every frame, on every screen, cost bridge round-trips for no layout change;
+# re-read it on a short cadence and immediately after a window resize.
+const RUNTIME_PROBE_INTERVAL := 0.25
+var _runtime_probe_left := 0.0
+var _cached_runtime_value: Variant = null
 
 var _portrait_hotfix: Node
 var _shell: Control
@@ -24,6 +30,7 @@ func _ready() -> void:
 	process_priority = 3000
 	print("LUMENBOUND_MOBILE_MAP_STABILITY_READY")
 	call_deferred("_refresh_refs")
+	get_window().size_changed.connect(func(): _runtime_probe_left = 0.0)
 
 func _exit_tree() -> void:
 	_release_v2_process()
@@ -39,7 +46,11 @@ func _process(delta: float) -> void:
 	if _shell == null or not is_instance_valid(_shell):
 		return
 
-	var runtime_value = _portrait_hotfix.call("_runtime_size")
+	_runtime_probe_left -= delta
+	if _runtime_probe_left <= 0.0 or _cached_runtime_value == null:
+		_runtime_probe_left = RUNTIME_PROBE_INTERVAL
+		_cached_runtime_value = _portrait_hotfix.call("_runtime_size")
+	var runtime_value = _cached_runtime_value
 	if not runtime_value is Vector2:
 		_release_map_mode()
 		return

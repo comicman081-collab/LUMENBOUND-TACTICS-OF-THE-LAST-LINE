@@ -30,17 +30,17 @@ func _ready() -> void:
 		var weapon: Dictionary = AppState.profile.weapons[str(state.equipped_weapon_id)]
 		weapon.level = 60
 		weapon.tier = 6
-		var before := AppState.profile.duplicate(true)
-		check(not SkillUpgradeService.supports_upgrade(cid, "ultimate") and SkillUpgradeService.next_cost(cid, "ultimate").is_empty(), cid + " fixed effect offers no purchase")
-		check(SkillUpgradeService.upgrade(cid, "ultimate").error == "FIXED_SKILL_EFFECT" and AppState.profile == before, cid + " fixed effect preserves inventory and existing level")
-		check(Planner.next_legal_action([cid]).is_empty(), cid + " recommended plan excludes fixed effect")
+		# BUFF/DEBUFF strength now scales with the ultimate level (see
+		# BattleSimulation._use_ultimate), so these upgrades buy a real effect.
+		check(SkillUpgradeService.supports_upgrade(cid, "ultimate") and not SkillUpgradeService.next_cost(cid, "ultimate").is_empty(), cid + " level-scaled buff/debuff ultimate can be upgraded")
 		var candidates := Affordability.candidates(AppState.profile)
 		var found := false
 		for candidate in candidates:
 			if str(candidate.key) == "SKILL:%s:ultimate" % cid: found = true
-		check(not found, cid + " reward opportunity excludes fixed effect")
-		check(is_equal_approx(float(SkillUpgradeService.comparison(cid, "ultimate").current), float(skill.values[1])), cid + " existing coefficient and skill level remain intact")
-	check(fixed_count == 8, "all eight fixed ultimate effects reviewed")
+		check(found, cid + " reward opportunity lists the buff/debuff ultimate")
+		check(SkillUpgradeService.upgrade(cid, "ultimate").ok and int(state.skills.ultimate) == 3, cid + " buff/debuff ultimate upgrade applies once")
+		check(is_equal_approx(float(SkillUpgradeService.comparison(cid, "ultimate").current), float(skill.values[2])), cid + " upgraded coefficient drives the scaled strength")
+	check(fixed_count == 8, "all eight buff/debuff ultimates reviewed")
 	for cid in ["CHR001", "UNKNOWN_CHARACTER"]:
 		if AppState.profile.roster.has(cid):
 			AppState.profile.roster[cid].unlocked = false

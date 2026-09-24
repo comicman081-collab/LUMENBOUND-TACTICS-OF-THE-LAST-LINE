@@ -1548,6 +1548,7 @@ func _seed_display_unit(unit: Dictionary) -> void:
 		"hp": int(unit.get("hp", 0)),
 		"max_hp": int(unit.get("max_hp", 0)),
 		"shield": int(unit.get("shield", 0)),
+		"shield_sources": unit.get("shields", {}).duplicate(true),
 		"alive": bool(unit.get("alive", false)),
 		"state": str(unit.get("state", "")),
 		"phase": str(unit.get("phase", "")),
@@ -1581,18 +1582,46 @@ func _apply_display_event(event: Dictionary) -> void:
 		if not bool(extra.get("miss", false)) and not bool(extra.get("invulnerable", false)):
 			var shield_damage := maxi(0, int(extra.get("shield_damage", 0)))
 			var hp_damage := maxi(0, int(extra.get("hp_damage", event.get("value", 0))))
-			snapshot.shield = maxi(0, int(snapshot.get("shield", 0)) - shield_damage)
+			_consume_display_shield(snapshot, shield_damage)
 			snapshot.hp = maxi(0, int(snapshot.get("hp", 0)) - hp_damage)
 	elif event_type == BattleEvent.HEAL:
 		snapshot.hp = mini(int(snapshot.get("max_hp", 0)), int(snapshot.get("hp", 0)) + maxi(0, int(event.get("value", 0))))
 	elif event_type == BattleEvent.SHIELD:
-		snapshot.shield = maxi(0, int(snapshot.get("shield", 0)) + maxi(0, int(event.get("value", 0))))
+		# The simulation replaces each caster's shield on recast; adding here made
+		# the Guardian's repeated shield inflate the bar every 8 seconds.
+		var sources: Dictionary = snapshot.get("shield_sources", {})
+		sources[str(event.get("source", ""))] = maxi(0, int(event.get("value", 0)))
+		snapshot.shield_sources = sources
+		snapshot.shield = _display_shield_total(sources)
 	elif event_type == BattleEvent.DOWN:
 		snapshot.hp = 0
 		snapshot.alive = false
 		snapshot.state = "DOWN"
 		_start_defeat_presentation(target_uid)
 	presentation_display_units[target_uid] = snapshot
+
+func _display_shield_total(sources: Dictionary) -> int:
+	var total := 0
+	for value in sources.values(): total += int(value)
+	return total
+
+# Same order as BattleSimulation._consume_shield: sources sorted by caster uid.
+func _consume_display_shield(snapshot: Dictionary, amount: int) -> void:
+	var sources: Dictionary = snapshot.get("shield_sources", {})
+	if sources.is_empty():
+		snapshot.shield = maxi(0, int(snapshot.get("shield", 0)) - amount)
+		return
+	var left := amount
+	var keys: Array = sources.keys()
+	keys.sort()
+	for key in keys:
+		if left <= 0: break
+		var used := mini(left, int(sources[key]))
+		sources[key] = int(sources[key]) - used
+		left -= used
+		if int(sources[key]) <= 0: sources.erase(key)
+	snapshot.shield_sources = sources
+	snapshot.shield = _display_shield_total(sources)
 
 func _start_defeat_presentation(uid: String) -> void:
 	var actor: Dictionary = presentation_actor_records.get(uid, {})
@@ -2002,6 +2031,7 @@ func _draw() -> void:
 	# All ground shadows precede all bodies; a front unit's shadow must not
 	# paint over a rear unit's boots while formation lanes change.
 	for unit in visible_units: _draw_contact_shadow(unit)
+	_draw_boss_telegraph_ground()
 	for unit in visible_units: _draw_weapon_action(unit, true)
 	for unit in visible_units: _draw_unit(unit)
 	for unit in visible_units: _draw_weapon_action(unit, false)
@@ -2156,6 +2186,9 @@ func _draw() -> void:
 		draw_circle(callout_position, 3.0, Color(1.0, 1.0, 1.0, alpha * .88))
 	for presentation in boss_phase_presentations:
 		_draw_boss_phase_presentation(presentation)
+	for unit in visible_units: _draw_unit_status(unit)
+	_draw_enemy_intents()
+	_draw_boss_telegraph_warnings()
 	for text in floating_texts:
 		_draw_damage_number(text)
 	_draw_ultimate_cutin()
@@ -2615,18 +2648,123 @@ func _draw_unit(unit: Dictionary) -> void:
 		draw_circle(p + Vector2(-49, -57), 5, Color("ff7a70"))
 	else:
 		_draw_nonhuman_enemy(p, color, str(unit.role), alive)
-	var bar_width := 96.0 if unit.rank != "BOSS" else 150.0
-	var hp_ratio := UnitState.hp_ratio(unit)
+
+func _readout_scale() -> float:
+	return clampf(.62 / _damage_screen_scale(), 1.0, 2.6)
+
+func _telegraph_targets(cast: Dictionary) -> Array:
+	var targets: Array = []
+	if str(cast.get("target_uid", "")).is_empty():
+		for model in simulation.state.party:
+			if UnitState.alive(model): targets.append(_presentation_unit(model))
+	else:
+		var target := presentation_unit_for_uid(str(cast.target_uid))
+		if not target.is_empty() and UnitState.alive(target): targets.append(target)
+	return targets
+
+# Ground marks under every ally a boss is winding up to hit.
+func _draw_boss_telegraph_ground() -> void:
+	if simulation == null or simulation.pending_boss_casts.is_empty(): return
+	var pulse := .5 + .5 * sin(float(Time.get_ticks_msec()) / 110.0)
+	for cast in simulation.pending_boss_casts:
+		var remaining := maxf(0.0, float(int(cast.due_tick) - int(simulation.state.tick)) * BattleSimulation.TICK_DELTA)
+		var urgency := 1.0 - clampf(remaining / 2.0, 0.0, 1.0)
+		for target in _telegraph_targets(cast):
+			var ground := _ground_position(target)
+			var radius := 78.0 * _battlefield_camera_zoom()
+			var points := PackedVector2Array()
+			for index in range(33):
+				var angle := TAU * float(index) / 32.0
+				points.append(ground + Vector2(cos(angle) * radius, sin(angle) * radius * .34))
+			draw_colored_polygon(points, Color(1.0, .18, .16, .10 + .16 * urgency))
+			draw_polyline(points, Color(1.0, .32, .26, .55 + .4 * pulse), 3.0 + 2.0 * urgency, true)
+
+func _draw_boss_telegraph_warnings() -> void:
+	if simulation == null or simulation.pending_boss_casts.is_empty(): return
+	var font := battle_font if battle_font != null else ThemeDB.fallback_font
+	var font_size := clampi(roundi(22.0 * _readout_scale()), 22, 52)
+	for cast in simulation.pending_boss_casts:
+		var boss := presentation_unit_for_uid(str(cast.boss_uid))
+		if boss.is_empty() or not UnitState.alive(boss): continue
+		var remaining := maxf(0.0, float(int(cast.due_tick) - int(simulation.state.tick)) * BattleSimulation.TICK_DELTA)
+		var label := "집중 조준" if str(cast.action) == "LOCK_ON" else "광역 공격"
+		var text := "경고 · %s  %.1f초" % [label, remaining]
+		var head := _head_position(boss, _ground_position(boss))
+		var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x + 28.0
+		var box := Rect2(head + Vector2(-width * .5, -54.0 * _readout_scale() - font_size), Vector2(width, font_size + 16.0))
+		draw_rect(box, Color(.18, .02, .03, .88))
+		draw_rect(box, Color(1.0, .36, .3, .95), false, 2.0)
+		draw_string(font, box.position + Vector2(14.0, font_size + 3.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color("ffd9d2"))
+
+# Each enemy shows how close its next attack is; right before it fires, a thin
+# line points at the ally it will hit, so front/back placement can be read live.
+func _draw_enemy_intents() -> void:
+	if simulation == null or scene_transition_active(): return
+	var readout := _readout_scale()
+	for model in simulation.state.enemies:
+		if not UnitState.alive(model): continue
+		var enemy := _presentation_unit(model)
+		var interval := maxf(.1, float(model.get("attack_interval", 1.45)))
+		var left := clampf(float(model.get("attack_cd", interval)), 0.0, interval)
+		var charge := 1.0 - left / interval
+		var head := _head_position(enemy, _ground_position(enemy))
+		var bar_width := (96.0 if str(enemy.get("rank", "")) != "BOSS" else 150.0) * readout
+		var center := head + Vector2(-bar_width / 2.0 - 14.0 * readout, -14.0 * readout)
+		var radius := 8.0 * readout
+		var imminent := left <= .45
+		var color := Color("ff6b5e") if imminent else Color("f1d77a")
+		draw_circle(center, radius + 2.0, Color(.02, .04, .08, .8))
+		draw_arc(center, radius, -PI * .5, -PI * .5 + TAU * charge, 24, color, 3.0 * readout, true)
+		if imminent:
+			var target := TargetResolver.choose(model, simulation.state.party)
+			if target.is_empty(): continue
+			var target_view := presentation_unit_for_uid(str(target.uid))
+			if target_view.is_empty(): continue
+			var target_head := _head_position(target_view, _ground_position(target_view))
+			draw_line(head, target_head, Color(1.0, .42, .36, .55), 2.0 * readout, true)
+			draw_circle(target_head + Vector2(0, -10.0 * readout), 5.0 * readout, Color(1.0, .42, .36, .85))
+
+const STATUS_PIPS := {
+	"HASTE": ["가속", "7ee8a8"], "SLOW": ["감속", "ffb46b"], "TAUNT": ["도발", "ffd36a"],
+	"DEF_DOWN": ["방↓", "ff7a8a"], "ATK_DOWN": ["공↓", "ff9a7a"], "STUN": ["기절", "f5f07a"],
+	"SILENCE": ["침묵", "c6a8ff"], "INVULNERABLE": ["무적", "9fe8ff"],
+}
+
+# HP, shield, status and name are drawn after every body, projectile and VFX so
+# large effects never hide them. On a phone the canvas is shown at ~0.2-0.4x;
+# scale the readout back up so bars stay a few screen pixels tall and names legible.
+func _draw_unit_status(unit: Dictionary) -> void:
+	if boss_entry_elapsed >= 0.0 and str(unit.team) != "PLAYER" and boss_entry_elapsed < .95: return
+	var player: bool = str(unit.team) == "PLAYER"
+	var alive := UnitState.alive(unit)
+	if not player and not alive: return
+	var p := _ground_position(unit)
+	var readout_scale := _readout_scale()
+	var bar_width := (96.0 if unit.rank != "BOSS" else 150.0) * readout_scale
+	var bar_height := 9.0 * readout_scale
 	var head_position := _head_position(unit, p)
-	var bar_origin := head_position + Vector2(-bar_width / 2.0, -18)
-	draw_rect(Rect2(bar_origin, Vector2(bar_width, 9)), Color("351e2b"))
-	draw_rect(Rect2(bar_origin, Vector2(bar_width * hp_ratio, 9)), Color("62e49b") if player else Color("ff6868"))
+	var bar_origin := head_position + Vector2(-bar_width / 2.0, -18.0 * readout_scale)
+	draw_rect(Rect2(bar_origin - Vector2(2, 2), Vector2(bar_width + 4, bar_height + 4)), Color(0.01, 0.02, 0.05, .72))
+	draw_rect(Rect2(bar_origin, Vector2(bar_width, bar_height)), Color("351e2b"))
+	draw_rect(Rect2(bar_origin, Vector2(bar_width * UnitState.hp_ratio(unit), bar_height)), Color("62e49b") if player else Color("ff6868"))
 	if int(unit.shield) > 0:
 		var shield_ratio := minf(1.0, float(unit.shield) / maxf(1.0, float(unit.max_hp)))
-		draw_rect(Rect2(bar_origin + Vector2(0, 12), Vector2(bar_width * shield_ratio, 5)), Color("6ecfff"))
-	var label := unit_display_name(unit)
+		draw_rect(Rect2(bar_origin + Vector2(0, bar_height + 3.0), Vector2(bar_width * shield_ratio, bar_height * .55)), Color("6ecfff"))
 	var label_font := battle_font if battle_font != null else ThemeDB.fallback_font
-	draw_string(label_font, p + Vector2(-55, 46), label, HORIZONTAL_ALIGNMENT_CENTER, 110, 16, Color("dbe9ff"))
+	var pip_size := roundi(13.0 * readout_scale)
+	var pip_x := bar_origin.x
+	for status_id in unit.get("statuses", {}).keys():
+		if not STATUS_PIPS.has(str(status_id)): continue
+		var pip: Array = STATUS_PIPS[str(status_id)]
+		var text_width := label_font.get_string_size(str(pip[0]), HORIZONTAL_ALIGNMENT_LEFT, -1, pip_size).x
+		var pip_rect := Rect2(Vector2(pip_x, bar_origin.y - pip_size - 8.0), Vector2(text_width + 8.0, pip_size + 4.0))
+		draw_rect(pip_rect, Color(0.02, 0.04, 0.08, .82))
+		draw_rect(pip_rect, Color(str(pip[1])), false, 1.5)
+		draw_string(label_font, pip_rect.position + Vector2(4.0, pip_size), str(pip[0]), HORIZONTAL_ALIGNMENT_LEFT, -1, pip_size, Color(str(pip[1])))
+		pip_x += pip_rect.size.x + 4.0
+	var name_size := clampi(roundi(16.0 * readout_scale), 16, 40)
+	var name_width := 110.0 * readout_scale
+	draw_string(label_font, p + Vector2(-name_width / 2.0, 30.0 + name_size), unit_display_name(unit), HORIZONTAL_ALIGNMENT_CENTER, name_width, name_size, Color("dbe9ff"))
 
 func _draw_enemy_defeat_explosion(unit: Dictionary, p: Vector2, elapsed: float) -> void:
 	var duration := 1.05 if str(unit.get("rank", "")) == "BOSS" else .78

@@ -4,6 +4,9 @@ extends RefCounted
 var scenario: Dictionary = {}
 var state := ScenarioState.new()
 var labels: Dictionary = {}
+# Archive replays are read-only: rewards, flags, recruits, story-trigger
+# completion and checkpoints belong to the first playthrough only.
+var replay := false
 
 func load_scenario(scenario_id: String, resume := true) -> GameResult:
 	scenario = DataRegistry.by_id("scenarios", scenario_id)
@@ -52,7 +55,8 @@ func advance() -> Dictionary:
 			state.current_line = command.duplicate(true)
 			_save_checkpoint()
 			return state.current_line
-		elif type == "set_flag": AppState.profile.story_flags[command.flag] = command.get("value", true)
+		elif type == "set_flag":
+			if not replay: AppState.profile.story_flags[command.flag] = command.get("value", true)
 		elif type == "check_flag":
 			if AppState.profile.story_flags.get(command.flag, false) != command.get("equals", true): _jump(command.get("target", ""))
 		elif type == "jump": _jump(command.get("target", ""))
@@ -67,16 +71,21 @@ func advance() -> Dictionary:
 			state.current_line = command.duplicate(true)
 			return state.current_line
 		elif type == "start_battle":
+			if replay: continue
 			state.current_line = command.duplicate(true)
 			_save_checkpoint()
 			return state.current_line
-		elif type == "grant_reward": AppState.add_item(command.item_id, int(command.get("quantity", 1)))
+		elif type == "grant_reward":
+			if not replay: AppState.add_item(command.item_id, int(command.get("quantity", 1)))
 		elif type == "end_scenario":
-			AppState.complete_story_trigger_for_scenario(state.scenario_id)
-			if state.scenario_id == "SCN_CH01_MID_B": AppState.profile.roster.CHR006.unlocked = true
-			if state.scenario_id == "SCN_CH01_OUTRO": AppState.profile.roster.CHR007.unlocked = true
+			if not replay:
+				AppState.complete_story_trigger_for_scenario(state.scenario_id)
+				AppState.mark_scenario_completed(state.scenario_id)
+				var join_stage := AppState.story_trigger_stage(state.scenario_id)
+				if state.scenario_id == "SCN_CH01_MID_B": AppState.unlock_character("CHR006", join_stage)
+				if state.scenario_id == "SCN_CH01_OUTRO": AppState.unlock_character("CHR007", join_stage)
+				AppState.profile.last_scenario_position.erase(state.scenario_id)
 			state.finished = true
-			AppState.profile.last_scenario_position.erase(state.scenario_id)
 			return command
 	state.finished = true
 	return {"command": "end_scenario"}
@@ -86,7 +95,7 @@ func choose(choice_index: int) -> GameResult:
 	var choices: Array = state.current_line.get("choices", [])
 	if choice_index < 0 or choice_index >= choices.size(): return GameResult.failure("INVALID_CHOICE")
 	var choice: Dictionary = choices[choice_index]
-	if choice.has("set_flag"): AppState.profile.story_flags[choice.set_flag] = true
+	if choice.has("set_flag") and not replay: AppState.profile.story_flags[choice.set_flag] = true
 	if choice.has("target"): _jump(choice.target)
 	state.waiting_for_choice = false
 	state.current_line = {}
@@ -107,4 +116,5 @@ func _jump(target: String) -> void:
 	if labels.has(target): state.command_index = int(labels[target])
 
 func _save_checkpoint() -> void:
+	if replay: return
 	AppState.profile.last_scenario_position[state.scenario_id] = state.snapshot()

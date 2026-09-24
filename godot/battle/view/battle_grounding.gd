@@ -39,7 +39,10 @@ static func formation_point(view_size: Vector2, player: bool, slot: int, _boss_s
 	# lane coordinates also prevents a formation jump when a boss wave arrives.
 	var point: Vector2
 	if player:
-		var columns := [.10, .178, .256, .334, .412]
+		# Slots are 전열 A/B, 중열 A/B, 후열. Enemies stand on the right, so the
+		# front row takes the columns nearest them and the back row stays furthest
+		# left; melee lunges no longer run through the whole party.
+		var columns := [.412, .334, .256, .178, .10]
 		var lanes := [.84, .725, .84, .725, .84]
 		point = Vector2(float(columns[slot % 5]), float(lanes[slot % 5]))
 	else:

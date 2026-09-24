@@ -1110,7 +1110,15 @@ func _test_dynamic_exploration() -> void:
 		var n05_visible_target: Dictionary = n05_route.back()
 		n05_party = Vector2i(int(n05_visible_target.get("q", n05_before.x)), int(n05_visible_target.get("r", n05_before.y)))
 	var n05_tick_before := int(n05_motion_state.get("map_simulation_state", {}).get("tick", 0))
+	# Patrols only act once their stage is unlocked (locked pawns are hidden).
+	var n05_dormant_state := n05_motion_state.duplicate(true)
+	var n05_progress_backup := int(AppState.profile.chapter_progress.CH01.normal_highest)
+	AppState.profile.chapter_progress.CH01.normal_highest = 0
+	var n05_dormant := ExplorationScript.complete_player_move_turn(n05_dormant_state, definition, grid, n05_before)
+	check(not AppState.is_stage_unlocked("CH01-N05") and MapSimulationScript.coord_for(n05_dormant_state, "NODE_N05") == n05_before and not n05_dormant.get("changed", []).has("NODE_N05") and not n05_dormant.get("contacts", []).has("NODE_N05"), "ENEMY_TURN_LOCKED_01 a locked-stage patrol stays home and cannot contact the squad on its hex")
+	AppState.profile.chapter_progress.CH01.normal_highest = 20
 	var n05_motion := ExplorationScript.complete_player_move_turn(n05_motion_state, definition, grid, n05_party)
+	AppState.profile.chapter_progress.CH01.normal_highest = n05_progress_backup
 	check(bool(n05_patrol_def.get("patrol_enabled", false)) and n05_route.size() > 1 and MapSimulationScript.coord_for(n05_motion_state, "NODE_N05") != n05_before and n05_motion.get("changed", []).has("NODE_N05") and int(n05_motion.get("tick_after", -1)) == n05_tick_before + 1, "ENEMY_TURN_N05_01 normal N05 patrol visibly advances during the one enemy phase granted by a player move")
 	var no_contact := MapSimulationScript.advance_ticks(first, definition, grid, Vector2i(-30, 30), 1)
 	check(no_contact.get("contacts", []).is_empty(), "AWARENESS_04 player not touching creates no battle contact")
@@ -1208,7 +1216,7 @@ func _test_direct_move_turn_contracts() -> void:
 	check(ExplorationScript.spend_movement(turn_state, definition, 2), "TURN_HANDOFF_FIXTURE_01 movement can be partially spent before automatic handoff")
 	var expected_turn_state := turn_state.duplicate(true)
 	var far_party := Vector2i(-50, 40)
-	var expected_update := MapSimulationScript.advance_ticks(expected_turn_state, definition, grid, far_party, 1)
+	var expected_update := MapSimulationScript.advance_ticks(expected_turn_state, definition, grid, far_party, 1, ExplorationScript.player_vision_radius(AppState.profile, definition), ExplorationScript.locked_encounter_ids(definition))
 	ExplorationScript.refill_movement(expected_turn_state, definition)
 	var tick_before := int(turn_state.get("map_simulation_state", {}).get("tick", 0))
 	var pulse_before := int(turn_state.get("exploration_pulse", 0))

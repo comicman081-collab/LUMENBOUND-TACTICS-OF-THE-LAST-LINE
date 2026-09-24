@@ -19,6 +19,10 @@ var deaths: Array = []
 var options: Dictionary = {}
 var event_hasher := HashingContext.new()
 var event_hash_cache := ""
+# Boss attacks announced with a wind-up. Each entry: due_tick, boss_uid,
+# action, target_uid ("" for party-wide), multiplier.
+var pending_boss_casts: Array = []
+const BOSS_WINDUP_TICKS := 60
 
 func setup(party_snapshot: Array, stage_definition: Dictionary, seed_value: int, all_data: Dictionary, setup_options: Dictionary = {}) -> void:
 	seed = seed_value
@@ -37,6 +41,7 @@ func setup(party_snapshot: Array, stage_definition: Dictionary, seed_value: int,
 	damage_by_character.clear()
 	healing_by_character.clear()
 	deaths.clear()
+	pending_boss_casts.clear()
 	event_hash_cache = ""
 	event_hasher = HashingContext.new()
 	event_hasher.start(HashingContext.HASH_SHA256)
@@ -100,6 +105,7 @@ func tick() -> void:
 	state.tactical_gauge = minf(10.0, state.tactical_gauge + .40 * TICK_DELTA)
 	_update_statuses()
 	_process_commands()
+	_resolve_boss_casts()
 	if auto_enabled and state.tick >= auto_decision_tick:
 		auto_decision_tick = state.tick + 30
 		_auto_ultimate()
@@ -126,7 +132,10 @@ func _tick_unit(unit: Dictionary) -> void:
 	if not UnitState.alive(unit) or UnitState.has_status(unit, "STUN"):
 		return
 	if unit.rank == "BOSS": _tick_boss_patterns(unit)
-	unit.attack_cd = float(unit.attack_cd) - TICK_DELTA * (1.2 if UnitState.has_status(unit, "HASTE") else (0.7 if UnitState.has_status(unit, "SLOW") else 1.0))
+	var cooldown_rate := 1.0
+	if UnitState.has_status(unit, "HASTE"): cooldown_rate = 1.0 + UnitState.status_strength(unit, "HASTE", .2)
+	elif UnitState.has_status(unit, "SLOW"): cooldown_rate = 1.0 - clampf(UnitState.status_strength(unit, "SLOW", .3), 0.0, .8)
+	unit.attack_cd = float(unit.attack_cd) - TICK_DELTA * cooldown_rate
 	unit.normal_cd = float(unit.normal_cd) - TICK_DELTA
 	if float(unit.normal_cd) <= 0 and unit.team == "PLAYER":
 		_use_normal(unit)
@@ -166,7 +175,7 @@ func _use_normal(caster: Dictionary) -> void:
 	elif effect == "TAUNT":
 		_apply_shield(caster, caster, coefficient * .8)
 		for enemy in state.enemies:
-			if UnitState.alive(enemy): StatusEffectRuntime.apply(enemy, "TAUNT", 4.0, caster.uid)
+			if UnitState.alive(enemy): _apply_status(enemy, "TAUNT", 4.0, caster.uid)
 	elif effect == "AOE_DAMAGE":
 		for enemy in state.enemies:
 			if UnitState.alive(enemy): _deal_damage(caster, enemy, coefficient * .62, "NORMAL")
@@ -174,7 +183,9 @@ func _use_normal(caster: Dictionary) -> void:
 		var target := TargetResolver.choose(caster, state.enemies)
 		if not target.is_empty():
 			_deal_damage(caster, target, coefficient, "NORMAL")
-			if effect == "SLOW": StatusEffectRuntime.apply(target, "SLOW", 3.0, caster.uid, .3)
+			if effect == "SLOW": _apply_status(target, "SLOW", 3.0, caster.uid, .3)
+			# DEBUFF normals used to fall through as plain damage.
+			elif effect == "DEBUFF" and UnitState.alive(target): _apply_status(target, "DEF_DOWN", 4.0, caster.uid, .15)
 
 func _use_ultimate(caster: Dictionary, target_unit_id := "") -> bool:
 	if state.ended or not UnitState.alive(caster):
@@ -182,11 +193,27 @@ func _use_ultimate(caster: Dictionary, target_unit_id := "") -> bool:
 	var skill := _skill(caster.ultimate_skill_id)
 	if not SkillRuntime.can_use_ultimate(caster, skill, state.tactical_gauge):
 		return false
+	var effect := str(skill.effect)
+	# Resolve the target before paying. A manual pick that died (or belonged to
+	# a previous wave) falls back to the automatic target instead of spending
+	# the gauge on nothing; with no valid target the cast is refused.
+	var target := {}
+	var single_target: bool = not (effect in ["HEAL", "SHIELD", "BUFF", "AOE_DAMAGE"])
+	if single_target:
+		target = find_unit(target_unit_id) if not target_unit_id.is_empty() else {}
+		if target.is_empty() or str(target.get("team", "")) != "ENEMY" or not UnitState.alive(target):
+			target = TargetResolver.choose(caster, state.enemies)
+		if target.is_empty():
+			return false
+	elif effect == "AOE_DAMAGE" and alive_enemies().is_empty():
+		return false
 	state.tactical_gauge -= float(skill.tactical_cost)
 	caster.ultimate_uses = int(caster.ultimate_uses) + 1
 	var coefficient := SkillRuntime.value_at(skill, int(caster.skill_levels.get("ultimate", 1)))
-	var effect := str(skill.effect)
-	_emit(BattleEvent.make(state.tick, BattleEvent.ULTIMATE, caster.uid, "", int(skill.tactical_cost), {"skill_id": skill.id}))
+	# Buff/debuff strength grows with the ultimate's level like damage does
+	# (1.0x at Lv.1, ~1.85x at Lv.5), capped to keep the effects bounded.
+	var level_ratio := coefficient / maxf(.01, SkillRuntime.value_at(skill, 1))
+	_emit(BattleEvent.make(state.tick, BattleEvent.ULTIMATE, caster.uid, str(target.get("uid", "")), int(skill.tactical_cost), {"skill_id": skill.id}))
 	if effect == "HEAL":
 		for ally in state.party:
 			if UnitState.alive(ally): _heal(caster, ally, coefficient * .72)
@@ -195,18 +222,22 @@ func _use_ultimate(caster: Dictionary, target_unit_id := "") -> bool:
 			if UnitState.alive(ally): _apply_shield(caster, ally, coefficient)
 	elif effect == "BUFF":
 		for ally in state.party:
-			if UnitState.alive(ally): StatusEffectRuntime.apply(ally, "HASTE", 7.0, caster.uid, .2)
+			if UnitState.alive(ally): _apply_status(ally, "HASTE", 7.0, caster.uid, minf(.36, .2 * level_ratio))
 	elif effect == "DEBUFF":
-		var debuff_target := find_unit(target_unit_id) if not target_unit_id.is_empty() else TargetResolver.choose(caster, state.enemies)
-		if not debuff_target.is_empty() and UnitState.alive(debuff_target): StatusEffectRuntime.apply(debuff_target, "DEF_DOWN", 7.0, caster.uid, .25)
+		_apply_status(target, "DEF_DOWN", 7.0, caster.uid, minf(.4, .25 * level_ratio))
 	elif effect == "AOE_DAMAGE":
 		for enemy in state.enemies:
 			if UnitState.alive(enemy): _deal_damage(caster, enemy, coefficient * .82, "ULTIMATE")
 	else:
-		var target := find_unit(target_unit_id) if not target_unit_id.is_empty() else TargetResolver.choose(caster, state.enemies)
-		if not target.is_empty() and (target.team != "ENEMY" or not UnitState.alive(target)): target = {}
-		if not target.is_empty(): _deal_damage(caster, target, coefficient, "ULTIMATE")
+		_deal_damage(caster, target, coefficient, "ULTIMATE")
 	return true
+
+func _apply_status(unit: Dictionary, status_id: String, duration: float, source_uid: String, strength := 0.0) -> void:
+	if unit.is_empty() or not UnitState.alive(unit): return
+	StatusEffectRuntime.apply(unit, status_id, duration, source_uid, strength)
+	# Emit so the view (and replays) can show who is buffed or weakened.
+	if UnitState.has_status(unit, status_id):
+		_emit(BattleEvent.make(state.tick, BattleEvent.STATUS, source_uid, str(unit.uid), 0, {"status": status_id, "strength": strength, "duration": duration}))
 
 func _deal_damage(attacker: Dictionary, target: Dictionary, coefficient: float, source: String) -> void:
 	# Damage, healing and shielding are sometimes reached by boss-pattern and
@@ -295,6 +326,18 @@ func _auto_ultimate() -> void:
 		average_hp = allies.reduce(func(total, ally): return float(total) + UnitState.hp_ratio(ally), 0.0) / allies.size()
 	var expected_incoming: float = float(enemies.reduce(func(total, enemy): return float(total) + float(enemy.stats.get("ATK", 0)), 0.0))
 	var strong_enemy: Dictionary = TargetResolver.choose({"team": "PLAYER", "statuses": {}}, enemies)
+	# Keep enough gauge for the party's defensive ultimate. Evaluating in slot
+	# order let a cheap area ultimate spend the gauge every time it reached 2,
+	# so shield/heal/damage ultimates (cost 3-6) never fired while 2+ enemies lived.
+	# The reserve only applies once the party is hurt or a boss is present; at
+	# full health the area ultimate still opens fights as fast as before.
+	var defensive_reserve := 0.0
+	if average_hp < .85 or has_boss():
+		for ally in allies:
+			var ally_skill := _skill(ally.ultimate_skill_id)
+			if str(ally_skill.get("effect", "")) in ["HEAL", "SHIELD"]:
+				defensive_reserve = maxf(defensive_reserve, float(ally_skill.get("tactical_cost", 0)))
+	var boss_cast_incoming := not pending_boss_casts.is_empty()
 	for unit in state.party:
 		if not UnitState.alive(unit): continue
 		var skill := _skill(unit.ultimate_skill_id)
@@ -302,12 +345,12 @@ func _auto_ultimate() -> void:
 		var effect := str(skill.effect)
 		if effect == "HEAL" and not lowest.is_empty() and (UnitState.hp_ratio(lowest) < .72 or average_hp < .82):
 			_use_ultimate(unit); return
-		if effect == "SHIELD" and not lowest.is_empty() and (UnitState.hp_ratio(lowest) < .82 or (UnitState.hp_ratio(lowest) < .95 and float(lowest.get("shield", 0)) < expected_incoming * .8)):
+		# A telegraphed boss attack is the moment a shield is worth the most.
+		# Re-shielding a unit whose shield is still up only replaced it and wasted
+		# the gauge; shield when the weakest ally's barrier is actually thin.
+		if effect == "SHIELD" and not lowest.is_empty() and (boss_cast_incoming or (UnitState.hp_ratio(lowest) < .95 and float(lowest.get("shield", 0)) < expected_incoming * .8)):
 			_use_ultimate(unit); return
-		# Chapter 1 often opens with two enemies.  Requiring three hid the party's
-		# area ultimate through most first encounters even when the tactical gauge
-		# was already sufficient.  Two is still an area-value threshold.
-		if effect == "AOE_DAMAGE" and enemies.size() >= 2:
+		if effect == "AOE_DAMAGE" and enemies.size() >= 2 and (enemies.size() >= 3 or state.tactical_gauge - float(skill.tactical_cost) >= defensive_reserve):
 			_use_ultimate(unit); return
 		if effect == "DEBUFF" and not strong_enemy.is_empty() and strong_enemy.rank in ["BOSS", "ELITE"]:
 			_use_ultimate(unit, strong_enemy.uid); return
@@ -332,6 +375,10 @@ func _tick_boss_patterns(boss: Dictionary) -> void:
 		var action := str(pattern.get("action", ""))
 		if action == "PHASE_2":
 			boss.phase = "PHASE_2"
+			# Phase two is a real escalation, not only a label: harder hits and a
+			# faster attack rhythm (ENRAGE later replaces the damage multiplier).
+			boss.outgoing_modifier = float(boss.get("outgoing_modifier", 1.0)) * 1.15
+			boss.attack_interval = float(boss.attack_interval) * .88
 			_emit(BattleEvent.make(state.tick, BattleEvent.STATUS, boss.uid, boss.uid, 0, {"phase": "PHASE_2"}))
 		elif action == "ENRAGE":
 			boss.phase = "ENRAGE"
@@ -346,14 +393,46 @@ func _tick_boss_patterns(boss: Dictionary) -> void:
 		elif action == "LOCK_ON":
 			var locked_target := TargetResolver.choose(boss, state.party)
 			if not locked_target.is_empty():
-				_emit_boss_pattern_cast(boss, locked_target, action)
-				_deal_damage(boss, locked_target, float(pattern.get("damage_multiplier", 1.0)), "ULTIMATE")
+				_announce_boss_cast(boss, action, str(locked_target.uid), float(pattern.get("damage_multiplier", 1.0)))
 		else:
-			var affected_targets: Array = state.party.filter(func(target): return UnitState.alive(target))
-			if affected_targets.is_empty(): continue
-			_emit_boss_pattern_cast(boss, affected_targets[0], action)
-			for target in affected_targets:
-				_deal_damage(boss, target, float(pattern.get("damage_multiplier", .72)), "ULTIMATE")
+			if state.party.filter(func(target): return UnitState.alive(target)).is_empty(): continue
+			_announce_boss_cast(boss, action, "", float(pattern.get("damage_multiplier", .72)))
+
+# Damaging boss patterns are announced BOSS_WINDUP_TICKS (2 s) ahead. The view
+# marks the threatened allies, giving the player time to shield, heal or burst
+# the boss down; a boss that dies or is stunned before the hit loses the cast.
+func _announce_boss_cast(boss: Dictionary, action: String, target_uid: String, multiplier: float) -> void:
+	var due := state.tick + BOSS_WINDUP_TICKS
+	pending_boss_casts.append({"due_tick": due, "boss_uid": str(boss.uid), "action": action, "target_uid": target_uid, "multiplier": multiplier})
+	_emit(BattleEvent.make(state.tick, BattleEvent.STATUS, str(boss.uid), target_uid, 0, {"telegraph": action, "due_tick": due, "party_wide": target_uid.is_empty()}))
+
+func _resolve_boss_casts() -> void:
+	if pending_boss_casts.is_empty() or state.ended:
+		return
+	var remaining: Array = []
+	for cast in pending_boss_casts:
+		if int(cast.due_tick) > state.tick:
+			remaining.append(cast)
+			continue
+		var boss := find_unit(str(cast.boss_uid))
+		if boss.is_empty() or not UnitState.alive(boss) or UnitState.has_status(boss, "STUN"):
+			_emit(BattleEvent.make(state.tick, BattleEvent.STATUS, str(cast.boss_uid), str(cast.target_uid), 0, {"telegraph_cancelled": str(cast.action)}))
+			continue
+		var action := str(cast.action)
+		if str(cast.target_uid).is_empty():
+			var affected: Array = state.party.filter(func(target): return UnitState.alive(target))
+			if affected.is_empty(): continue
+			_emit_boss_pattern_cast(boss, affected[0], action)
+			for target in affected:
+				_deal_damage(boss, target, float(cast.multiplier), "ULTIMATE")
+		else:
+			var locked := find_unit(str(cast.target_uid))
+			if locked.is_empty() or not UnitState.alive(locked):
+				locked = TargetResolver.choose(boss, state.party)
+			if locked.is_empty(): continue
+			_emit_boss_pattern_cast(boss, locked, action)
+			_deal_damage(boss, locked, float(cast.multiplier), "ULTIMATE")
+	pending_boss_casts = remaining
 
 func _emit_boss_pattern_cast(boss: Dictionary, target: Dictionary, action: String) -> void:
 	# A boss pattern is a real battle event, so it exercises the same runtime
@@ -396,12 +475,16 @@ func _check_flow() -> void:
 	if state.party.filter(func(unit): return UnitState.alive(unit)).is_empty():
 		_end(false, "PARTY_DEFEATED")
 		return
+	# A final kill landing on the same tick the timer expires is still a win.
+	if alive_enemies().is_empty() and not wave_director.has_next():
+		_end(true, "ALL_WAVES_CLEARED")
+		return
 	if state.time_elapsed >= state.time_limit:
 		_end(false, "TIMEOUT")
 		return
 	if alive_enemies().is_empty():
-		if wave_director.has_next(): _spawn_next_wave()
-		else: _end(true, "ALL_WAVES_CLEARED")
+		pending_boss_casts.clear()
+		_spawn_next_wave()
 
 func _down_unit(target: Dictionary, source_uid: String, cause: String) -> void:
 	if not bool(target.get("alive", false)): return

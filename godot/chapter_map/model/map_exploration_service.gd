@@ -213,7 +213,7 @@ static func complete_player_move_turn(state: Dictionary, definition: Dictionary,
 	var pulse_before := int(state.get("exploration_pulse", 0))
 	# One player action owns one enemy action. The former WAIT helper expanded one
 	# turn into several ticks and let enemies move repeatedly behind one caption.
-	var update: Dictionary = MapSimulationScript.advance_ticks(state, definition, grid, party_coord, 1, player_vision_radius(AppState.profile, definition))
+	var update: Dictionary = MapSimulationScript.advance_ticks(state, definition, grid, party_coord, 1, player_vision_radius(AppState.profile, definition), locked_encounter_ids(definition))
 	refill_movement(state, definition, grid)
 	update.tick_before = tick_before
 	update.tick_after = int(state.get("map_simulation_state", {}).get("tick", 0))
@@ -221,6 +221,15 @@ static func complete_player_move_turn(state: Dictionary, definition: Dictionary,
 	update.pulse_after = int(state.get("exploration_pulse", 0))
 	update.movement_points = int(state.get("movement_points", 0))
 	return update
+
+static func locked_encounter_ids(definition: Dictionary) -> Dictionary:
+	var locked: Dictionary = {}
+	for node_value in definition.get("nodes", []):
+		var node: Dictionary = node_value
+		var stage_id := str(node.get("stage_id", ""))
+		if not stage_id.is_empty() and not AppState.is_stage_unlocked(stage_id):
+			locked[str(node.get("node_id", ""))] = true
+	return locked
 
 static func spend_movement(state: Dictionary, definition: Dictionary, steps: int, grid = null) -> bool:
 	if not _movement_state_initialized(state):

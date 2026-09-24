@@ -20,6 +20,10 @@ const SOAK_SANDBOX_TEMP_PATH := "user://r15_soak_sandbox/save_v1.tmp.json"
 var soak_sandbox_enabled := false
 var soak_sandbox_session := "default"
 var deferred_save_generation := 0
+# Set when a save exists but could not be loaded (corrupt, or written by a
+# newer build). Writing is refused until the player archives it explicitly,
+# so a fresh profile can never silently overwrite real progress.
+var write_lock_reason := ""
 var soak_sandbox_audit := {
 	"sandbox_active": false,
 	"sandbox_session": "default",
@@ -126,6 +130,8 @@ func save_game() -> GameResult:
 	# Any immediate transactional save supersedes an older idle request.
 	deferred_save_generation += 1
 	var save_started_usec := Time.get_ticks_usec()
+	if not write_lock_reason.is_empty():
+		return _finish(false, "기존 저장 기록을 읽지 못해 덮어쓰지 않도록 저장을 멈췄습니다 (%s)" % write_lock_reason)
 	if not _ensure_active_save_directory():
 		return _finish(false, "save sandbox directory could not be created")
 	var paths := _active_paths("write")
@@ -179,28 +185,65 @@ func save_game() -> GameResult:
 	return _finish(true, "saved")
 
 func load_game() -> GameResult:
+	write_lock_reason = ""
 	var paths := _active_paths("read")
+	var found_existing := false
+	var failure_reason := ""
 	if OS.has_feature("web"):
 		for generation in ["read", "backup"]:
-			var journal := _decode_valid(BrowserSaveJournal.call_journal(generation, str(paths.save)))
-			if journal.ok:
-				var migrated_journal := _migrate(journal.value)
-				if migrated_journal.ok:
-					AppState.apply_loaded(_sanitize(migrated_journal.value))
-					return GameResult.success("browser journal " + generation)
-	var primary := _read_valid(str(paths.save))
-	if primary.ok:
-		var migrated := _migrate(primary.value)
+			var raw := BrowserSaveJournal.call_journal(generation, str(paths.save))
+			if raw.is_empty(): continue
+			found_existing = true
+			var journal := _decode_valid(raw)
+			if not journal.ok:
+				failure_reason = journal.error
+				continue
+			var migrated_journal := _migrate(journal.value)
+			if migrated_journal.ok:
+				AppState.apply_loaded(_sanitize(migrated_journal.value))
+				return GameResult.success("browser journal " + generation)
+			failure_reason = migrated_journal.error
+	for generation in ["save", "backup"]:
+		var path := str(paths[generation])
+		if not FileAccess.file_exists(path): continue
+		found_existing = true
+		var stored := _read_valid(path)
+		if not stored.ok:
+			failure_reason = stored.error
+			continue
+		var migrated := _migrate(stored.value)
 		if migrated.ok:
 			AppState.apply_loaded(_sanitize(migrated.value))
-			return GameResult.success("primary")
-	var backup := _read_valid(str(paths.backup))
-	if backup.ok:
-		var migrated_backup := _migrate(backup.value)
-		if migrated_backup.ok:
-			AppState.apply_loaded(_sanitize(migrated_backup.value))
-			return GameResult.success("backup")
+			return GameResult.success("primary" if generation == "save" else "backup")
+		failure_reason = migrated.error
+	if found_existing:
+		write_lock_reason = failure_reason if not failure_reason.is_empty() else "unreadable save"
+		return GameResult.failure("existing save unreadable; writes locked: " + write_lock_reason)
 	return GameResult.failure("no valid save; new profile retained")
+
+# Keep copies of every unreadable generation next to the save, then allow a new
+# profile to be written. Used only after the player chooses to start over.
+func archive_unreadable_save_and_unlock() -> GameResult:
+	var paths := _active_paths("backup")
+	var stamp := str(int(Time.get_unix_time_from_system()))
+	for generation in ["save", "backup"]:
+		var path := str(paths[generation])
+		if not FileAccess.file_exists(path): continue
+		var archived := path.get_basename() + ".unreadable_" + stamp + ".json"
+		if DirAccess.copy_absolute(ProjectSettings.globalize_path(path), ProjectSettings.globalize_path(archived)) != OK:
+			return GameResult.failure("could not archive " + path)
+	if OS.has_feature("web"):
+		for generation in ["read", "backup"]:
+			var raw := BrowserSaveJournal.call_journal(generation, str(paths.save))
+			if raw.is_empty(): continue
+			var copy := FileAccess.open(str(paths.save).get_basename() + ".journal_%s_%s.json" % [generation, stamp], FileAccess.WRITE)
+			if copy == null:
+				return GameResult.failure("could not archive browser journal")
+			copy.store_string(raw)
+			copy.close()
+		BrowserSaveJournal.call_journal("clear", str(paths.save))
+	write_lock_reason = ""
+	return GameResult.success("archived")
 
 func _read_valid(path: String) -> GameResult:
 	var file := FileAccess.open(path, FileAccess.READ)

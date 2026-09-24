@@ -16,6 +16,9 @@ var pending_battle_token := ""
 var selected_character_id := "CHR001"
 var active_scenario_id := "SCN_PROLOGUE"
 var battle_seed := 170817
+# Seed of the battle currently in progress; rewards derive from it so a battle's
+# drops stay reproducible from its recorded seed.
+var current_battle_seed := 170817
 var debug_options := {"unlock_all": false, "invincible": false, "enemy_multiplier": 1.0}
 var chapter_map_definition_cache: Dictionary = {}
 
@@ -102,6 +105,7 @@ func new_game() -> void:
 		"claimed_rewards": [],
 		"relay": RelayServiceScript.default_profile()
 	}
+	repair_party_presets()
 
 func apply_loaded(loaded: Dictionary) -> void:
 	profile = loaded
@@ -150,7 +154,69 @@ func apply_loaded(loaded: Dictionary) -> void:
 	profile["settings"] = SettingsService.persisted_values()
 	refresh_stamina()
 	reset_hard_attempts_if_needed()
+	repair_party_presets()
 	for map_id_value in profile.chapter_map.keys(): refresh_chapter_map_reveal(str(map_id_value))
+
+# Presets may only field owned companions. Older saves (and the old defaults)
+# listed recruits the player had not met yet; replace those slots with owned
+# members that are not already in the same preset.
+func repair_party_presets() -> bool:
+	var owned: Array[String] = []
+	for character_id_value in profile.get("roster", {}).keys():
+		if bool(profile.roster[character_id_value].get("unlocked", false)):
+			owned.append(str(character_id_value))
+	owned.sort()
+	var changed := false
+	for party_value in profile.get("parties", []):
+		var party: Array = party_value
+		var used: Dictionary = {}
+		for slot in range(party.size()):
+			var character_id := str(party[slot])
+			if owned.has(character_id) and not used.has(character_id):
+				used[character_id] = true
+			else:
+				party[slot] = ""
+				changed = true
+		for slot in range(party.size()):
+			if not str(party[slot]).is_empty(): continue
+			for character_id in owned:
+				if not used.has(character_id):
+					party[slot] = character_id
+					used[character_id] = true
+					break
+	return changed
+
+func party_block_reason(character_ids: Array = []) -> String:
+	var party: Array = character_ids if not character_ids.is_empty() else get_party()
+	if party.size() != 5:
+		return "편성에 동료 5명이 필요합니다"
+	var locked: Array[String] = []
+	for character_id_value in party:
+		var character_id := str(character_id_value)
+		if character_id.is_empty():
+			return "편성에 빈 자리가 있습니다"
+		if not bool(profile.get("roster", {}).get(character_id, {}).get("unlocked", false)):
+			locked.append(LocalizationService.tr_key(str(DataRegistry.character(character_id).get("name_key", character_id))))
+	if not locked.is_empty():
+		return "아직 합류하지 않은 동료가 편성에 있습니다: %s" % ", ".join(locked)
+	return ""
+
+func refund_stage_entry(stage_id: String) -> void:
+	var stage := DataRegistry.stage(stage_id)
+	if stage.is_empty() or SettingsService.is_developer_mode():
+		return
+	profile.account.stamina = int(profile.account.stamina) + int(stage.stamina_cost)
+	if stage.mode == "HARD":
+		profile.hard_attempts.counts[stage_id] = maxi(0, int(profile.hard_attempts.counts.get(stage_id, 0)) - 1)
+
+# A battle that never reached a live simulation (invalid party, asset load
+# failure) must release its token, return the squad to the pre-contact hex and
+# give back the entry cost; otherwise every later battle is refused.
+func abandon_battle_transaction(stage_id: String) -> void:
+	if pending_battle_token.is_empty():
+		return
+	refund_stage_entry(stage_id)
+	abandon_pending_map_encounter(map_id_for_stage(stage_id))
 
 func refresh_stamina() -> void:
 	var account: Dictionary = profile.get("account", {})
@@ -296,6 +362,16 @@ func is_stage_unlocked(stage_id: String) -> bool:
 
 func debug_unlock_all_enabled() -> bool:
 	return SettingsService.is_developer_mode() and bool(debug_options.get("unlock_all", false))
+
+## Every Release battle and sweep draws a fresh seed; with one fixed seed the
+## same party produced identical ticks and identical drops forever, and a low
+## drop chance could never succeed on a 1x sweep. Developer builds keep the
+## pinned `battle_seed` so QA runs stay reproducible.
+func next_battle_seed() -> int:
+	if SettingsService.is_developer_mode():
+		return battle_seed
+	var entropy := "%d:%d:%d" % [battle_seed, int(Time.get_unix_time_from_system()), Time.get_ticks_usec()]
+	return absi(hash(entropy)) % 2147483646 + 1
 
 func effective_battle_debug_options() -> Dictionary:
 	if not SettingsService.is_developer_mode():
@@ -628,6 +704,33 @@ func complete_story_trigger_for_scenario(scenario_id: String) -> void:
 		if not completed: remaining.append(trigger_id)
 	profile.pending_story_triggers = remaining
 
+const SCENARIO_COMPLETED_FLAG_PREFIX := "SCENARIO_COMPLETED:"
+
+func mark_scenario_completed(scenario_id: String) -> void:
+	profile.story_flags[SCENARIO_COMPLETED_FLAG_PREFIX + scenario_id] = true
+
+func scenario_completed(scenario_id: String) -> bool:
+	if bool(profile.get("story_flags", {}).get(SCENARIO_COMPLETED_FLAG_PREFIX + scenario_id, false)):
+		return true
+	# Saves from before the explicit marker: a completed story trigger counts.
+	for trigger_value in DataRegistry.list_of("chapter_story_triggers"):
+		var trigger: Dictionary = trigger_value
+		if str(trigger.get("scenario_id", "")) != scenario_id: continue
+		var completion_flag := str(trigger.get("completion_flag", ""))
+		if not completion_flag.is_empty() and bool(profile.get("story_flags", {}).get(completion_flag, false)):
+			return true
+	return false
+
+func scenario_seen(scenario_id: String) -> bool:
+	return scenario_completed(scenario_id) or not profile.get("read_commands", {}).get(scenario_id, []).is_empty()
+
+func story_trigger_stage(scenario_id: String) -> String:
+	for trigger_value in DataRegistry.list_of("chapter_story_triggers"):
+		var trigger: Dictionary = trigger_value
+		if str(trigger.get("scenario_id", "")) == scenario_id:
+			return str(trigger.get("stage_id", ""))
+	return ""
+
 func _initial_chapter_id() -> String:
 	var initial_id := "CH01"
 	var initial_number := 999999
@@ -793,8 +896,11 @@ func apply_battle_result_to_map(stage_id: String, victory: bool, map_id := "CH01
 	# remove the hostile pawn while canonical stage progress remains uncleared.
 	if victory and pending_battle_token.is_empty(): return false
 	if victory:
-		var contact := Vector2i(int(pending.get("contact_q", node.q)), int(pending.get("contact_r", node.r)))
-		set_chapter_map_position(contact, str(node.node_id), map_id)
+		# Only a real map contact moves the squad. A battle started from the stage
+		# list clears the stage's pawn but leaves the squad where the player left it.
+		if not pending.is_empty():
+			var contact := Vector2i(int(pending.get("contact_q", node.q)), int(pending.get("contact_r", node.r)))
+			set_chapter_map_position(contact, str(node.node_id), map_id)
 	else:
 		var return_coord := Vector2i(int(pending.get("return_q", state.current_q)), int(pending.get("return_r", state.current_r)))
 		set_chapter_map_position(return_coord, "", map_id)

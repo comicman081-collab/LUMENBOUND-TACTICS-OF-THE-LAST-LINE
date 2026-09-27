@@ -3,6 +3,8 @@ extends RefCounted
 ## "메뉴" for the lobby and the chapter map (relay camp and field movement).
 ## Level-up and skill-up live here instead of on the battle result screen; each
 ## entry opens the growth screen on its own tab, on a party member who can use it.
+## "권장 성장" raises the whole party to the next operation's recommended
+## profile in one press and shows the result in the reopened menu.
 
 const GameUI := preload("res://ui/game_ui_tokens.gd")
 const CommandPresentation := preload("res://screens/command_presentation.gd")
@@ -19,7 +21,7 @@ static func button(s, minimum := Vector2(128, 56)) -> Button:
 static func is_open(s) -> bool:
 	return is_instance_valid(s.growth_menu_layer)
 
-static func open(s) -> void:
+static func open(s, result_message := "") -> void:
 	close(s)
 	var layer := CanvasLayer.new()
 	layer.name = "GrowthMenuLayer"
@@ -57,6 +59,22 @@ static func open(s) -> void:
 	panel.add_child(column)
 	column.add_child(CommandPresentation.label(s, "메뉴", roundi(36 * ui), GameUI.OBJECTIVE))
 	column.add_child(CommandPresentation.label(s, "파티 성장 · 크레딧 %s" % MathUtil.comma(AppState.inventory_count("CREDIT")), roundi(19 * ui), GameUI.TEXT_MUTED))
+	if not result_message.is_empty():
+		var result_label := CommandPresentation.label(s, result_message, roundi(19 * ui), GameUI.OBJECTIVE)
+		result_label.name = "GrowthMenuResult"
+		result_label.custom_minimum_size = Vector2(548, 0) * ui
+		column.add_child(result_label)
+	var plan: Dictionary = GrowthPlanBuilder.preview_to_recommended(AppState.get_party())
+	var target: Dictionary = plan.get("target", {})
+	var plan_ready: bool = not plan.get("actions", []).is_empty()
+	var plan_status := ("지금 권장 수준까지" if bool(plan.get("reached", false)) else "가능한 만큼") if plan_ready else ("권장 수준입니다" if bool(plan.get("reached", false)) else "재료를 모으면 열립니다")
+	var recommended: Button = CommandPresentation.button(s, "권장 성장   ·   Lv.%d · 스킬 · 무기   ·   %s" % [int(target.get("level", 1)), plan_status], func():
+		var outcome: Dictionary = s._run_recommended_growth()
+		open(s, str(outcome.message)), not plan_ready, Vector2(548, 88) * ui)
+	recommended.name = "GrowthMenuRecommended"
+	recommended.add_theme_font_size_override("font_size", roundi(24 * ui))
+	if plan_ready: GameUI.apply_button(recommended, "primary")
+	column.add_child(recommended)
 	var summary := GrowthAffordabilityAnalyzer.summary(GrowthAffordabilityAnalyzer.candidates(AppState.profile))
 	for entry in ENTRIES:
 		var tab := str(entry.tab)

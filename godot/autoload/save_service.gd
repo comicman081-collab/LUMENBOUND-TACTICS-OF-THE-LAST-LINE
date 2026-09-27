@@ -386,6 +386,37 @@ func _migrate(data: Dictionary) -> GameResult:
 			]
 			data["save_schema_version"] = 9
 			version = 9
+		elif version == 9:
+			# The growth economy (first-clear growth supply, account level that
+			# follows the recommendations) arrived after these operations were
+			# cleared. Grant exactly the new bucket for each cleared operation and
+			# lift the account once; the result is shown to the player one time.
+			var granted := {}
+			var account: Dictionary = data.get("account", {})
+			var account_floor := int(account.get("level", 1))
+			var inventory: Dictionary = data.get("inventory", {})
+			for stage_id_value in data.get("first_clear", {}).keys():
+				if not bool(data.first_clear[stage_id_value]): continue
+				var stage := DataRegistry.stage(str(stage_id_value))
+				if stage.is_empty(): continue
+				account_floor = maxi(account_floor, mini(100, int(stage.get("recommended_level", 1)) + AccountProgression.FIRST_CLEAR_LEVEL_LEAD))
+				for row in DataRegistry.list_of("rewards"):
+					if str(row.get("id", "")) != str(stage.get("reward_table_id", "")): continue
+					for item in row.get("growth_first_clear", []):
+						var item_id := str(item.get("item_id", ""))
+						inventory[item_id] = int(inventory.get(item_id, 0)) + int(item.get("quantity", 0))
+						granted[item_id] = int(granted.get(item_id, 0)) + int(item.get("quantity", 0))
+					break
+			data["inventory"] = inventory
+			var account_before := int(account.get("level", 1))
+			if account_floor > account_before:
+				account["level"] = account_floor
+				account["xp"] = 0
+				data["account"] = account
+			if not granted.is_empty() or account_floor > account_before:
+				data["growth_economy_notice"] = {"items": granted, "account_from": account_before, "account_to": maxi(account_before, account_floor)}
+			data["save_schema_version"] = 10
+			version = 10
 		else:
 			return GameResult.failure("missing migration from %d" % version)
 	return GameResult.success(data)

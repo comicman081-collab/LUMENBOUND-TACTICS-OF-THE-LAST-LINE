@@ -60,7 +60,9 @@ static func final_stats(character_id: String, state_override: Dictionary = {}) -
 		output[key] = MathUtil.round_half_up(level_stat * multipliers[int(state.breakthrough)])
 	var weapon_id := str(state.get("equipped_weapon_id", ""))
 	if not weapon_id.is_empty() and AppState.profile.weapons.has(weapon_id):
-		var weapon_stats := WeaponUpgradeService.flat_stats_for(weapon_id, AppState.profile.weapons[weapon_id])
+		# A what-if state (GrowthAdvisor's recommended profile) may carry the
+		# raised weapon it assumes instead of the owned weapon state.
+		var weapon_stats := WeaponUpgradeService.flat_stats_for(weapon_id, state.get("weapon_state_override", AppState.profile.weapons[weapon_id]))
 		for key in weapon_stats:
 			output[key] = int(output.get(key, 0)) + int(weapon_stats[key])
 	return output

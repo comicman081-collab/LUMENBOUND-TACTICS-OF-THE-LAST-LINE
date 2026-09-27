@@ -8,13 +8,13 @@ const ResultPresentation := preload("res://screens/result_presentation.gd")
 var passed := 0
 var failed := 0
 
-func check(ok: bool, label: String) -> void:
+func check(ok: bool, label: String, detail := "") -> void:
 	if ok:
 		passed += 1
 		print("PASS | " + label)
 	else:
 		failed += 1
-		print("FAIL | " + label)
+		print("FAIL | " + label + ("" if detail.is_empty() else " | " + detail))
 		push_error(label)
 
 func _ready() -> void:
@@ -72,7 +72,10 @@ func _test_level_recommendations() -> void:
 	check(explained, "ADVISOR_09 without materials the advisor explains what is missing instead of going silent")
 
 func _test_post_cap_skill_requirement() -> void:
-	check(Advisor.expected_skill_levels(DataRegistry.stage("CH04-N20")).is_empty() and Advisor.skill_requirement_text(DataRegistry.stage("CH04-N20")).is_empty(), "ADVISOR_10 chapters 1-4 keep the recommended level as the only requirement")
+	var ch04_stage := DataRegistry.stage("CH04-N20")
+	var ch04 := Advisor.expected_skill_levels(ch04_stage)
+	var ch04_profile := Advisor.recommended_profile(ch04_stage)
+	check(int(ch04.normal) == 2 and int(ch04.passive) == 2 and int(ch04.ultimate) == 1 and int(ch04_profile.level) == int(ch04_stage.recommended_level) and int(ch04_profile.weapon_level) == mini(60, int(ch04_stage.recommended_level)) and Advisor.skill_requirement_text(ch04_stage).contains("무기 Lv."), "ADVISOR_10 chapters 1-4 recommend skills 2/2/1 and a weapon at the recommended level")
 	var ch05 := Advisor.expected_skill_levels(DataRegistry.stage("CH05-N01"))
 	var ch20 := Advisor.expected_skill_levels(DataRegistry.stage("CH20-N20"))
 	check(int(ch05.normal) == 3 and int(ch05.ultimate) == 1 and int(ch20.normal) == 10 and int(ch20.passive) == 10 and int(ch20.ultimate) == 5, "ADVISOR_11 after the level cap the balance expects skills to climb to their maximum by chapter 20")
@@ -119,10 +122,10 @@ func _test_result_screen() -> void:
 	await get_tree().process_frame
 
 func _test_growth_menu() -> void:
+	var shell = await _shell()
 	_advance_to(6)
 	AppState.profile.inventory["CREDIT"] = 500000
 	AppState.profile.inventory["TRAINING_NOTE_M"] = 200
-	var shell = await _shell()
 	shell._show_screen("HOME")
 	await get_tree().process_frame
 	var home_menu: Button = shell.find_child("GrowthMenuButton", true, false)
@@ -155,6 +158,13 @@ func _test_growth_menu() -> void:
 	relay_menu.pressed.emit()
 	await get_tree().process_frame
 	check(shell.find_child("GrowthMenuSkillUp", true, false) != null, "MENU_09 the relay 메뉴 opens the same level-up / skill-up menu")
+	var recommended: Button = shell.find_child("GrowthMenuRecommended", true, false)
+	var level_before := int(AppState.profile.roster[str(AppState.get_party()[0])].level)
+	check(recommended != null and recommended.text.begins_with("권장 성장") and not recommended.disabled, "MENU_10 the menu offers 권장 성장 for the whole party", recommended.text if recommended != null else "missing")
+	recommended.pressed.emit()
+	await get_tree().process_frame
+	var result: Label = shell.find_child("GrowthMenuResult", true, false)
+	check(result != null and result.text.begins_with("권장 성장") and int(AppState.profile.roster[str(AppState.get_party()[0])].level) > level_before, "MENU_11 권장 성장 from the menu applies growth and shows the result in the reopened menu", result.text if result != null else "")
 	shell.queue_free()
 	await get_tree().process_frame
 	var map_script := load("res://chapter_map/runtime/chapter_map_screen.gd")
@@ -163,8 +173,10 @@ func _test_growth_menu() -> void:
 	map_screen.free()
 
 func _test_growth_screen() -> void:
-	_advance_to(6)
+	# The shell boots from the save a previous 권장 성장 press wrote, so the
+	# state is set after boot.
 	var shell = await _shell()
+	_advance_to(6)
 	AppState.selected_character_id = "CHR001"
 	shell.growth_tab = "레벨업"
 	shell._show_screen("GROWTH")
@@ -173,5 +185,24 @@ func _test_growth_screen() -> void:
 	for button_value in shell.find_children("*", "Button", true, false): labels.append((button_value as Button).text)
 	check(shell.find_child("GrowthGuide", true, false) != null and shell.find_child("ReadinessBar", true, false) != null, "GROWTH_UI_01 growth screen opens with the party guide and readiness")
 	check(labels.has("권장") and labels.any(func(text): return text.contains("Lv.")), "GROWTH_UI_02 party tabs show levels and the level card offers a recommended-level jump")
+	var apply: Button = shell.find_child("GrowthRecommendedApply", true, false)
+	check(apply != null and not apply.disabled, "GROWTH_UI_03 the guide offers one 권장 성장 press for the whole party")
+	# With the materials a first clear supplies, one press reaches the profile.
+	for item_id in ["TRAINING_NOTE_L", "TRAINING_NOTE_M", "TRAINING_NOTE_S", "WEAPON_CHIP_M", "WEAPON_CHIP_S", "SKILL_BOOK_T1", "SKILL_TOKEN_T1", "ULT_BOOK_T1"]:
+		AppState.profile.inventory[item_id] = int(AppState.profile.inventory.get(item_id, 0)) + 200
+	AppState.profile.inventory["CREDIT"] = 5000000
+	shell._show_screen("GROWTH")
+	await get_tree().process_frame
+	apply = shell.find_child("GrowthRecommendedApply", true, false)
+	apply.pressed.emit()
+	await get_tree().process_frame
+	var profile := Advisor.recommended_profile(DataRegistry.stage(Advisor.target_stage_id()))
+	var all_reached := true
+	for member_id in AppState.get_party():
+		var member: Dictionary = AppState.profile.roster[str(member_id)]
+		var weapon: Dictionary = AppState.profile.weapons.get(str(member.get("equipped_weapon_id", "")), {"level": profile.weapon_level})
+		all_reached = all_reached and int(member.level) >= int(profile.level) and int(member.skills.normal) >= int(profile.normal) and int(member.skills.passive) >= int(profile.passive) and int(member.skills.ultimate) >= int(profile.ultimate) and int(weapon.level) >= int(profile.weapon_level)
+	check(all_reached and str(shell.growth_feedback).begins_with("권장 성장 완료"), "GROWTH_UI_04 권장 성장 raises every member's level, skills and weapon to the recommended profile", str(shell.growth_feedback))
+	check(shell.find_child("GrowthRecommendedApply", true, false) == null and float(Advisor.party_report(AppState.get_party()).readiness) >= 0.995, "GROWTH_UI_05 once reached the guide reports the recommended level instead of a button")
 	shell.queue_free()
 	await get_tree().process_frame

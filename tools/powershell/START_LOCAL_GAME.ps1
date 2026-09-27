@@ -5,7 +5,7 @@
 )
 . "$PSScriptRoot\COMMON.ps1"
 $root = Get-ProjectRoot
-$buildName = 'builds/web_story_r12_release'
+$buildName = 'builds/web_growth_r13_release'
 $build = Join-Path $root $buildName
 $health = "http://127.0.0.1:$Port/__local_game_status"
 

@@ -415,19 +415,76 @@ static func growth(s) -> void:
 		"장비·돌파": s._build_growth_equipment(body,cid)
 		_: body.add_child(label(s, "돌파 %d · 관계 %d\n선호 위치: %s" % [int(state.breakthrough),int(state.relationship_level),{"FRONT":"전열","MIDDLE":"중열","BACK":"후열","REAR":"후열"}.get(str(definition.preferred_position),str(definition.preferred_position))],23))
 
-## Party-wide guide: readiness against the next operation and the single most
-## useful upgrade, with the reason it was chosen.
+## Party-wide "권장 성장" card: the target operation's recommended profile,
+## readiness, and what one press changes (per member, cost, what is still
+## missing), computed by the same plan the button executes.
 static func _growth_guide(s, parent: Node, advice: Dictionary) -> void:
 	var box = s._panel_box(parent)
 	box.name = "GrowthGuide"
-	box.add_child(label(s, "성장 가이드", 22, GOLD))
+	box.add_child(label(s, "권장 성장", 22, GOLD))
+	var profile: Dictionary = advice.get("profile", {})
+	box.add_child(label(s, "목표 · Lv.%d · 스킬 Lv.%d · 궁극기 Lv.%d · 무기 Lv.%d" % [int(profile.get("level", advice.recommended_level)), int(profile.get("normal", 1)), int(profile.get("ultimate", 1)), int(profile.get("weapon_level", 1))], 18, Color.WHITE))
 	ResultPresentation.add_readiness_bar(s, box, advice, 1.0)
-	var entries := GrowthAdvisorScript.recommendations(AppState.get_party(), GrowthAdvisorScript.downed_ids_from_result(s.last_battle_result), 1)
-	if entries.is_empty():
+	var preview: Dictionary = GrowthPlanBuilder.preview_to_recommended(AppState.get_party())
+	var summary := recommended_growth_summary(s, preview)
+	var actions: Array = preview.get("actions", [])
+	if actions.is_empty() and bool(preview.get("reached", false)):
 		box.add_child(label(s, "파티가 목표 작전의 권장 수준입니다. 작전을 진행하세요.", 18, Color("7ee8a8")))
 		return
-	box.add_child(label(s, "지금 가장 효과적인 성장", 17, Color("b8cbd8")))
-	ResultPresentation.add_recommendation_row(s, box, entries[0], 1.0, "GROWTH")
+	for line in summary.changes:
+		box.add_child(label(s, str(line), 17, Color("d7e3ee")))
+	if not str(summary.cost).is_empty():
+		box.add_child(label(s, "소모 · " + str(summary.cost), 16, Color("b8cbd8")))
+	if not str(summary.shortage).is_empty():
+		box.add_child(label(s, ("적용 후에도 부족 · " if not actions.is_empty() else "부족 · ") + str(summary.shortage), 16, Color("ff9a8a")))
+		box.add_child(label(s, "작전 첫 클리어와 반복 출격 보상으로 채울 수 있습니다.", 15, Color("8e9aaf")))
+	var reached := bool(preview.get("reached", false))
+	var apply := button(s, ("권장 수준까지 성장" if reached else "가능한 만큼 권장 성장") if not actions.is_empty() else "재료 부족", s._apply_recommended_growth, actions.is_empty() or s.growth_save_pending, Vector2(1, 58))
+	apply.name = "GrowthRecommendedApply"
+	if not actions.is_empty(): s._make_primary_button(apply)
+	box.add_child(apply)
+
+## Player-facing text for a GrowthPlanBuilder recommended-growth report:
+## headline, one line per member that changes, the cost and what is missing.
+static func recommended_growth_summary(s, report: Dictionary) -> Dictionary:
+	var changes: Array[String] = []
+	var raised := 0
+	for member in report.get("members", []):
+		var before: Dictionary = member.get("before", {})
+		var after: Dictionary = member.get("after", {})
+		var parts: Array[String] = []
+		if int(after.get("level", 1)) > int(before.get("level", 1)):
+			parts.append("Lv.%d→%d" % [int(before.get("level", 1)), int(after.get("level", 1))])
+		var skill_before: Dictionary = before.get("skills", {})
+		var skill_after: Dictionary = after.get("skills", {})
+		for slot in [["normal", "스킬"], ["passive", "패시브"], ["ultimate", "궁극기"]]:
+			if int(skill_after.get(slot[0], 1)) > int(skill_before.get(slot[0], 1)):
+				parts.append("%s %d→%d" % [slot[1], int(skill_before.get(slot[0], 1)), int(skill_after.get(slot[0], 1))])
+		var weapon_before: Dictionary = before.get("weapon", {})
+		var weapon_after: Dictionary = after.get("weapon", {})
+		if int(weapon_after.get("level", 0)) > int(weapon_before.get("level", 0)):
+			parts.append("무기 %d→%d" % [int(weapon_before.get("level", 0)), int(weapon_after.get("level", 0))])
+		if parts.is_empty(): continue
+		raised += 1
+		changes.append("%s  %s%s" % [s._display_character_name(str(member.character_id)), " · ".join(parts), "  ✓" if bool(member.get("reached", false)) else ""])
+	var spent: Array[String] = []
+	var accounting: Dictionary = report.get("accounting", {})
+	var deltas: Dictionary = accounting.get("inventory_delta", {})
+	var spent_ids: Array = deltas.keys()
+	spent_ids.sort()
+	for item_id in spent_ids:
+		if int(deltas[item_id]) < 0:
+			spent.append("%s %s" % [s._display_item_name(str(item_id)), MathUtil.comma(-int(deltas[item_id]))])
+	var missing: Array[String] = []
+	var shortages: Dictionary = report.get("shortages", {})
+	var missing_ids: Array = shortages.keys()
+	missing_ids.sort()
+	for item_id in missing_ids:
+		var item_name: String = "훈련 노트 경험치" if str(item_id) == "TRAINING_XP" else ("무기 칩 경험치" if str(item_id) == "WEAPON_XP" else s._display_item_name(str(item_id)))
+		missing.append("%s %s" % [item_name, MathUtil.comma(int(shortages[item_id]))])
+	var actions: int = report.get("actions", []).size()
+	var headline := "%d명 · %d단계 성장" % [raised, actions] if actions > 0 else "변경 없음"
+	return {"headline": headline, "changes": changes, "cost": ", ".join(spent), "shortage": ", ".join(missing)}
 
 static func level(s, parent: Node, cid: String) -> void:
 	var state: Dictionary = AppState.profile.roster[cid]

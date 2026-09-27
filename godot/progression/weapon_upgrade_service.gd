@@ -3,6 +3,14 @@ extends RefCounted
 
 const MATERIAL_XP := {"WEAPON_CHIP_S": 100, "WEAPON_CHIP_M": 500, "WEAPON_CHIP_L": 2500, "WEAPON_CHIP_XL": 10000}
 const CAPS := [10, 20, 30, 40, 50, 60]
+## Chips come in 100 EXP steps while tier caps land on 10 EXP steps (Lv.1→10
+## is 2,020 EXP), so refusing every overflow left weapons stuck just below the
+## cap and tier-up unreachable. The chip that reaches the cap may shed less
+## than one S chip; anything larger is still refused without consuming it.
+const CAP_SURPLUS_TOLERANCE := 100
+
+static func fits(preview_value: Dictionary) -> bool:
+	return int(preview_value.get("unused_xp", 0)) < CAP_SURPLUS_TOLERANCE
 
 static func use_material(weapon_id: String, item_id: String, quantity: int) -> GameResult:
 	if not MATERIAL_XP.has(item_id) or AppState.inventory_count(item_id) < quantity or quantity <= 0:
@@ -10,7 +18,7 @@ static func use_material(weapon_id: String, item_id: String, quantity: int) -> G
 	var result := preview(weapon_id, item_id, quantity)
 	if not result.ok:
 		return result
-	if int(result.value.unused_xp) > 0:
+	if not fits(result.value):
 		return GameResult.failure("WOULD_EXCEED_TIER_CAP")
 	var state: Dictionary = AppState.profile.weapons[weapon_id]
 	state.level = result.value.level

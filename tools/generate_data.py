@@ -1641,6 +1641,193 @@ def localization(characters, enemies, stages, skills, weapons, items, scenarios)
     return loc
 
 
+WEAPON_TIER_COSTS = [
+    {"from_tier": 1, "target_tier": 2, "required_level": 10, "cost": {"WEAPON_ORE_T1": 10, "BLUEPRINT_T1": 3, "CREDIT": 5000}},
+    {"from_tier": 2, "target_tier": 3, "required_level": 20, "cost": {"WEAPON_ORE_T1": 20, "BLUEPRINT_T1": 8, "CREDIT": 15000}},
+    {"from_tier": 3, "target_tier": 4, "required_level": 30, "cost": {"WEAPON_ORE_T2": 20, "BLUEPRINT_T2": 10, "UNIVERSAL_CATALYST": 1, "CREDIT": 40000}},
+    {"from_tier": 4, "target_tier": 5, "required_level": 40, "cost": {"WEAPON_ORE_T3": 24, "BLUEPRINT_T3": 12, "UNIVERSAL_CATALYST": 2, "CREDIT": 90000}},
+    {"from_tier": 5, "target_tier": 6, "required_level": 50, "cost": {"WEAPON_ORE_T4": 30, "BLUEPRINT_T4": 15, "UNIVERSAL_CATALYST": 4, "CREDIT": 180000}},
+]
+
+# --- Growth economy -------------------------------------------------------
+# The campaign is balanced against a party at each operation's recommended
+# profile (GrowthAdvisor.recommended_profile, which the campaign calibrator
+# also uses). Before this pass the rewards after chapter 1 were credits and
+# breakthrough cores only: a full clear supplied about 40k character EXP
+# against 4.5M needed, so "권장 성장" could never reach the recommendation.
+# Each required operation's first clear now tops the cumulative supply up to
+# the cost of the *next* required operation's profile for a five-member party
+# (plus a margin), and optional operations add a share of the local step so
+# swapping in companions stays affordable. The top-up lives in its own reward
+# bucket so the save migration can grant it for operations already cleared.
+GROWTH_PARTY_SIZE = 5
+GROWTH_WEAPON_COUNT = 5
+GROWTH_MARGIN = 1.10
+GROWTH_OPTIONAL_SHARE = 0.30
+GROWTH_BREAK_LEVEL_CAPS = [20, 40, 60, 80, 90]
+# Mirror of AppState.new_game() inventory: it must cover the first operation.
+NEW_GAME_INVENTORY = {
+    "CREDIT": 60000, "TRAINING_NOTE_M": 27, "BREAK_CORE_T1": 10, "ROLE_TOKEN_T1": 5,
+    "SKILL_BOOK_T1": 30, "SKILL_TOKEN_T1": 8, "ULT_BOOK_T1": 8, "WEAPON_CHIP_M": 10,
+}
+TRAINING_NOTE_XP = {"TRAINING_NOTE_S": 100, "TRAINING_NOTE_M": 500, "TRAINING_NOTE_L": 2500, "TRAINING_NOTE_XL": 10000}
+WEAPON_CHIP_XP = {"WEAPON_CHIP_S": 100, "WEAPON_CHIP_M": 500, "WEAPON_CHIP_L": 2500, "WEAPON_CHIP_XL": 10000}
+
+
+def round_half_up(value: float) -> int:
+    return int(math.floor(value + 0.5))
+
+
+def expected_skill_levels(chapter_number: int) -> dict:
+    """Same curve as GrowthAdvisor.expected_skill_levels (GDScript rounds half up)."""
+    post_cap = max(0, min(16, chapter_number - 4))
+    if post_cap <= 0:
+        return {"normal": 2, "passive": 2, "ultimate": 1}
+    return {"normal": 2 + round_half_up(post_cap * .5), "passive": 2 + round_half_up(post_cap * .5), "ultimate": 1 + round_half_up(post_cap * .25)}
+
+
+def recommended_profile(stage: dict) -> dict:
+    level = max(1, min(100, int(stage["recommended_level"])))
+    weapon_level = min(60, level)
+    return {
+        "level": level,
+        "breakthrough": sum(1 for cap in GROWTH_BREAK_LEVEL_CAPS if level > cap),
+        **expected_skill_levels(int(str(stage["chapter_id"])[2:])),
+        "weapon_level": weapon_level,
+        "weapon_tier": max(1, min(6, math.ceil(weapon_level / 10))),
+    }
+
+
+def growth_bill(profile: dict, char_levels: list, weapon_levels: list, breakthrough: list, normal_costs: list, ultimate_costs: list) -> dict:
+    """Items a fresh party needs to reach `profile`. EXP is counted as the
+    pseudo items TRAINING_XP / WEAPON_XP so any note or chip size can pay it."""
+    member: dict = {}
+    def add(target: dict, cost: dict) -> None:
+        for item_id, quantity in cost.items():
+            target[item_id] = target.get(item_id, 0) + int(quantity)
+    for level in range(1, profile["level"]):
+        add(member, {"TRAINING_XP": char_levels[level - 1]["xp_to_next"], "CREDIT": char_levels[level - 1]["credit_cost"]})
+    for step in range(1, profile["breakthrough"] + 1):
+        add(member, breakthrough[step - 1]["cost"])
+    for slot, table in (("normal", normal_costs), ("passive", normal_costs), ("ultimate", ultimate_costs)):
+        for row in table:
+            if 2 <= int(row["target_level"]) <= profile[slot]:
+                add(member, row["cost"])
+    weapon: dict = {}
+    for level in range(1, profile["weapon_level"]):
+        add(weapon, {"WEAPON_XP": weapon_levels[level - 1]["xp_to_next"]})
+    for tier in range(1, profile["weapon_tier"]):
+        add(weapon, WEAPON_TIER_COSTS[tier - 1]["cost"])
+    bill: dict = {}
+    for item_id, quantity in member.items():
+        bill[item_id] = bill.get(item_id, 0) + quantity * GROWTH_PARTY_SIZE
+    for item_id, quantity in weapon.items():
+        bill[item_id] = bill.get(item_id, 0) + quantity * GROWTH_WEAPON_COUNT
+    return bill
+
+
+def as_growth_supply(items: dict) -> dict:
+    supply: dict = {}
+    for item_id, quantity in items.items():
+        key = "TRAINING_XP" if item_id in TRAINING_NOTE_XP else ("WEAPON_XP" if item_id in WEAPON_CHIP_XP else item_id)
+        value = TRAINING_NOTE_XP.get(item_id, WEAPON_CHIP_XP.get(item_id, 1))
+        supply[key] = supply.get(key, 0) + int(quantity) * value
+    return supply
+
+
+GROWTH_WEAPON_SMALL_SHARE = 0.30
+
+
+def growth_items(pseudo: dict, note_ceiling: int = 10000) -> dict:
+    """Turn a pseudo-item bill into real rewards.
+
+    Training EXP uses notes no larger than `note_ceiling` (one level's EXP at
+    the profile level): a larger note overshoots into one member's reserve and
+    leaves the rest of the party short. Weapon EXP is paid in M and S chips with
+    a fixed S share, because a weapon only tiers up from exactly its cap and the
+    last stretch below a cap needs small chips."""
+    items: dict = {}
+    for item_id, amount in pseudo.items():
+        amount = int(math.ceil(amount))
+        if amount <= 0:
+            continue
+        if item_id == "TRAINING_XP":
+            sizes = [(key, value) for key, value in (("TRAINING_NOTE_XL", 10000), ("TRAINING_NOTE_L", 2500), ("TRAINING_NOTE_M", 500)) if value <= max(100, note_ceiling)]
+            rest = amount
+            for key, value in sizes:
+                count, rest = divmod(rest, value)
+                if count: items[key] = items.get(key, 0) + count
+            if rest > 0:
+                items["TRAINING_NOTE_S"] = items.get("TRAINING_NOTE_S", 0) + math.ceil(rest / 100)
+        elif item_id == "WEAPON_XP":
+            medium = int(amount * (1.0 - GROWTH_WEAPON_SMALL_SHARE)) // 500
+            small = math.ceil((amount - medium * 500) / 100)
+            for key, count in (("WEAPON_CHIP_M", medium), ("WEAPON_CHIP_S", small)):
+                if count: items[key] = items.get(key, 0) + count
+        elif item_id == "CREDIT":
+            items[item_id] = items.get(item_id, 0) + int(math.ceil(amount / 100.0)) * 100
+        else:
+            items[item_id] = items.get(item_id, 0) + amount
+    return items
+
+
+def apply_growth_rewards(stages: list, rewards: list, chapters: list, item_order: list, char_levels: list, weapon_levels: list, breakthrough: list, normal_costs: list, ultimate_costs: list) -> None:
+    stage_by_id = {str(stage["id"]): stage for stage in stages}
+    reward_by_stage = {str(row["stage_id"]): row for row in rewards}
+    def bill(profile: dict) -> dict:
+        return growth_bill(profile, char_levels, weapon_levels, breakthrough, normal_costs, ultimate_costs)
+    def first_run(stage_id: str) -> dict:
+        row = reward_by_stage[stage_id]
+        items: dict = {}
+        for entry in row.get("guaranteed", []):
+            items[entry["item_id"]] = items.get(entry["item_id"], 0) + int(entry["min"])
+        for entry in row.get("first_clear", []):
+            items[entry["item_id"]] = items.get(entry["item_id"], 0) + int(entry["quantity"])
+        return items
+    def raised(left: dict, right: dict) -> dict:
+        return {key: max(left[key], right[key]) for key in left}
+    def level_xp(level: int) -> int:
+        return int(char_levels[min(max(level, 1), len(char_levels)) - 1]["xp_to_next"])
+    route = [str(stage_id) for chapter in chapters for stage_id in chapter["required_stage_ids"]]
+    supply = as_growth_supply(NEW_GAME_INVENTORY)
+    running = recommended_profile(stage_by_id[route[0]])
+    for item_id, quantity in bill(running).items():
+        if supply.get(item_id, 0) < quantity:
+            raise SystemExit(f"new-game inventory cannot reach the first recommended profile: {item_id}")
+    grants: dict = {stage_id: {} for stage_id in stage_by_id}
+    profile_after: dict = {}
+    for index, stage_id in enumerate(route):
+        for item_id, quantity in as_growth_supply(first_run(stage_id)).items():
+            supply[item_id] = supply.get(item_id, 0) + quantity
+        if index + 1 < len(route):
+            running = raised(running, recommended_profile(stage_by_id[route[index + 1]]))
+            level_cost = level_xp(running["level"])
+            need = bill(running)
+            # One level per member on top of the margin: notes are indivisible
+            # and an overshoot stays in one member's reserve.
+            need["TRAINING_XP"] = need.get("TRAINING_XP", 0) + GROWTH_PARTY_SIZE * level_cost
+            shortfall = {item_id: quantity * GROWTH_MARGIN - supply.get(item_id, 0) for item_id, quantity in need.items()}
+            top_up = growth_items({item_id: amount for item_id, amount in shortfall.items() if amount > 0}, level_cost)
+            grants[stage_id] = top_up
+            for item_id, quantity in as_growth_supply(top_up).items():
+                supply[item_id] = supply.get(item_id, 0) + quantity
+        profile_after[stage_id] = dict(running)
+    for chapter in chapters:
+        required = [str(stage_id) for stage_id in chapter["required_stage_ids"]]
+        first_bill = bill(profile_after[required[0]])
+        last_bill = bill(profile_after[required[-1]])
+        step = {item_id: GROWTH_OPTIONAL_SHARE * (last_bill.get(item_id, 0) - first_bill.get(item_id, 0)) / max(1, len(required)) for item_id in last_bill}
+        share = growth_items({item_id: amount for item_id, amount in step.items() if amount > 0}, level_xp(profile_after[required[0]]["level"]))
+        for stage_id in chapter["optional_stage_ids"]:
+            grants[str(stage_id)] = dict(share)
+    order = {item_id: index for index, item_id in enumerate(item_order)}
+    for stage_id, items in grants.items():
+        reward_by_stage[stage_id]["growth_first_clear"] = [
+            {"item_id": item_id, "quantity": int(items[item_id])}
+            for item_id in sorted(items, key=lambda value: order.get(value, len(order)))
+        ]
+
+
 def main() -> None:
     characters = character_data()
     skills = skill_data()
@@ -1673,6 +1860,7 @@ def main() -> None:
     breakthrough, normal_costs, ultimate_costs = costs()
     scenarios = all_scenario_sources()
     char_levels, acct_levels, weapon_levels = level_rows(), account_rows(), weapon_level_rows()
+    apply_growth_rewards(stages, rewards, chapters, [item["id"] for item in items], char_levels, weapon_levels, breakthrough, normal_costs, ultimate_costs)
     affinity_matrix = json.loads((SOURCE / "affinity_matrix.json").read_text(encoding="utf-8"))
     status_effects = json.loads((SOURCE / "status_effects.json").read_text(encoding="utf-8"))
     story_triggers = campaign_story_triggers()
@@ -1687,13 +1875,7 @@ def main() -> None:
     write_json(SOURCE / "skills.json", skills)
     write_csv(SOURCE / "skill_upgrade_costs.csv", [{**x, "cost": json.dumps(x["cost"], separators=(",", ":"))} for x in normal_costs + ultimate_costs])
     write_csv(SOURCE / "weapons.csv", weapons)
-    write_csv(SOURCE / "weapon_tier_costs.csv", [
-        {"from_tier": 1, "target_tier": 2, "required_level": 10, "cost": '{"WEAPON_ORE_T1":10,"BLUEPRINT_T1":3,"CREDIT":5000}'},
-        {"from_tier": 2, "target_tier": 3, "required_level": 20, "cost": '{"WEAPON_ORE_T1":20,"BLUEPRINT_T1":8,"CREDIT":15000}'},
-        {"from_tier": 3, "target_tier": 4, "required_level": 30, "cost": '{"WEAPON_ORE_T2":20,"BLUEPRINT_T2":10,"UNIVERSAL_CATALYST":1,"CREDIT":40000}'},
-        {"from_tier": 4, "target_tier": 5, "required_level": 40, "cost": '{"WEAPON_ORE_T3":24,"BLUEPRINT_T3":12,"UNIVERSAL_CATALYST":2,"CREDIT":90000}'},
-        {"from_tier": 5, "target_tier": 6, "required_level": 50, "cost": '{"WEAPON_ORE_T4":30,"BLUEPRINT_T4":15,"UNIVERSAL_CATALYST":4,"CREDIT":180000}'},
-    ])
+    write_csv(SOURCE / "weapon_tier_costs.csv", [{**row, "cost": json.dumps(row["cost"], separators=(",", ":"))} for row in WEAPON_TIER_COSTS])
     write_csv(SOURCE / "enemies.csv", [{**e, "stats": json.dumps(e["stats"], separators=(",", ":")), "patterns": json.dumps(e.get("patterns", []), separators=(",", ":"))} for e in enemies])
     write_csv(SOURCE / "stages.csv", [{**s, "waves": json.dumps(s["waves"], separators=(",", ":"))} for s in stages])
     write_json(SOURCE / "stage_rewards.json", rewards)
@@ -1772,13 +1954,7 @@ def main() -> None:
         "weapon_level_curve": weapon_levels,
         "breakthroughs": [{"stage": 0, "level_cap": 20, "multiplier": 1.0, "cost": {}}] + breakthrough,
         "skill_upgrade_costs": normal_costs + ultimate_costs,
-        "weapon_tier_costs": [
-            {"from_tier": 1, "target_tier": 2, "required_level": 10, "cost": {"WEAPON_ORE_T1": 10, "BLUEPRINT_T1": 3, "CREDIT": 5000}},
-            {"from_tier": 2, "target_tier": 3, "required_level": 20, "cost": {"WEAPON_ORE_T1": 20, "BLUEPRINT_T1": 8, "CREDIT": 15000}},
-            {"from_tier": 3, "target_tier": 4, "required_level": 30, "cost": {"WEAPON_ORE_T2": 20, "BLUEPRINT_T2": 10, "UNIVERSAL_CATALYST": 1, "CREDIT": 40000}},
-            {"from_tier": 4, "target_tier": 5, "required_level": 40, "cost": {"WEAPON_ORE_T3": 24, "BLUEPRINT_T3": 12, "UNIVERSAL_CATALYST": 2, "CREDIT": 90000}},
-            {"from_tier": 5, "target_tier": 6, "required_level": 50, "cost": {"WEAPON_ORE_T4": 30, "BLUEPRINT_T4": 15, "UNIVERSAL_CATALYST": 4, "CREDIT": 180000}},
-        ],
+        "weapon_tier_costs": WEAPON_TIER_COSTS,
         "weapon_tier_caps": {"1": 10, "2": 20, "3": 30, "4": 40, "5": 50, "6": 60},
         "affinity_matrix": affinity_matrix,
         "status_effects": status_effects,

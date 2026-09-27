@@ -135,7 +135,7 @@ static func _weapon_level_candidate(weapon_id: String, state: Dictionary, invent
 		if int(inventory.get(material_id, 0)) <= 0:
 			continue
 		var preview := _weapon_preview(state, int(WEAPON_XP[material_id]), cap)
-		if int(preview.get("unused_xp", 0)) == 0 and int(preview.get("level", current_level)) > current_level:
+		if WeaponUpgradeService.fits(preview) and int(preview.get("level", current_level)) > current_level:
 			return {"key": "WEAPON_LEVEL:%s" % weapon_id, "kind": "WEAPON_LEVEL", "weapon_id": weapon_id, "from_level": current_level, "to_level": int(preview.level), "material_id": material_id}
 	return {}
 

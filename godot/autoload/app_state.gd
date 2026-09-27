@@ -7,7 +7,7 @@ const MapExplorationServiceScript := preload("res://chapter_map/model/map_explor
 const MapSimulationScript := preload("res://chapter_map/model/map_simulation.gd")
 const RelayServiceScript := preload("res://relay/relay_service.gd")
 
-const SAVE_SCHEMA_VERSION := 9
+const SAVE_SCHEMA_VERSION := 10
 var profile: Dictionary = {}
 var route_payload: Dictionary = {}
 var selected_stage_id := "CH01-N01"
@@ -54,11 +54,13 @@ func new_game() -> void:
 	for item in DataRegistry.list_of("items"):
 		inventory[item.id] = 0
 	inventory["CREDIT"] = 60000
-	inventory["TRAINING_NOTE_M"] = 12
-	inventory["TRAINING_NOTE_L"] = 3
+	# Starting EXP comes in M notes: early levels cost 140-600 EXP, and an L note
+	# would overshoot into one member's reserve while the others stay short.
+	inventory["TRAINING_NOTE_M"] = 27
 	inventory["BREAK_CORE_T1"] = 10
 	inventory["ROLE_TOKEN_T1"] = 5
-	inventory["SKILL_BOOK_T1"] = 12
+	# Covers the first operation's recommended normal / passive Lv.2 for all five.
+	inventory["SKILL_BOOK_T1"] = 30
 	inventory["SKILL_TOKEN_T1"] = 8
 	inventory["ULT_BOOK_T1"] = 8
 	inventory["WEAPON_CHIP_M"] = 10
@@ -268,6 +270,13 @@ func unlock_character(character_id: String, join_stage_id := "") -> bool:
 		elif join_level > 40: breakthrough_floor = 2
 		elif join_level > 20: breakthrough_floor = 1
 		profile.roster[character_id].breakthrough = maxi(int(profile.roster[character_id].get("breakthrough", 0)), breakthrough_floor)
+		# Skills follow the same idea: one level under the operation's
+		# recommendation, never below what the save already holds.
+		var expected_skills := GrowthAdvisor.expected_skill_levels(join_stage)
+		var skills: Dictionary = profile.roster[character_id].get("skills", {})
+		for slot in expected_skills:
+			skills[slot] = maxi(int(skills.get(slot, 1)), maxi(1, int(expected_skills[slot]) - 1))
+		profile.roster[character_id].skills = skills
 	profile.roster[character_id].unlocked = true
 	profile.roster[character_id].acquisition_status = "OWNED"
 	EventBus.inventory_changed.emit()
@@ -559,6 +568,8 @@ func record_stage_clear(stage_id: String, stars: int) -> bool:
 	var unlocked_before := _canonical_unlocked_stage_ids()
 	var first: bool = not bool(profile.first_clear.get(stage_id, false))
 	profile.first_clear[stage_id] = true
+	if first:
+		AccountProgression.raise_for_first_clear(stage)
 	profile.stage_stars[stage_id] = maxi(int(profile.stage_stars.get(stage_id, 0)), stars)
 	var chapter_progress := _chapter_progress_state(chapter_id)
 	var chapter: Dictionary = DataRegistry.chapter(chapter_id)

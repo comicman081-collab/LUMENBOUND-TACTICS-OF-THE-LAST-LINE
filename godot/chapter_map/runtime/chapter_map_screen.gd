@@ -5952,6 +5952,15 @@ func _reward_text(reward: Dictionary) -> String:
 	var lines: Array[String] = []
 	for entry in reward.get("guaranteed", []): lines.append("• %s ×%d" % [_display_item_name(str(entry.get("item_id", "?"))), int(entry.get("quantity", entry.get("min", 1)))])
 	for entry in reward.get("bonus", []): lines.append("• %s %.0f%%" % [_display_item_name(str(entry.get("item_id", "?"))), float(entry.get("chance", 0.0))*100.0])
+	# First-clear rewards (including the growth supply 권장 성장 relies on) are
+	# listed on one line until the operation is cleared.
+	if not bool(AppState.profile.get("first_clear", {}).get(str(reward.get("stage_id", "")), false)):
+		var first_clear: Array[String] = []
+		for bucket in ["first_clear", "growth_first_clear"]:
+			for entry in reward.get(bucket, []):
+				first_clear.append("%s ×%s" % [_display_item_name(str(entry.get("item_id", "?"))), MathUtil.comma(int(entry.get("quantity", 1)))])
+		if not first_clear.is_empty():
+			lines.append("[color=#f1d77a]첫 클리어[/color] " + ", ".join(first_clear))
 	return "\n".join(lines)
 
 func _display_item_name(item_id: String) -> String:

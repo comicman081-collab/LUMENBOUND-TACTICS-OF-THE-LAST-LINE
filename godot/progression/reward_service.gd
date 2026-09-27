@@ -36,8 +36,12 @@ static func resolve(stage_id: String, count: int, seed: int, include_first_clear
 			else:
 				AppState.profile.reward_pity_counters[pity_key] = failures + 1
 	if include_first_clear:
-		for item in table.get("first_clear", []):
-			total[item.item_id] = int(total.get(item.item_id, 0)) + int(item.quantity)
+		# growth_first_clear is the generated growth supply (tools/generate_data.py
+		# apply_growth_rewards); it is a separate bucket so the v10 save migration
+		# can grant it for operations cleared before it existed.
+		for bucket in ["first_clear", "growth_first_clear"]:
+			for item in table.get(bucket, []):
+				total[item.item_id] = int(total.get(item.item_id, 0)) + int(item.quantity)
 	return resolve_direct(total)
 
 static func sweep(stage_id: String, count: int, seed: int) -> GameResult:

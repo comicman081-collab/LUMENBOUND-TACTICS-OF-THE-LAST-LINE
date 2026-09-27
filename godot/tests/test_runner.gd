@@ -1879,7 +1879,7 @@ func _test_relay() -> void:
 	legacy["save_schema_version"] = 7
 	var migrated := SaveService._migrate(legacy)
 	var legacy_reserved_kept := str(migrated.value.get("roster", {}).get("CHR044", {}).get("acquisition_status", "")) == "LEGACY_OWNED" if bool(migrated.value.get("roster", {}).get("CHR044", {}).get("unlocked", false)) else true
-	check(migrated.ok and int(migrated.value.get("save_schema_version", 0)) == 9 and (migrated.value.get("relay", {}) as Dictionary).has("active_run") and legacy_reserved_kept, "save migration v7→v9 adds relay and preserves any legacy-owned reserved companion")
+	check(migrated.ok and int(migrated.value.get("save_schema_version", 0)) == AppState.SAVE_SCHEMA_VERSION and (migrated.value.get("relay", {}) as Dictionary).has("active_run") and legacy_reserved_kept, "save migration v7→current adds relay and preserves any legacy-owned reserved companion")
 	AppState.profile = profile_backup
 
 func _test_save() -> void:

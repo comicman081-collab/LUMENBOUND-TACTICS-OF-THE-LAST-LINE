@@ -53,20 +53,10 @@ static func target_win_rate(stage: Dictionary) -> float:
 static func multiplier_cap(stage: Dictionary) -> float:
 	return 1.25 if is_finale(stage) else 1.0
 
-## Recommended profile up to chapter 4 (the balance_hardening_matrix
-## B_RECOMMENDED profile), then GrowthAdvisor.expected_skill_levels: skills climb
-## to maximum by chapter 20. The growth screen shows the same requirement.
+## The recommended profile the growth screen shows and "권장 성장" raises the
+## party to (GrowthAdvisor.recommended_profile), so balance and growth agree.
 static func expected_profile(stage: Dictionary) -> Dictionary:
-	var level := int(stage.recommended_level)
-	var skills := GrowthAdvisor.expected_skill_levels(stage)
-	if skills.is_empty(): skills = {"normal": 2, "passive": 2, "ultimate": 1}
-	return {
-		"level": level,
-		"normal": int(skills.normal),
-		"passive": int(skills.passive),
-		"ultimate": int(skills.ultimate),
-		"weapon_level": mini(60, level),
-	}
+	return GrowthAdvisor.recommended_profile(stage)
 
 func _calibrate(stage: Dictionary) -> void:
 	var party := _party(expected_profile(stage))

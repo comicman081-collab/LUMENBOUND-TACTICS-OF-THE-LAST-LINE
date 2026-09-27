@@ -21,6 +21,9 @@ const BattleUltimateOrbScript := preload("res://battle/view/battle_ultimate_orb.
 const DESIGN_VIEWPORT_SIZE := Vector2(1920.0, 1080.0)
 const COMPACT_LANDSCAPE_MAX_WIDTH := 980.0
 const MIN_TOUCH_CSS_PX := 56.0
+const STORY_FIT_COMPACT_HEIGHT_CSS := 340.0
+const STORY_FIT_WIDE_HEIGHT_CSS := 520.0
+const STORY_MIN_FIT := 0.55
 const SPECIAL_EVENT_CONTACT_DURATION := 1.85
 const BOSS_ENCOUNTER_CARD_DURATION := 0.82
 const INTRO_VIDEO_PATH := "res://assets/video/lumenbound_intro_full.ogv"
@@ -127,8 +130,6 @@ var growth_target_level := 0
 var growth_feedback := ""
 var growth_save_pending := false
 var growth_menu_layer: CanvasLayer
-var last_growth_plan_actions: Array = []
-var last_growth_plan_report: Dictionary = {}
 var battle_party_ids: Array[String] = []
 var relay_edit_squad := 0
 var relay_edit_slot := 0
@@ -1137,8 +1138,19 @@ func story_font_size_for_size(target_css_px: float, size: Vector2) -> int:
 	# a 1920x1080 canvas. Convert the requested reading size back to logical pixels
 	# so 1280x720 Web, compact landscape and portrait all preserve the same visual
 	# hierarchy instead of inheriting the canvas shrink factor.
-	var canvas_scale := float(responsive_ui_metrics_for_size(size).canvas_scale)
-	return maxi(1, roundi(target_css_px / maxf(canvas_scale, 0.001)))
+	var metrics := responsive_ui_metrics_for_size(size)
+	var canvas_scale := float(metrics.canvas_scale)
+	return maxi(1, roundi(target_css_px * story_fit_for_size(size) / maxf(canvas_scale, 0.001)))
+
+func story_fit_for_size(size: Vector2) -> float:
+	# Story sizes are authored for a landscape phone (360+ CSS px tall) or a
+	# 16:9 desktop frame (520+). A shorter frame, such as a thumbnail-sized
+	# desktop pane, cannot stack the chapter plate, the AUTO/SKIP rail and the
+	# reading plate at those sizes; the plate then grew over the rail. Shrink the
+	# whole story composition with the frame height instead.
+	var metrics := responsive_ui_metrics_for_size(size)
+	var reference_height := STORY_FIT_COMPACT_HEIGHT_CSS if bool(metrics.compact_landscape) else STORY_FIT_WIDE_HEIGHT_CSS
+	return clampf(GameUI.landscape_layout_size(size).y / reference_height, STORY_MIN_FIT, 1.0)
 
 static func story_page_progress(commands: Array, current_command_index: int) -> Vector2i:
 	# A "page" is a player-facing text card, not an internal art/audio command.
@@ -1324,8 +1336,15 @@ func _show_status_toast(message: String) -> void:
 	status_toast_label.text = message
 	status_toast_label.add_theme_font_size_override("font_size", roundi(20.0 * (_portrait_ui_scale() if _is_portrait_layout() else 1.0)))
 	var width := minf(size.x - 48.0, 760.0)
+	# A wrapping label measures its height at its current width; a new label is
+	# 0 px wide, so the first toast grew hundreds of pixels tall (one line per
+	# word) with the text pushed below the screen edge. Size the label first and
+	# shrink the panel again once the label has re-measured.
+	status_toast_label.custom_minimum_size = Vector2(maxf(0.0, width - 36.0), 0.0)
+	status_toast_label.size = Vector2(maxf(0.0, width - 36.0), 0.0)
 	status_toast.custom_minimum_size = Vector2(width, 0.0)
 	status_toast.size = Vector2(width, 0.0)
+	status_toast.set_deferred("size", Vector2(width, 0.0))
 	status_toast.position = Vector2((size.x - width) * 0.5, size.y - 150.0)
 	move_child(status_toast, get_child_count() - 1)
 	status_toast.visible = true
@@ -1452,6 +1471,23 @@ func _show_screen(screen_id: String) -> void:
 		_: _show_home()
 	_apply_compact_touch_targets(content)
 	_apply_chapter_map_shell_overrides()
+	_show_growth_economy_notice()
+
+## Shown once after the v10 save migration granted the growth supply for
+## operations cleared before it existed (SaveService._migrate).
+func _show_growth_economy_notice() -> void:
+	if current_screen not in ["HOME", "STAGE_SELECT"] or not AppState.profile.has("growth_economy_notice"):
+		return
+	var notice: Dictionary = AppState.profile.get("growth_economy_notice", {})
+	AppState.profile.erase("growth_economy_notice")
+	var parts: Array[String] = []
+	if int(notice.get("account_to", 0)) > int(notice.get("account_from", 0)):
+		parts.append("계정 레벨 %d → %d" % [int(notice.account_from), int(notice.account_to)])
+	if not Dictionary(notice.get("items", {})).is_empty():
+		parts.append("클리어한 작전의 성장 재료 지급")
+	if parts.is_empty():
+		return
+	_notify("성장 보상 개편 · " + " · ".join(parts) + " · 메뉴의 권장 성장에서 바로 쓸 수 있습니다")
 
 func _title(text_value: String, subtitle := "") -> void:
 	var portrait := _is_portrait_layout()
@@ -2389,7 +2425,7 @@ func _build_prologue_story_presentation(portrait: bool, ui_scale: float, story_h
 	dialogue_margin.offset_bottom = -float(_story_logical_px(12.0 if compact else (30.0 if narrow_portrait else 18.0)))
 	# On a short window (e.g. a narrow desktop pane) the fixed plate height used
 	# to cover the chapter plate and the AUTO/SKIP rail. Cap it to the lower 58%.
-	var plate_height_css := 178.0 if compact else (348.0 if narrow_portrait else 282.0)
+	var plate_height_css := (178.0 if compact else (348.0 if narrow_portrait else 282.0)) * story_fit_for_size(runtime_size)
 	if runtime_size.y > 0.0 and plate_height_css > runtime_size.y * 0.58:
 		dialogue_margin.anchor_top = 0.42
 		dialogue_margin.offset_top = 0.0
@@ -3508,6 +3544,10 @@ func _show_stage_detail() -> void:
 	reward_box.add_child(_label("획득 가능 보상", 25, Color("78e6d0")))
 	reward_box.add_child(_label(_format_reward_entries(reward.get("guaranteed", [])), 21, Color("8fe0b6")))
 	reward_box.add_child(_label("추가 보상\n" + _format_reward_entries(reward.get("bonus", [])), 18, Color("cdd5e3")))
+	if not bool(AppState.profile.get("first_clear", {}).get(str(stage.id), false)):
+		var first_clear_entries: Array = reward.get("first_clear", []) + reward.get("growth_first_clear", [])
+		if not first_clear_entries.is_empty():
+			reward_box.add_child(_label("첫 클리어 보상 · 성장 재료\n" + _format_reward_entries(first_clear_entries), 18, Color("f4d38a")))
 	reward_box.add_child(_label("희귀 재료 8회 실패 후 다음 1회 보장\n소탕도 동일한 RewardResolver 사용", 17, Color("8e9aaf")))
 	var attempts := "무제한"
 	if stage.mode == "HARD":
@@ -4649,104 +4689,27 @@ func _goto_growth_candidate(candidate: Dictionary) -> void:
 	AppState.selected_character_id = character_id
 	SceneRouter.go("GROWTH")
 
-func _growth_plan_action_text(action: Dictionary) -> String:
-	var kind := str(action.get("kind", ""))
-	var character_id := str(action.get("character_id", ""))
-	if kind == "LEVEL":
-		return "%s · %s 사용" % [_display_character_name(character_id), _display_item_name(str(action.get("material_id", "")))]
-	if kind == "BREAKTHROUGH":
-		return "%s · 돌파" % _display_character_name(character_id)
-	if kind == "SKILL":
-		return "%s · %s 강화" % [_display_character_name(character_id), {"normal": "일반 스킬", "passive": "패시브", "ultimate": "궁극기"}.get(str(action.get("slot", "")), "스킬")]
-	var weapon_id := str(action.get("weapon_id", ""))
-	if kind == "WEAPON_LEVEL":
-		return "%s · %s 사용" % [_display_runtime_name(weapon_id), _display_item_name(str(action.get("material_id", "")))]
-	if kind == "WEAPON_TIER":
-		return "%s · 티어업" % _display_runtime_name(weapon_id)
-	return "권장 성장"
-
-func _apply_recommended_party_growth(max_actions := 12) -> void:
-	var before_profile := AppState.profile.duplicate(true)
-	var result: Dictionary = GrowthPlanBuilderScript.execute_recommended_batch(AppState.get_party(), max_actions)
-	last_growth_plan_actions = result.get("actions", []).duplicate(true)
-	var after_profile := AppState.profile.duplicate(true)
-	var accounting: Dictionary = result.get("accounting", {})
-	last_growth_plan_report = {
-		"requested_limit": mini(max_actions, 12),
-		"applied_count": last_growth_plan_actions.size(),
-		"planned_count": int(accounting.get("planned", 0)),
-		"successful_count": int(accounting.get("successful", last_growth_plan_actions.size())),
-		"rejected_count": int(accounting.get("rejected", 0)),
-		"preview_matches_execution": bool(result.get("preview_matches_execution", false)),
-		"planned_actions": result.get("preview_actions", []).duplicate(true),
-		"pre_inventory": before_profile.get("inventory", {}).duplicate(true),
-		"post_inventory": after_profile.get("inventory", {}).duplicate(true),
-		"pre_party": _party_growth_snapshot(before_profile),
-		"post_party": _party_growth_snapshot(after_profile),
-		"has_more": bool(result.get("has_more", not GrowthPlanBuilderScript.next_legal_action(AppState.get_party()).is_empty())),
-		"error": str(result.get("error", "")),
-	}
-	if not bool(result.get("ok", false)):
-		if not last_growth_plan_actions.is_empty():
-			var partial_save := SaveService.save_game()
-			growth_save_pending = not partial_save.ok
-		growth_feedback = "권장 성장 %d단계 적용 후 중단했습니다. 현재 재료와 조건을 확인하세요.%s" % [last_growth_plan_actions.size(), " 저장을 다시 시도하세요." if growth_save_pending else ""]
-		footer_status.text = "권장 성장 %d단계 적용 후 중단: %s" % [last_growth_plan_actions.size(), str(result.get("error", "UNKNOWN"))]
-		_show_screen("GROWTH")
-		return
-	if last_growth_plan_actions.is_empty():
-		footer_status.text = "현재 파티에 즉시 적용 가능한 권장 성장이 없습니다."
+## One "권장 성장" press from the growth screen or the 메뉴: raise the party to
+## the target operation's recommended profile and save. Returns the report and
+## the player-facing line describing it.
+func _run_recommended_growth() -> Dictionary:
+	var report: Dictionary = GrowthPlanBuilderScript.execute_to_recommended(AppState.get_party())
+	var summary := CommandPresentation.recommended_growth_summary(self, report)
+	var message := ""
+	if report.get("actions", []).is_empty():
+		message = "지금 적용할 권장 성장이 없습니다" + (" · 부족: " + str(summary.shortage) if not str(summary.shortage).is_empty() else "")
 	else:
 		var saved := SaveService.save_game()
 		growth_save_pending = not saved.ok
-		footer_status.text = "권장 성장 %d단계 적용 완료%s" % [last_growth_plan_actions.size(), " · 추가 권장 성장 있음" if bool(last_growth_plan_report.get("has_more", false)) else ""]
-	growth_feedback = footer_status.text + (" · 저장하지 못했습니다. 저장을 다시 시도하세요." if growth_save_pending else "")
+		message = ("권장 성장 완료" if bool(report.get("reached", false)) else "권장 성장 일부 적용") + " · " + str(summary.headline)
+		if not str(summary.shortage).is_empty(): message += " · 부족: " + str(summary.shortage)
+		if not saved.ok: message += " · 저장하지 못했습니다. 저장을 다시 시도하세요."
+	footer_status.text = message
+	return {"report": report, "message": message}
+
+func _apply_recommended_growth() -> void:
+	growth_feedback = str(_run_recommended_growth().message)
 	_show_screen("GROWTH")
-
-func _party_growth_snapshot(profile_value: Dictionary) -> Dictionary:
-	var snapshot: Dictionary = {}
-	for character_id_value in AppState.get_party():
-		var character_id := str(character_id_value)
-		var state: Dictionary = profile_value.get("roster", {}).get(character_id, {})
-		snapshot[character_id] = {
-			"level": int(state.get("level", 1)),
-			"xp": int(state.get("xp", 0)),
-			"breakthrough": int(state.get("breakthrough", 0)),
-		}
-	return snapshot
-
-func _growth_plan_result_text(report: Dictionary) -> String:
-	if report.is_empty():
-		return ""
-	var level_changes: Array[String] = []
-	var before_party: Dictionary = report.get("pre_party", {})
-	var after_party: Dictionary = report.get("post_party", {})
-	for character_id_value in AppState.get_party():
-		var character_id := str(character_id_value)
-		var before: Dictionary = before_party.get(character_id, {})
-		var after: Dictionary = after_party.get(character_id, {})
-		if int(before.get("level", 1)) != int(after.get("level", 1)) or int(before.get("breakthrough", 0)) != int(after.get("breakthrough", 0)):
-			level_changes.append("%s Lv.%d→%d%s" % [_display_character_name(character_id), int(before.get("level", 1)), int(after.get("level", 1)), " · B%d→B%d" % [int(before.get("breakthrough", 0)), int(after.get("breakthrough", 0))] if int(before.get("breakthrough", 0)) != int(after.get("breakthrough", 0)) else ""])
-	var spent: Array[String] = []
-	var before_inventory: Dictionary = report.get("pre_inventory", {})
-	var after_inventory: Dictionary = report.get("post_inventory", {})
-	var ids: Array = before_inventory.keys()
-	ids.sort()
-	for item_id_value in ids:
-		var item_id := str(item_id_value)
-		var used := int(before_inventory.get(item_id, 0)) - int(after_inventory.get(item_id, 0))
-		if used > 0:
-			spent.append("%s %s" % [_display_item_name(item_id), MathUtil.comma(used)])
-	var message := "예정 %d · 실제 성공 %d/%d단계" % [int(report.get("planned_count", report.get("applied_count", 0))), int(report.get("successful_count", report.get("applied_count", 0))), int(report.get("requested_limit", 12))]
-	if int(report.get("rejected_count", 0)) > 0:
-		message += " · 거절 %d" % int(report.get("rejected_count", 0))
-	if not bool(report.get("preview_matches_execution", true)):
-		message += "\n경고: 예상과 실행 순서가 달라졌습니다."
-	if not level_changes.is_empty(): message += "\n파티 변화: " + " / ".join(level_changes)
-	if not spent.is_empty(): message += "\n소비: " + " · ".join(spent)
-	message += "\n" + ("추가 권장 성장 있음 — 계속 적용할 수 있습니다." if bool(report.get("has_more", false)) else "현재 권장 성장 단계가 없습니다.")
-	if not str(report.get("error", "")).is_empty(): message += "\n중단 사유: " + str(report.get("error", ""))
-	return message
 
 func _reward_item_card(parent: Node, item_name: String, amount: int, before: int, after: int, font_size: int) -> void:
 	var card := PanelContainer.new()
@@ -5292,7 +5255,7 @@ func _build_growth_equipment(parent: Node, cid: String) -> void:
 	equipment.add_child(_label("장비 · %s Lv.%d / T%d" % [_display_runtime_name(weapon_id), weapon_state.level, weapon_state.tier], 21))
 	var preview := WeaponUpgradeService.preview(weapon_id, "WEAPON_CHIP_M", 1)
 	var can_level := _growth_cost_rows(equipment, {"WEAPON_CHIP_M": 1})
-	equipment.add_child(_button("무기 강화 · 중급 칩 1개", func(): _finish_growth_action(WeaponUpgradeService.use_material(weapon_id, "WEAPON_CHIP_M", 1), "무기 강화 완료"), not can_level or not preview.ok or int(preview.value.get("unused_xp", 0)) > 0 or growth_save_pending, Vector2(1, 52)))
+	equipment.add_child(_button("무기 강화 · 중급 칩 1개", func(): _finish_growth_action(WeaponUpgradeService.use_material(weapon_id, "WEAPON_CHIP_M", 1), "무기 강화 완료"), not can_level or not preview.ok or not WeaponUpgradeService.fits(preview.value) or growth_save_pending, Vector2(1, 52)))
 	var tier_cost := WeaponUpgradeService.tier_up_cost(weapon_id)
 	var can_tier := _growth_cost_rows(equipment, tier_cost)
 	var tier_cap := int(WeaponUpgradeService.CAPS[int(weapon_state.tier) - 1])
@@ -5305,38 +5268,6 @@ func _build_growth_equipment(parent: Node, cid: String) -> void:
 				_finish_growth_action(GameResult.success(value), "장비 교체 완료"), weapon.id == weapon_id or growth_save_pending, Vector2(1, 48))
 			choice.name = "MobileEquipmentOption_" + str(weapon.id)
 			equipment.add_child(choice)
-	_build_growth_party_plan(parent)
-
-func _build_growth_party_plan(parent: Node) -> void:
-	var next_plan_action: Dictionary = GrowthPlanBuilderScript.next_legal_action(AppState.get_party())
-	var plan_preview: Dictionary = GrowthPlanBuilderScript.preview_recommended_batch(AppState.get_party(), 12) if not next_plan_action.is_empty() else {}
-	var plan_box := _panel_box(parent)
-	plan_box.add_child(_label("권장 파티 성장", 22, Color("f1d77a")))
-	if next_plan_action.is_empty():
-		plan_box.add_child(_label("현재 보유 재료로 즉시 적용 가능한 파티 성장 항목이 없습니다.", 17, Color("91aac8")))
-	else:
-		var preview_texts: Array[String] = []
-		var preview_actions: Array = plan_preview.get("actions", [])
-		for preview_action_value in preview_actions.slice(0, 3):
-			preview_texts.append(_growth_plan_action_text(preview_action_value))
-		var preview_suffix := " 외 %d건" % (preview_actions.size() - preview_texts.size()) if preview_actions.size() > preview_texts.size() else ""
-		plan_box.add_child(_label("다음: %s\n예정 %d단계: %s%s\n파티 전체가 공유 재료를 사용합니다. 아래 비용을 확인한 뒤 적용하세요." % [_growth_plan_action_text(next_plan_action), preview_actions.size(), " / ".join(preview_texts), preview_suffix], 17, Color("c7d9ed")))
-		var batch_cost: Dictionary = {}
-		for item_id in plan_preview.get("accounting", {}).get("inventory_delta", {}):
-			var delta := int(plan_preview.accounting.inventory_delta[item_id])
-			if delta < 0: batch_cost[item_id] = -delta
-		_growth_cost_rows(plan_box, batch_cost)
-		var recommended_label := "권장 성장 계속 · 최대 12단계" if bool(last_growth_plan_report.get("has_more", false)) and not last_growth_plan_actions.is_empty() else "권장 파티 성장 적용 · 최대 12단계"
-		var recommended_button := _button(recommended_label, func(): _apply_recommended_party_growth(12), growth_save_pending, Vector2(360, 62))
-		_make_primary_button(recommended_button)
-		plan_box.add_child(recommended_button)
-	if not last_growth_plan_actions.is_empty():
-		var action_texts: Array[String] = []
-		for action in last_growth_plan_actions.slice(0, 4):
-			action_texts.append(_growth_plan_action_text(action))
-		var suffix := " 외 %d건" % (last_growth_plan_actions.size() - action_texts.size()) if last_growth_plan_actions.size() > action_texts.size() else ""
-		plan_box.add_child(_label("직전 적용 %d단계: %s%s" % [last_growth_plan_actions.size(), " / ".join(action_texts), suffix], 15, Color("8fe0b6")))
-		plan_box.add_child(_label(_growth_plan_result_text(last_growth_plan_report), 16, Color("c7d9ed")))
 
 func _cost_detail(cost: Dictionary) -> String:
 	if cost.is_empty(): return "MAX / 없음"
@@ -5353,7 +5284,10 @@ func _cost_detail(cost: Dictionary) -> String:
 func _source_stages_for_item(item_id: String) -> Array[String]:
 	var result: Array[String] = []
 	for reward in DataRegistry.list_of("rewards"):
-		for bucket in ["guaranteed", "bonus", "first_clear"]:
+		var cleared := bool(AppState.profile.get("first_clear", {}).get(str(reward.stage_id), false))
+		for bucket in ["guaranteed", "bonus", "first_clear", "growth_first_clear"]:
+			# One-time first-clear buckets only point at operations not yet cleared.
+			if cleared and bucket in ["first_clear", "growth_first_clear"]: continue
 			for entry in reward.get(bucket, []):
 				if str(entry.get("item_id", "")) == item_id and not result.has(str(reward.stage_id)):
 					result.append(str(reward.stage_id))

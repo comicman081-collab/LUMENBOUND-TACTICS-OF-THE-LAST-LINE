@@ -27,20 +27,39 @@ static func target_stage_id() -> String:
 
 ## Skill levels the campaign balance assumes for a stage (the same curve
 ## tools/campaign_balance_calibrator tunes enemies against). Up to chapter 4 the
-## recommended level is the requirement; after the level cap, skills are the only
-## growth and climb to their maximum by chapter 20.
+## balance assumes normal / passive Lv.2 and the ultimate at Lv.1; after the
+## level cap, skills are the only growth and climb to their maximum by chapter 20.
+## tools/generate_data.py mirrors this curve to size the first-clear rewards.
 static func expected_skill_levels(stage: Dictionary) -> Dictionary:
 	var post_cap := clampi(int(str(stage.get("chapter_id", "CH01")).substr(2)) - 4, 0, 16)
 	if post_cap <= 0:
-		return {}
+		return {"normal": 2, "passive": 2, "ultimate": 1}
 	return {"normal": 2 + roundi(post_cap * .5), "passive": 2 + roundi(post_cap * .5), "ultimate": 1 + roundi(post_cap * .25)}
 
-## Short requirement line for stage / growth headers ("" up to chapter 4).
-static func skill_requirement_text(stage: Dictionary) -> String:
+## The whole profile an operation is balanced against: level (and the
+## breakthroughs it needs), skills, and the equipped weapon at min(60, level).
+## "권장 성장" raises the party to exactly this, and nothing beyond it.
+static func recommended_profile(stage: Dictionary) -> Dictionary:
+	var level := clampi(int(stage.get("recommended_level", 1)), 1, 100)
+	var breakthrough := 0
+	for cap in [20, 40, 60, 80, 90]:
+		if level > int(cap): breakthrough += 1
 	var skills := expected_skill_levels(stage)
-	if skills.is_empty():
-		return ""
-	return "권장 스킬 Lv.%d · 궁극기 Lv.%d" % [int(skills.normal), int(skills.ultimate)]
+	var weapon_level := mini(60, level)
+	return {
+		"level": level,
+		"breakthrough": breakthrough,
+		"normal": int(skills.normal),
+		"passive": int(skills.passive),
+		"ultimate": int(skills.ultimate),
+		"weapon_level": weapon_level,
+		"weapon_tier": clampi(ceili(weapon_level / 10.0), 1, 6),
+	}
+
+## Short requirement line for stage / growth headers.
+static func skill_requirement_text(stage: Dictionary) -> String:
+	var profile := recommended_profile(stage)
+	return "권장 스킬 Lv.%d · 궁극기 Lv.%d · 무기 Lv.%d" % [int(profile.normal), int(profile.ultimate), int(profile.weapon_level)]
 
 ## One number for "how strong": weighted HP / ATK / DEF plus skill levels.
 static func combat_power(character_id: String, state_override: Dictionary = {}) -> int:
@@ -63,7 +82,8 @@ static func downed_ids_from_result(result: Dictionary) -> Array[String]:
 static func party_report(party_ids: Array, downed_ids: Array = [], stage_id := "") -> Dictionary:
 	var target := stage_id if not stage_id.is_empty() else target_stage_id()
 	var stage := DataRegistry.stage(target)
-	var recommended_level := maxi(1, int(stage.get("recommended_level", 1)))
+	var profile := recommended_profile(stage)
+	var recommended_level := int(profile.level)
 	var expected_skills := expected_skill_levels(stage)
 	var members: Array = []
 	var party_cp := 0
@@ -76,15 +96,22 @@ static func party_report(party_ids: Array, downed_ids: Array = [], stage_id := "
 		var level := int(state.get("level", 1))
 		var at_recommended: Dictionary = state.duplicate(true)
 		at_recommended.level = clampi(maxi(level, recommended_level), 1, 100)
+		at_recommended.breakthrough = maxi(int(state.get("breakthrough", 0)), int(profile.breakthrough))
+		var weapon_id := str(state.get("equipped_weapon_id", ""))
+		var weapon_state: Dictionary = AppState.profile.get("weapons", {}).get(weapon_id, {})
+		if not weapon_state.is_empty():
+			var raised_weapon: Dictionary = weapon_state.duplicate(true)
+			raised_weapon.level = maxi(int(weapon_state.get("level", 1)), int(profile.weapon_level))
+			raised_weapon.tier = maxi(int(weapon_state.get("tier", 1)), int(profile.weapon_tier))
+			at_recommended.weapon_state_override = raised_weapon
 		var skills: Dictionary = state.get("skills", {})
 		var skill_gaps := {}
-		if not expected_skills.is_empty():
-			var raised: Dictionary = skills.duplicate(true)
-			for skill_slot in expected_skills:
-				var current := int(skills.get(skill_slot, 1))
-				raised[skill_slot] = maxi(current, int(expected_skills[skill_slot]))
-				if current < int(expected_skills[skill_slot]): skill_gaps[skill_slot] = int(expected_skills[skill_slot])
-			at_recommended.skills = raised
+		var raised: Dictionary = skills.duplicate(true)
+		for skill_slot in expected_skills:
+			var current := int(skills.get(skill_slot, 1))
+			raised[skill_slot] = maxi(current, int(expected_skills[skill_slot]))
+			if current < int(expected_skills[skill_slot]): skill_gaps[skill_slot] = int(expected_skills[skill_slot])
+		at_recommended.skills = raised
 		var cp := combat_power(character_id)
 		var target_cp := maxi(cp, combat_power(character_id, at_recommended))
 		party_cp += cp
@@ -99,6 +126,8 @@ static func party_report(party_ids: Array, downed_ids: Array = [], stage_id := "
 			"combat_power": cp,
 			"recommended_power": target_cp,
 			"skill_gaps": skill_gaps,
+			"weapon_level": int(weapon_state.get("level", 1)),
+			"weapon_gap": maxi(0, int(profile.weapon_level) - int(weapon_state.get("level", 1))) if not weapon_state.is_empty() else 0,
 			"downed": downed_ids.has(character_id),
 		})
 	var readiness := float(party_cp) / maxf(1.0, float(recommended_cp))
@@ -106,6 +135,7 @@ static func party_report(party_ids: Array, downed_ids: Array = [], stage_id := "
 		"stage_id": target,
 		"recommended_level": recommended_level,
 		"expected_skills": expected_skills,
+		"profile": profile,
 		"members": members,
 		"party_power": party_cp,
 		"recommended_power": recommended_cp,
@@ -117,8 +147,8 @@ static func verdict_text(readiness: float) -> String:
 	if readiness >= .995:
 		return "권장 전투력을 충족했습니다"
 	if readiness >= .85:
-		return "조금 부족합니다 · 추천 성장 몇 개면 충분합니다"
-	return "부족합니다 · 아래 추천 성장을 먼저 진행하세요"
+		return "조금 부족합니다 · 권장 성장으로 채울 수 있습니다"
+	return "부족합니다 · 권장 성장을 먼저 진행하세요"
 
 ## Best action per member, ranked. Each entry: kind, character_id, action
 ## (executable, or {} when blocked), title, reason, gain, score.

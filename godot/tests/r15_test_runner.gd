@@ -621,66 +621,80 @@ func _test_growth_recommended_batch() -> void:
 	var backup := AppState.profile.duplicate(true)
 	AppState.new_game()
 	var party_ids := AppState.get_party().duplicate()
+	var target_stage := "CH01-N10"
+	var target := GrowthAdvisor.recommended_profile(DataRegistry.stage(target_stage))
 	var before := AppState.profile.duplicate(true)
-	var preview := GrowthPlanBuilderScript.preview_recommended_batch(party_ids, 99)
-	var batch := GrowthPlanBuilderScript.execute_recommended_batch(party_ids, 99)
+	var preview := GrowthPlanBuilderScript.preview_to_recommended(party_ids, target_stage)
+	check(JSON.stringify(AppState.profile) == JSON.stringify(before), "GROWTH_PLAN_13 권장 성장 preview is side-effect free for the live profile")
+	var batch := GrowthPlanBuilderScript.execute_to_recommended(party_ids, target_stage)
 	var actions: Array = batch.get("actions", [])
-	var all_legal := bool(batch.get("ok", false)) and actions.size() == 12
+	var all_legal := bool(batch.get("ok", false)) and not actions.is_empty()
 	for action_value in actions:
-		var action: Dictionary = action_value
-		all_legal = all_legal and not str(action.get("kind", "")).is_empty() and action.has("result")
+		all_legal = all_legal and str(Dictionary(action_value).get("kind", "")) in ["LEVEL_TO", "BREAKTHROUGH", "SKILL", "WEAPON_TIER", "WEAPON_LEVEL"]
 	var changed := JSON.stringify(before.get("inventory", {})) != JSON.stringify(AppState.profile.get("inventory", {}))
-	check(all_legal and changed, "GROWTH_PLAN_06 bounded recommended party batch uses actual legal progression services")
-	check(actions.size() == 12, "GROWTH_PLAN_07 player-facing recommendation never exceeds twelve service actions")
-	var preview_actions: Array = preview.get("actions", [])
-	var accounting: Dictionary = batch.get("accounting", {})
-	var preview_accounting: Dictionary = preview.get("accounting", {})
-	check(bool(batch.get("preview_matches_execution", false)) and _same_action_sequence(preview_actions, actions) and int(accounting.get("planned", -1)) == actions.size() and int(accounting.get("successful", -1)) == actions.size() and int(accounting.get("rejected", -1)) == 0 and accounting.get("inventory_delta", {}) == preview_accounting.get("inventory_delta", {}), "GROWTH_PLAN_10 preview, service execution, and material accounting match exactly")
-	var next_after := GrowthPlanBuilderScript.next_legal_action(party_ids)
-	var lowest_level := 999
-	var highest_level := 0
+	check(all_legal and changed, "GROWTH_PLAN_06 권장 성장 spends materials through the legal progression services")
+	var within_target := true
 	for character_id_value in party_ids:
-		var level := int(AppState.profile.roster[str(character_id_value)].get("level", 1))
-		lowest_level = mini(lowest_level, level)
-		highest_level = maxi(highest_level, level)
-	check(not next_after.is_empty() and lowest_level > 1 and highest_level - lowest_level <= 3, "GROWTH_PLAN_08 batch recomputes a continuation without starving low-level party members")
-	var after_first := AppState.profile.duplicate(true)
+		var state: Dictionary = AppState.profile.roster[str(character_id_value)]
+		var start: Dictionary = before.roster[str(character_id_value)]
+		within_target = within_target and int(state.level) <= maxi(int(target.level), int(start.level))
+		for slot in ["normal", "passive", "ultimate"]:
+			within_target = within_target and int(state.skills[slot]) <= maxi(int(target[slot]), int(start.skills[slot]))
+	check(within_target, "GROWTH_PLAN_07 권장 성장 never raises a level or skill beyond the recommended profile")
+	var accounting: Dictionary = batch.get("accounting", {})
+	check(bool(batch.get("preview_matches_execution", false)) and _same_action_sequence(preview.get("actions", []), actions) and int(accounting.get("successful", -1)) == actions.size() and accounting.get("inventory_delta", {}) == Dictionary(preview.get("accounting", {})).get("inventory_delta", {}) and batch.get("shortages", {}) == preview.get("shortages", {}), "GROWTH_PLAN_10 preview, service execution, material accounting and shortages match exactly")
+	# Notes are indivisible and an overshoot stays with the member as reserve
+	# EXP, so an exact level split is impossible; what must hold is that the
+	# lowest members were served first, nobody is left behind while notes
+	# remain, and the report names what is missing.
+	var levels: Array[int] = []
+	var short_members_blocked := true
+	for character_id_value in party_ids:
+		var level := int(AppState.profile.roster[str(character_id_value)].level)
+		levels.append(level)
+		if level < int(target.level):
+			short_members_blocked = short_members_blocked and str(batch.get("blocked", {}).get(str(character_id_value), "")) == "INSUFFICIENT_MATERIALS"
+	var notes_left := 0
+	for item_id in CharacterProgression.MATERIAL_XP:
+		notes_left += AppState.inventory_count(str(item_id))
+	check(not bool(batch.get("reached", true)) and Dictionary(batch.get("shortages", {})).has("TRAINING_XP") and levels.min() > 1 and short_members_blocked and notes_left == 0, "GROWTH_PLAN_08 a short inventory is spent lowest member first, no one is left behind while notes remain, and the shortage is reported", "levels=%s blocked=%s notes_left=%d" % [str(levels), JSON.stringify(batch.get("blocked", {})), notes_left])
 	AppState.profile = before.duplicate(true)
-	var replay := GrowthPlanBuilderScript.execute_recommended_batch(party_ids, 12)
-	var replay_actions: Array = replay.get("actions", [])
-	var deterministic := replay_actions.size() == actions.size()
-	for index in mini(actions.size(), replay_actions.size()):
-		var left: Dictionary = actions[index]
-		var right: Dictionary = replay_actions[index]
-		deterministic = deterministic and str(left.get("kind", "")) == str(right.get("kind", "")) and str(left.get("character_id", left.get("weapon_id", ""))) == str(right.get("character_id", right.get("weapon_id", ""))) and str(left.get("material_id", "")) == str(right.get("material_id", ""))
-	check(deterministic, "GROWTH_PLAN_09 same fresh snapshot yields deterministic recommended action order")
-	var empty_before := AppState.profile.duplicate(true)
+	var replay := GrowthPlanBuilderScript.execute_to_recommended(party_ids, target_stage)
+	check(_same_action_sequence(replay.get("actions", []), actions), "GROWTH_PLAN_09 the same snapshot yields the same 권장 성장 action order")
 	for item_id in AppState.profile.inventory.keys():
 		AppState.profile.inventory[item_id] = 0
 	var no_action_profile := AppState.profile.duplicate(true)
-	var empty_batch := GrowthPlanBuilderScript.execute_recommended_batch(party_ids, 12)
-	check(bool(empty_batch.get("ok", false)) and empty_batch.get("actions", []).is_empty() and int(empty_batch.get("accounting", {}).get("executed", -1)) == 0 and JSON.stringify(AppState.profile) == JSON.stringify(no_action_profile), "GROWTH_PLAN_11 no legal actions performs no service transaction or state mutation")
+	var empty_batch := GrowthPlanBuilderScript.execute_to_recommended(party_ids, "CH01-N20")
+	check(bool(empty_batch.get("ok", false)) and empty_batch.get("actions", []).is_empty() and not bool(empty_batch.get("reached", true)) and Dictionary(empty_batch.get("shortages", {})).has("CREDIT") and JSON.stringify(AppState.profile) == JSON.stringify(no_action_profile), "GROWTH_PLAN_11 with no materials 권장 성장 changes nothing and reports the shortage")
+	# A supplied inventory reaches a profile that needs a breakthrough and two
+	# weapon tier-ups in one press, and a second press has nothing left to do.
 	AppState.profile = before.duplicate(true)
-	var first_action: Dictionary = GrowthPlanBuilderScript.next_legal_action(party_ids)
-	var partial := GrowthPlanBuilderScript.execute_action_sequence([first_action, {"kind": "INVALID"}, first_action], 12)
-	check(not bool(partial.get("ok", true)) and str(partial.get("error", "")) == "INVALID_GROWTH_ACTION" and partial.get("actions", []).size() == 1 and str(partial.get("failed_action", {}).get("kind", "")) == "INVALID" and int(partial.get("accounting", {}).get("planned", -1)) == 3 and int(partial.get("accounting", {}).get("successful", -1)) == 1 and int(partial.get("accounting", {}).get("rejected", -1)) == 1, "GROWTH_PLAN_12 rejected action stops the batch with exact partial accounting and no later action")
-	AppState.profile = before.duplicate(true)
-	var preview_live_before := AppState.profile.duplicate(true)
-	var preview_one := GrowthPlanBuilderScript.preview_recommended_batch(party_ids, 12)
-	var preview_two := GrowthPlanBuilderScript.preview_recommended_batch(party_ids, 12)
-	check(JSON.stringify(AppState.profile) == JSON.stringify(preview_live_before) and _same_action_sequence(preview_one.get("actions", []), preview_two.get("actions", [])), "GROWTH_PLAN_13 preview is side-effect free for the live profile and deterministic from one snapshot")
-	var first_batch := GrowthPlanBuilderScript.execute_recommended_batch(party_ids, 12)
-	var anti_starvation_levels: Array[int] = []
+	var supply := {"TRAINING_NOTE_XL": 60, "TRAINING_NOTE_L": 20, "TRAINING_NOTE_M": 20, "TRAINING_NOTE_S": 20, "WEAPON_CHIP_L": 40, "WEAPON_CHIP_M": 40, "WEAPON_CHIP_S": 40, "BREAK_CORE_T1": 60, "ROLE_TOKEN_T1": 30, "WEAPON_ORE_T1": 200, "BLUEPRINT_T1": 80, "SKILL_BOOK_T1": 60, "SKILL_TOKEN_T1": 20, "ULT_BOOK_T1": 20, "CREDIT": 5000000}
+	for item_id in supply: AppState.profile.inventory[item_id] = int(supply[item_id])
+	AppState.profile.account.level = 40
+	var deep_target := GrowthAdvisor.recommended_profile(DataRegistry.stage("CH02-N01"))
+	var full := GrowthPlanBuilderScript.execute_to_recommended(party_ids, "CH02-N01")
+	var every_member := bool(full.get("reached", false))
+	for member_value in full.get("members", []):
+		var member: Dictionary = member_value
+		var state: Dictionary = AppState.profile.roster[str(member.character_id)]
+		every_member = every_member and bool(member.get("reached", false)) and int(state.level) == int(deep_target.level) and int(state.breakthrough) >= int(deep_target.breakthrough)
 	for character_id_value in party_ids:
-		anti_starvation_levels.append(int(AppState.profile.roster[str(character_id_value)].get("level", 1)))
-	var anti_starvation: bool = anti_starvation_levels.min() > 1 and anti_starvation_levels.max() - anti_starvation_levels.min() <= 3 and first_batch.get("actions", []).size() == 12
-	check(anti_starvation, "GROWTH_PLAN_14 balanced batch leaves no active party member at level one while another is far ahead")
-	var persistent_before_save := _persistent_profile(AppState.profile)
+		var weapon: Dictionary = AppState.profile.weapons[str(AppState.profile.roster[str(character_id_value)].equipped_weapon_id)]
+		every_member = every_member and int(weapon.level) >= int(deep_target.weapon_level) and int(weapon.tier) >= int(deep_target.weapon_tier)
+	check(every_member and Dictionary(full.get("shortages", {})).is_empty(), "GROWTH_PLAN_12 one press reaches level, breakthrough, skills and weapon tier of the recommended profile", "blocked=%s shortages=%s" % [JSON.stringify(full.get("blocked", {})), JSON.stringify(full.get("shortages", {}))])
+	var again := GrowthPlanBuilderScript.preview_to_recommended(party_ids, "CH02-N01")
+	check(again.get("actions", []).is_empty() and bool(again.get("reached", false)), "GROWTH_PLAN_14 once reached, 권장 성장 has nothing more to do")
+	# Growth state only: loading also fills derived chapter-map entries.
+	var growth_keys := ["roster", "weapons", "inventory", "account"]
+	var growth_before := {}
+	for key in growth_keys: growth_before[key] = AppState.profile.get(key, {}).duplicate(true)
 	var saved := SaveService.save_game()
 	AppState.new_game()
 	var loaded := SaveService.load_game()
-	check(saved.ok and loaded.ok and JSON.stringify(_canonical(_persistent_profile(AppState.profile))) == JSON.stringify(_canonical(persistent_before_save)), "GROWTH_PLAN_15 batch save and reload preserve level, EXP, breakthrough, inventory, and credit exactly")
-	AppState.profile = empty_before
+	var growth_after := {}
+	for key in growth_keys: growth_after[key] = AppState.profile.get(key, {}).duplicate(true)
+	check(saved.ok and loaded.ok and JSON.stringify(_canonical(growth_after)) == JSON.stringify(_canonical(growth_before)), "GROWTH_PLAN_15 권장 성장 save and reload preserve level, EXP, breakthrough, skills, weapons, inventory and credit exactly", "save=%s load=%s changed=%s" % [saved.error, loaded.error, str(_changed_dictionary_keys(growth_before, growth_after))])
 	AppState.profile = backup
 
 func _same_action_sequence(left: Array, right: Array) -> bool:

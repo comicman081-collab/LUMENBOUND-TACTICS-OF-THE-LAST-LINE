@@ -10,11 +10,16 @@
   // SFX sliders still remain independent.
   let sfxLevel = 0.64, sfxError = "";
   const sfxCache = new Map(), sfxNodes = new Set(), sfxStarts = {}, sfxAttempts = {}, sfxFailures = {};
+  // Story voice: one line at a time on its own gain bus. A scenario's compressed
+  // files are prefetched when it opens; each line is decoded only when it plays.
+  let voiceMaster = null, voiceLevel = 1, voiceError = "", voiceCurrent = null, voicePending = "", voiceSequence = 0;
+  const voiceBytes = new Map(), voiceStarts = {}, voiceAttempts = {}, voiceFailures = {};
   const ensure = () => {
     if (!context) {
       context = new AudioContext({latencyHint: "playback"});
       master = context.createGain(); master.gain.value = level; master.connect(context.destination);
       sfxMaster = context.createGain(); sfxMaster.gain.value = sfxLevel; sfxMaster.connect(context.destination);
+      voiceMaster = context.createGain(); voiceMaster.gain.value = voiceLevel; voiceMaster.connect(context.destination);
     }
     return context;
   };
@@ -141,6 +146,60 @@
     });
     return true;
   }
+  const fetchVoice = (url) => {
+    if (voiceBytes.has(url)) return voiceBytes.get(url);
+    const promise = fetch(url).then(response => {
+      if (!response.ok) throw new Error("VOICE_HTTP_" + response.status);
+      return response.arrayBuffer();
+    });
+    voiceBytes.set(url, promise);
+    promise.catch(() => { if (voiceBytes.get(url) === promise) voiceBytes.delete(url); });
+    while (voiceBytes.size > 64) voiceBytes.delete(voiceBytes.keys().next().value);
+    return promise;
+  };
+  function stopVoice() {
+    voiceSequence++; voicePending = "";
+    const node = voiceCurrent; voiceCurrent = null;
+    if (!node || !context) return;
+    const now = context.currentTime;
+    node.gain.gain.cancelScheduledValues(now);
+    node.gain.gain.setValueAtTime(node.gain.gain.value, now);
+    node.gain.gain.linearRampToValueAtTime(0, now + 0.03);
+    try { node.source.stop(now + 0.04); } catch (_) {}
+  }
+  function playVoice(id, path) {
+    stopVoice();
+    const token = voiceSequence, ctx = ensure();
+    voicePending = id; voiceError = "";
+    voiceAttempts[id] = (voiceAttempts[id] || 0) + 1;
+    const fail = reason => {
+      if (token !== voiceSequence) return;
+      voiceSequence++; voicePending = ""; voiceError = String(reason);
+      voiceFailures[id] = (voiceFailures[id] || 0) + 1;
+    };
+    // A line that cannot start promptly is dropped rather than heard over a later one.
+    setTimeout(() => { if (token === voiceSequence && voicePending === id) fail("VOICE_TIMEOUT"); }, 5000);
+    fetchVoice(new URL(path, location.href).href)
+      .then(bytes => ctx.decodeAudioData(bytes.slice(0)))
+      .then(async buffer => {
+        if (token !== voiceSequence) return;
+        if (ctx.state !== "running") await ctx.resume();
+        if (token !== voiceSequence) return;
+        if (ctx.state !== "running") throw new Error("VOICE_CONTEXT_" + ctx.state);
+        const source = ctx.createBufferSource(), gain = ctx.createGain();
+        source.buffer = buffer; source.connect(gain); gain.connect(voiceMaster);
+        const node = {id, source, gain, ended: false};
+        source.onended = () => {
+          node.ended = true;
+          try { source.disconnect(); gain.disconnect(); } catch (_) {}
+          if (voiceCurrent === node) voiceCurrent = null;
+        };
+        source.start(ctx.currentTime + 0.012);
+        voiceCurrent = node; voicePending = "";
+        voiceStarts[id] = (voiceStarts[id] || 0) + 1;
+      }).catch(fail);
+    return true;
+  }
   window.__lumenBGM = {
     unlock, play, stop,
     volume(value) {
@@ -170,6 +229,24 @@
       return {backend: "browser_audio_buffer", active_sources: sfxNodes.size,
         starts: {...sfxStarts}, attempts: {...sfxAttempts}, failures: {...sfxFailures},
         cached_sounds: sfxCache.size, context_state: context?.state || "uninitialized", error: sfxError};
+    }
+  };
+  window.__lumenVoice = {
+    play: playVoice, stop: stopVoice,
+    prefetch(paths) {
+      for (const path of paths || []) fetchVoice(new URL(path, location.href).href).catch(() => {});
+      return true;
+    },
+    busy() { return !!voicePending || (!!voiceCurrent && !voiceCurrent.ended); },
+    volume(value) {
+      voiceLevel = Math.max(0, Math.min(1, Number(value)));
+      if (voiceMaster) voiceMaster.gain.setTargetAtTime(voiceLevel, context.currentTime, 0.02);
+    },
+    status() {
+      return {backend: "browser_audio_buffer", current: voiceCurrent?.id || "", pending: voicePending,
+        active: !!voiceCurrent && !voiceCurrent.ended, starts: {...voiceStarts}, attempts: {...voiceAttempts},
+        failures: {...voiceFailures}, cached_lines: voiceBytes.size,
+        context_state: context?.state || "uninitialized", error: voiceError};
     }
   };
 })();

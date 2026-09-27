@@ -1,0 +1,2841 @@
+{
+ "schema_version": 1,
+ "generated_by": "tools/voice/voice_ja_pipeline.py extract",
+ "lines": [
+  {
+   "voice_id": "vo_story_c1i_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "등로단은 잔광 폭풍 속에서도 움직이는 소규모 복구 조직이다.",
+   "first_scenario": "SCN_CH01_INTRO",
+   "text_keys": [
+    "STORY_C1I_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c1i_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "지도에 없는 선로에서 구조 요청을 들었어. 아직 신호가 살아 있어.",
+   "first_scenario": "SCN_CH01_INTRO",
+   "text_keys": [
+    "STORY_C1I_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c1i_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "진위를 확인하고 길을 복구하자. 모두 출발 준비.",
+   "first_scenario": "SCN_CH01_INTRO",
+   "text_keys": [
+    "STORY_C1I_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c1a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "첫 터널에는 기억을 흉내 내는 잔향체가 모여 있었다.",
+   "first_scenario": "SCN_CH01_MID_A",
+   "text_keys": [
+    "STORY_C1A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c1a_02",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "그것들은 사람의 목소리를 냈지만 질문에는 답하지 못했다.",
+   "first_scenario": "SCN_CH01_MID_A",
+   "text_keys": [
+    "STORY_C1A_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c1a_03",
+   "speaker_key": "SPEAKER_ROAN",
+   "speaker_ko": "로안",
+   "kind": "dialogue",
+   "ko": "전투 뒤 손상되지 않은 기록편 하나를 회수했어. 다음 구간을 열 수 있겠어.",
+   "first_scenario": "SCN_CH01_MID_A",
+   "text_keys": [
+    "STORY_C1A_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c1b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "기록편의 구조 신호가 공허기관 안에서 역방향으로 소모되고 있었다. 중계기 앞에는 신호를 추적하던 베라가 버티고 있었다.",
+   "first_scenario": "SCN_CH01_MID_B",
+   "text_keys": [
+    "STORY_C1B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c1b_02",
+   "speaker_key": "CHAR_VERA_NAME",
+   "speaker_ko": "베라",
+   "kind": "dialogue",
+   "ko": "공허기관이 삼키는 건 광맥 전력이 아니야. 구조 신호의 잔향을 연료로 바꾸고 있어.",
+   "first_scenario": "SCN_CH01_MID_B",
+   "text_keys": [
+    "STORY_C1B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c1b_03",
+   "speaker_key": "CHAR_VERA_NAME",
+   "speaker_ko": "베라",
+   "kind": "dialogue",
+   "ko": "내가 역추적 경로를 열게. 핵심부까지 함께 가자. 이 신호를 사람들에게 돌려줘야 해.",
+   "first_scenario": "SCN_CH01_MID_B",
+   "text_keys": [
+    "STORY_C1B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c1c_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "좌표는 폐쇄된 종탑형 중계기로 이어졌다. 구조 대상은 더 깊은 회송선에서 원격 신호만 보내고 있었다.",
+   "first_scenario": "SCN_CH01_MID_C",
+   "text_keys": [
+    "STORY_C1C_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c1c_02",
+   "speaker_key": "SPEAKER_IRI",
+   "speaker_ko": "이리",
+   "kind": "dialogue",
+   "ko": "이리야. 아직 합류할 수는 없어. 생체 신호를 따라오면 종착선 앞에서 길을 열어 둘게.",
+   "first_scenario": "SCN_CH01_MID_C",
+   "text_keys": [
+    "STORY_C1C_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c1c_03",
+   "speaker_key": "SPEAKER_IRI",
+   "speaker_ko": "이리",
+   "kind": "dialogue",
+   "ko": "잔향체 군집이 중계기를 포위했어. 신호를 잃지 않으려면 먼저 이 구간을 돌파해야 해.",
+   "first_scenario": "SCN_CH01_MID_C",
+   "text_keys": [
+    "STORY_C1C_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_out_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "공허기관이 멈추자 지워졌던 행선지가 다시 나타났다.",
+   "first_scenario": "SCN_CH01_OUTRO",
+   "text_keys": [
+    "STORY_OUT_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_out_02",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "마지막 열차는 사라진 도시가 아니라 이동 중인 피난처를 향하고 있었다.",
+   "first_scenario": "SCN_CH01_OUTRO",
+   "text_keys": [
+    "STORY_OUT_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_out_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "첫 노선은 다시 이어졌어. 이제 다음 등불로 가자.",
+   "first_scenario": "SCN_CH01_OUTRO",
+   "text_keys": [
+    "STORY_OUT_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_pre_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "거대한 공허기관이 선로의 빛을 삼키며 깨어났다.",
+   "first_scenario": "SCN_CH01_PREBOSS",
+   "text_keys": [
+    "STORY_PRE_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_pre_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "각자 등불과 장비를 확인해. 여기서부터는 한 번의 실수도 허용되지 않아.",
+   "first_scenario": "SCN_CH01_PREBOSS",
+   "text_keys": [
+    "STORY_PRE_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_pre_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "우리가 지키려는 것은 선로가 아니라, 그 끝에서 기다리는 사람들의 이야기야.",
+   "first_scenario": "SCN_CH01_PREBOSS",
+   "text_keys": [
+    "STORY_PRE_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2h_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "지하 회송실에는 빈 자리만 남은 편성표가 벽처럼 이어져 있었다.",
+   "first_scenario": "SCN_CH02_HARD_INTRO",
+   "text_keys": [
+    "STORY_C2H_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2h_02",
+   "speaker_key": "SPEAKER_IRI",
+   "speaker_ko": "이리",
+   "kind": "dialogue",
+   "ko": "이 핵은 사람을 찾는 게 아니라, 비어 있는 칸을 채우려는 거야.",
+   "first_scenario": "SCN_CH02_HARD_INTRO",
+   "text_keys": [
+    "STORY_C2H_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2h_03",
+   "speaker_key": "SPEAKER_IRI",
+   "speaker_ko": "이리",
+   "kind": "dialogue",
+   "ko": "우리가 멈추게 할 건 과거가 아니라, 현재를 지워 버리는 이 명령이야.",
+   "first_scenario": "SCN_CH02_HARD_INTRO",
+   "text_keys": [
+    "STORY_C2H_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2i_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "세 개의 고유 보스 기록에는 같은 짧은 handshake 패턴이 남아 있었다.",
+   "first_scenario": "SCN_CH02_INTRO",
+   "text_keys": [
+    "STORY_C2I_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2i_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "신호는 진행 방향이 아니라 종착점에서 출발점 쪽으로 하나씩 켜지고 있어.",
+   "first_scenario": "SCN_CH02_INTRO",
+   "text_keys": [
+    "STORY_C2I_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2i_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "시간을 되돌리는 장치가 아니야. 망가진 회송 절차가 현재의 우리를 과거 기록에 끼워 맞추고 있어.",
+   "first_scenario": "SCN_CH02_INTRO",
+   "text_keys": [
+    "STORY_C2I_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "닫힌 승강장은 존재하지 않는 승객의 이름을 반복해서 불렀다.",
+   "first_scenario": "SCN_CH02_MID_A",
+   "text_keys": [
+    "STORY_C2A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2a_02",
+   "speaker_key": "SPEAKER_ROAN",
+   "speaker_ko": "로안",
+   "kind": "dialogue",
+   "ko": "구조 신호가 진짜인지 가짜인지가 아니라, 지금 누가 그 신호를 듣고 있는지가 중요해.",
+   "first_scenario": "SCN_CH02_MID_A",
+   "text_keys": [
+    "STORY_C2A_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2a_03",
+   "speaker_key": "SPEAKER_ROAN",
+   "speaker_ko": "로안",
+   "kind": "dialogue",
+   "ko": "우리 이름을 과거 목록에서 지우고, 현재 좌표를 남기자.",
+   "first_scenario": "SCN_CH02_MID_A",
+   "text_keys": [
+    "STORY_C2A_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "전력은 거꾸로 흘렀고, 회송핵은 살아 있는 승객을 과거 명부의 빈 좌석으로 덮어쓰기 시작했다.",
+   "first_scenario": "SCN_CH02_MID_B",
+   "text_keys": [
+    "STORY_C2B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2b_02",
+   "speaker_key": "SPEAKER_IRI",
+   "speaker_ko": "이리",
+   "kind": "dialogue",
+   "ko": "내 생체 기록으로 현재 명부를 고정하면 마지막 개찰까지 모두의 신원을 지킬 수 있어.",
+   "first_scenario": "SCN_CH02_MID_B",
+   "text_keys": [
+    "STORY_C2B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2b_03",
+   "speaker_key": "SPEAKER_IRI",
+   "speaker_ko": "이리",
+   "kind": "dialogue",
+   "ko": "명부 고정이 끝날 때까지 동행할게. 끝나면 보호 대상이 아니라 원정대의 의료 담당으로 가겠어.",
+   "first_scenario": "SCN_CH02_MID_B",
+   "text_keys": [
+    "STORY_C2B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2o_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "회송 편성핵이 멈추자, 뒤집혀 있던 신호등이 하나씩 정상 방향으로 돌아왔다.",
+   "first_scenario": "SCN_CH02_OUTRO",
+   "text_keys": [
+    "STORY_C2O_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2o_02",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "모든 기록이 사라진 것은 아니지만, 더는 현재의 사람을 과거의 빈자리에 넣지 않았다.",
+   "first_scenario": "SCN_CH02_OUTRO",
+   "text_keys": [
+    "STORY_C2O_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2o_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "남은 건 바깥을 향한 하나의 정상 신호야. 다음 길은 우리가 선택해서 이어 가자.",
+   "first_scenario": "SCN_CH02_OUTRO",
+   "text_keys": [
+    "STORY_C2O_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2p_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "세 개의 방어 구간을 연속 돌파하자, 종탑형 중계기에서 추적하던 생체 신호가 중앙 개찰 바로 앞에서 모습을 드러냈다.",
+   "first_scenario": "SCN_CH02_PREBOSS",
+   "text_keys": [
+    "STORY_C2P_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2p_02",
+   "speaker_key": "SPEAKER_IRI",
+   "speaker_ko": "이리",
+   "kind": "dialogue",
+   "ko": "늦어서 미안해. 이리야. 회송선의 부상자를 지키느라 움직일 수 없었지만, 이제부터는 내가 너희의 후방을 맡을게.",
+   "first_scenario": "SCN_CH02_PREBOSS",
+   "text_keys": [
+    "STORY_C2P_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2p_03",
+   "speaker_key": "SPEAKER_SOREN",
+   "speaker_ko": "소렌",
+   "kind": "dialogue",
+   "ko": "합류 신호 확인. 다음은 역행 개찰의 고유 방어 개체야. 네 회복 장치가 버틸 수 있겠어?",
+   "first_scenario": "SCN_CH02_PREBOSS",
+   "text_keys": [
+    "STORY_C2P_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_c2p_04",
+   "speaker_key": "SPEAKER_IRI",
+   "speaker_ko": "이리",
+   "kind": "dialogue",
+   "ko": "세 구간 동안 출력은 충분히 맞춰 뒀어. 다친 사람 없이 저 문을 넘기자.",
+   "first_scenario": "SCN_CH02_PREBOSS",
+   "text_keys": [
+    "STORY_C2P_04"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "역행 개찰에서 건진 좌표가 유리평원 위를 달리는 야간열차를 가리켰다.",
+   "first_scenario": "SCN_CH03_INTRO",
+   "text_keys": [
+    "STORY_CH03_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 거울 선로가 원정대를 복제한다.",
+   "first_scenario": "SCN_CH03_INTRO",
+   "text_keys": [
+    "STORY_CH03_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_intro_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "원인을 남겨 둔 채 다음 길로 도망치지 않는다. 여기서 연결을 바로잡는다.",
+   "first_scenario": "SCN_CH03_INTRO",
+   "text_keys": [
+    "STORY_CH03_INTRO_03",
+    "STORY_CH04_INTRO_03",
+    "STORY_CH05_INTRO_03",
+    "STORY_CH06_INTRO_03",
+    "STORY_CH07_INTRO_03",
+    "STORY_CH08_INTRO_03",
+    "STORY_CH09_INTRO_03",
+    "STORY_CH10_INTRO_03",
+    "STORY_CH11_INTRO_03",
+    "STORY_CH12_INTRO_03",
+    "STORY_CH13_INTRO_03",
+    "STORY_CH14_INTRO_03",
+    "STORY_CH15_INTRO_03",
+    "STORY_CH16_INTRO_03",
+    "STORY_CH17_INTRO_03",
+    "STORY_CH18_INTRO_03",
+    "STORY_CH19_INTRO_03",
+    "STORY_CH20_INTRO_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "거울 선로는 일행의 전투 기록을 복제해, 버린 선택까지 적으로 되돌리고 있었다.",
+   "first_scenario": "SCN_CH03_MID_A",
+   "text_keys": [
+    "STORY_CH03_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_mid_a_02",
+   "speaker_key": "SPEAKER_NARIN",
+   "speaker_ko": "나린",
+   "kind": "dialogue",
+   "ko": "단순한 고장이 아니야. 누군가의 선택을 규칙으로 굳힌 장치야.",
+   "first_scenario": "SCN_CH03_MID_A",
+   "text_keys": [
+    "STORY_CH03_MID_A_02",
+    "STORY_CH04_MID_A_02",
+    "STORY_CH05_MID_A_02",
+    "STORY_CH06_MID_A_02",
+    "STORY_CH07_MID_A_02",
+    "STORY_CH08_MID_A_02",
+    "STORY_CH09_MID_A_02",
+    "STORY_CH10_MID_A_02",
+    "STORY_CH11_MID_A_02",
+    "STORY_CH12_MID_A_02",
+    "STORY_CH13_MID_A_02",
+    "STORY_CH14_MID_A_02",
+    "STORY_CH15_MID_A_02",
+    "STORY_CH16_MID_A_02",
+    "STORY_CH17_MID_A_02",
+    "STORY_CH18_MID_A_02",
+    "STORY_CH19_MID_A_02",
+    "STORY_CH20_MID_A_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_mid_a_03",
+   "speaker_key": "SPEAKER_NARIN",
+   "speaker_ko": "나린",
+   "kind": "dialogue",
+   "ko": "그 규칙이 누구를 지우는지 확인했어. 다음 접촉에서 증거를 확보한다.",
+   "first_scenario": "SCN_CH03_MID_A",
+   "text_keys": [
+    "STORY_CH03_MID_A_03",
+    "STORY_CH04_MID_A_03",
+    "STORY_CH05_MID_A_03",
+    "STORY_CH06_MID_A_03",
+    "STORY_CH07_MID_A_03",
+    "STORY_CH08_MID_A_03",
+    "STORY_CH09_MID_A_03",
+    "STORY_CH10_MID_A_03",
+    "STORY_CH11_MID_A_03",
+    "STORY_CH12_MID_A_03",
+    "STORY_CH13_MID_A_03",
+    "STORY_CH14_MID_A_03",
+    "STORY_CH15_MID_A_03",
+    "STORY_CH16_MID_A_03",
+    "STORY_CH17_MID_A_03",
+    "STORY_CH18_MID_A_03",
+    "STORY_CH19_MID_A_03",
+    "STORY_CH20_MID_A_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "토아는 복제 신호 사이의 반 박자 지연을 찾아 진짜 열차에만 중계 표식을 새겼다.",
+   "first_scenario": "SCN_CH03_MID_B",
+   "text_keys": [
+    "STORY_CH03_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_mid_b_02",
+   "speaker_key": "CHAR_TOA_NAME",
+   "speaker_ko": "토아",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH03_MID_B",
+   "text_keys": [
+    "STORY_CH03_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_mid_b_03",
+   "speaker_key": "CHAR_TOA_NAME",
+   "speaker_ko": "토아",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH03_MID_B",
+   "text_keys": [
+    "STORY_CH03_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "거울이 깨지자 수몰 신호원에서 오래된 구조 호출이 실제 음성으로 돌아왔다.",
+   "first_scenario": "SCN_CH03_OUTRO",
+   "text_keys": [
+    "STORY_CH03_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_outro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "함께 싸운 이유를 이제 내 기록으로 남길게. 다음 노선에서도 이 선택을 지키겠다.",
+   "first_scenario": "SCN_CH03_OUTRO",
+   "text_keys": [
+    "STORY_CH03_OUTRO_02",
+    "STORY_CH04_OUTRO_02",
+    "STORY_CH05_OUTRO_02",
+    "STORY_CH06_OUTRO_02",
+    "STORY_CH07_OUTRO_02",
+    "STORY_CH08_OUTRO_02",
+    "STORY_CH09_OUTRO_02",
+    "STORY_CH10_OUTRO_02",
+    "STORY_CH11_OUTRO_02",
+    "STORY_CH12_OUTRO_02",
+    "STORY_CH13_OUTRO_02",
+    "STORY_CH14_OUTRO_02",
+    "STORY_CH15_OUTRO_02",
+    "STORY_CH16_OUTRO_02",
+    "STORY_CH17_OUTRO_02",
+    "STORY_CH18_OUTRO_02",
+    "STORY_CH19_OUTRO_02",
+    "STORY_CH20_OUTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_outro_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "한 장의 결말이 다음 장의 원인이 됐어. 남은 신호를 따라 출발한다.",
+   "first_scenario": "SCN_CH03_OUTRO",
+   "text_keys": [
+    "STORY_CH03_OUTRO_03",
+    "STORY_CH04_OUTRO_03",
+    "STORY_CH05_OUTRO_03",
+    "STORY_CH06_OUTRO_03",
+    "STORY_CH07_OUTRO_03",
+    "STORY_CH08_OUTRO_03",
+    "STORY_CH09_OUTRO_03",
+    "STORY_CH10_OUTRO_03",
+    "STORY_CH11_OUTRO_03",
+    "STORY_CH12_OUTRO_03",
+    "STORY_CH13_OUTRO_03",
+    "STORY_CH14_OUTRO_03",
+    "STORY_CH15_OUTRO_03",
+    "STORY_CH16_OUTRO_03",
+    "STORY_CH17_OUTRO_03",
+    "STORY_CH18_OUTRO_03",
+    "STORY_CH19_OUTRO_03",
+    "STORY_CH20_OUTRO_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "토아는 호출 속 서명이 자기 송신이 아니라 거울 선로가 복제한 진짜 열차 표식임을 확인하고 침수 노선으로 향한다.",
+   "first_scenario": "SCN_CH03_OUTRO",
+   "text_keys": [
+    "STORY_CH03_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "유리원수는 복제체가 아니라 평원 전체를 하나의 거울로 접는 제어자였다.",
+   "first_scenario": "SCN_CH03_PREBOSS",
+   "text_keys": [
+    "STORY_CH03_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_preboss_02",
+   "speaker_key": "CHAR_TOA_NAME",
+   "speaker_ko": "토아",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH03_PREBOSS",
+   "text_keys": [
+    "STORY_CH03_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch03_preboss_03",
+   "speaker_key": "CHAR_TOA_NAME",
+   "speaker_ko": "토아",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH03_PREBOSS",
+   "text_keys": [
+    "STORY_CH03_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch04_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "토아가 보낸 적 없는 구조 호출은 거울 선로가 복제한 열차 표식을 수신 경로로 삼아 물 아래 신호원에서 반복되고 있었다.",
+   "first_scenario": "SCN_CH04_INTRO",
+   "text_keys": [
+    "STORY_CH04_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch04_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 수몰 신호소의 거짓 구조음을 추적한다.",
+   "first_scenario": "SCN_CH04_INTRO",
+   "text_keys": [
+    "STORY_CH04_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch04_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "호출은 생존자가 아니라 폐쇄 당시 구조를 포기했던 관제 기록이 만든 죄책감의 루프였다.",
+   "first_scenario": "SCN_CH04_MID_A",
+   "text_keys": [
+    "STORY_CH04_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch04_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "리브는 잠수 갑문을 몸으로 고정해 기록과 현재의 생존 통로를 동시에 열었다.",
+   "first_scenario": "SCN_CH04_MID_B",
+   "text_keys": [
+    "STORY_CH04_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch04_mid_b_02",
+   "speaker_key": "CHAR_LIV_NAME",
+   "speaker_ko": "리브",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH04_MID_B",
+   "text_keys": [
+    "STORY_CH04_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch04_mid_b_03",
+   "speaker_key": "CHAR_LIV_NAME",
+   "speaker_ko": "리브",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH04_MID_B",
+   "text_keys": [
+    "STORY_CH04_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch04_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "구조 기록을 복원하자 마지막 수신처가 회백도시의 봉쇄 관제소로 드러났다.",
+   "first_scenario": "SCN_CH04_OUTRO",
+   "text_keys": [
+    "STORY_CH04_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch04_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "리브는 뒤늦은 구조라도 끝까지 전달하겠다며 회백도시행 선두에 선다.",
+   "first_scenario": "SCN_CH04_OUTRO",
+   "text_keys": [
+    "STORY_CH04_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch04_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "조수 전환장은 수위를 올려 호출을 지우려 하고, 잠긴 승강장을 전장으로 뒤집는다.",
+   "first_scenario": "SCN_CH04_PREBOSS",
+   "text_keys": [
+    "STORY_CH04_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch04_preboss_02",
+   "speaker_key": "CHAR_LIV_NAME",
+   "speaker_ko": "리브",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH04_PREBOSS",
+   "text_keys": [
+    "STORY_CH04_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch04_preboss_03",
+   "speaker_key": "CHAR_LIV_NAME",
+   "speaker_ko": "리브",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH04_PREBOSS",
+   "text_keys": [
+    "STORY_CH04_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch05_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "수몰 신호원의 마지막 수신처는 회백도시 안쪽에서 아직 문을 두드리고 있었다.",
+   "first_scenario": "SCN_CH05_INTRO",
+   "text_keys": [
+    "STORY_CH05_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch05_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 봉쇄된 도시의 생존 회랑을 연다.",
+   "first_scenario": "SCN_CH05_INTRO",
+   "text_keys": [
+    "STORY_CH05_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch05_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "봉쇄선은 감염을 막은 것이 아니라 도시 밖으로 증언이 나가는 것을 막고 있었다.",
+   "first_scenario": "SCN_CH05_MID_A",
+   "text_keys": [
+    "STORY_CH05_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch05_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "세온은 폐기된 의료 명부를 복원해 생존자 구역과 안전한 회랑을 정확히 구분했다.",
+   "first_scenario": "SCN_CH05_MID_B",
+   "text_keys": [
+    "STORY_CH05_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch05_mid_b_02",
+   "speaker_key": "CHAR_SEON_NAME",
+   "speaker_ko": "세온",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH05_MID_B",
+   "text_keys": [
+    "STORY_CH05_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch05_mid_b_03",
+   "speaker_key": "CHAR_SEON_NAME",
+   "speaker_ko": "세온",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH05_MID_B",
+   "text_keys": [
+    "STORY_CH05_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch05_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "도시의 문이 열리자 피난 열차 전력은 하늘교량의 폭풍 제어소로 우회한다.",
+   "first_scenario": "SCN_CH05_OUTRO",
+   "text_keys": [
+    "STORY_CH05_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch05_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "세온은 환자 수송을 지키기 위해 등로단의 정식 후방 의료관으로 남는다.",
+   "first_scenario": "SCN_CH05_OUTRO",
+   "text_keys": [
+    "STORY_CH05_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch05_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "재의 성채는 생존자 수를 위협도로 환산해 회랑 자체를 포격 목표로 지정한다.",
+   "first_scenario": "SCN_CH05_PREBOSS",
+   "text_keys": [
+    "STORY_CH05_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch05_preboss_02",
+   "speaker_key": "CHAR_SEON_NAME",
+   "speaker_ko": "세온",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH05_PREBOSS",
+   "text_keys": [
+    "STORY_CH05_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch05_preboss_03",
+   "speaker_key": "CHAR_SEON_NAME",
+   "speaker_ko": "세온",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH05_PREBOSS",
+   "text_keys": [
+    "STORY_CH05_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch06_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "회백도시의 피난 전력은 끊어진 하늘교량에서 폭풍과 함께 새고 있었다.",
+   "first_scenario": "SCN_CH06_INTRO",
+   "text_keys": [
+    "STORY_CH06_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch06_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 부유 교량의 낙뢰 제어권을 되찾는다.",
+   "first_scenario": "SCN_CH06_INTRO",
+   "text_keys": [
+    "STORY_CH06_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch06_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "낙뢰는 자연현상이 아니라 다리를 건넌 사람의 수를 세는 오래된 통행세였다.",
+   "first_scenario": "SCN_CH06_MID_A",
+   "text_keys": [
+    "STORY_CH06_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch06_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "아델린은 포격 좌표를 번개 기둥에 겹쳐 피난 열차가 지날 단 한 번의 무풍 구간을 만든다.",
+   "first_scenario": "SCN_CH06_MID_B",
+   "text_keys": [
+    "STORY_CH06_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch06_mid_b_02",
+   "speaker_key": "CHAR_ADELINE_NAME",
+   "speaker_ko": "아델린",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH06_MID_B",
+   "text_keys": [
+    "STORY_CH06_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch06_mid_b_03",
+   "speaker_key": "CHAR_ADELINE_NAME",
+   "speaker_ko": "아델린",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH06_MID_B",
+   "text_keys": [
+    "STORY_CH06_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch06_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "교량을 고정한 뒤 북쪽 설원에서 같은 계수 명령을 반복하는 방송이 포착된다.",
+   "first_scenario": "SCN_CH06_OUTRO",
+   "text_keys": [
+    "STORY_CH06_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch06_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "아델린은 포대보다 정확한 것은 사람의 귀라며 설원 신호 추적에 합류한다.",
+   "first_scenario": "SCN_CH06_OUTRO",
+   "text_keys": [
+    "STORY_CH06_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch06_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "전압 집정관은 통행자를 지우면 부하가 사라진다는 계산으로 교량을 통째로 낙하시킨다.",
+   "first_scenario": "SCN_CH06_PREBOSS",
+   "text_keys": [
+    "STORY_CH06_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch06_preboss_02",
+   "speaker_key": "CHAR_ADELINE_NAME",
+   "speaker_ko": "아델린",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH06_PREBOSS",
+   "text_keys": [
+    "STORY_CH06_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch06_preboss_03",
+   "speaker_key": "CHAR_ADELINE_NAME",
+   "speaker_ko": "아델린",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH06_PREBOSS",
+   "text_keys": [
+    "STORY_CH06_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch07_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "하늘교량의 계수 명령은 설원 아래 매몰된 방송국에서 계속 송출되고 있었다.",
+   "first_scenario": "SCN_CH07_INTRO",
+   "text_keys": [
+    "STORY_CH07_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch07_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 빙설 아래 계속되는 명령 방송을 끊는다.",
+   "first_scenario": "SCN_CH07_INTRO",
+   "text_keys": [
+    "STORY_CH07_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch07_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "방송은 철수 명령이 아니라 구조대가 돌아오지 못하게 만드는 무한 대기 명령이었다.",
+   "first_scenario": "SCN_CH07_MID_A",
+   "text_keys": [
+    "STORY_CH07_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch07_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "키르는 눈보라 속 가짜 방향음을 잘라내고 매몰된 송신실까지 단일 주파수 길을 연다.",
+   "first_scenario": "SCN_CH07_MID_B",
+   "text_keys": [
+    "STORY_CH07_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch07_mid_b_02",
+   "speaker_key": "CHAR_KIR_NAME",
+   "speaker_ko": "키르",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH07_MID_B",
+   "text_keys": [
+    "STORY_CH07_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch07_mid_b_03",
+   "speaker_key": "CHAR_KIR_NAME",
+   "speaker_ko": "키르",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH07_MID_B",
+   "text_keys": [
+    "STORY_CH07_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch07_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "방송을 끄자 추락 직전의 붉은 채굴환이 구조 채널을 빼앗아 긴급 신호를 보낸다.",
+   "first_scenario": "SCN_CH07_OUTRO",
+   "text_keys": [
+    "STORY_CH07_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch07_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "키르는 다시는 남의 명령만 기다리지 않겠다며 등로단의 신호 분석관이 된다.",
+   "first_scenario": "SCN_CH07_OUTRO",
+   "text_keys": [
+    "STORY_CH07_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch07_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "서리 성가대장은 동료들의 목소리로 대기 명령을 합창해 편성 자체를 멈추려 한다.",
+   "first_scenario": "SCN_CH07_PREBOSS",
+   "text_keys": [
+    "STORY_CH07_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch07_preboss_02",
+   "speaker_key": "CHAR_KIR_NAME",
+   "speaker_ko": "키르",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH07_PREBOSS",
+   "text_keys": [
+    "STORY_CH07_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch07_preboss_03",
+   "speaker_key": "CHAR_KIR_NAME",
+   "speaker_ko": "키르",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH07_PREBOSS",
+   "text_keys": [
+    "STORY_CH07_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch08_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "설원에서 해방된 긴급 채널은 붉은 채굴환이 지상으로 추락할 시간을 세고 있었다.",
+   "first_scenario": "SCN_CH08_INTRO",
+   "text_keys": [
+    "STORY_CH08_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch08_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 폭주 채굴환의 낙하를 저지한다.",
+   "first_scenario": "SCN_CH08_INTRO",
+   "text_keys": [
+    "STORY_CH08_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch08_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "채굴환은 광석이 아니라 기억을 연료로 태워 궤도를 유지해 왔다.",
+   "first_scenario": "SCN_CH08_MID_A",
+   "text_keys": [
+    "STORY_CH08_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch08_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "레마는 방패 코어를 환의 균형추에 연결해 일행이 내부 축으로 진입할 시간을 번다.",
+   "first_scenario": "SCN_CH08_MID_B",
+   "text_keys": [
+    "STORY_CH08_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch08_mid_b_02",
+   "speaker_key": "CHAR_REMA_NAME",
+   "speaker_ko": "레마",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH08_MID_B",
+   "text_keys": [
+    "STORY_CH08_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch08_mid_b_03",
+   "speaker_key": "CHAR_REMA_NAME",
+   "speaker_ko": "레마",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH08_MID_B",
+   "text_keys": [
+    "STORY_CH08_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch08_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "환을 분리하자 회수된 기억들이 잠든 역무국의 자동 재판 기록을 지목한다.",
+   "first_scenario": "SCN_CH08_OUTRO",
+   "text_keys": [
+    "STORY_CH08_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch08_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "레마는 빚진 기억을 돌려주기 위해 판결 기록 회수 작전에 합류한다.",
+   "first_scenario": "SCN_CH08_OUTRO",
+   "text_keys": [
+    "STORY_CH08_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch08_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "진홍 굴착기는 저장된 기억을 한꺼번에 분사해 추락 충격을 도시 쪽으로 돌린다.",
+   "first_scenario": "SCN_CH08_PREBOSS",
+   "text_keys": [
+    "STORY_CH08_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch08_preboss_02",
+   "speaker_key": "CHAR_REMA_NAME",
+   "speaker_ko": "레마",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH08_PREBOSS",
+   "text_keys": [
+    "STORY_CH08_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch08_preboss_03",
+   "speaker_key": "CHAR_REMA_NAME",
+   "speaker_ko": "레마",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH08_PREBOSS",
+   "text_keys": [
+    "STORY_CH08_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch09_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "채굴환에서 돌아온 기억들은 잠든 역무국이 사람을 부재중으로 판결했다고 증언했다.",
+   "first_scenario": "SCN_CH09_INTRO",
+   "text_keys": [
+    "STORY_CH09_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch09_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 잠든 관제국의 자동 재판을 무효화한다.",
+   "first_scenario": "SCN_CH09_INTRO",
+   "text_keys": [
+    "STORY_CH09_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch09_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "자동 재판은 죄를 묻지 않고, 미래에 노선을 방해할 가능성만 계산하고 있었다.",
+   "first_scenario": "SCN_CH09_MID_A",
+   "text_keys": [
+    "STORY_CH09_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch09_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "베온은 자기 이름으로 모든 미결 사건을 인계받아 동료들의 판결을 한곳으로 끌어모은다.",
+   "first_scenario": "SCN_CH09_MID_B",
+   "text_keys": [
+    "STORY_CH09_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch09_mid_b_02",
+   "speaker_key": "CHAR_VEON_NAME",
+   "speaker_ko": "베온",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH09_MID_B",
+   "text_keys": [
+    "STORY_CH09_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch09_mid_b_03",
+   "speaker_key": "CHAR_VEON_NAME",
+   "speaker_ko": "베온",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH09_MID_B",
+   "text_keys": [
+    "STORY_CH09_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch09_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "재판을 무효화하자 판결 시각이 두 개의 달력선으로 갈라져 쌍월 환승로를 만든다.",
+   "first_scenario": "SCN_CH09_OUTRO",
+   "text_keys": [
+    "STORY_CH09_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch09_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "베온은 누구도 혼자 모든 판결을 짊어지지 않도록 등로단의 돌격선에 선다.",
+   "first_scenario": "SCN_CH09_OUTRO",
+   "text_keys": [
+    "STORY_CH09_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch09_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "꿈의 집행관은 유죄 판결을 현실의 상처로 바꾸며 베온의 희생을 확정하려 한다.",
+   "first_scenario": "SCN_CH09_PREBOSS",
+   "text_keys": [
+    "STORY_CH09_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch09_preboss_02",
+   "speaker_key": "CHAR_VEON_NAME",
+   "speaker_ko": "베온",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH09_PREBOSS",
+   "text_keys": [
+    "STORY_CH09_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch09_preboss_03",
+   "speaker_key": "CHAR_VEON_NAME",
+   "speaker_ko": "베온",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH09_PREBOSS",
+   "text_keys": [
+    "STORY_CH09_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch10_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "무효가 된 판결 시각은 서로 다른 두 달을 만들어 같은 열차를 두 번 호출했다.",
+   "first_scenario": "SCN_CH10_INTRO",
+   "text_keys": [
+    "STORY_CH10_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch10_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 두 개의 달력선이 충돌하기 전 분리한다.",
+   "first_scenario": "SCN_CH10_INTRO",
+   "text_keys": [
+    "STORY_CH10_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch10_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "두 시간표가 충돌하면 한쪽 승객의 현재가 통째로 삭제된다.",
+   "first_scenario": "SCN_CH10_MID_A",
+   "text_keys": [
+    "STORY_CH10_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch10_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "하르트는 포탄의 비행 시간을 기준 시계로 삼아 두 노선의 오차를 초 단위로 고정한다.",
+   "first_scenario": "SCN_CH10_MID_B",
+   "text_keys": [
+    "STORY_CH10_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch10_mid_b_02",
+   "speaker_key": "CHAR_HART_NAME",
+   "speaker_ko": "하르트",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH10_MID_B",
+   "text_keys": [
+    "STORY_CH10_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch10_mid_b_03",
+   "speaker_key": "CHAR_HART_NAME",
+   "speaker_ko": "하르트",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH10_MID_B",
+   "text_keys": [
+    "STORY_CH10_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch10_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "두 달을 하나의 새 시간표로 합치자 검은 조류가 방파선을 넘어 도시로 밀려온다.",
+   "first_scenario": "SCN_CH10_OUTRO",
+   "text_keys": [
+    "STORY_CH10_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch10_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "하르트는 다음 오차를 먼저 계산하겠다며 장거리 화력관으로 남는다.",
+   "first_scenario": "SCN_CH10_OUTRO",
+   "text_keys": [
+    "STORY_CH10_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch10_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "월분할자는 양쪽 열차 모두 진짜라 선언하고, 선택하지 않은 편성을 적으로 만든다.",
+   "first_scenario": "SCN_CH10_PREBOSS",
+   "text_keys": [
+    "STORY_CH10_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch10_preboss_02",
+   "speaker_key": "CHAR_HART_NAME",
+   "speaker_ko": "하르트",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH10_PREBOSS",
+   "text_keys": [
+    "STORY_CH10_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch10_preboss_03",
+   "speaker_key": "CHAR_HART_NAME",
+   "speaker_ko": "하르트",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH10_PREBOSS",
+   "text_keys": [
+    "STORY_CH10_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch11_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "쌍월선의 잉여 신호가 바다로 쏟아져 검은 조류가 되어 방파선을 덮쳤다.",
+   "first_scenario": "SCN_CH11_INTRO",
+   "text_keys": [
+    "STORY_CH11_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch11_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 도시로 밀려오는 신호 조류를 막는다.",
+   "first_scenario": "SCN_CH11_INTRO",
+   "text_keys": [
+    "STORY_CH11_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch11_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "조류 속에는 지금까지 버린 경로와 구조하지 못한 사람들의 좌표가 떠다녔다.",
+   "first_scenario": "SCN_CH11_MID_A",
+   "text_keys": [
+    "STORY_CH11_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch11_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "오르사는 방패망을 부표처럼 펼쳐 떠도는 좌표를 하나씩 현재 시간에 고정한다.",
+   "first_scenario": "SCN_CH11_MID_B",
+   "text_keys": [
+    "STORY_CH11_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch11_mid_b_02",
+   "speaker_key": "CHAR_ORSA_NAME",
+   "speaker_ko": "오르사",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH11_MID_B",
+   "text_keys": [
+    "STORY_CH11_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch11_mid_b_03",
+   "speaker_key": "CHAR_ORSA_NAME",
+   "speaker_ko": "오르사",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH11_MID_B",
+   "text_keys": [
+    "STORY_CH11_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch11_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "방파선을 지키자 파도에서 이름이 지워진 열쇠 하나가 무명성당 방향을 가리킨다.",
+   "first_scenario": "SCN_CH11_OUTRO",
+   "text_keys": [
+    "STORY_CH11_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch11_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "오르사는 떠도는 좌표의 귀환을 끝까지 책임지겠다며 수비대에 합류한다.",
+   "first_scenario": "SCN_CH11_OUTRO",
+   "text_keys": [
+    "STORY_CH11_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch11_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "조류 수확자는 고정된 좌표를 미끼로 삼아 방파선 안쪽에서 거대한 파형을 일으킨다.",
+   "first_scenario": "SCN_CH11_PREBOSS",
+   "text_keys": [
+    "STORY_CH11_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch11_preboss_02",
+   "speaker_key": "CHAR_ORSA_NAME",
+   "speaker_ko": "오르사",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH11_PREBOSS",
+   "text_keys": [
+    "STORY_CH11_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch11_preboss_03",
+   "speaker_key": "CHAR_ORSA_NAME",
+   "speaker_ko": "오르사",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH11_PREBOSS",
+   "text_keys": [
+    "STORY_CH11_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch12_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "검은 조류가 남긴 열쇠는 이름을 발음할 때마다 글자가 사라지는 무명성당의 문을 열었다.",
+   "first_scenario": "SCN_CH12_INTRO",
+   "text_keys": [
+    "STORY_CH12_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch12_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 이름을 빼앗는 성당의 봉인을 푼다.",
+   "first_scenario": "SCN_CH12_INTRO",
+   "text_keys": [
+    "STORY_CH12_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch12_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "성당은 죽은 이를 추모한 것이 아니라 살아 있는 이의 이름을 봉인 유지비로 징수했다.",
+   "first_scenario": "SCN_CH12_MID_A",
+   "text_keys": [
+    "STORY_CH12_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch12_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "티엘은 잊힌 사람들의 맥박을 리듬으로 기록해 이름 없이도 서로를 확인할 방법을 만든다.",
+   "first_scenario": "SCN_CH12_MID_B",
+   "text_keys": [
+    "STORY_CH12_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch12_mid_b_02",
+   "speaker_key": "CHAR_TIEL_NAME",
+   "speaker_ko": "티엘",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH12_MID_B",
+   "text_keys": [
+    "STORY_CH12_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch12_mid_b_03",
+   "speaker_key": "CHAR_TIEL_NAME",
+   "speaker_ko": "티엘",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH12_MID_B",
+   "text_keys": [
+    "STORY_CH12_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch12_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "봉인이 풀리자 이름을 훔친 노선이 사막에 존재하지 않는 시간표를 투사한 사실이 드러난다.",
+   "first_scenario": "SCN_CH12_OUTRO",
+   "text_keys": [
+    "STORY_CH12_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch12_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "티엘은 모든 이름이 돌아올 때까지 등로단의 생체 기록관으로 남는다.",
+   "first_scenario": "SCN_CH12_OUTRO",
+   "text_keys": [
+    "STORY_CH12_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch12_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "무명 고위사제는 마에루의 이름을 지워 지휘 체계와 동료들의 기억을 동시에 끊는다.",
+   "first_scenario": "SCN_CH12_PREBOSS",
+   "text_keys": [
+    "STORY_CH12_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch12_preboss_02",
+   "speaker_key": "CHAR_TIEL_NAME",
+   "speaker_ko": "티엘",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH12_PREBOSS",
+   "text_keys": [
+    "STORY_CH12_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch12_preboss_03",
+   "speaker_key": "CHAR_TIEL_NAME",
+   "speaker_ko": "티엘",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH12_PREBOSS",
+   "text_keys": [
+    "STORY_CH12_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch13_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "성당에서 되찾은 이름들은 사막 한가운데 존재하지 않는 열차의 승객 명부에 올라 있었다.",
+   "first_scenario": "SCN_CH13_INTRO",
+   "text_keys": [
+    "STORY_CH13_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch13_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 존재하지 않는 열차의 노선을 지운다.",
+   "first_scenario": "SCN_CH13_INTRO",
+   "text_keys": [
+    "STORY_CH13_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch13_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "유령 시간표는 사람들이 선택하지 못한 삶을 실제 노선으로 만들려 했다.",
+   "first_scenario": "SCN_CH13_MID_A",
+   "text_keys": [
+    "STORY_CH13_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch13_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "리아스는 환영 승객 사이를 돌파해 각자가 실제로 내린 마지막 선택을 표식으로 남긴다.",
+   "first_scenario": "SCN_CH13_MID_B",
+   "text_keys": [
+    "STORY_CH13_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch13_mid_b_02",
+   "speaker_key": "CHAR_RIAS_NAME",
+   "speaker_ko": "리아스",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH13_MID_B",
+   "text_keys": [
+    "STORY_CH13_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch13_mid_b_03",
+   "speaker_key": "CHAR_RIAS_NAME",
+   "speaker_ko": "리아스",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH13_MID_B",
+   "text_keys": [
+    "STORY_CH13_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch13_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "유령 노선을 지우자 남은 선로가 하늘로 말려 올라가 반전된 수도 순환선과 접속한다.",
+   "first_scenario": "SCN_CH13_OUTRO",
+   "text_keys": [
+    "STORY_CH13_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch13_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "리아스는 선택은 되찾는 것이 아니라 새로 만드는 것이라며 선봉에 합류한다.",
+   "first_scenario": "SCN_CH13_OUTRO",
+   "text_keys": [
+    "STORY_CH13_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch13_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "사구 역장은 미련이 큰 선택일수록 강한 객차로 만들어 일행을 갈라놓는다.",
+   "first_scenario": "SCN_CH13_PREBOSS",
+   "text_keys": [
+    "STORY_CH13_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch13_preboss_02",
+   "speaker_key": "CHAR_RIAS_NAME",
+   "speaker_ko": "리아스",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH13_PREBOSS",
+   "text_keys": [
+    "STORY_CH13_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch13_preboss_03",
+   "speaker_key": "CHAR_RIAS_NAME",
+   "speaker_ko": "리아스",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH13_PREBOSS",
+   "text_keys": [
+    "STORY_CH13_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch14_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "사막에서 솟은 선로는 수도 순환선을 뒤집어 건물과 열차를 하늘 쪽으로 떨어뜨리고 있었다.",
+   "first_scenario": "SCN_CH14_INTRO",
+   "text_keys": [
+    "STORY_CH14_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch14_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 뒤집힌 수도 순환선의 중력을 복구한다.",
+   "first_scenario": "SCN_CH14_INTRO",
+   "text_keys": [
+    "STORY_CH14_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch14_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "중력 반전은 사고가 아니라 수도를 외부 노선에서 영구 격리하려는 비상 규약이었다.",
+   "first_scenario": "SCN_CH14_MID_A",
+   "text_keys": [
+    "STORY_CH14_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch14_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "페린은 반전 구역의 장치를 역해킹해 사람마다 다른 아래쪽을 하나의 기준면으로 묶는다.",
+   "first_scenario": "SCN_CH14_MID_B",
+   "text_keys": [
+    "STORY_CH14_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch14_mid_b_02",
+   "speaker_key": "CHAR_PERIN_NAME",
+   "speaker_ko": "페린",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH14_MID_B",
+   "text_keys": [
+    "STORY_CH14_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch14_mid_b_03",
+   "speaker_key": "CHAR_PERIN_NAME",
+   "speaker_ko": "페린",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH14_MID_B",
+   "text_keys": [
+    "STORY_CH14_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch14_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "수도를 바로 세우자 비상 규약의 원본이 제로 신호 정원에서 기억 초기화를 준비 중임이 드러난다.",
+   "first_scenario": "SCN_CH14_OUTRO",
+   "text_keys": [
+    "STORY_CH14_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch14_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "페린은 어떤 시스템도 사람의 방향을 대신 정하지 못하게 하겠다며 합류한다.",
+   "first_scenario": "SCN_CH14_OUTRO",
+   "text_keys": [
+    "STORY_CH14_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch14_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "중력 감사관은 구조물의 무게 대신 사람들의 귀환 의지를 과부하로 판정한다.",
+   "first_scenario": "SCN_CH14_PREBOSS",
+   "text_keys": [
+    "STORY_CH14_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch14_preboss_02",
+   "speaker_key": "CHAR_PERIN_NAME",
+   "speaker_ko": "페린",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH14_PREBOSS",
+   "text_keys": [
+    "STORY_CH14_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch14_preboss_03",
+   "speaker_key": "CHAR_PERIN_NAME",
+   "speaker_ko": "페린",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH14_PREBOSS",
+   "text_keys": [
+    "STORY_CH14_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch15_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "수도 비상 규약의 원본은 제로 신호 정원에서 모든 노선의 기억을 초기화하려 했다.",
+   "first_scenario": "SCN_CH15_INTRO",
+   "text_keys": [
+    "STORY_CH15_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch15_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 모든 기억을 초기화하는 정원을 봉쇄한다.",
+   "first_scenario": "SCN_CH15_INTRO",
+   "text_keys": [
+    "STORY_CH15_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch15_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "정원의 꽃은 기억을 지우는 대신 가장 안전했던 순간만 남겨 사람을 움직이지 못하게 했다.",
+   "first_scenario": "SCN_CH15_MID_A",
+   "text_keys": [
+    "STORY_CH15_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch15_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "카른은 자신의 가장 편한 기억을 미끼로 내주고 정원 중심부까지 빈 통로를 베어낸다.",
+   "first_scenario": "SCN_CH15_MID_B",
+   "text_keys": [
+    "STORY_CH15_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch15_mid_b_02",
+   "speaker_key": "CHAR_KARN_NAME",
+   "speaker_ko": "카른",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH15_MID_B",
+   "text_keys": [
+    "STORY_CH15_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch15_mid_b_03",
+   "speaker_key": "CHAR_KARN_NAME",
+   "speaker_ko": "카른",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH15_MID_B",
+   "text_keys": [
+    "STORY_CH15_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch15_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "정원을 봉쇄하자 초기화 권한이 동부선과 서부선에 동시에 전달되고, 한쪽 승인 시 다른 피난 노선이 영구 폐기되는 철도왕관 내전이 시작된다.",
+   "first_scenario": "SCN_CH15_OUTRO",
+   "text_keys": [
+    "STORY_CH15_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch15_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "카른은 편한 과거보다 불확실한 동료의 곁을 택한다. 방송은 두 계승 세력의 동시 승인을 알리며 다음 전장을 확정한다.",
+   "first_scenario": "SCN_CH15_OUTRO",
+   "text_keys": [
+    "STORY_CH15_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch15_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "무의 정원사는 동료들의 행복한 순간을 방패로 펼쳐 공격할수록 기억이 부서지게 만든다.",
+   "first_scenario": "SCN_CH15_PREBOSS",
+   "text_keys": [
+    "STORY_CH15_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch15_preboss_02",
+   "speaker_key": "CHAR_KARN_NAME",
+   "speaker_ko": "카른",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH15_PREBOSS",
+   "text_keys": [
+    "STORY_CH15_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch15_preboss_03",
+   "speaker_key": "CHAR_KARN_NAME",
+   "speaker_ko": "카른",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH15_PREBOSS",
+   "text_keys": [
+    "STORY_CH15_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch16_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "정원의 초기화 권한이 사라지자 분열된 노선왕들은 서로를 유일한 정통 노선이라 선언했다.",
+   "first_scenario": "SCN_CH16_INTRO",
+   "text_keys": [
+    "STORY_CH16_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch16_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 분열된 노선왕들의 내전을 끝낸다.",
+   "first_scenario": "SCN_CH16_INTRO",
+   "text_keys": [
+    "STORY_CH16_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch16_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "내전의 승자는 왕관이 아니라 모든 피난 노선을 강제 병합할 권한을 얻는다.",
+   "first_scenario": "SCN_CH16_MID_A",
+   "text_keys": [
+    "STORY_CH16_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch16_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "노아르는 양 진영 부상자를 같은 치료 신호로 묶어 병사들이 적과 아군의 고통을 함께 듣게 한다.",
+   "first_scenario": "SCN_CH16_MID_B",
+   "text_keys": [
+    "STORY_CH16_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch16_mid_b_02",
+   "speaker_key": "CHAR_NOAR_NAME",
+   "speaker_ko": "노아르",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH16_MID_B",
+   "text_keys": [
+    "STORY_CH16_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch16_mid_b_03",
+   "speaker_key": "CHAR_NOAR_NAME",
+   "speaker_ko": "노아르",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH16_MID_B",
+   "text_keys": [
+    "STORY_CH16_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch16_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "왕관을 해체하자 진짜 노선 계승 기록이 잔광 도서고에 숨겨졌다는 좌표가 열린다.",
+   "first_scenario": "SCN_CH16_OUTRO",
+   "text_keys": [
+    "STORY_CH16_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch16_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "노아르는 누가 이겼는지보다 누가 살아 돌아오는지를 기록하겠다며 합류한다.",
+   "first_scenario": "SCN_CH16_OUTRO",
+   "text_keys": [
+    "STORY_CH16_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch16_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "왕관 창기사는 휴전을 배신으로 규정하고 치료 신호 자체를 지휘부 공격으로 간주한다.",
+   "first_scenario": "SCN_CH16_PREBOSS",
+   "text_keys": [
+    "STORY_CH16_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch16_preboss_02",
+   "speaker_key": "CHAR_NOAR_NAME",
+   "speaker_ko": "노아르",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH16_PREBOSS",
+   "text_keys": [
+    "STORY_CH16_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch16_preboss_03",
+   "speaker_key": "CHAR_NOAR_NAME",
+   "speaker_ko": "노아르",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH16_PREBOSS",
+   "text_keys": [
+    "STORY_CH16_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch17_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "해체된 왕관의 좌표는 역사를 실시간으로 고쳐 쓰는 잔광 도서고를 열었다.",
+   "first_scenario": "SCN_CH17_INTRO",
+   "text_keys": [
+    "STORY_CH17_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch17_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 역사를 개작하는 기록기관을 탈환한다.",
+   "first_scenario": "SCN_CH17_INTRO",
+   "text_keys": [
+    "STORY_CH17_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch17_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "도서고는 내전을 없애기 위해 원정대가 개입한 기록부터 삭제하고 있었다.",
+   "first_scenario": "SCN_CH17_MID_A",
+   "text_keys": [
+    "STORY_CH17_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch17_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "세브는 서로 모순되는 기록을 한 몸에 받아들여 삭제되지 않는 살아 있는 색인을 만든다.",
+   "first_scenario": "SCN_CH17_MID_B",
+   "text_keys": [
+    "STORY_CH17_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch17_mid_b_02",
+   "speaker_key": "CHAR_SEB_NAME",
+   "speaker_ko": "세브",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH17_MID_B",
+   "text_keys": [
+    "STORY_CH17_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch17_mid_b_03",
+   "speaker_key": "CHAR_SEB_NAME",
+   "speaker_ko": "세브",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH17_MID_B",
+   "text_keys": [
+    "STORY_CH17_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch17_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "기록을 되찾자 종말선 개통 명령이 내일 00시로 예약돼 있고, 기록을 지워도 실행 명령 자체는 남는다는 사실을 확인한다.",
+   "first_scenario": "SCN_CH17_OUTRO",
+   "text_keys": [
+    "STORY_CH17_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch17_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "세브는 예언이 아니라 고정 실행 명령이라는 증거를 살아 있는 색인에 보존하고 종말선 전야의 원정에 동행한다.",
+   "first_scenario": "SCN_CH17_OUTRO",
+   "text_keys": [
+    "STORY_CH17_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch17_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "색인 포식자는 동료별 합류 기록을 찢어 서로를 처음 보는 적으로 되돌린다.",
+   "first_scenario": "SCN_CH17_PREBOSS",
+   "text_keys": [
+    "STORY_CH17_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch17_preboss_02",
+   "speaker_key": "CHAR_SEB_NAME",
+   "speaker_ko": "세브",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH17_PREBOSS",
+   "text_keys": [
+    "STORY_CH17_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch17_preboss_03",
+   "speaker_key": "CHAR_SEB_NAME",
+   "speaker_ko": "세브",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH17_PREBOSS",
+   "text_keys": [
+    "STORY_CH17_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch18_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "도서고가 복원한 기록대로 종말선은 하루 뒤 모든 도시를 하나의 종착지로 끌어당긴다.",
+   "first_scenario": "SCN_CH18_INTRO",
+   "text_keys": [
+    "STORY_CH18_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch18_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 최종 노선의 개통을 하루 늦춘다.",
+   "first_scenario": "SCN_CH18_INTRO",
+   "text_keys": [
+    "STORY_CH18_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch18_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "이 중계점에서는 개통을 취소할 수 없지만 신호 기준시를 늦추면 다음 핵심부에 도착할 하루를 벌 수 있다.",
+   "first_scenario": "SCN_CH18_MID_A",
+   "text_keys": [
+    "STORY_CH18_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch18_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "유리엔은 장거리 포격을 시간 표지로 바꿔 종말선의 초침을 구간마다 끊어 놓는다.",
+   "first_scenario": "SCN_CH18_MID_B",
+   "text_keys": [
+    "STORY_CH18_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch18_mid_b_02",
+   "speaker_key": "CHAR_YURIEN_NAME",
+   "speaker_ko": "유리엔",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH18_MID_B",
+   "text_keys": [
+    "STORY_CH18_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch18_mid_b_03",
+   "speaker_key": "CHAR_YURIEN_NAME",
+   "speaker_ko": "유리엔",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH18_MID_B",
+   "text_keys": [
+    "STORY_CH18_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch18_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "하루를 벌었지만 퇴로의 동료들이 꺼지지 않는 원환에 갇혔다는 구조 신호가 도착한다.",
+   "first_scenario": "SCN_CH18_OUTRO",
+   "text_keys": [
+    "STORY_CH18_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch18_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "유리엔은 마지막 포탄까지 시간을 사는 데 쓰겠다며 원정대에 남는다.",
+   "first_scenario": "SCN_CH18_OUTRO",
+   "text_keys": [
+    "STORY_CH18_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch18_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "종말 신호수는 지연된 시간을 압축해 한 번의 자정 포격으로 되돌려 보낸다.",
+   "first_scenario": "SCN_CH18_PREBOSS",
+   "text_keys": [
+    "STORY_CH18_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch18_preboss_02",
+   "speaker_key": "CHAR_YURIEN_NAME",
+   "speaker_ko": "유리엔",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH18_PREBOSS",
+   "text_keys": [
+    "STORY_CH18_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch18_preboss_03",
+   "speaker_key": "CHAR_YURIEN_NAME",
+   "speaker_ko": "유리엔",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH18_PREBOSS",
+   "text_keys": [
+    "STORY_CH18_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch19_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "종말선에서 철수하던 동료들은 출발점으로만 돌아오는 꺼지지 않는 원환에 갇혔다.",
+   "first_scenario": "SCN_CH19_INTRO",
+   "text_keys": [
+    "STORY_CH19_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch19_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 무한 순환에 갇힌 동료들을 회수한다.",
+   "first_scenario": "SCN_CH19_INTRO",
+   "text_keys": [
+    "STORY_CH19_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch19_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "원환 중앙의 승차권 코어는 매 회 한 명을 대체 승객으로 지정하기 위해 그 사람의 합류 이유를 지우고 있었다.",
+   "first_scenario": "SCN_CH19_MID_A",
+   "text_keys": [
+    "STORY_CH19_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch19_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "모엔은 사라지는 이유를 장치 밖의 수동 기록에 새겨 동료들이 서로를 다시 선택하게 한다.",
+   "first_scenario": "SCN_CH19_MID_B",
+   "text_keys": [
+    "STORY_CH19_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch19_mid_b_02",
+   "speaker_key": "CHAR_MOEN_NAME",
+   "speaker_ko": "모엔",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH19_MID_B",
+   "text_keys": [
+    "STORY_CH19_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch19_mid_b_03",
+   "speaker_key": "CHAR_MOEN_NAME",
+   "speaker_ko": "모엔",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH19_MID_B",
+   "text_keys": [
+    "STORY_CH19_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch19_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "누구도 남기지 않고 원환을 끊자 모든 복구 노선의 빛이 마지막 등불 한곳으로 모인다.",
+   "first_scenario": "SCN_CH19_OUTRO",
+   "text_keys": [
+    "STORY_CH19_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch19_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "모엔은 수동 기록을 품고 최종 점화에서 선택의 증인이 되기로 한다.",
+   "first_scenario": "SCN_CH19_OUTRO",
+   "text_keys": [
+    "STORY_CH19_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch19_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "영원 승차권의 희생 요구는 의지가 아니라 손상된 귀환 절차의 기본값이었다. 모엔은 그 기본값을 바꿀 수 있음을 증명한다.",
+   "first_scenario": "SCN_CH19_PREBOSS",
+   "text_keys": [
+    "STORY_CH19_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch19_preboss_02",
+   "speaker_key": "CHAR_MOEN_NAME",
+   "speaker_ko": "모엔",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH19_PREBOSS",
+   "text_keys": [
+    "STORY_CH19_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch19_preboss_03",
+   "speaker_key": "CHAR_MOEN_NAME",
+   "speaker_ko": "모엔",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH19_PREBOSS",
+   "text_keys": [
+    "STORY_CH19_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch20_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "되찾은 열아홉 노선의 빛이 세계의 마지막 등불 앞에 모였지만 점화 권한은 봉인돼 있었다.",
+   "first_scenario": "SCN_CH20_INTRO",
+   "text_keys": [
+    "STORY_CH20_INTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch20_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 세계의 마지막 등불을 점화한다.",
+   "first_scenario": "SCN_CH20_INTRO",
+   "text_keys": [
+    "STORY_CH20_INTRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch20_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "봉인이 세는 것은 사람 수가 아니라 서로 다른 노선에서 확보한 스무 개의 독립 서명이었다. 같은 기록의 복제로는 점화할 수 없다.",
+   "first_scenario": "SCN_CH20_MID_A",
+   "text_keys": [
+    "STORY_CH20_MID_A_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch20_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "라벤트는 모든 방어 신호를 연결해 동료들의 기록이 심연에 지워지지 않도록 마지막 벽을 세운다.",
+   "first_scenario": "SCN_CH20_MID_B",
+   "text_keys": [
+    "STORY_CH20_MID_B_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch20_mid_b_02",
+   "speaker_key": "CHAR_LAVENT_NAME",
+   "speaker_ko": "라벤트",
+   "kind": "dialogue",
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "first_scenario": "SCN_CH20_MID_B",
+   "text_keys": [
+    "STORY_CH20_MID_B_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch20_mid_b_03",
+   "speaker_key": "CHAR_LAVENT_NAME",
+   "speaker_ko": "라벤트",
+   "kind": "dialogue",
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "first_scenario": "SCN_CH20_MID_B",
+   "text_keys": [
+    "STORY_CH20_MID_B_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch20_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "등로단은 어둠을 없애지 않고 돌아올 길을 함께 밝히는 방식으로 마지막 등불을 점화한다.",
+   "first_scenario": "SCN_CH20_OUTRO",
+   "text_keys": [
+    "STORY_CH20_OUTRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch20_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "라벤트가 연결한 스무 개의 독립 노선 서명은 새 시간표의 첫 좌표가 되고, 세계는 다시 선택할 수 있게 된다.",
+   "first_scenario": "SCN_CH20_OUTRO",
+   "text_keys": [
+    "STORY_CH20_OUTRO_INTERLUDE"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch20_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "최후선 수문장은 등불을 켜면 모든 어둠도 동시에 노선을 얻는다며 점화를 역으로 이용한다.",
+   "first_scenario": "SCN_CH20_PREBOSS",
+   "text_keys": [
+    "STORY_CH20_PREBOSS_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch20_preboss_02",
+   "speaker_key": "CHAR_LAVENT_NAME",
+   "speaker_ko": "라벤트",
+   "kind": "dialogue",
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "first_scenario": "SCN_CH20_PREBOSS",
+   "text_keys": [
+    "STORY_CH20_PREBOSS_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_ch20_preboss_03",
+   "speaker_key": "CHAR_LAVENT_NAME",
+   "speaker_ko": "라벤트",
+   "kind": "dialogue",
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "first_scenario": "SCN_CH20_PREBOSS",
+   "text_keys": [
+    "STORY_CH20_PREBOSS_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_pro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "대정전 뒤, 지하의 광맥 철로는 마지막 도시들을 잇는 유일한 길이 되었다.",
+   "first_scenario": "SCN_PROLOGUE",
+   "text_keys": [
+    "STORY_PRO_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_pro_02",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "speaker_ko": "길잡이",
+   "kind": "narration",
+   "ko": "새로 깨어난 기록 항해자는 끊긴 등불과 사람들의 기억을 복구해야 한다.",
+   "first_scenario": "SCN_PROLOGUE",
+   "text_keys": [
+    "STORY_PRO_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_pro_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "제7 승강장에서 첫 신호가 깜박이고 있어. 거기서 시작하자.",
+   "first_scenario": "SCN_PROLOGUE",
+   "text_keys": [
+    "STORY_PRO_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_pro_04",
+   "speaker_key": "SPEAKER_ROAN",
+   "speaker_ko": "로안",
+   "kind": "dialogue",
+   "ko": "정찰로는 내가 연다. 신호가 살아나면 바로 따라와.",
+   "first_scenario": "SCN_PROLOGUE",
+   "text_keys": [
+    "STORY_PRO_04"
+   ]
+  },
+  {
+   "voice_id": "vo_story_rel_i_01",
+   "speaker_key": "SPEAKER_IRI",
+   "speaker_ko": "이리",
+   "kind": "dialogue",
+   "ko": "고장 난 안내 방송을 모아서 작은 합창곡을 만들었어.",
+   "first_scenario": "SCN_REL_IRI",
+   "text_keys": [
+    "STORY_REL_I_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_rel_i_02",
+   "speaker_key": "SPEAKER_IRI",
+   "speaker_ko": "이리",
+   "kind": "dialogue",
+   "ko": "완벽한 음정보다 누군가 살아 있었다는 흔적이 더 중요하다고 생각해.",
+   "first_scenario": "SCN_REL_IRI",
+   "text_keys": [
+    "STORY_REL_I_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_rel_i_03",
+   "speaker_key": "SPEAKER_IRI",
+   "speaker_ko": "이리",
+   "kind": "dialogue",
+   "ko": "다음 정거장에 도착하면 같이 틀어 보자. 혼자 듣는 것보다 좋을 거야.",
+   "first_scenario": "SCN_REL_IRI",
+   "text_keys": [
+    "STORY_REL_I_03"
+   ]
+  },
+  {
+   "voice_id": "vo_story_rel_m_01",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "출발 전에는 빈 좌석의 안전띠까지 확인해. 빠뜨리면 마음이 놓이지 않거든.",
+   "first_scenario": "SCN_REL_MAERU",
+   "text_keys": [
+    "STORY_REL_M_01"
+   ]
+  },
+  {
+   "voice_id": "vo_story_rel_m_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "돌아오지 못한 동료의 자리를 잊지 않기 위해 시작한 습관이야.",
+   "first_scenario": "SCN_REL_MAERU",
+   "text_keys": [
+    "STORY_REL_M_02"
+   ]
+  },
+  {
+   "voice_id": "vo_story_rel_m_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "speaker_ko": "마에루",
+   "kind": "dialogue",
+   "ko": "오늘은 그 자리에 새 구조 장비를 놓았어. 빈자리가 다음 사람을 살리게 됐네.",
+   "first_scenario": "SCN_REL_MAERU",
+   "text_keys": [
+    "STORY_REL_M_03"
+   ]
+  }
+ ]
+}

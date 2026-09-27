@@ -28,6 +28,7 @@ func _run() -> void:
 	_test_stage_preload_contracts()
 	_test_combat_art_contracts()
 	_test_card_audio_contracts()
+	_test_story_voice_contracts()
 	await _test_signature_sliced_loads()
 	_test_battle()
 	_test_growth()
@@ -876,6 +877,40 @@ func _test_combat_art_contracts() -> void:
 	check(web_soak_source.contains("r7-web-soak-probe") and web_soak_source.contains("sampling_enabled"), "Release Web soak telemetry is explicit opt-in instead of a five-second gameplay hitch")
 	var app_shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd").replace("\r\n", "\n")
 	check(app_shell_source.contains("WEB_FRAME_RATE_CAP := 60") and app_shell_source.contains("Engine.max_fps = WEB_FRAME_RATE_CAP"), "Web Release caps redundant high-refresh rendering at sixty frames per second")
+
+func _test_story_voice_contracts() -> void:
+	# Korean text, Japanese voice: every dialogue and narration line has a
+	# pre-rendered take; the protagonist's choices stay unvoiced.
+	var voiced := {}
+	var choice_keys := {}
+	for scenario in DataRegistry.list_of("scenarios"):
+		for command in scenario.get("commands", []):
+			var kind := str(command.get("command", ""))
+			if kind in ["dialogue", "narration"]:
+				voiced[str(command.get("text_key", ""))] = true
+			elif kind == "choice":
+				for option in command.get("choices", []): choice_keys[str(option.get("text_key", ""))] = true
+	var missing := []
+	var files := {}
+	for text_key in voiced:
+		var path := AudioService.line_voice_path(text_key)
+		if not path.begins_with(AudioService.VOICE_RUNTIME_PREFIX) or not ResourceLoader.exists(path) or not load(path) is AudioStreamOggVorbis:
+			missing.append(text_key)
+		files[path] = true
+	check(voiced.size() == 335 and missing.is_empty(), "all 335 spoken story lines resolve to a Japanese voice stream", ", ".join(missing.slice(0, 8)))
+	var voiced_choices := choice_keys.keys().filter(func(key): return AudioService.line_voice_path(key) != "")
+	check(not choice_keys.is_empty() and voiced_choices.is_empty() and AudioService.line_voice_path("UNVOICED_PROBE_KEY") == "", "protagonist choices and unknown keys stay unvoiced")
+	var manifest := _read_json(AudioService.VOICE_MANIFEST_PATH)
+	check(files.size() == 250 and manifest.get("language") == "ja" and str(manifest.get("provenance", {}).get("note", "")).contains("no runtime or online TTS"), "250 shared voice takes ship with provenance and no runtime TTS")
+	# Headless has no audio device: a voiced line must report "not started" so the
+	# story keeps its text-only AUTO timing.
+	check(not AudioService.play_line_voice(voiced.keys()[0]) and not AudioService.voice_is_playing(), "voice playback declines cleanly without an audio device")
+	var shell := FileAccess.get_file_as_string("res://screens/app_shell.gd").replace("\r\n", "\n")
+	var advance := shell.substr(shell.find("func _advance_story("), 1200)
+	check(advance.contains("AudioService.stop_voice()") and shell.contains("AudioService.play_line_voice(str(command.get(\"text_key\", \"\")))") and shell.contains("previous_screen == \"STORY\" and screen_id != \"STORY\"") and shell.contains("AudioService.prefetch_line_voices("), "story advances cut the previous voice, leaving the story stops it, and scenarios prefetch their lines")
+	var bridge := FileAccess.get_file_as_string("res://web/browser_bgm.js")
+	var presets := FileAccess.get_file_as_string("res://export_presets.cfg")
+	check(bridge.contains("window.__lumenVoice") and bridge.contains("VOICE_TIMEOUT") and presets.count("res://assets/audio/voice/ja/*.ogg") == 3, "Web voices play from browser sidecars and stay out of every Web PCK")
 
 func _test_card_audio_contracts() -> void:
 	var synthetic_profiles := {

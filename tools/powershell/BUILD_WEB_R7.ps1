@@ -166,8 +166,9 @@ Invoke-Checked 'python' @($compressor, $release)
 Serve through a local HTTP server. This is a Godot 4.7.1 Compatibility Web export.
 The SRPG-style hex layer is chapter traversal only; combat remains the existing
 30 Hz deterministic real-time SD battle. Production approval remains pending
-user review. Runtime audio is sourced only from the local Sound folder; no
-external audio service is used.
+user review. Runtime audio plays only packaged local files: BGM/SFX from the
+local Sound folder and Japanese story voices pre-rendered with Alibaba Cloud
+Model Studio Token Plan TTS. No audio service is called at runtime.
 '@ | Set-Content -LiteralPath (Join-Path $release 'README_HTML.md') -Encoding UTF8
 
 [ordered]@{

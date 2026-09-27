@@ -2,6 +2,10 @@ extends Node
 
 const PHASE_AUDIO_ENABLED := true
 const AUDIO_MANIFEST_PATH := "res://assets/audio/audio_manifest.json"
+# Story text stays Korean; each voiced line plays a pre-rendered Japanese take
+# (tools/voice/voice_ja_pipeline.py). Keyed by the line's localization key.
+const VOICE_MANIFEST_PATH := "res://assets/audio/voice/ja/voice_manifest.json"
+const VOICE_RUNTIME_PREFIX := "res://assets/audio/voice/ja/"
 const SFX_POOL_SIZE := 8
 const START_VERIFY_DELAY_SECONDS := 0.35
 const BGM_WATCHDOG_INTERVAL_SECONDS := 1.0
@@ -18,6 +22,8 @@ var music_player: AudioStreamPlayer
 var music_crossfade_player: AudioStreamPlayer
 var sfx_players: Array[AudioStreamPlayer] = []
 var voice_player: AudioStreamPlayer
+var voice_by_text_key: Dictionary = {}
+var voice_manifest_loaded := false
 var manifest: Dictionary = {}
 var entries_by_id: Dictionary = {}
 var entries_by_event: Dictionary = {}
@@ -57,6 +63,10 @@ var web_music_status: Dictionary = {}
 var web_sfx_status: Dictionary = {}
 var web_music_mix := -1.0
 var web_sfx_mix := -1.0
+var web_voice_status: Dictionary = {}
+var web_voice_mix := -1.0
+# True from a browser voice request until the browser reports the line finished.
+var web_voice_maybe_busy := false
 
 func _ready() -> void:
 	_load_manifest()
@@ -69,6 +79,17 @@ func _web_music_call(expression: String) -> Variant:
 
 func _web_sfx_call(expression: String) -> Variant:
 	return JavaScriptBridge.eval("window.__lumenSFX && window.__lumenSFX." + expression, true)
+
+func _web_voice_call(expression: String) -> Variant:
+	return JavaScriptBridge.eval("window.__lumenVoice && window.__lumenVoice." + expression, true)
+
+func _sync_web_voice_status() -> void:
+	var parsed = JSON.parse_string(str(_web_voice_call("status && JSON.stringify(window.__lumenVoice.status())")))
+	if not parsed is Dictionary: return
+	web_voice_status = parsed
+	for id in parsed.get("starts", {}): playback_counts[id] = int(parsed.starts[id])
+	for id in parsed.get("attempts", {}): playback_attempt_counts[id] = int(parsed.attempts[id])
+	for id in parsed.get("failures", {}): playback_failed_counts[id] = int(parsed.failures[id])
 
 func _sync_web_music_status() -> void:
 	var parsed = JSON.parse_string(str(_web_music_call("status && JSON.stringify(window.__lumenBGM.status())")))
@@ -145,6 +166,7 @@ func _exit_tree() -> void:
 	for player in sfx_players:
 		player.stop()
 		player.stream = null
+	if OS.has_feature("web"): _web_voice_call("stop()")
 	if voice_player != null:
 		voice_player.stop()
 		voice_player.stream = null
@@ -215,6 +237,7 @@ func set_enabled(enabled: bool) -> void:
 	SettingsService.values.audio_enabled = enabled
 	_ensure_players()
 	if not enabled:
+		stop_voice()
 		if OS.has_feature("web"): _web_music_call("stop()")
 		if music_player != null:
 			_invalidate_start_verification(music_player)
@@ -315,6 +338,10 @@ func _apply_mix() -> void:
 	if OS.has_feature("web") and not is_equal_approx(web_sfx_mix, master * sfx):
 		web_sfx_mix = master * sfx
 		_web_sfx_call("volume(%s)" % str(web_sfx_mix))
+	var voice := clampf(float(SettingsService.values.get("voice_volume", 1.0)), 0.0, 1.0)
+	if OS.has_feature("web") and not is_equal_approx(web_voice_mix, master * voice):
+		web_voice_mix = master * voice
+		_web_voice_call("volume(%s)" % str(web_voice_mix))
 	if music_player != null:
 		music_target_volume_db = linear_to_db(maxf(0.001, master * bgm))
 		if not bgm_crossfade_active:
@@ -322,7 +349,7 @@ func _apply_mix() -> void:
 		if music_crossfade_player != null and not bgm_crossfade_active:
 			music_crossfade_player.volume_db = BGM_CROSSFADE_SILENCE_DB
 	if voice_player != null:
-		voice_player.volume_db = linear_to_db(maxf(0.001, master * sfx))
+		voice_player.volume_db = linear_to_db(maxf(0.001, master * voice))
 	for player in sfx_players:
 		var active_asset_id := str(sfx_asset_by_player.get(player.get_instance_id(), ""))
 		var active_entry: Dictionary = entries_by_id.get(active_asset_id, {})
@@ -662,10 +689,71 @@ func play_voice(asset_or_path: String) -> void:
 			_record_attempt(voice_player, asset_or_path, resource, "VOICE")
 
 func voice_is_playing() -> bool:
-	return _can_play_now() and voice_player != null and voice_player.playing
+	if not _can_play_now(): return false
+	if OS.has_feature("web"):
+		# Ask the browser only while a requested line may still be loading or speaking.
+		if web_voice_maybe_busy: web_voice_maybe_busy = bool(_web_voice_call("busy()"))
+		return web_voice_maybe_busy
+	return voice_player != null and voice_player.playing
+
+func stop_voice() -> void:
+	if OS.has_feature("web"): _web_voice_call("stop()")
+	web_voice_maybe_busy = false
+	if voice_player != null:
+		voice_player.stop()
+
+func _load_voice_manifest() -> void:
+	voice_manifest_loaded = true
+	voice_by_text_key.clear()
+	var file := FileAccess.open(VOICE_MANIFEST_PATH, FileAccess.READ)
+	if file == null: return
+	var parsed = JSON.parse_string(file.get_as_text())
+	if parsed is Dictionary and parsed.get("by_text_key") is Dictionary:
+		voice_by_text_key = parsed.by_text_key
+
+func line_voice_path(text_key: String) -> String:
+	if not voice_manifest_loaded: _load_voice_manifest()
+	return str(voice_by_text_key.get(text_key, ""))
+
+# Web plays story voices from the _audio/voice/ja sidecars, like BGM and combat
+# SFX, because Godot's WebAudio streams can fail to reopen after a scene swap.
+func _web_voice_relative_path(path: String) -> String:
+	if not path.begins_with(VOICE_RUNTIME_PREFIX): return ""
+	return "_audio/voice/ja/" + path.trim_prefix(VOICE_RUNTIME_PREFIX)
+
+# Web only: fetch a scenario's compressed voice files when it opens, so a line
+# starts without a network round trip. Native builds read them from the PCK.
+func prefetch_line_voices(commands: Array) -> void:
+	if not OS.has_feature("web") or not _audio_enabled(): return
+	var paths := []
+	for command in commands:
+		if command is Dictionary and str(command.get("command", "")) in ["dialogue", "narration"]:
+			var relative := _web_voice_relative_path(line_voice_path(str(command.get("text_key", ""))))
+			if not relative.is_empty() and relative not in paths: paths.append(relative)
+	if not paths.is_empty(): _web_voice_call("prefetch(%s)" % JSON.stringify(paths))
+
+# Plays the voice of a story line, replacing whatever line was still speaking.
+# Returns true only when a voice actually started (not for unvoiced lines, muted
+# audio or a locked browser), so callers can keep their text-only timing.
+func play_line_voice(text_key: String) -> bool:
+	stop_voice()
+	var path := line_voice_path(text_key)
+	if path.is_empty() or not _can_play_now(): return false
+	if OS.has_feature("web"):
+		var relative := _web_voice_relative_path(path)
+		if relative.is_empty(): return false
+		_apply_mix()
+		var voice_id := path.get_file().get_basename()
+		web_voice_maybe_busy = bool(_web_voice_call("play(%s,%s)" % [JSON.stringify(voice_id), JSON.stringify(relative)]))
+		if web_voice_maybe_busy: last_attempted_playback_id = voice_id
+		return web_voice_maybe_busy
+	play_voice(path)
+	return voice_is_playing()
 
 func runtime_status() -> Dictionary:
-	if OS.has_feature("web"): _sync_web_music_status()
+	if OS.has_feature("web"):
+		_sync_web_music_status()
+		_sync_web_voice_status()
 	var active_sfx_players := 0
 	for player in sfx_players:
 		if _player_has_active_playback(player):
@@ -683,6 +771,8 @@ func runtime_status() -> Dictionary:
 		"audio_enabled": _audio_enabled(),
 		"browser_bgm": web_music_status.duplicate(true),
 		"browser_sfx": web_sfx_status.duplicate(true),
+		"browser_voice": web_voice_status.duplicate(true),
+		"voice_active": voice_is_playing(),
 		"web_unlocked": browser_audio_unlocked,
 		"players_created": music_player != null and music_crossfade_player != null and voice_player != null and sfx_players.size() == SFX_POOL_SIZE,
 		"requested_bgm": requested_bgm_id,

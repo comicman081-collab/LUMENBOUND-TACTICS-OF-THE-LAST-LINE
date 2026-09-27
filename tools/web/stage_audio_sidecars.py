@@ -1,4 +1,4 @@
-"""Stage browser-owned BGM and combat SFX sidecars with verified source hashes."""
+"""Stage browser-owned BGM, combat SFX and story voice sidecars with verified source hashes."""
 import argparse
 import hashlib
 import json
@@ -9,6 +9,10 @@ ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = "audio_sidecars.json"
 BGM_ROOT = ROOT / "godot/assets/audio/bgm"
 SFX_ROOT = ROOT / "godot/assets/audio/sfx/public"
+VOICE_ROOT = ROOT / "godot/assets/audio/voice/ja"
+VOICE_PREFIX = "res://assets/audio/voice/ja/"
+# Schema 2 builds predate story voices; they stay valid without a voice set.
+SCHEMA = 3
 
 
 def sha256(path):
@@ -43,14 +47,29 @@ def sources(root=ROOT):
         raise ValueError("Expected the five existing BGM tracks")
     if not sfx:
         raise ValueError("Expected combat SFX sidecars")
-    return {"tracks": bgm, "sfx": sfx}
+    voice = {}
+    voice_manifest = json.loads((root / "godot/assets/audio/voice/ja/voice_manifest.json").read_text(encoding="utf-8"))
+    for runtime_path in sorted(set(voice_manifest["by_text_key"].values())):
+        if not runtime_path.startswith(VOICE_PREFIX):
+            raise ValueError("Unsafe voice source")
+        source = root / "godot" / runtime_path.removeprefix("res://")
+        if not source.resolve().is_relative_to(VOICE_ROOT.resolve()):
+            raise ValueError("Unsafe voice source")
+        record = {"voice_id": source.stem, "sha256": sha256(source), "bytes": source.stat().st_size}
+        voice["_audio/voice/ja/" + source.name] = (source, record)
+    if not voice:
+        raise ValueError("Expected story voice sidecars")
+    return {"tracks": bgm, "sfx": sfx, "voice": voice}
 
 
 def validate(export, root=ROOT):
     manifest = json.loads((export / MANIFEST).read_text(encoding="utf-8"))
     expected = sources(root)
-    if int(manifest.get("schema_version", 0)) != 2:
+    schema = int(manifest.get("schema_version", 0))
+    if schema not in (2, SCHEMA):
         raise ValueError("Audio sidecar manifest schema mismatch")
+    if schema == 2:
+        expected.pop("voice")
     for key, expected_records in expected.items():
         records = manifest.get(key, {})
         if set(records) != set(expected_records):
@@ -73,14 +92,14 @@ def stage(export, root=ROOT):
         raise ValueError("Expected a project-local Web export")
     if (export / MANIFEST).exists() or (export / "_audio").exists():
         raise ValueError("Audio destination already exists")
-    records = {"tracks": {}, "sfx": {}}
+    records = {"tracks": {}, "sfx": {}, "voice": {}}
     for key, collection in sources(root).items():
         for name, (source, record) in collection.items():
             target = export / name
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
             records[key][name] = record
-    manifest = {"schema_version": 2, **records}
+    manifest = {"schema_version": SCHEMA, **records}
     (export / MANIFEST).write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     return validate(export, root)
 
@@ -91,4 +110,4 @@ if __name__ == "__main__":
     parser.add_argument("--validate-only", action="store_true")
     args = parser.parse_args()
     manifest = validate(args.export) if args.validate_only else stage(args.export)
-    print("LOCAL_AUDIO_SIDECARS_VERIFIED tracks=%d sfx=%d" % (len(manifest["tracks"]), len(manifest["sfx"])))
+    print("LOCAL_AUDIO_SIDECARS_VERIFIED tracks=%d sfx=%d voice=%d" % (len(manifest["tracks"]), len(manifest["sfx"]), len(manifest.get("voice", {}))))

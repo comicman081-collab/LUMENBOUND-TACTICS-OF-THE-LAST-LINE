@@ -6,6 +6,7 @@ var values := {
 	"master_volume": 0.8,
 	"bgm_volume": 0.7,
 	"sfx_volume": 0.8,
+	"voice_volume": 1.0,
 	"text_speed": 0.03,
 	"auto_delay": 1.2,
 	"developer_mode": false,

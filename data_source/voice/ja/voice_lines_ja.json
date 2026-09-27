@@ -1,0 +1,3597 @@
+{
+ "schema_version": 1,
+ "generated_by": "tools/voice/voice_ja_pipeline.py finalize",
+ "provenance": {
+  "service": "Alibaba Cloud Model Studio Token Plan (Singapore, ap-southeast-1)",
+  "model": "qwen-audio-3.0-tts-plus",
+  "authorized_by": "user request 2026-09-27",
+  "note": "Pre-rendered files; the game performs no runtime or online TTS."
+ },
+ "lines": [
+  {
+   "voice_id": "vo_story_c1i_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_C1I_01"
+   ],
+   "ko": "등로단은 잔광 폭풍 속에서도 움직이는 소규모 복구 조직이다.",
+   "ja": "灯路団は、残光嵐の中でも動き続ける、小さな復旧組織だ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c1i_01.ogg",
+   "source_take": "take3",
+   "source_sha256": "4ed7fa8816788ee0e1b010e17bad8dac51ccc5b1dbfc9d008c8e25ba1c8b15de",
+   "runtime_sha256": "547d8a69c7bf3f7444d36268c1e1a836a31f1a8fc1bb7ef29e3ea1d0970d8c4b"
+  },
+  {
+   "voice_id": "vo_story_c1i_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_C1I_02"
+   ],
+   "ko": "지도에 없는 선로에서 구조 요청을 들었어. 아직 신호가 살아 있어.",
+   "ja": "地図にない線路から、救助要請が聞こえたの。まだ信号は生きてる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c1i_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "496a8a4cfb7b9098ce8dbaba90b949082cec0bf02ad90750da12b52b484d8772",
+   "runtime_sha256": "2e59e746ce84bceee9c6759b24f3915cd9c36a0bcb99e813b798cc1eb4957bfc"
+  },
+  {
+   "voice_id": "vo_story_c1i_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_C1I_03"
+   ],
+   "ko": "진위를 확인하고 길을 복구하자. 모두 출발 준비.",
+   "ja": "真偽を確かめて、道を復旧しよう。全員、出発準備。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c1i_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "b8b26a86a291b269060bbbbc0e2c68fd93878a701972e0ff0640b8d26c8e98b9",
+   "runtime_sha256": "4cfcee1da59a01e3292605d5d0c7af8629fa28486581d90837962c3f371a1c57"
+  },
+  {
+   "voice_id": "vo_story_c1a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_C1A_01"
+   ],
+   "ko": "첫 터널에는 기억을 흉내 내는 잔향체가 모여 있었다.",
+   "ja": "最初のトンネルには、記憶を真似る残響体が群れていた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c1a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "0fafe0868b6eb8b918391ae5c8fb595882b730649b78cc61479f30b96390936e",
+   "runtime_sha256": "c2f517ebbf9b268d88786bae1c8ca1b5c00b2da6635d47ab78c8d0a41225e711"
+  },
+  {
+   "voice_id": "vo_story_c1a_02",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_C1A_02"
+   ],
+   "ko": "그것들은 사람의 목소리를 냈지만 질문에는 답하지 못했다.",
+   "ja": "それらは人の声を発したが、問いかけには答えられなかった。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c1a_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "f10bd0a4a6f02f2026eb6985aa54e95ede54374bba63e1bc0f46898085c2889b",
+   "runtime_sha256": "7a1151f7310fc13728ecfa4a57a83deb6d379fc4cb0992a1541990b749378c88"
+  },
+  {
+   "voice_id": "vo_story_c1a_03",
+   "speaker_key": "SPEAKER_ROAN",
+   "voice": "longyitingyan",
+   "text_keys": [
+    "STORY_C1A_03"
+   ],
+   "ko": "전투 뒤 손상되지 않은 기록편 하나를 회수했어. 다음 구간을 열 수 있겠어.",
+   "ja": "戦闘のあと、無傷の記録片をひとつ回収したよ。これで次の区間を開けられそう。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c1a_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "86a6eebe2b377004d853309f7e97908a32e481b7622a2bc79937963a7f36e96b",
+   "runtime_sha256": "ee128043693324bbb14cded453f4af07da04d8d4b761c273cb71a13b700ca290"
+  },
+  {
+   "voice_id": "vo_story_c1b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_C1B_01"
+   ],
+   "ko": "기록편의 구조 신호가 공허기관 안에서 역방향으로 소모되고 있었다. 중계기 앞에는 신호를 추적하던 베라가 버티고 있었다.",
+   "ja": "記録片の救助信号は、空虚機関の中で逆方向に消費されていた。中継器の前では、信号を追っていたベラが踏みとどまっていた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c1b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "41c5d46d3aa84c78e9e7d12a46ca01699d8a629fa24e620f1cbea279d8b4fd15",
+   "runtime_sha256": "5e66deef5b8070f7fb08d53329a554958752a5fa397fb5dfbe6c668f45c0349f"
+  },
+  {
+   "voice_id": "vo_story_c1b_02",
+   "speaker_key": "CHAR_VERA_NAME",
+   "voice": "longshanyusong",
+   "text_keys": [
+    "STORY_C1B_02"
+   ],
+   "ko": "공허기관이 삼키는 건 광맥 전력이 아니야. 구조 신호의 잔향을 연료로 바꾸고 있어.",
+   "ja": "空虚機関が飲み込んでるのは、鉱脈の電力じゃない。救助信号の残響を、燃料に変えてるの。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c1b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "16c4bf505a0edc5ce0e6cd5fde21f71379af816b3fc5529153c1bb43de208877",
+   "runtime_sha256": "28ed209783736a9eabde936db17651cce6d4f542f778d7988633b00fdbe37f52"
+  },
+  {
+   "voice_id": "vo_story_c1b_03",
+   "speaker_key": "CHAR_VERA_NAME",
+   "voice": "longshanyusong",
+   "text_keys": [
+    "STORY_C1B_03"
+   ],
+   "ko": "내가 역추적 경로를 열게. 핵심부까지 함께 가자. 이 신호를 사람들에게 돌려줘야 해.",
+   "ja": "私が逆探知の経路を開く。中枢まで一緒に行こう。この信号を、みんなのもとへ返さなきゃ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c1b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "8fe410867d2d337d15764ed79fca92b32ed4a62da37e6135a0b9fffad89e558c",
+   "runtime_sha256": "c6d524d0af191c742f79d6d2568516debc2cdd0bb62002facce981cee7e9c022"
+  },
+  {
+   "voice_id": "vo_story_c1c_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_C1C_01"
+   ],
+   "ko": "좌표는 폐쇄된 종탑형 중계기로 이어졌다. 구조 대상은 더 깊은 회송선에서 원격 신호만 보내고 있었다.",
+   "ja": "座標は、閉鎖された鐘楼型中継器へと続いていた。救助対象はさらに深い回送線から、遠隔信号だけを送り続けていた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c1c_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "e8e4ed597a7df027dec413a41bacc7a664eeb5220f789745356d466cf4c8b1de",
+   "runtime_sha256": "4b1c5d531086b28581589cf3b0f05808df9d8e6b9f73a173a5745960de0e0c4b"
+  },
+  {
+   "voice_id": "vo_story_c1c_02",
+   "speaker_key": "SPEAKER_IRI",
+   "voice": "longlanghongmo",
+   "text_keys": [
+    "STORY_C1C_02"
+   ],
+   "ko": "이리야. 아직 합류할 수는 없어. 생체 신호를 따라오면 종착선 앞에서 길을 열어 둘게.",
+   "ja": "イリよ。まだ合流はできないの。生体信号をたどって来てくれたら、終着線の手前で道を開けておくね。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c1c_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "c224052a06795cbc1fbb133224b3e04292ad2db5da4b4221d54ecfd1c287c4de",
+   "runtime_sha256": "38b52957ed23b9c26c741332b14a5c02e9f7444c14f25ffa8d8b6df2d60e819f"
+  },
+  {
+   "voice_id": "vo_story_c1c_03",
+   "speaker_key": "SPEAKER_IRI",
+   "voice": "longlanghongmo",
+   "text_keys": [
+    "STORY_C1C_03"
+   ],
+   "ko": "잔향체 군집이 중계기를 포위했어. 신호를 잃지 않으려면 먼저 이 구간을 돌파해야 해.",
+   "ja": "残響体の群れが、中継器を取り囲んでる。信号を見失わないためには、まずこの区間を突破しないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c1c_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "9011ff13d188d56fe13571c167fcefead5f6f25edfafb70138149eca84778710",
+   "runtime_sha256": "336d97f5062f6cdddc13605ae16dc4566f8ebad45ae7addb5757ce56c58ecef5"
+  },
+  {
+   "voice_id": "vo_story_out_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_OUT_01"
+   ],
+   "ko": "공허기관이 멈추자 지워졌던 행선지가 다시 나타났다.",
+   "ja": "空虚機関が止まると、消されていた行き先が、再び現れた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_out_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "cb3a4985173c6b250c6166259b0679ad6f624ff1f910df3d9cd572858d11a1da",
+   "runtime_sha256": "128fca0cc33ffca6159a43eecebd4c738ccaa39a30d15bcf2d3cbcfa387d3265"
+  },
+  {
+   "voice_id": "vo_story_out_02",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_OUT_02"
+   ],
+   "ko": "마지막 열차는 사라진 도시가 아니라 이동 중인 피난처를 향하고 있었다.",
+   "ja": "最後の列車が向かっていたのは、消えた都市ではなく、移動を続ける避難所だった。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_out_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "cc729ed7fa7d80b81ede710e7a2dd844d9884bcef09c616842dc1caed4af1a2e",
+   "runtime_sha256": "52409d6809b58400e6d703343dbff802df9cde38c459874541f6ca8f1031a89f"
+  },
+  {
+   "voice_id": "vo_story_out_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_OUT_03"
+   ],
+   "ko": "첫 노선은 다시 이어졌어. 이제 다음 등불로 가자.",
+   "ja": "最初の路線は、またつながった。さあ、次の灯火へ行こう。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_out_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "1b39b3db38a5ca0ab31cb3e5b2d22d8fe3c8748a1bcdc86c42df108a641fe4d9",
+   "runtime_sha256": "e9cf335e00572db89780e7eae22bad6761d4a90163cfa34a3e32959a516f72ec"
+  },
+  {
+   "voice_id": "vo_story_pre_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_PRE_01"
+   ],
+   "ko": "거대한 공허기관이 선로의 빛을 삼키며 깨어났다.",
+   "ja": "巨大な空虚機関が、線路の光を飲み込みながら、目を覚ました。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_pre_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "fdd7c7f6117aeb756b133b6ec61731348e7b62fe41c462a8f9ba13e7c8be2365",
+   "runtime_sha256": "9e75e150286d7eb78cc3ba90e20730e5aacf0cb3a2ec9b96f17ad3a796189684"
+  },
+  {
+   "voice_id": "vo_story_pre_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_PRE_02"
+   ],
+   "ko": "각자 등불과 장비를 확인해. 여기서부터는 한 번의 실수도 허용되지 않아.",
+   "ja": "各自、灯火と装備を確認して。ここから先は、一度のミスも許されない。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_pre_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "7ed6c656eee653946984c066a994519bb5dfa5800f634c0bd715710181ba3642",
+   "runtime_sha256": "378021a673549742077777d44ab08d04e639bd786276e09ad484483fbec80ffe"
+  },
+  {
+   "voice_id": "vo_story_pre_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_PRE_03"
+   ],
+   "ko": "우리가 지키려는 것은 선로가 아니라, 그 끝에서 기다리는 사람들의 이야기야.",
+   "ja": "私たちが守ろうとしているのは、線路じゃない。その先で待っている人たちの物語よ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_pre_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "325d9809591ab112275ff445c5a245a01a30745b0d14e2503f1b864dee3f26ff",
+   "runtime_sha256": "907ae15c0d711af824a72af99c84d7936f0691fc0a91c18b5af6f91861f261c8"
+  },
+  {
+   "voice_id": "vo_story_c2h_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_C2H_01"
+   ],
+   "ko": "지하 회송실에는 빈 자리만 남은 편성표가 벽처럼 이어져 있었다.",
+   "ja": "地下の回送室には、空席だけが残った編成表が、壁のように並んでいた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2h_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "f324c3522737cccf811be3719796815b5cd7f7aa8ca8371566f86bf695046f04",
+   "runtime_sha256": "acc66a2d0599093a5c5902f174f1b145380a89b65bd9c9754542995ec9857a6b"
+  },
+  {
+   "voice_id": "vo_story_c2h_02",
+   "speaker_key": "SPEAKER_IRI",
+   "voice": "longlanghongmo",
+   "text_keys": [
+    "STORY_C2H_02"
+   ],
+   "ko": "이 핵은 사람을 찾는 게 아니라, 비어 있는 칸을 채우려는 거야.",
+   "ja": "この核は、人を探してるんじゃない。空いた枠を、埋めようとしてるの。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2h_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "6b41b1c5f3f6839fb354c9c0f6fd5721f3a0451dfa6bd0b1f4541101802cc616",
+   "runtime_sha256": "9189265441ee9dc6ee07bc0f0caef2b61fad4b2e1b7a59fed0bd86208be6aeb0"
+  },
+  {
+   "voice_id": "vo_story_c2h_03",
+   "speaker_key": "SPEAKER_IRI",
+   "voice": "longlanghongmo",
+   "text_keys": [
+    "STORY_C2H_03"
+   ],
+   "ko": "우리가 멈추게 할 건 과거가 아니라, 현재를 지워 버리는 이 명령이야.",
+   "ja": "私たちが止めるのは、過去じゃない。今を消してしまう、この命令よ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2h_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "68583b4a0953502e3fe623d814a386657032d4a81ace1f57753361e7eff402d3",
+   "runtime_sha256": "c3fcd1ed1de0375564a6905738b72adccfa4bbd692e2f0d4ebc3eaa91bf270d5"
+  },
+  {
+   "voice_id": "vo_story_c2i_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_C2I_01"
+   ],
+   "ko": "세 개의 고유 보스 기록에는 같은 짧은 handshake 패턴이 남아 있었다.",
+   "ja": "三つの固有ボスの記録には、同じ短いハンドシェイクのパターンが残っていた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2i_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "caf0d8774e5bd6bb9670216b8191918a8d5337d9f6c2391db0019c1a4b7909c6",
+   "runtime_sha256": "70b240ae3fcb52e617dfd1000218ad1a489ea02af021ac13d72bfaa3f9e7acf0"
+  },
+  {
+   "voice_id": "vo_story_c2i_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_C2I_02"
+   ],
+   "ko": "신호는 진행 방향이 아니라 종착점에서 출발점 쪽으로 하나씩 켜지고 있어.",
+   "ja": "信号は進行方向じゃなく、終着点から出発点に向かって、ひとつずつ灯ってる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2i_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "38b1ca654a2b4d0547a460a25c097d9a8c5fb13f5d0a85715ad6d81807614cca",
+   "runtime_sha256": "97e8caa1ce7fe0373d6dc901689d8eacc1a113b6a94deea24e0ff8f5396c034f"
+  },
+  {
+   "voice_id": "vo_story_c2i_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_C2I_03"
+   ],
+   "ko": "시간을 되돌리는 장치가 아니야. 망가진 회송 절차가 현재의 우리를 과거 기록에 끼워 맞추고 있어.",
+   "ja": "時間を巻き戻す装置じゃない。壊れた回送手順が、今の私たちを、過去の記録に当てはめてるの。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2i_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "4812fecb43d03a365d196fd437be4351b5fde65d548299feb2e5254fe3319c6d",
+   "runtime_sha256": "749d6bab6964aef0e66b899f959bd2a020ac8f7ea124087c82a61369da62dd1d"
+  },
+  {
+   "voice_id": "vo_story_c2a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_C2A_01"
+   ],
+   "ko": "닫힌 승강장은 존재하지 않는 승객의 이름을 반복해서 불렀다.",
+   "ja": "閉ざされたホームは、存在しない乗客の名前を、繰り返し呼び続けた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "ee981de2853fc41b40a2515b584c311f82c4490a19f7a4fccf6f8d847cfad3ab",
+   "runtime_sha256": "053457d8b378ffddd5624e820496fd3f03a92b4795a5ee1908f060428e9c87cb"
+  },
+  {
+   "voice_id": "vo_story_c2a_02",
+   "speaker_key": "SPEAKER_ROAN",
+   "voice": "longyitingyan",
+   "text_keys": [
+    "STORY_C2A_02"
+   ],
+   "ko": "구조 신호가 진짜인지 가짜인지가 아니라, 지금 누가 그 신호를 듣고 있는지가 중요해.",
+   "ja": "救助信号が本物か偽物かじゃない。今、誰がその信号を聞いているかが大事なんだ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2a_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "f8fc309ea0fba548e89f501881f86e54935977f3b90a5a7c257caee13c9fa2cf",
+   "runtime_sha256": "b7bf09ac2bff6fcef86870fb1dba94a0b04520f2aa4d428e406d4e73fc8d039c"
+  },
+  {
+   "voice_id": "vo_story_c2a_03",
+   "speaker_key": "SPEAKER_ROAN",
+   "voice": "longyitingyan",
+   "text_keys": [
+    "STORY_C2A_03"
+   ],
+   "ko": "우리 이름을 과거 목록에서 지우고, 현재 좌표를 남기자.",
+   "ja": "私たちの名前を過去の名簿から消して、今の座標を残そう。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2a_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "3e5fd4919fdc3cfba93bb319e3c154ca2dc149811d09a1fe464c16a5bdfea24f",
+   "runtime_sha256": "3b71fca38689865a576288f99f48994be5f7c74c01d86f3623be962a41d4d8a9"
+  },
+  {
+   "voice_id": "vo_story_c2b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_C2B_01"
+   ],
+   "ko": "전력은 거꾸로 흘렀고, 회송핵은 살아 있는 승객을 과거 명부의 빈 좌석으로 덮어쓰기 시작했다.",
+   "ja": "電力は逆流し、回送核は、生きている乗客を、過去の名簿の空席で上書きし始めた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "a599c4012fac6788f6bfc8e46fe4946a33d84beb693e47dd9213d4434aa63ae0",
+   "runtime_sha256": "2ede94120897a74f034e03f6e7f4289f2f8ee2b6cf9205337189f5363c6bfd2e"
+  },
+  {
+   "voice_id": "vo_story_c2b_02",
+   "speaker_key": "SPEAKER_IRI",
+   "voice": "longlanghongmo",
+   "text_keys": [
+    "STORY_C2B_02"
+   ],
+   "ko": "내 생체 기록으로 현재 명부를 고정하면 마지막 개찰까지 모두의 신원을 지킬 수 있어.",
+   "ja": "私の生体記録で今の名簿を固定すれば、最後の改札まで、みんなの身元を守れる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "3f508a2227d8d209f277ecfc4b47af49eccf47d7e24fc274e10b3e2b16b83bd6",
+   "runtime_sha256": "820689ffa5ca50e19390aa8cdfd5411105768d99cc085d8e230c841c1fd5c94d"
+  },
+  {
+   "voice_id": "vo_story_c2b_03",
+   "speaker_key": "SPEAKER_IRI",
+   "voice": "longlanghongmo",
+   "text_keys": [
+    "STORY_C2B_03"
+   ],
+   "ko": "명부 고정이 끝날 때까지 동행할게. 끝나면 보호 대상이 아니라 원정대의 의료 담당으로 가겠어.",
+   "ja": "名簿の固定が終わるまで、同行するね。終わったら、保護対象じゃなくて、遠征隊の医療担当として行くわ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "a910c9a8fa1cfb75b6d3df81dd01ab8c9c56e867572d49c55aeaf349edbc2325",
+   "runtime_sha256": "78c88c5df8f737fe6b5dd5d669a7c27b8bf5568e4baf02fe832cb0691e148744"
+  },
+  {
+   "voice_id": "vo_story_c2o_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_C2O_01"
+   ],
+   "ko": "회송 편성핵이 멈추자, 뒤집혀 있던 신호등이 하나씩 정상 방향으로 돌아왔다.",
+   "ja": "回送編成核が止まると、逆さまになっていた信号灯が、ひとつずつ正しい向きへ戻っていった。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2o_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "54f2699026a26c62dc6eb4fd9efaba337512c967e3f35d62d9381733fcc799cf",
+   "runtime_sha256": "34e43b986bf68858bc55064e784f21f618a133edc32c04987cf0b568050a75f9"
+  },
+  {
+   "voice_id": "vo_story_c2o_02",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_C2O_02"
+   ],
+   "ko": "모든 기록이 사라진 것은 아니지만, 더는 현재의 사람을 과거의 빈자리에 넣지 않았다.",
+   "ja": "すべての記録が消えたわけではない。だが、もう今を生きる人を、過去の空席に押し込むことはなかった。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2o_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "82c5b7c4a583317c1affeda5f5d8aaeab773c0781bcf94080e183bcfdc483d94",
+   "runtime_sha256": "2efa578575e9eddbfa9f27528177703cca1829db97d9593a978649332c9ba6c8"
+  },
+  {
+   "voice_id": "vo_story_c2o_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_C2O_03"
+   ],
+   "ko": "남은 건 바깥을 향한 하나의 정상 신호야. 다음 길은 우리가 선택해서 이어 가자.",
+   "ja": "残ったのは、外へ向かう、ひとつの正常な信号。次の道は、私たちが選んでつないでいこう。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2o_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "2e6c29ab2ba87410accc8add38cfdee20d91ebe0623eaf0927897d63f604f8e0",
+   "runtime_sha256": "fa16044d645547eb9a896eff8f23b795e4973cda173fbc0efe7af0a0dbf5c039"
+  },
+  {
+   "voice_id": "vo_story_c2p_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_C2P_01"
+   ],
+   "ko": "세 개의 방어 구간을 연속 돌파하자, 종탑형 중계기에서 추적하던 생체 신호가 중앙 개찰 바로 앞에서 모습을 드러냈다.",
+   "ja": "三つの防衛区間を立て続けに突破すると、鐘楼型中継器から追っていた生体信号が、中央改札のすぐ手前で姿を現した。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2p_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "568d177f4221b4c962167af4cae8238ee24993d2973aa830284fc5430a119b61",
+   "runtime_sha256": "2e36ad92a52bd01e4d5642b40b263d912ab353ed4a0d18d37dc809834e2958e5"
+  },
+  {
+   "voice_id": "vo_story_c2p_02",
+   "speaker_key": "SPEAKER_IRI",
+   "voice": "longlanghongmo",
+   "text_keys": [
+    "STORY_C2P_02"
+   ],
+   "ko": "늦어서 미안해. 이리야. 회송선의 부상자를 지키느라 움직일 수 없었지만, 이제부터는 내가 너희의 후방을 맡을게.",
+   "ja": "遅くなってごめんね。イリよ。回送線の負傷者を守っていて動けなかったけど、ここからは、私があなたたちの後方を引き受ける。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2p_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "1b932277f19b8c04fc871c67e3e863894287e7676569897de69c28a07141d36a",
+   "runtime_sha256": "b77eb947623ee199ca6ce426609729c23332dea4836668adb12b6a19e2a538b7"
+  },
+  {
+   "voice_id": "vo_story_c2p_03",
+   "speaker_key": "SPEAKER_SOREN",
+   "voice": "longqingxiaoxiang",
+   "text_keys": [
+    "STORY_C2P_03"
+   ],
+   "ko": "합류 신호 확인. 다음은 역행 개찰의 고유 방어 개체야. 네 회복 장치가 버틸 수 있겠어?",
+   "ja": "合流信号、確認。次は逆行改札の固有防衛個体よ。あなたの回復装置、持ちこたえられる？",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2p_03.ogg",
+   "source_take": "take3",
+   "source_sha256": "9255098dfd5002dc28bc2f21f5b0e4a12a1dab2389dc00ad3f00004735ca4ff9",
+   "runtime_sha256": "3524b581f3c18d1cfc9e83aa37a0db409e1633aa5ea6a9aefae1d6479c16d705"
+  },
+  {
+   "voice_id": "vo_story_c2p_04",
+   "speaker_key": "SPEAKER_IRI",
+   "voice": "longlanghongmo",
+   "text_keys": [
+    "STORY_C2P_04"
+   ],
+   "ko": "세 구간 동안 출력은 충분히 맞춰 뒀어. 다친 사람 없이 저 문을 넘기자.",
+   "ja": "三つの区間のあいだに、出力は十分合わせておいたわ。誰も傷つけずに、あの扉を越えよう。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_c2p_04.ogg",
+   "source_take": "take1",
+   "source_sha256": "3a6c9d932324ce6e978427eab49965a2a6157fec52757184f4179c74b0e116fb",
+   "runtime_sha256": "1381ba7ded2b8e2ce0d01f3dbdff5dca86912998fe3a77ac6a8664e95fa7568a"
+  },
+  {
+   "voice_id": "vo_story_ch03_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH03_INTRO_01"
+   ],
+   "ko": "역행 개찰에서 건진 좌표가 유리평원 위를 달리는 야간열차를 가리켰다.",
+   "ja": "逆行改札で拾い上げた座標は、硝子平原を走る夜行列車を指していた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "8eec76eec09280c025b004c89776d3f13bd378030eb1ef1a6aa5bda847c54519",
+   "runtime_sha256": "3e49d1fd5365ffc7f8c1610b1b1f5e0332d7be07bad56e968263ddd3f2fbfd37"
+  },
+  {
+   "voice_id": "vo_story_ch03_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH03_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 거울 선로가 원정대를 복제한다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、遠征隊を複製する鏡線路。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "7dfb2ae5f846b85601b579ed3e50bf2e9c9a6bbbcb7cdb6b3413e6f28625d95a",
+   "runtime_sha256": "4cff1090dbdd669c26f021cc9a938743280a8474ec4e0a1aef2170ad564c1ab9"
+  },
+  {
+   "voice_id": "vo_story_ch03_intro_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH03_INTRO_03",
+    "STORY_CH04_INTRO_03",
+    "STORY_CH05_INTRO_03",
+    "STORY_CH06_INTRO_03",
+    "STORY_CH07_INTRO_03",
+    "STORY_CH08_INTRO_03",
+    "STORY_CH09_INTRO_03",
+    "STORY_CH10_INTRO_03",
+    "STORY_CH11_INTRO_03",
+    "STORY_CH12_INTRO_03",
+    "STORY_CH13_INTRO_03",
+    "STORY_CH14_INTRO_03",
+    "STORY_CH15_INTRO_03",
+    "STORY_CH16_INTRO_03",
+    "STORY_CH17_INTRO_03",
+    "STORY_CH18_INTRO_03",
+    "STORY_CH19_INTRO_03",
+    "STORY_CH20_INTRO_03"
+   ],
+   "ko": "원인을 남겨 둔 채 다음 길로 도망치지 않는다. 여기서 연결을 바로잡는다.",
+   "ja": "原因を残したまま、次の道へ逃げたりしない。ここで、つながりを正す。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_intro_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "b6c8bc14dcb0e79b4a4e908d6dfbf2a1e4aab58757e5917b3636ae6fe9da5dbe",
+   "runtime_sha256": "0a10dbbf09cb0e731e41aec7257f2135a0f5a0cd68f5c700823dc8bce92462ab"
+  },
+  {
+   "voice_id": "vo_story_ch03_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH03_MID_A_01"
+   ],
+   "ko": "거울 선로는 일행의 전투 기록을 복제해, 버린 선택까지 적으로 되돌리고 있었다.",
+   "ja": "鏡線路は一行の戦闘記録を複製し、捨てた選択までも、敵として送り返していた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "aac2674391a20eefa4e9ea66784fc86d5d3aca30c3522105a79a7558e8dae670",
+   "runtime_sha256": "c78db6fe9b386f01a8e72de9c01b633f08d7df29dba90542feea568936a03bac"
+  },
+  {
+   "voice_id": "vo_story_ch03_mid_a_02",
+   "speaker_key": "SPEAKER_NARIN",
+   "voice": "longchengtingtong",
+   "text_keys": [
+    "STORY_CH03_MID_A_02",
+    "STORY_CH04_MID_A_02",
+    "STORY_CH05_MID_A_02",
+    "STORY_CH06_MID_A_02",
+    "STORY_CH07_MID_A_02",
+    "STORY_CH08_MID_A_02",
+    "STORY_CH09_MID_A_02",
+    "STORY_CH10_MID_A_02",
+    "STORY_CH11_MID_A_02",
+    "STORY_CH12_MID_A_02",
+    "STORY_CH13_MID_A_02",
+    "STORY_CH14_MID_A_02",
+    "STORY_CH15_MID_A_02",
+    "STORY_CH16_MID_A_02",
+    "STORY_CH17_MID_A_02",
+    "STORY_CH18_MID_A_02",
+    "STORY_CH19_MID_A_02",
+    "STORY_CH20_MID_A_02"
+   ],
+   "ko": "단순한 고장이 아니야. 누군가의 선택을 규칙으로 굳힌 장치야.",
+   "ja": "ただの故障じゃない。誰かの選択を、規則として固めてしまった装置よ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_mid_a_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "6b7041f870deee9b29f3cfbfbb5f6eabfb6d8bb08f2b4eafc01352d49853f775",
+   "runtime_sha256": "5d1c5f343be361ee82c15a945f53836dec8eb0953f30a2ff03f659a78c4712b1"
+  },
+  {
+   "voice_id": "vo_story_ch03_mid_a_03",
+   "speaker_key": "SPEAKER_NARIN",
+   "voice": "longchengtingtong",
+   "text_keys": [
+    "STORY_CH03_MID_A_03",
+    "STORY_CH04_MID_A_03",
+    "STORY_CH05_MID_A_03",
+    "STORY_CH06_MID_A_03",
+    "STORY_CH07_MID_A_03",
+    "STORY_CH08_MID_A_03",
+    "STORY_CH09_MID_A_03",
+    "STORY_CH10_MID_A_03",
+    "STORY_CH11_MID_A_03",
+    "STORY_CH12_MID_A_03",
+    "STORY_CH13_MID_A_03",
+    "STORY_CH14_MID_A_03",
+    "STORY_CH15_MID_A_03",
+    "STORY_CH16_MID_A_03",
+    "STORY_CH17_MID_A_03",
+    "STORY_CH18_MID_A_03",
+    "STORY_CH19_MID_A_03",
+    "STORY_CH20_MID_A_03"
+   ],
+   "ko": "그 규칙이 누구를 지우는지 확인했어. 다음 접촉에서 증거를 확보한다.",
+   "ja": "その規則が誰を消しているのか、確かめた。次の接触で、証拠を押さえる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_mid_a_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "2d78e09568ea70e857d0741396b3a14d384ccc89cd12f0386015cde834e39cee",
+   "runtime_sha256": "03e3dea69974bdde696203820962e82284f6ce90a1077c13b8235559cef65713"
+  },
+  {
+   "voice_id": "vo_story_ch03_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH03_MID_B_01"
+   ],
+   "ko": "토아는 복제 신호 사이의 반 박자 지연을 찾아 진짜 열차에만 중계 표식을 새겼다.",
+   "ja": "トアは、複製信号のあいだにある半拍の遅れを見つけ、本物の列車にだけ、中継標識を刻んだ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "f95ad5c04826485de6fa07b0e52332816643409c95a12cb16b9e577fbfb95746",
+   "runtime_sha256": "4f3be8d83dd88ff001e6402cfca17c785bfe30098ca5a7cf1f50f3024e6980ea"
+  },
+  {
+   "voice_id": "vo_story_ch03_mid_b_02",
+   "speaker_key": "CHAR_TOA_NAME",
+   "voice": "longlinxinghong",
+   "text_keys": [
+    "STORY_CH03_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "918cd88e3fdb24b0376cebdb9ef517ec3b797c31ab4290cfd804b2b2717db67d",
+   "runtime_sha256": "d3620d3a792b57e4442448c3bc32b5a9af0aadf195fab23fe1a0600d3234c0d9"
+  },
+  {
+   "voice_id": "vo_story_ch03_mid_b_03",
+   "speaker_key": "CHAR_TOA_NAME",
+   "voice": "longlinxinghong",
+   "text_keys": [
+    "STORY_CH03_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "ac1d5fd3b060bdf99a21f587bd56b7269dda0c784908c95222bf0fa57f4e968b",
+   "runtime_sha256": "2b848e370bfde29857693c0a52b48bfe474b5c10c5112612d46a7d2231f4514f"
+  },
+  {
+   "voice_id": "vo_story_ch03_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH03_OUTRO_01"
+   ],
+   "ko": "거울이 깨지자 수몰 신호원에서 오래된 구조 호출이 실제 음성으로 돌아왔다.",
+   "ja": "鏡が砕けると、水没信号所から、古い救助の呼びかけが、本物の声となって戻ってきた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "01d54b61b10fd19cf2069497867eff85af24418975096bf26b8743ea5383fb23",
+   "runtime_sha256": "64053716dc40b8da5fe58eed862c2512caa837ac811073e489269c49df020264"
+  },
+  {
+   "voice_id": "vo_story_ch03_outro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH03_OUTRO_02",
+    "STORY_CH04_OUTRO_02",
+    "STORY_CH05_OUTRO_02",
+    "STORY_CH06_OUTRO_02",
+    "STORY_CH07_OUTRO_02",
+    "STORY_CH08_OUTRO_02",
+    "STORY_CH09_OUTRO_02",
+    "STORY_CH10_OUTRO_02",
+    "STORY_CH11_OUTRO_02",
+    "STORY_CH12_OUTRO_02",
+    "STORY_CH13_OUTRO_02",
+    "STORY_CH14_OUTRO_02",
+    "STORY_CH15_OUTRO_02",
+    "STORY_CH16_OUTRO_02",
+    "STORY_CH17_OUTRO_02",
+    "STORY_CH18_OUTRO_02",
+    "STORY_CH19_OUTRO_02",
+    "STORY_CH20_OUTRO_02"
+   ],
+   "ko": "함께 싸운 이유를 이제 내 기록으로 남길게. 다음 노선에서도 이 선택을 지키겠다.",
+   "ja": "一緒に戦った理由を、これから私の記録に残す。次の路線でも、この選択を守り抜く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_outro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "bdd4ee8a58d6cb988e6a8ecb3e46b3e35a3d27ad14c1d89bc0b1870b73225d80",
+   "runtime_sha256": "dbafbf4459e2ad5a28b0b6cb3264eb5c4f848c8c127f029365816224973a0aef"
+  },
+  {
+   "voice_id": "vo_story_ch03_outro_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH03_OUTRO_03",
+    "STORY_CH04_OUTRO_03",
+    "STORY_CH05_OUTRO_03",
+    "STORY_CH06_OUTRO_03",
+    "STORY_CH07_OUTRO_03",
+    "STORY_CH08_OUTRO_03",
+    "STORY_CH09_OUTRO_03",
+    "STORY_CH10_OUTRO_03",
+    "STORY_CH11_OUTRO_03",
+    "STORY_CH12_OUTRO_03",
+    "STORY_CH13_OUTRO_03",
+    "STORY_CH14_OUTRO_03",
+    "STORY_CH15_OUTRO_03",
+    "STORY_CH16_OUTRO_03",
+    "STORY_CH17_OUTRO_03",
+    "STORY_CH18_OUTRO_03",
+    "STORY_CH19_OUTRO_03",
+    "STORY_CH20_OUTRO_03"
+   ],
+   "ko": "한 장의 결말이 다음 장의 원인이 됐어. 남은 신호를 따라 출발한다.",
+   "ja": "ひとつの章の結末が、次の章の原因になった。残された信号を追って、出発する。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_outro_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "ac51ac94685be91754d63cfe7e6adbd28c165d2790eb32cabc713a69c00fb070",
+   "runtime_sha256": "dca9aaacdd8c6070d84131dd341e44af98b79198896db1714cc72e3326d8d67f"
+  },
+  {
+   "voice_id": "vo_story_ch03_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH03_OUTRO_INTERLUDE"
+   ],
+   "ko": "토아는 호출 속 서명이 자기 송신이 아니라 거울 선로가 복제한 진짜 열차 표식임을 확인하고 침수 노선으로 향한다.",
+   "ja": "トアは、呼びかけの署名が自分の送信ではなく、鏡線路が複製した本物の列車の標識だと確かめ、浸水路線へ向かう。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "1fef28e91b73c1fafbe63a5d88058d64d736e1f95b3522a09a0917ee2e9cd8ca",
+   "runtime_sha256": "9cbb3ae6c8791f0e161f47c94b38fdfd68fae0fa903d6ea50e7964250523e2e9"
+  },
+  {
+   "voice_id": "vo_story_ch03_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH03_PREBOSS_01"
+   ],
+   "ko": "유리원수는 복제체가 아니라 평원 전체를 하나의 거울로 접는 제어자였다.",
+   "ja": "硝子の元帥は複製体ではなく、平原そのものを一枚の鏡へと折りたたむ、制御者だった。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "66fd87e2efb51057f465756ee6830b4bdd0c9b4efad4e48453ac6784f2c689f1",
+   "runtime_sha256": "5948a1855fd3c8311bae5baaed7f165f30cc3bcbf2153d0833a20ca269c5d7ef"
+  },
+  {
+   "voice_id": "vo_story_ch03_preboss_02",
+   "speaker_key": "CHAR_TOA_NAME",
+   "voice": "longlinxinghong",
+   "text_keys": [
+    "STORY_CH03_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "a95549452cb0f74a3c1c2294deda0f5865d33f4ce1aa5185963719a2b61635ed",
+   "runtime_sha256": "0bffabb45f6a74d761e0f1d246895b1b48a5b07892b9d521d2d5632f567cf3c9"
+  },
+  {
+   "voice_id": "vo_story_ch03_preboss_03",
+   "speaker_key": "CHAR_TOA_NAME",
+   "voice": "longlinxinghong",
+   "text_keys": [
+    "STORY_CH03_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch03_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "03df4406cd3766be65d2698ebbf2ac398bd9bc2a8da66ba24425c8b5decc607d",
+   "runtime_sha256": "c8db92956f70c69be0ad7b25ec51c67a24e388f9b3f633cc47f2c4376ff1f681"
+  },
+  {
+   "voice_id": "vo_story_ch04_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH04_INTRO_01"
+   ],
+   "ko": "토아가 보낸 적 없는 구조 호출은 거울 선로가 복제한 열차 표식을 수신 경로로 삼아 물 아래 신호원에서 반복되고 있었다.",
+   "ja": "トアが送ったことのない救助の呼びかけは、鏡線路が複製した列車の標識を受信経路にして、水の底の信号所で繰り返されていた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch04_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "fd62f63a28c7daf45f4eebb248df2e518d2fa51bea81f8862700fc935cb78edf",
+   "runtime_sha256": "c66f1bbb67446ed4d36d0d61599ecf5b3da3444ef0e1335bca0829a6a8e35711"
+  },
+  {
+   "voice_id": "vo_story_ch04_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH04_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 수몰 신호소의 거짓 구조음을 추적한다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、水没信号所の偽りの救助音を追跡すること。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch04_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "b7da13b5f58a527469f6a6c1d0154b6d0830baaa195fcbb0f6c88446e4a0eea1",
+   "runtime_sha256": "c963325c4c5c58a7605f0fe0da0a21bd6224536ed55c0184b4ac82b418ad50a5"
+  },
+  {
+   "voice_id": "vo_story_ch04_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH04_MID_A_01"
+   ],
+   "ko": "호출은 생존자가 아니라 폐쇄 당시 구조를 포기했던 관제 기록이 만든 죄책감의 루프였다.",
+   "ja": "呼びかけの主は、生存者ではなかった。閉鎖当時、救助を諦めた管制記録が生み出した、罪悪感のループだった。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch04_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "14d3301e2835f7a501e5d1b1154f4ea712c7b08409b19cc92ed3d5297992f905",
+   "runtime_sha256": "9de84a9ef1efea02759fd5b548dbea6bd4b1b4d0ec88d79696b94ec039f54b0c"
+  },
+  {
+   "voice_id": "vo_story_ch04_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH04_MID_B_01"
+   ],
+   "ko": "리브는 잠수 갑문을 몸으로 고정해 기록과 현재의 생존 통로를 동시에 열었다.",
+   "ja": "リヴは潜水水門を身体で固定し、記録と現在、両方の生存通路を同時に開いた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch04_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "5182c282dfe5fa2dc8d2f71121e4e6d2f48c0736e9fe431ed18133b83779a0c2",
+   "runtime_sha256": "aceb6f5bf40d65e554853bb8823d03ef922e36719144cc5158a6269e068600cd"
+  },
+  {
+   "voice_id": "vo_story_ch04_mid_b_02",
+   "speaker_key": "CHAR_LIV_NAME",
+   "voice": "longxuanzhengju",
+   "text_keys": [
+    "STORY_CH04_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch04_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "222b1224736cfc8a855c4f1cef7eb4c8b3b9c45df8451fd8b0740316c8fccff0",
+   "runtime_sha256": "23cbe278de41c6637287c61aabfc969a8a7c6f7961719e959f3f4e502a6caca7"
+  },
+  {
+   "voice_id": "vo_story_ch04_mid_b_03",
+   "speaker_key": "CHAR_LIV_NAME",
+   "voice": "longxuanzhengju",
+   "text_keys": [
+    "STORY_CH04_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch04_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "0cc5edb4978b7c5269b0bae86d202a30f52631783e3ec5750479ae53ffefe6a8",
+   "runtime_sha256": "7f005e96e57afe5f72dab6510ba000674716d225d129e9ba3afdbaef3030c17c"
+  },
+  {
+   "voice_id": "vo_story_ch04_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH04_OUTRO_01"
+   ],
+   "ko": "구조 기록을 복원하자 마지막 수신처가 회백도시의 봉쇄 관제소로 드러났다.",
+   "ja": "救助記録を復元すると、最後の受信先が、灰白都市の封鎖管制所だと明らかになった。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch04_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "05f8c331dbdcd72db846c19af47491647cc3ce8f157df933c3355936efe8861d",
+   "runtime_sha256": "22d270870c1fb28bd63141bddf95390d66e96dd9377f1a63584e3e9f02769f29"
+  },
+  {
+   "voice_id": "vo_story_ch04_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH04_OUTRO_INTERLUDE"
+   ],
+   "ko": "리브는 뒤늦은 구조라도 끝까지 전달하겠다며 회백도시행 선두에 선다.",
+   "ja": "リヴは、遅すぎた救助でも最後まで届けると言って、灰白都市行きの先頭に立つ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch04_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "beb99a4d8558c904c644b93a50b3e676c36b5ff8fddf6f5cefa6351519a092d8",
+   "runtime_sha256": "e31efc5da2f37f15f184ca6b2405f5fe343c1cb260bd4f31f52ecfff91d97085"
+  },
+  {
+   "voice_id": "vo_story_ch04_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH04_PREBOSS_01"
+   ],
+   "ko": "조수 전환장은 수위를 올려 호출을 지우려 하고, 잠긴 승강장을 전장으로 뒤집는다.",
+   "ja": "潮汐転換場は水位を上げて呼びかけを消し去ろうとし、沈んだホームを、戦場へとひっくり返す。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch04_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "b5688ec4de449e4dd21f112f6d54fedbf19481a3e87ed715eb56d48c197f2357",
+   "runtime_sha256": "0692bc0d6145cfdf99cf09524ec60970be7c5d0526c4ca269f7c6b711d56b75c"
+  },
+  {
+   "voice_id": "vo_story_ch04_preboss_02",
+   "speaker_key": "CHAR_LIV_NAME",
+   "voice": "longxuanzhengju",
+   "text_keys": [
+    "STORY_CH04_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch04_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "b2b71fdbe95deb66575537f1d58b83b2fe4cf778f542aa7fd42c0bd3f2a587a5",
+   "runtime_sha256": "1b62f190dd9e99a7b3936165d607eb8903b0d6b573121fe13041b3c35c3e38cf"
+  },
+  {
+   "voice_id": "vo_story_ch04_preboss_03",
+   "speaker_key": "CHAR_LIV_NAME",
+   "voice": "longxuanzhengju",
+   "text_keys": [
+    "STORY_CH04_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch04_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "e5a4b6d9a2cece84f22ba074ef7168c51dc9f5f204029dd64b800953452be5ab",
+   "runtime_sha256": "2083e75163a86340708d840b3e63de2c32a42826cf99a4fbc273e5004bd20ce6"
+  },
+  {
+   "voice_id": "vo_story_ch05_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH05_INTRO_01"
+   ],
+   "ko": "수몰 신호원의 마지막 수신처는 회백도시 안쪽에서 아직 문을 두드리고 있었다.",
+   "ja": "水没信号所の最後の受信先は、灰白都市の奥で、今も扉を叩き続けていた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch05_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "83b6a09928d48e19664715dcc9be3837f9ab7bf4a9fe1b379e543a98187d26fd",
+   "runtime_sha256": "e4ea2b11e698f124008de3f3b57bf20e5e2677b15d1cc4a5f62a0aa9def12bc9"
+  },
+  {
+   "voice_id": "vo_story_ch05_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH05_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 봉쇄된 도시의 생존 회랑을 연다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、封鎖された都市の生存回廊を開くこと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch05_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "949780f7344a59657af0fee73509a7cc404091e881821d26f3a1c0770e910d5b",
+   "runtime_sha256": "4879b740d78249cb512e09b25211bc692bf57e61ba6156a3075c5c4fe54d7916"
+  },
+  {
+   "voice_id": "vo_story_ch05_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH05_MID_A_01"
+   ],
+   "ko": "봉쇄선은 감염을 막은 것이 아니라 도시 밖으로 증언이 나가는 것을 막고 있었다.",
+   "ja": "封鎖線が防いでいたのは、感染ではない。都市の外へ、証言が漏れ出すことだった。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch05_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "b83240aea8db2e8569aa2d778b921cc703a760d8237076ec14a771d37c9da907",
+   "runtime_sha256": "c926c072f3b181fe6e679a3acf5afe0a0f9e29a47956bb46afd6a0e7abf8bc2f"
+  },
+  {
+   "voice_id": "vo_story_ch05_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH05_MID_B_01"
+   ],
+   "ko": "세온은 폐기된 의료 명부를 복원해 생존자 구역과 안전한 회랑을 정확히 구분했다.",
+   "ja": "セオンは廃棄された医療名簿を復元し、生存者区域と安全な回廊を、正確に切り分けた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch05_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "cc8ba48b0f2e7c7ec62efd043ab094c181b3258566e33ce25f810ad31033dd95",
+   "runtime_sha256": "cab124631227794a630820a5261a4c206bfd39bc6b171112bf41c2466bbcf619"
+  },
+  {
+   "voice_id": "vo_story_ch05_mid_b_02",
+   "speaker_key": "CHAR_SEON_NAME",
+   "voice": "longchezhuyu",
+   "text_keys": [
+    "STORY_CH05_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch05_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "fd733f3fb96dff6aa580829411c5508d5448afcc217e454d65b063492de19981",
+   "runtime_sha256": "7c7b279e3c2a81337c037087536d712ee56ba1c16e6b7c0ca3f0cddca2e3c033"
+  },
+  {
+   "voice_id": "vo_story_ch05_mid_b_03",
+   "speaker_key": "CHAR_SEON_NAME",
+   "voice": "longchezhuyu",
+   "text_keys": [
+    "STORY_CH05_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch05_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "849e27c81c16673fb13252084d2b2685f848bcca57779d248ad122d7fe9dee42",
+   "runtime_sha256": "a449018f53e70f74a4c40a335301a700e850d4216d032742f95d656e9c759193"
+  },
+  {
+   "voice_id": "vo_story_ch05_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH05_OUTRO_01"
+   ],
+   "ko": "도시의 문이 열리자 피난 열차 전력은 하늘교량의 폭풍 제어소로 우회한다.",
+   "ja": "都市の扉が開くと、避難列車の電力は、空中橋梁の嵐制御所へと迂回する。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch05_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "1e36b5c0b89e7f4d885f5f73be97c3bf84735e93663dfa2fdad471946b0808d9",
+   "runtime_sha256": "489fb0d9a6023efb74dc5eb963e327c8665ae03756ac7b72d84167558146504b"
+  },
+  {
+   "voice_id": "vo_story_ch05_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH05_OUTRO_INTERLUDE"
+   ],
+   "ko": "세온은 환자 수송을 지키기 위해 등로단의 정식 후방 의료관으로 남는다.",
+   "ja": "セオンは患者の搬送を守るため、灯路団の正式な後方医療官として残る。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch05_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "ec413708288ae241f353bd5a6ebc08fd6cdb799f5f5fb1b1d9c437a0ba19de7e",
+   "runtime_sha256": "95870c9a44dc667747040686cf8c37f86b7a2dc19dd42da576df3f61c4007d27"
+  },
+  {
+   "voice_id": "vo_story_ch05_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH05_PREBOSS_01"
+   ],
+   "ko": "재의 성채는 생존자 수를 위협도로 환산해 회랑 자체를 포격 목표로 지정한다.",
+   "ja": "灰の城砦は、生存者の数を脅威度に換算し、回廊そのものを砲撃目標に指定する。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch05_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "3eba4dcf84e245f83d668a4eefa3f5aec58293c4b0b10b9ba96002687a25225f",
+   "runtime_sha256": "39f2c45512fae8e6d97da8e838f19d36dda513d13069c5e8a0da22092a2b8bda"
+  },
+  {
+   "voice_id": "vo_story_ch05_preboss_02",
+   "speaker_key": "CHAR_SEON_NAME",
+   "voice": "longchezhuyu",
+   "text_keys": [
+    "STORY_CH05_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch05_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "6face536bdd0e488ddc1e7c89ea2540bb1aef87d1ffc4a2f29f00d1e8a4debbf",
+   "runtime_sha256": "f4f51fb81b7095499bf00726842266f74c6592d425fdc397485b74c4414c0679"
+  },
+  {
+   "voice_id": "vo_story_ch05_preboss_03",
+   "speaker_key": "CHAR_SEON_NAME",
+   "voice": "longchezhuyu",
+   "text_keys": [
+    "STORY_CH05_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch05_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "56f6e96e71cb2f432ed8428f991375ff64f727f463f6029973b9d3cbdd0b4a32",
+   "runtime_sha256": "bfef48df5d22f3e3287a0a6322b6515cbe975db40f7d694921ec3992933dab64"
+  },
+  {
+   "voice_id": "vo_story_ch06_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH06_INTRO_01"
+   ],
+   "ko": "회백도시의 피난 전력은 끊어진 하늘교량에서 폭풍과 함께 새고 있었다.",
+   "ja": "灰白都市の避難電力は、途切れた空中橋梁から、嵐とともに漏れ出していた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch06_intro_01.ogg",
+   "source_take": "take2",
+   "source_sha256": "32dcaf5c9c4e6745249949a905a125bebf8d57b1575a0bd04931e4d1df836b30",
+   "runtime_sha256": "ce198064f863a8a5a6504c18eaa81623b5f2ccf3575d3d59ae01d1ce1acd07dc"
+  },
+  {
+   "voice_id": "vo_story_ch06_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH06_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 부유 교량의 낙뢰 제어권을 되찾는다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、浮遊橋梁の落雷制御権を取り戻すこと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch06_intro_02.ogg",
+   "source_take": "take2",
+   "source_sha256": "7f265c266791b2b86f8a0c3170fba1237199f83833e529485cd7adde69c69710",
+   "runtime_sha256": "1461704fc45cc76ccd8265cc88ee7c2459e4901760e7f9a594a70a78d4b72dff"
+  },
+  {
+   "voice_id": "vo_story_ch06_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH06_MID_A_01"
+   ],
+   "ko": "낙뢰는 자연현상이 아니라 다리를 건넌 사람의 수를 세는 오래된 통행세였다.",
+   "ja": "落雷は、自然現象ではなかった。橋を渡った人の数を数える、古い通行税だった。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch06_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "82b4deb2c0ace126f98a62e957ed21b3e2cede28b83cffa2a66504be4d55b39e",
+   "runtime_sha256": "bf92db9cf5394a1200d5f367f52705e72c084a383cc0c3997dc69c7e108a22fc"
+  },
+  {
+   "voice_id": "vo_story_ch06_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH06_MID_B_01"
+   ],
+   "ko": "아델린은 포격 좌표를 번개 기둥에 겹쳐 피난 열차가 지날 단 한 번의 무풍 구간을 만든다.",
+   "ja": "アデリンは砲撃座標を稲妻の柱に重ね、避難列車が通り抜けるための、たった一度の無風区間を作り出す。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch06_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "fbf8689461f09474a3413e103703315ab6f532b26faa24835835c9bb3a6c68d1",
+   "runtime_sha256": "32dc734bcf23839985f66ebcf28279238bf9af1265c9b7644d580a2807c06d5d"
+  },
+  {
+   "voice_id": "vo_story_ch06_mid_b_02",
+   "speaker_key": "CHAR_ADELINE_NAME",
+   "voice": "longyingshiyu",
+   "text_keys": [
+    "STORY_CH06_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch06_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "8326ea5bdfdacb10cf72783c2e138035f1f8af7a36b776df113efabc12f51fc3",
+   "runtime_sha256": "7fd5305bd8bec0142eccd08d02a7396e1bbbc0d9864d4e9cd5a4283297bbdaa4"
+  },
+  {
+   "voice_id": "vo_story_ch06_mid_b_03",
+   "speaker_key": "CHAR_ADELINE_NAME",
+   "voice": "longyingshiyu",
+   "text_keys": [
+    "STORY_CH06_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch06_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "41762b121e60f7eefd666247e043ba9be88a09f7b6b3cc5c001d8cd1f67f5e24",
+   "runtime_sha256": "d2c0c25f60ed3658376983ed1ea55faa576f29234dec2bdde09a30779d973763"
+  },
+  {
+   "voice_id": "vo_story_ch06_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH06_OUTRO_01"
+   ],
+   "ko": "교량을 고정한 뒤 북쪽 설원에서 같은 계수 명령을 반복하는 방송이 포착된다.",
+   "ja": "橋梁を固定したあと、北の雪原から、同じ計数命令を繰り返す放送が捉えられる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch06_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "bd7320f0dd9d0d0dc11d1db537202f287926191a2f1df2d3729fc5e9b21204af",
+   "runtime_sha256": "999d55a11e17cfda05e4340fd9e66d538458438b63cae88fd486a8f912ad89cf"
+  },
+  {
+   "voice_id": "vo_story_ch06_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH06_OUTRO_INTERLUDE"
+   ],
+   "ko": "아델린은 포대보다 정확한 것은 사람의 귀라며 설원 신호 추적에 합류한다.",
+   "ja": "アデリンは、砲台より正確なのは人の耳だと言い、雪原の信号追跡に加わる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch06_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "d567a88eed59feaf303392a55b16ae867b82eb614bc39c5f3ca79a4be564eef7",
+   "runtime_sha256": "23db5489f795e6d068766daf0fda0cd6599f57d8b57481209795f1a7520f0cf8"
+  },
+  {
+   "voice_id": "vo_story_ch06_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH06_PREBOSS_01"
+   ],
+   "ko": "전압 집정관은 통행자를 지우면 부하가 사라진다는 계산으로 교량을 통째로 낙하시킨다.",
+   "ja": "電圧執政官は、通行者を消せば負荷も消えるという計算のもと、橋梁ごと落下させる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch06_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "289938739c782f6d6c5ab8efe73daf035dc8b4fbd650b2951ed2257c4a2eed21",
+   "runtime_sha256": "4131fd5aa9228bcd4dea35f21b078c351a0f190ceaa6e393641fa02ea8987489"
+  },
+  {
+   "voice_id": "vo_story_ch06_preboss_02",
+   "speaker_key": "CHAR_ADELINE_NAME",
+   "voice": "longyingshiyu",
+   "text_keys": [
+    "STORY_CH06_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch06_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "048f854153058918bd9ed8995c2a8bdf6f62ff12b5e3fa52cae158a9a3e83ab3",
+   "runtime_sha256": "9bcae081b9bf062f9cd1a070ce81dab3042eff8fe0b2e1131dc6332e1719950b"
+  },
+  {
+   "voice_id": "vo_story_ch06_preboss_03",
+   "speaker_key": "CHAR_ADELINE_NAME",
+   "voice": "longyingshiyu",
+   "text_keys": [
+    "STORY_CH06_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch06_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "9dfa5793fa30afed02b1bbb66af359c91bb4cd53ef01eaefb66892ccffbf2961",
+   "runtime_sha256": "1ec123275ab79304f1d4b22cdd9ca6bed02bd62fdddef4a70f2df0ebc8de2cf5"
+  },
+  {
+   "voice_id": "vo_story_ch07_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH07_INTRO_01"
+   ],
+   "ko": "하늘교량의 계수 명령은 설원 아래 매몰된 방송국에서 계속 송출되고 있었다.",
+   "ja": "空中橋梁の計数命令は、雪原の下に埋もれた放送局から、送信され続けていた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch07_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "62fc9916045f20e853f45cea5f1a301fcabb68250abef68a2c7e6b8880ca6476",
+   "runtime_sha256": "539ffde9dbb229d2457d8abec8e9b84e402406a716155404e21099b8e0b72afc"
+  },
+  {
+   "voice_id": "vo_story_ch07_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH07_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 빙설 아래 계속되는 명령 방송을 끊는다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、氷雪の下で続く命令放送を断ち切ること。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch07_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "5e8e72241b8e9a26f980d4aa9b61a087dfbd4f62becb72e00203ebff3bf3a896",
+   "runtime_sha256": "a7b8d1ca96b9c55b0b26c1d1031f5d5862ff4e799c02cdd65dff1eed70d40714"
+  },
+  {
+   "voice_id": "vo_story_ch07_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH07_MID_A_01"
+   ],
+   "ko": "방송은 철수 명령이 아니라 구조대가 돌아오지 못하게 만드는 무한 대기 명령이었다.",
+   "ja": "その放送は、撤退命令ではなかった。救助隊を二度と戻れなくする、無限待機の命令だった。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch07_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "57c8077e6b7393010e3f2eff707a7d8cd0de5482a5be057e5cb3383a3ead458d",
+   "runtime_sha256": "214679b8045a6a1140c52081b9b142da08d2b04d07625a7ab9bf2f619e20746c"
+  },
+  {
+   "voice_id": "vo_story_ch07_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH07_MID_B_01"
+   ],
+   "ko": "키르는 눈보라 속 가짜 방향음을 잘라내고 매몰된 송신실까지 단일 주파수 길을 연다.",
+   "ja": "キルは吹雪の中の偽りの方向音を切り捨て、埋もれた送信室まで、ただひとつの周波数の道を開く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch07_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "819ee15746da2864ad865cfd946c7ee3da2bf84dc40a25c72f2b670762aca577",
+   "runtime_sha256": "34e80a9e795a884e1dc1f3f8542d68dc4a4a6e95991df9fb0524fd9d3af46197"
+  },
+  {
+   "voice_id": "vo_story_ch07_mid_b_02",
+   "speaker_key": "CHAR_KIR_NAME",
+   "voice": "longmolinglian",
+   "text_keys": [
+    "STORY_CH07_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch07_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "4215d24d66ede8626a96052a8374f3c04b7afd07f3ab2e48ac00a9079eb98c95",
+   "runtime_sha256": "f83b552ffb52b4f7e1b6e57fd0cc3fe7c854b7babd59e345661ec785a1f214ca"
+  },
+  {
+   "voice_id": "vo_story_ch07_mid_b_03",
+   "speaker_key": "CHAR_KIR_NAME",
+   "voice": "longmolinglian",
+   "text_keys": [
+    "STORY_CH07_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch07_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "e928e0b7d89f3ad15f40510e345711ad2e1f4bfd1eaaa1702e3d4da6784289ec",
+   "runtime_sha256": "a64008fdf65a63046020e719f9960b4b8b96a7354b1a2f5be3be0798dc82badb"
+  },
+  {
+   "voice_id": "vo_story_ch07_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH07_OUTRO_01"
+   ],
+   "ko": "방송을 끄자 추락 직전의 붉은 채굴환이 구조 채널을 빼앗아 긴급 신호를 보낸다.",
+   "ja": "放送を止めると、墜落寸前の赤い採掘環が救助チャンネルを奪い、緊急信号を送ってくる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch07_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "71baaa3e1cd1a356314cdd365f27d9c526dc953ec42f116cf6ce63d0e978fd32",
+   "runtime_sha256": "5e3d7083d2618c32a7772c21d614298dbd24eecf0b7605a696ff1da6564ca5eb"
+  },
+  {
+   "voice_id": "vo_story_ch07_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH07_OUTRO_INTERLUDE"
+   ],
+   "ko": "키르는 다시는 남의 명령만 기다리지 않겠다며 등로단의 신호 분석관이 된다.",
+   "ja": "キルは、もう二度と他人の命令だけを待ったりしないと言い、灯路団の信号分析官になる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch07_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "b003102a1fbbc0a1e964e8e5a56716e840502dcd765aaeaf3751082e4361cd9b",
+   "runtime_sha256": "7c02c843dd3a0676867b5a5ad7d9889f8987467e115d3ea8590a4f9f06fd5755"
+  },
+  {
+   "voice_id": "vo_story_ch07_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH07_PREBOSS_01"
+   ],
+   "ko": "서리 성가대장은 동료들의 목소리로 대기 명령을 합창해 편성 자체를 멈추려 한다.",
+   "ja": "霜の聖歌隊長は、仲間たちの声で待機命令を合唱し、編成そのものを止めようとする。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch07_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "f4ccbb64ff472684adb5364864979a7a44fd6a96bf5735e8b740d189fea9bfee",
+   "runtime_sha256": "48bcd22bf55b3edcadae5d7295240d56ee107d95ac014c774de08b99c4f39c44"
+  },
+  {
+   "voice_id": "vo_story_ch07_preboss_02",
+   "speaker_key": "CHAR_KIR_NAME",
+   "voice": "longmolinglian",
+   "text_keys": [
+    "STORY_CH07_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch07_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "30167f899b9c1f6920ccdb7b4b7d450f320a3e98ce9e7a90c768afc07361c48e",
+   "runtime_sha256": "3ad899821292af9fe07921900c81c4cd45a8e04d93f3b5742fb18d5314614269"
+  },
+  {
+   "voice_id": "vo_story_ch07_preboss_03",
+   "speaker_key": "CHAR_KIR_NAME",
+   "voice": "longmolinglian",
+   "text_keys": [
+    "STORY_CH07_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch07_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "ad26dbe491a1e6d8df7809b4d29b977b7ca6e1dc0cacd8e09dbd7ff82145368e",
+   "runtime_sha256": "1fc87b3c554c69809f0910680005f21613d4adadeaed94f4bd59b19e5eb5ace5"
+  },
+  {
+   "voice_id": "vo_story_ch08_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH08_INTRO_01"
+   ],
+   "ko": "설원에서 해방된 긴급 채널은 붉은 채굴환이 지상으로 추락할 시간을 세고 있었다.",
+   "ja": "雪原から解き放たれた緊急チャンネルは、赤い採掘環が地上へ墜ちるまでの時間を数えていた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch08_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "6e59753c59aa401c4ccb42df7c357a2c859cfb6f95e30b6259885df9e1d6d990",
+   "runtime_sha256": "21ed3c225ec0a25607d03fd14ec3d4a9077e8d3d94f7d5d4b92c53375eac481a"
+  },
+  {
+   "voice_id": "vo_story_ch08_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH08_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 폭주 채굴환의 낙하를 저지한다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、暴走する採掘環の落下を食い止めること。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch08_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "4e3f76530e1025badfc00fa8f8e6bf4655dd0ea4d8c42e85e49e16d8fde76098",
+   "runtime_sha256": "7e3bb5a4a4c546e89dea0e45fc30c46c7cb260307044f210a53dc76dd992e174"
+  },
+  {
+   "voice_id": "vo_story_ch08_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH08_MID_A_01"
+   ],
+   "ko": "채굴환은 광석이 아니라 기억을 연료로 태워 궤도를 유지해 왔다.",
+   "ja": "採掘環は鉱石ではなく、記憶を燃料として燃やし、軌道を保ってきた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch08_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "e032d2493693616c1c7b723d6d12a3134d7fbc459c0280974852b79c4716b92d",
+   "runtime_sha256": "d1c6c282745984f0a4c814e5988e0949090560598e9910db64001a1f2d75dcaf"
+  },
+  {
+   "voice_id": "vo_story_ch08_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH08_MID_B_01"
+   ],
+   "ko": "레마는 방패 코어를 환의 균형추에 연결해 일행이 내부 축으로 진입할 시간을 번다.",
+   "ja": "レマは盾のコアを採掘環の釣り合い錘につなぎ、一行が内部の軸へ突入するための時間を稼ぐ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch08_mid_b_01.ogg",
+   "source_take": "take2",
+   "source_sha256": "62e9d1521dba39375b1662decb2fce901b64ac37f6a5433ae7f72d2b1159961d",
+   "runtime_sha256": "61850b06e41d629a4c113cc3046a594908fde3013983c0078738cb7fa9014e38"
+  },
+  {
+   "voice_id": "vo_story_ch08_mid_b_02",
+   "speaker_key": "CHAR_REMA_NAME",
+   "voice": "longxinzhenghe",
+   "text_keys": [
+    "STORY_CH08_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch08_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "5e911f637bf03e9afba131d307e72c51c2cd23f779147ff6d191dda95c10b703",
+   "runtime_sha256": "ae2a270f54fa3b5db509aaa96df44dfc56d6478d660dd3612f3a096354f3c657"
+  },
+  {
+   "voice_id": "vo_story_ch08_mid_b_03",
+   "speaker_key": "CHAR_REMA_NAME",
+   "voice": "longxinzhenghe",
+   "text_keys": [
+    "STORY_CH08_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch08_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "b9e3225c1133bea92188e5068f4109e0f4873ca8bb5c01e33b0e293e430fe9cd",
+   "runtime_sha256": "28198f1fc6b5ff6e3e6524731aa6d726618e90e11e3023bfdd17d9574a109b63"
+  },
+  {
+   "voice_id": "vo_story_ch08_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH08_OUTRO_01"
+   ],
+   "ko": "환을 분리하자 회수된 기억들이 잠든 역무국의 자동 재판 기록을 지목한다.",
+   "ja": "環を切り離すと、回収された記憶たちが、眠れる駅務局の自動裁判記録を指し示す。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch08_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "86ee1004f731162efd51ad9e19daba383753ebb65b021546167205362c09ab3a",
+   "runtime_sha256": "3141632dfbdde65c5ceb85271a65eb12fa43438a3c7eeac210049c93ce64dfca"
+  },
+  {
+   "voice_id": "vo_story_ch08_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH08_OUTRO_INTERLUDE"
+   ],
+   "ko": "레마는 빚진 기억을 돌려주기 위해 판결 기록 회수 작전에 합류한다.",
+   "ja": "レマは借りた記憶を返すため、判決記録の回収作戦に加わる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch08_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "e4eb87b9a1969b8279e3cd8069fafb2acf92dae6f6509a4185bf44fff9f12d30",
+   "runtime_sha256": "d97b4aa145f178b2a24b02f86c29c3b3ea9ca6e1b2907982750fae192be7d3c5"
+  },
+  {
+   "voice_id": "vo_story_ch08_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH08_PREBOSS_01"
+   ],
+   "ko": "진홍 굴착기는 저장된 기억을 한꺼번에 분사해 추락 충격을 도시 쪽으로 돌린다.",
+   "ja": "真紅の掘削機は、蓄えた記憶を一気に噴射し、墜落の衝撃を都市の方へ逸らす。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch08_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "c412434d9149de3cddf58aa161593a3d3c00f514bd1a43ebea96b9fc81a426c6",
+   "runtime_sha256": "0a797a6510005dad4d9d6ba6e639518706a0eb78915eb648615d109e09dec9e2"
+  },
+  {
+   "voice_id": "vo_story_ch08_preboss_02",
+   "speaker_key": "CHAR_REMA_NAME",
+   "voice": "longxinzhenghe",
+   "text_keys": [
+    "STORY_CH08_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch08_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "94c0b5945a57f2d27fbed4cb8d1c2d3f61a8ad9aa996409b5d6dc790bed9cfa8",
+   "runtime_sha256": "644d5f6ba5b1d729cdc0a6540d5cfc94920c6fd8717ff6bf6034a677ce5558d3"
+  },
+  {
+   "voice_id": "vo_story_ch08_preboss_03",
+   "speaker_key": "CHAR_REMA_NAME",
+   "voice": "longxinzhenghe",
+   "text_keys": [
+    "STORY_CH08_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch08_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "804ca0616ab76c3daf3a603643b44c80040cc7462d45fc21568053dbcd4475da",
+   "runtime_sha256": "d39e95360b51c62a6083d4d99e002f449176677533ebb93fde48076b1f224353"
+  },
+  {
+   "voice_id": "vo_story_ch09_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH09_INTRO_01"
+   ],
+   "ko": "채굴환에서 돌아온 기억들은 잠든 역무국이 사람을 부재중으로 판결했다고 증언했다.",
+   "ja": "採掘環から戻った記憶たちは、眠れる駅務局が、人々を不在と判決したと証言した。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch09_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "f0087f0ca897f73c0515270640d4880807ab1304c986920dc5e5379e9cfc4e5a",
+   "runtime_sha256": "97d1bfe2d079b3ca6fc1db3ec62862c07d7e5bbed61b2a47b0269f1299fd8ac0"
+  },
+  {
+   "voice_id": "vo_story_ch09_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH09_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 잠든 관제국의 자동 재판을 무효화한다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、眠れる管制局の自動裁判を無効にすること。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch09_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "7d2d6d7a579287bb30869f848b6e78064c07bd3493f57f9be9c71d5329dacab7",
+   "runtime_sha256": "639ed8c3654327d4ba011c684db9428987ade26c6418582093afc18bf8bbfee8"
+  },
+  {
+   "voice_id": "vo_story_ch09_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH09_MID_A_01"
+   ],
+   "ko": "자동 재판은 죄를 묻지 않고, 미래에 노선을 방해할 가능성만 계산하고 있었다.",
+   "ja": "自動裁判は罪を問わず、ただ、未来に路線を妨げる可能性だけを計算していた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch09_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "5fe96f6bc883686ec8fb208e2846cdbc8b51d6f7c1d7cbf1f6695e43793c6307",
+   "runtime_sha256": "cb95fec7e7bde3bc279c829ff57f7eb837fa3ca17e6467e084089d9502900385"
+  },
+  {
+   "voice_id": "vo_story_ch09_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH09_MID_B_01"
+   ],
+   "ko": "베온은 자기 이름으로 모든 미결 사건을 인계받아 동료들의 판결을 한곳으로 끌어모은다.",
+   "ja": "ベオンは自分の名前で、すべての未決事件を引き継ぎ、仲間たちの判決を一か所へ集める。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch09_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "fa096ede720f60cc024ca7305b5896f5fdee1c8883bce2f8f554a04ce2c95db5",
+   "runtime_sha256": "96618b694426d9c621c9deb15c9559835859ccdecf50821b3db764ba5cdeb225"
+  },
+  {
+   "voice_id": "vo_story_ch09_mid_b_02",
+   "speaker_key": "CHAR_VEON_NAME",
+   "voice": "longyilanni",
+   "text_keys": [
+    "STORY_CH09_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch09_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "802365d69585b67d51a94f343169af0aab7cd83dedf5b7baa1ab65ec7379eb0b",
+   "runtime_sha256": "7917adda89f0965195ab9ee6d2ca50aac986b70e7bf287a2e627b44b029af6ab"
+  },
+  {
+   "voice_id": "vo_story_ch09_mid_b_03",
+   "speaker_key": "CHAR_VEON_NAME",
+   "voice": "longyilanni",
+   "text_keys": [
+    "STORY_CH09_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch09_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "98cd48ed9a4d764422233918b2145fdc055a3f6906b0bac1ed0bbcd7b7be010c",
+   "runtime_sha256": "6ddf7618ac0a7b36dd425f59351cfb656847484f4d35dfbe3d47ab56b763c9cf"
+  },
+  {
+   "voice_id": "vo_story_ch09_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH09_OUTRO_01"
+   ],
+   "ko": "재판을 무효화하자 판결 시각이 두 개의 달력선으로 갈라져 쌍월 환승로를 만든다.",
+   "ja": "裁判を無効にすると、判決時刻がふたつの暦線に分かれ、双月乗換路が生まれる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch09_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "d188fba589164802e3c7e482056bd4ed3ac08e1e288f4b9708286f59cd137677",
+   "runtime_sha256": "be980656176c6534d5c9027f496db0211561e528e243f487cb600bf9976c072a"
+  },
+  {
+   "voice_id": "vo_story_ch09_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH09_OUTRO_INTERLUDE"
+   ],
+   "ko": "베온은 누구도 혼자 모든 판결을 짊어지지 않도록 등로단의 돌격선에 선다.",
+   "ja": "ベオンは、誰ひとりすべての判決をひとりで背負わずに済むよう、灯路団の突撃線に立つ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch09_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "b51445428377ac9ae47076808c367d963479298a4deec65c1d8b9eca670961cc",
+   "runtime_sha256": "652301ed923ec8b3471412381b278be81f098ee0c00e72542bd1701834dced5e"
+  },
+  {
+   "voice_id": "vo_story_ch09_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH09_PREBOSS_01"
+   ],
+   "ko": "꿈의 집행관은 유죄 판결을 현실의 상처로 바꾸며 베온의 희생을 확정하려 한다.",
+   "ja": "夢の執行官は有罪判決を現実の傷に変え、ベオンの犠牲を確定させようとする。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch09_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "123b4f61fc2c4031080c07d5bfc33f294cf03290bf062fdf52c93140a3e43cdc",
+   "runtime_sha256": "c67f9ae0a84c26836de93001c0a35827c766d341ef0d17fd13656dd638a25660"
+  },
+  {
+   "voice_id": "vo_story_ch09_preboss_02",
+   "speaker_key": "CHAR_VEON_NAME",
+   "voice": "longyilanni",
+   "text_keys": [
+    "STORY_CH09_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch09_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "a9dfa581977b3dda23e00514b6ac05a55a3b6545d1204b8668e4379ff0396252",
+   "runtime_sha256": "399b6268e8fca5cd7539be04a5070ef2800d88a0f4930887d48b7526aff527c0"
+  },
+  {
+   "voice_id": "vo_story_ch09_preboss_03",
+   "speaker_key": "CHAR_VEON_NAME",
+   "voice": "longyilanni",
+   "text_keys": [
+    "STORY_CH09_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch09_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "61fc4f0169a609d596e166fc0de2408eceb627d3759ff22cc6fd57bad0d1ae9b",
+   "runtime_sha256": "16fa52c7cd20d15492b8f20fe7ee8bd092332508de4228db03d202205ff02f1d"
+  },
+  {
+   "voice_id": "vo_story_ch10_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH10_INTRO_01"
+   ],
+   "ko": "무효가 된 판결 시각은 서로 다른 두 달을 만들어 같은 열차를 두 번 호출했다.",
+   "ja": "無効になった判決時刻は、異なるふたつの月を生み、同じ列車を二度呼び出した。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch10_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "16cea26ee9a1daea103b01cecff7c9163733554c3c64091dfed0568d4a332763",
+   "runtime_sha256": "b47f7c519210347180365910f9ea190e36960cc97acbf9fb47a0b1c9f68faab0"
+  },
+  {
+   "voice_id": "vo_story_ch10_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH10_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 두 개의 달력선이 충돌하기 전 분리한다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、ふたつの暦線が衝突する前に、切り離すこと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch10_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "4f1a2f187fc74b6e74e01b484a098a5f024534cab24295c98c05c5a705fec7ea",
+   "runtime_sha256": "dc4fb46a4d634371c5139d26adf1d03ccb9e9dbcd5edaf5a8124634816b6dde7"
+  },
+  {
+   "voice_id": "vo_story_ch10_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH10_MID_A_01"
+   ],
+   "ko": "두 시간표가 충돌하면 한쪽 승객의 현재가 통째로 삭제된다.",
+   "ja": "ふたつの時刻表が衝突すれば、片方の乗客の今が、まるごと消去される。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch10_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "d1ce819ca2b5f2d6fedde624d6832b00b469a51eda84977ab6b2b4a334041a79",
+   "runtime_sha256": "e9ab94197520a8dcea799865fd42fcf1388b4cd7a39146778fc5d63124e53946"
+  },
+  {
+   "voice_id": "vo_story_ch10_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH10_MID_B_01"
+   ],
+   "ko": "하르트는 포탄의 비행 시간을 기준 시계로 삼아 두 노선의 오차를 초 단위로 고정한다.",
+   "ja": "ハルトは砲弾の飛行時間を基準の時計にして、ふたつの路線のずれを、秒単位で固定する。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch10_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "a8ad19c1e12f29b68be281e10063a60e9e342c95ad14fc3c1b041817dcb71b1c",
+   "runtime_sha256": "26c5fda56ffc4eadd5df7742a1165c2bdf80c030727bbd2eaa6f8877faf4bf71"
+  },
+  {
+   "voice_id": "vo_story_ch10_mid_b_02",
+   "speaker_key": "CHAR_HART_NAME",
+   "voice": "longfengyueyao",
+   "text_keys": [
+    "STORY_CH10_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch10_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "351fa13936ffb32fd3482748d5f14cf4fcf33c6c4c7acda44e6539d7e31004b6",
+   "runtime_sha256": "44298ce3059f32e4251a6b9e2aa54f283f1e090ca61fc933589868ef1e31163d"
+  },
+  {
+   "voice_id": "vo_story_ch10_mid_b_03",
+   "speaker_key": "CHAR_HART_NAME",
+   "voice": "longfengyueyao",
+   "text_keys": [
+    "STORY_CH10_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch10_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "87d56d8b0a1ab48b5982afac4bd216419718429c7f0b332b833f988ccd783549",
+   "runtime_sha256": "c8d24ba2d2ec85f27b49497836e70d991bb9b59b071267058b3ce7456dcdb432"
+  },
+  {
+   "voice_id": "vo_story_ch10_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH10_OUTRO_01"
+   ],
+   "ko": "두 달을 하나의 새 시간표로 합치자 검은 조류가 방파선을 넘어 도시로 밀려온다.",
+   "ja": "ふたつの月をひとつの新しい時刻表にまとめると、黒い潮流が防波線を越えて、都市へ押し寄せてくる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch10_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "53cea75e25cde5a14ee35a09af2524a517ec54454a0ef43507a01c10e2bf3ba2",
+   "runtime_sha256": "f4e5e534121a6ec0b434befaf02d9f215086d6fc7694b97b6e71a551f63065a0"
+  },
+  {
+   "voice_id": "vo_story_ch10_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH10_OUTRO_INTERLUDE"
+   ],
+   "ko": "하르트는 다음 오차를 먼저 계산하겠다며 장거리 화력관으로 남는다.",
+   "ja": "ハルトは、次のずれを先に計算しておくと言い、長距離火力官として残る。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch10_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "f45d5218a561fa7f38a54e2b2fae4b70fa965e4b3a00ff59391c4f9ab12bb900",
+   "runtime_sha256": "5d96ff1c1c34f4640e19de1d5fd7394934c72eb563bc28ef4ebceae8c16d0500"
+  },
+  {
+   "voice_id": "vo_story_ch10_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH10_PREBOSS_01"
+   ],
+   "ko": "월분할자는 양쪽 열차 모두 진짜라 선언하고, 선택하지 않은 편성을 적으로 만든다.",
+   "ja": "月分割者は両方の列車を本物だと宣言し、選ばれなかった編成を、敵に変える。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch10_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "f34ba161dc8f797df82d0719cdcaec14fadb0175fe48d2031c862738deeb88f6",
+   "runtime_sha256": "9dab068e4674e9e10d40b66dd2ca34206cab80753acd54b4109c999bb2b2cfa3"
+  },
+  {
+   "voice_id": "vo_story_ch10_preboss_02",
+   "speaker_key": "CHAR_HART_NAME",
+   "voice": "longfengyueyao",
+   "text_keys": [
+    "STORY_CH10_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch10_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "18f9277efb5b2c849d5d8ab549046429244656275b719caf2fbf150d27352c63",
+   "runtime_sha256": "6716ccc7ed4ebf9fe9c281a428b69570c4ae1e19d124fa292d06a55cf193a39c"
+  },
+  {
+   "voice_id": "vo_story_ch10_preboss_03",
+   "speaker_key": "CHAR_HART_NAME",
+   "voice": "longfengyueyao",
+   "text_keys": [
+    "STORY_CH10_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch10_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "3c063463370863366cc576f962c2e0853cc5cdbeb1ed2da1fe85de2a7d835e92",
+   "runtime_sha256": "358e02ff37c68dbc6b93bd8844029a2072f947389f88e5533b21e041c34454a6"
+  },
+  {
+   "voice_id": "vo_story_ch11_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH11_INTRO_01"
+   ],
+   "ko": "쌍월선의 잉여 신호가 바다로 쏟아져 검은 조류가 되어 방파선을 덮쳤다.",
+   "ja": "双月線の余剰信号が海へあふれ出し、黒い潮流となって、防波線に襲いかかった。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch11_intro_01.ogg",
+   "source_take": "take4",
+   "source_sha256": "f2eb7840445e6315e53c65a9b7690d3aa6713ee9eeb9a2f66129fd604bdd8366",
+   "runtime_sha256": "5bc16b47c84ac1b661b9592ac71268a1a3cc1b5635e192ec670ec12bfd30c12e"
+  },
+  {
+   "voice_id": "vo_story_ch11_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH11_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 도시로 밀려오는 신호 조류를 막는다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、都市へ押し寄せる信号の潮流を食い止めること。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch11_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "ca1db1d9b1ab35749f2b5206f249f850474e7376ec62a5c00f740a17ff583a18",
+   "runtime_sha256": "5a3f295078b1538003799580ec952bb761ca086645ac46d3810dd3d18c136953"
+  },
+  {
+   "voice_id": "vo_story_ch11_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH11_MID_A_01"
+   ],
+   "ko": "조류 속에는 지금까지 버린 경로와 구조하지 못한 사람들의 좌표가 떠다녔다.",
+   "ja": "潮流の中には、これまで捨ててきた経路と、救えなかった人々の座標が漂っていた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch11_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "241535951963b4490ef24d8e961cb553d362dc70ac231ed073169fb6999b6e41",
+   "runtime_sha256": "1a42c6d7c5e26bfa1341131039c50403e498e457b4171729eb328adf0824c431"
+  },
+  {
+   "voice_id": "vo_story_ch11_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH11_MID_B_01"
+   ],
+   "ko": "오르사는 방패망을 부표처럼 펼쳐 떠도는 좌표를 하나씩 현재 시간에 고정한다.",
+   "ja": "オルサは盾の網を浮標のように広げ、漂う座標を、ひとつずつ現在の時間に固定する。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch11_mid_b_01.ogg",
+   "source_take": "take4",
+   "source_sha256": "745e4c479a4aeb306dca3e2496fc0fd67e88747f84dab7af26911e1df8a1794f",
+   "runtime_sha256": "681fe23bf246f5d9c29d580b8b058ec54059ecbbb4e76ce3438f88b9111d31f1"
+  },
+  {
+   "voice_id": "vo_story_ch11_mid_b_02",
+   "speaker_key": "CHAR_ORSA_NAME",
+   "voice": "longyilianxia",
+   "text_keys": [
+    "STORY_CH11_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch11_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "2cd79821b1afe15b30767941234e272b3d87f970fc6a91f307e2e9f40ec80c47",
+   "runtime_sha256": "f7b4617da926a4bede1db6ca9cc4cf410e22060176f275bbf8611ed2aa4b1ccb"
+  },
+  {
+   "voice_id": "vo_story_ch11_mid_b_03",
+   "speaker_key": "CHAR_ORSA_NAME",
+   "voice": "longyilianxia",
+   "text_keys": [
+    "STORY_CH11_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch11_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "8063cacc9935f26d5a8b6ae0c9c55e6bf9944f8da48f91efbefc804de5ac7134",
+   "runtime_sha256": "9df0b658e3e8634a22b4664482d61e1a02099342e280ff649f8b8822eaee1dc5"
+  },
+  {
+   "voice_id": "vo_story_ch11_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH11_OUTRO_01"
+   ],
+   "ko": "방파선을 지키자 파도에서 이름이 지워진 열쇠 하나가 무명성당 방향을 가리킨다.",
+   "ja": "防波線を守り抜くと、波の中から、名前を消された鍵がひとつ、無名聖堂の方角を指し示す。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch11_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "49f5cafffe40dd998e37b04eaac3496185268122cbfbf8d286ba9841a05766b5",
+   "runtime_sha256": "9b103ccaaaf1005a3ab22aa888e2057cc6e2654716e90898c18e0694b9f493a5"
+  },
+  {
+   "voice_id": "vo_story_ch11_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH11_OUTRO_INTERLUDE"
+   ],
+   "ko": "오르사는 떠도는 좌표의 귀환을 끝까지 책임지겠다며 수비대에 합류한다.",
+   "ja": "オルサは、漂う座標の帰還を最後まで引き受けると言い、守備隊に加わる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch11_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "a10493cda888f2c2c2843e446a92b619f3aa4ca968335258457ace0293c017e9",
+   "runtime_sha256": "917e889839b0726a9fa136dac498b648952909e264b1cb7313a6229509b3c43a"
+  },
+  {
+   "voice_id": "vo_story_ch11_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH11_PREBOSS_01"
+   ],
+   "ko": "조류 수확자는 고정된 좌표를 미끼로 삼아 방파선 안쪽에서 거대한 파형을 일으킨다.",
+   "ja": "潮の収穫者は固定された座標を餌にして、防波線の内側に、巨大な波形を巻き起こす。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch11_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "3360f5d51c175817d2e45d639cb1fc545ab4dc1e3802be0cf83deff5f9bea76e",
+   "runtime_sha256": "f34bc87c25ce996354d938abcc244c9e80f10e7413e3f080bbfa34f415c16603"
+  },
+  {
+   "voice_id": "vo_story_ch11_preboss_02",
+   "speaker_key": "CHAR_ORSA_NAME",
+   "voice": "longyilianxia",
+   "text_keys": [
+    "STORY_CH11_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch11_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "7898dd665fea882a5846cc3ab6c0633db1874d0e7b0411bf176d9558311b542f",
+   "runtime_sha256": "2c394e837307a1b4b18b2d27b0082591b947b5818a991365de41d0d6118ec941"
+  },
+  {
+   "voice_id": "vo_story_ch11_preboss_03",
+   "speaker_key": "CHAR_ORSA_NAME",
+   "voice": "longyilianxia",
+   "text_keys": [
+    "STORY_CH11_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch11_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "46c14b587943e365df09f30942ac1d3fc1e9c114871cc6b75bbf30ff6dbaed3d",
+   "runtime_sha256": "9f83490b935661b65999e3cd3fcd5a478ad71f54c96896063da92e9f6cd2d66b"
+  },
+  {
+   "voice_id": "vo_story_ch12_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH12_INTRO_01"
+   ],
+   "ko": "검은 조류가 남긴 열쇠는 이름을 발음할 때마다 글자가 사라지는 무명성당의 문을 열었다.",
+   "ja": "黒い潮流が残した鍵は、名前を口にするたびに文字が消えていく、無名聖堂の扉を開いた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch12_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "599bd6a00b0a5887d0e55ac58031c39c32ef59529192217ffd1ffbd7eb9563a0",
+   "runtime_sha256": "e0e1bb435c1e8759defb933d579facf997b7d83d1ffc89d0e6a5ffb6888a1413"
+  },
+  {
+   "voice_id": "vo_story_ch12_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH12_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 이름을 빼앗는 성당의 봉인을 푼다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、名前を奪う聖堂の封印を解くこと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch12_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "477434456db0e416048f429a1903cd81e45873c23ac11799ba1ae75da42acb81",
+   "runtime_sha256": "6037cf0150637527735d9c3713d4e4a903171b23b7daa579c2788035e33a0e2a"
+  },
+  {
+   "voice_id": "vo_story_ch12_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH12_MID_A_01"
+   ],
+   "ko": "성당은 죽은 이를 추모한 것이 아니라 살아 있는 이의 이름을 봉인 유지비로 징수했다.",
+   "ja": "聖堂は、死者を悼んでいたのではない。生きている者の名前を、封印の維持費として取り立てていたのだ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch12_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "4a17ade4a0128998428f3b2d79bd6711d86cf3d969863e79b3c45fbe9d1966dd",
+   "runtime_sha256": "03bc9dbb3a317d37adf36f6f379cb1ddd401ba207b5c971e953ee1ec25e57b8c"
+  },
+  {
+   "voice_id": "vo_story_ch12_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH12_MID_B_01"
+   ],
+   "ko": "티엘은 잊힌 사람들의 맥박을 리듬으로 기록해 이름 없이도 서로를 확인할 방법을 만든다.",
+   "ja": "ティエルは忘れられた人々の脈拍をリズムとして記録し、名前がなくても、互いを確かめ合う方法を作り出す。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch12_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "485e38e99e8b7673795c5cf9178dd358a3bb42bab2590f9e471d1ffa2110e028",
+   "runtime_sha256": "1499ad77b7326f738b9fb41884c3ae64333268aa392b0d2a349bc88aad6e50b4"
+  },
+  {
+   "voice_id": "vo_story_ch12_mid_b_02",
+   "speaker_key": "CHAR_TIEL_NAME",
+   "voice": "longxueyuxia",
+   "text_keys": [
+    "STORY_CH12_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch12_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "5faee66c4bb5a06c20ee13359a43fa299f1c0e8f172df682584b4535f9737f9e",
+   "runtime_sha256": "4dd3184b06afb59ca16f15bfb7ad64237ebb6b8994b45d67b07c2405334e60dc"
+  },
+  {
+   "voice_id": "vo_story_ch12_mid_b_03",
+   "speaker_key": "CHAR_TIEL_NAME",
+   "voice": "longxueyuxia",
+   "text_keys": [
+    "STORY_CH12_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch12_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "ab411e8980a4a038309583ad3e6fedb2169170f903d43143a8536aa5579c9242",
+   "runtime_sha256": "c207b3cf8b1b2e0b2281efa2305ea2bf1042a4ae7391cb0c979fd4e132af5907"
+  },
+  {
+   "voice_id": "vo_story_ch12_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH12_OUTRO_01"
+   ],
+   "ko": "봉인이 풀리자 이름을 훔친 노선이 사막에 존재하지 않는 시간표를 투사한 사실이 드러난다.",
+   "ja": "封印が解けると、名前を盗んだ路線が、砂漠に存在しない時刻表を投影していた事実が明らかになる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch12_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "76708f8b4dccb48727765de4367395aaa329ce977002fa0488d5f04439baf55e",
+   "runtime_sha256": "d422b87e02d1f40fe6e5ff789c79e284977a755d6d1a50e3fe15258d4de64830"
+  },
+  {
+   "voice_id": "vo_story_ch12_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH12_OUTRO_INTERLUDE"
+   ],
+   "ko": "티엘은 모든 이름이 돌아올 때까지 등로단의 생체 기록관으로 남는다.",
+   "ja": "ティエルは、すべての名前が戻るその日まで、灯路団の生体記録官として残る。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch12_outro_interlude.ogg",
+   "source_take": "take4",
+   "source_sha256": "261160cbb6d3df0f7e30d69c5f6308bffee6915fb2b9ef0aa47ec53733b48f45",
+   "runtime_sha256": "f7f147853aa3ae6ea429bcc2b1f6d85f918a7dda55699f07d1dbb8b7a4e79639"
+  },
+  {
+   "voice_id": "vo_story_ch12_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH12_PREBOSS_01"
+   ],
+   "ko": "무명 고위사제는 마에루의 이름을 지워 지휘 체계와 동료들의 기억을 동시에 끊는다.",
+   "ja": "無名の高位司祭はマエルの名前を消し去り、指揮系統と仲間たちの記憶を、同時に断ち切る。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch12_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "dd27cc696f8b553fb1b4892a659f5cc4111df16a6c28e1c2f13b9edf9fdd24fb",
+   "runtime_sha256": "2aaa4c2c9b4c05bd41407c5cb3a98b3323ba37813f054f35b252bbc486842980"
+  },
+  {
+   "voice_id": "vo_story_ch12_preboss_02",
+   "speaker_key": "CHAR_TIEL_NAME",
+   "voice": "longxueyuxia",
+   "text_keys": [
+    "STORY_CH12_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch12_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "95d17aaf3e1bfa8b3beb126e1ef21e36b8b34e6dc863c40f6cb230450676074e",
+   "runtime_sha256": "f506e4edd8bd487f9c04c70234acee0f6d7757bc7c9c30993c55e4c92358644c"
+  },
+  {
+   "voice_id": "vo_story_ch12_preboss_03",
+   "speaker_key": "CHAR_TIEL_NAME",
+   "voice": "longxueyuxia",
+   "text_keys": [
+    "STORY_CH12_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch12_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "734bf8e3b107c6134594727ef1690e3125ad9dcae75124f2e151f583c1773984",
+   "runtime_sha256": "a8ef54c6c3695d29b4fc2bdf3003c0074f40bb12fb0aae756219fd2c9c6283cd"
+  },
+  {
+   "voice_id": "vo_story_ch13_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH13_INTRO_01"
+   ],
+   "ko": "성당에서 되찾은 이름들은 사막 한가운데 존재하지 않는 열차의 승객 명부에 올라 있었다.",
+   "ja": "聖堂で取り戻した名前たちは、砂漠の真ん中を走る、存在しない列車の乗客名簿に載っていた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch13_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "318cf9b1bd51fa7729b2debcb1e25bebafc022d819efccbf1b67d50b35d99ad8",
+   "runtime_sha256": "b3980b1efad233776ab78c2e642c7abeb74dc6d068f381a5755be8e0c0372ae4"
+  },
+  {
+   "voice_id": "vo_story_ch13_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH13_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 존재하지 않는 열차의 노선을 지운다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、存在しない列車の路線を消すこと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch13_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "6a4a0bfcbb5607f1cb6229b0b630dfa82f669b4a6f99aae081eacb18ec9be865",
+   "runtime_sha256": "312231005cb1ac574556156921137e1b274ed319e54bb2b11654db129518c3d7"
+  },
+  {
+   "voice_id": "vo_story_ch13_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH13_MID_A_01"
+   ],
+   "ko": "유령 시간표는 사람들이 선택하지 못한 삶을 실제 노선으로 만들려 했다.",
+   "ja": "幽霊時刻表は、人々が選べなかった人生を、本物の路線にしようとしていた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch13_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "e4ca8b96cc02c278c90ed146f39c3b6df39771a2c72a5ad0e7a0d6b3c956814c",
+   "runtime_sha256": "7a5d934589c71f232c955da96018f1fae9a20c50aef604f395241fe09b43c86c"
+  },
+  {
+   "voice_id": "vo_story_ch13_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH13_MID_B_01"
+   ],
+   "ko": "리아스는 환영 승객 사이를 돌파해 각자가 실제로 내린 마지막 선택을 표식으로 남긴다.",
+   "ja": "リアスは幻の乗客たちのあいだを突破し、それぞれが実際に下した最後の選択を、標識として残す。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch13_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "d3499e4e390966edc5c2ea8788cc978b02baeb453df3a8d4e3c920f5afdba6ed",
+   "runtime_sha256": "5b3088963e2d95980a7af2da31e4a63e2394aeabb09f0321e2e832bc1aceabcd"
+  },
+  {
+   "voice_id": "vo_story_ch13_mid_b_02",
+   "speaker_key": "CHAR_RIAS_NAME",
+   "voice": "longbaiyunlin",
+   "text_keys": [
+    "STORY_CH13_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch13_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "11f152558630c55e8b132d6a81a2634b31935a268ade141901583ed02edb4509",
+   "runtime_sha256": "fb872b4891195976dd76855809f5fffe0a1d7f01a373a27ad393a1d761acf3df"
+  },
+  {
+   "voice_id": "vo_story_ch13_mid_b_03",
+   "speaker_key": "CHAR_RIAS_NAME",
+   "voice": "longbaiyunlin",
+   "text_keys": [
+    "STORY_CH13_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch13_mid_b_03.ogg",
+   "source_take": "take4",
+   "source_sha256": "2c5a6848f4c45fae0cefb01fa157a8dbefe4f690d52161d4e9f3897051ac5455",
+   "runtime_sha256": "b9b08c45a5486a9bc107d0bf88434c655998f7e19b888a8e1c740eeb852a3264"
+  },
+  {
+   "voice_id": "vo_story_ch13_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH13_OUTRO_01"
+   ],
+   "ko": "유령 노선을 지우자 남은 선로가 하늘로 말려 올라가 반전된 수도 순환선과 접속한다.",
+   "ja": "幽霊路線を消すと、残った線路が空へと巻き上がり、反転した首都環状線と接続する。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch13_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "6573f12007d3b7082343bd175b159c01c71b836ace736c817790942a723e6fe2",
+   "runtime_sha256": "c7f42d32e884c7c6245d37d25e88edd1b3d665e9aec37810cb4c2cc55a06003d"
+  },
+  {
+   "voice_id": "vo_story_ch13_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH13_OUTRO_INTERLUDE"
+   ],
+   "ko": "리아스는 선택은 되찾는 것이 아니라 새로 만드는 것이라며 선봉에 합류한다.",
+   "ja": "リアスは、選択は取り戻すものではなく、新しく作るものだと言い、先鋒に加わる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch13_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "09dd7843159308414a37bb61d6d8625292be7e7f3fde34024d8c022d7c3a9ffd",
+   "runtime_sha256": "c7925a18c7e21e9c2692c6bbf2c20e7ef997bb2e62a9899a45fd7d656dc5f11b"
+  },
+  {
+   "voice_id": "vo_story_ch13_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH13_PREBOSS_01"
+   ],
+   "ko": "사구 역장은 미련이 큰 선택일수록 강한 객차로 만들어 일행을 갈라놓는다.",
+   "ja": "砂丘の駅長は、未練の大きい選択ほど強い客車に変え、一行を引き裂こうとする。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch13_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "e86f3ea0f5fe47a7a6da6736b090223b9c1a2605348a7ca3212ff713816df7b8",
+   "runtime_sha256": "c9fb0ed4213f676343ff60937e5a704d9f514bc48b682c3c726a26fba99536ff"
+  },
+  {
+   "voice_id": "vo_story_ch13_preboss_02",
+   "speaker_key": "CHAR_RIAS_NAME",
+   "voice": "longbaiyunlin",
+   "text_keys": [
+    "STORY_CH13_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch13_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "9dd78b2c79f0d52be32eb19d7997eabd175ed4796861838fac474939339f2251",
+   "runtime_sha256": "ea0f52c553fafd5cbf1f981d20870a8829c901921bde7a851d2e7f27b90ed536"
+  },
+  {
+   "voice_id": "vo_story_ch13_preboss_03",
+   "speaker_key": "CHAR_RIAS_NAME",
+   "voice": "longbaiyunlin",
+   "text_keys": [
+    "STORY_CH13_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch13_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "910b737662ce75416220709b997224e78ae164e20fac993c0c64a3f90a3c6e54",
+   "runtime_sha256": "2ae777ebb168e8631bbfcbb7d1cb3bad3444aac835e8a306a24496ccec625b56"
+  },
+  {
+   "voice_id": "vo_story_ch14_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH14_INTRO_01"
+   ],
+   "ko": "사막에서 솟은 선로는 수도 순환선을 뒤집어 건물과 열차를 하늘 쪽으로 떨어뜨리고 있었다.",
+   "ja": "砂漠からそびえた線路は首都環状線をひっくり返し、建物と列車を、空の方へと落としていた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch14_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "b6e0661286457cef51f7412ba8be1189b58074bf4c9674e1b4944d4dcf9a5695",
+   "runtime_sha256": "4628e7d02cea5a0e4debd01107a6830dc23592554227448eb39a6dfeee848cd2"
+  },
+  {
+   "voice_id": "vo_story_ch14_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH14_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 뒤집힌 수도 순환선의 중력을 복구한다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、ひっくり返った首都環状線の重力を取り戻すこと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch14_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "3f7af890a86aeadfb65683e25b43ef946243548cfd5c61dac7cf40dbd8b3380f",
+   "runtime_sha256": "ab4f8bb999eb995f32320339fa6a36f2322a6e95ea2820092114c99d078e59f7"
+  },
+  {
+   "voice_id": "vo_story_ch14_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH14_MID_A_01"
+   ],
+   "ko": "중력 반전은 사고가 아니라 수도를 외부 노선에서 영구 격리하려는 비상 규약이었다.",
+   "ja": "重力反転は、事故ではなかった。首都を外部の路線から永久に隔離するための、非常規約だった。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch14_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "b275dbba7a2259ceec5819df4fa8c75e80745d9e15bac351d8decb5a37b8c7df",
+   "runtime_sha256": "505aeeaded517d8d617df7c84905bc6fdd76ece0a3376f111be2eb428c767da8"
+  },
+  {
+   "voice_id": "vo_story_ch14_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH14_MID_B_01"
+   ],
+   "ko": "페린은 반전 구역의 장치를 역해킹해 사람마다 다른 아래쪽을 하나의 기준면으로 묶는다.",
+   "ja": "ペリンは反転区域の装置を逆ハッキングし、人ごとに異なる下の向きを、ひとつの基準面にまとめ上げる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch14_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "87c4ba82f0d4add7710d26c48a96aa11fc17b9ded08a88f025a9a9a0855abe59",
+   "runtime_sha256": "830dc3608fbea90a3737cfe365be46267676c12d99519cac6389a07d0cc7aa70"
+  },
+  {
+   "voice_id": "vo_story_ch14_mid_b_02",
+   "speaker_key": "CHAR_PERIN_NAME",
+   "voice": "longximusong",
+   "text_keys": [
+    "STORY_CH14_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch14_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "678addceb5caec816d0dda26da8e54ecd2290b62a71d1a1827ea7e55a1dd4237",
+   "runtime_sha256": "8a2b095023abad03f5cea081525d3e3eb031b8fab7878e30052bf7ee2656e627"
+  },
+  {
+   "voice_id": "vo_story_ch14_mid_b_03",
+   "speaker_key": "CHAR_PERIN_NAME",
+   "voice": "longximusong",
+   "text_keys": [
+    "STORY_CH14_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch14_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "ce9a3640c06a65253a058056f79f4ed4a459f1d6c2e85f23eb3b713ce308f07d",
+   "runtime_sha256": "f50ab8a0976bac0e3be3d99aaa893cb3d6d9732d092244380e9e96a451bf3b94"
+  },
+  {
+   "voice_id": "vo_story_ch14_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH14_OUTRO_01"
+   ],
+   "ko": "수도를 바로 세우자 비상 규약의 원본이 제로 신호 정원에서 기억 초기화를 준비 중임이 드러난다.",
+   "ja": "首都を立て直すと、非常規約の原本が、ゼロ信号庭園で記憶の初期化を準備していることが明らかになる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch14_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "4e17a3776217d3a903893707a06a26ea26909d98970d87e119580c7346371301",
+   "runtime_sha256": "a225f908acd0056793562756ecf5b1fa175abe1d50a36b5fb8d1991de97ff83c"
+  },
+  {
+   "voice_id": "vo_story_ch14_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH14_OUTRO_INTERLUDE"
+   ],
+   "ko": "페린은 어떤 시스템도 사람의 방향을 대신 정하지 못하게 하겠다며 합류한다.",
+   "ja": "ペリンは、どんなシステムにも、人の向かう先を勝手に決めさせないと言い、仲間に加わる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch14_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "ff9674821dcbca03a369c5da69e52cbffb9e661441c55ad2c728dec1c6a20b81",
+   "runtime_sha256": "c1020a7d5d2a9ee105b0d23dd9ae01de4ed3b9544efb55a458fa05c489789b89"
+  },
+  {
+   "voice_id": "vo_story_ch14_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH14_PREBOSS_01"
+   ],
+   "ko": "중력 감사관은 구조물의 무게 대신 사람들의 귀환 의지를 과부하로 판정한다.",
+   "ja": "重力監査官は、構造物の重さではなく、人々の帰還の意志を、過負荷と判定する。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch14_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "0c5e552a8cabaef360ec8a8a548926f16e7045a7cddd5344d1d5354bdb781881",
+   "runtime_sha256": "e3e452b97cec303d9606ba5a9256bc6acce999aa6d5f6b4028521a4f9a9e089c"
+  },
+  {
+   "voice_id": "vo_story_ch14_preboss_02",
+   "speaker_key": "CHAR_PERIN_NAME",
+   "voice": "longximusong",
+   "text_keys": [
+    "STORY_CH14_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch14_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "7221737da1b3f89bf5381729026af14b059c58fed5686592fc288cc27eefc4a1",
+   "runtime_sha256": "adf04d24dc2280e7333df09e6056141bf40f50039393a95cd3a1075c10ee31ce"
+  },
+  {
+   "voice_id": "vo_story_ch14_preboss_03",
+   "speaker_key": "CHAR_PERIN_NAME",
+   "voice": "longximusong",
+   "text_keys": [
+    "STORY_CH14_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch14_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "12b7a51cde5843888522d609772debbd325208aa4e1307419ab6932d7ff966c4",
+   "runtime_sha256": "cf0d4e5bc959ecbb3f972e722602a59f34e67f53e5e2fa854ebd29a5b1c1c850"
+  },
+  {
+   "voice_id": "vo_story_ch15_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH15_INTRO_01"
+   ],
+   "ko": "수도 비상 규약의 원본은 제로 신호 정원에서 모든 노선의 기억을 초기화하려 했다.",
+   "ja": "首都の非常規約の原本は、ゼロ信号庭園で、すべての路線の記憶を初期化しようとしていた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch15_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "bddf02a440457ab2701c471b70f0af7a147ba6a32cc2d183198debe1f06cb762",
+   "runtime_sha256": "5291b8b2b19e94a7f6a1a76b6c6a20654ccc1365ebc16fb20dd9162d9ce04cb1"
+  },
+  {
+   "voice_id": "vo_story_ch15_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH15_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 모든 기억을 초기화하는 정원을 봉쇄한다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、すべての記憶を初期化する庭園を封鎖すること。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch15_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "4c47380d09441d38e3f57c3c74fb67d87821cf15d0f644143a09fb48710e1ad8",
+   "runtime_sha256": "bf4a581fd600737290f72a064e28a8605375f6509d9155738d16afc0c3b1f8fa"
+  },
+  {
+   "voice_id": "vo_story_ch15_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH15_MID_A_01"
+   ],
+   "ko": "정원의 꽃은 기억을 지우는 대신 가장 안전했던 순간만 남겨 사람을 움직이지 못하게 했다.",
+   "ja": "庭園の花は、記憶を消す代わりに、最も安全だった瞬間だけを残し、人を動けなくしていた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch15_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "cd5fe44527b31ecc8aae1b1f73497a15449853f8bfd7113fc007bf93488d9135",
+   "runtime_sha256": "5c2c420e339b73a82e20468d2da6edda7451fd34fca97385256f5c96c5d802bb"
+  },
+  {
+   "voice_id": "vo_story_ch15_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH15_MID_B_01"
+   ],
+   "ko": "카른은 자신의 가장 편한 기억을 미끼로 내주고 정원 중심부까지 빈 통로를 베어낸다.",
+   "ja": "カルンは自分の最も心地よい記憶を囮として差し出し、庭園の中心部まで、空の通路を切り開く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch15_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "909cb60ea09ca3a308ba51f45b8f46c1e3862b514f144cb46d923660c8c61b34",
+   "runtime_sha256": "82296beecf855f4d4502aa854389f78a32860960219d173781deb11c79d49c7d"
+  },
+  {
+   "voice_id": "vo_story_ch15_mid_b_02",
+   "speaker_key": "CHAR_KARN_NAME",
+   "voice": "longcanzhuyue",
+   "text_keys": [
+    "STORY_CH15_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch15_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "d10ace51f33f1932b882881731859209361d90c82209c48a347bfb3c5d22f536",
+   "runtime_sha256": "dc83f14167586761859c297c4e43258c89439a68f5870eb52a9bde4033e089be"
+  },
+  {
+   "voice_id": "vo_story_ch15_mid_b_03",
+   "speaker_key": "CHAR_KARN_NAME",
+   "voice": "longcanzhuyue",
+   "text_keys": [
+    "STORY_CH15_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch15_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "9d8d9d7fccad25cfcefef1b0915b7f64024f603fe30dcfc64bca6d6591026bc3",
+   "runtime_sha256": "c94d81d30bf30796102fd78715db7f237f3d6d504c470a0d7f2fad140ed96ff9"
+  },
+  {
+   "voice_id": "vo_story_ch15_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH15_OUTRO_01"
+   ],
+   "ko": "정원을 봉쇄하자 초기화 권한이 동부선과 서부선에 동시에 전달되고, 한쪽 승인 시 다른 피난 노선이 영구 폐기되는 철도왕관 내전이 시작된다.",
+   "ja": "庭園を封鎖すると、初期化の権限が、東部線と西部線に同時に届けられる。片方が承認すれば、もう一方の避難路線は永久に廃棄される。鉄道王冠内戦の始まりだった。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch15_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "0ef7d1d56636792871907d3c66998a149e3f6aed340884bacb305f8af184da38",
+   "runtime_sha256": "429cd5fae1d41c933edaf13f44a227d28dc2bfd018da03cb864096214242b40f"
+  },
+  {
+   "voice_id": "vo_story_ch15_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH15_OUTRO_INTERLUDE"
+   ],
+   "ko": "카른은 편한 과거보다 불확실한 동료의 곁을 택한다. 방송은 두 계승 세력의 동시 승인을 알리며 다음 전장을 확정한다.",
+   "ja": "カルンは、心地よい過去よりも、不確かな仲間の隣を選ぶ。放送はふたつの継承勢力の同時承認を告げ、次の戦場を確定させる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch15_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "b749caebc3283404276cdd7700eae808de76a1518162b2dacf655147d8e1414f",
+   "runtime_sha256": "8cb1479a81046f77a2c0778fcdbed893bc2ed472fe314aeb263aec916c65cab0"
+  },
+  {
+   "voice_id": "vo_story_ch15_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH15_PREBOSS_01"
+   ],
+   "ko": "무의 정원사는 동료들의 행복한 순간을 방패로 펼쳐 공격할수록 기억이 부서지게 만든다.",
+   "ja": "無の庭師は、仲間たちの幸せな瞬間を盾として広げ、攻撃するほど記憶が砕けるように仕向ける。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch15_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "becea7eb4677073db3c2a9955629670b49ff77bb5b2706bf111302cd7647976b",
+   "runtime_sha256": "3f8d876c7513daed6f6a5775e471dcdaf23e46608170f49fa05bf094db63f26c"
+  },
+  {
+   "voice_id": "vo_story_ch15_preboss_02",
+   "speaker_key": "CHAR_KARN_NAME",
+   "voice": "longcanzhuyue",
+   "text_keys": [
+    "STORY_CH15_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch15_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "bb3a1824af8c8b299c8d845b1b9c5475e89885208bba2eb4145e9f67aec340e1",
+   "runtime_sha256": "1bb31627f7e8de77e5be8d1c7df8bae3970033d9f057cdaee0d6b9e75739625e"
+  },
+  {
+   "voice_id": "vo_story_ch15_preboss_03",
+   "speaker_key": "CHAR_KARN_NAME",
+   "voice": "longcanzhuyue",
+   "text_keys": [
+    "STORY_CH15_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch15_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "913a0b1955c6a50aa96e362920506e9d3a7ac5014b80072d633c3b26d61975cf",
+   "runtime_sha256": "0ae14074acfa0ac97fbb8e0390002d54b274fcde300ae731a5b8d6fead54e19a"
+  },
+  {
+   "voice_id": "vo_story_ch16_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH16_INTRO_01"
+   ],
+   "ko": "정원의 초기화 권한이 사라지자 분열된 노선왕들은 서로를 유일한 정통 노선이라 선언했다.",
+   "ja": "庭園の初期化権限が消えると、分裂した路線王たちは、互いに自分こそが唯一の正統な路線だと宣言した。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch16_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "f69900866c6d6464a70db92e8d7a978807d82e45be8ac1f0b4168ebaad9296e1",
+   "runtime_sha256": "6093e4b0826fb819f34212ead4061acd8935873dee1f78da1a4ae60415563161"
+  },
+  {
+   "voice_id": "vo_story_ch16_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH16_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 분열된 노선왕들의 내전을 끝낸다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、分裂した路線王たちの内戦を終わらせること。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch16_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "a2c7ea4a372c85d6a139bf950af5ce73c08ee1c6efa8b08d594f0ad7f670ab90",
+   "runtime_sha256": "7821362f48bdb4f984aa9bd2ad366771443bbc82a1b00d1e56db9ca8b5c1cec1"
+  },
+  {
+   "voice_id": "vo_story_ch16_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH16_MID_A_01"
+   ],
+   "ko": "내전의 승자는 왕관이 아니라 모든 피난 노선을 강제 병합할 권한을 얻는다.",
+   "ja": "内戦の勝者が手にするのは、王冠ではない。すべての避難路線を、強制的に併合する権限だ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch16_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "99dd3a5de9bb9a04c4cd6cd9ab13957ecc1cdb99c2afe39aa81c8baa513f67ea",
+   "runtime_sha256": "9f27f74352186cd91eca65f33af67410486fa5335a1a9dd9e6e8480fdafac53d"
+  },
+  {
+   "voice_id": "vo_story_ch16_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH16_MID_B_01"
+   ],
+   "ko": "노아르는 양 진영 부상자를 같은 치료 신호로 묶어 병사들이 적과 아군의 고통을 함께 듣게 한다.",
+   "ja": "ノアールは両陣営の負傷者を同じ治療信号で結び、兵士たちに、敵と味方の痛みをともに聞かせる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch16_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "58fad5de020f6c92178ee0ed6c778b2cba1df71e954c53eadd1631c11f4f3ce9",
+   "runtime_sha256": "70d94a3c7047d873db0ed0c9faa7d0d0b270a39baa7e49b3222766dd17af869f"
+  },
+  {
+   "voice_id": "vo_story_ch16_mid_b_02",
+   "speaker_key": "CHAR_NOAR_NAME",
+   "voice": "longlinchengquan",
+   "text_keys": [
+    "STORY_CH16_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch16_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "100e5bc09f9bdb075afa7f4b6d5a518463552ea1db8b5d7e916014852ccaab05",
+   "runtime_sha256": "4eef797e64dc0ebc7113d40371e8b17c045a437631a8acf7ee0a4c285c45799f"
+  },
+  {
+   "voice_id": "vo_story_ch16_mid_b_03",
+   "speaker_key": "CHAR_NOAR_NAME",
+   "voice": "longlinchengquan",
+   "text_keys": [
+    "STORY_CH16_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch16_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "8d76d2b340cded8b87e9dbd2d1f410396400874725678d468eb00af2ba2b595a",
+   "runtime_sha256": "5c244aebf0d45ea4eafaca9a5070d287c31b9f04da52371e2567203c52dece2c"
+  },
+  {
+   "voice_id": "vo_story_ch16_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH16_OUTRO_01"
+   ],
+   "ko": "왕관을 해체하자 진짜 노선 계승 기록이 잔광 도서고에 숨겨졌다는 좌표가 열린다.",
+   "ja": "王冠を解体すると、本当の路線継承記録が、残光書庫に隠されているという座標が開かれる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch16_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "9d58db830db890fa0677b14564aabe2f8825ab6cace995544a126349e72a5e59",
+   "runtime_sha256": "394ae1653a24d61eadbf39b1b4b564e980b9fdf2741ecaf8aa06015d52f5cd4c"
+  },
+  {
+   "voice_id": "vo_story_ch16_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH16_OUTRO_INTERLUDE"
+   ],
+   "ko": "노아르는 누가 이겼는지보다 누가 살아 돌아오는지를 기록하겠다며 합류한다.",
+   "ja": "ノアールは、誰が勝ったかよりも、誰が生きて帰ったかを記録すると言い、仲間に加わる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch16_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "f6df4717d4d93c036885402be03bd3076a7f984b83aee1aad536ac9a23472966",
+   "runtime_sha256": "d8528ea6d6f22b0c3e8f8859fd679d53f24f5d7e5c62ed09b81f2f02f77697e4"
+  },
+  {
+   "voice_id": "vo_story_ch16_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH16_PREBOSS_01"
+   ],
+   "ko": "왕관 창기사는 휴전을 배신으로 규정하고 치료 신호 자체를 지휘부 공격으로 간주한다.",
+   "ja": "王冠の槍騎士は停戦を裏切りと定め、治療信号そのものを、指揮部への攻撃とみなす。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch16_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "048d20766dcd18f2a78c8e04eb213dec351e32a67e88adfeb0a0b8dea9a04b5c",
+   "runtime_sha256": "a3d3aadcf1b00e906f33bb06202b0738c6c38015e3bb101de013361dc35720d9"
+  },
+  {
+   "voice_id": "vo_story_ch16_preboss_02",
+   "speaker_key": "CHAR_NOAR_NAME",
+   "voice": "longlinchengquan",
+   "text_keys": [
+    "STORY_CH16_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch16_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "a30df0ab166f713fd8a32644568abf3a4246b428074cb158a4d1d7fb1cb4ccfe",
+   "runtime_sha256": "b7bc3b659c61dfe7caca01c14883a0b9ac28470a5da44b2969a0494bee2de95f"
+  },
+  {
+   "voice_id": "vo_story_ch16_preboss_03",
+   "speaker_key": "CHAR_NOAR_NAME",
+   "voice": "longlinchengquan",
+   "text_keys": [
+    "STORY_CH16_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch16_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "5ac228da3efa14ef9adb80a4566633d0741d34e9538c4e8ed2212c89f493623b",
+   "runtime_sha256": "2c260544fbded896a82b83cf65ac0c93de1d1648c01ac139bf58947a06c2e8ac"
+  },
+  {
+   "voice_id": "vo_story_ch17_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH17_INTRO_01"
+   ],
+   "ko": "해체된 왕관의 좌표는 역사를 실시간으로 고쳐 쓰는 잔광 도서고를 열었다.",
+   "ja": "解体された王冠の座標は、歴史をリアルタイムで書き換える、残光書庫を開いた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch17_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "a4f37de2e0b60be86fb48a59ffdb12d6c2167cc7af64f8e6db0f7fc22a728ed3",
+   "runtime_sha256": "d43c0b41944cebd9314a3be33fa2e9e9ab8c47b943ed39c49eec85105b7167dd"
+  },
+  {
+   "voice_id": "vo_story_ch17_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH17_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 역사를 개작하는 기록기관을 탈환한다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、歴史を改ざんする記録機関を奪還すること。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch17_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "51b138010b45c763cb73b71d9d61bf28e86033c999c068c3896ddb5fd9b3869f",
+   "runtime_sha256": "9d23cfd568e39759d907d910097e4123bb45aea11f425aa68266542886411f35"
+  },
+  {
+   "voice_id": "vo_story_ch17_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH17_MID_A_01"
+   ],
+   "ko": "도서고는 내전을 없애기 위해 원정대가 개입한 기록부터 삭제하고 있었다.",
+   "ja": "書庫は、内戦をなかったことにするため、遠征隊が介入した記録から削除していた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch17_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "61a5921eb72e6fd0da516df18d71da309a01d261adeaf922166305d33cd09cb2",
+   "runtime_sha256": "e3802a545db7d1648f77dd1b89b987529e23119031978e2141506d6b6ce45197"
+  },
+  {
+   "voice_id": "vo_story_ch17_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH17_MID_B_01"
+   ],
+   "ko": "세브는 서로 모순되는 기록을 한 몸에 받아들여 삭제되지 않는 살아 있는 색인을 만든다.",
+   "ja": "セブは、互いに矛盾する記録をその身ひとつに受け入れ、削除されない、生きた索引を作り上げる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch17_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "a4d870fe7fea16ca9144bb2c0473079e5e1701e7b611c02e04e34e9effb6bf4a",
+   "runtime_sha256": "95f4ec74f269cf585fe2ce77429d7378c3b79a8d52de7dfc24921be6645335b1"
+  },
+  {
+   "voice_id": "vo_story_ch17_mid_b_02",
+   "speaker_key": "CHAR_SEB_NAME",
+   "voice": "longtongjunfeng",
+   "text_keys": [
+    "STORY_CH17_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch17_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "9641b64a0562787d0110a8955dc9c3e5ce3ffa712b5b6b50f0fa739f940cf174",
+   "runtime_sha256": "efa841f456fa3a0a7c169fa0aebc73a483be60034faf99a5b75d61d2646dcfe4"
+  },
+  {
+   "voice_id": "vo_story_ch17_mid_b_03",
+   "speaker_key": "CHAR_SEB_NAME",
+   "voice": "longtongjunfeng",
+   "text_keys": [
+    "STORY_CH17_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch17_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "f58e90317fede9549f6383e6feafc4b92f279dae0c3e94d7f753de9941547b2a",
+   "runtime_sha256": "eb81feedf024e873da0b529446a6b8efc7403b5555cc9d5cd8c5b5984d8dba2a"
+  },
+  {
+   "voice_id": "vo_story_ch17_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH17_OUTRO_01"
+   ],
+   "ko": "기록을 되찾자 종말선 개통 명령이 내일 00시로 예약돼 있고, 기록을 지워도 실행 명령 자체는 남는다는 사실을 확인한다.",
+   "ja": "記録を取り戻すと、終末線の開通命令が、明日の零時に予約されていること。そして記録を消しても、実行命令そのものは残ることが確かめられる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch17_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "759a8b1a803b0d1dde60559816ab83125ae723b821d3d2486d6780fbb9a7ac05",
+   "runtime_sha256": "84f9ff8992de0c3fe2e985a70aed662317e7dc84d356e6751ada9a4fd67b8509"
+  },
+  {
+   "voice_id": "vo_story_ch17_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH17_OUTRO_INTERLUDE"
+   ],
+   "ko": "세브는 예언이 아니라 고정 실행 명령이라는 증거를 살아 있는 색인에 보존하고 종말선 전야의 원정에 동행한다.",
+   "ja": "セブは、それが予言ではなく、固定された実行命令だという証拠を生きた索引に保存し、終末線前夜の遠征に同行する。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch17_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "f48abee9ba1004869ecc60eef90914e5236224899de45adcbf2280d002a3716b",
+   "runtime_sha256": "572ee54d9f9d4879d934fbef959a729e3dbd3fdda35c721812782db9c83f5fa8"
+  },
+  {
+   "voice_id": "vo_story_ch17_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH17_PREBOSS_01"
+   ],
+   "ko": "색인 포식자는 동료별 합류 기록을 찢어 서로를 처음 보는 적으로 되돌린다.",
+   "ja": "索引捕食者は、仲間ひとりひとりの合流記録を引き裂き、互いを、初めて会う敵へと戻してしまう。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch17_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "2dec9f14fc34d0e9d32ce99c755ba77adc9f31e8cf7940260b4b361e6845c225",
+   "runtime_sha256": "adcb97da9f39035a2776aa8cd1e3fcba372d7b5b73dd370622fec9a750ba750d"
+  },
+  {
+   "voice_id": "vo_story_ch17_preboss_02",
+   "speaker_key": "CHAR_SEB_NAME",
+   "voice": "longtongjunfeng",
+   "text_keys": [
+    "STORY_CH17_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch17_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "33176acb479309695c248d43f6f792940fefc2f7d2bda5e3a3b38a59501e447a",
+   "runtime_sha256": "e90b1562d50187906536e3e15fef242f5862466b522cdf3763da78d481bcc202"
+  },
+  {
+   "voice_id": "vo_story_ch17_preboss_03",
+   "speaker_key": "CHAR_SEB_NAME",
+   "voice": "longtongjunfeng",
+   "text_keys": [
+    "STORY_CH17_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch17_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "5afc72b5559434b04dcb0eeee025a5a72c7f0fd6580b96a3f37c2fe8d80255bc",
+   "runtime_sha256": "e08d3fd244ae29f98e1265f443c086cd9edfa447eed5008df6c8f171784fba37"
+  },
+  {
+   "voice_id": "vo_story_ch18_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH18_INTRO_01"
+   ],
+   "ko": "도서고가 복원한 기록대로 종말선은 하루 뒤 모든 도시를 하나의 종착지로 끌어당긴다.",
+   "ja": "書庫が復元した記録のとおり、終末線は一日後、すべての都市を、ひとつの終着地へと引き寄せる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch18_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "c32e9d976e6d0f8417492beb894c497231432b880cc36b056bbcffb11a02cce1",
+   "runtime_sha256": "9e893a6ebcf4c18aa4751d95755f4df8cceb9176f20e6b519ae810717eb12ea2"
+  },
+  {
+   "voice_id": "vo_story_ch18_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH18_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 최종 노선의 개통을 하루 늦춘다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、最終路線の開通を、一日遅らせること。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch18_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "db17e57271b922b5151226bbb53552b0f34d3bf50681d57b02e187bd434b141a",
+   "runtime_sha256": "1b686e7123605f104614b44bedce8cd52797b568b2748f02058e6eef71f0f331"
+  },
+  {
+   "voice_id": "vo_story_ch18_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH18_MID_A_01"
+   ],
+   "ko": "이 중계점에서는 개통을 취소할 수 없지만 신호 기준시를 늦추면 다음 핵심부에 도착할 하루를 벌 수 있다.",
+   "ja": "この中継点では、開通を取り消せない。だが信号の基準時刻を遅らせれば、次の中枢へたどり着くための一日を稼げる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch18_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "5d6943f208e7efba5c6d614a9594108e6e0950c6eb011b48fc8f7cc521b5743d",
+   "runtime_sha256": "f5f8e6023c2421291c5526b04db45f9f7502f5bbf4036bdf9bb28331a86194c8"
+  },
+  {
+   "voice_id": "vo_story_ch18_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH18_MID_B_01"
+   ],
+   "ko": "유리엔은 장거리 포격을 시간 표지로 바꿔 종말선의 초침을 구간마다 끊어 놓는다.",
+   "ja": "ユリエンは長距離砲撃を時間の標識に変え、終末線の秒針を、区間ごとに断ち切っていく。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch18_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "4d72c02f8c0fe1633fd5c71a39acab5febb9b242ac330fdd02131aedef432ea5",
+   "runtime_sha256": "ee4a6c6a8ea47b7c16ada2b26c30f707d8c262a070456928201863f75ab09a51"
+  },
+  {
+   "voice_id": "vo_story_ch18_mid_b_02",
+   "speaker_key": "CHAR_YURIEN_NAME",
+   "voice": "longnilanfeng",
+   "text_keys": [
+    "STORY_CH18_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch18_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "67478b6e88a846e170ec73080eb89bafdce67e561c07c5d061b9ece6bccd3c41",
+   "runtime_sha256": "bca6d0c0a645a9722e3f294cfffa4879254cb5b72bc86857b8fcb607616ecaaf"
+  },
+  {
+   "voice_id": "vo_story_ch18_mid_b_03",
+   "speaker_key": "CHAR_YURIEN_NAME",
+   "voice": "longnilanfeng",
+   "text_keys": [
+    "STORY_CH18_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch18_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "99c3a3129613aa8d7fcec6e97fba3b65ef755405431d770ce39361e774a2febe",
+   "runtime_sha256": "ec8e6c3f92626e9ef7a0ca355b07d97a22f4b1c826e07860e5d83e1911371fe3"
+  },
+  {
+   "voice_id": "vo_story_ch18_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH18_OUTRO_01"
+   ],
+   "ko": "하루를 벌었지만 퇴로의 동료들이 꺼지지 않는 원환에 갇혔다는 구조 신호가 도착한다.",
+   "ja": "一日を稼いだものの、退路の仲間たちが、消えない円環に閉じ込められたという救助信号が届く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch18_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "9f1b875292a8e8c44a78b29234a67b5a6538ef3b8d4fdad66bdba3d31d8cb9b7",
+   "runtime_sha256": "91096175a4d4b6383f7d7f9ac422ec7b1c81d6d93fe527704ff643fdb904a8e3"
+  },
+  {
+   "voice_id": "vo_story_ch18_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH18_OUTRO_INTERLUDE"
+   ],
+   "ko": "유리엔은 마지막 포탄까지 시간을 사는 데 쓰겠다며 원정대에 남는다.",
+   "ja": "ユリエンは、最後の一発まで、時間を買うために使うと言い、遠征隊に残る。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch18_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "5f132368fbd9bab0faff740cb9cbdaeb65fb47d3b82f220e65072b8567621d3d",
+   "runtime_sha256": "72fb16be3be6fab4dba06cd114488bcfbd243803184b1b395e5a7fc3c2b1c092"
+  },
+  {
+   "voice_id": "vo_story_ch18_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH18_PREBOSS_01"
+   ],
+   "ko": "종말 신호수는 지연된 시간을 압축해 한 번의 자정 포격으로 되돌려 보낸다.",
+   "ja": "終末の信号手は、遅らせた時間を圧縮し、一度きりの真夜中の砲撃として送り返してくる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch18_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "fa67801988048eb9f204ebd19fb51a5b43295cef395b007a6d8400ea9fe97847",
+   "runtime_sha256": "97c5993417de1c3403fd257e64ce302f3439b37796ce517c005b5940d37547dc"
+  },
+  {
+   "voice_id": "vo_story_ch18_preboss_02",
+   "speaker_key": "CHAR_YURIEN_NAME",
+   "voice": "longnilanfeng",
+   "text_keys": [
+    "STORY_CH18_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch18_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "f01981e961e0b5bcfd0335725bd3957a05984e898953cf0d3fb4f907dc7529ca",
+   "runtime_sha256": "6f0686eaf9188c49b6c281291670a79fb19e5697073923a195760aa1aa11df41"
+  },
+  {
+   "voice_id": "vo_story_ch18_preboss_03",
+   "speaker_key": "CHAR_YURIEN_NAME",
+   "voice": "longnilanfeng",
+   "text_keys": [
+    "STORY_CH18_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch18_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "8a3d17242c5c8c363626b37e5946c9350bae82ba0af8fbccaa026044808d7e55",
+   "runtime_sha256": "f2247d6b437e2a81344340317b01f3deba57d038351f92002dcdaee6f4bd3899"
+  },
+  {
+   "voice_id": "vo_story_ch19_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH19_INTRO_01"
+   ],
+   "ko": "종말선에서 철수하던 동료들은 출발점으로만 돌아오는 꺼지지 않는 원환에 갇혔다.",
+   "ja": "終末線から撤退していた仲間たちは、出発点にしか戻れない、消えない円環に閉じ込められた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch19_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "aa49ec5b63cacf13d0255eb05f4d95f4b2b6000d164f0916e7257ef3b5282e20",
+   "runtime_sha256": "c043346699cef272821a27e58a3028c63cb2345b3207b3dd4b67c316a5cc5de9"
+  },
+  {
+   "voice_id": "vo_story_ch19_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH19_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 무한 순환에 갇힌 동료들을 회수한다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、無限の循環に閉じ込められた仲間たちを取り戻すこと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch19_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "231a28bf46c94fa02ca4ebdd01914197d83a9120a36b8fae17242fe04b8fad77",
+   "runtime_sha256": "dc1cc7e5593dc721e91d04c01847e83d5a165b19cf16a157b077046ad92e3705"
+  },
+  {
+   "voice_id": "vo_story_ch19_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH19_MID_A_01"
+   ],
+   "ko": "원환 중앙의 승차권 코어는 매 회 한 명을 대체 승객으로 지정하기 위해 그 사람의 합류 이유를 지우고 있었다.",
+   "ja": "円環の中央にある乗車券コアは、毎周ひとりを代わりの乗客に指定するため、その人の合流の理由を消していた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch19_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "7765a0668fa8cb670cc35b43c08e18a8455c9919e7632d68679ded96505d5b07",
+   "runtime_sha256": "5c6ba51863eee9fbd519764297d84fa54a14d50e90048313f3b406d28cb415ba"
+  },
+  {
+   "voice_id": "vo_story_ch19_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH19_MID_B_01"
+   ],
+   "ko": "모엔은 사라지는 이유를 장치 밖의 수동 기록에 새겨 동료들이 서로를 다시 선택하게 한다.",
+   "ja": "モエンは、消えていく理由を装置の外の手書きの記録に刻み、仲間たちが、もう一度互いを選べるようにする。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch19_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "74bb5fed93f246f253564303a3d6258c0d3d78e7e887c1bc22254a57de11eedd",
+   "runtime_sha256": "314dd0c4376ab51a1e51639fe36cc2f1cf3986b180238e36dc796e2100e74c54"
+  },
+  {
+   "voice_id": "vo_story_ch19_mid_b_02",
+   "speaker_key": "CHAR_MOEN_NAME",
+   "voice": "longliulingfu",
+   "text_keys": [
+    "STORY_CH19_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch19_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "013a5dfede92d31ce6b10506711e6311a1e8700de68ba8eea06962f0da4f19d6",
+   "runtime_sha256": "f0a5b60aeac87af9c20a1e1d66134809cbefafeb534bcff1aaf12fa4b22beb03"
+  },
+  {
+   "voice_id": "vo_story_ch19_mid_b_03",
+   "speaker_key": "CHAR_MOEN_NAME",
+   "voice": "longliulingfu",
+   "text_keys": [
+    "STORY_CH19_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch19_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "12589207953bc59363bba3aea83309a8dba97c5748ecbe97f2d044a4757052dd",
+   "runtime_sha256": "b5fe309c17729f27040705102ba866beb03d7e1d9401f0c3897dc2a770d9ca35"
+  },
+  {
+   "voice_id": "vo_story_ch19_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH19_OUTRO_01"
+   ],
+   "ko": "누구도 남기지 않고 원환을 끊자 모든 복구 노선의 빛이 마지막 등불 한곳으로 모인다.",
+   "ja": "誰ひとり残さずに円環を断ち切ると、すべての復旧路線の光が、最後の灯火ひとつへと集まっていく。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch19_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "f4979f340a90f6a5308107cc9324138130b268aec48a8ba8c411ede4a4fa7bda",
+   "runtime_sha256": "2a91d169ada3450c5f58a700278160338930447a7b47cccd65a134efb13616dd"
+  },
+  {
+   "voice_id": "vo_story_ch19_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH19_OUTRO_INTERLUDE"
+   ],
+   "ko": "모엔은 수동 기록을 품고 최종 점화에서 선택의 증인이 되기로 한다.",
+   "ja": "モエンは手書きの記録を胸に抱き、最終点火で、選択の証人になることを決める。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch19_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "a68f4a1bc348fac61fd78d88b732f601de7acc1483a21e72a7b2437c9c9c4021",
+   "runtime_sha256": "f8951d4a77e63374dc40444cd8e3f695b5dbb32f40d31ec8b0b1507f14eb66a3"
+  },
+  {
+   "voice_id": "vo_story_ch19_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH19_PREBOSS_01"
+   ],
+   "ko": "영원 승차권의 희생 요구는 의지가 아니라 손상된 귀환 절차의 기본값이었다. 모엔은 그 기본값을 바꿀 수 있음을 증명한다.",
+   "ja": "永遠乗車券が求める犠牲は、意志ではなかった。損なわれた帰還手順の、初期値にすぎなかったのだ。モエンは、その初期値を変えられることを証明する。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch19_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "027ae72e426132bf950891032a31d598f972162b05b1df6c942b16f8e9fd3de1",
+   "runtime_sha256": "b5cae20339746d816c39390b1af4c2e7394c8e913986388e71f5d77e6f947c6c"
+  },
+  {
+   "voice_id": "vo_story_ch19_preboss_02",
+   "speaker_key": "CHAR_MOEN_NAME",
+   "voice": "longliulingfu",
+   "text_keys": [
+    "STORY_CH19_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch19_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "d3cf86fb2fa145bae4649641f8d04189ff485817b73fbe4bbf9200b2b81b318c",
+   "runtime_sha256": "f2bbc2a0a676f3d4d6811437356e7399fe8dce6b997633b290a8b8943c7f6c28"
+  },
+  {
+   "voice_id": "vo_story_ch19_preboss_03",
+   "speaker_key": "CHAR_MOEN_NAME",
+   "voice": "longliulingfu",
+   "text_keys": [
+    "STORY_CH19_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch19_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "ca7c8f84f98ad9d587e2182f4b6290e45686a61d019d139d042978a55238e9ea",
+   "runtime_sha256": "2073ca7674bace140e206ceae3f132f7ca596d27fa6f2b8a8c44ef28321b3e08"
+  },
+  {
+   "voice_id": "vo_story_ch20_intro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH20_INTRO_01"
+   ],
+   "ko": "되찾은 열아홉 노선의 빛이 세계의 마지막 등불 앞에 모였지만 점화 권한은 봉인돼 있었다.",
+   "ja": "取り戻した十九の路線の光が、世界最後の灯火の前に集まった。だが、点火の権限は封印されていた。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch20_intro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "b3e8defed5a0b6ce71e9f87f32869798339ac79c80c337e412766ab8b4dbf058",
+   "runtime_sha256": "7ee73e4b5960a207d57dcb653d37a5bc8cd9ea22331a1b1fd51c9204bd9659d0"
+  },
+  {
+   "voice_id": "vo_story_ch20_intro_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_CH20_INTRO_02"
+   ],
+   "ko": "이 신호는 앞선 노선의 결과다. 이번 목표는 세계의 마지막 등불을 점화한다.",
+   "ja": "この信号は、前の路線の結果だ。今回の目標は、世界最後の灯火を点すこと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch20_intro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "93510849ff97add8e64a3ddc930726192ccc0b3416d019f3f2c2f2889aa2257c",
+   "runtime_sha256": "6b792af70cd580352d80dc173d5b829cce3d5a4225ebb9f385b5a280d74ee798"
+  },
+  {
+   "voice_id": "vo_story_ch20_mid_a_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH20_MID_A_01"
+   ],
+   "ko": "봉인이 세는 것은 사람 수가 아니라 서로 다른 노선에서 확보한 스무 개의 독립 서명이었다. 같은 기록의 복제로는 점화할 수 없다.",
+   "ja": "封印が数えていたのは、人の数ではなかった。異なる路線で手にした、二十の独立した署名だった。同じ記録の複製では、火は点らない。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch20_mid_a_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "38aabf122af7f0290cbe93a059eb9dd704435a737b850a00a990646c6c1eb93d",
+   "runtime_sha256": "522fdfce4052ecd65d56c18939d50756d8e6c9ffa315a6a9ce30c4292c6fc759"
+  },
+  {
+   "voice_id": "vo_story_ch20_mid_b_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH20_MID_B_01"
+   ],
+   "ko": "라벤트는 모든 방어 신호를 연결해 동료들의 기록이 심연에 지워지지 않도록 마지막 벽을 세운다.",
+   "ja": "ラベントはすべての防御信号をつなぎ、仲間たちの記録が深淵に消されないよう、最後の壁を築く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch20_mid_b_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "6a2f63509775f4418dbc3818e8b3db582af7af87715de01352807158ce88a6e7",
+   "runtime_sha256": "eb10bcb3949a0b1bff2f613a29d551383ce8d1a38c8b018bb589cef44489d064"
+  },
+  {
+   "voice_id": "vo_story_ch20_mid_b_02",
+   "speaker_key": "CHAR_LAVENT_NAME",
+   "voice": "longluanhuiyu",
+   "text_keys": [
+    "STORY_CH20_MID_B_02"
+   ],
+   "ko": "내가 이 구간의 틈을 붙들게. 당신들은 이 신호가 끝나는 곳까지 가 줘.",
+   "ja": "この区間の隙間は、私が押さえておく。あなたたちは、この信号が途切れる場所まで行って。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch20_mid_b_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "061c72b19919ea738694bb49ced74939fad3f68164b4bc6a757eba1855037678",
+   "runtime_sha256": "89d0a9b9d15df601cacf242a1a8495cbc5f33b3d8e84c6fba8e9dcd68ede4afb"
+  },
+  {
+   "voice_id": "vo_story_ch20_mid_b_03",
+   "speaker_key": "CHAR_LAVENT_NAME",
+   "voice": "longluanhuiyu",
+   "text_keys": [
+    "STORY_CH20_MID_B_03"
+   ],
+   "ko": "이번 전투만의 거래가 아니야. 이 길을 끝까지 확인하기 위해 함께 가겠다.",
+   "ja": "この戦いだけの取引じゃない。この道を最後まで見届けるために、一緒に行く。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch20_mid_b_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "a35d6673a0cee1465049749c30003ab9620f7e0cec841a9bbb9433b7958e161e",
+   "runtime_sha256": "6d6e243349ffcacb5c6d94fa0e7224a7d8ae8d6e122591e2b9568bd6a4bb3510"
+  },
+  {
+   "voice_id": "vo_story_ch20_outro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH20_OUTRO_01"
+   ],
+   "ko": "등로단은 어둠을 없애지 않고 돌아올 길을 함께 밝히는 방식으로 마지막 등불을 점화한다.",
+   "ja": "灯路団は、闇を消し去るのではなく、帰り道をともに照らすやり方で、最後の灯火を点す。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch20_outro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "ed96578e1d02f149ae7d8efb880b6c913a81f4f44ac6f6c3373e9b785592d82e",
+   "runtime_sha256": "a000df04f316dd2b64b295e32436686d0788a91995fe00b41fd53da3f59565a7"
+  },
+  {
+   "voice_id": "vo_story_ch20_outro_interlude",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH20_OUTRO_INTERLUDE"
+   ],
+   "ko": "라벤트가 연결한 스무 개의 독립 노선 서명은 새 시간표의 첫 좌표가 되고, 세계는 다시 선택할 수 있게 된다.",
+   "ja": "ラベントがつないだ二十の独立した路線の署名は、新しい時刻表の最初の座標となり、世界は、ふたたび選べるようになる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch20_outro_interlude.ogg",
+   "source_take": "take1",
+   "source_sha256": "de481e0aa33589ed9b7f36c2d3f576ac8f1dd64b4c916d1415a2600ec9b05ad1",
+   "runtime_sha256": "265d6a1f1fa8c27df056beac4baf876b8f900a55a79e574870b3d0ba737afacc"
+  },
+  {
+   "voice_id": "vo_story_ch20_preboss_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_CH20_PREBOSS_01"
+   ],
+   "ko": "최후선 수문장은 등불을 켜면 모든 어둠도 동시에 노선을 얻는다며 점화를 역으로 이용한다.",
+   "ja": "最後線の門番は、灯火を点せば、すべての闇もまた路線を得ると言い、点火を逆手に取る。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch20_preboss_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "b5afeddfbc349e9af8b6e00a08363b451fb006479bbbfafe5fdc33d986954ef6",
+   "runtime_sha256": "5ebe7c1f9a9d9feb8e489fe7a7e29f905779873efb715709730c80d0c4d42e2b"
+  },
+  {
+   "voice_id": "vo_story_ch20_preboss_02",
+   "speaker_key": "CHAR_LAVENT_NAME",
+   "voice": "longluanhuiyu",
+   "text_keys": [
+    "STORY_CH20_PREBOSS_02"
+   ],
+   "ko": "내가 찾아낸 약점은 아직 유효해. 놈이 규칙을 바꾸기 전에 진입해야 해.",
+   "ja": "私が見つけた弱点は、まだ生きてる。あいつが規則を変える前に、踏み込まないと。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch20_preboss_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "7a25c29a153d0b7d2b4c44c9e4ca5ef435ad84252717975e8f08b318df5c147c",
+   "runtime_sha256": "a462f2c28c1c59691f1f53ff5e3ab274220b53e25f93d495b1f3d8db7979b82e"
+  },
+  {
+   "voice_id": "vo_story_ch20_preboss_03",
+   "speaker_key": "CHAR_LAVENT_NAME",
+   "voice": "longluanhuiyu",
+   "text_keys": [
+    "STORY_CH20_PREBOSS_03"
+   ],
+   "ko": "뒤는 내가 맡는다. 이 전투가 끝나야 내 합류도, 이 노선의 결과도 확정돼.",
+   "ja": "背中は私が守る。この戦いが終わって初めて、私の合流も、この路線の結末も決まる。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_ch20_preboss_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "7ce52c63ffad7bbb11dc5827440694fca4699f8ab7bd1bc706fd56c67879fc76",
+   "runtime_sha256": "aae7bad80c8ba4fbccfc5cf8817453f73570f2e636dddb7c51b67a45c0508e00"
+  },
+  {
+   "voice_id": "vo_story_pro_01",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_PRO_01"
+   ],
+   "ko": "대정전 뒤, 지하의 광맥 철로는 마지막 도시들을 잇는 유일한 길이 되었다.",
+   "ja": "大停電のあと、地下の鉱脈鉄路は、最後の都市たちを結ぶ、唯一の道となった。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_pro_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "0791ca9fe026bbd5cf064f6a634e5a336d60990fe4e50fff139d692675ffae6a",
+   "runtime_sha256": "5013f3d71ede738c86bef0cf984cd10a226da1cf7117853982c23d96b257fe84"
+  },
+  {
+   "voice_id": "vo_story_pro_02",
+   "speaker_key": "SPEAKER_ROUTEKEEPER",
+   "voice": "longtonghewei",
+   "text_keys": [
+    "STORY_PRO_02"
+   ],
+   "ko": "새로 깨어난 기록 항해자는 끊긴 등불과 사람들의 기억을 복구해야 한다.",
+   "ja": "新たに目覚めた記録航海士は、途切れた灯火と、人々の記憶を取り戻さなければならない。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_pro_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "205eae354f4ee5080c93cee4312e161f8179e06eda2a88f22dc15d08ce0b1cef",
+   "runtime_sha256": "26090450b865d09e68d759fb420ea1997c82cfbe2d972c2828bd79d36647236e"
+  },
+  {
+   "voice_id": "vo_story_pro_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_PRO_03"
+   ],
+   "ko": "제7 승강장에서 첫 신호가 깜박이고 있어. 거기서 시작하자.",
+   "ja": "第七ホームで、最初の信号が瞬いてる。そこから始めよう。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_pro_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "66c07968b8243b90683e11c88fb1baa637ee986577b0cddd94cb8b1da56f05f3",
+   "runtime_sha256": "b89a4ce10a147c90f8746e450d4792b0e89d927095001af378aca5c6454b13fd"
+  },
+  {
+   "voice_id": "vo_story_pro_04",
+   "speaker_key": "SPEAKER_ROAN",
+   "voice": "longyitingyan",
+   "text_keys": [
+    "STORY_PRO_04"
+   ],
+   "ko": "정찰로는 내가 연다. 신호가 살아나면 바로 따라와.",
+   "ja": "偵察路は、私が開く。信号が生き返ったら、すぐについてきて。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_pro_04.ogg",
+   "source_take": "take1",
+   "source_sha256": "46863766bee328e9dfe161d70860fc2d5d536c25b9dca1d47a48aff73caeabed",
+   "runtime_sha256": "070d130c77e0f730627b53741c63f73c49490fe41a5749893b02b73ce9427344"
+  },
+  {
+   "voice_id": "vo_story_rel_i_01",
+   "speaker_key": "SPEAKER_IRI",
+   "voice": "longlanghongmo",
+   "text_keys": [
+    "STORY_REL_I_01"
+   ],
+   "ko": "고장 난 안내 방송을 모아서 작은 합창곡을 만들었어.",
+   "ja": "壊れた案内放送を集めて、小さな合唱曲を作ったの。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_rel_i_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "ab4e48b2d2e4eeab4231e4052f2ed23ad39740f9b364442e13319abb6cffa453",
+   "runtime_sha256": "db4ef879f99251bb0f3304f22812f37b16fce66535892958539a223c5ec98ba1"
+  },
+  {
+   "voice_id": "vo_story_rel_i_02",
+   "speaker_key": "SPEAKER_IRI",
+   "voice": "longlanghongmo",
+   "text_keys": [
+    "STORY_REL_I_02"
+   ],
+   "ko": "완벽한 음정보다 누군가 살아 있었다는 흔적이 더 중요하다고 생각해.",
+   "ja": "完璧な音程よりも、誰かが生きていたっていう痕跡のほうが、大事だと思うんだ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_rel_i_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "7e11a691e1e103c8d77517660883ea9642b1623e0ef09019f12d35ddeaa2b473",
+   "runtime_sha256": "0b8b11de28aedf2d634645f108d6ee515226afbdcdf5e7ea086ea84f624a78d3"
+  },
+  {
+   "voice_id": "vo_story_rel_i_03",
+   "speaker_key": "SPEAKER_IRI",
+   "voice": "longlanghongmo",
+   "text_keys": [
+    "STORY_REL_I_03"
+   ],
+   "ko": "다음 정거장에 도착하면 같이 틀어 보자. 혼자 듣는 것보다 좋을 거야.",
+   "ja": "次の停車駅に着いたら、一緒に流してみよう。ひとりで聴くより、きっといいよ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_rel_i_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "059d4ca3e411be9d9959ea29c6a7f231d2b8b31529b6a3d007b807a926fd9a4b",
+   "runtime_sha256": "cfba9d7e7149de9cbbd82c6b63f28211ef997319c765b54fdceaa0f5979da74f"
+  },
+  {
+   "voice_id": "vo_story_rel_m_01",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_REL_M_01"
+   ],
+   "ko": "출발 전에는 빈 좌석의 안전띠까지 확인해. 빠뜨리면 마음이 놓이지 않거든.",
+   "ja": "出発の前には、空いた座席のシートベルトまで確かめるの。見落とすと、落ち着かなくて。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_rel_m_01.ogg",
+   "source_take": "take1",
+   "source_sha256": "72b8e3d9be4e67b2be0386f722ec81decc1a0dfac8d19c3fd838a0dc759bba9c",
+   "runtime_sha256": "dab69869971c503301724e480acf03110ee4ac7808c35897c736659d9c2a9a95"
+  },
+  {
+   "voice_id": "vo_story_rel_m_02",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_REL_M_02"
+   ],
+   "ko": "돌아오지 못한 동료의 자리를 잊지 않기 위해 시작한 습관이야.",
+   "ja": "帰ってこられなかった仲間の席を忘れないために、始めた習慣なんだ。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_rel_m_02.ogg",
+   "source_take": "take1",
+   "source_sha256": "feaf341bf2be6d71551c4f2b1a80622e6e45b4af5c0c59537a668b22c6fbb406",
+   "runtime_sha256": "77b64e0d9de6bdddba730780d847562a17aa65df9a5ba7619134cb365bf2ea7a"
+  },
+  {
+   "voice_id": "vo_story_rel_m_03",
+   "speaker_key": "SPEAKER_MAERU",
+   "voice": "longyuyaoluan",
+   "text_keys": [
+    "STORY_REL_M_03"
+   ],
+   "ko": "오늘은 그 자리에 새 구조 장비를 놓았어. 빈자리가 다음 사람을 살리게 됐네.",
+   "ja": "今日はその席に、新しい救助装備を置いたの。空いた席が、次の誰かを救うことになったね。",
+   "runtime_path": "res://assets/audio/voice/ja/vo_story_rel_m_03.ogg",
+   "source_take": "take1",
+   "source_sha256": "3760fac610e9889c9f604b6da490ec509af6b069e1c069c29238d9b1ff53dfcc",
+   "runtime_sha256": "6015289e69760ece513a7a1f0610dfba9452e4b1ca7d4f2920a61bf8ffe623d2"
+  }
+ ]
+}

@@ -1422,6 +1422,9 @@ func _show_screen(screen_id: String) -> void:
 	# background while HOME or another screen is already visible.
 	if previous_screen == "STAGE_SELECT" and screen_id != "STAGE_SELECT" and StageAssetCache.warming:
 		StageAssetCache.cancel_warmup()
+	# A story voice belongs to the line on screen; it never carries into another screen.
+	if previous_screen == "STORY" and screen_id != "STORY":
+		AudioService.stop_voice()
 	_prepare_transition_loading_for_screen(previous_screen, screen_id)
 	current_screen = screen_id
 	_clear()
@@ -2202,6 +2205,7 @@ func _show_story(reuse_runtime_state := false) -> void:
 	if not loaded.ok:
 		scenario_text.text = loaded.error
 		return
+	AudioService.prefetch_line_voices(scenario_runner.scenario.get("commands", []))
 	_refresh_story_art()
 	story_auto_left = 1.0
 	_refresh_story_control_states()
@@ -2749,6 +2753,8 @@ func _advance_story() -> void:
 	# typewriter first so a rapid tap, AUTO advance, skip, or orientation rebuild
 	# can never let an earlier line alter the current one.
 	_cancel_story_typewriter()
+	# Advancing cuts the previous line's voice, as in a visual novel.
+	AudioService.stop_voice()
 	for choice in scenario_choices.get_children(): choice.queue_free()
 	var guard := 0
 	while guard < 20:
@@ -2766,6 +2772,10 @@ func _advance_story() -> void:
 			story_typewriter_tween = create_tween()
 			story_typewriter_tween.tween_property(scenario_text, "visible_ratio", 1.0, reveal_duration)
 			story_auto_left = float(SettingsService.values.auto_delay) + maxf(.5, scenario_text.text.length() * float(SettingsService.values.text_speed))
+			# Korean text on screen, Japanese voice. AUTO already waits for the voice
+			# to finish, so a voiced line only needs a short pause afterwards.
+			if AudioService.play_line_voice(str(command.get("text_key", ""))):
+				story_auto_left = maxf(.6, float(SettingsService.values.auto_delay) * .6)
 			return
 		if type == "choice":
 			scenario_speaker.text = "선택"
@@ -5382,7 +5392,7 @@ func _show_settings() -> void:
 func _show_license() -> void:
 	_title("오픈소스 라이선스", "Godot와 제3자/공용 팩토리 출처 분리")
 	var box := _scroll_box()
-	box.add_child(_label("Godot Engine\nMIT License — Copyright Godot Engine contributors. 전체 라이선스는 배포본의 LICENSES 문서를 참조하십시오.\n\n공용 Asset Share Procedural Factory\nMIT / 버전 0.1.0. 동기화된 결과는 DEV_PLACEHOLDER이며 원본 manifest SHA-256과 출처를 보존합니다.\n\n현재 신규 코드 기반 도형 UI/SD placeholder는 프로젝트 자체 제작물입니다. 외부 생성 API나 원격 에셋은 사용하지 않았습니다.", 20))
+	box.add_child(_label("Godot Engine\nMIT License — Copyright Godot Engine contributors. 전체 라이선스는 배포본의 LICENSES 문서를 참조하십시오.\n\n공용 Asset Share Procedural Factory\nMIT / 버전 0.1.0. 동기화된 결과는 DEV_PLACEHOLDER이며 원본 manifest SHA-256과 출처를 보존합니다.\n\n현재 신규 코드 기반 도형 UI/SD placeholder는 프로젝트 자체 제작물입니다.\n\n일본어 스토리 음성\nAlibaba Cloud Model Studio Token Plan(싱가포르)의 qwen-audio-3.0-tts-plus로 제작 단계에서 미리 생성한 파일입니다. 게임은 실행 중 음성 합성이나 원격 API를 호출하지 않으며, 원격 에셋도 불러오지 않습니다.", 20))
 
 func _show_debug() -> void:
 	if not SettingsService.is_developer_mode():

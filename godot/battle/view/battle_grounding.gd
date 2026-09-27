@@ -34,6 +34,32 @@ static func register_pose(pose: Dictionary, points: Array, body_scale: float, mi
 	offset.y = -bottom
 	return {"offset": offset, "scale": draw_scale, "rotation": rotation, "contact_x": contact_x, "bottom_y": bottom + offset.y}
 
+## Tactical grid layout in normalized battlefield space (see BattleGrid).
+## Lanes run from the far lane (0, higher on screen) to the near lane (2); the
+## far lane leans slightly right so the floor reads with a shallow perspective.
+const LANE_Y := [.655, .745, .835]
+const COLUMN_X0 := .115
+const COLUMN_STEP := .148
+const LANE_SKEW := .016
+
+static func cell_point(col: float, lane: float) -> Vector2:
+	var clamped := clampf(lane, 0.0, 2.0)
+	var y := lerpf(float(LANE_Y[0]), float(LANE_Y[2]), clamped / 2.0)
+	return Vector2(COLUMN_X0 + col * COLUMN_STEP + (1.0 - clamped) * LANE_SKEW, y)
+
+## Four normalized corners of a cell's floor tile (top-left, top-right,
+## bottom-right, bottom-left).
+static func cell_polygon(col: int, lane: int, inset := .006) -> PackedVector2Array:
+	var half_height := (float(LANE_Y[2]) - float(LANE_Y[0])) / 4.0
+	var center := cell_point(col, lane)
+	var half_width := COLUMN_STEP * .5 - inset
+	var lean := LANE_SKEW * .5
+	var top := center.y - half_height + inset * .5
+	var bottom := center.y + half_height - inset * .5
+	return PackedVector2Array([
+		Vector2(center.x - half_width + lean, top), Vector2(center.x + half_width + lean, top),
+		Vector2(center.x + half_width - lean, bottom), Vector2(center.x - half_width - lean, bottom)])
+
 static func formation_point(view_size: Vector2, player: bool, slot: int, _boss_stage: bool) -> Vector2:
 	# Both arenas share the same continuous foreground floor. Keeping the same
 	# lane coordinates also prevents a formation jump when a boss wave arrives.

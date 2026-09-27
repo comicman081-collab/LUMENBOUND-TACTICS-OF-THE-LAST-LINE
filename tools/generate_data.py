@@ -469,6 +469,55 @@ def stage_data() -> tuple[list[dict], list[dict]]:
     return stages, rewards
 
 
+# Tactical battles place every wave on a 3 x 3 enemy grid, so a wave needs
+# enough bodies to form a line: escorts copy the stage's own regular enemies
+# (no new art, no new asset loads). BattleSimulation.squad_factor shrinks HP and
+# attack as a wave grows, so the extra bodies split the threat rather than add it.
+SQUAD_ROLE_ORDER = {"MELEE_RUSH": 0, "RANGED": 1, "DEFENDER": 2, "DEBUFFER": 3, "BUFFER": 4, "HEALER": 5, "ARTILLERY": 6}
+
+
+def squad_size(chapter_number: int, mode: str, stage_number: int) -> int:
+    if chapter_number == 1 and mode == "NORMAL":
+        size = 3 if stage_number <= 8 else 4
+    elif chapter_number <= 5:
+        size = 4
+    else:
+        size = 5
+    if mode == "HARD":
+        size += 1
+    return min(6, size)
+
+
+def expand_squads(row: dict) -> list:
+    roles = {e[0]: (e[2], e[3]) for e in ENEMIES}
+    chapter_number = int(str(row["chapter_id"])[2:])
+    size = squad_size(chapter_number, str(row["mode"]), int(row["stage_number"]))
+    pool = []
+    for wave in row["waves"]:
+        for enemy_id in wave:
+            rank, _role = roles.get(enemy_id, ("NORMAL", "RANGED"))
+            if rank == "NORMAL" and enemy_id not in pool:
+                pool.append(enemy_id)
+    if not pool:
+        pool = ["ENM001", "ENM002"]
+    pool.sort(key=lambda enemy_id: (SQUAD_ROLE_ORDER.get(roles.get(enemy_id, ("", ""))[1], 9), enemy_id))
+    expanded = []
+    cursor = int(row["stage_number"])
+    for wave in row["waves"]:
+        wave = list(wave)
+        boss_wave = any(str(enemy_id).startswith("BOSS") for enemy_id in wave)
+        target = 3 if boss_wave else size
+        # Waves that already hold an elite pair keep their weight: one fewer escort.
+        elites = sum(1 for enemy_id in wave if roles.get(enemy_id, ("NORMAL", ""))[0] == "ELITE")
+        if not boss_wave and elites >= 2:
+            target = max(len(wave), size - 1)
+        while len(wave) < target:
+            wave.append(pool[cursor % len(pool)])
+            cursor += 1
+        expanded.append(wave)
+    return expanded
+
+
 def campaign_stage_data() -> tuple[list[dict], list[dict]]:
     """Build the audited 20 chapter x 25 battle campaign.
 
@@ -557,6 +606,8 @@ def campaign_stage_data() -> tuple[list[dict], list[dict]]:
                     "bonus": [{"item_id": "UNIVERSAL_CATALYST", "chance": .12, "quantity": 1, "pity_after_failures": 7}],
                     "first_clear": [{"item_id": "CREDIT", "quantity": 7000 + chapter_number * 850 + number * 500}, {"item_id": "LANTERN_SHARD", "quantity": 15}],
                 })
+    for row in stages:
+        row["waves"] = expand_squads(row)
     stages.sort(key=lambda row: (int(str(row["chapter_id"])[2:]), 0 if row["mode"] == "NORMAL" else 1, int(row["stage_number"])))
     rewards.sort(key=lambda row: next(index for index, stage in enumerate(stages) if stage["id"] == row["stage_id"]))
     return stages, rewards

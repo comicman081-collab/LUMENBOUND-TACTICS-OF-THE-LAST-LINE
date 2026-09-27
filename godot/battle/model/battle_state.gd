@@ -13,4 +13,7 @@ var victory := false
 var reason := ""
 var party: Array = []
 var enemies: Array = []
+## Cover cells ([col, lane]) of this stage and the party's focus-fire target.
+var cover_cells: Array = []
+var focus_uid := ""
 

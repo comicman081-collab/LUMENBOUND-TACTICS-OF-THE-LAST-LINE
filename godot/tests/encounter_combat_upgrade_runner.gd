@@ -82,13 +82,16 @@ func _ready() -> void:
 	var uid := str(sim.state.party[0].uid)
 	var original := view._unit_pos(sim.state.party[0])
 	view._advance_engagement(1.0)
-	check(view._unit_pos(sim.state.party[0]).x > original.x and view._unit_pos(sim.state.party[0]).x < original.x + 80.0, "Opening preserves separated resting columns")
+	check(view._unit_pos(sim.state.party[0]).distance_to(original) < 1.0 and view._unit_pos(sim.state.party[0]).x < view._unit_pos(target).x, "Opening keeps every actor on its grid cell")
 	var motion_ids: Array[String] = [str(sim.state.party[0].def_id)]
 	check(await view.action_frames.warm(motion_ids,self), "Real melee motion available for contact travel")
 	view.animation_tracks[uid] = {"name":"basic_attack","elapsed":0.0,"target_uid":str(target.uid)}
 	var resting := view._ground_position(sim.state.party[0])
 	view.animation_tracks[uid].elapsed = .44
-	check(view._ground_position(sim.state.party[0]).x > resting.x + 250.0, "Authored melee strike closes the target gap")
+	# Entry offsets are still settling in this headless fixture; measure the
+	# strike itself against the two grid cells.
+	var cell_gap := view._unit_pos(target) - view._unit_pos(sim.state.party[0])
+	check(view._actor_travel_offset(sim.state.party[0]).length() > cell_gap.length() * .5 and view._actor_travel_offset(sim.state.party[0]).dot(cell_gap) > 0.0, "Authored melee strike closes the target gap")
 	view.animation_tracks[uid].elapsed = .78
 	check(view._ground_position(sim.state.party[0]).distance_to(resting)<.001, "Melee recovery returns to its reserved lane")
 	sim._down_unit(target,uid,"BASIC")

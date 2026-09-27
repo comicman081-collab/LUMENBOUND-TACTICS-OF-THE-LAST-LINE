@@ -13,6 +13,7 @@ const STATUS := "STATUS"
 const DOWN := "DOWN"
 const WAVE := "WAVE"
 const BATTLE_END := "BATTLE_END"
+const FOCUS := "FOCUS"
 
 static func make(tick: int, type: String, source := "", target := "", value := 0, extra: Dictionary = {}) -> Dictionary:
 	return {"tick": tick, "type": type, "source": source, "target": target, "value": value, "extra": extra}

@@ -312,6 +312,23 @@ func set_party_slot(slot: int, character_id: String) -> bool:
 		party[slot] = character_id
 	return true
 
+## Battle placement for the active preset (or the relay squad) as
+## {character_id: [col, lane]}. Members without a saved cell stand on their
+## preferred row (BattleGrid.default_formation).
+func battle_formation_key() -> String:
+	return "relay" if relay_active() else "party_%d" % int(profile.get("active_party", 0))
+
+func battle_formation() -> Dictionary:
+	var formations = profile.get("formations", {})
+	if not (formations is Dictionary): return {}
+	var saved = formations.get(battle_formation_key(), {})
+	return (saved as Dictionary).duplicate(true) if saved is Dictionary else {}
+
+func set_battle_formation(formation: Dictionary) -> void:
+	if not (profile.get("formations", null) is Dictionary):
+		profile["formations"] = {}
+	profile.formations[battle_formation_key()] = formation.duplicate(true)
+
 func create_party_snapshot() -> Array:
 	return create_party_snapshot_for(get_party())
 

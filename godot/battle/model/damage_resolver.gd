@@ -1,11 +1,13 @@
 class_name DamageResolver
 extends RefCounted
 
-static func calculate(attacker: Dictionary, defender: Dictionary, coefficient: float, affinity_matrix: Dictionary, rng: DeterministicRng) -> Dictionary:
+## `position_factor` carries the grid modifiers (cover, flank, auras).
+## `always_hit` skips the hit roll for telegraphed area attacks.
+static func calculate(attacker: Dictionary, defender: Dictionary, coefficient: float, affinity_matrix: Dictionary, rng: DeterministicRng, position_factor := 1.0, always_hit := false) -> Dictionary:
 	var attacker_stats: Dictionary = attacker.stats
 	var defender_stats: Dictionary = defender.stats
 	var hit_chance := clampf(0.80 + (float(attacker_stats.get("ACC", 0)) - float(defender_stats.get("EVA", 0))) / 1000.0, 0.20, 0.99)
-	if rng.randf() > hit_chance:
+	if not always_hit and rng.randf() > hit_chance:
 		return {"hit": false, "crit": false, "amount": 0, "hit_chance": hit_chance}
 	var defense_factor := 700.0 / (700.0 + maxf(0.0, float(defender_stats.get("DEF", 0))))
 	if UnitState.has_status(defender, "DEF_DOWN"):
@@ -21,6 +23,6 @@ static func calculate(attacker: Dictionary, defender: Dictionary, coefficient: f
 	var incoming := float(defender.get("incoming_modifier", 1.0))
 	if UnitState.has_status(attacker, "ATK_DOWN"):
 		outgoing *= 0.78
-	var amount := maxi(1, MathUtil.round_half_up(float(attacker_stats.get("ATK", 1)) * coefficient * defense_factor * level_factor * affinity * critical_factor * variance * outgoing * incoming))
-	return {"hit": true, "crit": critical, "amount": amount, "hit_chance": hit_chance, "crit_chance": crit_chance, "defense_factor": defense_factor, "level_factor": level_factor, "affinity_factor": affinity, "random_variance": variance}
+	var amount := maxi(1, MathUtil.round_half_up(float(attacker_stats.get("ATK", 1)) * coefficient * defense_factor * level_factor * affinity * critical_factor * variance * outgoing * incoming * position_factor))
+	return {"hit": true, "crit": critical, "amount": amount, "hit_chance": hit_chance, "crit_chance": crit_chance, "defense_factor": defense_factor, "level_factor": level_factor, "affinity_factor": affinity, "random_variance": variance, "position_factor": position_factor}
 

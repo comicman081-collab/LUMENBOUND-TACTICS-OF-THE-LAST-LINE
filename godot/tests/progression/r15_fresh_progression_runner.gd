@@ -7,6 +7,7 @@ extends RefCounted
 
 const CHECKPOINT_STAGES := {"CH01-N03": true, "CH01-N06": true, "CH01-N10": true, "CH01-N15": true, "CH01-N19": true, "CH01-N20": true}
 const MAX_GROWTH_ACTIONS_PER_STAGE := 100
+const MAX_BATTLE_ATTEMPTS := 3
 const GrowthPlanBuilderScript := preload("res://progression/growth_plan_builder.gd")
 
 var errors: Array[String] = []
@@ -16,6 +17,7 @@ var save_reload_differences: Array = []
 var duplicate_reward_attempts := 0
 var illegal_growth_actions := 0
 var dead_ends := 0
+var retried_battles := 0
 
 func run() -> Dictionary:
 	_mark("R15_FRESH_E2E_START")
@@ -124,14 +126,29 @@ func _run_stage(stage: Dictionary, seed: int) -> bool:
 	_mark("R15_%s_PASS" % stage_id.replace("-", "_"))
 	return true
 
+## Battles are positional: the fresh player deploys against the wave list and
+## steps out of telegraphed cells (TacticalPolicy), with AUTO ultimates.
+## A lost battle is retried like a player would: the other placement first, then
+## the counter-formation again (up to MAX_BATTLE_ATTEMPTS, counted in the report).
 func _battle(stage: Dictionary, seed: int) -> Dictionary:
-	var simulation := BattleSimulation.new()
-	simulation.setup(AppState.create_party_snapshot(), stage, seed, DataRegistry.data)
-	simulation.auto_enabled = true
-	var tick_limit := int(float(stage.get("time_limit", 90.0)) * 30.0) + 5
-	while not simulation.state.ended and simulation.state.tick < tick_limit:
-		simulation.tick()
-	return simulation.result_snapshot()
+	var party := AppState.create_party_snapshot()
+	var formations := [TacticalPolicy.formation_for(party, stage, DataRegistry.data), BattleGrid.default_formation(party)]
+	var result := {}
+	for attempt in MAX_BATTLE_ATTEMPTS:
+		var simulation := BattleSimulation.new()
+		simulation.setup(party, stage, seed + attempt * 7919, DataRegistry.data, {"formation": formations[attempt % formations.size()]})
+		simulation.auto_enabled = true
+		var tick_limit := int(float(stage.get("time_limit", 90.0)) * 30.0) + 5
+		while not simulation.state.ended and simulation.state.tick < tick_limit:
+			TacticalPolicy.react(simulation)
+			simulation.tick()
+		result = simulation.result_snapshot()
+		result["attempts"] = attempt + 1
+		if bool(result.get("victory", false)):
+			break
+	if int(result.attempts) > 1:
+		retried_battles += 1
+	return result
 
 func _apply_growth(stage_id: String) -> Array:
 	var actions: Array = []
@@ -190,6 +207,7 @@ func _report(completed: bool) -> Dictionary:
 		"save_reload_mismatches": save_reload_mismatches,
 		"save_reload_differences": save_reload_differences.duplicate(true),
 		"dead_ends": dead_ends,
+		"retried_battles": retried_battles,
 		"errors": errors.duplicate(),
 		"rows": rows.duplicate(true),
 		"final_account": AppState.profile.get("account", {}).duplicate(true),

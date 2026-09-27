@@ -135,6 +135,15 @@ var relay_edit_squad := 0
 var relay_edit_slot := 0
 var debug_reset_armed := false
 var battle_transition_active := false
+## Tactical battle input: the ally being moved, the ultimate being aimed, the
+## transient hint line and the pre-battle deployment panel.
+var battle_selected_uid := ""
+var battle_aim_uid := ""
+var battle_tactical_hint: Label
+var battle_tactical_hint_left := 0.0
+var battle_deploy_panel: PanelContainer
+var battle_deploy_summary: Label
+var battle_deploy_tip: Label
 # Pre-battle event modals run while the map is still the active scene. Keep a
 # raw-input bridge so an embedded Web canvas cannot leave the event card
 # without a responsive click, touch, Next, or Skip route.
@@ -1290,6 +1299,7 @@ func _process(delta: float) -> void:
 			_advance_story()
 	if current_screen == "BATTLE" and battle_view != null and battle_view.simulation != null:
 		_update_battle_hud()
+		_tick_battle_tactical_hint(delta)
 	_update_status_toast(delta)
 
 # The footer bar is hidden by the layout, but many flows report failures and
@@ -4043,7 +4053,11 @@ func _show_battle() -> void:
 	_set_transition_loading_phase(loading_token, "Initializing the real-time battle simulation", 64.0, 0.32)
 	await get_tree().process_frame
 	AppState.current_battle_seed = AppState.next_battle_seed()
-	simulation.setup(party_snapshot, stage, AppState.current_battle_seed, DataRegistry.data, AppState.effective_battle_debug_options())
+	# The last deployment for this party (or relay squad) is restored; the player
+	# adjusts it on the battlefield before the first tick.
+	var battle_options := AppState.effective_battle_debug_options()
+	battle_options["formation"] = AppState.battle_formation()
+	simulation.setup(party_snapshot, stage, AppState.current_battle_seed, DataRegistry.data, battle_options)
 	simulation.auto_enabled = bool(SettingsService.values.battle_auto)
 	_set_transition_loading_phase(loading_token, "Deploying combatants and effects", 82.0, 0.26)
 	await get_tree().process_frame
@@ -4057,6 +4071,9 @@ func _show_battle() -> void:
 	battle_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	battle_view.custom_minimum_size = Vector2(0.0, 420.0)
 	battle_view.setup(simulation)
+	battle_view.deployment_active = true
+	battle_selected_uid = ""
+	battle_aim_uid = ""
 	battle_view.speed = int(SettingsService.values.battle_speed)
 	battle_view.battle_finished.connect(_battle_finished)
 	battle_view.battle_assets_ready.connect(_refresh_battle_ultimate_orb_art)
@@ -4104,6 +4121,10 @@ func _rebuild_battle_overlay() -> void:
 	battle_speed_button = null
 	battle_pause_panel = null
 	battle_pause_center = null
+	battle_tactical_hint = null
+	battle_deploy_panel = null
+	battle_deploy_summary = null
+	battle_deploy_tip = null
 	_build_battle_overlay()
 
 func _build_battle_overlay() -> void:
@@ -4115,7 +4136,9 @@ func _build_battle_overlay() -> void:
 	overlay.offset_top = 20
 	overlay.offset_right = -20
 	overlay.offset_bottom = -24
-	overlay.mouse_filter = Control.MOUSE_FILTER_PASS
+	# Taps on the open battlefield fall through to the tactical input layer.
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_build_battle_tactical_input()
 	var portrait := _is_portrait_layout()
 	battle_portrait_layout = portrait
 	var ui_scale := _portrait_ui_scale()
@@ -4179,13 +4202,25 @@ func _build_battle_overlay() -> void:
 	battle_gauge.size_flags_horizontal = Control.SIZE_EXPAND_FILL if portrait else Control.SIZE_SHRINK_BEGIN
 	battle_gauge.draw.connect(_draw_battle_gauge)
 	overlay.add_child(battle_gauge)
+	_build_battle_deployment_panel(overlay, ui_scale)
+	battle_tactical_hint = _label("", 19, Color("fff1c4"))
+	battle_tactical_hint.name = "BattleTacticalHint"
+	battle_tactical_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	battle_tactical_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	battle_tactical_hint.add_theme_color_override("font_outline_color", Color("050a12"))
+	battle_tactical_hint.add_theme_constant_override("outline_size", 6)
+	battle_tactical_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	battle_tactical_hint.visible = false
+	overlay.add_child(battle_tactical_hint)
 	# Character health and shield are deliberately represented only at their
 	# world positions. Repeating five HP/SH text cards over a portrait battle
 	# hides the scene and competes with the head bars the player actually tracks.
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	overlay.add_child(spacer)
 	var bottom: Container = GridContainer.new() if portrait else HBoxContainer.new()
+	bottom.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	if bottom is GridContainer:
 		# Face-cropped 64 CSS-pixel discs fit in one five-wide row on a 390px phone.
 		# This preserves a 56px+ touch target while keeping the combat formation
@@ -4274,11 +4309,21 @@ func _update_battle_hud() -> void:
 			GameUI.apply_button(battle_auto_button, "primary" if simulation.auto_enabled else "secondary")
 	if battle_speed_button != null:
 		battle_speed_button.text = "×%d" % battle_view.speed
+	# A selection never survives its unit, a cutscene or a spent gauge.
+	if not battle_selected_uid.is_empty() or not battle_aim_uid.is_empty():
+		var holder := simulation.find_unit(battle_selected_uid if not battle_selected_uid.is_empty() else battle_aim_uid)
+		var aim_ready := battle_aim_uid.is_empty() or (not holder.is_empty() and SkillRuntime.can_use_ultimate(holder, DataRegistry.skill(holder.ultimate_skill_id), simulation.state.tactical_gauge))
+		if holder.is_empty() or not UnitState.alive(holder) or not aim_ready or battle_view.scene_transition_active() or simulation.state.ended:
+			_end_battle_tactical_selection()
+	# The orb row overlaps the lower half of the near lane on landscape frames:
+	# while deploying or picking a destination, taps pass through to the cells.
+	var orbs_pass_through := battle_view.deployment_active or not battle_selected_uid.is_empty()
 	for i in range(ultimate_buttons.size()):
 		var unit: Dictionary = simulation.state.party[i]
 		var skill := DataRegistry.skill(unit.ultimate_skill_id)
-		var ready := SkillRuntime.can_use_ultimate(unit, skill, simulation.state.tactical_gauge)
+		var ready := SkillRuntime.can_use_ultimate(unit, skill, simulation.state.tactical_gauge) and not battle_view.deployment_active
 		ultimate_buttons[i].disabled = not ready
+		ultimate_buttons[i].mouse_filter = Control.MOUSE_FILTER_IGNORE if orbs_pass_through else Control.MOUSE_FILTER_STOP
 		if ultimate_buttons[i] is BattleUltimateOrb:
 			(ultimate_buttons[i] as BattleUltimateOrb).set_charge(simulation.state.tactical_gauge, float(skill.get("tactical_cost", 10)), ready)
 
@@ -4347,6 +4392,10 @@ func _toggle_battle_auto() -> void:
 func _skip_battle() -> void:
 	if battle_view == null or battle_view.simulation == null or battle_view.emitted_finish or battle_view.skip_in_progress:
 		return
+	# Skipping from the deployment screen fights with the formation on the field.
+	if battle_view.deployment_active:
+		_start_deployed_battle()
+	_end_battle_tactical_selection()
 	var skip_button := battle_skip_button
 	if skip_button != null:
 		skip_button.disabled = true
@@ -4359,30 +4408,32 @@ func _skip_battle() -> void:
 		skip_button.text = "▶▶" if battle_portrait_layout else "SKIP ▶"
 
 func _request_ultimate(unit_id: String) -> void:
-	if battle_view == null or battle_view.simulation == null: return
+	if battle_view == null or battle_view.simulation == null or battle_view.deployment_active: return
 	var simulation := battle_view.simulation
 	var unit := simulation.find_unit(unit_id)
 	if unit.is_empty(): return
 	var skill := DataRegistry.skill(unit.ultimate_skill_id)
-	if str(skill.get("effect", "")) not in ["DAMAGE", "DEBUFF"]:
-		simulation.request_ultimate(unit_id)
-		return
+	var effect := str(skill.get("effect", ""))
 	var targets := simulation.alive_enemies()
-	if targets.size() <= 1:
-		simulation.request_ultimate(unit_id, "" if targets.is_empty() else str(targets[0].uid))
+	if effect not in ["DAMAGE", "DEBUFF", "AOE_DAMAGE"] or targets.size() <= 1:
+		_end_battle_tactical_selection()
+		simulation.request_ultimate(unit_id, "" if targets.size() != 1 or effect not in ["DAMAGE", "DEBUFF", "AOE_DAMAGE"] else str(targets[0].uid))
 		return
-	var dialog := ConfirmationDialog.new()
-	dialog.title = "필살기 대상 선택"
-	dialog.dialog_text = "보스/엘리트/일반 적 중 대상을 지정하세요."
-	var selector := OptionButton.new()
-	selector.custom_minimum_size = Vector2(520, 64)
-	for target in targets:
-		selector.add_item("%s • %s • HP %s/%s" % [target.def_id, target.rank, _compact_number(int(target.hp)), _compact_number(int(target.max_hp))])
-	dialog.add_child(selector)
-	add_child(dialog)
-	dialog.confirmed.connect(func(): simulation.request_ultimate(unit_id, str(targets[selector.selected].uid)); dialog.queue_free())
-	dialog.canceled.connect(dialog.queue_free)
-	dialog.popup_centered(Vector2i(700, 300))
+	if battle_aim_uid == unit_id:
+		# A second press on the same orb fires at the suggested target.
+		var suggested_uid := battle_view.tactical_preview_uid
+		_end_battle_tactical_selection()
+		simulation.request_ultimate(unit_id, suggested_uid)
+		return
+	# Targeted ultimates are aimed on the field: the clock holds, the reticle
+	# (or the blast area) previews on the suggested enemy and a tap commits.
+	_end_battle_tactical_selection()
+	battle_aim_uid = unit_id
+	battle_view.tactical_aim_uid = unit_id
+	var suggested := simulation.best_area_target() if effect == "AOE_DAMAGE" else TargetResolver.priority_enemy(targets)
+	battle_view.tactical_preview_uid = str(suggested.get("uid", ""))
+	battle_view.tactical_hold = true
+	_set_battle_tactical_hint("%s 조준 · 적을 누르면 발동 · 같은 버튼을 한 번 더 누르면 추천 대상" % BattleView.unit_display_name(unit))
 
 func _cycle_battle_speed() -> void:
 	if battle_view == null: return
@@ -4393,7 +4444,221 @@ func _cycle_battle_speed() -> void:
 func _toggle_battle_pause() -> void:
 	if battle_view == null: return
 	battle_view.paused = not battle_view.paused
+	if battle_view.paused: _end_battle_tactical_selection()
 	if battle_pause_center != null: battle_pause_center.visible = battle_view.paused
+
+# --- Tactical battle controls -------------------------------------------------
+# Before the first tick the party is deployed on the actual battlefield. During
+# the battle a tap on an ally selects it (the clock holds) and a tap on a party
+# cell moves it there (an ally's cell swaps). A tap on an enemy calls the
+# party's focus fire. Targeted ultimates are aimed by tapping an enemy.
+
+const BATTLE_LANE_NAMES := ["위쪽", "가운데", "아래쪽"]
+
+func _build_battle_tactical_input() -> void:
+	var existing := battle_view.get_node_or_null("BattleTacticalInput")
+	if existing != null:
+		existing.free()
+	var input := Control.new()
+	input.name = "BattleTacticalInput"
+	input.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	input.mouse_filter = Control.MOUSE_FILTER_STOP
+	input.gui_input.connect(_battle_tactical_input)
+	battle_view.add_child(input)
+
+func _battle_tactical_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		AudioService.unlock_from_user_gesture()
+		_battle_tactical_tap(event.position)
+	elif event is InputEventScreenTouch and event.pressed and not bool(ProjectSettings.get_setting("input_devices/pointing/emulate_mouse_from_touch", true)):
+		# With touch-to-mouse emulation (the default) the same tap also arrives
+		# as a mouse click; handling both would select and instantly cancel.
+		AudioService.unlock_from_user_gesture()
+		_battle_tactical_tap(event.position)
+	elif event is InputEventMouseMotion and not battle_aim_uid.is_empty():
+		var pick := battle_view.pick_at(event.position)
+		var enemy := battle_view.simulation.find_unit(str(pick.get("unit", "")))
+		if not enemy.is_empty() and str(enemy.team) == "ENEMY":
+			battle_view.tactical_preview_uid = str(enemy.uid)
+
+func _battle_tactical_tap(point: Vector2) -> void:
+	if battle_view == null or battle_view.simulation == null: return
+	if battle_view.paused or battle_view.scene_transition_active() or battle_view.simulation.state.ended: return
+	var sim := battle_view.simulation
+	var pick := battle_view.pick_at(point, not battle_selected_uid.is_empty())
+	var unit := sim.find_unit(str(pick.get("unit", "")))
+	var cell: Array = pick.get("cell", [])
+	if unit.is_empty() and not cell.is_empty():
+		unit = sim.unit_at(int(cell[0]), int(cell[1]))
+	if not battle_aim_uid.is_empty():
+		if not unit.is_empty() and str(unit.team) == "ENEMY" and UnitState.alive(unit):
+			sim.request_ultimate(battle_aim_uid, str(unit.uid))
+		_end_battle_tactical_selection()
+		return
+	if battle_selected_uid.is_empty():
+		if not unit.is_empty() and str(unit.team) == "PLAYER" and UnitState.alive(unit):
+			battle_selected_uid = str(unit.uid)
+			battle_view.tactical_selected_uid = battle_selected_uid
+			battle_view.tactical_hold = not battle_view.deployment_active
+			_set_battle_tactical_hint("%s 선택 · 옮길 칸을 누르세요 (동료 칸은 자리 교환, 빈 곳은 취소)" % BattleView.unit_display_name(unit))
+		elif not unit.is_empty() and str(unit.team) == "ENEMY" and not battle_view.deployment_active:
+			var clear := str(unit.uid) == sim.state.focus_uid
+			sim.request_focus("" if clear else str(unit.uid))
+			_set_battle_tactical_hint("집중 공격 해제" if clear else "%s 집중 공격 · 사거리 안의 동료가 먼저 노립니다" % BattleView.unit_display_name(unit), 2.4)
+		return
+	var selected := sim.find_unit(battle_selected_uid)
+	if cell.is_empty() and not unit.is_empty():
+		cell = [int(unit.col), int(unit.lane)]
+	if selected.is_empty() or cell.is_empty() or (int(cell[0]) == int(selected.col) and int(cell[1]) == int(selected.lane)):
+		_end_battle_tactical_selection()
+		return
+	if battle_view.deployment_active:
+		if sim.deploy_move(battle_selected_uid, int(cell[0]), int(cell[1])):
+			AppState.set_battle_formation(sim.formation())
+			_refresh_battle_deployment_panel()
+		_end_battle_tactical_selection()
+		return
+	var reason := sim.move_block_reason(battle_selected_uid, int(cell[0]), int(cell[1]))
+	if reason.is_empty():
+		sim.request_move(battle_selected_uid, int(cell[0]), int(cell[1]))
+		_end_battle_tactical_selection()
+		return
+	match reason:
+		"COOLDOWN": _set_battle_tactical_hint("재배치 대기 %.1f초" % float(selected.move_cd), 1.8)
+		"ZONE", "ENEMY": _set_battle_tactical_hint("아군 구역의 빈 칸이나 동료 칸만 고를 수 있습니다", 1.8)
+		"MOVING": _set_battle_tactical_hint("이동 중입니다", 1.2)
+		"STUNNED": _set_battle_tactical_hint("기절 중에는 움직일 수 없습니다", 1.8)
+	_end_battle_tactical_selection(false)
+
+func _end_battle_tactical_selection(clear_hint := true) -> void:
+	battle_selected_uid = ""
+	battle_aim_uid = ""
+	if battle_view != null and is_instance_valid(battle_view):
+		battle_view.tactical_selected_uid = ""
+		battle_view.tactical_aim_uid = ""
+		battle_view.tactical_preview_uid = ""
+		battle_view.tactical_hold = false
+	if clear_hint:
+		_set_battle_tactical_hint("")
+
+func _set_battle_tactical_hint(text: String, seconds := 0.0) -> void:
+	battle_tactical_hint_left = seconds
+	if battle_tactical_hint != null and is_instance_valid(battle_tactical_hint):
+		battle_tactical_hint.text = text
+		battle_tactical_hint.visible = not text.is_empty()
+
+func _tick_battle_tactical_hint(delta: float) -> void:
+	if battle_tactical_hint_left <= 0.0: return
+	battle_tactical_hint_left -= delta
+	if battle_tactical_hint_left <= 0.0 and battle_selected_uid.is_empty() and battle_aim_uid.is_empty():
+		_set_battle_tactical_hint("")
+
+func _build_battle_deployment_panel(overlay: Control, ui_scale: float) -> void:
+	battle_deploy_panel = PanelContainer.new()
+	battle_deploy_panel.name = "BattleDeploymentPanel"
+	battle_deploy_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	battle_deploy_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	battle_deploy_panel.add_theme_stylebox_override("panel", GameUI.panel_style(Color(0.016, 0.035, 0.075, 0.86), Color(0.94, 0.80, 0.48, 0.65), 1, GameUI.RADIUS_PANEL, Vector4(18.0, 10.0, 18.0, 10.0), 10))
+	overlay.add_child(battle_deploy_panel)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", roundi(6.0 * ui_scale))
+	battle_deploy_panel.add_child(box)
+	var title := _label("작전 배치", 26, Color("f1d77a"))
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(title)
+	battle_deploy_summary = _label("", 17, Color("dbe9ff"))
+	battle_deploy_summary.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	battle_deploy_summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	battle_deploy_summary.custom_minimum_size = Vector2(minf(760.0, maxf(300.0, battle_view.size.x * .62)), 0.0)
+	box.add_child(battle_deploy_summary)
+	battle_deploy_tip = _label("", 16, Color("f4c88a"))
+	battle_deploy_tip.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	battle_deploy_tip.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	battle_deploy_tip.custom_minimum_size = battle_deploy_summary.custom_minimum_size
+	box.add_child(battle_deploy_tip)
+	var actions := HBoxContainer.new()
+	actions.alignment = BoxContainer.ALIGNMENT_CENTER
+	actions.add_theme_constant_override("separation", 12)
+	box.add_child(actions)
+	var reset := _button("기본 배치", _reset_battle_deployment, false, Vector2(200, 62))
+	reset.name = "BattleDeployReset"
+	actions.add_child(reset)
+	var start := _button("전투 개시", _start_deployed_battle, false, Vector2(260, 62))
+	GameUI.apply_button(start, "primary")
+	start.name = "BattleDeployStart"
+	actions.add_child(start)
+	battle_deploy_panel.visible = battle_view.deployment_active
+	_refresh_battle_deployment_panel()
+
+func _refresh_battle_deployment_panel() -> void:
+	if battle_deploy_panel == null or not is_instance_valid(battle_deploy_panel) or battle_view == null or battle_view.simulation == null:
+		return
+	battle_deploy_panel.visible = battle_view.deployment_active
+	if not battle_view.deployment_active:
+		return
+	var sim := battle_view.simulation
+	battle_deploy_summary.text = _battle_wave_summary(sim.stage)
+	battle_deploy_tip.text = _battle_deployment_tip(sim)
+
+func _battle_wave_summary(stage: Dictionary) -> String:
+	var lines: Array[String] = []
+	var waves: Array = stage.get("waves", [])
+	for wave_index in range(waves.size()):
+		var counts: Dictionary = {}
+		var order: Array[String] = []
+		for entry in BattleSimulation.wave_layout(stage, wave_index, DataRegistry.data):
+			var definition: Dictionary = entry.definition
+			var label := BattleGrid.role_label(str(definition.get("role", "")), "ENEMY")
+			if str(definition.get("rank", "")) == "BOSS":
+				label = LocalizationService.tr_key(str(definition.get("name_key", ""))).replace(" (DEV)", "")
+			elif str(definition.get("rank", "")) == "ELITE":
+				label = "정예 " + label
+			if not counts.has(label):
+				counts[label] = 0
+				order.append(label)
+			counts[label] = int(counts[label]) + 1
+		var parts: Array[String] = []
+		for label in order:
+			parts.append(label if int(counts[label]) == 1 else "%s ×%d" % [label, int(counts[label])])
+		lines.append("%d웨이브 · %s" % [wave_index + 1, ", ".join(parts)])
+	return "\n".join(lines)
+
+func _battle_deployment_tip(sim: BattleSimulation) -> String:
+	var tips: Array[String] = []
+	var open_lanes: Array[String] = []
+	var melee_lanes: Dictionary = {}
+	for entry in BattleSimulation.wave_layout(sim.stage, 0, DataRegistry.data):
+		var reach := BattleGrid.enemy_reach(str(entry.definition.get("role", "")), str(entry.definition.get("rank", "")))
+		if bool(reach.melee): melee_lanes[int(entry.cell[1])] = true
+	for lane in melee_lanes.keys():
+		var blocker := sim.unit_at(BattleGrid.PLAYER_FRONT, int(lane))
+		if blocker.is_empty():
+			open_lanes.append(str(BATTLE_LANE_NAMES[int(lane)]))
+	if not open_lanes.is_empty():
+		tips.append("%s 레인이 비었습니다 · 돌진형이 전열을 지나 후열로 파고듭니다" % "·".join(open_lanes))
+	if bool(sim.stage.get("boss", false)):
+		tips.append("보스는 붉은 칸을 예고한 뒤 공격합니다 · 동료를 눌러 칸을 옮기면 피합니다")
+	if not sim.state.cover_cells.is_empty():
+		tips.append("엄폐 칸의 동료는 원거리 피해 30% 감소")
+	if tips.is_empty():
+		tips.append("근접 동료는 전열에서 레인을 막고, 원거리 동료는 뒤에서 사거리를 확인하세요")
+	return "\n".join(tips)
+
+func _reset_battle_deployment() -> void:
+	if battle_view == null or battle_view.simulation == null or not battle_view.deployment_active: return
+	battle_view.simulation.set_formation({})
+	AppState.set_battle_formation(battle_view.simulation.formation())
+	_end_battle_tactical_selection()
+	_refresh_battle_deployment_panel()
+
+func _start_deployed_battle() -> void:
+	if battle_view == null or battle_view.simulation == null or not battle_view.deployment_active: return
+	AudioService.unlock_from_user_gesture()
+	AppState.set_battle_formation(battle_view.simulation.formation())
+	battle_view.deployment_active = false
+	_end_battle_tactical_selection()
+	_refresh_battle_deployment_panel()
+	_set_battle_tactical_hint("동료를 눌러 칸 이동 · 적을 눌러 집중 공격 · 조작하는 동안 시간이 멈춥니다", 6.0)
 
 func _compact_number(value: int) -> String:
 	if absi(value) >= 1000000: return "%.1fM" % (value / 1000000.0)

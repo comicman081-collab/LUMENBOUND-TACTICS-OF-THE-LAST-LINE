@@ -52,7 +52,9 @@ func _ready() -> void:
 	var monster := {"def_id": "ENM002", "team": "ENEMY", "rank": "NORMAL"}
 	battle.sprite_library.manifests.ENM002 = {"head_anchor": [0.5, 0.38]}
 	var scale := battle._combat_sprite_scale(monster, "idle")
-	check(scale >= 0.85, "short-canvas enemy has a threatening body scale")
+	# Normalized by the head/foot span: a regular enemy fills its grid cell
+	# (175px of body on a 1080p field) however much canvas padding it has.
+	check(scale >= 0.65, "short-canvas enemy has a threatening body scale")
 	check(is_equal_approx(scale, battle._combat_sprite_scale(monster, "basic_attack")), "enemy scale stays stable across action changes")
 	var grounding := preload("res://battle/view/battle_grounding.gd")
 	var prior_y := 0.0

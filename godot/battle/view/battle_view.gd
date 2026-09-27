@@ -216,6 +216,14 @@ var wave_banner_left := 0.0
 var wave_banner_title := ""
 var wave_banner_subtitle := ""
 var contact_commits := 0
+## Tactical layer. The shell owns the interaction; the view freezes the
+## simulation clock while the player deploys, holds an ally selected or aims an
+## ultimate, and draws the grid, reach, danger cells and previews.
+var deployment_active := false
+var tactical_hold := false
+var tactical_selected_uid := ""
+var tactical_aim_uid := ""
+var tactical_preview_uid := ""
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -1057,7 +1065,7 @@ func _process(delta: float) -> void:
 			emitted_finish = true
 			battle_finished.emit(simulation.result_snapshot())
 		return
-	if not paused and not simulation.state.ended and opening_elapsed >= .85 and not presentation_director.is_active() and not _waiting_for_boss_contact():
+	if not paused and not deployment_active and not tactical_hold and not simulation.state.ended and opening_elapsed >= .85 and not presentation_director.is_active() and not _waiting_for_boss_contact():
 		accumulator += delta * speed
 		var safety := 0
 		while accumulator >= BattleSimulation.TICK_DELTA and safety < 30:
@@ -1091,7 +1099,8 @@ func _process(delta: float) -> void:
 		_advance_engagement(actor_delta)
 		_advance_contacts(actor_delta)
 		combat_readout_left = maxf(0.0, combat_readout_left - presentation_delta)
-		wave_banner_left = maxf(0.0, wave_banner_left - presentation_delta)
+		# The opening banner waits for the deployment to end ("작전 개시").
+		if not deployment_active: wave_banner_left = maxf(0.0, wave_banner_left - presentation_delta)
 		_consume_events()
 	for text in floating_texts:
 		text.age = float(text.age) + presentation_delta
@@ -1181,7 +1190,7 @@ func _draw_boss_scene() -> void:
 		draw_rect(Rect2(Vector2.ZERO, size), Color(.01, .025, .045, aperture))
 		if t >= 1.95 and t < 2.65:
 			var landing := (t - 1.95) / .70
-			var center := _battlefield_point(Vector2(size.x * .785, size.y * .83))
+			var center := _battlefield_point(Grounding.cell_point(4, 1) * size)
 			_draw_ellipse_polygon(center, Vector2(size.x * (.025 + .13 * landing), size.y * .025), Color(.46, .87, 1, (1.0 - landing) * .48))
 	var font := battle_font if battle_font != null else ThemeDB.fallback_font
 	var css_scale := _damage_screen_scale()
@@ -1715,7 +1724,12 @@ func _spawn_damage_text(event: Dictionary) -> void:
 	var target := _actor_model(str(event.get("target","")))
 	var tint := Color("ffb7ad") if str(target.get("team","")) == "PLAYER" else Color("fffaf0")
 	if critical: tint = Color("ffd66b")
-	_spawn_floating_text({"target":str(event.get("target","")),"text":"MISS" if value == 0 else MathUtil.comma(value),"crit":critical,"color":tint,"age":0.0})
+	var tags: Array = event.get("extra",{}).get("tags",[])
+	var prefix := ""
+	if tags.has("FLANK"): prefix = "측면 "
+	elif tags.has("COVER"): prefix = "엄폐 "
+	elif tags.has("AREA"): prefix = "직격 "
+	_spawn_floating_text({"target":str(event.get("target","")),"text":"MISS" if value == 0 else prefix + MathUtil.comma(value),"crit":critical,"color":tint,"age":0.0})
 
 func _damage_screen_scale() -> float:
 	if not is_inside_tree(): return 1.0
@@ -2047,8 +2061,8 @@ func _draw() -> void:
 	visible_units.sort_custom(func(a, b): return _unit_pos(a).y < _unit_pos(b).y)
 	# All ground shadows precede all bodies; a front unit's shadow must not
 	# paint over a rear unit's boots while formation lanes change.
+	_draw_tactical_grid()
 	for unit in visible_units: _draw_contact_shadow(unit)
-	_draw_boss_telegraph_ground()
 	for unit in visible_units: _draw_weapon_action(unit, true)
 	for unit in visible_units: _draw_unit(unit)
 	for unit in visible_units: _draw_weapon_action(unit, false)
@@ -2203,11 +2217,13 @@ func _draw() -> void:
 		draw_circle(callout_position, 3.0, Color(1.0, 1.0, 1.0, alpha * .88))
 	for presentation in boss_phase_presentations:
 		_draw_boss_phase_presentation(presentation)
+	_draw_tactical_markers()
 	for unit in visible_units: _draw_unit_status(unit)
 	_draw_enemy_intents()
-	_draw_boss_telegraph_warnings()
 	for text in floating_texts:
 		_draw_damage_number(text)
+	# Warnings sit above the damage numbers so the countdown stays readable.
+	_draw_boss_telegraph_warnings()
 	_draw_wave_banner()
 	_draw_ultimate_cutin()
 	_draw_boss_scene()
@@ -2688,7 +2704,7 @@ func _draw_unit(unit: Dictionary) -> void:
 ## Full-width wave banner: a gilt band sweeps open, the title punches in, then
 ## both fade. Timed in presentation seconds, so pause and speed are respected.
 func _draw_wave_banner() -> void:
-	if wave_banner_left <= 0.0 or wave_banner_title.is_empty(): return
+	if wave_banner_left <= 0.0 or wave_banner_title.is_empty() or deployment_active: return
 	var elapsed := WAVE_BANNER_DURATION - wave_banner_left
 	var open := smoothstep(0.0, .28, elapsed)
 	var fade := 1.0 - smoothstep(WAVE_BANNER_DURATION - .45, WAVE_BANNER_DURATION, elapsed)
@@ -2715,33 +2731,6 @@ func _draw_wave_banner() -> void:
 func _readout_scale() -> float:
 	return clampf(.62 / _damage_screen_scale(), 1.0, 2.6)
 
-func _telegraph_targets(cast: Dictionary) -> Array:
-	var targets: Array = []
-	if str(cast.get("target_uid", "")).is_empty():
-		for model in simulation.state.party:
-			if UnitState.alive(model): targets.append(_presentation_unit(model))
-	else:
-		var target := presentation_unit_for_uid(str(cast.target_uid))
-		if not target.is_empty() and UnitState.alive(target): targets.append(target)
-	return targets
-
-# Ground marks under every ally a boss is winding up to hit.
-func _draw_boss_telegraph_ground() -> void:
-	if simulation == null or simulation.pending_boss_casts.is_empty(): return
-	var pulse := .5 + .5 * sin(float(Time.get_ticks_msec()) / 110.0)
-	for cast in simulation.pending_boss_casts:
-		var remaining := maxf(0.0, float(int(cast.due_tick) - int(simulation.state.tick)) * BattleSimulation.TICK_DELTA)
-		var urgency := 1.0 - clampf(remaining / 2.0, 0.0, 1.0)
-		for target in _telegraph_targets(cast):
-			var ground := _ground_position(target)
-			var radius := 78.0 * _battlefield_camera_zoom()
-			var points := PackedVector2Array()
-			for index in range(33):
-				var angle := TAU * float(index) / 32.0
-				points.append(ground + Vector2(cos(angle) * radius, sin(angle) * radius * .34))
-			draw_colored_polygon(points, Color(1.0, .18, .16, .10 + .16 * urgency))
-			draw_polyline(points, Color(1.0, .32, .26, .55 + .4 * pulse), 3.0 + 2.0 * urgency, true)
-
 func _draw_boss_telegraph_warnings() -> void:
 	if simulation == null or simulation.pending_boss_casts.is_empty(): return
 	var font := battle_font if battle_font != null else ThemeDB.fallback_font
@@ -2750,7 +2739,8 @@ func _draw_boss_telegraph_warnings() -> void:
 		var boss := presentation_unit_for_uid(str(cast.boss_uid))
 		if boss.is_empty() or not UnitState.alive(boss): continue
 		var remaining := maxf(0.0, float(int(cast.due_tick) - int(simulation.state.tick)) * BattleSimulation.TICK_DELTA)
-		var label := "집중 조준" if str(cast.action) == "LOCK_ON" else "광역 공격"
+		var label := str(cast.get("label", ""))
+		if label.is_empty(): label = "집중 조준" if str(cast.get("shape", "")) == "CELL" else "광역 공격"
 		var text := "경고 · %s  %.1f초" % [label, remaining]
 		var head := _head_position(boss, _ground_position(boss))
 		var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x + 28.0
@@ -3125,9 +3115,7 @@ func _draw_ellipse_polygon(center: Vector2, radii: Vector2, color: Color) -> voi
 func _unit_pos(unit: Dictionary) -> Vector2:
 	var uid := str(unit.get("uid", ""))
 	if engagement_positions.has(uid): return _battlefield_point((engagement_positions[uid] as Vector2) * size)
-	if str(unit.get("rank", "")) == "BOSS" and str(unit.get("team", "")) != "PLAYER":
-		return _battlefield_point(Vector2(size.x * 0.785, size.y * 0.83))
-	return _battlefield_point(Grounding.formation_point(size, str(unit.team) == "PLAYER", int(unit.slot), _boss_present()))
+	return _battlefield_point(Grounding.cell_point(float(unit.get("col", 0)), float(unit.get("lane", 1))) * size)
 
 func _projectile_origin(unit: Dictionary) -> Vector2:
 	var track: Dictionary = animation_tracks.get(str(unit.get("uid", "")), {"name": "idle", "elapsed": 0.0})
@@ -3166,18 +3154,16 @@ func _actor_travel_offset(unit: Dictionary) -> Vector2:
 		var contact := 1.10 if action == "ultimate" else .43
 		var approach := smoothstep(contact-.26, contact-.015, elapsed)
 		var recovery := 1.0-smoothstep(contact+.10, duration, elapsed)
+		# Melee reach is one or two grid steps, so the strike closes on the
+		# target's own cell (diagonals included) and stops a body-width short.
 		var start := _unit_pos(unit)
 		var finish := _unit_pos(target)
-		var forward := 1.0 if str(unit.team)=="PLAYER" else -1.0
+		var delta := finish - start
+		var distance := delta.length()
+		if distance < 1.0: return Vector2.ZERO
 		var gap := 72.0*_battlefield_camera_zoom()
-		var reach := maxf(0.0,(finish.x-start.x)*forward-gap)
-		if forward > 0.0:
-			# Strike in the contact lane beyond the five resting columns, so a
-			# shield user does not stop on top of the back-row cannon operator.
-			var front := _battlefield_point(Vector2(size.x*.60,0)).x
-			reach = minf(reach,maxf(0.0,front-start.x))
-		else: reach = minf(reach,100.0*_battlefield_camera_zoom())
-		return Vector2(forward*reach*approach*recovery,0)
+		var reach := maxf(0.0, distance-gap)
+		return delta/distance*reach*approach*recovery
 	var travel := ActorChoreography.step_offset(str(unit.get("role", "")), action, float(track.get("elapsed", 0.0)), duration, _unit_pos(target) - _unit_pos(unit)) * _battlefield_camera_zoom()
 	# A backdrop platform/moat is not a traversable diagonal plane. Keep each
 	# side's approach on its own stone elevation instead of sliding over the gap.
@@ -3290,10 +3276,12 @@ func _combat_sprite_scale(unit: Dictionary, _animation_name: String) -> float:
 		var head := sprite_library.head_anchor(character_id)
 		var body_span := clampf(0.88 - head.y, 0.48, 0.85)
 		var rank := str(unit.get("rank", "NORMAL"))
-		var height := 270.0 if rank == "NORMAL" else (400.0 if rank == "BOSS" else 310.0)
+		# Squads share one grid cell each, so regular bodies stay inside a cell
+		# instead of burying the next lane; the boss keeps its arena presence.
+		var height := 175.0 if rank == "NORMAL" else (400.0 if rank == "BOSS" else 215.0)
 		if portrait: height *= 1.45
-		scale = maxf(scale, height / (512.0 * body_span))
-		scale = minf(scale, size.x * (0.38 if rank == "BOSS" else 0.28) / 512.0)
+		scale = maxf(scale if rank == "BOSS" else scale * .78, height / (512.0 * body_span))
+		scale = minf(scale, size.x * (0.38 if rank == "BOSS" else 0.185) / 512.0)
 	else:
 		scale = minf(scale * 0.82, size.x * 0.125 / 512.0)
 	return scale * _battlefield_camera_zoom()
@@ -3346,32 +3334,216 @@ func _action_label(event: Dictionary) -> String:
 	return "집중 공격"
 
 func _advance_engagement(delta: float) -> void:
+	## Actors glide to the cell the simulation placed them on (a command move,
+	## an enemy advance or a pre-battle swap). Melee strikes add their own lunge
+	## through _actor_travel_offset and return to the cell afterwards.
 	if simulation == null: return
 	for model in simulation.state.party + simulation.state.enemies:
-		var unit := _presentation_unit(model)
-		var uid := str(unit.uid)
-		var player := str(unit.team) == "PLAYER"
-		var base := Grounding.formation_point(Vector2.ONE, player, int(unit.slot), _boss_present())
-		if str(unit.get("rank", "")) == "BOSS": base = Vector2(.785, .83)
-		if not engagement_positions.has(uid): engagement_positions[uid] = base
-		if not UnitState.alive(unit): continue
-		var goal := base
-		var melee := str(unit.get("role", "")) in ActorChoreography.MELEE_ROLES
-		if player:
-			goal.x = base.x + .018
-		elif str(unit.get("rank", "")) != "BOSS":
-			goal.x = (.64 + float(int(unit.slot) % 2) * .075) if melee else (.78 + float(int(unit.slot) % 2) * .095)
-		var target := presentation_unit_for_uid(str(engagement_targets.get(uid, "")))
-		if not player and melee and not target.is_empty() and UnitState.alive(target) and str(target.team) != str(unit.team):
-			var target_position: Vector2 = engagement_positions.get(str(target.uid), Grounding.formation_point(Vector2.ONE, not player, int(target.slot), false))
-			goal.x = clampf(target_position.x + .24, .58 + float(int(unit.slot)%2)*.09, .88)
+		var uid := str(model.uid)
+		var goal := Grounding.cell_point(float(model.get("col", 0)), float(model.get("lane", 1)))
+		if not engagement_positions.has(uid):
+			engagement_positions[uid] = goal
+		if not UnitState.alive(_presentation_unit(model)): continue
 		var current: Vector2 = engagement_positions[uid]
-		var moving := current.distance_to(goal) > .012
-		engagement_positions[uid] = current.move_toward(goal, delta * (.46 if melee else .24))
+		var moving := current.distance_to(goal) > .004
+		engagement_positions[uid] = current.move_toward(goal, delta * (.75 if deployment_active else .42))
 		var track: Dictionary = animation_tracks.get(uid, {})
 		if str(track.get("name", "idle")) in ["idle", "move"]:
 			track.name = "move" if moving else "idle"
 			animation_tracks[uid] = track
+
+## Hit test for the shell's tactical input, in this control's local space.
+## Returns {"unit": uid} for a living actor or {"cell": [col, lane]} for the
+## floor. With `prefer_cells` (an ally is being moved) the floor wins so a tall
+## neighbour's body cannot swallow the tap on the cell behind it.
+func pick_at(point: Vector2, prefer_cells := false) -> Dictionary:
+	if simulation == null: return {}
+	var cell := cell_at(point)
+	if prefer_cells and not cell.is_empty():
+		return {"cell": cell}
+	var best_uid := ""
+	var best_distance := INF
+	for unit in simulation.state.party + simulation.state.enemies:
+		if not UnitState.alive(unit): continue
+		var view_unit := _presentation_unit(unit)
+		var foot := _ground_position(view_unit)
+		var head := _head_position(view_unit, foot)
+		var height := maxf(60.0, foot.y - head.y)
+		var half_width := maxf(30.0, height * .26)
+		var body := Rect2(Vector2(foot.x - half_width, head.y - 12.0), Vector2(half_width * 2.0, height + 30.0))
+		if not body.has_point(point): continue
+		var distance := point.distance_to(Vector2(foot.x, foot.y - height * .45))
+		if distance < best_distance:
+			best_distance = distance
+			best_uid = str(unit.uid)
+	if not best_uid.is_empty():
+		return {"unit": best_uid}
+	if not cell.is_empty():
+		return {"cell": cell}
+	return {}
+
+func cell_at(point: Vector2) -> Array:
+	for col in range(BattleGrid.COLUMNS):
+		for lane in range(BattleGrid.LANES):
+			if Geometry2D.is_point_in_polygon(point, _cell_screen_polygon(col, lane, 0.0)):
+				return [col, lane]
+	return []
+
+func cell_screen_center(col: int, lane: int) -> Vector2:
+	return _battlefield_point(Grounding.cell_point(col, lane) * size)
+
+func _cell_screen_polygon(col: int, lane: int, inset := .006) -> PackedVector2Array:
+	var output := PackedVector2Array()
+	for point in Grounding.cell_polygon(col, lane, inset):
+		output.append(_battlefield_point(point * size))
+	return output
+
+func _closed(points: PackedVector2Array) -> PackedVector2Array:
+	var output := points.duplicate()
+	if not output.is_empty(): output.append(output[0])
+	return output
+
+func _shrunk(points: PackedVector2Array, amount: float) -> PackedVector2Array:
+	var center := Vector2.ZERO
+	for point in points: center += point
+	center /= maxf(1.0, float(points.size()))
+	var output := PackedVector2Array()
+	for point in points: output.append(center + (point - center) * amount)
+	return output
+
+## Floor grid, cover, move/reach highlights, aim preview and danger cells.
+## Drawn under the actors; the grid fades back once the battle is running and
+## nothing is selected, while cover and danger always stay readable.
+func _draw_tactical_grid() -> void:
+	if simulation == null or scene_transition_active(): return
+	var focused := deployment_active or not tactical_selected_uid.is_empty() or not tactical_aim_uid.is_empty()
+	var emphasis := 1.0 if focused else .42
+	var zoom := _battlefield_camera_zoom()
+	for col in range(BattleGrid.COLUMNS):
+		for lane in range(BattleGrid.LANES):
+			var poly := _cell_screen_polygon(col, lane)
+			var player_side := col <= BattleGrid.PLAYER_FRONT
+			draw_colored_polygon(poly, Color(.30, .85, .95, .075 * emphasis) if player_side else Color(1.0, .40, .34, .055 * emphasis))
+			draw_polyline(_closed(poly), Color(.78, .96, 1.0, .30 * emphasis) if player_side else Color(1.0, .74, .64, .20 * emphasis), 1.6 * zoom, true)
+	# The contact line between the two zones.
+	var line_top := _battlefield_point(Grounding.cell_polygon(2, 0, 0.0)[1] * size)
+	var line_bottom := _battlefield_point(Grounding.cell_polygon(2, 2, 0.0)[2] * size)
+	draw_line(line_top, line_bottom, Color(.96, .84, .52, .34 * emphasis + .12), 2.4 * zoom, true)
+	for cell in simulation.state.cover_cells:
+		_draw_cover_marker(int(cell[0]), int(cell[1]))
+	var selected := simulation.find_unit(tactical_selected_uid)
+	if not selected.is_empty() and UnitState.alive(selected):
+		var pulse := .5 + .5 * sin(float(Time.get_ticks_msec()) / 170.0)
+		for col in BattleGrid.PLAYER_COLUMNS:
+			for lane in range(BattleGrid.LANES):
+				if int(col) == int(selected.col) and lane == int(selected.lane):
+					draw_colored_polygon(_cell_screen_polygon(int(col), lane), Color(.45, 1.0, .72, .24 + .12 * pulse))
+					continue
+				var occupant := simulation.unit_at(int(col), lane)
+				var allowed := deployment_active or simulation.move_block_reason(str(selected.uid), int(col), lane).is_empty()
+				if not allowed or (not occupant.is_empty() and str(occupant.team) != "PLAYER"): continue
+				var tint := Color(.98, .82, .40, .20) if not occupant.is_empty() else Color(.45, 1.0, .72, .16)
+				draw_colored_polygon(_cell_screen_polygon(int(col), lane, .012), tint)
+		# Cells the selected ally reaches from where it stands.
+		for col in range(BattleGrid.COLUMNS):
+			for lane in range(BattleGrid.LANES):
+				if col <= BattleGrid.PLAYER_FRONT and str(simulation.unit_at(col, lane).get("team", "")) != "ENEMY": continue
+				if not TargetResolver.in_range(selected, {"col": col, "lane": lane}): continue
+				draw_polyline(_closed(_cell_screen_polygon(col, lane, .016)), Color(1.0, .66, .30, .70), 2.2 * zoom, true)
+	var aim := simulation.find_unit(tactical_aim_uid)
+	if not aim.is_empty():
+		var skill := simulation._skill(str(aim.ultimate_skill_id))
+		var preview := simulation.find_unit(tactical_preview_uid)
+		if str(skill.get("effect", "")) == "AOE_DAMAGE" and not preview.is_empty() and UnitState.alive(preview):
+			for cell in BattleSimulation.ultimate_area_cells(preview):
+				draw_colored_polygon(_cell_screen_polygon(int(cell[0]), int(cell[1]), .008), Color(1.0, .72, .26, .26))
+	_draw_danger_cells()
+
+## A low sandbag barricade at the back edge of a cover cell.
+func _draw_cover_marker(col: int, lane: int) -> void:
+	var zoom := _battlefield_camera_zoom()
+	var facing := 1.0 if col <= BattleGrid.PLAYER_FRONT else -1.0
+	var center := _battlefield_point(Grounding.cell_point(col, lane) * size) + Vector2(facing * 30.0, -8.0) * zoom
+	var width := size.x * Grounding.COLUMN_STEP * .30 * zoom
+	var bag := Vector2(width * .36, 9.0 * zoom)
+	var fill := Color(.62, .56, .42, .92)
+	var edge := Color(.20, .16, .10, .85)
+	for row in range(2):
+		for index in range(3 - row):
+			var offset := Vector2((float(index) - (2.0 - row) * .5) * bag.x * 1.55, -float(row) * bag.y * 1.35)
+			_draw_ellipse_polygon(center + offset, bag, fill.darkened(.08 * row))
+			var ring := PackedVector2Array()
+			for step in range(17):
+				var angle := TAU * float(step) / 16.0
+				ring.append(center + offset + Vector2(cos(angle) * bag.x, sin(angle) * bag.y))
+			draw_polyline(ring, edge, 1.4 * zoom, true)
+	if deployment_active:
+		var font := battle_font if battle_font != null else ThemeDB.fallback_font
+		var font_size := clampi(roundi(13.0 * _readout_scale()), 13, 30)
+		var anchor := center + Vector2(-40.0, -bag.y * 3.0)
+		draw_string_outline(font, anchor, "엄폐", HORIZONTAL_ALIGNMENT_CENTER, 80.0, font_size, 4, Color(0, 0, 0, .8))
+		draw_string(font, anchor, "엄폐", HORIZONTAL_ALIGNMENT_CENTER, 80.0, font_size, Color("e8d7a6"))
+
+## Cells a telegraphed attack will hit, filling up as the hit approaches.
+func _draw_danger_cells() -> void:
+	if simulation == null or simulation.pending_boss_casts.is_empty(): return
+	var pulse := .5 + .5 * sin(float(Time.get_ticks_msec()) / 110.0)
+	var zoom := _battlefield_camera_zoom()
+	for cast in simulation.pending_boss_casts:
+		var remaining := maxf(0.0, float(int(cast.due_tick) - int(simulation.state.tick)) * BattleSimulation.TICK_DELTA)
+		var windup := maxf(.1, float(cast.get("windup_ticks", BattleSimulation.BOSS_WINDUP_TICKS)) * BattleSimulation.TICK_DELTA)
+		var urgency := 1.0 - clampf(remaining / windup, 0.0, 1.0)
+		for cell in cast.get("cells", []):
+			var poly := _cell_screen_polygon(int(cell[0]), int(cell[1]), .003)
+			draw_colored_polygon(poly, Color(1.0, .14, .12, .14 + .16 * pulse))
+			draw_colored_polygon(_shrunk(poly, maxf(.05, urgency)), Color(1.0, .30, .18, .30))
+			draw_polyline(_closed(poly), Color(1.0, .36, .28, .70 + .30 * pulse), (2.0 + 2.0 * urgency) * zoom, true)
+
+## Focus reticle, aim rings, selection ring and (while deploying) role/reach
+## tags. Drawn above the actors so a crowd cannot hide them.
+func _draw_tactical_markers() -> void:
+	if simulation == null or scene_transition_active(): return
+	var zoom := _battlefield_camera_zoom()
+	var spin := float(Time.get_ticks_msec()) / 1000.0
+	var focus := simulation.find_unit(simulation.state.focus_uid)
+	if not focus.is_empty() and UnitState.alive(focus):
+		var view_focus := _presentation_unit(focus)
+		var foot := _ground_position(view_focus)
+		var head := _head_position(view_focus, foot)
+		var center := Vector2(foot.x, lerpf(head.y, foot.y, .45))
+		var radius := maxf(26.0, (foot.y - head.y) * .32)
+		for index in range(4):
+			var angle := spin * 1.4 + TAU * float(index) / 4.0
+			draw_arc(center, radius, angle, angle + .9, 10, Color("ffd36a"), 3.0 * zoom, true)
+		draw_circle(center, 4.0 * zoom, Color("ffd36a"))
+	var aim := simulation.find_unit(tactical_aim_uid)
+	if not aim.is_empty():
+		for enemy in simulation.alive_enemies():
+			var foot := _ground_position(_presentation_unit(enemy))
+			var hot := str(enemy.uid) == tactical_preview_uid
+			_draw_floor_ring(foot, Vector2(58.0, 14.0) * zoom, Color(1.0, .78, .30, .95 if hot else .55), (4.0 if hot else 2.4) * zoom)
+	var selected := simulation.find_unit(tactical_selected_uid)
+	if not selected.is_empty():
+		_draw_floor_ring(_ground_position(_presentation_unit(selected)), Vector2(62.0, 15.0) * zoom, Color(.55, 1.0, .78, .95), 4.0 * zoom)
+	if deployment_active:
+		var font := battle_font if battle_font != null else ThemeDB.fallback_font
+		var font_size := clampi(roundi(13.0 * _readout_scale()), 13, 30)
+		for unit in simulation.state.party + simulation.state.enemies:
+			if not UnitState.alive(unit): continue
+			var foot := _ground_position(_presentation_unit(unit))
+			var text := BattleGrid.role_label(str(unit.role), str(unit.team))
+			if str(unit.team) == "PLAYER":
+				text += " · 사거리 %d" % int(unit.range)
+			var anchor := foot + Vector2(-70.0, 12.0 * zoom + font_size)
+			draw_string_outline(font, anchor, text, HORIZONTAL_ALIGNMENT_CENTER, 140.0, font_size, 4, Color(0, 0, 0, .85))
+			draw_string(font, anchor, text, HORIZONTAL_ALIGNMENT_CENTER, 140.0, font_size, Color("bff3ff") if str(unit.team) == "PLAYER" else Color("ffc2b6"))
+
+func _draw_floor_ring(center: Vector2, radii: Vector2, color: Color, width: float) -> void:
+	var ring := PackedVector2Array()
+	for step in range(33):
+		var angle := TAU * float(step) / 32.0
+		ring.append(center + Vector2(cos(angle) * radii.x, sin(angle) * radii.y))
+	draw_polyline(ring, color, width, true)
 
 func _draw_combat_readout() -> void:
 	if scene_transition_active(): return

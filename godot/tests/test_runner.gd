@@ -732,9 +732,9 @@ func _test_combat_art_contracts() -> void:
 	for party_slot in range(5):
 		var initial_character_id := "CHR%03d" % (party_slot + 1)
 		var initial_character := DataRegistry.character(initial_character_id)
-		initial_residency_party.append(initial_residency_sim._make_player(initial_character, party_slot))
+		initial_residency_party.append(initial_residency_sim._make_player(initial_character, party_slot, [party_slot % 3, party_slot / 3]))
 	initial_residency_sim.state.party = initial_residency_party
-	initial_residency_sim.state.enemies = [initial_residency_sim._make_enemy("ENM001", 0), initial_residency_sim._make_enemy("BOSS001", 0)]
+	initial_residency_sim.state.enemies = [initial_residency_sim._make_enemy("ENM001", 0, [3, 1], 1.0), initial_residency_sim._make_enemy("BOSS001", 0, [4, 1], 1.0)]
 	var initial_residency_view := BattleView.new()
 	initial_residency_view.setup(initial_residency_sim)
 	var initial_runtime_resident_ids: Array[String] = ["CHR001", "CHR002", "CHR003", "CHR004", "CHR005", "BOSS001", "ENM001"]
@@ -1156,7 +1156,10 @@ func _test_battle() -> void:
 	var all_reinforcements_registered := true
 	for entity_id in stage_wave_ids:
 		all_reinforcements_registered = all_reinforcements_registered and all_wave_asset_ids.has(entity_id)
-	check(all_reinforcements_registered and stage_wave_ids.size() > wave_asset_view.simulation.state.enemies.size(), "battle asset registration includes every reinforcement wave before frame one")
+	var first_wave_ids: Array[String] = []
+	for enemy in wave_asset_view.simulation.state.enemies:
+		if not first_wave_ids.has(str(enemy.def_id)): first_wave_ids.append(str(enemy.def_id))
+	check(all_reinforcements_registered and stage_wave_ids.size() > first_wave_ids.size(), "battle asset registration includes every reinforcement wave before frame one")
 	var all_wave_names_localized := true
 	for entity_id in stage_wave_ids:
 		var display_name := BattleView.unit_display_name({"def_id": entity_id, "team": "ENEMY"})
@@ -1742,7 +1745,9 @@ func _test_growth() -> void:
 	var upgraded_weapon_stats := WeaponUpgradeService.flat_stats_for("WPN004", AppState.profile.weapons.WPN004)
 	check(int(upgraded_weapon_stats.ATK) == 250 and int(upgraded_weapon_stats.CRIT) == 36, "weapon level and T5 secondary stat are data-driven")
 	var snapshot_sim := BattleSimulation.new()
-	snapshot_sim.setup(AppState.create_party_snapshot(), DataRegistry.stage("CH01-N01"), 31, DataRegistry.data)
+	# Growth sync would pull the stats toward the stage recommendation; this
+	# check is about the raw snapshot.
+	snapshot_sim.setup(AppState.create_party_snapshot(), DataRegistry.stage("CH01-N01"), 31, DataRegistry.data, {"growth_sync": false})
 	check(int(snapshot_sim.state.party[0].stats.ATK) == 352, "equipped weapon snapshot applies to deterministic battle stats")
 	AppState.profile.stage_stars["CH01-N01"] = 3
 	AppState.profile.chapter_progress.CH01.normal_highest = 1

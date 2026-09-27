@@ -2,6 +2,7 @@
   "id": "SCN_CH14_MID_A",
   "title_key": "SCENARIO_CH14_MID_A_TITLE",
   "chapter_id": "CH14",
+  "presentation": "CINEMATIC",
   "commands": [
     {
       "id": "start",
@@ -10,13 +11,25 @@
     },
     {
       "command": "show_portrait",
-      "slot": "RIGHT",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr012_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
       "asset_id": "portrait_chr003_dev",
-      "expression": "ALERT"
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr009_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "fade_in",
-      "duration": 0.24
+      "duration": 0.35
     },
     {
       "command": "narration",
@@ -25,18 +38,91 @@
     },
     {
       "command": "dialogue",
-      "speaker_key": "SPEAKER_NARIN",
-      "text_key": "STORY_CH14_MID_A_02"
-    },
-    {
-      "command": "set_expression",
-      "slot": "RIGHT",
-      "expression": "RESOLVED"
+      "speaker_key": "CHAR_KIR_NAME",
+      "text_key": "STORY_CH14_MID_A_02",
+      "portrait_asset_id": "portrait_chr012_dev"
     },
     {
       "command": "dialogue",
       "speaker_key": "SPEAKER_NARIN",
-      "text_key": "STORY_CH14_MID_A_03"
+      "text_key": "STORY_CH14_MID_A_03",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_LIV_NAME",
+      "text_key": "STORY_CH14_MID_A_04",
+      "portrait_asset_id": "portrait_chr009_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr015_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_HART_NAME",
+      "text_key": "STORY_CH14_MID_A_05",
+      "portrait_asset_id": "portrait_chr015_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_CONTROL",
+      "text_key": "STORY_CH14_MID_A_06"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr018_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_RIAS_NAME",
+      "text_key": "STORY_CH14_MID_A_07",
+      "portrait_asset_id": "portrait_chr018_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr014_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "CONCERNED"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VEON_NAME",
+      "text_key": "STORY_CH14_MID_A_08",
+      "portrait_asset_id": "portrait_chr014_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr006_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VERA_NAME",
+      "text_key": "STORY_CH14_MID_A_09",
+      "portrait_asset_id": "portrait_chr006_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH14_MID_A_10",
+      "portrait_asset_id": "portrait_chr001_dev"
     },
     {
       "command": "grant_reward",

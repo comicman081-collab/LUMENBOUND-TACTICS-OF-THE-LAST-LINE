@@ -2,21 +2,34 @@
   "id": "SCN_CH16_INTRO",
   "title_key": "SCENARIO_CH16_INTRO_TITLE",
   "chapter_id": "CH16",
+  "presentation": "CINEMATIC",
   "commands": [
     {
       "id": "start",
       "command": "set_background",
-      "asset_id": "bg_lantern_tunnel_dev"
+      "asset_id": "bg_ch01_glass_rail_story"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr005_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "show_portrait",
       "slot": "RIGHT",
-      "asset_id": "portrait_chr001_dev",
-      "expression": "SERIOUS"
+      "asset_id": "portrait_chr011_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "fade_in",
-      "duration": 0.24
+      "duration": 0.35
     },
     {
       "command": "narration",
@@ -25,18 +38,122 @@
     },
     {
       "command": "dialogue",
-      "speaker_key": "SPEAKER_MAERU",
+      "speaker_key": "SPEAKER_EAST_KING",
       "text_key": "STORY_CH16_INTRO_02"
     },
     {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_EAST_KING",
+      "text_key": "STORY_CH16_INTRO_03"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_WEST_KING",
+      "text_key": "STORY_CH16_INTRO_04"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_WEST_KING",
+      "text_key": "STORY_CH16_INTRO_05"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_SOREN",
+      "text_key": "STORY_CH16_INTRO_06",
+      "portrait_asset_id": "portrait_chr005_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_ADELINE_NAME",
+      "text_key": "STORY_CH16_INTRO_07",
+      "portrait_asset_id": "portrait_chr011_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr006_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VERA_NAME",
+      "text_key": "STORY_CH16_INTRO_08",
+      "portrait_asset_id": "portrait_chr006_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_CONTROL",
+      "text_key": "STORY_CH16_INTRO_09"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr014_dev",
+      "expression": "NEUTRAL"
+    },
+    {
       "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "ALERT"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VEON_NAME",
+      "text_key": "STORY_CH16_INTRO_10",
+      "portrait_asset_id": "portrait_chr014_dev"
+    },
+    {
+      "command": "show_portrait",
       "slot": "RIGHT",
-      "expression": "RESOLVED"
+      "asset_id": "portrait_chr020_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_KARN_NAME",
+      "text_key": "STORY_CH16_INTRO_11",
+      "portrait_asset_id": "portrait_chr020_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_CH16_INTRO_12",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr002_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "SAD"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_CH16_INTRO_13",
+      "portrait_asset_id": "portrait_chr002_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "dialogue",
       "speaker_key": "SPEAKER_MAERU",
-      "text_key": "STORY_CH16_INTRO_03"
+      "text_key": "STORY_CH16_INTRO_14",
+      "portrait_asset_id": "portrait_chr001_dev"
     },
     {
       "command": "grant_reward",

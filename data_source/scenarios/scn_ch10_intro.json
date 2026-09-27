@@ -2,21 +2,34 @@
   "id": "SCN_CH10_INTRO",
   "title_key": "SCENARIO_CH10_INTRO_TITLE",
   "chapter_id": "CH10",
+  "presentation": "CINEMATIC",
   "commands": [
     {
       "id": "start",
       "command": "set_background",
-      "asset_id": "bg_lantern_tunnel_dev"
+      "asset_id": "bg_ch01_glass_rail_story"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "show_portrait",
       "slot": "RIGHT",
-      "asset_id": "portrait_chr001_dev",
-      "expression": "SERIOUS"
+      "asset_id": "portrait_chr006_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "fade_in",
-      "duration": 0.24
+      "duration": 0.35
     },
     {
       "command": "narration",
@@ -25,18 +38,162 @@
     },
     {
       "command": "dialogue",
-      "speaker_key": "SPEAKER_MAERU",
-      "text_key": "STORY_CH10_INTRO_02"
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_CH10_INTRO_02",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VERA_NAME",
+      "text_key": "STORY_CH10_INTRO_03",
+      "portrait_asset_id": "portrait_chr006_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr002_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_CH10_INTRO_04",
+      "portrait_asset_id": "portrait_chr002_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr007_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_TOA_NAME",
+      "text_key": "STORY_CH10_INTRO_05",
+      "portrait_asset_id": "portrait_chr007_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_CONTROL",
+      "text_key": "STORY_CH10_INTRO_06"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_CONTROL",
+      "text_key": "STORY_CH10_INTRO_07"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr004_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "set_expression",
       "slot": "RIGHT",
-      "expression": "RESOLVED"
+      "expression": "CONCERNED"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_EDA",
+      "text_key": "STORY_CH10_INTRO_08",
+      "portrait_asset_id": "portrait_chr004_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_CH10_INTRO_09",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr014_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VEON_NAME",
+      "text_key": "STORY_CH10_INTRO_10",
+      "portrait_asset_id": "portrait_chr014_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "dialogue",
       "speaker_key": "SPEAKER_MAERU",
-      "text_key": "STORY_CH10_INTRO_03"
+      "text_key": "STORY_CH10_INTRO_11",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "choice",
+      "choices": [
+        {
+          "text_key": "CHOICE_CH10_CHOOSE_NEITHER",
+          "target": "c1_a",
+          "set_flag": "CH10_CHOOSE_NEITHER"
+        },
+        {
+          "text_key": "CHOICE_CH10_COUNT_BOTH",
+          "target": "c1_b",
+          "set_flag": "CH10_COUNT_BOTH"
+        }
+      ]
+    },
+    {
+      "id": "c1_a",
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH10_INTRO_12",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_b",
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH10_INTRO_13",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_end",
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH10_INTRO_14"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_CH10_INTRO_15",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH10_INTRO_16",
+      "portrait_asset_id": "portrait_chr001_dev"
     },
     {
       "command": "grant_reward",

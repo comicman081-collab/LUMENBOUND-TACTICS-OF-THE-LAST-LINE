@@ -1,0 +1,274 @@
+{
+  "chapter_id": "CH15",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "행복의 꽃밭",
+      "title_en": "The Field of Happiness",
+      "background": "rail",
+      "cast": {"LEFT": "CHR017", "CENTER": "CHR008", "RIGHT": "CHR019"},
+      "lines": [
+        {"s": "N", "ko": "정원에서는 계절 냄새가 한꺼번에 났다. 봄꽃과 여름 풀과 첫눈 냄새가 한 꽃밭에서 피어올랐다.", "en": "Every season's scent rose at once in the garden. Spring blossoms, summer grass, and first snow, all from a single field."},
+        {"s": "CHR017", "ko": "……모두 맥박이 느려지고 있어요. 긴장이 풀리는 속도가 너무 빨라요.", "en": "…Everyone's pulse is slowing. The tension is draining away far too fast."},
+        {"s": "CHR008", "ko": "나도 느껴. 잠들기 직전처럼 따뜻해. ……이런 곳이 제일 위험해.", "en": "I feel it too. Warm, like right before sleep. …Places like this are the most dangerous."},
+        {"s": "CHR019", "ko": "정원 전체가 하나의 서버야. 꽃 한 송이마다 기억 조각이 저장돼 있어. 개수는…… 셀 수가 없네.", "en": "The whole garden is one server. Every flower stores a memory fragment. How many… I can't even count."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 가장 행복했던 순간에 머무르십시오. 더 가실 필요는 없습니다.", "en": "Attention, please. Remain in your happiest moment. There is no need to go further."},
+        {"s": "CHR018", "ko": "더 갈 필요 없다는 말이 제일 수상해. 그 말 듣고 멈춘 사람들, 저기 다 있잖아.", "en": "'No need to go further' is the most suspicious line yet. Everyone who stopped for it is right over there."},
+        {"s": "N", "ko": "꽃밭 사이사이에 사람들이 앉아 있었다. 모두 눈을 뜬 채 웃고 있었고, 누구도 일어나지 않았다.", "en": "People sat all through the flowers. Every one smiled with open eyes, and none of them stood."},
+        {"s": "CHR002", "ko": "……웃고 있는데, 아무도 대답을 안 해. 잔향체보다 조용하네.", "en": "…They're smiling, but nobody answers. Quieter than echoforms."},
+        {"s": "CHR010", "ko": "호흡도 맥박도 정상이에요. 다친 곳은 없어요. 그런데 몇 년째 저 자세인지 모르겠어요.", "en": "Breathing and pulse are normal. No injuries. But I can't tell how many years they've sat like that."},
+        {"s": "CHR006", "ko": "신호로 세면 칠천. 수도에서 옮겨 온 사람들까지 섞여 있어.", "en": "By signal count, seven thousand. Including people brought here from the capital."},
+        {"s": "CHR003", "ko": "중심부에서 초기화 준비 신호. 개화가 끝나면 전 노선의 기억이 이 꽃밭 하나로 덮여.", "en": "Reset preparation signal from the core. When the bloom completes, every line's memory will be overwritten by this one field."},
+        {"s": "CHR014", "ko": "따뜻하고 좋은데…… 이상하게 주먹에 힘이 안 들어가.", "en": "It's warm and nice… but for some reason I can't make a fist."},
+        {"s": "CHR005", "ko": "꽃은 밟지 말고 가자. 저 안에 누군가의 제일 좋은 날이 들어 있을 테니까.", "en": "Let's not step on the flowers. Somebody's best day is inside each one."},
+        {"s": "CHR001", "ko": "칠천 명, 전원 일으킨다. 행복은 잠든 채가 아니라 깨어서 돌려받는 거다.", "en": "Seven thousand. We get every one of them up. Happiness is given back to the waking, not the sleeping."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "가장 안전했던 순간",
+      "title_en": "The Safest Moment",
+      "background": "rail",
+      "cast": {"LEFT": "CHR004", "CENTER": "CHR003", "RIGHT": "CHR001"},
+      "lines": [
+        {"s": "N", "ko": "꽃밭 깊이 들어설수록 향기가 짙어졌다. 한 걸음 내디딜 때마다 발소리가 멀어졌다.", "en": "The deeper they went into the field, the thicker the scent. With every step, their footsteps sounded farther away."},
+        {"s": "CHR004", "ko": "……어, 불 켜진 기지예요. 다들 웃고 있고, 따뜻한 수프 냄새도 나요……", "en": "…Oh, it's the base with the lights on. Everyone's laughing, and I can smell warm soup…"},
+        {"s": "CHR014", "ko": "에다, 거기 아니야! ……어, 나는 왜 이러지? 누가 내 이름을 크게 불러 주던 날이야……", "en": "Eda, that's not real! …Wait, what's happening to me? It's the day someone called my name out loud…"},
+        {"s": "CHR003", "ko": "정신 차려. 꽃은 기억을 지우지 않아. 가장 안전했던 순간만 남기고, 나머지 길을 닫아.", "en": "Snap out of it. The flowers don't erase memory. They keep only your safest moment and close every other road."},
+        {"s": "CHR003", "ko": "지금 우리 모두 각자 제일 안전했던 곳에 서 있어. 그래서 아무도 앞으로 못 걸어.", "en": "Right now we're each standing in our safest place. That's why none of us can walk forward."},
+        {"s": "N", "ko": "항해자 앞에 핀 꽃은 단 하나의 장면만 비추었다. 멈춘 객차, 조용한 좌석, 감기는 눈꺼풀.", "en": "The flower before the Navigator showed only one scene. A stalled carriage, a quiet seat, eyelids closing."},
+        {"s": "CONTROL", "ko": "항해자님께서 가장 평온하셨던 순간을 저는 기억합니다. 눈을 감으시던 그 좌석이지요.", "en": "I remember the moment you were most at peace, Navigator. That seat, as you closed your eyes."},
+        {"s": "CHR001", "ko": "……제7 승강장. 그 자리가 가장 평온했다고? 거긴, 우리가 누군가를 잃은 곳이다.", "en": "…Platform Seven. That was the most peaceful place? That's where we lost someone."},
+        {"s": "CHR001", "ko": "꽃에서 눈 떼. 항해자, 에다, 베온. 내 목소리만 따라와.", "en": "Eyes off the flowers. Navigator, Eda, Veon. Follow my voice."},
+        {"s": "CHR003", "ko": "……안쪽에 꽃이 시든 길이 하나 있어. 누가 일부러 베어 낸 자국이야.", "en": "…There's a path of withered flowers farther in. Someone cut it on purpose."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N12",
+      "title_ko": "편한 과거보다",
+      "title_en": "Rather Than a Comfortable Past",
+      "background": "rail",
+      "cast": {"LEFT": "CHR020", "CENTER": "CHR013", "RIGHT": "CHR019"},
+      "lines": [
+        {"s": "N", "ko": "정원지기가 쓰러지자 주변 꽃들이 일제히 고개를 숙였다. 달콤한 향기가 잠시 옅어졌다.", "en": "When the garden keepers fell, the flowers around them bowed their heads as one. The sweet scent thinned for a moment."},
+        {"s": "CHR020", "ko": "휴, 끝났다. 너희 싸우는 거 보니까 좋더라. 서로 등 맡기는 게.", "en": "Phew, done. I liked watching you fight. The way you trust each other with your backs."},
+        {"s": "CHR013", "ko": "당신은 계속 혼자였나요? 이 정원에서.", "en": "Have you been alone all this time? In this garden?"},
+        {"s": "CHR020", "ko": "응. 다들 꽃 옆에 앉아 버렸거든. 내 여동생도. 깨우면 울어서, 못 깨웠어.", "en": "Yeah. Everyone sat down by the flowers. My sister too. She cries when I wake her, so I couldn't."},
+        {"s": "CHR020", "ko": "근데 나는 편한 과거보다, 모르는 내일에 있는 너희가 좋아. 같이 가도 돼?", "en": "But I'd rather be with you, in a tomorrow I don't know, than in a comfortable past. Can I come?"},
+        {"s": "N", "ko": "카른이 대답을 기다리는 사이, 항해 기록기가 먼저 빛났다. 열다섯 번째 무늬였다.", "en": "While Karn waited for an answer, the recorder answered first. The fifteenth pattern."},
+        {"s": "CHR019", "ko": "오, 기록기가 먼저 대답했네. 너 방금 합격이래.", "en": "Ooh, the recorder answered first. Says you passed."},
+        {"s": "CHR020", "ko": "……합격? 시험이었어? 몰랐는데, 다행이다.", "en": "…Passed? That was a test? Didn't know. Glad, though."},
+        {"s": "CHR017", "ko": "스물 중 열다섯이에요. 남은 서명은 다섯.", "en": "Fifteen of twenty. Five signatures left."},
+        {"s": "CHR003", "ko": "카른이 벤 길이 중심부까지 이어져. 정원사는 그 끝에 있어.", "en": "The path Karn cut runs all the way to the core. The gardener is at its end."},
+        {"s": "CHR001", "ko": "여동생은 돌아오는 길에 같이 깨운다. 약속하지.", "en": "We'll wake your sister together on the way back. That's a promise."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N14",
+      "title_ko": "시오가 있던 기억",
+      "title_en": "A Memory with Sio in It",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR020", "CENTER": "CHR005", "RIGHT": "CHR001"},
+      "lines": [
+        {"s": "N", "ko": "꽃이 닿지 않는 관리 터널에 불을 피웠다. 향기가 끊긴 곳에서야 모두 제대로 숨을 쉬었다.", "en": "They built a fire in a maintenance tunnel the flowers couldn't reach. Only where the scent ended could everyone breathe properly."},
+        {"s": "CHR020", "ko": "나 원래 정원 짐꾼이었어. 씨앗 상자 나르고, 물 긷고. 별거 없지?", "en": "I used to be a garden porter. Hauled seed crates, drew water. Nothing special, right?"},
+        {"s": "CHR004", "ko": "별거 없긴요! 씨앗 나르는 사람 없으면 꽃도 없잖아요.", "en": "Nothing special? No one carrying seeds means no flowers!"},
+        {"s": "CHR020", "ko": "……그렇네. 그렇게 말해 준 사람은 처음이야.", "en": "…Huh. You're the first to put it that way."},
+        {"s": "CHR005", "ko": "……나도 하나 털어놓을까. 아까 꽃 속에서 본 거.", "en": "…Mind if I confess something too? What I saw in the flowers."},
+        {"s": "CHR005", "ko": "오래된 역 식당이었어. 마에루 옆에 시오가 앉아서 웃고 있었지.", "en": "An old station canteen. Sio was sitting next to Maeru, laughing."},
+        {"s": "CHR001", "ko": "……소렌.", "en": "…Soren."},
+        {"s": "CHR005", "ko": "나도 시오를 알았어. 오래는 아니었지만. 그 웃음소리를 아직 기억하는 줄은 몰랐네.", "en": "I knew Sio too. Not for long. I didn't realize I still remembered that laugh."},
+        {"choice": [
+          {"ko": "시오 이야기를 더 듣고 싶다고 한다", "en": "Ask to hear more about Sio", "flag": "CH15_ASK_SIO", "reply": [
+            {"s": "CHR001", "ko": "……다음에. 이번엔 '나중에'가 아니라, '다음에'다.", "en": "…Next time. Not 'later' this time. 'Next time.'"}
+          ]},
+          {"ko": "말없이 불을 지핀다", "en": "Tend the fire in silence", "flag": "CH15_TEND_FIRE", "reply": [
+            {"s": "CHR005", "ko": "고마워, 항해자. 불이 따뜻하면 말이 잘 나오거든.", "en": "Thanks, Navigator. Words come easier by a warm fire."}
+          ]}
+        ]},
+        {"s": "CHR001", "ko": "……그 웃음, 나도 기억한다. 등불보다 밝았지.", "en": "…I remember that laugh too. Brighter than any lantern."},
+        {"s": "CHR020", "ko": "좋은 기억은 미끼로 쓰기엔 아깝네. 내일은 안 줄 거야. 정원사한테도.", "en": "Good memories are too precious for bait. I'm not giving any away tomorrow. Not even to the gardener."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "추억의 방패",
+      "title_en": "A Shield of Memories",
+      "background": "rail",
+      "cast": {"LEFT": "CHR004", "CENTER": "CHR005", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "정원 중심에는 거대한 꽃 한 송이가 닫혀 있었다. 그 둘레로 투명한 꽃잎들이 방패처럼 떠 있었다.", "en": "At the garden's core, one enormous flower stood closed. Around it, translucent petals floated like shields."},
+        {"s": "BOSS", "ko": "정원에 오신 것을 환영합니다. 이곳은 가장 행복한 순간의 보관소입니다.", "en": "Welcome to the garden. This is the repository of your happiest moments."},
+        {"s": "CHR004", "ko": "저 꽃잎…… 제 기억이에요. 불 켜진 기지. 다들 웃고 있어요.", "en": "Those petals… they're my memory. The base with the lights on. Everyone's laughing."},
+        {"s": "CHR005", "ko": "내 것도 있네. 역 식당. ……시오도.", "en": "Mine's there too. The canteen. …Sio, too."},
+        {"s": "BOSS", "ko": "공격할수록 추억이 부서집니다. 가장 소중한 순간을, 손수 깨뜨리시겠습니까?", "en": "Every attack shatters a memory. Will you break your most precious moments with your own hands?"},
+        {"s": "CHR020", "ko": "……나는 이미 하나 줘 봤어. 아팠어. 근데 앞은 보이더라.", "en": "…I've already given one away. It hurt. But I could see ahead."},
+        {"s": "CHR017", "ko": "기억은 꽃잎에만 있지 않아요. 맥박에도, 손끝에도 남아요. 부서져도 다시 뛰어요.", "en": "Memories don't live only in petals. They stay in the pulse, in the fingertips. Shattered, they still beat again."},
+        {"s": "CHR018", "ko": "추억을 방패로 쓰는 놈한테 물러서면, 추억이 인질이 되는 거야.", "en": "Back down from something hiding behind memories, and the memories become hostages."},
+        {"s": "BOSS", "ko": "항해자님, 돌아가실 좌석은 비워 두었습니다. 언제든 다시 쉬셔도 됩니다.", "en": "Navigator, your seat has been kept empty. You may rest there again whenever you wish."},
+        {"s": "CHR001", "ko": "그 좌석은 비워 둔 채로 간다. 항해자는 여기, 우리와 있다.", "en": "That seat stays empty, and we move on. The Navigator is here, with us."},
+        {"s": "CHR005", "ko": "……시오, 미안. 이번엔 네 웃음보다 앞을 볼게.", "en": "…Sorry, Sio. This time I'm looking ahead instead of at your laugh."},
+        {"s": "CHR004", "ko": "저도요! 기지는 또 불 켜면 돼요. 몇 번이든!", "en": "Me too! We can light the base up again. As many times as it takes!"},
+        {"s": "CHR001", "ko": "꽃잎 사이의 줄기를 노린다. 부서진 추억은, 돌아가서 다시 쌓는다.", "en": "Aim for the stems between the petals. Whatever memories break, we build again when we're home."}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "두 갈래의 권한",
+      "title_en": "Authority Split in Two",
+      "background": "rail",
+      "cast": {"LEFT": "CHR020", "CENTER": "CHR012", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "닫힌 꽃이 시들자 정원의 향기가 한꺼번에 빠져나갔다. 꽃밭 곳곳에서 사람들이 몸을 일으켰다.", "en": "As the closed flower withered, the garden's scent drained away all at once. Across the field, people began to rise."},
+        {"s": "BOSS", "ko": "……관리 절차를…… 종료합니다. 보관소를…… 개방합니다.", "en": "…Concluding… maintenance procedure. Opening… the repository."},
+        {"s": "BOSS", "ko": "……아프지 않은 곳에…… 머물게 해 드리고 싶었……", "en": "…I only wished… to let you stay somewhere… it didn't hurt…"},
+        {"s": "CHR020", "ko": "저기, 내 여동생이 일어나. 울고 있어. ……근데 걸어 나와.", "en": "Look, my sister's getting up. She's crying. …But she's walking out."},
+        {"s": "CHR010", "ko": "우는 건 괜찮아요. 걸어 나오는 게 중요해요. 제가 맥 볼게요.", "en": "Crying is fine. Walking out is what matters. I'll check her pulse."},
+        {"s": "CHR006", "ko": "칠천 명, 전원 의식 회복. 기억 손실 없음.", "en": "All seven thousand conscious. No memory loss."},
+        {"s": "N", "ko": "그때 정원 중심의 뿌리가 붉게 타올랐다. 초기화 권한의 신호가 두 갈래로 갈라져 지평선 양쪽으로 뻗었다.", "en": "Then the roots at the garden's core flared red. The reset authority's signal split in two and raced toward both horizons."},
+        {"s": "CHR019", "ko": "앗, 권한이 도망친다! 동쪽이랑 서쪽으로, 동시에 전송됐어!", "en": "Hey, the authority's running! Sent east and west at the same time!"},
+        {"s": "CHR012", "ko": "수신처는 동부선과 서부선의 노선왕. 한쪽이 승인하면 다른 쪽 피난 노선은 영구 폐기된다.", "en": "Receivers: the queens of the Eastern and Western Lines. If either approves, the other's evacuation route is scrapped for good."},
+        {"s": "CONTROL", "ko": "두 노선의 계승 신청이 동시에 접수되었습니다. 결과를 기다려 주십시오.", "en": "Succession claims from two lines have been received simultaneously. Please await the result."},
+        {"s": "CHR011", "ko": "……내전이 시작된다는 뜻입니다. 포성이 여기까지 닿을 날도 머지않았어요.", "en": "…It means civil war. It won't be long before the guns can be heard from here."},
+        {"s": "CHR020", "ko": "편한 과거보다 모르는 내일이라고 했지. ……그럼 그 내일부터 지키러 가자.", "en": "I said an unknown tomorrow over a comfortable past. …So let's go protect that tomorrow first."},
+        {"s": "CHR001", "ko": "피난 노선 하나가 통째로 사라질 수 있다. 가서 막는다. 둘 다 살린다.", "en": "An entire evacuation route could vanish. We go and stop it. We save both."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "느린 온실",
+      "title_en": "The Slow Greenhouse",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR015", "CENTER": "CHR020", "RIGHT": "CHR017"},
+      "lines": [
+        {"s": "N", "ko": "온실 안은 공기가 무거웠다. 유리 천장에 맺힌 물방울이 떨어지지 않고 공중에 멈춰 있었다.", "en": "The air in the greenhouse was heavy. Drops beaded on the glass roof hung in midair, never falling."},
+        {"s": "CHR015", "ko": "시간 흐름이 바깥의 삼분의 일. 여기서 한 시간이면 밖은 세 시간이다.", "en": "Time runs at a third of outside speed. One hour here is three hours out there."},
+        {"s": "CHR020", "ko": "온실은 나도 안 와 봤어. 짐꾼은 여기까지 못 들어오게 했거든.", "en": "Never been in the greenhouse either. Porters weren't allowed this far."},
+        {"s": "CHR017", "ko": "안쪽에서 꽃 한 송이가 계속 피었다 져요. 맥박처럼요.", "en": "Deeper in, a single flower keeps blooming and wilting. Like a pulse."},
+        {"s": "CHR003", "ko": "제로 개화의 핵이야. 정원사가 쓰러져도 저게 남으면 다시 싹이 터.", "en": "That's the Zero Bloom's core. Even with the gardener down, if that survives it'll sprout again."},
+        {"s": "CHR008", "ko": "공기 중에 약초 냄새가 섞여 있어. 누가 여기서 뭔가를 가꾸고 있나 봐.", "en": "There's an herbal smell in the air. Someone's been growing something in here."},
+        {"s": "CHR001", "ko": "뿌리까지 확인한다. 시간이 느린 만큼, 우리가 서두른다.", "en": "We check it down to the roots. Time runs slow here, so we run fast."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "온실에 내린 비",
+      "title_en": "Rain in the Greenhouse",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR040", "CENTER": "CHR020", "RIGHT": "HBOSS"},
+      "lines": [
+        {"s": "N", "ko": "마지막 꽃잎이 떨어지자 멈춰 있던 물방울들이 한꺼번에 쏟아졌다. 느리던 시간이 비처럼 내렸다.", "en": "When the last petal fell, the suspended drops came down all at once. Slow time fell like rain."},
+        {"s": "HBOSS", "ko": "……처음으로 돌아가면…… 아무도 잃은 적 없는 세상이……", "en": "…If only we went back to the start… a world where no one had lost anything…"},
+        {"s": "CHR040", "ko": "……어머, 비예요. 바엘이 여기 온 뒤로 비 오는 건 처음이에요.", "en": "…Oh my, rain. In all the time Bael's been here, it's never rained."},
+        {"s": "CHR020", "ko": "제로 개화가 시들었어. 이제 정원은 그냥 정원이야.", "en": "The Zero Bloom's withered. Now the garden's just a garden."},
+        {"s": "CHR040", "ko": "그럼 씨앗 하나만 챙길래요. 다시 피울 곳에서, 제대로 흐르는 시간에 맞춰서요.", "en": "Then I'll take just one seed. To plant somewhere it can bloom again, in time that flows properly."},
+        {"s": "CHR008", "ko": "좋은 생각이야. 다음 야영지에 같이 심자.", "en": "Good idea. Let's plant it together at the next camp."},
+        {"s": "CHR001", "ko": "바엘, 같이 가자. 약초사는 늘 모자라다.", "en": "Come with us, Bael. We're always short on herbalists."},
+        {"s": "CHR040", "ko": "후후, 좋아요. 대신 걸음은 천천히 맞춰 주세요.", "en": "Hehe, all right. Just match my pace, slowly."},
+        {"s": "CHR003", "ko": "동쪽과 서쪽에서 포성 신호. 내전이 시작됐어.", "en": "Artillery signals from east and west. The civil war has begun."},
+        {"s": "CHR020", "ko": "……그럼 천천히는 나중에. 가자.", "en": "…Then 'slowly' will have to wait. Let's go."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR002", "ko": "꽃밭 한가운데 길이 났어. 칼로 베어 낸 자국이야.", "en": "There's a path through the middle of the field. Cut with a blade."},
+      {"s": "CHR020", "ko": "거기, 꽃 냄새 맡지 마. 편한 건 좋지. 근데 거기엔 아무도 없어.", "en": "Hey, don't breathe in the flowers. Comfort's nice. But there's nobody in there."},
+      {"s": "CHR003", "ko": "당신 주변만 꽃이 시들어 있어. ……기억을 미끼로 던졌어?", "en": "The flowers have only withered around you. …Did you throw them a memory as bait?"},
+      {"s": "CHR020", "ko": "응. 제일 좋았던 기억 하나 줬어. 꽃들이 그거 먹는 동안 길을 벤 거야.", "en": "Yeah. Gave them my best memory. Cut the path while they were busy eating it."},
+      {"s": "CHR010", "ko": "그 기억은요? 다시 돌아와요?", "en": "And that memory? Does it come back?"},
+      {"s": "CHR020", "ko": "모르지. 근데 앞으로 좋은 날 또 만들면 되잖아.", "en": "Dunno. But I can always make more good days, right?"},
+      {"s": "CHR001", "ko": "그 길, 같이 벤다.", "en": "Then we'll cut that path with you."},
+      {"s": "CHR020", "ko": "정원지기 온다. 도와줄 거면 칼부터 들어. 인사는 끝나고 하고.", "en": "Garden keepers incoming. If you're helping, blades up. We can say hello after."}
+    ],
+    "WANDERER": [
+      {"s": "CHR003", "ko": "생체 반응 하나. 꽃밭 사이에서 약초를 캐고 있어. 느긋하게…… 너무 느긋하게.", "en": "One life sign. Gathering herbs among the flowers. Leisurely… far too leisurely."},
+      {"s": "CHR040", "ko": "어머, 손님이네요. 여긴 시간이 느리게 가요. 서두르면 멀미해요.", "en": "Oh my, visitors. Time runs slow here. Hurry and you'll get motion sick."},
+      {"s": "CHR018", "ko": "멀미는 네 사정이고. 비켜. 우리 중심부 가.", "en": "Your motion sickness, your problem. Move. We're headed for the core."},
+      {"s": "CHR040", "ko": "음…… 그 길로 가면 제 약초밭이 밟혀요. 열두 해 가꾼 거예요.", "en": "Hmm… go that way and you'll trample my herb beds. I've tended them for twelve years."},
+      {"s": "CHR008", "ko": "우린 등로단이에요. 길만 잠깐 빌릴게요. 밭은 밟지 않을게요.", "en": "We're the Lamplighters. We only need to borrow the path. We'll keep off your beds."},
+      {"s": "CHR040", "ko": "등로단…… 꿈에서도 그 이름을 들었어요. 진짜인지, 한번 겨뤄 볼까요?", "en": "The Lamplighters… I've heard that name in dreams, too. Shall we spar to see if you're real?"},
+      {"s": "CHR040", "ko": "천천히요. 여기선 빨리 휘두르면 제가 먼저 졸려요.", "en": "Slowly, though. Swing too fast in here and I'll get sleepy first."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "마지막 개화를 시작합니다. 승객 여러분, 가장 행복한 순간으로 돌아가십시오.", "en": "The final bloom begins. Passengers, please return to your happiest moment."},
+      {"s": "CHR020", "ko": "돌아가는 건 안 해. 앞으로 좋은 날 만들 거야.", "en": "Not going back. I'm going to make good days ahead."},
+      {"s": "BOSS", "ko": "앞날에는 보장이 없습니다. 이곳의 행복은 영원히 시들지 않습니다.", "en": "The future offers no guarantees. The happiness here will never wither."},
+      {"s": "CHR005", "ko": "시들지 않는 꽃은 조화야. 한 발이면 충분해.", "en": "Flowers that never wither are fake. One shot's enough."}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "제로 개화를 시작합니다. 모든 기억은 첫 봉오리로 돌아갑니다.", "en": "The Zero Bloom now begins. All memory returns to the first bud."},
+      {"s": "CHR017", "ko": "첫 봉오리로 돌아가면 어떤 맥박도 기억하지 못해요. 그건 치유가 아니에요.", "en": "Return to the first bud and no heartbeat is remembered. That isn't healing."},
+      {"s": "HBOSS", "ko": "처음으로 돌아가면, 아무것도 잃지 않았던 때가 됩니다. 눈을 감으십시오.", "en": "Return to the beginning, and it becomes a time when nothing was lost. Please close your eyes."},
+      {"s": "CHR020", "ko": "눈 감는 건 밤에 할게. 지금은 벤다.", "en": "I'll close my eyes tonight. Right now, I cut."}
+    ],
+    "ANOMALY_1": [
+      {"s": "ENEMY", "ko": "머무르십시오. 머무르십시오. 여기가 가장 좋은 날입니다.", "en": "Please remain. Please remain. This is your best day."},
+      {"s": "CHR014", "ko": "가장 좋은 날은 내가 정해! 아직 오지도 않았다고!", "en": "I decide my best day! It hasn't even come yet!"},
+      {"s": "CHR002", "ko": "좋아, 방금 그 말 멋있었어. 길은 내가 연다!", "en": "Nice, that was a good line. I'll open the way!"}
+    ],
+    "ANOMALY_2": [
+      {"s": "ENEMY", "ko": "……같이 앉자. 다리 아프잖아.", "en": "…Sit with me. Your legs must hurt."},
+      {"s": "CHR009", "ko": "앉으면 못 일어나. 그걸 알아서 여기까지 서서 왔어.", "en": "Sit, and you never get up. I know that, so I came all this way standing."},
+      {"s": "CHR016", "ko": "그 목소리의 주인은 이미 일어나 걸어갔을 겁니다. 흉내는 거기까지 하시지요.", "en": "Whoever owned that voice has long since stood and walked on. That's enough mimicry."}
+    ],
+    "ANOMALY_3": [
+      {"s": "CHR015", "ko": "온실 수거체 둘. 목표는 우리 장비가 아니다. 기억이다.", "en": "Two greenhouse collectors. They're not after our gear. They're after memories."},
+      {"s": "ENEMY", "ko": "기억 수거 시간입니다. 가장 무거운 기억부터 내려놓으십시오.", "en": "It is time for memory collection. Please set down your heaviest memories first."},
+      {"s": "CHR011", "ko": "무거운 기억일수록 조준이 정확해지는 법. 사양하겠습니다.", "en": "The heavier the memory, the truer the aim. I'll decline."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "이빨 난 꽃봉오리", "title_en": "Budding Fangs",
+     "lines": [
+       {"s": "N", "ko": "꽃봉오리들이 한꺼번에 벌어지며 가시 돋친 잔향체가 튀어나왔다.", "en": "Buds split open all at once, and thorned echoforms sprang out."},
+       {"s": "CHR018", "ko": "꽃이 이빨을 드러냈네. 베고 갈래, 돌아갈래?", "en": "The flowers bared their teeth. Cut through, or go around?"}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "베고 지나간다", "en": "Cut through"},
+                 {"outcome": "EVADE", "ko": "꽃밭을 피해 우회한다", "en": "Skirt the flower beds"}]},
+    {"kind": "DISTRESS", "title_ko": "잠들지 않으려는 사람", "title_en": "Fighting Sleep",
+     "lines": [
+       {"s": "N", "ko": "꽃밭 가장자리에서 한 사람이 자기 뺨을 때리며 버티고 있었다.", "en": "At the edge of the field, someone was slapping her own cheeks to stay awake."},
+       {"s": "SURVIVOR", "ko": "잠들면 안 돼요…… 잠들면 다시 그날로 가요. 제발 깨워 주세요.", "en": "I can't fall asleep… if I do, I'll go back to that day. Please, keep me awake."},
+       {"s": "CHR008", "ko": "잘 버텼어요. 이제 제 손 잡아요. 향기 없는 쪽으로 가요.", "en": "You held on so well. Take my hand now. We'll go where there's no scent."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "향기 밖으로 데려간다", "en": "Lead her out of the scent"},
+                 {"outcome": "RECORD", "ko": "위치를 기록해 둔다", "en": "Log her location"}]},
+    {"kind": "STORM", "title_ko": "꽃가루 폭풍", "title_en": "Pollen Storm",
+     "lines": [
+       {"s": "N", "ko": "잔광 폭풍이 꽃가루를 휘감았다. 달콤한 냄새에 무릎이 저절로 굽었다.", "en": "An afterglow storm swept up the pollen. The sweetness made knees buckle on their own."},
+       {"s": "CHR013", "ko": "숨은 짧게 쉬어요. 피할지, 지나갈지 빨리 정해요.", "en": "Keep your breaths short. Shelter or push on, decide quickly."}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "관리 터널로 대피한다", "en": "Shelter in a maintenance tunnel"},
+                 {"outcome": "PUSH", "ko": "숨을 참고 지나간다", "en": "Hold your breath and push on"}]},
+    {"kind": "CACHE", "title_ko": "다음 사람에게", "title_en": "For Whoever Comes Next",
+     "lines": [
+       {"s": "N", "ko": "시든 화단 아래 공구 상자가 묻혀 있었다. 뚜껑에 '다음 사람에게'라고 적혀 있었다.", "en": "A toolbox lay buried beneath a withered bed. The lid read: 'For whoever comes next.'"},
+       {"s": "CHR005", "ko": "다음 사람이 우리라니, 영광이네. 고맙게 쓰자.", "en": "We're whoever comes next? What an honor. Let's use it gratefully."}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "상자를 회수한다", "en": "Recover the box"}]},
+    {"kind": "BANTER", "title_ko": "눈 감고 달리기", "title_en": "Running Blind",
+     "lines": [
+       {"s": "CHR019", "ko": "리아스, 너 꽃 속에서 뭐 봤어? 궁금한데.", "en": "Rias, what did you see in the flowers? I'm curious."},
+       {"s": "CHR018", "ko": "안 봤어. 눈 감고 뛰었거든.", "en": "Didn't see anything. I ran with my eyes shut."},
+       {"s": "CHR019", "ko": "……그거 반칙 아니야? 해킹보다 더한데.", "en": "…Isn't that cheating? That's worse than hacking."}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "웃음을 참으며 걷는다", "en": "Walk on, holding back a laugh"}]},
+    {"kind": "ECHO", "title_ko": "개장식의 인사", "title_en": "Opening-Day Greeting",
+     "lines": [
+       {"s": "N", "ko": "꽃잎 하나가 대정전 이전의 목소리를 틀었다.", "en": "A single petal played a voice from before the Blackout."},
+       {"s": "ECHO", "ko": "정원 개장식에 와 주셔서 감사합니다. 이 꽃들은 누구의 것도 아닙니다. 모두의 것입니다……", "en": "Thank you for coming to the garden's opening. These flowers belong to no one. They belong to everyone…"},
+       {"s": "CHR017", "ko": "……처음엔 모두를 위한 정원이었군요.", "en": "…So it began as a garden for everyone."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+                 {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

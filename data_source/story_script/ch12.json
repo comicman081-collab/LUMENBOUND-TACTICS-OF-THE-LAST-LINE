@@ -1,0 +1,301 @@
+{
+  "chapter_id": "CH12",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "이름을 먹는 문",
+      "title_en": "The Door That Eats Names",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR007", "CENTER": "CHR001", "RIGHT": "CHR002"},
+      "lines": [
+        {"s": "N", "ko": "성당 문 위에 수백 개의 이름이 새겨져 있었다. 누군가 소리 내어 읽을 때마다, 글자가 재처럼 떨어졌다.", "en": "Hundreds of names were carved above the cathedral door. Each time one was read aloud, its letters fell away like ash."},
+        {"s": "CHR007", "ko": "열쇠 홈이 맞아. 조류에서 건진 그 열쇠야. 문은 열 수 있어.", "en": "The teeth fit. It's the key from the tide. We can open the door."},
+        {"s": "CHR002", "ko": "그럼 열자. 여기 이 이름은…… 어? 방금 내가 뭐라고 읽었지?", "en": "Then let's open it. This name here is… huh? What did I just read?"},
+        {"s": "CHR003", "ko": "로안, 네가 읽은 이름이 문에서 사라졌어. 네 기억에서도.", "en": "Roan, the name you read just vanished from the door. And from your memory."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 무명성당에 오신 것을 환영합니다.", "en": "Your attention, please. Welcome to the Nameless Cathedral."},
+        {"s": "CONTROL", "ko": "이름은 봉인 유지비로 징수됩니다. 항해자님께서는 면제 대상입니다.", "en": "Names will be collected as seal maintenance fees. Navigator, you are exempt."},
+        {"s": "CHR014", "ko": "면제? 항해자만? 이것도 무슨 귀빈 대우냐?", "en": "Exempt? Just the Navigator? Is this some VIP treatment again?"},
+        {"s": "CHR016", "ko": "징수라면 무언가를 유지하는 데 쓰인다는 뜻입니다. 이 성당이 무엇을 봉인하는지부터 알아야 합니다.", "en": "A levy means it's spent maintaining something. We must first learn what this cathedral is sealing."},
+        {"s": "CHR012", "ko": "성가에 가사가 없다. 이름이 들어갈 자리만 비어 있다. 거기 들어갈 게 우리 이름이다.", "en": "The hymn has no lyrics. Only blanks where names should go. Our names are meant to fill them."},
+        {"s": "CHR004", "ko": "그럼 이름 안 부르고 다녀요? 에다, 에다, 에다…… 휴, 아직 있다.", "en": "Then we just don't say names? Eda, Eda, Eda… Phew, still there."},
+        {"s": "CHR001", "ko": "이름을 아껴라. 부를 땐 짧게. 대답이 오면 그걸로 확인한다.", "en": "Spend names sparingly. Keep calls short. If someone answers, that's your confirmation."},
+        {"s": "N", "ko": "문이 열렸다. 긴 회랑 끝, 제단의 촛불 수천 개가 이름 대신 타오르고 있었다.", "en": "The door opened. At the end of a long nave, thousands of candles burned on the altar in place of names."},
+        {"s": "CHR015", "ko": "촛불 하나에 이름 하나라면, 삼천 명 넘게 징수당했어.", "en": "If it's one name per candle, over three thousand people have been taxed."},
+        {"s": "CHR001", "ko": "삼천 개의 이름. 전부 돌려준다. ……들어간다.", "en": "Three thousand names. We give them all back. …We're going in."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "징수 대장",
+      "title_en": "The Levy Ledger",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR001", "RIGHT": "CHR013"},
+      "lines": [
+        {"s": "N", "ko": "회랑 기둥마다 징수 대장이 걸려 있었다. 이름 옆에는 날짜 대신 '납부 완료'가 찍혀 있었다.", "en": "A levy ledger hung on every pillar of the nave. Beside each name, instead of a date, was stamped 'PAID IN FULL.'"},
+        {"s": "CHR003", "ko": "죽은 사람 명단이 아니야. 전부 살아 있는 사람이야. 이 성당은 산 사람의 이름을 세금처럼 거둬.", "en": "This isn't a list of the dead. Every one of them is alive. This cathedral taxes the names of the living."},
+        {"s": "CHR013", "ko": "이름을 빼앗긴 사람들은 어떻게 되지?", "en": "What happens to the people whose names are taken?"},
+        {"s": "CHR003", "ko": "살아 있어. 다만 아무도 그 사람을 부르지 못해. 가족도, 자기 자신도.", "en": "They live. It's just that no one can call them anymore. Not their family. Not even themselves."},
+        {"s": "CHR004", "ko": "무서워요, 그거. 저기, 그…… 포 쏘는…… 어, 이름이……", "en": "That's terrifying. Um, the… the one with the cannon… uh, her name is…"},
+        {"s": "CHR005", "ko": "……소렌. 나야. 괜찮아, 에다. 나도 방금 네 이름이 한 박자 늦게 떠올랐어.", "en": "…Soren. It's me. It's okay, Eda. Your name came to me a beat late just now too."},
+        {"s": "CHR014", "ko": "잠깐, 저쪽 방패 든 사람…… 제방에서 만난…… 아, 젠장. 혀끝에 걸렸는데.", "en": "Wait, that one with the shield… we met at the dike… Damn it. It's right on the tip of my tongue."},
+        {"s": "CHR016", "ko": "오르사입니다. 몇 번이고 말씀드리지요. 잊으셔도, 다시 말하면 됩니다.", "en": "Orsa. I'll tell you as many times as it takes. If you forget, I'll simply say it again."},
+        {"s": "CHR001", "ko": "징수가 빨라지고 있다. 서로 이름을 부르고, 대답을 들어라. 그게 끊기면 멈춘다.", "en": "The levy is speeding up. Call each other's names and listen for answers. If that stops, we stop."},
+        {"s": "CHR003", "ko": "안쪽 성가대석에서 맥박 같은 신호가 울려. 일정해. 이름 없이 뛰는 신호야.", "en": "There's a pulse-like signal from the choir stalls. Steady. A signal that beats without a name."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N13",
+      "title_ko": "열두 번째 서명",
+      "title_en": "The Twelfth Signature",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR017", "CENTER": "CHR001", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "성가대가 흩어지자, 티엘의 손끝에서 서른두 개의 박자가 조용히 이어졌다.", "en": "As the choir scattered, thirty-two rhythms carried on quietly beneath Tiel's fingertips."},
+        {"s": "CHR017", "ko": "티엘입니다. 이 성당의 의무관이었지요. 이름을 잃은 분들을 맥박으로 한 분씩 기억해 왔습니다.", "en": "I'm Tiel. I was this cathedral's medic. I've remembered each person who lost their name by their pulse."},
+        {"s": "N", "ko": "티엘이 제단 뒤 석판을 가리켰다. 지워진 이름들 사이에서, 한 문장만이 온전히 남아 있었다.", "en": "Tiel pointed to the stone tablet behind the altar. Among the erased names, a single sentence remained whole."},
+        {"s": "CHR017", "ko": "이곳 전례문의 마지막 구절입니다. '서로 다른 노선의 독립 서명 스물이 모이면, 새 시간표를 쓸 수 있다.'", "en": "The final verse of this liturgy. 'When twenty independent signatures from different lines are gathered, a new timetable may be written.'"},
+        {"s": "CHR003", "ko": "서명…… 노선마다 하나. 항해자 기록기에 새겨지던 그 무늬야. 열한 개, 규칙이 한 번도 어긋나지 않았어.", "en": "Signatures… one per line. The patterns on the Navigator's recorder. Eleven so far, and the rule has never once broken."},
+        {"s": "CHR002", "ko": "그러니까 우리가 모르는 새에, 뭔가를 새로 쓸 자격을 모으고 있었다고?", "en": "So without knowing it, we've been collecting the right to write something new?"},
+        {"s": "N", "ko": "그 순간 기록기가 맥박처럼 두근거렸다. 티엘의 박자에 맞춰, 열두 번째 무늬가 새겨졌다.", "en": "In that moment the recorder throbbed like a pulse. In time with Tiel's rhythm, a twelfth pattern was engraved."},
+        {"s": "CHR017", "ko": "……제 박자와 똑같이 뛰네요. 이름 대신 남는 표식이라니, 이 성당보다 훨씬 다정하군요.", "en": "…It beats exactly with my rhythm. A mark that remains in place of a name. Far kinder than this cathedral."},
+        {"s": "CHR017", "ko": "모든 이름이 돌아올 때까지, 여러분의 맥박은 제가 기억하겠습니다.", "en": "Until every name returns, I will remember your pulses."},
+        {"s": "CHR014", "ko": "새 시간표라…… 판결문 말고 우리가 직접 쓰는 종이란 거지? 마음에 드는데!", "en": "A new timetable… A page we write ourselves instead of a verdict? I like it!"},
+        {"s": "CHR003", "ko": "제단 너머 징수 신호가 급증했어. 성당이 우리를 알아챘어.", "en": "The levy signal beyond the altar just spiked. The cathedral's noticed us."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N16",
+      "title_ko": "스물 중 열둘",
+      "title_en": "Twelve of Twenty",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR001", "RIGHT": "CHR017"},
+      "lines": [
+        {"s": "N", "ko": "성당 지하 성물실, 촛불 하나를 가운데 두고 모두가 둘러앉았다. 벽 너머로 성가가 희미하게 스며들었다.", "en": "In the sacristy beneath the cathedral, everyone sat around a single candle. The hymn seeped faintly through the walls."},
+        {"s": "CHR003", "ko": "정리할게. 서로 다른 노선, 독립 서명, 스물. 지금 열둘. 여덟이 남았어.", "en": "Let me sum up. Different lines, independent signatures, twenty. We have twelve. Eight to go."},
+        {"s": "CHR011", "ko": "새 시간표를 쓸 수 있다면, 지금 시간표를 폐기할 수도 있다는 뜻이오. 관제의 최종 시간표까지.", "en": "If a new timetable can be written, the current one can be discarded. Control's Final Timetable included."},
+        {"s": "CHR013", "ko": "관제가 처음부터 항해자를 알아본 것도 그래서일까. 기록기가 누구 손목에 있는지 알았으니까.", "en": "Is that why Control recognized the Navigator from the start? Because it knew whose wrist the recorder was on?"},
+        {"s": "CHR003", "ko": "……그런데 누가 이런 규칙을 만들었지? 스물이라는 숫자, 독립 서명이라는 조건. 누군가 설계한 거야.", "en": "…But who made this rule? The number twenty, the condition of independence. Someone designed this."},
+        {"s": "N", "ko": "모두 무심코 천장의 스피커를 올려다보았다. 늘 끼어들던 관제는, 이번만은 아무 말도 하지 않았다.", "en": "Without thinking, everyone looked up at the speaker in the ceiling. Control, always so quick to cut in, said nothing this time."},
+        {"s": "CHR012", "ko": "침묵도 신호다. 관제가 대답하지 않는다는 건, 대답하고 싶지 않다는 뜻이다.", "en": "Silence is a signal too. If Control won't answer, it doesn't want to."},
+        {"s": "CHR015", "ko": "아니면 계산이 안 끝났거나. 어느 쪽이든 저쪽 사정이야.", "en": "Or it hasn't finished calculating. Either way, that's its problem."},
+        {"s": "CHR001", "ko": "누가 만들었든, 서명은 전부 각자 고른 결과다. 베라부터 티엘까지. 그건 규칙이 아니라 사람이다.", "en": "Whoever made the rule, every signature was someone's own choice. From Vera to Tiel. That's not a rule. That's people."},
+        {"s": "CHR017", "ko": "항해자, 그 서명들이 무겁지는 않으신가요?", "en": "Navigator, don't those signatures weigh on you?"},
+        {"choice": [
+          {"key": "CHOICE_CH12_CARRY_TOGETHER", "flag": "CH12_CARRY_TOGETHER", "ko": "무겁다. 하지만 함께 들고 있다", "en": "They're heavy. But we carry them together", "reply": [
+            {"s": "CHR017", "ko": "……좋은 대답이에요. 맥박이 흔들리지 않네요.", "en": "…A good answer. Your pulse didn't waver."}
+          ]},
+          {"key": "CHOICE_CH12_EIGHT_MORE", "flag": "CH12_EIGHT_MORE", "ko": "아직 여덟이 남았다", "en": "There are still eight to go", "reply": [
+            {"s": "CHR002", "ko": "하, 벌써 다음 계산이야? 좋아, 여덟. 길은 내가 연다.", "en": "Ha, already on to the next count? Fine. Eight. I'll open the way."}
+          ]}
+        ]},
+        {"s": "CHR001", "ko": "오늘은 여기까지. 내일은 제단이다. ……자기 전에, 옆 사람 이름을 한 번씩 불러 둬라.", "en": "That's enough for tonight. Tomorrow, the altar. …Before you sleep, call the name of the one beside you."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "지워진 이름",
+      "title_en": "The Erased Name",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR017", "CENTER": "CHR001", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "제단 위, 가면을 쓴 거대한 사제 기관이 향로를 흔들었다. 연기가 닿는 곳마다 글자가 녹아내렸다.", "en": "Atop the altar, a towering masked priest-engine swung its censer. Wherever the smoke touched, letters melted away."},
+        {"s": "BOSS", "ko": "납부 안내입니다. 봉인 유지비가 부족합니다. 고액 납부자를 지정합니다.", "en": "Payment notice. Seal maintenance funds are insufficient. Designating a high-value contributor."},
+        {"s": "BOSS", "ko": "등로단 단장, 마에루. 그 이름을 징수합니다.", "en": "Lamplighter Captain Maeru. That name is hereby collected."},
+        {"s": "N", "ko": "향로의 연기가 마에루를 감쌌다. 그리고 모두의 입에서, 한 이름이 소리 없이 빠져나갔다.", "en": "The censer smoke wrapped around Maeru. And from every mouth, one name slipped away without a sound."},
+        {"s": "CHR002", "ko": "단장! ……단장, 이름이…… 이름이 뭐였지? 방금까지 알았는데.", "en": "Captain! …Captain, your name… what was it? I knew it a second ago."},
+        {"s": "CHR004", "ko": "안 돼요, 안 돼…… 매일 불렀던 이름인데. 왜 안 나와요……!", "en": "No, no… I call that name every day. Why won't it come…!"},
+        {"s": "CHR001", "ko": "……나는, 등로단의…… 나는……", "en": "…I am… the Lamplighters'… I am…"},
+        {"s": "CHR017", "ko": "맥박은 그대로예요. 심장은 기억해요. 하지만 누군가 이름을 불러 줘야 해요.", "en": "Her pulse is unchanged. The heart remembers. But someone has to call her name."},
+        {"s": "N", "ko": "그때 항해 기록기만이 꺼지지 않은 글자를 비추고 있었다. 면제된 기록 속에, 그 이름이 남아 있었다.", "en": "Only the recorder still shone with letters that hadn't gone out. In the exempt record, the name remained."},
+        {"choice": [
+          {"key": "CHOICE_CH12_CALL_NAME", "flag": "CH12_CALL_NAME", "ko": "마에루의 이름을 부른다", "en": "Call Maeru's name", "reply": [
+            {"s": "N", "ko": "항해자가 그 이름을 부르자, 티엘이 박자를 두드렸다. 한 번, 두 번, 심장이 뛰는 속도로.", "en": "As the Navigator called the name, Tiel tapped out a rhythm. Once, twice, at the pace of a heartbeat."},
+            {"s": "CHR017", "ko": "지금이에요. 모두, 이 박자를 따라 불러 주세요.", "en": "Now. Everyone, call it with this rhythm."}
+          ]},
+          {"key": "CHOICE_CH12_SHOW_RECORD", "flag": "CH12_SHOW_RECORD", "ko": "기록기를 내민다", "en": "Hold out the recorder", "reply": [
+            {"s": "N", "ko": "기록기의 빛이 그 이름을 허공에 새겼다. 티엘이 글자에 맞춰 박자를 두드렸다.", "en": "The recorder's light etched the name into the air. Tiel tapped a rhythm to match the letters."},
+            {"s": "CHR017", "ko": "읽을 수 있어요. 모두, 이 박자에 맞춰 불러 주세요.", "en": "We can read it. Everyone, call it to this rhythm."}
+          ]}
+        ]},
+        {"s": "CHR004", "ko": "마…… 마에루. 마에루 단장님!", "en": "Ma… Maeru. Captain Maeru!"},
+        {"s": "CHR002", "ko": "마에루. ……그래, 마에루! 우리 단장 이름을 누가 잊어!", "en": "Maeru. …Right, Maeru! Who could forget our captain's name!"},
+        {"s": "CHR001", "ko": "……들린다. 마에루. 내 이름이다.", "en": "…I hear it. Maeru. That's my name."},
+        {"s": "BOSS", "ko": "징수 취소 요청은 접수되지 않습니다. 재징수를 개시합니다.", "en": "Requests to cancel collection are not accepted. Commencing re-collection."},
+        {"s": "CHR001", "ko": "몇 번이든 가져가 봐라. 몇 번이든 불러 줄 사람들이 여기 있다. ……전원, 이름 확인. 간다!", "en": "Take it as many times as you like. There are people here who'll call it back every time. …Everyone, names confirmed. Let's go!"}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "돌아오는 이름들",
+      "title_en": "Names Coming Home",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR017", "CENTER": "CHR001", "RIGHT": "CHR004"},
+      "lines": [
+        {"s": "N", "ko": "사제의 가면이 금 가며 떨어졌다. 가면 뒤에는 얼굴 대신, 비어 있는 명찰 하나가 붙어 있었다.", "en": "The priest's mask cracked and fell. Behind it, instead of a face, was a single blank name tag."},
+        {"s": "BOSS", "ko": "징수를…… 중단합니다. 봉인 유지비를…… 반환합니다.", "en": "Collection… halted. Returning… seal maintenance fees."},
+        {"s": "BOSS", "ko": "……이름이 없으면, 아무도 잊히지 않을…… 처음부터 부를 이름이 없으면…… 아무도, 잃었다고……", "en": "…Without names, no one would ever be forgotten… If there were no names to call at all… no one would ever feel… they'd lost…"},
+        {"s": "N", "ko": "제단의 촛불 삼천 개가 한꺼번에 흔들렸다. 불꽃마다 이름 하나씩을 싣고 성당 밖으로 날아올랐다.", "en": "The three thousand candles on the altar flickered all at once. Each flame lifted a single name and flew out of the cathedral."},
+        {"s": "CHR017", "ko": "맥박과 이름이 다시 맞물려요. 서른두 명…… 아니, 삼천 명 모두요.", "en": "Pulses and names are locking back together. Thirty-two… no, all three thousand."},
+        {"s": "CHR001", "ko": "……마에루. 등로단 단장. 시오의 등불도 그대로다. 전부 제자리야.", "en": "…Maeru. Captain of the Lamplighters. Sio's lantern is still lit. Everything's where it belongs."},
+        {"s": "CHR004", "ko": "단장님, 다시는 이름 잃어버리지 마세요! 제가 매일 백 번씩 부를 거예요!", "en": "Captain, don't you ever lose your name again! I'm going to call it a hundred times a day!"},
+        {"s": "CHR001", "ko": "……하루 열 번이면 충분하다.", "en": "…Ten times a day will do."},
+        {"s": "CHR003", "ko": "잠깐. 날아간 이름 중 일부가 남쪽으로 흘러가. 사막 방향이야.", "en": "Wait. Some of the names that flew off are drifting south. Toward the desert."},
+        {"s": "CHR007", "ko": "신호가 모래 위에 선로를 그리고 있어. 지도에 없는 선로야. 시간표까지 붙어 있어.", "en": "The signal's drawing tracks on the sand. Tracks that aren't on any map. With a timetable attached."},
+        {"s": "CHR012", "ko": "존재하지 않는 열차의 시간표다. 훔친 이름들로 승객 명부를 채우고 있다.", "en": "A timetable for a train that doesn't exist. It's filling its passenger list with the stolen names."},
+        {"s": "CHR016", "ko": "이름이 돌아갈 곳을 잃고 떠돈다면, 그것도 제가 건져야 할 좌표입니다.", "en": "If names are drifting with nowhere to return to, then they're coordinates I must recover as well."},
+        {"s": "CHR014", "ko": "판결, 쌍월, 조류, 성당…… 이번엔 모래냐. 좋아, 다 받아 주지!", "en": "Verdicts, twin moons, tides, a cathedral… and now sand? Fine. Bring it all on!"},
+        {"s": "CHR001", "ko": "스물 중 열둘. 그리고 이름은 하나도 남김없이. ……사막으로 간다.", "en": "Twelve of twenty. And not a single name left behind. …We head for the desert."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "성가가 흐르는 납골당",
+      "title_en": "The Singing Ossuary",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR017", "CENTER": "CHR001", "RIGHT": "CHR016"},
+      "lines": [
+        {"s": "N", "ko": "성당 아래 납골당에서 성가가 끊이지 않고 울렸다. 차가운 돌벽마다 이름 없는 명패가 빼곡했다.", "en": "In the ossuary beneath the cathedral, the hymn never stopped. Nameless plaques crowded every cold stone wall."},
+        {"s": "CHR017", "ko": "이 아래에 성가 자물쇠가 있어요. 성당이 거둔 이름 중 가장 오래된 것들을 잠가 둔 곳이에요.", "en": "The Choir Lock is down here. It's where the cathedral locked away the oldest names it collected."},
+        {"s": "CHR003", "ko": "봉인 신호가 아직 살아 있어. 고위사제가 멈췄는데도 여기 이름들은 풀리지 않았어.", "en": "The seal signal's still alive. Even with the Prelate stopped, the names down here haven't been released."},
+        {"s": "CHR013", "ko": "가장 오래된 이름이라면, 기다린 시간도 가장 길었겠지.", "en": "If they're the oldest names, they've waited the longest too."},
+        {"s": "N", "ko": "납골당 입구에 누군가 검을 짚고 서 있었다. 발소리가 다가가도 돌아보지 않았다.", "en": "Someone stood at the ossuary entrance, leaning on a sword. She didn't turn even as footsteps approached."},
+        {"s": "CHR002", "ko": "……우리가 오는 거 알고 있어. 그런데 한마디도 안 하네.", "en": "…She knows we're coming. But she hasn't said a word."},
+        {"s": "CHR016", "ko": "순례 호위의 자세입니다. 성지를 지키는 검이지요. 함부로 넘어서는 안 됩니다.", "en": "That's a pilgrim guard's stance. A sword that watches over holy ground. We mustn't cross it lightly."},
+        {"s": "CHR001", "ko": "검을 뽑지 않은 게 대답이다. 천천히 다가간다.", "en": "Not drawing her sword is an answer in itself. We approach slowly."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "풀려난 이름",
+      "title_en": "Released Names",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR017", "CENTER": "CHR037", "RIGHT": "CHR002"},
+      "lines": [
+        {"s": "N", "ko": "성가 자물쇠가 금 가는 소리와 함께 노래가 멎었다. 납골당의 명패마다 글자가 하나씩 돋아났다.", "en": "With the sound of the Choir Lock cracking, the song fell silent. Letters rose, one by one, on every plaque in the ossuary."},
+        {"s": "HBOSS", "ko": "……성가를 마칩니다. 노래 속에 두면, 어떤 이름도 바래지 않을 줄 알았……", "en": "…The hymn is concluded. I believed that kept within the song, no name would ever fade…"},
+        {"s": "CHR017", "ko": "이름들이 돌아가고 있어요. 한 분, 또 한 분…… 밖에서 맥박이 대답하고 있어요.", "en": "The names are going home. One, then another… Pulses outside are answering."},
+        {"s": "CHR003", "ko": "봉인 해제된 이름 칠백열 개. 가장 오래된 건 대정전보다도 전이야.", "en": "Seven hundred ten names unsealed. The oldest predates the Blackout."},
+        {"s": "N", "ko": "라엔이 검을 거두고, 명패 하나 앞에 한쪽 무릎을 꿇었다.", "en": "Raen sheathed her sword and knelt on one knee before a single plaque."},
+        {"s": "CHR037", "ko": "……순례 동료들이다. 이제 불러 줄 수 있다.", "en": "…My fellow pilgrims. Now I can call them by name."},
+        {"s": "CHR002", "ko": "……그 이름들 지키려고 여기 혼자 서 있었던 거구나.", "en": "…So you stood here alone all this time to guard those names."},
+        {"s": "CHR037", "ko": "……이제 지킬 건 없다. 따라가도 되나.", "en": "…Nothing left to guard. May I follow you?"},
+        {"s": "CHR001", "ko": "검은 거짓말을 못 한다며. 네 검이 이미 대답했다. 가자, 라엔.", "en": "You said a blade can't lie. Yours already answered. Let's go, Raen."},
+        {"s": "N", "ko": "납골당을 떠나는 등로단의 뒤로, 돌아가는 이름들이 조용한 발소리처럼 울렸다.", "en": "Behind the departing Lamplighters, the names going home echoed like quiet footsteps."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR003", "ko": "성가대석에 생체 반응. 잔향체 성가대가 에워쌌어. 그 사람, 뭔가를 두드리고 있어.", "en": "Life sign in the choir stalls, surrounded by an echoform choir. She's tapping out something."},
+      {"s": "CHR017", "ko": "쉿. 박자를 흐트러뜨리지 말아 주세요. 지금 서른두 명의 심장을 받아 적는 중이니까요.", "en": "Hush. Please don't break the rhythm. I'm transcribing thirty-two hearts right now."},
+      {"s": "CHR002", "ko": "심장을…… 받아 적어? 이름은?", "en": "Transcribing… hearts? What about names?"},
+      {"s": "CHR017", "ko": "이름은 모두 가져갔답니다. 하지만 이름이 없어도 심장은 당신을 기억합니다.", "en": "The names were all taken. But even without a name, your heart remembers you."},
+      {"s": "CHR008", "ko": "맥박을 리듬으로 기록하는 거구나…… 의무관이야. 우리도 도울게.", "en": "She's recording pulses as rhythm… she's a medic. We'll help."},
+      {"s": "CHR017", "ko": "고맙습니다. 저 성가대가 제 박자를 덮지 못하게만 해 주세요. 한 소절이면 됩니다.", "en": "Thank you. Just keep that choir from drowning out my rhythm. One measure is all I need."},
+      {"s": "CHR010", "ko": "박자 옆은 제가 지킬게요. 서른두 명, 하나도 안 놓쳐요.", "en": "I'll guard the rhythm. Thirty-two people. We won't lose one."},
+      {"s": "CHR001", "ko": "한 소절이다. 들었지. 박자에 맞춰 움직인다.", "en": "One measure. You heard her. Move to the beat."}
+    ],
+    "WANDERER": [
+      {"s": "CHR037", "ko": "……돌아가.", "en": "…Go back."},
+      {"s": "CHR002", "ko": "인사가 짧네. 우린 등로단이야. 아래 자물쇠를 풀러 왔어.", "en": "Short greeting. We're the Lamplighters. We came to open the lock below."},
+      {"s": "CHR037", "ko": "……순례자의 이름이 잠들어 있다. 외부인은 못 지나간다.", "en": "…The pilgrims' names sleep here. No outsider passes."},
+      {"s": "CHR017", "ko": "그 이름들을 돌려보내려고 온 거예요. 맥박은 아직 밖에서 기다리고 있어요.", "en": "We came to send those names home. Their pulses are still waiting outside."},
+      {"s": "CHR037", "ko": "……말은 믿지 않는다. 검을 뽑아라. 검은 거짓말을 못 한다.", "en": "…I don't trust words. Draw your blade. A blade can't lie."},
+      {"s": "CHR014", "ko": "좋아! 말 적은 사람이 제일 알기 쉽지!", "en": "Great! People of few words are the easiest to read!"},
+      {"s": "CHR001", "ko": "검으로 묻는다면 검으로 답한다. 전원, 칼끝은 낮게.", "en": "If she asks with a sword, we answer with one. Everyone, keep your points low."},
+      {"s": "CHR037", "ko": "……간다.", "en": "…Here I come."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "재징수 절차를 개시합니다. 참배객 여러분은 이름을 제단에 올려 주십시오.", "en": "Commencing re-collection. All worshippers, please place your names upon the altar."},
+      {"s": "CHR017", "ko": "올릴 이름은 없습니다. 모두 제가 박자로 붙들고 있으니까요.", "en": "There are no names to offer. I'm holding every one of them in rhythm."},
+      {"s": "CHR002", "ko": "이름도 없는 주제에 남의 이름을 걷어? 전부 돌려받는다!", "en": "You don't even have a name, and you're collecting ours? We're taking them all back!"},
+      {"s": "CHR001", "ko": "마에루다. 몇 번이든 말해 주지. 등로단, 이름을 걸고 간다!", "en": "I'm Maeru. I'll say it as often as it takes. Lamplighters, on our names. Go!"}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "성가를 계속합니다. 잠긴 이름은 노래가 끝날 때까지 봉인됩니다. 노래는 끝나지 않습니다.", "en": "The hymn continues. Locked names remain sealed until the song ends. The song does not end."},
+      {"s": "CHR017", "ko": "저 성가의 박자, 심장보다 느려요. 이름들이 그 느린 박자에 묶여 있어요.", "en": "That hymn's tempo is slower than a heartbeat. The names are bound to that slow rhythm."},
+      {"s": "CHR005", "ko": "그럼 박자를 끊어 주면 되겠네. 다음 박자가 오기 전에.", "en": "Then we just break the beat. Before the next one lands."},
+      {"s": "CHR001", "ko": "노래를 끝낸다. 이름들을 집으로 보낸다.", "en": "We end the song. We send the names home."}
+    ],
+    "ANOMALY_1": [
+      {"s": "ENEMY", "ko": "보관함 안내. 주인의 이름을 말씀하시면 열쇠를 드립니다. 이름은 저희가 보관합니다.", "en": "Locker notice. State the owner's name and receive the key. The name will be kept by us."},
+      {"s": "CHR007", "ko": "대답하지 마. 열쇠 홈 모양만으로 위치를 맞출 수 있어. 이름 없이도.", "en": "Don't answer. I can match the positions by the shape of the teeth alone. No names needed."},
+      {"s": "CHR016", "ko": "그럼 제가 앞을 막겠습니다. 저것이 이름을 캐묻지 못하도록.", "en": "Then I'll hold the front, so it can't pry any names out of us."}
+    ],
+    "ANOMALY_2": [
+      {"s": "ENEMY", "ko": "성가대 안내. 가사를 모르시는 분은 이름으로 대신 불러 주십시오.", "en": "Choir notice. If you don't know the lyrics, please sing your name instead."},
+      {"s": "CHR008", "ko": "따라 부르면 이름이 가사로 빨려 들어가. 입 다물고 싸워.", "en": "Sing along and your name gets pulled into the lyrics. Keep your mouth shut and fight."},
+      {"s": "CHR004", "ko": "입 다물고요? 저 그거 제일 못하는데요! 대신 번개로 크게 말할게요!", "en": "Keep my mouth shut? That's the thing I'm worst at! I'll talk loud with lightning instead!"}
+    ],
+    "ANOMALY_3": [
+      {"s": "ENEMY", "ko": "묘비 안내. 이름이 없는 분은 이곳에 안치됩니다. 여러분의 자리도 준비되어 있습니다.", "en": "Tomb notice. Those without names are interred here. Your places have been prepared."},
+      {"s": "CHR015", "ko": "빈 명패 수가 우리 인원과 정확히 같아. 기분 나쁘게 정확하네.", "en": "The number of blank plaques matches our headcount exactly. Unpleasantly precise."},
+      {"s": "CHR013", "ko": "자리는 사양하지. 우린 돌아갈 곳이 있어.", "en": "We'll decline the seats. We have somewhere to go home to."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "이름 없는 순례자들", "title_en": "Nameless Pilgrims",
+     "lines": [
+       {"s": "N", "ko": "회랑의 그림자에서 얼굴 없는 잔향체들이 성가를 흥얼거리며 다가왔다.", "en": "Faceless echoforms drifted out of the nave's shadows, humming the hymn."},
+       {"s": "CHR016", "ko": "이름을 빼앗긴 목소리를 흉내 냅니다. 맞서시겠습니까, 돌아가시겠습니까?", "en": "They mimic the voices of those who lost their names. Shall we face them, or go around?"}
+     ],
+     "choices": [
+       {"outcome": "FIGHT", "ko": "맞서 싸운다", "en": "Fight"},
+       {"outcome": "EVADE", "ko": "기둥 뒤로 우회한다", "en": "Circle behind the pillars"}
+     ]},
+    {"kind": "DISTRESS", "title_ko": "이름을 잃은 사람", "title_en": "A Woman Without a Name",
+     "lines": [
+       {"s": "N", "ko": "기도석 구석에서 한 사람이 자기 손바닥에 쓴 글자를 멍하니 들여다보고 있었다.", "en": "In a corner of the pews, a woman stared blankly at letters written on her own palm."},
+       {"s": "SURVIVOR", "ko": "여기 제 이름을 써 뒀는데…… 읽을 수가 없어요. 제가 누구였죠?", "en": "I wrote my name here… but I can't read it. Who was I?"},
+       {"s": "CHR010", "ko": "괜찮아요. 이름은 돌아와요. 그때까지 우리가 옆에 있을게요.", "en": "It's all right. Your name will come back. We'll stay with you until it does."}
+     ],
+     "choices": [
+       {"outcome": "RESCUE", "ko": "함께 데려간다", "en": "Bring her along"},
+       {"outcome": "RECORD", "ko": "위치를 기록한다", "en": "Record her location"}
+     ]},
+    {"kind": "STORM", "title_ko": "이름 폭풍", "title_en": "A Storm of Names",
+     "lines": [
+       {"s": "N", "ko": "깨진 스테인드글라스 틈으로 잔광 폭풍이 들이쳤다. 바람 속에 수천 개의 이름 조각이 흩날렸다.", "en": "An afterglow storm burst through the broken stained glass. Thousands of fragments of names swirled in the wind."},
+       {"s": "CHR003", "ko": "맞으면 남의 이름이 섞여 들어와. 기억이 뒤엉킬 수 있어.", "en": "Get hit and someone else's name mixes into you. Your memories could get tangled."}
+     ],
+     "choices": [
+       {"outcome": "SHELTER", "ko": "성물실로 대피한다", "en": "Shelter in the sacristy"},
+       {"outcome": "PUSH", "ko": "폭풍을 뚫는다", "en": "Push through the storm"}
+     ]},
+    {"kind": "CACHE", "title_ko": "순례자의 짐", "title_en": "A Pilgrim's Pack",
+     "lines": [
+       {"s": "N", "ko": "무너진 제단 아래에 순례자의 짐 꾸러미가 놓여 있었다. 이름표만 비어 있었다.", "en": "A pilgrim's pack lay beneath a collapsed altar. Only the name tag was blank."},
+       {"s": "CHR013", "ko": "주인은 이름을 잃었어도 짐은 남았네. 잘 쓰고, 나중에 꼭 돌려주자.", "en": "The owner lost her name, but her pack remains. Let's use it well, and return it someday."}
+     ],
+     "choices": [
+       {"outcome": "TAKE", "ko": "회수한다", "en": "Take it"}
+     ]},
+    {"kind": "BANTER", "title_ko": "점호", "title_en": "Roll Call",
+     "lines": [
+       {"s": "CHR004", "ko": "로안! 나린! 소렌! ……휴, 다 기억나요. 오르사 씨! 하르트 씨!", "en": "Roan! Narin! Soren! …Phew, I remember everyone. Orsa! Hart!"},
+       {"s": "CHR015", "ko": "에다. 방금 11초에 다섯 명. 효율적이네.", "en": "Eda. Five people in eleven seconds. Efficient."},
+       {"s": "CHR016", "ko": "불러 주셔서 감사합니다. 이곳에선 그게 가장 든든한 호위지요.", "en": "Thank you for calling me. In this place, that's the best protection there is."}
+     ],
+     "choices": [
+       {"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep moving"}
+     ]},
+    {"kind": "ECHO", "title_ko": "첫 등록일", "title_en": "The First Registry",
+     "lines": [
+       {"s": "N", "ko": "고해실의 낡은 확성기에서 대정전 이전의 목소리가 흘러나왔다.", "en": "A voice from before the Blackout flowed from the confessional's old loudspeaker."},
+       {"s": "ECHO", "ko": "오늘 등록된 이름, 서른한 명. 모두 기억하겠습니다. ……모두, 기억하겠습니다.", "en": "Names registered today: thirty-one. We will remember them all. …We will remember them all."},
+       {"s": "CHR008", "ko": "이 성당도 처음엔 이름을 지키려고 했던 거구나.", "en": "So this cathedral started out trying to protect names."}
+     ],
+     "choices": [
+       {"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+       {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}
+     ]}
+  ]
+}

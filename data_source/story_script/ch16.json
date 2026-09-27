@@ -1,0 +1,283 @@
+{
+  "chapter_id": "CH16",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "두 왕관의 선언",
+      "title_en": "Two Crowns Declare",
+      "background": "rail",
+      "cast": {"LEFT": "CHR005", "CENTER": "CHR001", "RIGHT": "CHR011"},
+      "lines": [
+        {"s": "N", "ko": "두 노선이 만나는 분기역에 포연이 걸려 있었다. 동쪽 선로엔 금빛 깃발이, 서쪽 선로엔 붉은 천이 나부꼈다.", "en": "Gunsmoke hung over the junction where the two lines met. Gold banners flew over the eastern rails, red cloth over the western."},
+        {"s": "EAST_KING", "ko": "동부선의 백성에게 고하오. 대운행국 헌장의 적통은 오직 동부선에 있소.", "en": "Hear us, people of the Eastern Line. The lawful heir to the Directorate's charter is the Eastern Line alone."},
+        {"s": "EAST_KING", "ko": "선대께서 남기신 옥새와 예법이 그 증거요. 짐은 질서로써 모두를 지키겠소.", "en": "The seal and the rites our forebears left us are the proof. We shall protect all through order."},
+        {"s": "WEST_KING", "ko": "헌장 좋아하네. 서부선, 들어. 종이로는 배 못 채운다.", "en": "Charter, sure. Western Line, listen up. Paper doesn't fill stomachs."},
+        {"s": "WEST_KING", "ko": "우리 쪽 입이 삼만 팔천이야. 왕관은 그 입들을 먹이는 쪽이 쓴다. 끝.", "en": "We've got thirty-eight thousand mouths. The crown goes to whoever feeds them. Done."},
+        {"s": "CHR005", "ko": "한쪽은 옛 칙서 말투, 한쪽은 장터 말투. 목소리 큰 건 둘 다 똑같네.", "en": "One talks like an old decree, the other like a market stall. Both equally loud."},
+        {"s": "CHR011", "ko": "양측 포대가 분기역을 사이에 두고 조준 중입니다. 한 발이면 교전이 시작돼요.", "en": "Both batteries are sighted across the junction. One shot and the fighting starts."},
+        {"s": "CHR006", "ko": "피난민 신호, 동쪽은 사만. 합치면 칠만 팔천이 분기역 앞에 막혀 있어.", "en": "Refugee signals: forty thousand on the east side. Seventy-eight thousand in all, stuck at the junction."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 승리한 노선이 모든 노선을 병합합니다. 승객 여러분은 결과를 기다려 주십시오.", "en": "Attention, please. The victorious line will merge all lines. Passengers, please await the outcome."},
+        {"s": "CHR014", "ko": "병합? 이긴 쪽이 전부 먹는다는 거잖아. 그게 무슨 계승이야!", "en": "Merge? So the winner swallows everything. What kind of succession is that?"},
+        {"s": "CHR020", "ko": "정원에서 날아간 권한이 여기로 왔어. 저 왕관들이 그걸 쥐면……", "en": "The authority that flew out of the garden came here. If those crowns get hold of it…"},
+        {"s": "CHR003", "ko": "이긴 쪽은 진 쪽의 피난 노선을 지울 수 있어. 영구적으로.", "en": "The winner can erase the loser's evacuation route. Permanently."},
+        {"s": "CHR002", "ko": "그럼 누가 이기든 한쪽 수만 명이 길을 잃는 거네.", "en": "So whoever wins, tens of thousands on the other side lose their way."},
+        {"s": "CHR001", "ko": "왕관은 우리 일이 아니다. 우리 일은 사람이다. 양쪽 다 구한다.", "en": "Crowns aren't our business. People are. We save both sides."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "하나뿐인 서명란",
+      "title_en": "A Single Signature Line",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR012", "CENTER": "CHR019", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "점령된 신호소 안에서 계승 문서가 쉼 없이 인쇄되고 있었다. 종이는 끝없이 나오는데, 서명란은 하나뿐이었다.", "en": "Inside the captured signal house, succession papers printed without pause. The paper never stopped, but there was only one signature line."},
+        {"s": "CHR012", "ko": "계승 문서가 아니다. 병합 명령서다. 승자의 서명 하나로 전 피난 노선을 한 선로로 묶는다.", "en": "These aren't succession papers. They're merger orders. One signature from the victor binds every evacuation route into a single track."},
+        {"s": "CHR019", "ko": "노선 전부를 한 줄로? 이 구조 어디서 봤는데…… 수도 하늘의 빛의 선이랑 똑같아.", "en": "Every line into one? I've seen this structure… It's identical to the line of light over the capital."},
+        {"s": "CHR003", "ko": "……종말선의 축소판이야. 모든 노선을 하나의 종착지로. 이 내전은 예행연습이야.", "en": "…It's the Last Line in miniature. Every route into a single terminus. This war is a rehearsal."},
+        {"s": "CHR016", "ko": "두 왕은 그걸 알고 싸우는 겁니까, 모르고 싸우는 겁니까.", "en": "Do the two queens fight knowing this, or not knowing?"},
+        {"s": "CHR015", "ko": "모르는 쪽에 건다. 알았다면 양쪽 다 포신을 내렸겠지.", "en": "I'd bet not knowing. If they knew, both would've lowered their guns."},
+        {"s": "CONTROL", "ko": "항해자님, 예행연습은 순조롭습니다. 하나의 서명이면 충분하다는 것, 기억하고 계시지요?", "en": "Navigator, the rehearsal proceeds smoothly. One signature is enough. You remember that, don't you?"},
+        {"s": "CHR018", "ko": "……저 방송, 갈수록 항해자한테만 말을 거네. 기분 나쁘게.", "en": "…That broadcast keeps talking only to the Navigator. It's creepy."},
+        {"s": "CHR001", "ko": "서명 하나로 끝나는 세계라면, 우리는 스물을 모은다. 그게 답이다.", "en": "If their world ends with one signature, we gather twenty. That's our answer."},
+        {"s": "CHR006", "ko": "야전병원 신호 하나. 양쪽 부상자가 한 채널에 묶여 있어. 누가 일부러 이었어.", "en": "One field hospital signal. Wounded from both sides tied to one channel. Someone linked them on purpose."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N15",
+      "title_ko": "마흔둘의 한 박자",
+      "title_en": "Forty-Two in One Rhythm",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR021", "CENTER": "CHR017", "RIGHT": "CHR001"},
+      "lines": [
+        {"s": "N", "ko": "창기사들이 물러가자 천막 안에 소독약 냄새만 남았다. 등불 하나가 마흔두 개의 침상을 비추었다.", "en": "When the lancers withdrew, only the smell of antiseptic remained in the tent. A single lantern lit forty-two cots."},
+        {"s": "CHR021", "ko": "치료 신호를 하나로 이었어요. 한쪽이 아프면, 다른 쪽도 그 소리를 들어요.", "en": "I linked the medical signal into one. When one side hurts, the other hears it too."},
+        {"s": "CHR017", "ko": "맥박을 나누는 방식이군요. 제 리듬 기록과 닮았어요. 훨씬 다정하지만.", "en": "A way of sharing pulses. It resembles my rhythm records. Far gentler, though."},
+        {"s": "CHR021", "ko": "다정한 게 아니에요. 들리면, 쏘기가 어려워질 뿐이에요.", "en": "It isn't gentle. Once you can hear it, it just gets harder to shoot."},
+        {"s": "CHR009", "ko": "……전선 쪽 포성이 줄었어. 저 신호가 참호까지 닿았나 봐.", "en": "…The guns on the front have thinned. That signal must have reached the trenches."},
+        {"s": "N", "ko": "그때 항해 기록기가 조용히 빛났다. 소리 없이, 열여섯 번째 무늬가 새겨졌다.", "en": "Then the recorder glowed quietly. Without a sound, the sixteenth pattern was carved."},
+        {"s": "CHR021", "ko": "……이게 서명인가요. 저는 아무것도 약속하지 않았는데요.", "en": "…Is this a signature? I haven't promised anything."},
+        {"s": "CHR001", "ko": "약속은 이미 했다. 마흔둘을 하나로 셌잖아.", "en": "You already did. You counted forty-two as one."},
+        {"s": "CHR021", "ko": "그럼 기록할게요. 누가 이겼는지보다, 누가 돌아왔는지를.", "en": "Then I'll keep the record. Not who won, but who came back."},
+        {"s": "CHR003", "ko": "스물 중 열여섯. ……첫 무늬 아래 그 자국, 오늘따라 더 선명해.", "en": "Sixteen of twenty. …That mark beneath the first pattern looks sharper today."},
+        {"s": "CHR001", "ko": "창기사들은 분기역 쪽으로 물러났다. 부상자 후송로부터 확보한다.", "en": "The lancers fell back toward the junction. First, we secure the evacuation route for the wounded."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N18",
+      "title_ko": "의무관들의 불가",
+      "title_en": "The Medics' Fire",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR008", "CENTER": "CHR021", "RIGHT": "CHR010"},
+      "lines": [
+        {"s": "N", "ko": "야전병원 천막 뒤, 소독약 냄새가 밴 불가에 의무관 넷이 둘러앉았다.", "en": "Behind the field hospital, four medics sat around a fire steeped in the smell of antiseptic."},
+        {"s": "CHR008", "ko": "노아르, 오늘 몇 명 봤어? 나는 스물하나.", "en": "Noar, how many did you see today? I had twenty-one."},
+        {"s": "CHR021", "ko": "서른넷이요. ……세는 건 좋아하지 않지만, 안 세면 잊어요.", "en": "Thirty-four. …I don't like counting, but if I don't, I forget."},
+        {"s": "CHR010", "ko": "알아요. 저도 피난 행렬 끝까지 셌어요. 잊지 않으려고.", "en": "I know. I counted to the end of the evacuation line too. So I wouldn't forget."},
+        {"s": "CHR017", "ko": "숫자 옆에 맥박을 적어 두세요. 그러면 숫자가 사람으로 남아요.", "en": "Write the pulse beside each number. Then the numbers stay people."},
+        {"s": "N", "ko": "불가 가장자리에서 에다가 무릎을 끌어안고 있었다. 회로의 불빛이 평소보다 희미했다.", "en": "At the edge of the firelight, Eda sat hugging her knees. Her circuit glowed dimmer than usual."},
+        {"s": "CHR004", "ko": "……저, 사실 무서워요. 잔향체는 괜찮은데, 사람끼리 쏘는 건…… 너무 무서워요.", "en": "…Honestly, I'm scared. Echoforms are fine, but people shooting people… it's so scary."},
+        {"s": "CHR021", "ko": "무서워하는 사람이 있어서 다행이에요. 전쟁은 그걸 제일 먼저 잊게 하거든요.", "en": "I'm glad someone's scared. War makes people forget that first."},
+        {"s": "CHR008", "ko": "에다, 무서우면 무섭다고 해도 돼. 그 말 꺼내는 사람이 제일 용감한 거야.", "en": "Eda, it's okay to say you're scared. The one who says it out loud is the bravest."},
+        {"choice": [
+          {"ko": "에다 옆에 앉는다", "en": "Sit beside Eda", "flag": "CH16_SIT_WITH_EDA", "reply": [
+            {"s": "CHR004", "ko": "……헤헤, 항해자 옆은 따뜻하네요. 조금 충전되는 느낌이에요.", "en": "…Heh, it's warm next to you, Navigator. Feels like I'm charging a little."}
+          ]},
+          {"ko": "기록기의 무늬를 보여 준다", "en": "Show her the patterns on the recorder", "flag": "CH16_SHOW_RECORDER", "reply": [
+            {"s": "CHR004", "ko": "열여섯 개…… 전부 사람이네요. 이만큼 모였으면, 무서워도 되겠어요.", "en": "Sixteen… every one a person. With this many of us, it's okay to be scared."}
+          ]}
+        ]},
+        {"s": "CHR004", "ko": "내일은…… 무서운 채로 갈게요. 그래도, 갈게요.", "en": "Tomorrow… I'll go scared. But I'll still go."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "휴전은 반역입니다",
+      "title_en": "Truce Is Treason",
+      "background": "rail",
+      "cast": {"LEFT": "CHR021", "CENTER": "CHR001", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "분기역 한가운데, 두 노선왕이 처음으로 같은 승강장에 섰다. 그 사이로 은빛 창을 든 기관이 내려앉았다.", "en": "At the heart of the junction, the two queens stood on the same platform for the first time. Between them, a machine with a silver lance descended."},
+        {"s": "WEST_KING", "ko": "참호에서 우리 병사들이 동쪽 신음 소리를 듣고 울더라. 이래서야 못 쏴.", "en": "My soldiers in the trenches heard the east groaning and wept. Can't shoot like this."},
+        {"s": "EAST_KING", "ko": "짐도 같은 보고를 받았소. 예법에 없는 일이나, 잠시 포를 거두는 것을 허하겠소.", "en": "We received the same report. It is not in the rites, but we shall permit the guns to rest a while."},
+        {"s": "BOSS", "ko": "경고합니다. 휴전은 반역입니다. 계승 절차는 단 하나의 승자를 요구합니다.", "en": "Warning. Truce is treason. The succession procedure requires a single victor."},
+        {"s": "BOSS", "ko": "치료 신호를 지휘부 공격으로 간주합니다. 신호 발신자를 제거하십시오.", "en": "The medical signal is classified as an attack on command. Eliminate its source."},
+        {"s": "CHR021", "ko": "……저를 말하는 거군요. 괜찮아요. 신호는 제가 끊겨도 이어지게 해 뒀어요.", "en": "…It means me. It's all right. I set the signal to hold even if I'm cut off."},
+        {"s": "CHR001", "ko": "끊기게 두지 않는다. 노아르는 등로단이다.", "en": "We won't let you be cut off. Noar is one of us."},
+        {"s": "WEST_KING", "ko": "등로단? ……거기, 저 깡통 창잡이는 누구 편이야?", "en": "Lamplighters? …Hey. That tin can with the spear, whose side is it on?"},
+        {"s": "EAST_KING", "ko": "왕관의 편이오. 짐의 편도, 서부 여왕의 편도 아니오. ……이제야 알겠구려.", "en": "The crown's. Not ours, nor the Western Queen's. …Only now do we see it."},
+        {"s": "BOSS", "ko": "두 분께서는 물러나 주십시오. 승자가 정해질 때까지 창은 멈추지 않습니다.", "en": "Both sovereigns, please stand back. The lance will not stop until a victor is decided."},
+        {"s": "CHR018", "ko": "승자? 그런 거 필요 없어. 창부터 부러뜨린다.", "en": "A victor? Nobody needs one. I'm snapping that lance first."},
+        {"s": "CHR020", "ko": "두 분, 뒤로요. 여긴 우리가 막아요.", "en": "You two, stay back. We'll hold here."},
+        {"s": "WEST_KING", "ko": "……하, 나한테 명령하는 거야? 좋아. 오늘만 들어 준다.", "en": "…Ha, giving me orders? Fine. Just for today."},
+        {"s": "EAST_KING", "ko": "무례하나 옳은 말이오. 동부선 근위대, 물러서라.", "en": "Impertinent, but right. Eastern guard, stand down."}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "부서진 왕관의 좌표",
+      "title_en": "Coordinates in a Broken Crown",
+      "background": "rail",
+      "cast": {"LEFT": "CHR012", "CENTER": "CHR001", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "창이 부러지자 분기역을 덮고 있던 포연이 걷혔다. 금빛 깃발과 붉은 천이 같은 바람에 흔들렸다.", "en": "When the lance broke, the gunsmoke over the junction lifted. Gold banners and red cloth stirred in the same wind."},
+        {"s": "BOSS", "ko": "……계승 절차를…… 중단합니다.", "en": "…Suspending… the succession procedure."},
+        {"s": "BOSS", "ko": "……하나로 합치면…… 다시는, 싸울 일도……", "en": "…If all were one… there would never again be anything to fight over…"},
+        {"s": "EAST_KING", "ko": "왕관이 원한 것도 결국 평화였단 말이오. 방법이 틀렸을 뿐.", "en": "So even the crown wanted peace. Only its method was wrong."},
+        {"s": "WEST_KING", "ko": "평화? 한쪽 지워서 얻는 평화면 무덤이랑 뭐가 달라.", "en": "Peace? Peace from erasing one side is just a graveyard."},
+        {"s": "EAST_KING", "ko": "항해자라 했소. 그대라면 두 노선 중 어느 쪽에 왕관을 주겠소?", "en": "You are the Navigator, we are told. To which of the two lines would you give the crown?"},
+        {"choice": [
+          {"ko": "왕관은 필요 없다", "en": "No one needs the crown", "flag": "CH16_NO_CROWN", "reply": [
+            {"s": "WEST_KING", "ko": "하, 필요 없다라. ……그 말엔 오늘 반박을 못 하겠네.", "en": "Ha. Nobody needs it, huh. …Can't argue with that today."}
+          ]},
+          {"ko": "두 사람이 함께 써라", "en": "Wear it together", "flag": "CH16_SHARE_CROWN", "reply": [
+            {"s": "EAST_KING", "ko": "함께 쓰라니, 예법에 없는 답이오. ……허나 적어 두겠소.", "en": "Wear it together? That answer is not in the rites. …But we shall write it down."}
+          ]}
+        ]},
+        {"s": "N", "ko": "부서진 왕관 속에서 낡은 계승 인장이 굴러 나왔다. 인장 뒷면에 좌표 하나가 새겨져 있었다.", "en": "An old succession seal rolled out of the broken crown. A set of coordinates was engraved on its back."},
+        {"s": "CHR012", "ko": "좌표 해독. 잔광 도서고. 진짜 노선 계승 기록이 거기 보관돼 있다.", "en": "Coordinates decoded. The Archive of Afterglow. The true succession record is kept there."},
+        {"s": "EAST_KING", "ko": "도서고라…… 선대께서 '그날 밤의 원본'을 봉인해 두었다던 곳이오.", "en": "The Archive… where our forebears were said to have sealed away 'the original of that night.'"},
+        {"s": "WEST_KING", "ko": "원본이든 뭐든 가져와. 그날 밤 누가 먼저 서명했는지 적혀 있으면, 이 싸움 누가 시작했는지도 알겠지.", "en": "Original or whatever, bring it. If it says who signed first that night, we'll know who started all this."},
+        {"s": "N", "ko": "그 말에 항해 기록기의 첫 무늬 아래, 오래된 자국이 차갑게 한 번 깜박였다.", "en": "At those words, the old mark beneath the recorder's first pattern flickered once, cold."},
+        {"s": "CONTROL", "ko": "잔광 도서고는 곧 기록을 정리합니다. 항해자님, 서두르지 않으셔도 됩니다. 결말은 이미 쓰여 있습니다.", "en": "The Archive of Afterglow will soon put its records in order. Navigator, there is no need to hurry. The ending is already written."},
+        {"s": "CHR001", "ko": "……도서고로 간다. 무엇이 적혀 있든, 우리가 같이 읽는다.", "en": "…We go to the Archive. Whatever is written there, we read it together."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "옥좌 차량",
+      "title_en": "The Throne Car",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR011", "CENTER": "CHR021", "RIGHT": "CHR002"},
+      "lines": [
+        {"s": "N", "ko": "옥좌 차량은 멈추지 않고 환상선을 돌고 있었다. 왕관이 해체된 뒤에도, 누군가의 명령을 기다리듯.", "en": "The throne car circled the loop line without stopping. Even after the crown was dismantled, as if awaiting someone's command."},
+        {"s": "CHR011", "ko": "무인 차량입니다. 그런데 포대가 양쪽 수도를 동시에 겨누고 있어요.", "en": "It's unmanned. But its batteries are aimed at both capitals at once."},
+        {"s": "CHR021", "ko": "……옆 칸에 사람이 있어요. 맥박이 하나. 아주 곧고, 흔들리지 않아요.", "en": "…There's someone in the next car. One pulse. Very steady, unwavering."},
+        {"s": "CHR002", "ko": "왕관 없는 옥좌라. 누가 지키고 있는지 보러 가 볼까.", "en": "A throne without a crown. Let's go see who's guarding it."},
+        {"s": "CHR013", "ko": "옥좌는 비워 두는 게 나을 때도 있어요. 그걸 알려 주러 가죠.", "en": "Sometimes a throne is better left empty. Let's go teach it that."},
+        {"s": "CHR015", "ko": "포신 장전 주기 12분. 다음 발사까지 9분 남았다.", "en": "Reload cycle: twelve minutes. Nine minutes to the next shot."},
+        {"s": "CHR001", "ko": "9분이면 충분하다. 양쪽 수도에 한 발도 떨어뜨리지 않는다.", "en": "Nine minutes is enough. Not one shell lands on either capital."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "한 식탁의 두 왕",
+      "title_en": "Two Queens at One Table",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR041", "CENTER": "CHR001", "RIGHT": "HBOSS"},
+      "lines": [
+        {"s": "N", "ko": "군주 기관의 포신이 하나씩 내려앉았다. 옥좌 차량이 선로 끝에서 마침내 멈췄다.", "en": "One by one, the Sovereign Engine's barrels sank. At the end of the line, the throne car finally stopped."},
+        {"s": "HBOSS", "ko": "……명령이 있으면…… 아무도 헤매지 않을 줄……", "en": "…If only there were orders… no one would ever lose their way…"},
+        {"s": "N", "ko": "그날 밤, 분기역 대합실에 긴 식탁 하나가 놓였다. 동쪽 끝과 서쪽 끝에 두 노선왕이 앉았다.", "en": "That night, a long table was set in the junction's waiting hall. The two queens sat at its eastern and western ends."},
+        {"s": "EAST_KING", "ko": "……서부의 여왕. 예법상 먼저 잔을 드는 것은 손님이오.", "en": "…Western Queen. By the rites, the guest raises her cup first."},
+        {"s": "WEST_KING", "ko": "예법은 몰라, 동쪽 여왕님. 대신 빵은 반씩 나눈다. 그건 알지?", "en": "Don't know the rites, Eastern Queen. But bread gets split in half. You know that much?"},
+        {"s": "EAST_KING", "ko": "……알고 있소. 선대의 예법에도 그것만은 적혀 있었으니.", "en": "…We know it. Even our forebears' rites wrote down that much."},
+        {"s": "CHR041", "ko": "테란이다. ……두 왕관이 한 식탁이라. 명령으로는 한 번도 못 본 광경이군.", "en": "The name's Teran. …Two crowns at one table. No order ever showed me that."},
+        {"s": "CHR041", "ko": "나는 이제 누구의 기사도 아니다. 다만 틀린 명령이 또 나오면, 너희 곁에서 거절하겠다.", "en": "I'm no one's knight anymore. But if another wrong order comes, I'll refuse it at your side."},
+        {"s": "CHR001", "ko": "그거면 충분하다. 환영한다, 테란.", "en": "That's enough. Welcome, Teran."},
+        {"s": "CHR021", "ko": "양쪽 병사들이 같은 천막에서 잠들었어요. 오늘 밤은 셀 필요가 없어요. 모두 돌아왔으니까요.", "en": "Soldiers from both sides are asleep in the same tent. No need to count tonight. Everyone came back."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR010", "ko": "천막 안 신음 소리가 한 박자로 들려요. 동쪽 말씨랑 서쪽 말씨가 섞여서요.", "en": "The groans inside the tent keep one rhythm. Eastern and Western accents, mixed together."},
+      {"s": "CHR021", "ko": "……쉿, 조용히 와 주세요. 아픔은 편을 가리지 않아요.", "en": "…Shh, please come quietly. Pain doesn't choose sides."},
+      {"s": "CHR014", "ko": "양쪽 병사를 한 천막에? 들키면 둘 다한테 반역자 취급이잖아!", "en": "Soldiers from both sides in one tent? If they find out, both will call you a traitor!"},
+      {"s": "CHR021", "ko": "이미 그렇게 됐어요. 그래서 창기사들이 오고 있어요. ……저 소리, 들리죠?", "en": "They already have. That's why the lancers are coming. …Hear that?"},
+      {"s": "CHR010", "ko": "환자는 우리가 지킬게요. 몇 명이에요?", "en": "We'll protect the patients. How many?"},
+      {"s": "CHR021", "ko": "동쪽 스물셋, 서쪽 열아홉. ……아니, 이제 그냥 마흔둘이에요.", "en": "Twenty-three east, nineteen west. …No. Just forty-two now."},
+      {"s": "CHR001", "ko": "마흔둘. 한 명도 내주지 않는다.", "en": "Forty-two. We don't give up a single one."},
+      {"s": "CHR021", "ko": "……고마워요. 그럼 천막 입구만, 부탁해요.", "en": "…Thank you. Then just the tent entrance, please."}
+    ],
+    "WANDERER": [
+      {"s": "CHR002", "ko": "옥좌 차량 앞에 검 든 사람 하나. 왕관 기사단 갑옷인데, 문장을 긁어 냈어.", "en": "Someone with a sword in front of the throne car. Crown knight armor, but the crest is scratched off."},
+      {"s": "CHR041", "ko": "멈춰라. 등로단이든 뭐든, 이 차량에 손대면 벤다.", "en": "Halt. Lamplighters or not, touch this car and I cut you down."},
+      {"s": "CHR018", "ko": "기사단은 해체됐어. 아직도 명령 기다려?", "en": "The order's disbanded. Still waiting for orders?"},
+      {"s": "CHR041", "ko": "명령이 틀렸으면 따르지 않는다. 그게 전부다.", "en": "If an order is wrong, I don't follow it. That's all there is."},
+      {"s": "CHR041", "ko": "나는 이 차량이 양쪽 도시를 쏘지 못하게 지키고 있다.", "en": "I'm guarding this car so it can't fire on either city."},
+      {"s": "CHR001", "ko": "목적이 같다. 우리는 이 차량을 멈추러 왔다.", "en": "Then we want the same thing. We came to stop this car."},
+      {"s": "CHR041", "ko": "말로는 누구나 그렇게 말한다. 검으로 확인하겠다. 멈추러 온 자의 검인지.", "en": "Anyone can say that. I'll check with steel whether yours is a blade that came to stop it."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "계승 절차, 최종 단계입니다. 승자가 아닌 모든 자를 배제합니다.", "en": "Succession procedure, final stage. All who are not the victor will be excluded."},
+      {"s": "CHR021", "ko": "배제할 사람은 없어요. 여기 있는 모두가 돌아갈 사람이에요.", "en": "There's no one to exclude. Everyone here is someone going home."},
+      {"s": "BOSS", "ko": "치료 신호 발신자를 확인했습니다. 반역 행위를 종결합니다.", "en": "Medical signal source confirmed. Terminating the act of treason."},
+      {"s": "CHR001", "ko": "종결되는 건 네 절차다. 노아르 앞을 막아라. 한 걸음도 내주지 마.", "en": "The only thing terminating is your procedure. Cover Noar. Don't give an inch."}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "군주 기관, 가동합니다. 왕좌가 비어 있으므로 본 기관이 통치를 대행합니다.", "en": "Sovereign Engine activating. As the throne is vacant, this engine will govern in its stead."},
+      {"s": "CHR020", "ko": "빈 자리는 비어 있어도 돼. 억지로 채우지 마.", "en": "An empty seat's allowed to stay empty. Don't force it full."},
+      {"s": "HBOSS", "ko": "통치자가 없으면 명령이 없습니다. 명령이 없으면 혼란입니다. 양쪽 수도를 조준합니다.", "en": "No ruler means no orders. No orders means chaos. Targeting both capitals."},
+      {"s": "CHR001", "ko": "혼란은 우리가 감당한다. 포신 내려.", "en": "We'll handle the chaos. Lower your guns."}
+    ],
+    "ANOMALY_1": [
+      {"s": "CHR011", "ko": "양쪽 포탄이 한 지점에 모여요. 포격이 아니라 누군가 조종하는 탄막입니다.", "en": "Shells from both sides are converging on one point. That's no bombardment. Someone's steering the barrage."},
+      {"s": "ENEMY", "ko": "교전 구역입니다. 소속을 밝히십시오. 동부선입니까, 서부선입니까.", "en": "This is a combat zone. State your allegiance. Eastern Line or Western Line?"},
+      {"s": "CHR014", "ko": "등로단이다! 둘 다 아니라고!", "en": "Lamplighters! Neither, got it?"}
+    ],
+    "ANOMALY_2": [
+      {"s": "CHR009", "ko": "앞쪽 참호에서 손 든 병사들이 나와. 그런데 저 기관이 조준을 풀지 않아.", "en": "Soldiers are coming out of the forward trench with their hands up. But that machine won't stand down."},
+      {"s": "ENEMY", "ko": "투항하는 병사는 적으로 간주합니다. 사격을 개시합니다.", "en": "Surrendering soldiers are classified as enemies. Opening fire."},
+      {"s": "CHR016", "ko": "병사 여러분, 제 방패 안으로 들어오십시오. 여기서부터는 제가 막습니다.", "en": "Soldiers, get inside my shield. From here on, I hold the line."}
+    ],
+    "ANOMALY_3": [
+      {"s": "CHR015", "ko": "옥좌 차량 호위체. 포신 각도가 양쪽 수도에 동시에 맞춰져 있다.", "en": "Throne car escorts. Their barrels are angled at both capitals at once."},
+      {"s": "ENEMY", "ko": "통치 공백을 감지했습니다. 호위 절차를 무기한 연장합니다.", "en": "Governance vacuum detected. Escort procedure extended indefinitely."},
+      {"s": "CHR020", "ko": "무기한은 너무 길어. 오늘까지만 해.", "en": "Indefinitely's too long. Make it just till today."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "왕관 문장의 잔향체", "title_en": "Crested Echoforms",
+     "lines": [
+       {"s": "N", "ko": "무너진 참호에서 왕관 문장을 새긴 잔향체들이 기어 나왔다.", "en": "Echoforms bearing crown crests crawled out of a collapsed trench."},
+       {"s": "CHR002", "ko": "어느 왕관 편인지도 모르는 것들이네. 칠까, 돌아갈까?", "en": "Can't even tell which crown they serve. Fight, or go around?"}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "맞서 싸운다", "en": "Fight them"},
+                 {"outcome": "EVADE", "ko": "참호를 돌아 우회한다", "en": "Circle around the trench"}]},
+    {"kind": "DISTRESS", "title_ko": "구덩이 속의 두 군복", "title_en": "Two Uniforms in a Crater",
+     "lines": [
+       {"s": "N", "ko": "포탄 구덩이 속에서 동부선 군복과 서부선 군복이 서로 기대 있었다.", "en": "In a shell crater, an Eastern uniform and a Western uniform leaned against each other."},
+       {"s": "SURVIVOR", "ko": "우린 적이었는데…… 둘 다 다리를 다쳐서요. 같이 좀 옮겨 주세요.", "en": "We were enemies… but we both hurt our legs. Please, carry us out together."},
+       {"s": "CHR010", "ko": "둘 다 데려갈게요. 들것 하나에 두 분도 태울 수 있어요.", "en": "We'll take you both. One stretcher can carry two."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "두 사람을 함께 후송한다", "en": "Evacuate them together"},
+                 {"outcome": "RECORD", "ko": "위치를 기록해 둔다", "en": "Log their location"}]},
+    {"kind": "STORM", "title_ko": "뒤엉킨 군가", "title_en": "Tangled Anthems",
+     "lines": [
+       {"s": "N", "ko": "잔광 폭풍이 전장을 덮었다. 폭풍 속에서 두 노선의 군가가 뒤엉켜 울렸다.", "en": "An afterglow storm swallowed the battlefield. Inside it, the anthems of both lines tangled and blared."},
+       {"s": "CHR013", "ko": "군가에 발 맞추지 마세요. 대피할지, 돌파할지 정해요.", "en": "Don't march to the anthems. Shelter or push through, choose."}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "참호에 몸을 숨긴다", "en": "Take cover in a trench"},
+                 {"outcome": "PUSH", "ko": "폭풍을 뚫고 나아간다", "en": "Push through the storm"}]},
+    {"kind": "CACHE", "title_ko": "뒤섞인 보급 열차", "title_en": "A Mixed Supply Car",
+     "lines": [
+       {"s": "N", "ko": "버려진 보급 열차 한 칸에 양쪽 군의 식량이 뒤섞여 실려 있었다.", "en": "An abandoned supply car held rations from both armies, jumbled together."},
+       {"s": "CHR005", "ko": "누가 누구 걸 뺏었는지는 몰라도, 배고픈 건 다 똑같지. 챙기자.", "en": "No telling who looted whom, but hunger's the same on both sides. Let's grab it."}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "식량을 회수한다", "en": "Recover the rations"}]},
+    {"kind": "BANTER", "title_ko": "진짜 왕은 누구", "title_en": "Which Queen Is Real",
+     "lines": [
+       {"s": "CHR020", "ko": "페린, 왕이 둘이면 누가 진짜야?", "en": "Perin, if there are two queens, which one's real?"},
+       {"s": "CHR019", "ko": "음, 둘 다 가짜거나 둘 다 진짜. 어느 쪽이든 버그야.", "en": "Hmm, both fake or both real. Either way, it's a bug."},
+       {"s": "CHR020", "ko": "그럼 고치면 되겠네. 간단하다.", "en": "Then we fix it. Simple."}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "두 사람을 따라 걷는다", "en": "Walk on with them"}]},
+    {"kind": "ECHO", "title_ko": "개통식의 녹음", "title_en": "Opening Ceremony Recording",
+     "lines": [
+       {"s": "N", "ko": "부서진 방송탑에서 대정전 이전의 개통식 녹음이 흘러나왔다.", "en": "A broken broadcast tower played a recording of an opening ceremony from before the Blackout."},
+       {"s": "ECHO", "ko": "오늘 동부선과 서부선이 하나로 이어집니다. 두 도시의 첫 악수를 축하해 주십시오……", "en": "Today the Eastern and Western Lines are joined as one. Please celebrate the first handshake between two cities…"},
+       {"s": "CHR016", "ko": "이어짐을 축하하던 노선들이, 이제는 병합을 두고 싸우는군요.", "en": "Lines that once celebrated being joined now fight over being merged."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+                 {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

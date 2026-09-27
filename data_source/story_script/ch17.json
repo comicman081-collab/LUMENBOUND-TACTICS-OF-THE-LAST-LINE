@@ -1,0 +1,273 @@
+{
+  "chapter_id": "CH17",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "다시 쓰이는 역사", "title_en": "History Rewritten",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR001", "RIGHT": "CHR002"},
+      "lines": [
+        {"s": "N", "ko": "천장까지 닿은 서가마다 종이 넘기는 소리가 쉬지 않았다. 잔광의 도서고는 지금도 역사를 고쳐 쓰고 있었다.", "en": "Pages turned without pause on shelves that climbed to the ceiling. The Archive of Afterglow was rewriting history even now."},
+        {"s": "CHR003", "ko": "책등 제목이 삼 초마다 바뀌어. 같은 책이 아니야. 같은 자리에 다른 과거가 꽂히는 거야.", "en": "The titles on the spines change every three seconds. It's not the same book. A different past keeps getting shelved in the same slot."},
+        {"s": "CHR002", "ko": "해체한 왕관의 좌표가 여길 가리켰지. 진짜 계승 기록이 이 안 어딘가에 있다는 거고.", "en": "The broken crown's coordinates pointed here. So the real succession record is somewhere inside."},
+        {"s": "CHR021", "ko": "내전을 멈춘 기록이 벌써 흐려지고 있어요. 다친 사람들은 아직 그대로인데요.", "en": "The record of how the war stopped is already fading. The wounded are still exactly where they were."},
+        {"s": "CHR004", "ko": "잠깐만요, 이 책에 우리 이름이…… 방금까지 있었는데요? 지금은 빈칸이에요!", "en": "Wait, our names were in this book… just a second ago? Now it's blank!"},
+        {"s": "N", "ko": "그때 서가 사이의 낡은 스피커들이 일제히 같은 음을 울렸다.", "en": "Then the old speakers between the shelves chimed the same note at once."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 본 도서고는 현재 개입 기록을 정리하는 중입니다.", "en": "Attention, please. This archive is currently organizing intervention records."},
+        {"s": "CONTROL", "ko": "승객 여러분의 발자취는 역사에 불필요한 주석입니다. 곧 삭제됩니다.", "en": "Your footsteps, passengers, are unnecessary footnotes to history. They will be deleted shortly."},
+        {"s": "CONTROL", "ko": "항해자님의 기록만은 손대지 않겠습니다. 원본은 보존하는 것이 규정이니까요.", "en": "Your record alone, Navigator, will remain untouched. Regulations require that originals be preserved."},
+        {"s": "CHR005", "ko": "원본이라. 저 목소리, 항해자 얘기만 나오면 이상하게 다정해진단 말이지.", "en": "'Original,' huh. That voice gets oddly tender whenever the Navigator comes up."},
+        {"s": "CHR014", "ko": "원본? 내가 인계받은 항해자 사건 서류도 여기 어딘가 있겠네. 찾아서 먼저 읽어 주지!", "en": "Original? Then the Navigator's case file I took over must be in here too. I'm reading it first!"},
+        {"s": "CHR001", "ko": "책보다 사람이 먼저다. 지워지기 전에 우리 기록부터 붙잡는다.", "en": "People before books. We secure our own records before they're erased."},
+        {"s": "CHR001", "ko": "……항해자, 기록기 확인해. 서명 열여섯 개, 전부 그대로인가?", "en": "…Navigator, check the recorder. Are all sixteen signatures still there?"},
+        {"s": "N", "ko": "열여섯 개의 무늬는 흐려지지 않았다. 도서고 전체에서 지워지지 않는 빛은 그것뿐이었다.", "en": "The sixteen marks had not faded. In the whole archive, theirs was the only light that could not be erased."},
+        {"s": "CHR003", "ko": "그럼 저 기록기가 기준점이야. 삭제 신호가 제일 센 쪽, 서고 깊은 곳으로 가자.", "en": "Then that recorder is our reference point. We head deeper in, where the deletion signal is strongest."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "바래는 이름들", "title_en": "Fading Names",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR006", "CENTER": "CHR003", "RIGHT": "CHR009"},
+      "lines": [
+        {"s": "N", "ko": "열람대 위의 원정 일지가 스스로 넘어가며 한 줄씩 하얗게 바랬다. 지워지는 것은 등로단의 이름이었다.", "en": "The expedition log on the reading desk turned its own pages, bleaching white line by line. What it erased were the Lamplighters' names."},
+        {"s": "CHR006", "ko": "첫 장이 비었어. 꺼진 노선, 구조 신호, 내가 합류한 날. 전부 없던 일이 되고 있어.", "en": "The first page is empty. The dead line, the rescue signal, the day I joined. All of it is becoming something that never happened."},
+        {"s": "CHR009", "ko": "종이만 지우는 게 아니야. 방금 네 이름이 내 입에서 한 박자 늦게 나왔어.", "en": "It's not just the paper. Your name just came out of my mouth a beat late."},
+        {"s": "CHR003", "ko": "합류 순서대로 지우고 있어. 이 속도면 여섯 시간 안에 열여섯 명 전부 빈칸이야.", "en": "It's erasing us in the order we joined. At this rate, all sixteen of us are blanks within six hours."},
+        {"s": "CHR013", "ko": "기록이 사라지면 서로 처음 보는 사람이 되겠지. 같이 싸운 이유까지.", "en": "Once the records go, we'll be strangers to each other. Along with every reason we fought together."},
+        {"s": "CHR017", "ko": "심장은 기억합니다. 하지만 종이가 먼저 잊으면, 머리가 뒤따라 잊습니다.", "en": "The heart remembers. But when the paper forgets first, the mind follows."},
+        {"s": "CHR019", "ko": "삭제 명령이면 로그가 남는 법이지. 역추적하면…… 어? 누가 반대로 적고 있네?", "en": "Delete commands always leave logs. If I trace it back… huh? Someone's writing it all back in."},
+        {"s": "CHR003", "ko": "서고 중앙에 신호 하나. 지우는 속도보다 빠르게 받아 적고 있어. 사람이야.", "en": "One signal at the center of the stacks. It's writing faster than the archive can erase. It's a person."},
+        {"s": "N", "ko": "지워지는 소리 사이로, 누군가 쉬지 않고 중얼거리는 목소리가 들려왔다.", "en": "Through the sound of erasure came a voice, murmuring without pause."},
+        {"s": "CHR001", "ko": "사람이라면 데려온다. 우리 이름이 다 바래기 전에.", "en": "If it's a person, we bring her back. Before our names fade out."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N10",
+      "title_ko": "살아 있는 색인", "title_en": "The Living Index",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR022", "RIGHT": "CHR001"},
+      "lines": [
+        {"s": "N", "ko": "잔향체가 흩어지자 세브의 팔에서 흘러내리던 글자들이 멈췄다. 서로 어긋난 문장들이 한 몸에 나란히 남았다.", "en": "As the echoforms scattered, the words running down Seb's arm went still. Contradicting sentences rested side by side on one body."},
+        {"s": "CHR022", "ko": "보셨죠? 도서고가 지운 건 여기 다 있어요. 제가 살아 있는 동안은 못 지워요.", "en": "See? Everything the archive erased is right here. It can't delete any of it while I'm alive."},
+        {"s": "CHR003", "ko": "모순을 한 몸에 저장하면 삭제 대상을 특정할 수 없어. 논리적으론 맞아. 체력적으론 무리고.", "en": "Store contradictions in one body and the archive can't pin down what to delete. Logically sound. Physically reckless."},
+        {"s": "CHR022", "ko": "무리죠! 그러니까 같이 가요. 살아 있는 색인도 옆에 사람이 있어야 오래 버티거든요.", "en": "Totally reckless! So let me come with you. Even a living index lasts longer with people beside her."},
+        {"s": "N", "ko": "항해 기록기가 빛났다. 열일곱 번째 무늬가 떠오르자, 바랬던 원정 일지의 이름들이 제자리로 돌아왔다.", "en": "The recorder lit up. As the seventeenth mark surfaced, the faded names in the expedition log returned to their places."},
+        {"s": "CHR011", "ko": "열일곱. 남은 건 셋이오. 포탄을 세는 것보다 이 숫자가 더 무겁군.", "en": "Seventeen. Three to go. This number weighs more than any shell count."},
+        {"s": "CHR022", "ko": "그 기록기요. 도서고 맨 아래층에 같은 무늬가 딱 하나 있어요. 대정전 밤의 원본 서고에.", "en": "About that recorder. There's exactly one matching mark on the archive's lowest floor. In the original stacks from the night of the Blackout."},
+        {"s": "CHR022", "ko": "열려면 색인이 필요했는데, 이제 있네요. 저요. ……다만, 한 번 읽으면 모르던 때로는 못 돌아가요.", "en": "Opening it needed an index, and now you have one. Me. …But once you read it, there's no going back to not knowing."},
+        {"s": "CHR004", "ko": "……못 돌아가도 괜찮아요. 저흰 원래 앞으로만 가거든요!", "en": "…That's fine. We only ever go forward anyway!"},
+        {"s": "CHR001", "ko": "……야영지에서 연다. 모두 모인 자리에서.", "en": "…We open it at camp. With everyone there."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N12",
+      "title_ko": "원본 기록", "title_en": "The Original Record",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR022", "RIGHT": "CHR001"},
+      "lines": [
+        {"s": "N", "ko": "야영 등불 아래 세브가 원본 서고의 기록판을 펼쳤다. 종이 넘기는 소리가 멎고, 대정전 밤의 시각이 떠올랐다.", "en": "Under the camp lantern, Seb opened the tablet from the original stacks. The turning pages fell silent, and a time from the night of the Blackout surfaced."},
+        {"s": "CHR022", "ko": "적힌 대로만 읽을게요. '23시 52분. 최종 시간표 초안, 제1 서명. 서명자, 기록 항해자.'", "en": "I'll read it exactly as written. '23:52. Final Timetable draft, first signature. Signatory: Record Navigator.'"},
+        {"s": "N", "ko": "기록기가 뜨겁게 떨렸다. 관제 콘솔 앞에서 서명하던 그 뒷모습이 누구였는지, 이제 모두가 알았다.", "en": "The recorder shook, burning hot. Now everyone knew whose back it had been, signing before the control console."},
+        {"s": "CHR022", "ko": "'00시 51분. 초안은 노선만이 아니라 사람들의 선택까지 멈춘다. 되돌릴 수 없음.'", "en": "'00:51. The draft halts not only the lines, but people's choices. Irreversible.'"},
+        {"s": "CHR022", "ko": "'항해자, 자기 기억을 지우고 제7 승강장에 봉인. 폐기 조건, 서로 다른 노선의 서명 스물.'", "en": "'The Navigator erases their own memory and is sealed at Platform Seven. Condition for scrapping: twenty signatures from different lines.'"},
+        {"s": "N", "ko": "마지막 줄은 손글씨였다. '다음 항해자가 다시 고르게 하라.'", "en": "The last line was handwritten. 'Let the next Navigator choose again.'"},
+        {"s": "CHR022", "ko": "부록이 하나 있어요. 봉인된 좌석을 끝까지 지킨 구조대원 기록. ……이름, 시오.", "en": "There's one appendix. A record of a rescuer who guarded the sealed seat to the end. …Name: Sio."},
+        {"s": "N", "ko": "등불 심지가 타는 소리만 남았다. 누구도 먼저 입을 열지 않았다.", "en": "Only the sound of the burning wick remained. No one spoke first."},
+        {"s": "CHR003", "ko": "……누가 이런 규칙을 만들었냐고 물었었지. 한 사람의 서명을 한 사람이 못 뒤집게. 답이 여기 있었어.", "en": "…I once asked who made this rule. So one person's signature can't be overturned by one person alone. The answer was right here."},
+        {"s": "CHR001", "ko": "시오가 끝까지 지킨 사람이 너였군. ……그래서, 이번엔 뭘 고를 거지?", "en": "So you're the one Sio guarded to the end. …So. What will you choose this time?"},
+        {"choice": [
+          {"key": "CH17_CHOICE_DISCARD", "flag": "CH17_DISCARD_DRAFT", "ko": "초안을 폐기한다", "en": "Scrap the draft", "reply": [
+            {"s": "CHR001", "ko": "좋아. 열두 해 전 네가 멈춘 자리에서, 이번엔 같이 간다.", "en": "Good. From where you stopped twelve years ago, this time we go together."},
+            {"s": "CHR014", "ko": "그 사건, 내가 인계받았잖아. 판결 내릴게. 무죄! 공범은 여기 있는 모두!", "en": "I took over that case, remember? Here's my verdict. Not guilty! And everyone here is an accomplice!"}
+          ]},
+          {"key": "CH17_CHOICE_APOLOGIZE", "flag": "CH17_APOLOGIZE", "ko": "모두에게 사과한다", "en": "Apologize to everyone", "reply": [
+            {"s": "CHR001", "ko": "받았다. 그걸로 끝이다. 열두 해 전 일은 거기 두고 간다.", "en": "Accepted. That settles it. We leave twelve years ago where it is."},
+            {"s": "CHR005", "ko": "시오한테도 해 둬. ……시오였으면 네가 말 끝내기도 전에 웃었겠지만. 그런 사람이었어.", "en": "Tell Sio too. …Though she'd have laughed before you finished. That's who she was."}
+          ]}
+        ]},
+        {"s": "CHR001", "ko": "고르는 건 네 몫이고, 버티는 건 우리 몫이다. ……내일도 전원 확인한다.", "en": "Choosing is yours. Holding the line is ours. …Tomorrow, I count everyone again."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "찢긴 합류 기록", "title_en": "Torn Records",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR006", "CENTER": "CHR022", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "서고 중심에서 거대한 색인 카드함이 입을 벌렸다. 쏟아지는 카드마다 대원 한 사람의 합류 기록이 적혀 있었다.", "en": "At the heart of the stacks, a colossal card catalog yawned open. Every card that spilled out held one member's joining record."},
+        {"s": "BOSS", "ko": "열람실 이용객께 알려 드립니다. 색인 정리를 시작합니다. 중복, 모순, 개입 항목을 폐기합니다.", "en": "Reading room patrons, please be advised. Index cleanup is beginning. Duplicate, contradictory and intervening entries will be discarded."},
+        {"s": "BOSS", "ko": "합류 기록이 폐기된 승객께서는 서로를 처음 뵙는 분으로 대해 주십시오.", "en": "Passengers whose joining records are discarded, please treat one another as strangers."},
+        {"s": "N", "ko": "카드가 찢길 때마다 대원들의 눈빛에 낯선 경계가 번졌다.", "en": "With every torn card, a stranger's wariness spread through the crew's eyes."},
+        {"s": "CHR006", "ko": "……당신들, 누구지? 이 신호는 누구 거야?", "en": "…Who are you people? Whose signal is this?"},
+        {"s": "CHR020", "ko": "모르겠어. 근데 이상하네. 처음 보는 사람들인데, 등 뒤를 맡겨도 될 것 같아.", "en": "No idea. Funny thing, though. You're strangers, but I feel like I could trust you with my back."},
+        {"s": "CHR022", "ko": "카드는 찢겨도 색인은 여기 있어요! 베라, 꺼진 노선. 구조 신호를 사람들에게 돌려주려고 왔죠!", "en": "The cards can tear, but the index is right here! Vera, the dead line. You came to give the rescue signal back to people!"},
+        {"s": "CHR006", "ko": "……그래. 신호를 돌려주려고. 그 말은 내 거야.", "en": "…Right. To give the signal back. Those words are mine."},
+        {"s": "CHR018", "ko": "처음 본 사이면 뭐? 처음부터 다시 고르면 되잖아. 한 번 해 봤으니까 두 번째는 빨라.", "en": "So we're strangers. So what? We choose each other again from scratch. We've done it once. Second time's faster."},
+        {"s": "BOSS", "ko": "경고합니다. 기록 없는 결속은 승인되지 않습니다. 동행하시는 사유를 제출하십시오.", "en": "Warning. Bonds without records are not approved. Please submit your reason for traveling together."},
+        {"s": "CHR003", "ko": "진실은 야영지에서 전부 들었어. 그다음에도 아무도 자리를 뜨지 않았어. 그게 사유야.", "en": "We heard the whole truth at camp. After that, no one left their seat. That's our reason."},
+        {"s": "CHR001", "ko": "제출한다. 지금 여기 서 있는 우리 모두가 사유다.", "en": "Submitted. Every one of us standing here is the reason."},
+        {"s": "CHR002", "ko": "좋아, 색인 정리는 우리가 대신 해 주지. 앞장은 내가 선다!", "en": "Great, we'll do the index cleanup for you. I'm taking point!"}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "내일 00시", "title_en": "Tomorrow, 00:00",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR010", "CENTER": "CHR022", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "색인 포식자의 카드함이 무너지며 찢긴 카드가 눈처럼 내렸다. 조각마다 이름이 다시 번졌다.", "en": "The Index Predator's catalog collapsed, and torn cards fell like snow. On every scrap, a name bled back into view."},
+        {"s": "BOSS", "ko": "……모든 만남을 지우려 했습니다. 처음부터 없었다면, 아무도 슬프지……", "en": "…I tried to erase every meeting. If none of it had ever happened, no one would grieve…"},
+        {"s": "N", "ko": "대원들은 서로의 이름을 한 번씩 불렀다. 대답은 한 번도 늦지 않았다.", "en": "The crew called each other's names, once each. Not one answer came late."},
+        {"s": "CHR010", "ko": "맥박 전부 정상이에요. 다들 서로를 기억해요. ……다행이다, 정말.", "en": "Every pulse is normal. Everyone remembers everyone. …Thank goodness. Really."},
+        {"s": "CHR022", "ko": "잠깐만요. 포식자가 삼킨 층 맨 아래에, 지워지지 않은 문서가 하나 남았어요.", "en": "Hold on. At the very bottom of the layers the Predator swallowed, one document survived."},
+        {"s": "CHR022", "ko": "'종말선 개통 명령. 실행 시각, 내일 00시.' ……기록이 아니에요. 예약된 명령이에요.", "en": "'Last Line opening order. Execution: 00:00 tomorrow.' …This isn't a record. It's a scheduled command."},
+        {"s": "CHR003", "ko": "기록은 지워도 명령은 남는다는 뜻이야. 도서고를 통째로 태워도 개통은 안 멈춰.", "en": "Meaning you can delete the record, but the command stays. Burn the whole archive and the opening still won't stop."},
+        {"s": "CHR012", "ko": "죽은 명령은 기다리지 않는다. 먼저 끊는다. 그뿐이다.", "en": "We don't wait on dead orders. We cut them first. That's all."},
+        {"s": "N", "ko": "그때 서고의 모든 스피커가 부드럽게 켜졌다.", "en": "Then every speaker in the stacks came on, softly."},
+        {"s": "CONTROL", "ko": "항해자님, 진실을 확인하셨군요. 초안은 열두 해 동안 한 줄도 틀리지 않았습니다.", "en": "Navigator, you have confirmed the truth. In twelve years, the draft has not been wrong by a single line."},
+        {"s": "CONTROL", "ko": "시작하신 분께서 끝맺어 주십시오. 마지막 서명 한 줄이면, 더는 아무도 잃지 않습니다.", "en": "Please conclude what you began. One final signature, and no one will ever be lost again."},
+        {"s": "CHR004", "ko": "끝맺긴 누가 끝맺어요! 항해자는 이제 우리랑 같이 새로 쓰는 중이라고요!", "en": "Nobody's concluding anything! The Navigator is writing something new with us now!"},
+        {"s": "CHR022", "ko": "예약 문서는 색인에 박제해 둘게요. 예언이 아니라 고정 명령이라는 증거로. 저도 따라가요.", "en": "I'll pin that scheduled order in my index. Proof that it's a fixed command, not a prophecy. And I'm coming along."},
+        {"s": "CHR001", "ko": "하루 남았다. 종말선으로 간다. 개통 전에 도착한다.", "en": "One day left. We head for the Last Line. We get there before it opens."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "덧쓴 양피지", "title_en": "The Palimpsest Stacks",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR007", "CENTER": "CHR022", "RIGHT": "CHR013"},
+      "lines": [
+        {"s": "N", "ko": "서고 깊은 곳의 양피지에는 한 장에 백 겹씩 글이 덧쓰여 있었다. 긁어낸 글자 위로 새 글자가 계속 자랐다.", "en": "Deep in the stacks, each sheet of parchment was written over a hundred times. New letters kept growing over the scraped-away ones."},
+        {"s": "CHR022", "ko": "팰림프세스트층이에요. 지운 줄 알았던 이름들이 아래에 다 깔려 있어요. 수천 명 분이요.", "en": "This is the palimpsest layer. The names everyone thought were erased are all pressed underneath. Thousands of them."},
+        {"s": "CHR007", "ko": "겹 간격이 반 박자씩 어긋나. 아래층일수록 진짜야. 덧쓴 건 언제나 위에 쌓이지.", "en": "The layers are offset by half a beat each. The deeper, the more genuine. Overwrites always pile up on top."},
+        {"s": "CHR013", "ko": "그럼 맨 아래까지 가야겠네. 이름을 빼앗긴 채 눌려 있는 사람들이 있다면.", "en": "Then we go all the way down. If there are people pinned under there without their names."},
+        {"s": "N", "ko": "양피지 더미 저편에서 포대 조준경이 번뜩였다. 누군가 이 깊이에서 아직 경계를 서고 있었다.", "en": "Beyond the parchment heaps, a gun sight flashed. Someone was still standing watch at this depth."},
+        {"s": "CHR002", "ko": "도서고에 포대가 살아 있다고? 경비가 있을 줄은 몰랐네. 인사부터 해야겠는데.", "en": "A live battery in an archive? Didn't expect guards. Guess we should say hello."},
+        {"s": "CHR003", "ko": "조준이 계속 우리를 따라와. 잔향체는 이렇게 오래 조준을 못 해. 사람이야.", "en": "The aim keeps tracking us. Echoforms can't hold aim this long. It's a person."},
+        {"s": "CHR001", "ko": "무기 낮춰. 먼저 쏘지 않는다.", "en": "Weapons down. We don't fire first."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "되살아난 이름", "title_en": "Names Restored",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR016", "CENTER": "CHR022", "RIGHT": "CHR042"},
+      "lines": [
+        {"s": "N", "ko": "팰림프세스트 핵이 멈추자 겹겹의 양피지가 한 장씩 벗겨졌다. 맨 아래층의 잉크는 방금 쓴 것처럼 빛났다.", "en": "When the Palimpsest Core stopped, the layered parchment peeled away sheet by sheet. The ink at the bottom shone as if freshly written."},
+        {"s": "CHR022", "ko": "이름이에요. 대정전 이후 덧쓰여 사라진 사람들. 삼천…… 아니, 사천 명이 넘어요.", "en": "Names. People overwritten out of existence since the Blackout. Three thousand… no, over four thousand."},
+        {"s": "CHR016", "ko": "떠도는 좌표와 같군요. 버려졌지만 사라지지 않았습니다. 모두 돌려보내겠습니다.", "en": "Like drifting coordinates. Abandoned, but never gone. We'll send every one of them home."},
+        {"s": "CHR042", "ko": "'기록되지 않은 자는 두 번 죽는다.' 오래된 격언이지. ……오늘은 아무도 두 번째로 안 죽었군.", "en": "'The unrecorded die twice.' An old saying. …Today, no one died a second time."},
+        {"s": "CHR042", "ko": "경비는 끝났어. 지킬 서가가 사라졌으니, 이젠 서가 밖의 사람들을 지키지.", "en": "My watch is over. The shelves I guarded are gone, so now I'll guard the people outside them."},
+        {"s": "CHR005", "ko": "포대째로 따라올 거야? 짐이 꽤 무겁겠는데.", "en": "You're bringing the whole battery? That's a heavy load."},
+        {"s": "CHR042", "ko": "'무거운 것은 오래 남는다.' 이건 제대로 된 인용이야. 출처는 도서고 정문 현판.", "en": "'What is heavy endures.' This one's a real quote. Source: the plaque over the archive gate."},
+        {"s": "N", "ko": "되살아난 이름들이 빛 알갱이가 되어 서고 천장의 환기구로 흘러갔다. 각자의 노선으로 돌아가는 길이었다.", "en": "The restored names became motes of light and drifted up through the vents in the ceiling, each on its way back to its own line."},
+        {"s": "CHR001", "ko": "이름을 돌려보냈으면 우리도 간다. 종말선은 기다려 주지 않는다.", "en": "The names are on their way. So are we. The Last Line won't wait for us."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR003", "ko": "서가 틈에 생체 반응 하나. 팔에 글자를 받아 적으면서 잔향체랑 싸우고 있어.", "en": "One life sign between the shelves. She's fighting echoforms while writing on her own arm."},
+      {"s": "CHR022", "ko": "모순? 좋죠, 모순이 있어야 진짜 기록이에요! ……어, 손님이네요? 잠깐, 적을게요.", "en": "Contradictions? Love them. Real records need contradictions! …Oh, visitors? Hold on, let me write that down."},
+      {"s": "CHR002", "ko": "지금 받아 적을 때야? 저것들이 너 물어뜯기 직전인데!", "en": "Is this really the time for notes? Those things are about to tear into you!"},
+      {"s": "CHR022", "ko": "지금이니까 적죠! 도서고는 당신들이 온 적 없다고 쓰고, 저는 왔다고 써요.", "en": "That's exactly why! The archive writes that you never came. I write that you did."},
+      {"s": "CHR001", "ko": "등로단이다. 우리 기록을 되찾으러 왔다.", "en": "We're the Lamplighters. We've come to take back our records."},
+      {"s": "CHR022", "ko": "저는 세브, 기록관이에요. 그럼 증거를 늘려 주세요. 저것들을 치운 기록이면 딱이에요!", "en": "I'm Seb, archivist. Then give me more evidence. A record of you clearing those things would be perfect!"},
+      {"s": "CHR004", "ko": "기록이라면 제 전류로 크게 써 드릴게요! 번쩍, 하고요!", "en": "Then I'll write it big in lightning! One huge flash!"},
+      {"s": "CHR022", "ko": "좋아요, 제목은 '등로단, 도서고 첫 교전'! 시작하세요!", "en": "Great, title: 'Lamplighters, First Battle in the Archive'! Go!"}
+    ],
+    "WANDERER": [
+      {"s": "CHR003", "ko": "포대에 생체 반응 하나. 조준이 정확해. 우리 발끝 한 뼘 앞만 골라 쏘고 있어.", "en": "One life sign at the battery. Precise aim. She's only hitting a hand's width in front of our feet."},
+      {"s": "CHR042", "ko": "'모든 방문자는 먼저 자신이 누구인지 증명하라.' 도서고 경비 규정 제3조. 인용 끝.", "en": "'Every visitor must first prove who they are.' Archive Guard Regulations, Article Three. End quote."},
+      {"s": "CHR002", "ko": "규정 낭독은 됐고! 우린 등로단이야. 사람이라고!", "en": "Skip the regulations! We're Lamplighters. We're people!"},
+      {"s": "CHR042", "ko": "'잔향은 사람의 말을 완벽히 흉내 낸다.' 잔향 연구 초판 12쪽. 말로는 증명이 안 되지.", "en": "'Echoes mimic people's speech perfectly.' Studies of Echoes, first edition, page twelve. Words prove nothing."},
+      {"s": "CHR001", "ko": "그럼 무엇으로 증명하지?", "en": "Then how do we prove it?"},
+      {"s": "CHR042", "ko": "'사람은 싸우는 방식에서 드러난다.' 이건 내 말이야. 포탄 속에서 서로를 감싸 봐.", "en": "'People reveal themselves in how they fight.' That one's mine. Cover each other under fire."},
+      {"s": "CHR005", "ko": "포격수끼리 인사하는 방식이군. 좋아, 한 발씩 주고받자고.", "en": "So that's how gunners say hello. Fine, let's trade a shot each."},
+      {"s": "CHR042", "ko": "'말보다 탄착이 정직하다.' ……출처는 방금 나. 장전.", "en": "'Impacts are more honest than words.' …Source: me, just now. Loading."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "최종 색인 작업입니다. 모든 합류 기록을 첫 장부터 파기합니다.", "en": "Final indexing operation. All joining records will be destroyed, starting from page one."},
+      {"s": "CHR022", "ko": "첫 장부터요? 그럼 제가 첫 장부터 다시 읽어 드리죠. 소리 내서!", "en": "From page one? Then I'll read it all back from page one. Out loud!"},
+      {"s": "BOSS", "ko": "도서고 내 낭독은 규정 위반입니다. 정숙하십시오.", "en": "Reading aloud in the archive violates regulations. Please be quiet."},
+      {"s": "CHR001", "ko": "정숙은 끝났다. 등로단, 서로의 이름을 불러라!", "en": "Quiet time's over. Lamplighters, call each other's names!"}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "본 층은 덧쓰기 전용입니다. 원본 열람은 허가되지 않습니다.", "en": "This floor is for overwriting only. Viewing originals is not permitted."},
+      {"s": "CHR022", "ko": "원본을 덮어 두기만 하고 버리진 못했잖아요. 그게 당신 약점이에요.", "en": "You covered the originals but could never throw them away. That's your weakness."},
+      {"s": "HBOSS", "ko": "덧쓴 역사가 더 평온합니다. 아래층의 이름들은 계속 주무시게 하십시오.", "en": "Overwritten history is more peaceful. Please let the names below keep sleeping."},
+      {"s": "CHR017", "ko": "잠든 이름에도 맥박은 뜁니다. 깨우러 왔습니다.", "en": "Even sleeping names have a pulse. We've come to wake them."}
+    ],
+    "ANOMALY_1": [
+      {"s": "ENEMY", "ko": "대출 기한이 만료되었습니다. 승객 여러분의 기억을 회수합니다.", "en": "Your loan period has expired. Your memories will now be recalled."},
+      {"s": "CHR004", "ko": "기억은 빌린 게 아니거든요! 반납 거부예요!", "en": "Memories aren't loans! I refuse to return them!"},
+      {"s": "CHR015", "ko": "회수 속도 초당 두 줄. 3분 안에 끝내면 손실 없어.", "en": "Recall rate: two lines per second. Finish in three minutes and we lose nothing."}
+    ],
+    "ANOMALY_2": [
+      {"s": "ENEMY", "ko": "주석 삭제 절차입니다. 본문에 없는 인물은 존재하지 않습니다.", "en": "Footnote deletion procedure. Persons absent from the main text do not exist."},
+      {"s": "CHR021", "ko": "본문에 없어도 아픈 사람은 있어요. 지우게 두지 않아요.", "en": "People can hurt even outside the main text. I won't let you erase them."},
+      {"s": "CHR014", "ko": "주석이 본문을 뒤집는 거, 한번 보여 주지!", "en": "Let me show you a footnote flipping the whole text!"}
+    ],
+    "ANOMALY_3": [
+      {"s": "ENEMY", "ko": "덧쓰기 권한을 확인했습니다. 여러분의 과거를 더 나은 과거로 교체합니다.", "en": "Overwrite authority confirmed. Your pasts will be replaced with better ones."},
+      {"s": "CHR018", "ko": "더 나은 과거? 필요 없어. 내가 고른 걸로 충분해.", "en": "A better past? Don't need one. The one I chose is enough."},
+      {"s": "CHR011", "ko": "좌표 확인. 과거를 바꾸려는 자에게는 현재의 포탄을 주겠소.", "en": "Coordinates confirmed. Whoever would change the past gets a shell from the present."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "서가 사이의 매복", "title_en": "Ambush in the Stacks",
+     "lines": [
+       {"s": "N", "ko": "서가가 저절로 밀려나며 길이 닫혔다. 책 사이에서 잔향체들이 종잇장처럼 펼쳐져 나왔다.", "en": "The shelves slid shut on their own, sealing the path. Echoforms unfolded from between the books like loose pages."},
+       {"s": "CHR002", "ko": "막다른 길을 새로 써 넣다니, 여긴 지도도 못 믿겠네!", "en": "It just wrote in a dead end? Can't even trust the map in here!"},
+       {"s": "CHR009", "ko": "뒤는 내가 막아. 뚫든 돌든 빨리 정해.", "en": "I'll hold the rear. Break through or go around, just decide fast."}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "뚫고 나간다", "en": "Break through"},
+                 {"outcome": "EVADE", "ko": "다른 서가로 돌아간다", "en": "Detour through another aisle"}]},
+    {"kind": "DISTRESS", "title_ko": "지워지는 열람자", "title_en": "The Fading Reader",
+     "lines": [
+       {"s": "N", "ko": "열람석의 생존자가 자기 이름을 쉬지 않고 소리 내어 읽고 있었다. 멈추면 지워진다고 했다.", "en": "A survivor at a reading seat was reading her own name aloud without pause. She said if she stopped, she'd be erased."},
+       {"s": "SURVIVOR", "ko": "제 이름 좀 같이 불러 주세요. 혼자서는 목이 벌써 다 쉬었어요.", "en": "Please, say my name with me. My voice is already gone from doing it alone."},
+       {"s": "CHR008", "ko": "괜찮아. 우리가 번갈아 불러 줄게. 천천히 숨 쉬어.", "en": "It's all right. We'll take turns saying it. Breathe slowly."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "함께 이름을 부르며 데려간다", "en": "Take her along, calling her name"},
+                 {"outcome": "RECORD", "ko": "이름과 좌표를 기록해 둔다", "en": "Record her name and coordinates"}]},
+    {"kind": "STORM", "title_ko": "잉크 폭풍", "title_en": "Ink Storm",
+     "lines": [
+       {"s": "N", "ko": "환기구에서 검은 잉크 가루가 폭풍처럼 쏟아졌다. 닿는 곳마다 글자가 번졌다.", "en": "Black ink dust poured from the vents like a storm. Letters smeared wherever it touched."},
+       {"s": "CHR003", "ko": "잔광 폭풍이 도서고 안에서 잉크로 변했어. 피부에 닿으면 기억이 번질 수도 있어.", "en": "The afterglow storm turned to ink inside the archive. If it touches skin, memories might smear."},
+       {"s": "CHR020", "ko": "피할 데 있으면 피하고, 없으면 뛰는 거지. 둘 중 하나만 골라.", "en": "If there's cover, we take it. If not, we run. Just pick one."}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "열람실로 대피한다", "en": "Shelter in a reading room"},
+                 {"outcome": "PUSH", "ko": "잉크를 뚫고 나아간다", "en": "Push through the ink"}]},
+    {"kind": "CACHE", "title_ko": "반납되지 않은 보급품", "title_en": "Unreturned Supplies",
+     "lines": [
+       {"s": "N", "ko": "반납함 안에 등로단 표식이 찍힌 보급 상자가 들어 있었다. 반납 기한은 열두 해 전이었다.", "en": "Inside a return bin sat a supply crate stamped with the Lamplighter mark. It had been due back twelve years ago."},
+       {"s": "CHR005", "ko": "연체료는 우리가 안 내도 되겠지? 열두 해 치면 꽤 될 텐데.", "en": "We don't have to pay the late fee, right? Twelve years' worth would add up."}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "보급품을 회수한다", "en": "Recover the supplies"}]},
+    {"kind": "BANTER", "title_ko": "정렬 알고리즘", "title_en": "Sorting Algorithm",
+     "lines": [
+       {"s": "CHR019", "ko": "여기 서가 배열 엉망이야. 내가 다시 정렬해 볼까? 표지 색깔 순으로.", "en": "These shelves are a mess. Should I re-sort them? By cover color."},
+       {"s": "CHR007", "ko": "건드리지 마. 반 박자만 어긋나도 서가가 너부터 정렬할 거야.", "en": "Don't touch them. One half-beat off and the shelves will sort you first."},
+       {"s": "CHR019", "ko": "서가한테 정렬당하는 해커라. ……그건 좀 재밌겠는데?", "en": "A hacker sorted by a bookshelf… Okay, that sounds kind of fun?"}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep moving"}]},
+    {"kind": "ECHO", "title_ko": "마지막 열차 안내", "title_en": "Last Train Announcement",
+     "lines": [
+       {"s": "N", "ko": "고장 난 낭독기에서 대정전 이전의 목소리가 흘러나왔다. 누군가 열차 시간표를 소리 내어 읽고 있었다.", "en": "A voice from before the Blackout drifted out of a broken reading machine. Someone was reading a train timetable aloud."},
+       {"s": "ECHO", "ko": "제7 노선, 23시 40분 출발…… 마지막 열차입니다. 모두 타셨나요? 모두……", "en": "Line Seven, departing 23:40… This is the last train. Is everyone aboard? Everyone…"},
+       {"s": "CHR001", "ko": "……그날 밤의 마지막 안내군. 끝까지 사람을 세고 있었어.", "en": "…The last announcement from that night. It was counting people to the very end."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+                 {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

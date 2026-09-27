@@ -2,11 +2,12 @@
   "id": "SCN_CH01_OUTRO",
   "title_key": "SCENARIO_CH01_OUTRO_TITLE",
   "chapter_id": "CH01",
+  "presentation": "CINEMATIC",
   "commands": [
     {
       "id": "start",
       "command": "set_background",
-      "asset_id": "bg_lantern_tunnel_dev"
+      "asset_id": "bg_ch01_signal_cathedral_story"
     },
     {
       "command": "set_cg",
@@ -14,9 +15,21 @@
     },
     {
       "command": "show_portrait",
-      "slot": "RIGHT",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr006_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
       "asset_id": "portrait_chr001_dev",
-      "expression": "RELIEVED"
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "fade_in",
@@ -25,22 +38,135 @@
     {
       "command": "narration",
       "speaker_key": "SPEAKER_ROUTEKEEPER",
-      "text_key": "STORY_OUT_01"
+      "text_key": "STORY_CH01_OUTRO_01"
     },
     {
-      "command": "narration",
-      "speaker_key": "SPEAKER_ROUTEKEEPER",
-      "text_key": "STORY_OUT_02"
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "enemy_boss001_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "set_expression",
       "slot": "RIGHT",
-      "expression": "SMILE"
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "ENEMY_HOLLOW_ENGINE",
+      "text_key": "STORY_CH01_OUTRO_02",
+      "portrait_asset_id": "enemy_boss001_dev"
+    },
+    {
+      "command": "hide_portrait",
+      "slot": "RIGHT"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VERA_NAME",
+      "text_key": "STORY_CH01_OUTRO_03",
+      "portrait_asset_id": "portrait_chr006_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH01_OUTRO_04"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_SURVIVOR",
+      "text_key": "STORY_CH01_OUTRO_05"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_CH01_OUTRO_06",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VERA_NAME",
+      "text_key": "STORY_CH01_OUTRO_07",
+      "portrait_asset_id": "portrait_chr006_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr004_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "CENTER",
+      "expression": "CONCERNED"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_EDA",
+      "text_key": "STORY_CH01_OUTRO_08",
+      "portrait_asset_id": "portrait_chr004_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "dialogue",
       "speaker_key": "SPEAKER_MAERU",
-      "text_key": "STORY_OUT_03"
+      "text_key": "STORY_CH01_OUTRO_09",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VERA_NAME",
+      "text_key": "STORY_CH01_OUTRO_10",
+      "portrait_asset_id": "portrait_chr006_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH01_OUTRO_11"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_CONTROL",
+      "text_key": "STORY_CH01_OUTRO_12"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_CONTROL",
+      "text_key": "STORY_CH01_OUTRO_13"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_CH01_OUTRO_14",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH01_OUTRO_15",
+      "portrait_asset_id": "portrait_chr001_dev"
     },
     {
       "command": "grant_reward",

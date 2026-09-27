@@ -2,6 +2,7 @@
   "id": "SCN_CH01_PREBOSS",
   "title_key": "SCENARIO_CH01_PREBOSS_TITLE",
   "chapter_id": "CH01",
+  "presentation": "CINEMATIC",
   "commands": [
     {
       "id": "start",
@@ -10,9 +11,21 @@
     },
     {
       "command": "show_portrait",
-      "slot": "RIGHT",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr006_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
       "asset_id": "portrait_chr001_dev",
-      "expression": "ALERT"
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "enemy_boss001_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "fade_in",
@@ -21,27 +34,147 @@
     {
       "command": "narration",
       "speaker_key": "SPEAKER_ROUTEKEEPER",
-      "text_key": "STORY_PRE_01"
+      "text_key": "STORY_CH01_PREBOSS_01"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VERA_NAME",
+      "text_key": "STORY_CH01_PREBOSS_02",
+      "portrait_asset_id": "portrait_chr006_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_CH01_PREBOSS_03",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH01_PREBOSS_04"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "enemy_boss001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "ENEMY_HOLLOW_ENGINE",
+      "text_key": "STORY_CH01_PREBOSS_05",
+      "portrait_asset_id": "enemy_boss001_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "ENEMY_HOLLOW_ENGINE",
+      "text_key": "STORY_CH01_PREBOSS_06",
+      "portrait_asset_id": "enemy_boss001_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr004_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "CONCERNED"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_EDA",
+      "text_key": "STORY_CH01_PREBOSS_07",
+      "portrait_asset_id": "portrait_chr004_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr006_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VERA_NAME",
+      "text_key": "STORY_CH01_PREBOSS_08",
+      "portrait_asset_id": "portrait_chr006_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_CH01_PREBOSS_09",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "enemy_boss001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "ENEMY_HOLLOW_ENGINE",
+      "text_key": "STORY_CH01_PREBOSS_10",
+      "portrait_asset_id": "enemy_boss001_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr002_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "set_expression",
       "slot": "RIGHT",
-      "expression": "SERIOUS"
+      "expression": "SAD"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_CH01_PREBOSS_11",
+      "portrait_asset_id": "portrait_chr002_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr005_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_SOREN",
+      "text_key": "STORY_CH01_PREBOSS_12",
+      "portrait_asset_id": "portrait_chr005_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH01_PREBOSS_13"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "dialogue",
       "speaker_key": "SPEAKER_MAERU",
-      "text_key": "STORY_PRE_02"
-    },
-    {
-      "command": "set_expression",
-      "slot": "RIGHT",
-      "expression": "BATTLE_FOCUS"
-    },
-    {
-      "command": "dialogue",
-      "speaker_key": "SPEAKER_MAERU",
-      "text_key": "STORY_PRE_03"
+      "text_key": "STORY_CH01_PREBOSS_14",
+      "portrait_asset_id": "portrait_chr001_dev"
     },
     {
       "command": "grant_reward",

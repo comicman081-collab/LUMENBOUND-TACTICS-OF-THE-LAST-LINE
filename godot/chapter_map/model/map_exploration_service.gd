@@ -598,3 +598,83 @@ static func _event(definition: Dictionary, event_id: String) -> Dictionary:
 	for event in definition.get("map_events", []):
 		if str(event.get("event_id", "")) == event_id: return event
 	return {}
+
+# --- Sudden incidents -------------------------------------------------------
+# Authored per chapter (definition.incidents, six kinds).  A completed player
+# move of at least INCIDENT_MIN_STEPS hexes may raise one.  Each incident fires
+# once per chapter so its lines never repeat; the roll is deterministic from
+# the map seed, the roll counter and the arrival hex so a reload cannot reroll.
+const INCIDENT_MIN_STEPS := 2
+const INCIDENT_CHANCE_PER_MILLE := 240
+const INCIDENT_COOLDOWN_MOVES := 2
+const INCIDENT_REWARDS := {
+	"AMBUSH:FIGHT": {"CREDIT": 500, "TRAINING_NOTE_S": 2},
+	"DISTRESS:RESCUE": {"CREDIT": 300, "TRAINING_NOTE_M": 1},
+	"STORM:SHELTER": {"TRAINING_NOTE_S": 1},
+	"CACHE:TAKE": {"CREDIT": 400, "WEAPON_CHIP_S": 2},
+	"BANTER:CONTINUE": {"TRAINING_NOTE_S": 1},
+	"ECHO:LISTEN": {"TRAINING_NOTE_M": 1},
+}
+const INCIDENT_REVEAL_RADIUS := {"DISTRESS:RECORD": 4, "STORM:PUSH": 3}
+
+static func _ensure_incident_state(state: Dictionary) -> void:
+	if not state.has("incident_log") or not state.incident_log is Dictionary:
+		state.incident_log = {}
+	if not state.has("incident_rolls"):
+		state.incident_rolls = 0
+	if not state.has("incident_moves_since"):
+		state.incident_moves_since = INCIDENT_COOLDOWN_MOVES
+
+static func roll_incident(state: Dictionary, definition: Dictionary, steps: int, arrival: Vector2i) -> Dictionary:
+	var incidents: Array = definition.get("incidents", [])
+	if incidents.is_empty():
+		return {}
+	_ensure_incident_state(state)
+	if steps < INCIDENT_MIN_STEPS:
+		return {}
+	state.incident_moves_since = int(state.incident_moves_since) + 1
+	if int(state.incident_moves_since) <= INCIDENT_COOLDOWN_MOVES:
+		return {}
+	var pending: Array = []
+	for incident_value in incidents:
+		var incident: Dictionary = incident_value if incident_value is Dictionary else {}
+		if not incident.is_empty() and not state.incident_log.has(str(incident.get("incident_id", ""))):
+			pending.append(incident)
+	if pending.is_empty():
+		return {}
+	state.incident_rolls = int(state.incident_rolls) + 1
+	var seed := int(definition.get("map_simulation", {}).get("seed", 0))
+	var roll := absi(hash("%d:%d:%d:%d" % [seed, int(state.incident_rolls), arrival.x, arrival.y]))
+	if roll % 1000 >= INCIDENT_CHANCE_PER_MILLE:
+		return {}
+	state.incident_moves_since = 0
+	return (pending[int(floor(float(roll) / 1000.0)) % pending.size()] as Dictionary).duplicate(true)
+
+static func incident_tier(definition: Dictionary) -> int:
+	var chapter_number := int(str(definition.get("chapter_id", "CH01")).substr(2))
+	return clampi(1 + int(floor((chapter_number - 1) / 5.0)), 1, 4)
+
+static func resolve_incident(state: Dictionary, definition: Dictionary, incident: Dictionary, outcome: String, arrival: Vector2i) -> GameResult:
+	_ensure_incident_state(state)
+	var incident_id := str(incident.get("incident_id", ""))
+	if incident_id.is_empty():
+		return GameResult.failure("UNKNOWN_INCIDENT")
+	if state.incident_log.has(incident_id):
+		return GameResult.failure("INCIDENT_ALREADY_RESOLVED")
+	var outcome_key := "%s:%s" % [str(incident.get("kind", "")), outcome]
+	var tier := incident_tier(definition)
+	var authored: Dictionary = INCIDENT_REWARDS.get(outcome_key, {})
+	var scaled: Dictionary = {}
+	for item_id in authored:
+		scaled[item_id] = int(authored[item_id]) * (tier if str(item_id) == "CREDIT" else 1)
+	var pre_profile := _growth_profile_snapshot()
+	var rewards: Dictionary = RewardService.resolve_direct(scaled) if not scaled.is_empty() else {}
+	state.incident_log[incident_id] = outcome
+	_reveal_area(state, definition, arrival, int(INCIDENT_REVEAL_RADIUS.get(outcome_key, 0)))
+	var post_profile := _growth_profile_snapshot()
+	return GameResult.success({
+		"source_type": "INCIDENT", "source_id": incident_id, "choice_id": outcome,
+		"rewards": rewards, "pre_inventory": pre_profile.get("inventory", {}).duplicate(true),
+		"post_inventory": post_profile.get("inventory", {}).duplicate(true),
+		"growth": GrowthAnalyzerScript.analyze(pre_profile, post_profile),
+	})

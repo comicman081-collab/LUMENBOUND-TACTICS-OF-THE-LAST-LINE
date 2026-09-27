@@ -1,0 +1,107 @@
+{
+  "id": "SCN_CH16_HARD_INTRO",
+  "title_key": "SCENARIO_CH16_HARD_INTRO_TITLE",
+  "chapter_id": "CH16",
+  "presentation": "CINEMATIC",
+  "commands": [
+    {
+      "id": "start",
+      "command": "set_background",
+      "asset_id": "bg_ch01_signal_cathedral_story"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr011_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr021_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr002_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "fade_in",
+      "duration": 0.35
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH16_HARD_INTRO_01"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_ADELINE_NAME",
+      "text_key": "STORY_CH16_HARD_INTRO_02",
+      "portrait_asset_id": "portrait_chr011_dev"
+    },
+    {
+      "command": "set_expression",
+      "slot": "CENTER",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_NOAR_NAME",
+      "text_key": "STORY_CH16_HARD_INTRO_03",
+      "portrait_asset_id": "portrait_chr021_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_CH16_HARD_INTRO_04",
+      "portrait_asset_id": "portrait_chr002_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr013_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_REMA_NAME",
+      "text_key": "STORY_CH16_HARD_INTRO_05",
+      "portrait_asset_id": "portrait_chr013_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr015_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_HART_NAME",
+      "text_key": "STORY_CH16_HARD_INTRO_06",
+      "portrait_asset_id": "portrait_chr015_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH16_HARD_INTRO_07",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "grant_reward",
+      "item_id": "LANTERN_SHARD",
+      "quantity": 5
+    },
+    {
+      "command": "end_scenario"
+    }
+  ]
+}

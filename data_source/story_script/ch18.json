@@ -1,0 +1,271 @@
+{
+  "chapter_id": "CH18",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "개통 예고", "title_en": "Opening Notice",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR022", "RIGHT": "CHR004"},
+      "lines": [
+        {"s": "N", "ko": "도서고를 나서자 지평선 끝에서 끝까지 새 선로가 빛나고 있었다. 모든 노선이 한 점을 향해 휘어 있었다.", "en": "Outside the archive, new rails glowed from one horizon to the other. Every line curved toward a single point."},
+        {"s": "N", "ko": "종말선. 개통까지 스물네 시간. 선로가 당기는 힘에 먼 도시들의 등불이 한 방향으로 기울었다.", "en": "The Last Line. Twenty-four hours until opening. The pull of the rails tilted the lanterns of distant cities all one way."},
+        {"s": "CHR003", "ko": "회백도시, 하늘교량, 설원, 수도…… 우리가 지나온 도시 전부가 같은 좌표로 끌려가고 있어.", "en": "The Ashen City, the Sky Bridge, the snowfields, the capital… Every city we've passed through is being dragged to the same coordinates."},
+        {"s": "CHR022", "ko": "도서고 예약 문서랑 초 단위까지 일치해요. 자정 정각. 늦춰지지도 앞당겨지지도 않아요.", "en": "It matches the archive's scheduled order to the second. Midnight sharp. No delays, no early start."},
+        {"s": "N", "ko": "그때 하늘 전체가 스피커가 된 듯, 방송이 모든 방향에서 한꺼번에 내려왔다.", "en": "Then, as if the whole sky had become a speaker, the announcement came down from every direction at once."},
+        {"s": "CONTROL", "ko": "승객 여러분께 안내드립니다. 금일 자정, 종말선이 개통됩니다.", "en": "Attention, all passengers. The Last Line opens tonight at midnight."},
+        {"s": "CONTROL", "ko": "모든 승객께서는 탑승해 주십시오. 이 열차는 모든 역에 정차하며, 어느 역에서도 내리실 수 없습니다.", "en": "All passengers, please board. This train stops at every station, and you may alight at none."},
+        {"s": "CONTROL", "ko": "항해자님께는 전용 좌석을 준비해 두었습니다. 열두 해 전의 그 자리입니다.", "en": "Navigator, a reserved seat awaits you. The same one as twelve years ago."},
+        {"s": "CHR004", "ko": "그 자리요? 제7 승강장 그 좌석이요? 으, 온몸에 정전기 돋았어요!", "en": "That seat? The one at Platform Seven? Ugh, I've got static all over!"},
+        {"s": "CHR010", "ko": "피난민들까지 끌려가고 있어요. 스스로 버틸 몸 상태가 아닌 사람이 수천이에요.", "en": "They're pulling the refugees in too. Thousands of them are in no shape to resist on their own."},
+        {"s": "CHR016", "ko": "하루입니다. 하루 안에 이 모든 좌표를 지켜야 합니다.", "en": "One day. Within one day, we must protect every one of these coordinates."},
+        {"s": "CHR002", "ko": "하루라…… 정찰하기엔 넉넉하고, 싸우기엔 빠듯하네.", "en": "One day… plenty for scouting, tight for fighting."},
+        {"s": "CHR001", "ko": "가장 가까운 중계점부터 친다. ……항해자, 기록기 불빛 놓치지 마.", "en": "We hit the nearest relay first. …Navigator, don't lose sight of that recorder's light."},
+        {"s": "N", "ko": "등로단은 한 방향으로 기운 등불들을 거슬러 걷기 시작했다.", "en": "The Lamplighters began walking against the tilt of the lanterns."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "기준시계", "title_en": "The Reference Clock",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR019", "CENTER": "CHR015", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "중계점의 거대한 기준시계는 초침 소리 대신 심장 박동 같은 저음을 울렸다. 모든 도시의 시계가 그 박동에 맞춰 돌았다.", "en": "The relay's giant reference clock didn't tick; it thrummed, low, like a heartbeat. Every city's clock turned to its rhythm."},
+        {"s": "CHR019", "ko": "개통 명령은 여기서 못 지워. 본체가 더 깊은 데 있거든. 근데 재밌는 거 찾았다?", "en": "Can't delete the opening order from here. The core is deeper in. But guess what I found?"},
+        {"s": "CHR019", "ko": "이 시계가 기준시야. 모든 노선이 이걸 보고 자정을 판단해. 늦추면 자정도 늦게 와.", "en": "This clock is the reference time. Every line checks it to decide when midnight is. Slow it down, and midnight comes late."},
+        {"s": "CHR015", "ko": "얼마나 늦출 수 있지? 추정 말고 숫자로.", "en": "How much can we slow it? Numbers, not guesses."},
+        {"s": "CHR019", "ko": "기준 신호를 계속 끊어 주면 최대 스물네 시간. 딱 하루.", "en": "If we keep cutting the reference signal, up to twenty-four hours. Exactly one day."},
+        {"s": "CHR003", "ko": "하루면 종말선 핵심부까지 갈 수 있어. 취소는 못 해도, 도착은 할 수 있다는 뜻이야.", "en": "A day is enough to reach the Last Line's core. We can't cancel it, but we can get there."},
+        {"s": "CHR012", "ko": "명령을 못 지우면 명령의 시계를 끊는다. 합리적이다.", "en": "If you can't delete the order, cut its clock. Rational."},
+        {"s": "CHR009", "ko": "문제는 끊는 동안 누가 저 시계를 지키냐는 거지. 관제가 가만있을 리 없잖아.", "en": "Problem is who guards that clock while we cut. Control won't just sit there."},
+        {"s": "CHR022", "ko": "이 하루도 색인에 적어 둘게요. 주어진 날이 아니라, 벌어 온 날이라고.", "en": "I'll put this day in my index too. Not a day we were given—a day we earned."},
+        {"s": "CHR001", "ko": "하루를 산다. 값은 우리가 치른다. 다음 중계탑으로.", "en": "We buy a day. We pay for it ourselves. On to the next relay tower."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N12",
+      "title_ko": "결전 전야", "title_en": "The Night Before",
+      "background": "rail",
+      "cast": {"LEFT": "CHR006", "CENTER": "CHR008", "RIGHT": "CHR013"},
+      "lines": [
+        {"s": "N", "ko": "기준시계를 처음 늦춘 밤, 야영 등불이 선로를 따라 길게 늘어섰다. 대원들이 한 명씩 항해자를 찾아왔다.", "en": "The night they first slowed the clock, camp lanterns stretched along the rails. One by one, the crew came to find the Navigator."},
+        {"s": "CHR006", "ko": "항해자, 내일 신호는 내가 끝까지 잡을게. 네 기록기 신호가 끊겨도 찾아낼 거야.", "en": "Navigator, I'll hold tomorrow's signal to the end. Even if your recorder goes dark, I'll find you."},
+        {"s": "CHR008", "ko": "잠은 좀 자. 의무관 명령이야. ……사실 나도 무서워. 그러니까 둘 다 눈 좀 붙이자.", "en": "Get some sleep. Medic's orders. …Honestly, I'm scared too. So let's both close our eyes a while."},
+        {"s": "CHR013", "ko": "무게는 나눠 드는 거야. 너 혼자 서명했던 밤은, 이제 끝났어.", "en": "Weight is meant to be shared. The night you signed alone is over."},
+        {"s": "CHR018", "ko": "감상은 짧게. ……잘 싸웠어, 지금까진. 내일도 그렇게 해.", "en": "Keeping this short. …You've fought well so far. Do the same tomorrow."},
+        {"s": "CHR020", "ko": "난 말주변이 없어서. 그냥, 옆에 있을게. 그거면 되지?", "en": "I'm no good with words. I'll just be next to you. That's enough, right?"},
+        {"s": "CHR022", "ko": "오늘 한 말 전부 색인에 적었어요. 내일 누가 뭘 지워도 여기 남아요.", "en": "Everything said tonight is in my index. Whatever gets erased tomorrow, it stays here."},
+        {"s": "CHR004", "ko": "항해자! 저 전쟁 무섭다고 했었죠? 이번엔 안 무서워요. ……반쯤은요!", "en": "Navigator! Remember I said war scares me? This time it doesn't. …Well, half of me isn't scared!"},
+        {"s": "N", "ko": "마지막으로 마에루가 선로 옆 객차에 올라, 좌석 안전띠를 하나씩 당겨 보았다.", "en": "Last of all, Maeru climbed into a carriage beside the tracks and tugged each seatbelt, one by one."},
+        {"s": "CHR001", "ko": "……이번엔 확인할 좌석이 많네.", "en": "…Lot more seats to check this time."},
+        {"choice": [
+          {"key": "CH18_CHOICE_HELP", "flag": "CH18_HELP_SEATS", "ko": "좌석 확인을 돕는다", "en": "Help check the seats", "reply": [
+            {"s": "CHR001", "ko": "……고맙다. 이 줄은 네가, 저 줄은 내가. 빈 좌석 하나는 그대로 두고.", "en": "…Thanks. You take this row, I'll take that one. Leave the one empty seat as it is."}
+          ]},
+          {"key": "CH18_CHOICE_ASK", "flag": "CH18_ASK_SEAT", "ko": "빈 좌석에 대해 묻는다", "en": "Ask about the empty seat", "reply": [
+            {"s": "CHR001", "ko": "시오 자리다. 아직은 비워 둔다. 데리러 갈 날이 오면, 그때 채운다.", "en": "It's Sio's. It stays empty for now. When the day comes to bring her along, I'll fill it."}
+          ]}
+        ]},
+        {"s": "CHR001", "ko": "하루를 버는 싸움이다. 좌석 하나도 비게 두지 않는다. ……그 자리만 빼고.", "en": "Tomorrow we fight to buy a day. I won't let a single seat go empty. …Except that one."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N16",
+      "title_ko": "한 발에 1분", "title_en": "One Minute per Shell",
+      "background": "rail",
+      "cast": {"LEFT": "CHR015", "CENTER": "CHR023", "RIGHT": "CHR001"},
+      "lines": [
+        {"s": "N", "ko": "마지막 신호수가 쓰러지자 유리엔의 포신에서 흰 김이 피어올랐다. 기준시계의 박동이 또 한 번 느려졌다.", "en": "As the last signaler fell, white steam rose from Yurien's barrel. The reference clock's pulse slowed once more."},
+        {"s": "CHR023", "ko": "고마워. 혼자서는 90초가 늘 모자랐거든. 오늘은 처음으로 남았어.", "en": "Thanks. Alone, ninety seconds was never enough. Tonight, for the first time, I had time to spare."},
+        {"s": "CHR023", "ko": "유리엔. 장거리 포수야. 이 선로가 깔리기 시작한 날부터, 포탄으로 공사를 하루씩 늦춰 왔어.", "en": "Yurien. Long-range gunner. Since the day they started laying this line, I've been delaying construction one day at a time with shells."},
+        {"s": "CHR015", "ko": "포탄 비행 시간을 시계로 쓴다고? ……내 방식이랑 같네. 오차는?", "en": "Using shell flight time as a clock? …Same as my method. Margin of error?"},
+        {"s": "CHR023", "ko": "한 발에 0.2초. 너보다는 조금 덜하지.", "en": "Point-two seconds per shell. A little tighter than yours."},
+        {"s": "CHR015", "ko": "……0.4초는 옛날 얘기야.", "en": "…Point-four was a long time ago."},
+        {"s": "N", "ko": "항해 기록기가 열여덟 번째 빛을 새겼다. 유리엔의 포신에 새겨진 탄착 표식과 같은 무늬였다.", "en": "The recorder etched its eighteenth light, the same pattern as the impact tallies carved on Yurien's barrel."},
+        {"s": "CHR023", "ko": "남은 포탄으로 시간을 살게. 마지막 한 발까지. 그게 내 서명이야.", "en": "I'll spend my remaining shells buying time. Down to the very last one. That's my signature."},
+        {"s": "CHR022", "ko": "열여덟! 이제 둘 남았어요. 빈칸이 이렇게 반가운 건 처음이에요.", "en": "Eighteen! Just two left. I've never been so happy to see empty slots."},
+        {"s": "CHR001", "ko": "하루를 끝까지 채운다. 신호수 본진은 자정 종착역 앞이다.", "en": "We see this day through. The signalers' main force is in front of Midnight Terminus."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "자정 포격", "title_en": "Midnight Barrage",
+      "background": "rail",
+      "cast": {"LEFT": "CHR019", "CENTER": "CHR023", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "자정 종착역 앞 광장에 거대한 신호탑이 서 있었다. 꼭대기의 신호등이 초침처럼 한 칸씩 붉게 꺼져 갔다.", "en": "A colossal signal tower stood in the plaza before Midnight Terminus. The lights at its crown went dark red one by one, like a second hand."},
+        {"s": "CHR019", "ko": "저게 종말 신호수야. 우리가 늦춘 시간을 전부 저 안에 모아 두고 있어.", "en": "That's the Doom Signaler. Every hour we delayed is stockpiled inside it."},
+        {"s": "BOSS", "ko": "지연 안내입니다. 운행 시간표에 지연이 발생하였습니다.", "en": "Delay notice. A delay has occurred in the operating timetable."},
+        {"s": "BOSS", "ko": "지연된 시간을 반환합니다. 자정 포격을 개시합니다. 승객 여러분은 머리를 숙이십시오.", "en": "The delayed time will now be returned. Commencing midnight barrage. Passengers, please lower your heads."},
+        {"s": "CHR023", "ko": "하루를 한 발로 뭉쳐 돌려보낸다는 거네. 맞으면 우리가 번 시간이 통째로 날아가.", "en": "It's packing a whole day into one shell and sending it back. If it lands, every hour we bought is gone."},
+        {"s": "CHR010", "ko": "포격 범위에 피난 행렬이 들어가요! 수천 명이 아직 선로 위에 있어요!", "en": "The refugee column is inside the blast radius! Thousands are still on the tracks!"},
+        {"s": "CHR001", "ko": "베라, 이리, 리브, 오르사. 퇴로조를 맡아라. 행렬을 빼낼 길을 연다.", "en": "Vera, Iri, Liv, Orsa. You're the retreat team. Open a way out for the column."},
+        {"s": "CHR009", "ko": "늦게 도착하는 건 이제 질렸어. 이번엔 먼저 가서 기다릴게.", "en": "I'm done arriving late. This time I'll go ahead and wait for you."},
+        {"s": "CHR011", "ko": "나머지는 탄도를 꺾는 일이오. 포수 넷이면 하루짜리 포탄도 비껴가게 할 수 있소.", "en": "The rest of us bend the trajectory. With four gunners, even a day-sized shell can be made to miss."},
+        {"s": "CHR015", "ko": "계산은 내가 한다. 유리엔, 네 0.2초 믿어 볼게.", "en": "I'll run the numbers. Yurien, I'm trusting your point-two."},
+        {"s": "BOSS", "ko": "경고합니다. 끝이 정해지지 않은 시간표는 승객을 불안하게 합니다. 자정은 지켜져야 합니다.", "en": "Warning. A timetable without a fixed end causes passengers anxiety. Midnight must be kept."},
+        {"s": "CHR005", "ko": "불안한 밤엔 원래 포수가 제일 바쁘지. 오늘은 탄도 하나만 꺾으면 돼.", "en": "Anxious nights are when gunners get busiest. Tonight we only need to bend one trajectory."},
+        {"s": "CHR002", "ko": "좋아, 포수들은 하늘, 나머진 탑! 길은 내가 연다!", "en": "All right—gunners take the sky, everyone else the tower! I'll open the way!"},
+        {"s": "N", "ko": "퇴로조의 등불이 행렬 쪽으로 멀어졌다. 신호탑의 붉은 불은 마지막 한 칸만 남아 있었다.", "en": "The retreat team's lanterns receded toward the column. Only one red light remained on the tower."}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "벌어 온 하루", "title_en": "The Day We Bought",
+      "background": "rail",
+      "cast": {"LEFT": "CHR019", "CENTER": "CHR001", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "신호탑이 무너지며 압축된 하루가 흩어졌다. 붉은 불이 꺼지고, 기준시계의 느린 박동이 돌아왔다.", "en": "The tower collapsed, and the compressed day scattered. The red lights died, and the reference clock's slow pulse returned."},
+        {"s": "BOSS", "ko": "……끝나는 시각을 알면, 두려움도 셀 수 있으니까요. 끝을 정해 두면, 아무도 불안하지……", "en": "…If you know when it ends, even fear can be counted. With the end set in advance, no one would feel uneasy…"},
+        {"s": "CHR019", "ko": "기준시 고정 완료! 개통은 오늘 자정에서 내일 자정으로. 하루, 진짜로 벌었어!", "en": "Reference time locked! The opening moves from tonight to tomorrow midnight. We actually bought a day!"},
+        {"s": "CHR023", "ko": "포탄 네 발 남았어. 하루에 네 발이면, 나쁘지 않은 장사야.", "en": "Four shells left. Four shells for a day—not a bad trade."},
+        {"s": "N", "ko": "환호 속에서 마에루가 무전기를 들었다. 퇴로조의 정시 보고가 한 시간째 없었다.", "en": "Amid the cheering, Maeru raised the radio. The retreat team had missed their scheduled report by an hour."},
+        {"s": "CHR001", "ko": "퇴로조, 응답해라. 베라, 이리, 리브, 오르사.", "en": "Retreat team, respond. Vera, Iri, Liv, Orsa."},
+        {"s": "N", "ko": "대답 대신 잡음 섞인 구조 신호가 돌아왔다. 같은 문장이 같은 간격으로 되풀이되고 있었다.", "en": "Instead of an answer, a static-laced rescue signal came back. The same sentence, repeating at the same interval."},
+        {"s": "CHR006", "ko": "여기 퇴로조. 선로가…… 출발점으로만 돌아와. 벌써 몇 바퀴째인지 모르겠어.", "en": "Retreat team here. The tracks… only lead back to the start. I've lost count of the laps."},
+        {"s": "CHR008", "ko": "다친 사람은 없어. 그런데 한 바퀴 돌 때마다, 누군가 뭘 하나씩 잊어버려.", "en": "No one's hurt. But every lap, someone forgets something."},
+        {"s": "CHR003", "ko": "좌표 확인. 퇴로 구간 전체가 고리로 닫혔어. 끝이 없는 선로, 꺼지지 않는 원환이야.", "en": "Coordinates confirmed. The whole retreat route has closed into a loop. A track with no end—the Unfading Circuit."},
+        {"s": "CONTROL", "ko": "원환 구간의 승객 여러분은 귀환 절차에 따라 대기하십시오.", "en": "Passengers in the Circuit section, please wait in accordance with return procedures."},
+        {"s": "CONTROL", "ko": "항해자님, 하루를 버셨군요. 그 하루로 누구를 데려오실지, 지켜보겠습니다.", "en": "Navigator, you have bought a day. I will be watching to see whom you bring back with it."},
+        {"s": "CHR022", "ko": "벌어 온 하루를 네 사람한테 써야 하네요. ……아니, 써야죠. 당연히.", "en": "So the day we earned goes to four people. …No—of course it does."},
+        {"s": "CHR001", "ko": "개통보다 사람이 먼저다. 원환으로 간다. 넷 다 데려온다.", "en": "People before the opening. We go to the Circuit. We bring all four back."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "자정 종착역 공사장", "title_en": "Midnight Terminus Worksite",
+      "background": "rail",
+      "cast": {"LEFT": "CHR007", "CENTER": "CHR014", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "자정 종착역 뒤편은 아직 공사 중이었다. 반쯤 깔린 선로 위로 무인 궤도차가 쉬지 않고 침목을 날랐다.", "en": "Behind Midnight Terminus, construction was still underway. Driverless rail carts hauled sleepers over half-laid track without rest."},
+        {"s": "CHR007", "ko": "시공 오차가 0이야. 사람이 깐 선로라면 있어야 할 떨림이 하나도 없어.", "en": "Zero construction error. None of the tremor you'd find in track laid by people."},
+        {"s": "CHR014", "ko": "그럼 사람 없는 공사판이네. 부숴도 혼날 사람은 없겠다!", "en": "So it's a worksite with nobody on it. Nobody to yell at us if we smash it!"},
+        {"s": "CHR003", "ko": "……아니. 선로 절단 신호가 하나 있어. 누군가 안쪽에서 공사를 거꾸로 되돌리고 있어.", "en": "…No. There's one track-cutting signal. Someone inside is undoing the construction."},
+        {"s": "N", "ko": "먼 곳에서 쇠를 끊는 소리가 일정하게 울렸다. 깔리는 속도보다 끊기는 속도가 조금 느렸다.", "en": "The sound of cutting steel rang out steadily in the distance. The cutting was just a little slower than the laying."},
+        {"s": "CHR020", "ko": "혼자서 저걸 끊고 있다면 도와야지. 빠른 쪽이 이기게.", "en": "If someone's cutting that alone, we help. So the faster side wins."},
+        {"s": "CHR022", "ko": "공사 일지에 감독 서명이 하나 있어요. 날짜가 전부 거꾸로 적혀 있고요.", "en": "There's a supervisor's signature in the construction log. And every date is written backward."},
+        {"s": "CHR001", "ko": "소리 나는 쪽으로 간다. 공사 기계보다 먼저 닿는다.", "en": "We follow the sound. We reach it before the machines do."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "누구의 끝도 아닌 시각", "title_en": "The Minute That Ends No One",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR043", "RIGHT": "CHR020"},
+      "lines": [
+        {"s": "N", "ko": "자정 종착역의 대시계가 11시 59분에서 멈췄다. 초침은 떨렸지만 다음 칸으로 넘어가지 않았다.", "en": "Midnight Terminus's great clock stopped at 11:59. The second hand trembled but never moved to the next mark."},
+        {"s": "CHR003", "ko": "개통 시각에 1분 모자란 채로 고정됐어. 이 역은 이제 영원히 종착하지 못해.", "en": "Locked one minute short of opening. This station can never be a terminus now."},
+        {"s": "CHR043", "ko": "……내가 설계한 역 중에 제일 잘 만든 역이다. 아무도 도착하지 않는 종착역이라니.", "en": "…Best station I ever designed. A terminus no one ever arrives at."},
+        {"s": "CHR043", "ko": "선로는 내가 깔았다. 이젠 사람들이 돌아가는 선로를 깔겠다. 너희 쪽에서.", "en": "I laid the tracks. Now I'll lay tracks that take people home. From your side."},
+        {"s": "CHR020", "ko": "좋다. 끊는 것보다 까는 게 더 어울려 보여.", "en": "Good. Laying suits you better than cutting."},
+        {"s": "CHR043", "ko": "쓸데없는 말. ……고맙다.", "en": "Pointless talk. …Thanks."},
+        {"s": "N", "ko": "멈춘 시계 아래 끊긴 선로 조각들이 쌓였다. 누구의 끝도 아닌 시각이 역에 남았다.", "en": "Cut pieces of track piled up beneath the stopped clock. The station was left with an hour that ended no one."},
+        {"s": "CHR022", "ko": "이 시각, 색인에 이름 붙여 둘게요. '누구의 끝도 아닌 1분.'", "en": "I'm naming this time in my index. 'The Minute That Ends No One.'"},
+        {"s": "CHR001", "ko": "1분을 남겼으면 됐다. 남은 하루를 쓰러 간다.", "en": "One minute left standing is enough. Let's go spend the rest of our day."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR003", "ko": "5킬로미터 밖에서 포격. 정확히 60초 간격이야. 포탄이 떨어질 때마다 기준 신호가 끊겨.", "en": "Shelling from five kilometers out. Exactly sixty seconds apart. Every impact cuts the reference signal."},
+      {"s": "CHR011", "ko": "저 간격, 사람이 재는 거요. 기계라면 저렇게 끈질기지 않소.", "en": "That interval is kept by a person. A machine wouldn't be that stubborn."},
+      {"s": "CHR023", "ko": "한 발에 1분. 오늘 밤은 길 거야. ……거기, 사격선 안으로 들어오지 마.", "en": "One minute per shell. It's going to be a long night. …You there, stay out of my firing line."},
+      {"s": "CHR002", "ko": "우린 적이 아니야! 같은 시계를 늦추러 왔다고!", "en": "We're not enemies! We're here to slow the same clock!"},
+      {"s": "CHR023", "ko": "그럼 증명해. 신호수 무리가 내 포대로 오고 있어. 장전하는 90초 동안 버텨 줘.", "en": "Then prove it. A pack of signalers is coming for my battery. Hold them off for the ninety seconds I need to reload."},
+      {"s": "CHR005", "ko": "90초? 넉넉하네. 한 발이면 충분한 사람들이 여기 몇 명 있거든.", "en": "Ninety seconds? Generous. A few of us here only need one shot."},
+      {"s": "CHR023", "ko": "좋아. 다음 탄착까지 58초. 늦으면 같이 날아가.", "en": "Good. Fifty-eight seconds to next impact. Be late, and you go up with it."},
+      {"s": "CHR001", "ko": "포대를 등지고 원진. 90초, 한 걸음도 물러서지 않는다.", "en": "Circle up, backs to the battery. Ninety seconds. Not one step back."}
+    ],
+    "WANDERER": [
+      {"s": "CHR002", "ko": "저기다. 절단기 든 사람 하나. 작업복에 대운행국 공사 감독 완장을 찼어.", "en": "There. One person with a cutter. Directorate construction supervisor's armband on her work clothes."},
+      {"s": "CHR043", "ko": "멈춰. 여긴 내 현장이다. 외부인 출입 금지.", "en": "Stop. This is my site. No outsiders."},
+      {"s": "CHR003", "ko": "공사 감독? 그럼 종말선을 깐 사람이 너야?", "en": "Construction supervisor? So you're the one who laid the Last Line?"},
+      {"s": "CHR043", "ko": "그래. 내가 깔았다. 그러니까 내가 끊는다. 남의 손 빌릴 생각 없다.", "en": "Yes. I laid it. So I'll cut it. I'm not borrowing anyone's hands."},
+      {"s": "CHR001", "ko": "혼자선 못 따라잡는다. 기계가 까는 속도가 더 빠르다.", "en": "You can't keep up alone. The machines lay track faster than you cut."},
+      {"s": "CHR043", "ko": "안다. 그래서 짜증 나는 거다. ……좋아. 날 넘을 수 있으면, 도와도 된다.", "en": "I know. That's what's infuriating. …Fine. If you can get past me, you can help."},
+      {"s": "CHR014", "ko": "시험이라면 환영이지! 감독님, 안전모 꽉 매요!", "en": "A test? Love it! Better strap that hard hat on tight, boss!"},
+      {"s": "CHR043", "ko": "쓸데없는 말이 많군. 덤벼.", "en": "Too much talking. Come on."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "자정 포격 발사 준비 완료. 모든 승객은 착석하십시오.", "en": "Midnight barrage ready to fire. All passengers, please be seated."},
+      {"s": "CHR023", "ko": "착석은 사양할게. 우리 포탄은 아직 남았거든.", "en": "I'll pass on sitting down. We've still got shells left."},
+      {"s": "BOSS", "ko": "잔여 시간은 몰수됩니다. 이의 신청은 받지 않습니다.", "en": "Remaining time is hereby confiscated. Objections will not be accepted."},
+      {"s": "CHR001", "ko": "이의는 포격으로 제출한다. 사격 개시!", "en": "Then we file our objection by artillery. Open fire!"}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "자정 종착역입니다. 본 역은 모든 노선의 마지막 정차역입니다.", "en": "This is Midnight Terminus. This station is the final stop for every line."},
+      {"s": "CHR007", "ko": "마지막 역이라는 건 설계가 아니라 명령이야. 명령은 끊을 수 있어.", "en": "A 'final stop' isn't a design. It's an order. Orders can be cut."},
+      {"s": "HBOSS", "ko": "종착 시각 이후의 시간은 존재하지 않습니다. 하차를 준비하십시오.", "en": "No time exists after the terminal hour. Please prepare to disembark."},
+      {"s": "CHR005", "ko": "하차 시각은 우리가 정해. 시계부터 멈춰 주지.", "en": "We decide when we get off. Starting with stopping your clock."}
+    ],
+    "ANOMALY_1": [
+      {"s": "ENEMY", "ko": "개통 전 시운전입니다. 선로 위의 모든 물체는 제거 대상입니다.", "en": "Pre-opening test run. All objects on the track are subject to removal."},
+      {"s": "CHR009", "ko": "물체 아니야. 사람이야. 비키는 건 네 쪽이다.", "en": "Not objects. People. You're the one who moves."},
+      {"s": "CHR011", "ko": "시운전 경로 계산 끝. 탈선 지점은 여기로 정하겠소.", "en": "Test run path calculated. I'll set the derailment point right here."}
+    ],
+    "ANOMALY_2": [
+      {"s": "ENEMY", "ko": "초과 체류 승객을 확인했습니다. 남은 시간을 회수합니다.", "en": "Overstaying passengers detected. Your remaining time will be recalled."},
+      {"s": "CHR019", "ko": "시간 회수? 우리 하루는 반품 불가 상품이거든!", "en": "Recall our time? Sorry, our day is non-refundable!"},
+      {"s": "CHR022", "ko": "회수 절차요? 도서고에서 질리도록 봤어요. 실패하는 장면까지요!", "en": "Recall procedures? I saw plenty of those in the archive. Including how they fail!"}
+    ],
+    "ANOMALY_3": [
+      {"s": "ENEMY", "ko": "공사 구간입니다. 작업자 외 출입 시 즉시 매설합니다.", "en": "Construction zone. Unauthorized entrants will be buried immediately."},
+      {"s": "CHR020", "ko": "묻히는 건 사양이야. 파내는 건 자신 있지만.", "en": "No thanks to being buried. Digging out, though—that I'm good at."},
+      {"s": "CHR012", "ko": "경고 방송 주파수 고정. 거짓 신호는 여기서 끊는다.", "en": "Warning broadcast frequency locked. False signals end here."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "공사 궤도차의 습격", "title_en": "Rail Cart Raid",
+     "lines": [
+       {"s": "N", "ko": "무인 궤도차 행렬이 선로를 벗어나 등로단 쪽으로 방향을 틀었다. 적재함마다 잔향체가 실려 있었다.", "en": "A line of driverless rail carts veered off the track toward the Lamplighters. Every cargo bed was loaded with echoforms."},
+       {"s": "CHR014", "ko": "공사 자재가 아니라 병력 수송이었어? 좋아, 하역은 내가 해 주지!", "en": "Not building materials—troop transport? Fine, I'll handle the unloading!"},
+       {"s": "CHR007", "ko": "궤도가 우회로와 반 박자 어긋나 있어. 지금 비키면 따돌릴 수 있어.", "en": "Their track is half a beat off the bypass. Step aside now and we lose them."}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "궤도차를 막아선다", "en": "Block the carts"},
+                 {"outcome": "EVADE", "ko": "선로 밖으로 비켜선다", "en": "Step off the tracks"}]},
+    {"kind": "DISTRESS", "title_ko": "탑승 행렬 이탈자", "title_en": "Stray from the Boarding Line",
+     "lines": [
+       {"s": "N", "ko": "종말선으로 걷던 피난 행렬에서 한 사람이 빠져나와 주저앉았다. 발은 계속 선로 쪽으로 끌려갔다.", "en": "One person broke from the refugee column marching toward the Last Line and sank to the ground. Her feet kept dragging toward the tracks."},
+       {"s": "SURVIVOR", "ko": "타고 싶지 않은데 다리가 멋대로 가요. 언니한테 기다리라고 했는데……", "en": "I don't want to board, but my legs keep going. I told my sister to wait for me…"},
+       {"s": "CHR010", "ko": "괜찮아요, 제가 잡고 있을게요. 방송이 끝날 때까지 절대 안 놓아요.", "en": "It's okay, I've got you. I won't let go until the announcement ends."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "붙잡아 데려간다", "en": "Hold on and bring her along"},
+                 {"outcome": "RECORD", "ko": "행렬 좌표를 기록한다", "en": "Record the column's coordinates"}]},
+    {"kind": "STORM", "title_ko": "초침 폭풍", "title_en": "Second-Hand Storm",
+     "lines": [
+       {"s": "N", "ko": "하늘에서 초침 소리가 쏟아졌다. 잔광 폭풍이 시계 소리로 뭉쳐 선로를 때렸다.", "en": "The ticking of second hands rained from the sky. The afterglow storm had knotted into clock sounds and was lashing the rails."},
+       {"s": "CHR015", "ko": "폭풍 통과까지 7분. 뚫으면 2분이지만 손실률이 높아.", "en": "Seven minutes for the storm to pass. Two if we push through, but losses run high."},
+       {"s": "CHR018", "ko": "계산 끝났으면 골라. 서 있는 게 제일 손해야.", "en": "Done calculating? Then pick. Standing here is the worst deal."}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "궤도차 아래로 대피한다", "en": "Take cover under a rail cart"},
+                 {"outcome": "PUSH", "ko": "폭풍을 뚫고 전진한다", "en": "Push through the storm"}]},
+    {"kind": "CACHE", "title_ko": "개통식 물자", "title_en": "Opening Ceremony Stock",
+     "lines": [
+       {"s": "N", "ko": "자재 창고에 대운행국 인장이 찍힌 탄약과 의약품이 그대로 쌓여 있었다. 개통식에 쓰려던 물자였다.", "en": "Ammunition and medicine stamped with the Directorate seal sat untouched in a supply shed—stock meant for the opening ceremony."},
+       {"s": "CHR005", "ko": "개통 축하용 불꽃은 없나? 뭐, 우리가 대신 잘 쓰지.", "en": "No celebratory fireworks? Oh well, we'll put all this to better use."}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "물자를 회수한다", "en": "Recover the supplies"}]},
+    {"kind": "BANTER", "title_ko": "끝나면 할 일", "title_en": "After It's Over",
+     "lines": [
+       {"s": "CHR002", "ko": "하루 남았다니까 갑자기 하고 싶은 게 많아지네. 제일 먼저 뭐 하지?", "en": "One day left, and suddenly there's so much I want to do. What first?"},
+       {"s": "CHR004", "ko": "저는 전부 끝나면 열차 지붕에서 불꽃놀이요! 제 전류로요!", "en": "When it's all over, fireworks on a train roof! Made of my lightning!"},
+       {"s": "CHR003", "ko": "……그 계획, 기록해 둘게. 끝나면 꼭 하자는 뜻이야.", "en": "…I'll log that plan. Meaning we'll definitely do it when this is over."}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep moving"}]},
+    {"kind": "ECHO", "title_ko": "개통식 리허설", "title_en": "Opening Rehearsal",
+     "lines": [
+       {"s": "N", "ko": "버려진 승강장 스피커에서 대정전 이전의 개통식 리허설 방송이 흘러나왔다. 박수 소리까지 녹음돼 있었다.", "en": "An abandoned platform speaker played a pre-Blackout rehearsal for an opening ceremony. Even the applause had been recorded."},
+       {"s": "ECHO", "ko": "새 노선은 여러분을 어디든 데려다드립니다. 원하시는 곳, 어디든……", "en": "The new line will take you anywhere. Anywhere you wish…"},
+       {"s": "CHR013", "ko": "원래는 이런 말을 하려고 만든 선로였구나. 어디든, 원하는 곳으로.", "en": "So this line was built to say that. Anywhere, wherever you wish."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+                 {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

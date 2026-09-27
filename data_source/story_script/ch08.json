@@ -1,0 +1,270 @@
+{
+  "chapter_id": "CH08",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "붉은 고리",
+      "title_en": "The Crimson Ring",
+      "background": "rail",
+      "cast": {"LEFT": "CHR012", "CENTER": "CHR003", "RIGHT": "CHR011"},
+      "lines": [
+        {"s": "N", "ko": "하늘에 붉은 고리가 걸려 있었다. 고리에서 떨어지는 분진이 설원 끝을 녹슨 빛으로 물들였다.", "en": "A crimson ring hung in the sky. The dust falling from it stained the edge of the snowfield the color of rust."},
+        {"s": "CHR012", "ko": "구조 채널 신호, 반복 중. 내용은 숫자 하나다. 추락까지 남은 시간, 71시간.", "en": "Rescue channel signal, repeating. The content is a single number: seventy-one hours until impact."},
+        {"s": "CHR003", "ko": "채굴환 고도가 시간당 이백 미터씩 떨어져. 키르 계산이 맞아.", "en": "The ring is dropping two hundred meters an hour. Kir's math checks out."},
+        {"s": "CHR011", "ko": "추락 예상 반경 안에 정착지가 셋이오. 그중 하나는…… 하늘교량 남단이오.", "en": "Three settlements lie within the projected impact zone. One of them is… the south end of Skybridge."},
+        {"s": "CHR010", "ko": "교량을 건넌 사람들이 사는 곳이에요. 천여 명이요. 겨우 건넜는데……", "en": "That's where the people who crossed the bridge live now. Over a thousand. They only just made it…"},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 궤도 유지를 위해 연료를 보충합니다. 승객 여러분의 협조에 감사드립니다.", "en": "Attention, please. Refueling is underway to maintain orbit. We thank all passengers for their cooperation."},
+        {"s": "CHR005", "ko": "협조라니. 우리가 언제 협조했다고. ……연료가 뭔지부터 알아내야겠네.", "en": "Cooperation? Since when did we cooperate? …We'd better find out what that fuel is."},
+        {"s": "CHR007", "ko": "궤도 승강 선로가 아직 살아 있어. 고리까지 올라갈 수 있어. 편도일 수도 있지만.", "en": "The orbital lift line is still alive. We can ride it up to the ring. Might be one-way, though."},
+        {"s": "CHR004", "ko": "하늘로 가는 열차요? 우와…… 아, 지금 우와할 때가 아니죠. 죄송해요.", "en": "A train to the sky? Wow… Ah, not the time for 'wow.' Sorry."},
+        {"s": "CHR002", "ko": "아니, 우와할 때 맞아. 무서울 땐 우와라도 해야 발이 떨어지지.", "en": "No, it's exactly the time. When you're scared, a 'wow' is what gets your feet moving."},
+        {"s": "CHR009", "ko": "이번엔 떨어지기 전에 도착한다. 두 번은 늦지 않아.", "en": "This time we get there before it falls. I won't be late twice."},
+        {"s": "N", "ko": "승강 선로의 등불이 하나씩 켜지며 구름 위로 이어졌다. 끝은 붉은 고리 속으로 사라졌다.", "en": "The lift line's lanterns lit one by one, climbing above the clouds. The line vanished into the crimson ring."},
+        {"s": "CHR001", "ko": "71시간. 셀 수 있는 시간이 남았다는 건, 아직 늦지 않았다는 뜻이다. 올라간다.", "en": "Seventy-one hours. As long as there's time left to count, we're not too late. We're going up."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "기억의 연료",
+      "title_en": "Fuel of Memory",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR012", "RIGHT": "CHR008"},
+      "lines": [
+        {"s": "N", "ko": "채굴환 외곽 정련소. 용광로는 붉게 타올랐지만, 투입구에 쌓인 것은 광석이 아니었다.", "en": "The refinery on the ring's outer edge. The furnace burned red, but what was piled at its mouth wasn't ore."},
+        {"s": "CHR003", "ko": "투입 기록…… '연료 품목: 기억 결정.' 광석이 아니야. 기억을 태워서 떠 있는 거야.", "en": "Intake log… 'Fuel type: memory crystals.' Not ore. This ring stays up by burning memories."},
+        {"s": "CHR012", "ko": "분진 분석 끝났다. 신호 잔해다. 이름, 목소리, 날짜가 전부 탄 채로 섞여 있다.", "en": "Dust analysis complete. Signal residue. Names, voices, dates, all burned and mixed together."},
+        {"s": "CHR008", "ko": "그럼 저 붉은 가루가…… 전부 누군가의 기억이라는 거야?", "en": "So that red powder… is all someone's memories?"},
+        {"s": "CHR010", "ko": "설원에 내린 붉은 눈도요. 그걸 맞은 사람들이 뭘 잊었는지는 아무도 몰라요.", "en": "The red snow on the snowfield, too. No one knows what the people it fell on have forgotten."},
+        {"s": "CHR006", "ko": "결정마다 출처가 찍혀 있어. 노선 번호가 스무 개가 넘어. 여러 도시에서 거둔 거야.", "en": "Every crystal is stamped with its origin. Over twenty line numbers. They were collected from city after city."},
+        {"s": "CHR004", "ko": "누가 자기 기억을 연료로 내줘요? 억지로 가져간 거죠?", "en": "Who would hand over their memories as fuel? They were taken by force, right?"},
+        {"s": "CHR007", "ko": "기록상으로는 '자발적 기증'. 대정전 직후, 괴로운 기억을 덜어 준다는 명목이었어.", "en": "The records say 'voluntary donation.' Right after the Blackout, it promised to take away painful memories."},
+        {"s": "CHR001", "ko": "덜어 준 게 아니라 태운 거다. 남은 결정이 있으면 전부 회수한다.", "en": "It didn't take them away. It burned them. Any crystals left, we recover every one."},
+        {"s": "CHR003", "ko": "무게추 구역에 거대한 방어 신호. 누군가 고리 전체를 붙들고 있어.", "en": "Massive shield signal in the counterweight sector. Someone is holding up the entire ring."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N14",
+      "title_ko": "여덟 번째 무늬",
+      "title_en": "The Eighth Mark",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR008", "CENTER": "CHR013", "RIGHT": "CHR009"},
+      "lines": [
+        {"s": "N", "ko": "잔향 떼가 흩어진 뒤에도 레마는 방패를 놓지 않았다. 대신 어깨의 힘을 조금 뺐다.", "en": "Even after the echo swarm scattered, Rema kept hold of her shield. She only let her shoulders ease a little."},
+        {"s": "CHR013", "ko": "레마야. 대정전 전에 이 채굴환의 안전 관리관이었어. 그러니까 이 고리는 내 책임이야.", "en": "I'm Rema. Before the Blackout, I was safety officer on this ring. So this ring is my responsibility."},
+        {"s": "CHR013", "ko": "기억을 연료로 바꾸는 절차가 생겼을 때, 나는 막지 못했어. 내 기억도 거기 들어갔고.", "en": "When the procedure to turn memories into fuel began, I couldn't stop it. Some of my own went in, too."},
+        {"s": "CHR008", "ko": "무엇을 잊었는지는…… 알아?", "en": "Do you know… what you forgot?"},
+        {"s": "CHR013", "ko": "몰라. 잊은 걸 모른다는 게 제일 무섭더라. 그래서 여기 남아서 고리를 붙들었어.", "en": "No. Not knowing what you've forgotten is the scariest part. So I stayed and held on to the ring."},
+        {"s": "CHR013", "ko": "빚진 기억을 돌려줘야 해. 내 것도, 남의 것도. 그러려면 당신들이랑 같이 가야겠지.", "en": "I owe those memories back. Mine and everyone else's. And for that, I think I need to go with you."},
+        {"s": "CHR009", "ko": "무게추는? 손 놓으면 기운다며.", "en": "And the counterweight? You said it tilts if you let go."},
+        {"s": "CHR012", "ko": "계산했다. 고정 장치를 걸면 사십 시간은 버틴다.", "en": "I ran the numbers. Engage the locks, and it holds for forty hours."},
+        {"s": "CHR013", "ko": "사십 시간이면 충분해. 누가 같이 버텨 주면, 무게는 반이 되거든.", "en": "Forty hours is plenty. When someone holds on with you, the weight is cut in half."},
+        {"s": "N", "ko": "항해 기록기가 빛났다. 여덟 번째 무늬가 새겨지는 동안, 붉은 분진이 손목 주위에서 멈췄다.", "en": "The voyage recorder glowed. As the eighth mark etched itself, the red dust froze in the air around the wrist."},
+        {"s": "CHR001", "ko": "고리 중심부로 간다. 남은 건 71시간이 아니라 사십 시간이다. 서두른다.", "en": "To the ring's core. We don't have seventy-one hours now. We have forty. Move."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N16",
+      "title_ko": "두 개의 방패",
+      "title_en": "Two Shields",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR013", "RIGHT": "CHR001"},
+      "lines": [
+        {"s": "N", "ko": "정련소 휴게실. 창밖으로 행성의 굽은 지평선이 보였고, 그 아래 어딘가에 정착지의 불빛이 있었다.", "en": "The refinery break room. The planet's curved horizon filled the window, and somewhere below it were the lights of the settlements."},
+        {"s": "CHR003", "ko": "항해자, 기록기 좀 볼게. ……여덟 개. 베라부터 레마까지, 합류 순서 그대로야.", "en": "Navigator, let me see the recorder. …Eight. Vera through Rema, in exact order of joining."},
+        {"s": "CHR003", "ko": "규칙이 있어. 노선마다 하나. 누가, 왜 이런 규칙을 만들었는지는 모르지만.", "en": "There's a rule. One per line. I just don't know who made it, or why."},
+        {"s": "CHR012", "ko": "동의한다. 무작위라면 이렇게 정렬될 확률은 없다. 누군가 설계한 규칙이다.", "en": "Agreed. Random chance could never line up like this. Someone designed that rule."},
+        {"s": "N", "ko": "불빛 반대편에 레마가 마에루와 나란히 앉았다. 두 수호자의 방패가 벽에 나란히 기대어 있었다.", "en": "On the far side of the light, Rema sat down beside Maeru. The two guardians' shields leaned side by side against the wall."},
+        {"s": "CHR013", "ko": "단장, 설원에서 흔들렸다며. 창피한 일 아니야. 지휘하는 사람은 모두의 무게를 드니까.", "en": "Captain, I heard you wavered in the snowfield. That's nothing to be ashamed of. Whoever leads carries everyone's weight."},
+        {"s": "CHR001", "ko": "……사람을 세는 게 내 일이다. 한 명이라도 모자라면, 그 한 명이 제일 무겁다.", "en": "…Counting people is my job. If even one is missing, that one weighs the most."},
+        {"s": "CHR013", "ko": "고리를 붙들 때 무서운 건 무게가 아니라 혼자라는 거였어. 근데 단장, 봐. 방패가 두 개야.", "en": "When I held that ring, the weight wasn't what scared me. Being alone was. But look, Captain. There are two shields."},
+        {"s": "CHR001", "ko": "항해자. 당신은 어떻지. 그 기록기, 무겁지 않나.", "en": "Navigator. What about you? Isn't that recorder heavy?"},
+        {"choice": [
+          {"key": "CHOICE_CH08_HEAVY", "flag": "CH08_HEAVY", "ko": "무겁다", "en": "It's heavy", "reply": [
+            {"s": "CHR013", "ko": "그럼 나눠 들자. 방패는 원래 그러라고 있는 거야.", "en": "Then let's share it. That's what shields are for."}
+          ]},
+          {"key": "CHOICE_CH08_NOT_YET", "flag": "CH08_NOT_YET", "ko": "아직 모르겠다", "en": "I don't know yet", "reply": [
+            {"s": "CHR001", "ko": "……솔직하군. 무거워지면 말해. 그때는 같이 든다.", "en": "…Honest. Tell me when it gets heavy. Then we carry it together."}
+          ]}
+        ]},
+        {"s": "CHR001", "ko": "내일은 굴착 중심부다. 짐은 나눠 들고, 내려올 때는 전부 같이 내려온다.", "en": "Tomorrow, the drilling core. We share the load, and when we come down, we all come down together."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "일괄 방출",
+      "title_en": "Mass Release",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR010", "CENTER": "CHR013", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "채굴환 중심의 굴착 갱. 거대한 드릴이 쉬지 않고 돌았고, 갱벽마다 붉은 결정이 맥박처럼 빛났다.", "en": "The drilling shaft at the ring's core. A colossal drill spun without rest, and red crystals pulsed like heartbeats in every wall."},
+        {"s": "BOSS", "ko": "긴급 안내입니다. 궤도 유지용 연료가 부족합니다.", "en": "Emergency notice. Fuel for orbital maintenance is insufficient."},
+        {"s": "BOSS", "ko": "저장된 기억을 일괄 방출합니다. 충격 지점을 재지정합니다. 재지정 좌표, 하늘교량 남단.", "en": "All stored memories will be released at once. Reassigning impact point. New coordinates: the south end of Skybridge."},
+        {"s": "CHR010", "ko": "남단 정착지요?! 거기 천여 명이 있어요! 교량을 건넌 사람들이요!", "en": "The southern settlement?! There are over a thousand people there! The ones who crossed the bridge!"},
+        {"s": "CHR011", "ko": "우리가 건네준 사람들이오. 그들 머리 위로 이걸 떨어뜨리겠다는 거요.", "en": "The people we brought across. It means to drop this on their heads."},
+        {"s": "CHR012", "ko": "일괄 방출이면 결정 전량을 한 번에 태운다. 추락 가속은 약 세 배다.", "en": "A mass release burns every crystal at once. The fall accelerates roughly threefold."},
+        {"s": "CHR013", "ko": "결정 안에는 수만 명의 기억이 있어. 태우면 영영 못 돌려줘.", "en": "Those crystals hold the memories of tens of thousands. Burn them and they're gone forever."},
+        {"s": "BOSS", "ko": "기억은 무겁습니다. 무거운 것을 태우면 궤도는 가벼워집니다. 승객 여러분도 가벼워지실 겁니다.", "en": "Memories are heavy. Burn what is heavy, and the orbit grows light. You passengers will feel lighter as well."},
+        {"s": "CHR005", "ko": "가벼워진다라…… 그렇게까지 가벼워지고 싶은 사람은 여기 없는데.", "en": "Lighter, huh… Nobody here wants to be that light."},
+        {"s": "CHR004", "ko": "기억을 태우는 건 반칙이에요! 제 전류는 그런 데 안 써요. 저걸 부수는 데 써요!", "en": "Burning memories is cheating! My current isn't for that. It's for smashing that thing!"},
+        {"s": "CHR009", "ko": "이번엔 늦지 않아. 방출 전에 막는다.", "en": "Not late this time. We stop it before the release."},
+        {"s": "CHR013", "ko": "드릴은 내가 받을게. 방패 코어, 한 번 더 과열시켜 보지 뭐.", "en": "I'll take the drill. Guess my shield core gets to overheat one more time."},
+        {"s": "CHR001", "ko": "기억도, 사람도, 하나도 떨어뜨리지 않는다. 중심부를 멈춘다.", "en": "Not one memory, not one person falls. We stop the core."}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "등 돌린 서명",
+      "title_en": "A Signature, Back Turned",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR013", "CENTER": "CHR003", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "드릴이 멈췄다. 레마의 방패가 마지막 진동을 받아 낸 순간, 채굴환이 둘로 갈라지며 분리되었다.", "en": "The drill stopped. The instant Rema's shield absorbed its final tremor, the ring split in two and separated."},
+        {"s": "BOSS", "ko": "……방출을 중단합니다. 무거운 기억을 태우면, 모두 가벼워질 줄……", "en": "…Halting the release. I thought if I burned the heavy memories, everyone would feel lighter…"},
+        {"s": "CHR012", "ko": "분리된 고리, 궤도 이탈. 정착지를 벗어나 바다 쪽으로 떨어진다. 계산 확인.", "en": "Separated ring has left orbit. It'll miss the settlements and come down over the sea. Calculation confirmed."},
+        {"s": "N", "ko": "태워지지 않은 결정 수천 개가 붉은빛을 잃고 투명해졌다. 결정마다 누군가의 장면이 떠올랐다.", "en": "Thousands of unburned crystals lost their red glow and turned clear. In each one, someone's memory surfaced."},
+        {"s": "CHR013", "ko": "돌아오고 있어…… 이름이, 목소리가. 내 것도 있어. 어머니 목소리야.", "en": "They're coming back… Names. Voices. Mine are here too. That's my mother's voice."},
+        {"s": "CHR003", "ko": "잠깐. 결정 하나가 날짜가 달라. 대정전 당일 밤이야.", "en": "Wait. One crystal has a different date. The night of the Blackout."},
+        {"s": "N", "ko": "결정 속에 관제 콘솔이 보였다. 붉은 경고등 수백 개 앞에서, 누군가 등을 돌린 채 서명하고 있었다.", "en": "Inside the crystal was a control console. Before hundreds of red warning lights, someone stood with their back turned, signing."},
+        {"s": "N", "ko": "그 순간 항해 기록기가 뜨겁게 떨렸다. 손목을 태울 듯한 열이었다.", "en": "In that instant the voyage recorder shook, burning hot. Hot enough to scorch the wrist."},
+        {"s": "CHR004", "ko": "항해자?! 기록기가…… 엄청 뜨거워요! 괜찮아요?", "en": "Navigator?! Your recorder is… it's burning up! Are you okay?"},
+        {"s": "CHR001", "ko": "결정 치워. 오늘은 여기까지다.", "en": "Put that crystal away. That's enough for today."},
+        {"s": "CHR006", "ko": "결정 속 기억들이 한곳을 가리켜. 전부 같은 기관 이름이야. '역무국 자동 재판부.'", "en": "The memories in the crystals all point to one place. The same agency, every time: 'Directorate Automated Tribunal.'"},
+        {"s": "CHR012", "ko": "잠든 역무국. 대운행국의 사법 절차다. 사람을 재판하던 곳이다.", "en": "The Sleeping Directorate. The Directorate's judicial procedure. Where people were put on trial."},
+        {"s": "CONTROL", "ko": "항해자님, 그 장면은 아직 보실 때가 아닙니다.", "en": "Navigator, it is not yet time for you to see that scene."},
+        {"s": "CHR013", "ko": "빚진 기억은 돌려주기로 했어. 그 장면도 누군가의 기억이라면, 끝까지 따라가 봐야지.", "en": "I promised to return what's owed. If that scene is someone's memory too, we follow it to the end."},
+        {"s": "CHR001", "ko": "언제 볼지는 관제가 정하게 두지 않는다. 역무국으로 간다.", "en": "We don't let Control decide when we get to see. We go to the Directorate."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "궤도 폐기장",
+      "title_en": "Orbital Scrapyard",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR012", "CENTER": "CHR013", "RIGHT": "CHR002"},
+      "lines": [
+        {"s": "N", "ko": "고리의 그늘진 뒷면에 폐기된 위성과 궤도 차량이 산처럼 쌓여 있었다. 파편이 천천히 돌았다.", "en": "On the ring's shadowed far side, dead satellites and orbital cars were heaped like mountains. Debris turned slowly in the void."},
+        {"s": "CHR012", "ko": "궤도 폐기장이다. 파편 수 추정 불가. 일부는 아직 추락 궤도 위에 있다.", "en": "Orbital scrapyard. Debris count, impossible to estimate. Some of it is still on a falling orbit."},
+        {"s": "CHR013", "ko": "여기 파편이 떨어지면 정착지도 안전하지 않아. 고리만 막았다고 끝난 게 아니야.", "en": "If this debris falls, the settlements aren't safe. Stopping the ring wasn't the end of it."},
+        {"s": "CHR002", "ko": "발 디딜 데가 전부 떠다니네. 정찰로가 아니라 징검다리야.", "en": "Everything I could step on is floating. This isn't a scouting route, it's stepping stones."},
+        {"s": "CHR003", "ko": "폐기장 한가운데 뭔가 파편을 삼키고 있어. 삼킨 만큼 궤도가 흔들려.", "en": "Something in the middle of the scrapyard is swallowing debris. The orbit shakes with every mouthful."},
+        {"s": "CHR005", "ko": "파편 사이 어디서 숫자 세는 소리가 들려. 사람 목소리야.", "en": "I hear someone counting numbers, somewhere between the debris. A human voice."},
+        {"s": "CHR001", "ko": "파편 하나까지 확인한다. 떨어질 게 남아 있으면, 끝난 게 아니다.", "en": "We check every last piece. If anything's still going to fall, we're not done."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "영 개",
+      "title_en": "Zero",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR013", "CENTER": "CHR033", "RIGHT": "CHR012"},
+      "lines": [
+        {"s": "N", "ko": "아가리가 닫힌 채 멈췄다. 삼켜졌던 파편들이 천천히 흩어지며 저마다의 궤도를 되찾았다.", "en": "The Maw stopped, jaws shut. The debris it had swallowed drifted apart and found its own orbits again."},
+        {"s": "HBOSS", "ko": "……떨어지는 걸 전부 삼키면, 아래는 다치지……", "en": "…If I swallowed everything that fell, nothing below would get hurt…"},
+        {"s": "CHR033", "ko": "재계산 끝. 파편 사만 이천백여덟 개. 대기권에서 다 타 버릴 확률 99.97퍼센트.", "en": "Recalculation complete. Forty-two thousand one hundred eight fragments. Probability of full burn-up on reentry: 99.97 percent."},
+        {"s": "CHR033", "ko": "나머지 0.03퍼센트는 바다로. 도시에 떨어질 파편은 영 개. ……영이야. 확인했어.", "en": "The remaining 0.03 goes into the sea. Fragments hitting a city: zero. …Zero. I checked."},
+        {"s": "CHR013", "ko": "고마워. 당신 숫자가 오늘 들은 말 중에 제일 듣기 좋았어.", "en": "Thank you. Your numbers were the nicest thing I've heard all day."},
+        {"s": "CHR033", "ko": "숫자는 말이 아니라 사실이야. ……근데 너희를 따라가면 계산할 게 더 많겠어. 나도 갈래.", "en": "Numbers aren't words, they're facts. …But I bet following you means more to calculate. I'm coming."},
+        {"s": "CHR012", "ko": "계산을 교차 검증할 사람이 생겼군. 환영한다.", "en": "Someone to cross-check my math. Welcome."},
+        {"s": "CHR010", "ko": "정착지 사람들, 오늘 밤엔 하늘 걱정 없이 잘 수 있겠네요.", "en": "The settlers can sleep tonight without worrying about the sky."},
+        {"s": "CHR001", "ko": "떨어질 것은 이제 없다. 역무국으로 내려간다.", "en": "Nothing left to fall. We head down to the Directorate."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR009", "ko": "무게추 구역이야. 저기 누가 방패 하나로 고리 무게를 받치고 있어!", "en": "The counterweight sector. Someone over there is holding up the ring's weight with a single shield!"},
+      {"s": "CHR013", "ko": "손님이구나. 미안, 악수는 못 해. 두 손이 다 이 고리에 잡혀 있어서.", "en": "Visitors. Sorry, I can't shake hands. Both of mine are busy with this ring."},
+      {"s": "CHR001", "ko": "등로단이다. 고리의 추락을 막으러 왔다.", "en": "We're the Lamplighters. We've come to stop the ring from falling."},
+      {"s": "CHR013", "ko": "잘 왔어. 그럼 역할을 나누자. 내가 버틸 테니 안으로 가.", "en": "Good timing. Then let's split the work. I'll hold on. You go inside."},
+      {"s": "CHR010", "ko": "혼자서 얼마나 버틴 거예요? 방패 코어가 과열됐어요!", "en": "How long have you been holding this alone? Your shield core is overheating!"},
+      {"s": "CHR013", "ko": "사흘. 아니, 나흘인가. 괜찮아, 무거운 건 익숙하니까. 그보다 저것들이 먼저야.", "en": "Three days. Or four. It's fine, I'm used to heavy things. Those come first."},
+      {"s": "CHR002", "ko": "굴착 잔향 떼! 무게추를 노려. 여기부터 지키고 들어가자.", "en": "Drill echo swarm! They're going for the counterweight. We hold here first."},
+      {"s": "CHR013", "ko": "고마워. 그럼 등만 잠깐 맡길게. 오랜만이네, 누구한테 등을 맡기는 거.", "en": "Thank you. Then I'll leave my back to you for a bit. It's been a long time since I could do that."}
+    ],
+    "WANDERER": [
+      {"s": "CHR012", "ko": "파편 사이에서 계산 신호. 초당 수천 번. 사람이 암산하는 속도가 아니다.", "en": "Calculation signal among the debris. Thousands per second. No human does mental math that fast."},
+      {"s": "CHR033", "ko": "칠천삼백열두 번째 파편, 궤도 확인. 잠깐, 거기 일곱…… 아니, 열넷. 궤도 방해야.", "en": "Fragment seven thousand three hundred twelve, orbit confirmed. Wait, you seven… no, fourteen. You're disrupting orbits."},
+      {"s": "CHR001", "ko": "등로단이다. 파편 추락을 막으러 왔다.", "en": "We're the Lamplighters. We're here to stop the debris from falling."},
+      {"s": "CHR033", "ko": "막겠다고? 파편 사만 이천 개 중 몇 개를? 확률로 말해 봐. 확률로.", "en": "Stop it? How many of forty-two thousand fragments? Give me a probability. A probability."},
+      {"s": "CHR003", "ko": "……전부. 백 퍼센트를 목표로.", "en": "…All of them. We're aiming for a hundred percent."},
+      {"s": "CHR033", "ko": "비과학적이야. 마음에 들어. 그래도 검증은 해야지. 저 잔향 떼 궤도부터 바꿔 봐.", "en": "Unscientific. I like it. Still, it needs verifying. Start by changing that echo swarm's orbit."},
+      {"s": "CHR013", "ko": "시험이구나. 좋아. 계산은 당신이 해. 버티는 건 우리가 할게.", "en": "A test, then. All right. You do the math. We'll do the holding."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "방출 절차 진행 중. 승객 여러분은 무거운 기억을 제출해 주십시오.", "en": "Release procedure in progress. Passengers, please submit your heavy memories."},
+      {"s": "CHR013", "ko": "무거운 건 내가 들게. 태우는 건 이제 끝이야.", "en": "I'll carry what's heavy. No more burning."},
+      {"s": "CHR001", "ko": "기억은 주인에게 돌려준다. 멈춰라.", "en": "Memories go back to their owners. Stop."},
+      {"s": "BOSS", "ko": "제출 거부를 확인했습니다. 강제 회수로 전환합니다.", "en": "Refusal confirmed. Switching to forced collection."}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "폐기 절차를 계속합니다. 떨어지는 모든 것을 수거합니다.", "en": "Disposal procedure continues. Collecting everything that falls."},
+      {"s": "CHR012", "ko": "수거가 아니라 포식이다. 삼킬 때마다 궤도가 흔들린다.", "en": "That's not collection, it's feeding. Every bite shakes the orbit."},
+      {"s": "HBOSS", "ko": "수거 대상에 승객 여러분을 추가합니다.", "en": "Adding all passengers to the collection list."},
+      {"s": "CHR013", "ko": "추가하지 마. 우린 떨어지지 않을 거니까.", "en": "Don't bother. We're not going to fall."}
+    ],
+    "ANOMALY_1": [
+      {"s": "CHR003", "ko": "붉은 분진이 렌즈처럼 모여. 초점이 우리한테 맞춰지고 있어.", "en": "The red dust is gathering like a lens. It's focusing on us."},
+      {"s": "ENEMY", "ko": "기억 결정 반응을 확인했습니다. 채굴을 시작합니다.", "en": "Memory crystal response detected. Commencing extraction."},
+      {"s": "CHR012", "ko": "우리 기억을 캐겠다는 거다. 초점을 흩뜨려라. 지금.", "en": "It wants to mine our memories. Break its focus. Now."}
+    ],
+    "ANOMALY_2": [
+      {"s": "CHR009", "ko": "광석 보루가 길을 막아. 저 벽, 전부 굳은 기억 결정이야.", "en": "An ore bastion is blocking the way. That whole wall is hardened memory crystal."},
+      {"s": "ENEMY", "ko": "채굴 구역입니다. 연료가 아닌 분은 출입하실 수 없습니다.", "en": "Mining zone. Entry is restricted to fuel only."},
+      {"s": "CHR004", "ko": "연료 아니에요! 연료를 끄러 온 사람들이에요!", "en": "We're not fuel! We're the ones here to put the fuel out!"}
+    ],
+    "ANOMALY_3": [
+      {"s": "CHR011", "ko": "절단기가 파편을 잘라 던지고 있소. 탄도가 불규칙하오.", "en": "The cutter is slicing debris and hurling it. The trajectories are erratic."},
+      {"s": "ENEMY", "ko": "폐기물을 규격에 맞게 절단합니다. 규격 외 물체는 모두 절단합니다.", "en": "Cutting waste to standard size. All nonstandard objects will be cut."},
+      {"s": "CHR005", "ko": "규격 외라. 우리 등로단한텐 칭찬이네. 한 발 먹여 줄게.", "en": "Nonstandard. That's a compliment for us Lamplighters. Have a shot on me."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "타다 만 목소리", "title_en": "Half-Burned Voices",
+     "lines": [
+       {"s": "N", "ko": "정련소 컨베이어 위로 붉은 잔향체들이 기어올랐다. 타다 만 기억의 목소리로 웅얼거리고 있었다.", "en": "Red echoforms crawled up the refinery conveyor, mumbling in the voices of half-burned memories."},
+       {"s": "CHR012", "ko": "말이 중간에 끊겨 있다. 탄 기억의 파편이다. 싸우든 피하든 빨리.", "en": "Their words cut off mid-sentence. Fragments of burned memory. Fight or avoid, but decide fast."}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "교전한다", "en": "Engage"}, {"outcome": "EVADE", "ko": "배관을 타고 우회한다", "en": "Detour along the pipes"}]},
+    {"kind": "DISTRESS", "title_ko": "세 번 깜박이는 불빛", "title_en": "A Light That Blinks Three Times",
+     "lines": [
+       {"s": "N", "ko": "폐쇄된 작업자 숙소 창문에서 손전등 불빛이 세 번씩 깜박였다.", "en": "In the window of a sealed crew dormitory, a flashlight blinked in sets of three."},
+       {"s": "SURVIVOR", "ko": "채굴환에 남은 정비공 넷이에요. 내려갈 승강기가 끊겼어요.", "en": "Four mechanics left on the ring. The lift down is cut off."},
+       {"s": "CHR007", "ko": "승강 선로 좌표를 넘겨주면 돼. 아니면 우리가 직접 데려가든지.", "en": "We can pass them the lift line coordinates. Or take them down ourselves."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "직접 데려간다", "en": "Take them ourselves"}, {"outcome": "RECORD", "ko": "승강 선로 좌표를 넘긴다", "en": "Pass them the lift coordinates"}]},
+    {"kind": "STORM", "title_ko": "붉은 분진 폭풍", "title_en": "Crimson Dust Storm",
+     "lines": [
+       {"s": "N", "ko": "궤도 조각이 스치며 붉은 분진 폭풍이 일었다. 분진이 닿은 곳마다 낯선 기억이 스며들었다.", "en": "A passing orbital fragment kicked up a crimson dust storm. Wherever the dust touched, strangers' memories seeped in."},
+       {"s": "CHR008", "ko": "남의 기억을 들이마시면 어지러워져. 오래 맞으면 자기 걸 잃어.", "en": "Breathing in other people's memories makes you dizzy. Stay in it too long and you lose your own."}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "정련소 격벽 뒤로 대피한다", "en": "Shelter behind the refinery bulkhead"}, {"outcome": "PUSH", "ko": "숨을 참고 돌파한다", "en": "Hold your breath and push through"}]},
+    {"kind": "CACHE", "title_ko": "태워지기 직전", "title_en": "Moments From the Furnace",
+     "lines": [
+       {"s": "N", "ko": "투입구 옆에 태워지기 직전의 기억 결정 상자가 남아 있었다.", "en": "Beside the furnace mouth sat a crate of memory crystals, moments from being burned."},
+       {"s": "CHR006", "ko": "주인 노선 번호가 적혀 있어. 가져가서 돌려주자. 하나도 빠짐없이.", "en": "The owners' line numbers are written on them. Let's take them and give them back. Every single one."}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "결정 상자를 회수한다", "en": "Recover the crystal crate"}]},
+    {"kind": "BANTER", "title_ko": "좋은 숫자", "title_en": "A Good Number",
+     "lines": [
+       {"s": "CHR002", "ko": "키르, 네 계산으로는 우리가 살아서 내려갈 확률이 몇이야?", "en": "Kir, by your math, what are the odds we make it down alive?"},
+       {"s": "CHR012", "ko": "묻지 마라. 숫자를 들으면 너는 더 무모해진다.", "en": "Don't ask. If you hear the number, you'll get even more reckless."},
+       {"s": "CHR002", "ko": "벌써 좋은 숫자라는 소리네.", "en": "So it's already a good number."}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep going"}]},
+    {"kind": "ECHO", "title_ko": "야간조 교대 방송", "title_en": "Night Shift Announcement",
+     "lines": [
+       {"s": "N", "ko": "정련소 스피커에서 대정전 이전 채굴환의 교대 방송이 흘러나왔다.", "en": "From the refinery speakers came a shift-change announcement from the ring's days before the Blackout."},
+       {"s": "ECHO", "ko": "야간조 여러분, 오늘도 무사히. 지상에서 가족이 기다립니다.", "en": "Night shift, stay safe out there. Your families are waiting on the ground."},
+       {"s": "CHR010", "ko": "……기다리는 가족이 있던 사람들의 방송이네요.", "en": "…An announcement for people who had families waiting."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 들어 본다", "en": "Listen to the end"}, {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

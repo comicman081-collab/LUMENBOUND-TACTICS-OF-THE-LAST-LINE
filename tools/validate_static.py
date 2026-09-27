@@ -175,7 +175,7 @@ def main() -> int:
         )
     check("all 109 immutable combat asset IDs map to SHA-verified RGBA runtime previews", len(combat_data_rows) == 109 and combat_preview_contract, len(combat_data_rows))
     check("combat preview registry preserves honest non-production lineage without workstation paths", combat_preview_lineage_honest)
-    check("scenario count 105", len(DATA["scenarios"]) == 105)
+    check("scenario count 163", len(DATA["scenarios"]) == 163)
     scenario_cg_ids = {
         str(command.get("asset_id", ""))
         for scenario in DATA["scenarios"]

@@ -1,0 +1,275 @@
+{
+  "chapter_id": "CH19",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "출발점까지 0킬로미터", "title_en": "0 km to the Start",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR002", "RIGHT": "CHR023"},
+      "lines": [
+        {"s": "N", "ko": "원환의 입구에는 같은 이정표가 끝없이 반복돼 있었다. 모든 표지판이 '출발점까지 0킬로미터'를 가리켰다.", "en": "At the mouth of the Circuit, the same milepost repeated without end. Every sign read: '0 km to the start.'"},
+        {"s": "CHR003", "ko": "선로 전체가 하나의 고리야. 둘레 40킬로미터, 출구 없음. 한 바퀴에 정확히 한 시간.", "en": "The whole track is a single loop. Forty kilometers around, no exits. Exactly one hour per lap."},
+        {"s": "CHR002", "ko": "앞으로 달리는데 출발점에 도착하는 길이라. 정찰대장 체면이 말이 아니네.", "en": "A road where running forward gets you back to the start. So much for my pride as a scout."},
+        {"s": "CHR023", "ko": "하루를 벌었더니 이런 데 쓰게 되네. ……괜찮아. 사람한테 쓰는 시간이 제일 비싼 거야.", "en": "We bought a day, and this is where it goes. …That's fine. Time spent on people is the most precious kind."},
+        {"s": "N", "ko": "선로 위에 네 사람의 발자국이 수십 겹으로 찍혀 있었다. 같은 걸음이 같은 자리를 밟고 또 밟았다.", "en": "Four sets of footprints were stamped on the track dozens of layers deep. The same steps, treading the same spots again and again."},
+        {"s": "CHR022", "ko": "퇴로조 발자국이에요. 겹친 수를 세면…… 서른한 바퀴째예요.", "en": "The retreat team's footprints. Counting the layers… that's thirty-one laps."},
+        {"s": "CHR001", "ko": "……넷 다 데려온다. 한 명도 남기지 않는다.", "en": "…We bring all four back. We leave no one."},
+        {"s": "N", "ko": "그때 원환의 모든 역에서 같은 방송이 한 박자씩 어긋나 울렸다.", "en": "Then the same announcement rang from every station in the Circuit, each a half-beat off the last."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 원환 구간은 현재 귀환 절차 중입니다.", "en": "Attention, please. The Circuit section is currently undergoing return procedures."},
+        {"s": "CONTROL", "ko": "귀환에는 대체 승객 한 분이 필요합니다. 한 분이 남으시면 나머지 분들은 돌아가실 수 있습니다.", "en": "Return requires one substitute passenger. If one of you remains, the rest may go home."},
+        {"s": "CONTROL", "ko": "대체 승객을 지정합니다. 항해자님, 이번에도 승객을 골라 주시겠습니까?", "en": "Designating a substitute passenger. Navigator, will you choose the passenger again this time?"},
+        {"choice": [
+          {"key": "CH19_CHOICE_NONE", "flag": "CH19_CHOOSE_NO_ONE", "ko": "아무도 고르지 않는다", "en": "Choose no one", "reply": [
+            {"s": "CHR018", "ko": "들었지, 관제? 대답은 '아무도'야. 싸구려 거래는 안 사.", "en": "Hear that, Control? The answer is 'no one.' We don't buy cheap deals."}
+          ]},
+          {"key": "CH19_CHOICE_WALK", "flag": "CH19_WALK_IN", "ko": "스피커를 등지고 원환으로 들어선다", "en": "Turn your back on the speaker and step into the Circuit", "reply": [
+            {"s": "CHR023", "ko": "대답 대신 걸음이라. ……좋아, 제일 확실한 대답이야.", "en": "Footsteps instead of words. …Good. That's the clearest answer there is."}
+          ]}
+        ]},
+        {"s": "CHR013", "ko": "끊는 법이 없는 고리는 없어. 무겁더라도, 들어가자.", "en": "There's no loop that can't be broken. Heavy as it is, let's go in."},
+        {"s": "CHR001", "ko": "서른두 번째 바퀴는 우리가 같이 돈다. 진입.", "en": "The thirty-second lap, we run together. Moving in."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "지워지는 이유", "title_en": "Vanishing Reasons",
+      "background": "rail",
+      "cast": {"LEFT": "CHR008", "CENTER": "CHR009", "RIGHT": "CHR006"},
+      "lines": [
+        {"s": "N", "ko": "서른두 번째 바퀴에서 등로단은 퇴로조를 만났다. 네 사람은 선로 위에 둥글게 앉아 서로를 바라보고 있었다.", "en": "On the thirty-second lap, the Lamplighters found the retreat team. The four sat in a circle on the tracks, watching one another."},
+        {"s": "CHR008", "ko": "왔구나…… 다행이다. 다친 사람은 없어. 그런데, 이상한 게 있어.", "en": "You came… Thank goodness. No one's hurt. But something's wrong."},
+        {"s": "CHR009", "ko": "나, 왜 등로단에 들어왔지? 수문을 버틴 건 기억나. 그다음이…… 비어 있어.", "en": "Why did I join the Lamplighters? I remember holding the floodgate. After that… it's blank."},
+        {"s": "CHR006", "ko": "저번 바퀴엔 오르사가 그랬어. 한 바퀴마다 한 사람씩, 합류한 이유가 사라져.", "en": "Last lap it was Orsa. One person per lap loses their reason for joining."},
+        {"s": "CHR016", "ko": "이유를 잃은 사람이 대체 승객으로 지정됩니다. 남을 이유도, 떠날 이유도 없으니까요.", "en": "Whoever loses their reason is designated the substitute passenger. They have no reason to stay, and none to leave."},
+        {"s": "CHR003", "ko": "승차권 코어가 원환 중앙에 있어. 이유를 지워서 '남아도 되는 사람'을 만드는 거야.", "en": "The ticket core is at the center of the Circuit. It erases reasons to make someone 'fine to leave behind.'"},
+        {"s": "CHR022", "ko": "리브, 제 색인에 있어요! 침수 신호원, '늦은 구조라도 끝까지 전달한다.' 당신 말이에요!", "en": "Liv, it's in my index! The flooded signal station: 'Even a late rescue gets delivered to the end.' Your words!"},
+        {"s": "CHR009", "ko": "……늦은 구조라도. 그래. 그건 내 목소리가 맞네.", "en": "…Even a late rescue. Yes. That's my voice, all right."},
+        {"s": "CHR003", "ko": "그런데 코어가 지우는 속도가 색인이 받아 적는 속도보다 빨라. 다음 바퀴엔 우리 중 누군가야.", "en": "But the core erases faster than the index can record. Next lap, it'll be one of us."},
+        {"s": "CHR001", "ko": "그럼 이번 바퀴에 중앙까지 간다. 퇴로조도 같이. 한 명도 떨어지지 마.", "en": "Then we reach the center this lap. Retreat team with us. Nobody falls behind."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N14",
+      "title_ko": "손으로 쓴 기록", "title_en": "The Handwritten Record",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR016", "CENTER": "CHR024", "RIGHT": "CHR022"},
+      "lines": [
+        {"s": "N", "ko": "잔향체가 물러나자 모엔은 닳은 공책을 펼쳤다. 서른두 바퀴 동안 지워진 이유들이 연필로 빼곡히 적혀 있었다.", "en": "As the echoforms withdrew, Moen opened her worn notebook. Every reason erased over thirty-two laps was written there in dense pencil."},
+        {"s": "CHR024", "ko": "모엔이야. 원환 신호소 기록원이었어. 이곳을 도는 사람들의 이유를, 장치 대신 손으로 적어 왔어.", "en": "I'm Moen. I kept records at the Circuit's signal box. I've written down the reasons of everyone who circles here—by hand, not by machine."},
+        {"s": "CHR024", "ko": "이유를 되찾는 방법은 하나야. 자기 입으로 다시 말하는 것. 내가 적은 걸 읽어 줄게.", "en": "There's one way to get a reason back: say it again in your own voice. I'll read you what I wrote."},
+        {"s": "CHR016", "ko": "떠도는 좌표의 귀환을 책임진다. ……제 목소리로 들으니, 다시 무게가 생기는군요.", "en": "I take responsibility for bringing drifting coordinates home. …Hearing it in my own voice, it has weight again."},
+        {"s": "CHR022", "ko": "손 기록이라니, 기록관으로서 좀 질투 나네요. ……같이 써요, 모엔.", "en": "Handwritten records… as an archivist, I'm a little jealous. …Let's write together, Moen."},
+        {"s": "N", "ko": "항해 기록기에 열아홉 번째 빛이 새겨졌다. 연필 자국처럼 가늘고, 지워지지 않는 선이었다.", "en": "The nineteenth light etched itself into the recorder—thin as a pencil stroke, and impossible to erase."},
+        {"s": "CHR024", "ko": "나도 같이 갈게. 마지막 순간에, 누가 무엇을 골랐는지 봐 둘 사람이 필요하잖아.", "en": "I'll come with you. At the last moment, you'll need someone to witness who chose what."},
+        {"s": "CHR003", "ko": "열아홉. 하나 남았어. ……숫자를 세다가 손이 떨린 건 처음이야.", "en": "Nineteen. One left. …First time my hand has shaken while counting."},
+        {"s": "CHR001", "ko": "하나 남았다. 그 전에 여기서 아무도 잃지 않는다. 코어까지 간다.", "en": "One left. And before that, we lose no one here. On to the core."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N16",
+      "title_ko": "이유의 합창", "title_en": "A Chorus of Reasons",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR006", "CENTER": "CHR001", "RIGHT": "CHR024"},
+      "lines": [
+        {"s": "N", "ko": "원환 한가운데 야영 등불을 둥글게 놓자, 모엔이 공책을 덮었다. 이번엔 각자 자기 입으로 말할 차례였다.", "en": "They set the camp lanterns in a ring at the heart of the Circuit, and Moen closed her notebook. This time, each would speak in her own voice."},
+        {"s": "CHR006", "ko": "구조 신호를 사람들에게 돌려주려고. 한 바퀴 돈다고 지워질 이유가 아니야.", "en": "To give the rescue signals back to people. That's not a reason one lap can erase."},
+        {"s": "CHR009", "ko": "늦었어도 끝까지 전한다. 이번엔 내 입으로 말했으니까, 안 잊어.", "en": "Even late, I deliver to the end. I said it myself this time, so I won't forget."},
+        {"s": "N", "ko": "토아, 세온, 아델린, 키르, 티엘…… 한 사람씩 이유를 말할 때마다 원환의 선로가 조금씩 느려졌다.", "en": "Toa, Seon, Adeline, Kir, Tiel… With every reason spoken, the Circuit's rails slowed a little more."},
+        {"s": "CHR014", "ko": "아무도 혼자 판결을 짊어지지 않게! 몇 바퀴를 돌아도 이건 안 바뀌어!", "en": "So no one carries a verdict alone! However many laps, that doesn't change!"},
+        {"s": "CHR023", "ko": "마지막 포탄까지 시간을 산다. ……소리 내서 말하니까 좀 쑥스럽네.", "en": "I buy time down to the last shell. …Saying it out loud is a little embarrassing."},
+        {"s": "CHR024", "ko": "선택의 증인이 되려고. ……그런데 방금, 우리 말고 누가 대답했어.", "en": "To be a witness to choices. …But just now, someone other than us answered."},
+        {"s": "N", "ko": "원환 가장 깊은 선로에서 희미한 등불 하나가 깜박였다. 마에루가 품어 온 등불이 같은 박자로 떨렸다.", "en": "On the Circuit's deepest track, a faint lantern flickered. The lantern Maeru had carried trembled in the same rhythm."},
+        {"s": "SIO", "ko": "……여기 제7 승강장 구조조, 시오. 봉인 좌석 앞, 아직 버티는 중. 마에루, 들려?", "en": "…Platform Seven rescue team, Sio here. At the sealed seat, still holding. Maeru, can you hear me?"},
+        {"s": "SIO", "ko": "난 여기까지인 것 같아. 네 탓 아니야. 그 사람이 깨어나면 전해 줘. 이번엔 같이 고르라고.", "en": "I think this is as far as I go. It's not your fault. When they wake up, tell them: choose together this time."},
+        {"choice": [
+          {"key": "CH19_CHOICE_PROMISE", "flag": "CH19_PROMISE_SIO", "ko": "약속한다", "en": "Promise", "reply": [
+            {"s": "CHR001", "ko": "……들었어, 시오? 약속이래. 이번엔 같이 고른대.", "en": "…Did you hear, Sio? A promise. This time, we choose together."}
+          ]},
+          {"key": "CH19_CHOICE_THANK", "flag": "CH19_THANK_SIO", "ko": "고맙다고 전한다", "en": "Thank her", "reply": [
+            {"s": "CHR001", "ko": "……고맙대, 시오. 열두 해 늦었지만, 네가 지킨 사람이 직접 전했어.", "en": "…Thank you, Sio—from the one you protected. Twelve years late, but in person."}
+          ]}
+        ]},
+        {"s": "CHR001", "ko": "열두 해 동안 네 자리, 한 번도 안 치웠어. ……이제 기다리지 않아. 데려갈게.", "en": "For twelve years, I never cleared your seat. …I'm not waiting anymore. I'm taking you with me."},
+        {"s": "N", "ko": "기록이 끝나자 깊은 선로의 등불이 한 번 길게 빛나고 꺼졌다. 마에루의 품 안에서, 다른 등불이 따뜻해졌다.", "en": "When the record ended, the lantern on the deep track shone long once, then went out. In Maeru's arms, the other lantern grew warm."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "희생의 기본값", "title_en": "Sacrifice by Default",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR018", "CENTER": "CHR024", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "원환 중앙역의 개찰구 위로 거대한 승차권 한 장이 떠 있었다. 표면에 대원들의 이름이 번갈아 떠올랐다 사라졌다.", "en": "Above the gates of the Circuit's central station floated one enormous ticket. Crew names surfaced on it and vanished, one after another."},
+        {"s": "BOSS", "ko": "귀환 열차 승객께 알려 드립니다. 출발 조건을 확인합니다. 대체 승객 한 분이 필요합니다.", "en": "Passengers of the return train, please be advised. Verifying departure conditions. One substitute passenger is required."},
+        {"s": "BOSS", "ko": "희생 절차는 귀환의 기본값입니다. 한 분만 남으시면, 나머지 분들은 모두 돌아가실 수 있습니다.", "en": "The sacrifice procedure is the default for return. If just one of you remains, everyone else may go home."},
+        {"s": "CHR018", "ko": "또 그 소리. 하나 버리면 나머지는 산다. 계산은 쉬운데, 답이 틀렸어.", "en": "That again. Drop one, save the rest. Easy math, wrong answer."},
+        {"s": "CHR013", "ko": "누가 남을지 고르라면, 내가 남을게. ……라고 말하게 만드는 게 저놈 수법이지. 안 속아.", "en": "If someone has to stay, I'll stay. …That's exactly what it wants us to say. Not falling for it."},
+        {"s": "CHR024", "ko": "승차권 코드를 계속 적고 있었어. '희생'은 명령이 아니야. 초기 설정값이야.", "en": "I've been writing down the ticket's code. 'Sacrifice' isn't an order. It's a factory default."},
+        {"s": "CHR019", "ko": "기본값? 기본값은 바꾸라고 있는 거잖아! 설정 메뉴 어디 있어?", "en": "A default? Defaults exist to be changed! Where's the settings menu?"},
+        {"s": "BOSS", "ko": "설정 변경 권한이 없습니다. 기본값은 승객 여러분을 보호하기 위해 존재합니다.", "en": "You lack authority to change settings. The default exists to protect you, passengers."},
+        {"s": "CHR024", "ko": "권한은 여기 있어. 원환을 돈 사람들 누구도 남겠다고 고른 적 없어. 내가 전부 봤어.", "en": "The authority is right here. No one who circled this loop ever chose to stay. I saw every one of them."},
+        {"s": "CHR001", "ko": "등로단은 한 명도 두고 가지 않는다. 그게 우리 기본값이다.", "en": "The Lamplighters leave no one behind. That's our default."},
+        {"s": "CHR005", "ko": "표 한 장이면 과녁으로 충분하지. 아무도 대신 태우지 않아.", "en": "One ticket makes a fine target. Nobody rides in anyone's place."},
+        {"s": "CHR004", "ko": "승차권 개찰은 제가 할게요! 전류로 구멍 뻥뻥 뚫어 드릴게요!", "en": "I'll punch that ticket! With lightning, full of holes!"},
+        {"s": "N", "ko": "승차권의 이름들이 빠르게 돌기 시작했다. 다음에 지울 이름을 고르는 소리였다.", "en": "The names on the ticket began to spin faster. It was the sound of choosing the next name to erase."}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "전원 귀환", "title_en": "Everyone Returns",
+      "background": "rail",
+      "cast": {"LEFT": "CHR016", "CENTER": "CHR024", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "승차권이 찢어지자 원환의 선로가 처음으로 끝을 드러냈다. 끊긴 고리 너머로 곧게 뻗은 길이 보였다.", "en": "As the ticket tore, the Circuit's track revealed an end for the first time. Beyond the broken loop, a straight road stretched away."},
+        {"s": "CHR024", "ko": "기본값 변경. '희생 절차' 삭제, '전원 귀환' 입력. ……손으로 적었어. 이제 이게 원본이야.", "en": "Default changed. 'Sacrifice procedure' deleted. 'Everyone returns' entered. …Written by hand. This is the original now."},
+        {"s": "BOSS", "ko": "……열차가 비면 아무도 못 돌아오니까요. 누군가 남아야 돌아갈 수 있다고……", "en": "…An empty train can bring no one home. I believed someone had to stay for the rest to return…"},
+        {"s": "N", "ko": "누구도 남지 않았다. 마에루가 이름을 하나씩 불렀고, 모든 이름에 대답이 돌아왔다.", "en": "No one stayed behind. Maeru called the names one by one, and every name answered."},
+        {"s": "CHR016", "ko": "떠돌던 좌표가 전부 돌아왔습니다. 퇴로조, 귀환 완료.", "en": "Every drifting coordinate has come home. Retreat team, return complete."},
+        {"s": "CHR008", "ko": "다들 맥박 정상. ……오래 걸렸지만, 한 명도 빠짐없어.", "en": "Everyone's pulse is normal. …It took a while, but no one's missing."},
+        {"s": "N", "ko": "그때 끊긴 원환 너머 세계 곳곳에서 빛줄기가 솟았다. 지나온 열아홉 노선의 등불이 한 방향으로 흘렀다.", "en": "Then, beyond the broken Circuit, beams of light rose across the world. The lanterns of all nineteen lines they had crossed flowed in one direction."},
+        {"s": "CHR003", "ko": "빛의 흐름을 역산했어. 수렴점은 하나야. 대운행국 도면에 '마지막 등불'이라고 적힌 곳.", "en": "I traced the flow back. There's one convergence point. The place the Directorate's blueprints call 'the Last Lantern.'"},
+        {"s": "CHR022", "ko": "도서고 예약 문서의 종착 좌표랑 같아요. 종말선의 끝에, 마지막 등불이 있었어요.", "en": "Same as the terminus coordinates in the archive's scheduled order. At the end of the Last Line stood the Last Lantern."},
+        {"s": "CONTROL", "ko": "항해자님, 모든 노선의 빛이 모이고 있습니다. 준비가 끝나 가는군요.", "en": "Navigator, the light of every line is gathering. Preparations are nearly complete."},
+        {"s": "CONTROL", "ko": "마지막 등불 앞에서 기다리겠습니다. 열두 해 전처럼, 서명 한 줄만 부탁드립니다.", "en": "I will wait for you before the Last Lantern. Just one signature, as twelve years ago."},
+        {"s": "CHR024", "ko": "마지막 순간은 내가 볼게. 누가 무엇을 골랐는지, 끝까지 적을게.", "en": "I'll watch the final moment. Who chose what—I'll write it to the end."},
+        {"s": "CHR001", "ko": "마지막 등불로 간다. ……시오 등불도 같이 싣는다.", "en": "We go to the Last Lantern. …And Sio's lantern rides with us."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "원환의 이음매", "title_en": "The Seam of the Circuit",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR007", "CENTER": "CHR023", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "원환 선로가 맞물리는 이음매에서 쇠 갈리는 소리가 끝없이 울렸다. 고리가 스스로를 붙잡는 소리였다.", "en": "At the seam where the Circuit's rails met, the grinding of steel rang without end. It was the sound of the loop holding itself together."},
+        {"s": "CHR007", "ko": "이음매 간격이 매 바퀴 0.01밀리씩 벌어지고 있어. 여기가 제일 약한 곳이야.", "en": "The seam widens by a hundredth of a millimeter every lap. This is the weakest point."},
+        {"s": "CHR023", "ko": "약한 곳이면 포탄을 아낄 이유가 없지. 좌표만 줘.", "en": "Then there's no reason to save shells. Just give me coordinates."},
+        {"s": "CHR003", "ko": "잠깐. 이음매 근처에 생체 반응. 같은 사람이 바퀴마다 같은 자리에서 튀어나와.", "en": "Wait. Life sign near the seam. The same person pops out at the same spot every lap."},
+        {"s": "N", "ko": "이음매 틈에서 누군가 숨을 헐떡이며 굴러 나왔다가 원환에 끌려 사라졌다. 삼십 초 뒤, 같은 자리에서 또.", "en": "Someone tumbled out of the gap, gasping, then was dragged back into the loop. Thirty seconds later, the same spot, again."},
+        {"s": "CHR010", "ko": "다쳤어요. 매번 같은 곳을요. 다음에 나오면 꼭 붙잡아야 해요.", "en": "She's hurt. The same wound every time. When she comes out next, we have to catch her."},
+        {"s": "CHR002", "ko": "붙잡는 건 내 전문이지. 빠른 손이 필요하면 불러.", "en": "Catching is my specialty. Need fast hands? Call me."},
+        {"s": "CHR001", "ko": "다음 바퀴에 붙잡는다. 이음매 앞에 진을 쳐.", "en": "We catch her next lap. Set up in front of the seam."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "다음", "title_en": "Next",
+      "background": "rail",
+      "cast": {"LEFT": "CHR010", "CENTER": "CHR044", "RIGHT": "CHR001"},
+      "lines": [
+        {"s": "N", "ko": "우로보로스 선로가 이음매에서 끊어지자 고리였던 쇠가 길게 펴졌다. 처음으로 선로에 앞과 뒤가 생겼다.", "en": "When the Ouroboros Rail snapped at its seam, the steel that had been a loop stretched out long. For the first time, the track had a front and a back."},
+        {"s": "CHR003", "ko": "원환 반응 소멸. 이 선로는 이제 한 방향으로만 흘러.", "en": "Loop signature gone. This track only runs one way now."},
+        {"s": "CHR044", "ko": "……안 돌아와. 삼십 초가 지났는데, 출발점으로 안 돌아가.", "en": "…It's not pulling me back. Thirty seconds passed, and I'm not back at the start."},
+        {"s": "CHR010", "ko": "이제 괜찮아요. 숨 천천히 쉬어요. 여긴 한 번만 지나가는 길이에요.", "en": "You're all right now. Breathe slowly. This is a road you only walk once."},
+        {"s": "CHR044", "ko": "그럼…… 다음은? 다음엔 어디로 가? '다음'이란 말, 얼마 만에 해 보는지 모르겠어.", "en": "Then… what's next? Where do we go next? I can't remember the last time I said 'next.'"},
+        {"s": "CHR001", "ko": "다음은 우리가 가는 곳이다. 같이 가겠다면, 자리는 있다.", "en": "Next is wherever we're headed. If you want to come, there's a seat for you."},
+        {"s": "CHR044", "ko": "간다. 셀 필요 없는 길이라면, 어디든.", "en": "I'm coming. Anywhere, as long as I don't have to count."},
+        {"s": "N", "ko": "펴진 선로 끝에서 먼 등불의 빛이 흘러들었다. 벨크는 그 빛을 한참 바라보았다.", "en": "Light from a distant lantern spilled in from the end of the straightened track. Velk stared at it for a long time."},
+        {"s": "CHR024", "ko": "적어 둘게. 벨크, 첫 번째 '다음'. 오늘 날짜로.", "en": "I'll write it down. Velk, her first 'next.' Dated today."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR003", "ko": "선로 옆 신호소에 생체 반응. 잔향체가 몰려드는데 도망치지 않아. 뭔가 쓰고 있어.", "en": "Life sign in the signal box by the tracks. Echoforms are swarming, but she's not running. She's writing something."},
+      {"s": "CHR024", "ko": "……또 한 명 지워졌네. 적어 둘게. 누군가는 기억해야 하니까.", "en": "…Another one erased. I'll write it down. Someone has to remember."},
+      {"s": "CHR022", "ko": "손으로요? 종이에? 원환 안에선 종이 기록도 한 바퀴면 백지가 되는데요!", "en": "By hand? On paper? Inside the Circuit, paper records go blank in one lap!"},
+      {"s": "CHR024", "ko": "장치에 적으면 지워져. 내 손은 원환의 장치가 아니야. 그래서 남아.", "en": "Write it in a device and it's erased. My hand isn't part of the Circuit's machinery. So it stays."},
+      {"s": "CHR001", "ko": "등로단이다. 우리 동료들의 이유가 지워지고 있다.", "en": "We're the Lamplighters. Our companions' reasons are being erased."},
+      {"s": "CHR024", "ko": "알아. 다 적었어. 서른두 바퀴 전부. ……그런데 저것들이 공책을 노려.", "en": "I know. I wrote it all. All thirty-two laps. …But those things are after the notebook."},
+      {"s": "CHR014", "ko": "공책은 우리가 지킨다! 너는 계속 써!", "en": "We'll guard the notebook! You keep writing!"},
+      {"s": "CHR024", "ko": "……고마워. 그럼 이번 바퀴는, 당신들이 지킨 걸로 적을게.", "en": "…Thank you. Then this lap, I'll write that you protected it."}
+    ],
+    "WANDERER": [
+      {"s": "CHR003", "ko": "나왔다! 생체 반응 확인. 이번엔 원환이 못 끌고 가게 막아!", "en": "There! Life sign confirmed. Don't let the loop take her this time!"},
+      {"s": "CHR044", "ko": "다가오지 마! 또 너희야? 몇 번째지? 백…… 이백? 세다가 잊었어!", "en": "Stay back! You again? Which time is this? A hundred… two hundred? I lost count!"},
+      {"s": "CHR010", "ko": "처음이에요. 우린 처음 만나요. 다친 데부터 봐 줄게요.", "en": "It's the first time. We've never met. Let me see where you're hurt."},
+      {"s": "CHR044", "ko": "다들 처음이라고 했어! 그러다 한 바퀴 돌면 잔향체로 변했다고! 이번엔 안 속아!", "en": "They all said it was the first time! Then one lap later they turned into echoforms! Not this time!"},
+      {"s": "CHR001", "ko": "그럼 믿지 않아도 된다. 대신 이번 바퀴가 끝날 때까지 우리 뒤에 서.", "en": "Then don't trust us. Just stand behind us until this lap ends."},
+      {"s": "CHR044", "ko": "……싫어. 먼저 쳐야 살아. 너희가 진짜면, 쓰러지지 않겠지!", "en": "…No. Strike first, live longer. If you're real, you won't go down!"},
+      {"s": "CHR020", "ko": "좋아, 쳐 봐. 다 받아 줄게. 그러고 나서 같이 나가자.", "en": "All right, hit me. I'll take all of it. Then we get out of here together."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "대체 승객 지정 절차를 강제 집행합니다. 지정된 분은 좌석에서 일어나지 마십시오.", "en": "Enforcing substitute passenger designation. The designated passenger must remain seated."},
+      {"s": "CHR024", "ko": "지정해 봐. 그 사람의 이유는 내가 다시 읽어 줄 테니까.", "en": "Go ahead and designate someone. I'll read their reason back to them."},
+      {"s": "BOSS", "ko": "기록된 이유는 효력이 없습니다. 유효한 것은 승차권뿐입니다.", "en": "Recorded reasons have no validity. Only tickets are valid."},
+      {"s": "CHR001", "ko": "우리 표는 전원 왕복이다. 등로단, 돌파한다!", "en": "Our tickets are all round-trip. Lamplighters, break through!"}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "우로보로스 선로입니다. 본 열차는 기점과 종점이 같습니다. 영원히 운행합니다.", "en": "This is the Ouroboros Rail. This train's origin and terminus are the same. It runs forever."},
+      {"s": "CHR007", "ko": "기점과 종점이 같다면 이음매가 하나 있다는 뜻이야. 거기를 끊는다.", "en": "If origin and terminus are the same, there's a seam. We cut it there."},
+      {"s": "HBOSS", "ko": "끊긴 선로는 운행을 종료합니다. 안전을 위해 순환을 유지하십시오.", "en": "A severed track ends service. For your safety, please maintain the loop."},
+      {"s": "CHR023", "ko": "안전한 무한보다 위험한 다음이 낫지. 조준 끝.", "en": "A dangerous 'next' beats a safe forever. Aim locked."}
+    ],
+    "ANOMALY_1": [
+      {"s": "ENEMY", "ko": "회차 갱신. 이전 회차의 전투 기록은 무효 처리됩니다.", "en": "Lap renewed. Combat records from the previous lap are void."},
+      {"s": "CHR012", "ko": "무효는 네 방송이다. 우리 기록은 우리가 들고 있다.", "en": "The only thing void is your broadcast. We carry our own records."},
+      {"s": "CHR004", "ko": "몇 번을 갱신해도 결과는 똑같을걸요! 우리가 이겨요!", "en": "Renew it as often as you like—same result! We win!"}
+    ],
+    "ANOMALY_2": [
+      {"s": "ENEMY", "ko": "이유가 확인되지 않는 승객은 하차 대상입니다.", "en": "Passengers whose reasons cannot be verified are subject to removal."},
+      {"s": "CHR017", "ko": "이유는 심장이 압니다. 제 맥박은 한 번도 흐트러진 적 없습니다.", "en": "The heart knows the reason. My pulse has never once faltered."},
+      {"s": "CHR019", "ko": "하차 대상? 미안, 난 원래 무임승차 전문이라서.", "en": "Removal? Sorry, I'm a professional fare dodger."}
+    ],
+    "ANOMALY_3": [
+      {"s": "ENEMY", "ko": "이음매 보수 절차입니다. 틈에 있는 모든 것을 용접합니다.", "en": "Seam repair procedure. Everything in the gap will be welded."},
+      {"s": "CHR007", "ko": "용접 온도 상승 중. 반 박자 먼저 빠져.", "en": "Weld temperature rising. Get out half a beat early."},
+      {"s": "CHR023", "ko": "용접기보다 포탄이 빠르지. 엎드려.", "en": "A shell beats a welder. Get down."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "되살아나는 매복", "title_en": "The Ambush That Resets",
+     "lines": [
+       {"s": "N", "ko": "방금 쓰러뜨린 잔향체 무리가 같은 자리에서 다시 일어섰다. 원환이 한 바퀴를 돈 것이다.", "en": "The echoforms they had just cut down rose again in the same spot. The Circuit had completed a lap."},
+       {"s": "CHR002", "ko": "또야? 이놈들도 반복 재생이냐!", "en": "Again? These things are on repeat too?"},
+       {"s": "CHR015", "ko": "재등장 주기 58초. 지금 빠지면 다음 주기 전에 벗어날 수 있어.", "en": "Respawn cycle: fifty-eight seconds. Pull out now and we're clear before the next one."}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "다시 맞선다", "en": "Face them again"},
+                 {"outcome": "EVADE", "ko": "주기 사이로 빠져나간다", "en": "Slip out between cycles"}]},
+    {"kind": "DISTRESS", "title_ko": "같은 구조 요청", "title_en": "The Same Call for Help",
+     "lines": [
+       {"s": "N", "ko": "선로 옆 비상전화가 울렸다. 받을 때마다 같은 목소리가 같은 문장을 말했다.", "en": "An emergency phone by the tracks rang. Every time it was answered, the same voice said the same words."},
+       {"s": "SURVIVOR", "ko": "제발, 여기 한 명 더 있어요. 다음 바퀴엔 저도 이 말을 기억 못 할 거예요.", "en": "Please, there's one more of us here. Next lap, I won't even remember saying this."},
+       {"s": "CHR017", "ko": "심장 소리가 들립니다. 실제 사람입니다. 이번 바퀴 안에 닿아야 합니다.", "en": "I can hear a heartbeat. She's real. We have to reach her within this lap."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "이번 바퀴 안에 구조한다", "en": "Rescue her within this lap"},
+                 {"outcome": "RECORD", "ko": "전화 위치를 기록한다", "en": "Record the phone's location"}]},
+    {"kind": "STORM", "title_ko": "되감기는 폭풍", "title_en": "The Rewinding Storm",
+     "lines": [
+       {"s": "N", "ko": "잔광 폭풍이 불었다가 거꾸로 빨려 들어가고, 다시 불었다. 원환 안에서는 폭풍도 되감겼다.", "en": "The afterglow storm blew, got sucked backward, then blew again. Inside the Circuit, even storms rewound."},
+       {"s": "CHR005", "ko": "같은 폭풍을 두 번 맞는 건 처음이네. 두 번째는 좀 덜 아프려나.", "en": "First time I've been hit by the same storm twice. Maybe the second one hurts less."},
+       {"s": "CHR021", "ko": "덜 아프진 않아요. 쉬어 가요, 잠깐이라도.", "en": "It won't hurt less. Let's rest, even just for a moment."}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "폭풍이 되감길 때까지 대피한다", "en": "Shelter until the storm rewinds"},
+                 {"outcome": "PUSH", "ko": "되감기는 틈에 돌파한다", "en": "Break through while it rewinds"}]},
+    {"kind": "CACHE", "title_ko": "덧칠된 보급 상자", "title_en": "The Repainted Crate",
+     "lines": [
+       {"s": "N", "ko": "선로 옆 보급 상자에 등로단 표식이 수십 번 덧칠돼 있었다. 누군가 바퀴마다 같은 상자를 채워 두었다.", "en": "A supply crate by the tracks bore the Lamplighter mark painted over dozens of times. Someone had refilled the same crate every lap."},
+       {"s": "CHR020", "ko": "누군지 몰라도 성실한 사람이네. 고맙게 쓰자.", "en": "Whoever she was, she was diligent. Let's use it gratefully."}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "보급품을 회수한다", "en": "Recover the supplies"}]},
+    {"kind": "BANTER", "title_ko": "몇 바퀴째", "title_en": "Which Lap Is It?",
+     "lines": [
+       {"s": "CHR004", "ko": "나린 언니, 지금 몇 바퀴째예요? 저 세다가 까먹었어요!", "en": "Narin, which lap are we on? I lost count!"},
+       {"s": "CHR003", "ko": "서른네 바퀴. 너는 같은 질문을 스물여섯 번 했어.", "en": "Thirty-four. You've asked me that twenty-six times."},
+       {"s": "CHR004", "ko": "그럼 스물일곱 번째니까 특별히 한 번만 더 대답해 주세요!", "en": "Then this is the twenty-seventh, so answer just once more as a special treat!"}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep moving"}]},
+    {"kind": "ECHO", "title_ko": "귀환 열차 안내", "title_en": "Return Train Announcement",
+     "lines": [
+       {"s": "N", "ko": "원환의 폐역 스피커에서 대정전 이전의 출발 안내가 흘러나왔다. 녹음은 한 바퀴마다 조금씩 닳아 있었다.", "en": "A pre-Blackout departure announcement played from a speaker in a dead Circuit station. The recording wore a little thinner every lap."},
+       {"s": "ECHO", "ko": "귀환 열차가 출발합니다. 두고 가시는 분이 없는지, 옆자리를 확인해 주십시오.", "en": "The return train is departing. Please check the seat beside you, so that no one is left behind."},
+       {"s": "CHR001", "ko": "……옆자리를 확인하라. 원래는 그런 방송이었군.", "en": "…Check the seat beside you. So that's what it used to say."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+                 {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

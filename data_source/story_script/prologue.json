@@ -1,0 +1,40 @@
+{
+  "chapter_id": "PROLOGUE",
+  "scenes": [
+    {
+      "id": "PROLOGUE",
+      "trigger": "NEW_GAME",
+      "title_ko": "프롤로그 — 끊긴 등불",
+      "title_en": "Prologue — The Broken Light",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR002", "RIGHT": "CHR001"},
+      "lines": [
+        {"s": "N", "ko": "열두 해 전, 하늘의 빛이 꺼졌다. 사람들은 그날을 대정전이라 부른다.", "en": "Twelve years ago, the light in the sky went out. People call that day the Great Blackout."},
+        {"s": "N", "ko": "지상은 기억과 소리가 뭉쳐 휘몰아치는 잔광 폭풍에 잠겼다. 남은 도시들은 땅속 광맥 철로 하나로 서로를 붙들었다.", "en": "The surface drowned in afterglow storms of whirling memory and sound. The last cities held on to one another by a single mineral railway underground."},
+        {"s": "N", "ko": "철로를 따라 등불이 켜진 곳만이 안전했다. 꺼진 등불을 다시 켜는 사람들을, 우리는 등로단이라 불렀다.", "en": "Only stretches lit by lanterns along the rails were safe. We called the people who relight dead lanterns the Lamplighters."},
+        {"s": "N", "ko": "그리고 오늘, 등로단은 열두 해 만에 제7 승강장으로 돌아왔다.", "en": "And today, for the first time in twelve years, the Lamplighters returned to Platform Seven."},
+        {"s": "CHR002", "ko": "선로 상태 양호, 잔향체 반응 없음. ……이상할 만큼 조용하네.", "en": "Rails are clear, no echoform readings. …It's almost too quiet."},
+        {"s": "CHR003", "ko": "신호가 하나 살아 있어. 열차 안쪽이야. 열두 해 동안 한 번도 꺼지지 않았어.", "en": "One signal is alive. Inside the train. It hasn't gone dark once in twelve years."},
+        {"s": "CHR001", "ko": "……여기서 멈춘 사람이 있었지. 전원, 간격 유지. 천천히 간다.", "en": "…Someone stopped here, once. Everyone, keep your spacing. We go slow."},
+        {"s": "N", "ko": "멈춘 객차의 한 좌석에 누군가 잠들어 있었다. 손목의 기록 장치만이 심장처럼 깜박였다.", "en": "Someone slept in a seat of the stalled carriage. Only the recorder on their wrist blinked, like a heartbeat."},
+        {"s": "CHR004", "ko": "저, 저기요! 살아 있어요! 맥박이…… 아니, 기계가 대신 뛰고 있는 것 같은데요?", "en": "H-hey! They're alive! The pulse is… no, it's like the machine is beating for them?"},
+        {"s": "CONTROL", "ko": "기상 절차를 확인했습니다. 항해자님, 다시 뵙게 되어 영광입니다.", "en": "Wake procedure confirmed. Navigator, it is an honor to see you again."},
+        {"s": "CHR005", "ko": "……방금 그거, 대운행국 안내 방송이야? 저 스피커는 열두 해 전에 죽은 거 아니었어?", "en": "…Was that a Directorate announcement? Weren't those speakers dead twelve years ago?"},
+        {"s": "CHR001", "ko": "무기 내려. 방송은 나중에 따진다. 지금은 이 사람이 먼저야.", "en": "Lower your weapons. We deal with the broadcast later. This person comes first."},
+        {"s": "N", "ko": "잠든 이가 눈을 떴다. 기록 장치에 낯선 글자가 떠올랐다. 기록 항해자.", "en": "The sleeper opened their eyes. Strange letters surfaced on the recorder: Record Navigator."},
+        {"s": "CHR001", "ko": "들려? 우리는 등로단이다. 괜찮아, 천천히. 가장 먼저 뭘 하고 싶지?", "en": "Can you hear me? We're the Lamplighters. It's all right, slowly. What do you want to do first?"},
+        {"choice": [
+          {"key": "CHOICE_LIGHT", "flag": "CHOSE_LIGHT", "ko": "먼저 불빛을 확인한다", "en": "Check the light first", "reply": [
+            {"s": "CHR001", "ko": "좋아, 등불부터. 불이 있는 곳이 곧 길이야.", "en": "Good. Lanterns first. Where there's light, there's a road."}
+          ]},
+          {"key": "CHOICE_RECORD", "flag": "CHOSE_RECORD", "ko": "기록 장치를 확보한다", "en": "Secure the recorder", "reply": [
+            {"s": "CHR003", "ko": "그 장치, 예사 물건이 아니야. 지금도 주변 신호를 읽고 있어.", "en": "That device is no ordinary thing. It's reading the signals around us even now."}
+          ]}
+        ]},
+        {"s": "CHR002", "ko": "정찰로는 내가 연다. 신호가 살아나면 바로 따라와.", "en": "I'll clear the scouting route. Follow as soon as the signal comes alive."},
+        {"s": "N", "ko": "떠나기 전, 마에루는 빈 좌석 하나의 안전띠를 조용히 확인했다.", "en": "Before leaving, Maeru quietly checked the seatbelt of one empty seat."},
+        {"s": "CHR001", "ko": "전원 확인. ……출발.", "en": "All present. …Move out."}
+      ]
+    }
+  ]
+}

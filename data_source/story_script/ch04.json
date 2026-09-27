@@ -1,0 +1,285 @@
+{
+  "chapter_id": "CH04",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "물 밑의 구조 요청",
+      "title_en": "A Rescue Call Underwater",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR006", "CENTER": "CHR007", "RIGHT": "CHR004"},
+      "lines": [
+        {"s": "N", "ko": "선로가 검은 물속으로 내려가 있었다. 수면 아래 신호소의 붉은 등이 느린 맥박처럼 깜박였다.", "en": "The tracks ran down into black water. Beneath the surface, a signal box's red lamp blinked like a slow pulse."},
+        {"s": "SURVIVOR", "ko": "여기 아직 사람이 있어요. 여기 아직…… 사람이 있어요.", "en": "There are still people here. There are still… people here."},
+        {"s": "CHR006", "ko": "같은 문장, 같은 간격. 사십 초마다 한 번. 열두 해 동안 한 번도 빠지지 않았어.", "en": "Same sentence, same interval. Once every forty seconds. Not once missed in twelve years."},
+        {"s": "CHR004", "ko": "선로 끝에서 들었던 흉내랑 비슷해요. 이것도 잔향체예요?", "en": "It's like that mimicry at the end of the line. Is this an echoform too?"},
+        {"s": "CHR007", "ko": "아니. 잔향체 신호엔 표식이 없어. 이건 내 표식을 수신 경로로 쓰고 있어.", "en": "No. Echoform signals carry no marks. This one's using my mark as its reception path."},
+        {"s": "CHR003", "ko": "누군가 토아의 표식 열차를 중계기로 삼았다는 거네. 발신원은 저 물 밑이야.", "en": "So someone's turned Toa's marked train into a relay. The source is under that water."},
+        {"s": "CHR008", "ko": "물이 이렇게 차가운데…… 사람이 열두 해를 버틸 수 있을까.", "en": "Water this cold… could anyone survive twelve years in it?"},
+        {"s": "CHR006", "ko": "……그리고 호출 뒤에 숨소리가 없어. 사람 신호라면 숨을 쉬어야 하는데.", "en": "…And there's no breathing after the call. A human signal should breathe."},
+        {"s": "N", "ko": "수면이 떨렸다. 물속 스피커에서 올라온 목소리가 기포처럼 터졌다.", "en": "The water trembled. A voice rose from a submerged speaker and burst like bubbles."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 구조 요청이 접수되었습니다.", "en": "Attention, please. Your request for rescue has been received."},
+        {"s": "CONTROL", "ko": "구조대는 출발하지 않습니다. 승객 여러분께서는 물가에서 물러나 주십시오.", "en": "No rescue team will be dispatched. Passengers, please step back from the water's edge."},
+        {"s": "CHR002", "ko": "구조대가 출발하지 않는다고? 그거, 우리 들으라고 하는 소리지?", "en": "No rescue team? That's meant for our ears, isn't it?"},
+        {"s": "CHR001", "ko": "우리가 구조대다. 출발 여부는 우리가 정한다.", "en": "We are the rescue team. We decide whether we go."},
+        {"s": "CHR001", "ko": "이리, 저체온 대비해 줘. 로안은 물 빠진 선로를 찾아. 사람이 있다면, 오늘 닿는다.", "en": "Iri, prep for hypothermia. Roan, find a drained track. If anyone's down there, we reach them today."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "사십 초의 죄책감",
+      "title_en": "Forty Seconds of Guilt",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR007", "RIGHT": "CHR008"},
+      "lines": [
+        {"s": "N", "ko": "반쯤 잠긴 관제실에 콘솔 하나가 아직 켜져 있었다. 화면에 같은 문장이 끝없이 올라왔다.", "en": "In the half-flooded control room, one console was still on. The same sentence scrolled up its screen without end."},
+        {"s": "CHR003", "ko": "발신원은 이 콘솔이야. 사람이 아니라, 관제 기록이 스스로 호출을 재생하고 있어.", "en": "The source is this console. Not a person—the control log is replaying the call by itself."},
+        {"s": "CHR007", "ko": "로그를 열었어. 폐쇄 당일 기록. '수위 한계 초과. 구조대 파견 불가. 구조 포기.'", "en": "Log's open. Closure day entry: 'Water limit exceeded. Rescue dispatch impossible. Rescue abandoned.'"},
+        {"s": "CHR006", "ko": "그 뒤로 사십 초마다 마지막 수신 호출을 다시 틀고 있어. 열두 해 동안.", "en": "Since then, it's replayed the last call it received every forty seconds. For twelve years."},
+        {"s": "CHR008", "ko": "구조를 포기한 기록이, 포기한 목소리를 계속 듣고 있었던 거야. 벌받는 것처럼.", "en": "The log that gave up on rescue kept listening to the voice it gave up on. Like a punishment."},
+        {"s": "CHR004", "ko": "그럼 여기 사람은 없어요? 우리, 아무도 못 구하는 거예요?", "en": "So there's no one here? We can't save anyone?"},
+        {"s": "CHR005", "ko": "구하지 못한 걸 잊지 못하는 기계라. 웬만한 사람보다 사람 같네.", "en": "A machine that can't forget who it failed to save. More human than most people."},
+        {"s": "CHR002", "ko": "헛걸음이라고 하기엔…… 저 목소리, 너무 진짜 같았는데.", "en": "Calling this a wasted trip… That voice sounded so real, though."},
+        {"s": "CHR001", "ko": "헛걸음 아니다. 기록도 구조 대상이다.", "en": "It's not wasted. Records need rescuing too."},
+        {"s": "CHR001", "ko": "저 목소리의 주인이 어떻게 됐는지, 저 기록은 끝까지 알고 있을 거다. 물 밑까지 간다.", "en": "Whatever happened to the owner of that voice, this log knows to the end. We go all the way down."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N12",
+      "title_ko": "늦게 도착한 구조대",
+      "title_en": "The Rescuer Who Came Late",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR008", "CENTER": "CHR009", "RIGHT": "CHR001"},
+      "lines": [
+        {"s": "N", "ko": "수문 잠금이 걸리는 소리가 물속까지 울렸다. 리브는 그제야 문에서 손을 떼고 주저앉았다.", "en": "The clank of the floodgate lock rang through the water. Only then did Liv let go and sink to the floor."},
+        {"s": "CHR008", "ko": "팔 이리 줘. ……근육이 찢어지기 직전이야. 대체 얼마나 버틴 거야?", "en": "Give me your arm. …Your muscles are about to tear. How long did you hold that?"},
+        {"s": "CHR009", "ko": "하루? 사흘? 모르겠어. 이 문 뒤에 사람이 있을까 봐 손을 못 놓았어.", "en": "A day? Three? I don't know. I couldn't let go in case someone was behind that gate."},
+        {"s": "CHR009", "ko": "리브. 잠수 구조대였어. 열두 해 전, 이 신호원에 구조하러 왔었지. ……늦게.", "en": "Liv. Dive rescue. Twelve years ago, I came to this yard on a rescue. …Too late."},
+        {"s": "CHR009", "ko": "도착했을 땐 살아 있는 호출은 이미 끊긴 뒤였어. 그 뒤로 저 녹음만 남았지.", "en": "By the time I arrived, the live calls had already stopped. All that was left was that recording."},
+        {"s": "CHR009", "ko": "늦게 온 사람은 떠날 자격도 없는 것 같아서. 여기 남았어.", "en": "It felt like someone who came late had no right to leave. So I stayed."},
+        {"s": "CHR001", "ko": "늦었다고 멈추면, 그 사람들한테 가는 길도 멈춘다. 같이 가자, 리브.", "en": "If you stop because you were late, the road to those people stops too. Come with us, Liv."},
+        {"s": "CHR009", "ko": "……늦은 구조라도 끝까지 전할 거야. 이번엔, 도착하는 쪽이 되고 싶어.", "en": "…Even a late rescue, I'll see it through. This time, I want to be the one who arrives."},
+        {"s": "N", "ko": "항해 기록기가 네 번째로 빛났다. 물에 젖은 손목 위에서, 새 무늬는 이상하리만치 따뜻했다.", "en": "The recorder glowed for the fourth time. On a soaked wrist, the new mark was strangely warm."},
+        {"s": "CHR003", "ko": "넷. 공통점이 보이기 시작했어. ……아직 확신은 없지만.", "en": "Four. A pattern's starting to show. …I'm not sure yet, though."},
+        {"s": "CHR009", "ko": "조수 전환장이 아래에 있어. 수위를 올려서 기록을 가라앉히려 해. 가자.", "en": "The Tidal Switchmaster is below. It's raising the water to sink the records. Let's go."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N14",
+      "title_ko": "젖은 장비를 말리며",
+      "title_en": "Drying the Gear",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR009", "CENTER": "CHR001", "RIGHT": "CHR007"},
+      "lines": [
+        {"s": "N", "ko": "불 위에 젖은 잠수복들이 걸렸다. 물비린내와 탄내가 섞여 신호원의 밤을 채웠다.", "en": "Wet diving suits hung over the fire. The smell of brine and smoke filled the signal yard's night."},
+        {"s": "CHR009", "ko": "단장. 아까 물 밑에서 나보다 먼저 뛰어들었지. 지휘관이 할 짓은 아니야.", "en": "Chief. Down there, you dove in ahead of me. That's no job for a commander."},
+        {"s": "CHR001", "ko": "……늦는 건 한 번이면 충분하다고 생각했다.", "en": "…I figured being late once was enough."},
+        {"s": "CHR009", "ko": "한 번? 당신도 늦은 적이 있어?", "en": "Once? You've been late too?"},
+        {"s": "CHR001", "ko": "그 구조 작전 때. 무너지는 승강장에서, 나는 시오 없이 열차에 올랐어.", "en": "That rescue operation. On a collapsing platform, I boarded the train without Sio."},
+        {"s": "CHR001", "ko": "그 밤 일은 아직 다 꺼내지 못하겠어. 남은 건 빈 좌석 하나뿐이다.", "en": "I can't bring all of that night out yet. What's left is one empty seat."},
+        {"s": "CHR009", "ko": "……우린 둘 다 늦게 도착한 사람이네.", "en": "…So we're both people who arrived too late."},
+        {"s": "CHR001", "ko": "그래서 이번엔 늦지 않으려는 거다. 너도, 나도.", "en": "Which is why this time, we won't be. Neither of us."},
+        {"choice": [
+          {"key": "CH04_CHOICE_SIT_BETWEEN", "flag": "CH04_CAMP_SIT_BETWEEN", "ko": "두 사람 사이에 앉는다", "en": "Sit between them", "reply": [
+            {"s": "CHR009", "ko": "……이상하네. 옆에 누가 있으니까 물 밑 생각이 좀 덜 나.", "en": "…Funny. With someone beside me, I think about the water less."}
+          ]},
+          {"key": "CH04_CHOICE_BLANKET", "flag": "CH04_CAMP_BLANKET", "ko": "마른 담요를 건넨다", "en": "Hand them a dry blanket", "reply": [
+            {"s": "CHR001", "ko": "고맙다. ……따뜻하군. 오랜만에.", "en": "Thanks. …It's warm. It's been a while."}
+          ]}
+        ]},
+        {"s": "CHR007", "ko": "다들 잠깐. 전환장 수위가 밤새 오르고 있어. 기록 보관층부터 잠길 거야.", "en": "Everyone, a moment. The switchyard water level's been rising all night. The records floor goes under first."},
+        {"s": "CHR009", "ko": "그럼 새벽 전에 내려간다. 이번엔 늦지 않아.", "en": "Then we go down before dawn. This time, we won't be late."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "수위 상승 절차",
+      "title_en": "Rising Water Procedure",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR009", "CENTER": "CHR007", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "최하층 전환장은 거대한 수문 톱니로 가득했다. 톱니가 돌 때마다 물이 한 뼘씩 차올랐다.", "en": "The lowest switchyard was full of giant floodgate gears. With every turn, the water rose another hand's breadth."},
+        {"s": "CHR007", "ko": "수위 상승 분당 이 센티미터. 기록 보관실까지 십이 분.", "en": "Water rising two centimeters a minute. Twelve minutes until the records room."},
+        {"s": "CHR006", "ko": "보관실 안에 구조 기록 사백여 건. 호출한 사람, 받은 시각, 끝내 못 간 이유까지 전부.", "en": "Over four hundred rescue records in there. Who called, when it was received, why no one went—all of it."},
+        {"s": "N", "ko": "톱니 한가운데서 전환장이 몸을 일으켰다. 녹슨 전철기 팔들이 일제히 방향을 틀었다.", "en": "In the middle of the gears, the Switchmaster rose. Its rusted switch-arms all swung at once."},
+        {"s": "BOSS", "ko": "수위 상승 절차를 개시합니다. 기록이 잠기면 후회도 잠깁니다.", "en": "Commencing water-level rise procedure. When the records sink, so does regret."},
+        {"s": "BOSS", "ko": "구하지 못한 목소리는 더 이상 재생되지 않습니다. 모두에게 이로운 조치입니다.", "en": "Voices that could not be saved will no longer be played. This measure benefits everyone."},
+        {"s": "CHR009", "ko": "후회를 잠그겠다고? 그 기록 안에는 사람들이 있어. 이름이, 마지막 말이 있다고!", "en": "Drown the regret? There are people in those records. Names. Last words!"},
+        {"s": "CHR008", "ko": "잊으면 편해지겠지. 그래도 그건 치료가 아니야. 상처를 물에 묻는 거지.", "en": "Forgetting would be easier. But that's not healing. That's burying a wound underwater."},
+        {"s": "CHR004", "ko": "제가 과충전하면 물이 끓을까요? ……안 되겠죠. 그냥 부술게요!", "en": "If I overcharge, will the water boil? …Probably not. I'll just smash it!"},
+        {"s": "CHR005", "ko": "톱니가 몇 개든 축은 하나야. 거기만 맞히면 돼.", "en": "However many gears, there's only one axle. Hit that and we're done."},
+        {"s": "BOSS", "ko": "구조대 여러분은 퇴장해 주십시오. 이곳은 이미 포기된 구역입니다.", "en": "Rescue personnel, please exit. This area has already been abandoned."},
+        {"s": "CHR009", "ko": "포기는 열두 해 전 한 번으로 충분해. 이번엔 끝까지 간다.", "en": "Giving up once, twelve years ago, was enough. This time we go all the way."},
+        {"choice": [
+          {"key": "CH04_CHOICE_BESIDE_LIV", "flag": "CH04_PREBOSS_BESIDE_LIV", "ko": "리브 곁에 선다", "en": "Stand beside Liv", "reply": [
+            {"s": "CHR009", "ko": "……좋아. 이번엔 혼자 버티지 않아도 되네.", "en": "…Good. This time I don't have to hold on alone."}
+          ]},
+          {"key": "CH04_CHOICE_RECORDS_ROOM", "flag": "CH04_PREBOSS_RECORDS_ROOM", "ko": "보관실 쪽을 가리킨다", "en": "Point toward the records room", "reply": [
+            {"s": "CHR007", "ko": "보관실 수문, 내가 열게. 기록은 우리가 지킨다.", "en": "I'll open the records room gate. We'll protect the records."}
+          ]}
+        ]},
+        {"s": "CHR001", "ko": "십이 분이다. 기록이 잠기기 전에 끝낸다. 물속이라도 늦지 마라.", "en": "Twelve minutes. We finish before the records go under. Water or not—don't be late."}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "끝까지 전할 기록",
+      "title_en": "Records to Deliver",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR008", "CENTER": "CHR009", "RIGHT": "CHR007"},
+      "lines": [
+        {"s": "N", "ko": "전환장의 톱니가 멈추자 물이 천천히 빠져나갔다. 젖은 기록 상자들이 하나씩 모습을 드러냈다.", "en": "When the Switchmaster's gears stopped, the water slowly drained. Soaked record crates surfaced one by one."},
+        {"s": "BOSS", "ko": "……구하지 못한 목소리를 계속 듣는 건…… 너무…… 아파서……", "en": "…To keep hearing voices I couldn't save… it was… too painful…"},
+        {"s": "CHR008", "ko": "아팠구나. 그래서 전부 가라앉히려 했던 거야. ……아픈 걸 아는 기계였네.", "en": "It hurt. That's why it tried to sink it all. …A machine that knew pain."},
+        {"s": "CHR007", "ko": "구조 기록 복원 중. 사백십이 건. 호출마다 마지막 수신처가 붙어 있어.", "en": "Restoring rescue records. Four hundred twelve. Every call has a final forwarding address."},
+        {"s": "CHR003", "ko": "마지막 수신처…… 회백도시 봉쇄 관제소. 원래는 거기로 넘어갔어야 할 기록들이야.", "en": "Final destination… the Ashen City blockade control. These should have been forwarded there."},
+        {"s": "CHR009", "ko": "그럼 내가 가져간다. 늦었어도 전한다. 받을 사람이 아무도 없더라도, 끝까지.", "en": "Then I'll carry them. Late or not, I'll deliver. Even if no one's left to receive them—to the very end."},
+        {"s": "N", "ko": "리브는 젖은 기록 상자를 등에 졌다. 물 밑의 붉은 등이 그제야 꺼졌다.", "en": "Liv shouldered the wet record crates. Only then did the red lamp under the water go out."},
+        {"s": "CHR004", "ko": "……호출이 멈췄어요. 이제 조용하네요.", "en": "…The call stopped. It's quiet now."},
+        {"s": "CHR001", "ko": "저 목소리는 이제 기다리지 않아도 된다. 우리가 데려가니까.", "en": "That voice doesn't have to wait anymore. We're taking it with us."},
+        {"s": "CONTROL", "ko": "제4 노선 정리를 확인했습니다.", "en": "Line Four has been cleared."},
+        {"s": "CONTROL", "ko": "다음 역은 회백도시입니다. 봉쇄 구역이오니, 항해자님께서는 부디 기억을 조심하십시오.", "en": "The next stop is the Ashen City. As it is a sealed zone, Navigator, please be careful with your memories."},
+        {"s": "CHR002", "ko": "기억을 조심하라니…… 저건 경고야, 협박이야?", "en": "'Careful with your memories'… Is that a warning, or a threat?"},
+        {"s": "CHR005", "ko": "둘 다겠지. 그러니까 더 가 봐야 하고.", "en": "Both, probably. Which is exactly why we have to go."},
+        {"s": "CHR009", "ko": "봉쇄 관제소라면 문이 닫혀 있겠지. 두드려서라도 전할 거야.", "en": "If it's blockade control, the doors will be shut. I'll knock until they open."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "오지 마시오",
+      "title_en": "Do Not Approach",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR009", "CENTER": "CHR007", "RIGHT": "CHR006"},
+      "lines": [
+        {"s": "N", "ko": "심해 수문 아래로 더 깊은 갱도가 이어졌다. 물빛 속에서 신호기 하나가 느리게 깜박였다.", "en": "Beneath the deep floodgate, a deeper shaft continued. In the watery light, a single semaphore blinked slowly."},
+        {"s": "CHR007", "ko": "깜박임 해독. 짧게 셋, 길게 셋. '오지 마시오.' 계속 같은 말이야.", "en": "Decoding the blinks. Three short, three long. 'Do not approach.' Over and over."},
+        {"s": "CHR009", "ko": "……구조대가 제일 싫어하는 신호야. 오지 말라는 곳엔 늘 누가 있었거든.", "en": "…That's the signal rescuers hate most. Wherever it says don't come, someone's always there."},
+        {"s": "CHR006", "ko": "신호기 근처에 생체 반응 하나. 호흡이 아주 느려. 물속에서 오래 버티는 호흡이야.", "en": "One life sign near the semaphore. Very slow breathing. The kind for holding out underwater."},
+        {"s": "CHR008", "ko": "잠수 호흡이네. 의무관들이 쓰는 방식이야. 누군가 저 아래서 일하고 있어.", "en": "That's dive breathing. Medics use it. Someone's working down there."},
+        {"s": "CHR004", "ko": "오지 말라는데 사람이 있다니. 그럼 가야죠!", "en": "It says don't come, but someone's there? Then we have to go!"},
+        {"s": "CHR001", "ko": "오지 말라는 신호를 넘는다. 리브, 앞장서. 물속은 네가 제일 잘 안다.", "en": "We cross the 'do not approach.' Liv, take point. You know the water best."},
+        {"s": "CHR009", "ko": "맡겨. 이번엔 제일 먼저 도착할게.", "en": "Leave it to me. This time, I'll be first to arrive."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "돌아와도 됩니다",
+      "title_en": "You May Return",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR008", "CENTER": "CHR029", "RIGHT": "CHR009"},
+      "lines": [
+        {"s": "N", "ko": "심연 신호기의 빛이 잦아들었다. 물속이 잠깐, 완전한 어둠에 잠겼다.", "en": "The Abyssal Semaphore's light faded. For a moment, the water sank into total darkness."},
+        {"s": "HBOSS", "ko": "……오지 마십시오…… 여기 오면…… 다시는 못 돌아가니까……", "en": "…Do not come… if you come here… you can never go back…"},
+        {"s": "CHR029", "ko": "……역시. 쫓아내려던 게 아니었네요. 지키려던 거였어요.", "en": "…I knew it. It wasn't trying to drive anyone away. It was trying to protect them."},
+        {"s": "CHR007", "ko": "회로는 살아 있어. 깜박임 패턴을 새로 쓸 수 있어. 무슨 말로 바꿀까?", "en": "The circuits still work. I can rewrite the blink pattern. What should it say?"},
+        {"s": "CHR009", "ko": "'돌아와도 됩니다.' ……구조대가 제일 하고 싶었던 말이야.", "en": "'You may return.' …The words every rescuer most wanted to say."},
+        {"s": "N", "ko": "신호기가 다시 켜졌다. 짧게 둘, 길게 하나. 부드러운 빛이 물을 타고 수면 위까지 번졌다.", "en": "The semaphore lit again. Two short, one long. Its gentle light spread through the water to the surface."},
+        {"s": "CHR029", "ko": "……예뻐요. 이 신호라면, 다들 숨 크게 쉬고 올라올 수 있겠어요.", "en": "…It's beautiful. With this signal, everyone can take a deep breath and come up."},
+        {"s": "CHR029", "ko": "저도…… 같이 가도 될까요. 천천히, 따라갈게요.", "en": "Could I… come with you? I'll follow, slowly."},
+        {"s": "CHR008", "ko": "천천히 와도 돼. 우리 중엔 너무 빠른 사람이 많으니까, 너 같은 사람이 꼭 필요해.", "en": "Slow is fine. We have too many fast ones anyway. You'll balance us out."},
+        {"s": "CHR001", "ko": "환영한다, 메린. 물 위에서 보자.", "en": "Welcome, Merin. We'll see you on the surface."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR007", "ko": "수문 앞에 사람. 열리려는 문을 몸으로 막고 있어. 저 수압이면…… 말이 안 돼.", "en": "Someone at the floodgate. Holding a gate shut with her body. Against that pressure… impossible."},
+      {"s": "CHR009", "ko": "가까이 오지 마! 손 놓으면 다 잠겨!", "en": "Stay back! If I let go, everything floods!"},
+      {"s": "CHR001", "ko": "등로단이다. 도우러 왔다. 무엇부터 하면 되지?", "en": "Lamplighters. We're here to help. What do you need first?"},
+      {"s": "CHR009", "ko": "도우러? ……좋아. 싸우는 건 당신들이 해. 난 이 문을 못 놓아.", "en": "Help? …Fine. You do the fighting. I can't let go of this gate."},
+      {"s": "CHR009", "ko": "잔향체가 수문 제어판을 노려. 제어판이 깨지면 아래 구역 전부 물에 잠겨.", "en": "The echoforms are after the gate controls. If those break, everything below goes under."},
+      {"s": "CHR004", "ko": "혼자서 얼마나 버티신 거예요? 팔이 떨리잖아요!", "en": "How long have you been holding on alone? Your arms are shaking!"},
+      {"s": "CHR009", "ko": "셀 수 있을 만큼은 아니야. 말은 나중에. 빨리!", "en": "Longer than I can count. Talk later. Hurry!"},
+      {"s": "CHR002", "ko": "명령 받았다. 제어판까진 한 놈도 못 가게 할게.", "en": "Orders received. Not one of them gets near those controls."}
+    ],
+    "WANDERER": [
+      {"s": "CHR006", "ko": "물속에서 누가 올라와. 잠수복에…… 의무 표식이 있어.", "en": "Someone's surfacing. Diving suit… with a medical insignia."},
+      {"s": "CHR029", "ko": "……쉿. 천천히요. 여기선…… 빨리 움직이면, 숨이 먼저 떨어져요.", "en": "…Shh. Slowly. Down here… move too fast, and your breath runs out first."},
+      {"s": "CHR008", "ko": "의무관이야? 우리도 의무관이 있어. 부상자가 있으면……", "en": "You're a medic? We have one too. If anyone's hurt…"},
+      {"s": "CHR029", "ko": "……메린이에요. 부상자는, 제가 돌봐요. 그런데 당신들…… 신호기를 멈추러 왔죠.", "en": "…I'm Merin. I look after the wounded. But you… came to stop the semaphore, didn't you?"},
+      {"s": "CHR029", "ko": "그 신호가…… 사람들을 물 밖에 붙잡아 둬요. 멈추면…… 다들 다시 내려올지도 몰라요.", "en": "That signal… keeps people out of the water. If it stops… they might all come back down."},
+      {"s": "CHR001", "ko": "오지 말라는 말만으로는 아무도 지키지 못한다. 보여 주지.", "en": "'Do not approach' alone protects no one. We'll show you."},
+      {"s": "CHR004", "ko": "숨 참고 싸우는 건 처음인데요?!", "en": "I've never fought holding my breath before!"},
+      {"s": "CHR029", "ko": "……그럼, 증명해 주세요. 천천히, 숨 참고…… 시작해요.", "en": "…Then prove it. Slowly, hold your breath… begin."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "수문 전환 중입니다. 기록 보관실을 수몰 구역으로 지정합니다.", "en": "Switching floodgates. The records room is now designated a submersion zone."},
+      {"s": "CHR009", "ko": "그 문은 안 잠겨. 이번엔 내가 열 거니까.", "en": "That gate isn't closing. This time, I'm the one opening it."},
+      {"s": "BOSS", "ko": "구조 활동은 허가되지 않았습니다.", "en": "Rescue operations are not authorized."},
+      {"s": "CHR001", "ko": "허가는 우리가 한다. 등로단, 돌입!", "en": "We authorize ourselves. Lamplighters, go!"}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "경고. 이 구역에 접근하지 마십시오. 경고. 오지 마십시오.", "en": "Warning. Do not approach this area. Warning. Do not come."},
+      {"s": "CHR007", "ko": "열두 해 동안 한 문장만 깜박였어. 다른 말은 잊어버린 거야.", "en": "It's blinked one sentence for twelve years. It's forgotten every other word."},
+      {"s": "HBOSS", "ko": "접근자를 확인했습니다. 경고 강도를 최대로 올립니다.", "en": "Intruders detected. Raising warning intensity to maximum."},
+      {"s": "CHR009", "ko": "경고는 충분히 들었어. 이번엔 우리가 대답할 차례야.", "en": "We've heard enough warnings. Now it's our turn to answer."}
+    ],
+    "ANOMALY_1": [
+      {"s": "CHR007", "ko": "수면 아래 이상 개체. 신호 표식을 갉아 먹으면서 올라와.", "en": "Anomaly under the surface. It's coming up, gnawing on signal marks."},
+      {"s": "ENEMY", "ko": "수신 경로 확보. 수신 경로 확보. 호출을…… 삼킵니다.", "en": "Reception path secured. Reception path secured. Swallowing… the call."},
+      {"s": "CHR007", "ko": "내 표식이야. 먹이로 줄 생각은 없어.", "en": "That's my mark. I'm not feeding it to you."}
+    ],
+    "ANOMALY_2": [
+      {"s": "CHR008", "ko": "저기, 물에 떠 있는 잔향체…… 구명조끼를 입고 있어.", "en": "There—an echoform floating in the water… wearing a life vest."},
+      {"s": "ENEMY", "ko": "구조대는 출발하지 않습니다. 구조대는 출발하지 않습니다.", "en": "No rescue team will be dispatched. No rescue team will be dispatched."},
+      {"s": "CHR004", "ko": "출발했거든요! 여기 도착했거든요!", "en": "We did dispatch! We're right here!"}
+    ],
+    "ANOMALY_3": [
+      {"s": "CHR006", "ko": "심해 구역 입구야. 물살 속에 신호를 끊는 개체가 있어.", "en": "The entrance to the deep zone. Something in the current is cutting our signals."},
+      {"s": "ENEMY", "ko": "……돌아가십시오. 돌아가…… 십시오.", "en": "…Turn back. Turn… back."},
+      {"s": "CHR005", "ko": "돌아가라는 말은 오늘 충분히 들었어. 대답은 포탄으로 할게.", "en": "Heard enough 'turn back' for one day. I'll answer with a shell."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "미끄러운 선로", "title_en": "Slippery Rails",
+     "lines": [
+       {"s": "N", "ko": "물이 빠진 선로 위로 잔향체들이 기어 올라왔다. 발밑이 미끄러웠다.", "en": "Echoforms crawled up onto the drained tracks. The footing was slick."},
+       {"s": "CHR002", "ko": "미끄러운 데서 싸우는 건 취향이 아닌데. 치고 나갈래, 돌아갈래?", "en": "Fighting on slick ground isn't my style. Charge through, or go around?"}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "교전한다", "en": "Engage"},
+                 {"outcome": "EVADE", "ko": "우회한다", "en": "Detour"}]},
+    {"kind": "DISTRESS", "title_ko": "새로 찍힌 손자국", "title_en": "A Fresh Handprint",
+     "lines": [
+       {"s": "N", "ko": "잠긴 객차 창에 손바닥 자국이 새로 찍혀 있었다. 안에서 물을 퍼내는 소리가 났다.", "en": "A fresh handprint marked the window of a flooded carriage. From inside came the sound of bailing water."},
+       {"s": "SURVIVOR", "ko": "누구 있어요? 공기가…… 조금밖에 안 남았어요.", "en": "Is anyone there? There's… not much air left."},
+       {"s": "CHR008", "ko": "진짜 호흡이야. 빨라. 서두르자.", "en": "That's real breathing. Fast. Let's hurry."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "구조한다", "en": "Rescue her"},
+                 {"outcome": "RECORD", "ko": "좌표를 기록한다", "en": "Log the coordinates"}]},
+    {"kind": "STORM", "title_ko": "물보라 폭풍", "title_en": "Spray Storm",
+     "lines": [
+       {"s": "N", "ko": "수면 위로 잔광 폭풍이 불었다. 물보라에 섞인 기억이 피부에 차갑게 달라붙었다.", "en": "An afterglow storm blew across the water. Memories mixed in the spray clung cold to their skin."},
+       {"s": "CHR003", "ko": "물보라가 신호를 끊고 있어. 버티면 통신 두절, 피하면 시간 손실.", "en": "The spray is cutting our signals. Push on and we lose comms; take cover and we lose time."}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "대피한다", "en": "Take shelter"},
+                 {"outcome": "PUSH", "ko": "돌파한다", "en": "Push through"}]},
+    {"kind": "CACHE", "title_ko": "늦어도 괜찮아", "title_en": "It's Okay to Be Late",
+     "lines": [
+       {"s": "N", "ko": "방수 상자가 신호 기둥에 묶여 있었다. 뚜껑에 '다음 구조대에게. 늦어도 괜찮아.'라고 적혀 있었다.", "en": "A waterproof case was tied to a signal post. On the lid: 'To the next rescue team. It's okay to be late.'"},
+       {"s": "CHR006", "ko": "……늦어도 괜찮대. 누가 쓴 걸까.", "en": "…'It's okay to be late.' I wonder who wrote that."}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "회수한다", "en": "Take it"}]},
+    {"kind": "BANTER", "title_ko": "반올림", "title_en": "Rounding",
+     "lines": [
+       {"s": "CHR007", "ko": "나린, 네 계산식 셋째 줄. 반올림을 너무 일찍 했어.", "en": "Narin, third line of your calculation. You rounded too early."},
+       {"s": "CHR003", "ko": "……맞네. 고마워. 너랑 일하면 틀릴 틈이 없어.", "en": "…You're right. Thanks. Working with you, there's no room for mistakes."},
+       {"s": "CHR007", "ko": "틈은 있어. 반 박자 정도.", "en": "There's room. About half a beat."}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep moving"}]},
+    {"kind": "ECHO", "title_ko": "다음 근무자에게", "title_en": "To the Next Shift",
+     "lines": [
+       {"s": "N", "ko": "잠긴 관제실 스피커에서 녹음 하나가 흘렀다. 폐쇄 직전, 교대 근무자의 목소리였다.", "en": "A recording played from a speaker in the flooded control room. The voice of a shift worker, just before the closure."},
+       {"s": "ECHO", "ko": "다음 근무자에게. 구조대가 오면 문을 열어 주세요. 꼭 올 거예요.", "en": "To the next shift. When the rescue team comes, open the door for them. They will come."},
+       {"s": "CHR005", "ko": "……왔어. 좀 늦었지만.", "en": "…They came. A little late, but they came."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+                 {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

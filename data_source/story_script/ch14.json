@@ -1,0 +1,275 @@
+{
+  "chapter_id": "CH14",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "하늘로 떨어지는 수도",
+      "title_en": "The Capital Falling Skyward",
+      "background": "rail",
+      "cast": {"LEFT": "CHR002", "CENTER": "CHR003", "RIGHT": "CHR018"},
+      "lines": [
+        {"s": "N", "ko": "수도의 하늘은 발아래에 있었다. 부서진 고층 건물들이 소리 없이 구름 쪽으로 떨어지고 있었다.", "en": "The capital's sky lay beneath their feet. Shattered towers fell soundlessly toward the clouds."},
+        {"s": "CHR002", "ko": "위로 떨어지는 건물은 처음 보네. ……아니, 우리가 거꾸로 서 있는 건가?", "en": "First time I've seen a building fall up. …Wait, are we the ones upside down?"},
+        {"s": "CHR003", "ko": "둘 다야. 구역마다 중력 방향이 달라. 세 걸음마다 '아래'가 바뀌어.", "en": "Both. Gravity points a different way in every district. 'Down' changes every three steps."},
+        {"s": "CHR018", "ko": "발 헛디디면 하늘로 추락한다는 거지. 간단하네. 헛디디지 마.", "en": "So one misstep and you fall into the sky. Simple. Don't misstep."},
+        {"s": "CHR004", "ko": "열차가 구름 사이를 거꾸로 달려요! 저 안에 사람 있는 거 맞죠?", "en": "There's a train running upside down through the clouds! There are people in it, right?"},
+        {"s": "CHR006", "ko": "수도 인구 기록 삼만. 살아 있는 신호는 그 절반. 순환선 열두 역에 흩어져 있어.", "en": "Capital population on record: thirty thousand. Living signals: half that. Scattered across the loop's twelve stations."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 수도는 외부 노선과 영구 격리됩니다. 승객 여러분은 현 위치를 유지하십시오.", "en": "Attention, please. The capital is now permanently isolated from all outside lines. Passengers, remain where you are."},
+        {"s": "CHR014", "ko": "영구 격리? 판결도 없이 도시 하나를 통째로 가둬?", "en": "Permanent isolation? Locking up an entire city without so much as a verdict?"},
+        {"s": "CHR012", "ko": "격리 명령의 발신지는 수도 중심. 대운행국 본청이다.", "en": "The isolation order originates at the city's center. Directorate Headquarters."},
+        {"s": "CHR001", "ko": "……본청. 모든 절차가 시작된 곳이군.", "en": "…Headquarters. Where every procedure began."},
+        {"s": "N", "ko": "뒤집힌 하늘 한가운데로 빛의 선 하나가 곧게 뻗어 있었다. 멀리 보이는 선로가 모두 그쪽으로 휘어 있었다.", "en": "A single line of light ran straight through the middle of the inverted sky. Every distant rail bent toward it."},
+        {"s": "CHR003", "ko": "저 선, 어느 노선 도면에도 없어. 그런데 전 노선의 신호가 저쪽으로 기울어.", "en": "That line isn't on any route map. But the signal of every line leans toward it."},
+        {"s": "CHR005", "ko": "아름답네. 저렇게 곧은 건 대개 누군가 억지로 당겨 놓은 거지만.", "en": "Beautiful. Though anything that straight has usually been pulled taut by force."},
+        {"s": "CHR001", "ko": "떨어지는 사람부터 붙잡는다. 저 선의 정체는 본청에서 캔다.", "en": "Catch the falling first. We dig up what that line is at Headquarters."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "비상 규약 제0호",
+      "title_en": "Emergency Protocol Zero",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR012", "CENTER": "CHR003", "RIGHT": "CHR009"},
+      "lines": [
+        {"s": "N", "ko": "본청으로 이어진 역사 벽면에 규약문이 거꾸로 새겨져 있었다. 글자들이 천장 쪽으로 흘러내렸다.", "en": "On the station wall leading to Headquarters, a protocol was carved upside down. Its letters dripped toward the ceiling."},
+        {"s": "CHR012", "ko": "비상 규약 제0호. '수도를 외부의 모든 상실로부터 격리한다.' 사고가 아니다. 명령이다.", "en": "Emergency Protocol Zero. 'Isolate the capital from all loss outside.' Not an accident. An order."},
+        {"s": "CHR003", "ko": "중력 반전은 격리의 부작용이 아니라 본체야. 바깥으로 향하는 방향 자체를 지웠어.", "en": "The inversion isn't a side effect of the isolation. It is the isolation. It erased the very direction called 'out.'"},
+        {"s": "CHR009", "ko": "나갈 방향이 없으면 구조대도 못 들어와. 열두 해 전의 나처럼, 늦게 도착할 수밖에 없어.", "en": "No way out means no way in for rescuers. Like me, twelve years ago. They'd arrive too late."},
+        {"s": "CHR015", "ko": "건물 낙하 속도, 분당 3미터씩 증가. 여섯 시간 뒤엔 최하층까지 하늘로 빠진다.", "en": "Building fall rate rising three meters a minute. In six hours, even the lowest levels drop into the sky."},
+        {"s": "CONTROL", "ko": "항해자님, 본청은 항해자님을 기억합니다. 정문은 언제나 열려 있습니다.", "en": "Navigator, Headquarters remembers you. The main gate is always open to you."},
+        {"s": "CHR018", "ko": "정문이 열려 있다고? 함정이라고 광고를 하네.", "en": "The main gate's open? That's practically advertising a trap."},
+        {"s": "CHR014", "ko": "항해자만 들여보내 주겠다는 거잖아. 우린 뭐, 짐짝이야?", "en": "They're only letting the Navigator in. What are we, luggage?"},
+        {"s": "CHR006", "ko": "옆문 쪽 신호 하나. 반전 구역 한가운데서 누가 계속 문을 열었다 닫고 있어.", "en": "One signal near a side door. Someone in the middle of the inversion zone keeps opening and shutting it."},
+        {"s": "CHR001", "ko": "정문은 안 쓴다. 떨어지는 구역을 지나 그 옆문으로 간다. 여섯 시간 안에.", "en": "We don't use the main gate. We cross the falling districts to that side door. Within six hours."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N14",
+      "title_ko": "권한 목록",
+      "title_en": "The Authority Register",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR019", "CENTER": "CHR012", "RIGHT": "CHR001"},
+      "lines": [
+        {"s": "N", "ko": "페린이 마지막 명령어를 두드리자 구역 전체의 '아래'가 한쪽으로 정렬되었다. 떠돌던 먼지가 바닥에 내려앉았다.", "en": "Perin tapped in the last command, and every 'down' in the district aligned. Drifting dust settled on the floor."},
+        {"s": "CHR019", "ko": "짜잔. 사람마다 다른 아래를 기준면 하나로 묶었어. 이 구역 한정이지만.", "en": "Ta-da. Everyone's different 'down,' bound to one reference plane. Just this district, though."},
+        {"s": "CHR003", "ko": "반전 장치의 제어 체계를 역으로 쓴 거야? 계산도 없이?", "en": "You turned the inversion controls against themselves? Without calculating?"},
+        {"s": "CHR019", "ko": "계산은 장치가 하지. 나는 장치한테 거짓말만 해. '여기가 아래야'라고.", "en": "The devices do the math. I just lie to them. 'This is down.'"},
+        {"s": "N", "ko": "그 순간 항해 기록기가 빛났다. 열네 번째 무늬가 손목 위에 선명하게 떠올랐다.", "en": "At that moment the recorder lit up. A fourteenth pattern surfaced on the wrist, sharp and clear."},
+        {"s": "CHR019", "ko": "어? 내 해킹 흔적이 네 손목에? ……아니네. 이건 내가 한 게 아니라 내가 고른 거구나.", "en": "Huh? My hack on your wrist? …No. That's not something I did. That's something I chose."},
+        {"s": "CHR017", "ko": "스물 중 열넷. 어서 와요, 페린.", "en": "Fourteen of twenty. Welcome, Perin."},
+        {"s": "N", "ko": "기준면이 맞춰지자 본청 단말 하나가 깨어났다. 화면 위로 오래된 권한 목록이 흘렀다.", "en": "With the plane aligned, a Headquarters terminal woke. An old authority register scrolled across the screen."},
+        {"s": "CHR019", "ko": "관리자 목록이네. 국장, 관제장, 선로 감독…… 어, 맨 위에 이건 뭐야?", "en": "Admin list. Director, control chief, track supervisor… huh, what's this at the top?"},
+        {"s": "CHR012", "ko": "'기록 항해자: 최종 서명 권한.' 권한 행사 이력, 1회. 세부 기록은 삭제됨.", "en": "'Record Navigator: final signing authority.' Authority exercised: once. Details deleted."},
+        {"s": "CHR001", "ko": "……화면 꺼. 지금은 떨어지는 사람들이 먼저다.", "en": "…Turn it off. The people falling come first."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N16",
+      "title_ko": "혐의와 지금",
+      "title_en": "Charges and the Present",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR014", "CENTER": "CHR001", "RIGHT": "CHR019"},
+      "lines": [
+        {"s": "N", "ko": "바로 선 역 대합실에 등불을 걸었다. 창밖에는 아직 뒤집힌 거리의 불빛이 별처럼 매달려 있었다.", "en": "They hung a lantern in a concourse set right side up again. Outside, the lights of still-inverted streets hung like stars."},
+        {"s": "CHR014", "ko": "재판 기록엔 무단 이탈, 이번엔 최종 서명 권한. 항해자, 혐의가 늘었네!", "en": "The court had you for unauthorized departure, and now final signing authority. Navigator, the charges are piling up!"},
+        {"s": "CHR002", "ko": "베온, 그걸 웃으면서 말하냐.", "en": "Veon, you're grinning while you say that?"},
+        {"s": "CHR014", "ko": "웃어야지. 그 사건, 내 이름으로 넘겨받았잖아. 혐의가 늘면 내 짐이 느는 거야.", "en": "Of course I'm grinning. I took that case under my name. More charges just means more for me to carry."},
+        {"s": "CHR019", "ko": "근데 궁금하지 않아? 권한 행사 1회. 뭘 눌렀는지, 나라면 밤새 뜯어볼 텐데.", "en": "But aren't you curious? Authority used once. I'd stay up all night pulling that apart."},
+        {"s": "CHR003", "ko": "삭제된 기록엔 복원 흔적이 남아. 시간만 있으면 확인할 수 있어.", "en": "Deleted records leave recovery traces. Given time, I can verify it."},
+        {"s": "CHR018", "ko": "과거 캐기는 나중에 해. 지금 네가 어느 쪽으로 걷는지나 봐.", "en": "Dig up the past later. Look at which way you're walking now."},
+        {"s": "CHR001", "ko": "나는 기록보다 지금을 본다. ……하지만 이건 항해자가 정할 일이다.", "en": "I look at the present, not the records. …But this is the Navigator's call."},
+        {"choice": [
+          {"ko": "진실을 알고 싶다", "en": "I want to know the truth", "flag": "CH14_SEEK_TRUTH", "reply": [
+            {"s": "CHR003", "ko": "알았어. 삭제 흔적의 좌표를 저장해 둘게. 무엇이 나오든 같이 읽자.", "en": "Understood. I'll save the coordinates of the deletion traces. Whatever turns up, we read it together."}
+          ]},
+          {"ko": "지금은 앞으로 간다", "en": "For now, we move forward", "flag": "CH14_PRESS_ON", "reply": [
+            {"s": "CHR018", "ko": "좋아, 그게 맞아. 과거는 뒤에서 도망 안 가.", "en": "Good. That's right. The past isn't going anywhere."}
+          ]}
+        ]},
+        {"s": "CHR019", "ko": "……너희 진짜 이상한 팀이다. 서로 의심을 안 해. 무슨 버그 같아.", "en": "…You're a seriously weird team. Nobody suspects anybody. It's like a bug."},
+        {"s": "CHR001", "ko": "버그가 아니라 규칙이다. 내일은 감사관이 있는 중심층이다.", "en": "Not a bug. A rule. Tomorrow, the central level, where the Auditor waits."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "귀환 의지 감사",
+      "title_en": "Audit of the Will to Return",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR019", "CENTER": "CHR009", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "중심층의 감사실은 거대한 저울이었다. 한쪽 접시엔 수도가, 다른 쪽엔 아무것도 올라가 있지 않았다.", "en": "The central audit chamber was a colossal scale. On one pan sat the capital; on the other, nothing at all."},
+        {"s": "BOSS", "ko": "감사를 개시합니다. 수도의 하중을 측정하겠습니다. 움직이지 마십시오.", "en": "The audit begins. The capital's load will now be measured. Please do not move."},
+        {"s": "CHR015", "ko": "측정값이 이상하다. 건물 무게가 아니라 생체 신호마다 하중을 매기고 있어.", "en": "Those readings are wrong. It isn't weighing buildings. It's assigning load to each life sign."},
+        {"s": "BOSS", "ko": "귀환 의지를 과부하로 판정합니다. 돌아가려는 마음이 구조물을 무너뜨립니다.", "en": "The will to return is judged an overload. The wish to go home is what collapses the structure."},
+        {"s": "CHR009", "ko": "돌아가려는 마음이 과부하라고? 그 마음 하나로 열두 해를 버틴 사람도 있어.", "en": "The wish to go home is an overload? Some people held on for twelve years on that wish alone."},
+        {"s": "CHR019", "ko": "아, 저울 논리 알겠다. 떠나려는 사람이 없으면 도시가 안 흔들린다는 거지. 최악의 버그네.", "en": "Oh, I get the scale's logic. No one wanting to leave means the city never shakes. Worst bug ever."},
+        {"s": "BOSS", "ko": "기록 항해자님은 측정에서 제외됩니다. 권한자는 감사 대상이 아닙니다.", "en": "The Record Navigator is excluded from measurement. Authority holders are not subject to audit."},
+        {"s": "CHR018", "ko": "……또 특별 대우야? 기분 나쁘게 친절하네.", "en": "…Special treatment again? Creepily polite."},
+        {"s": "CHR003", "ko": "저울 축에 격리 규약이 물려 있어. 저걸 부수면 수도 전체의 기준면이 돌아와.", "en": "The isolation protocol is locked into the scale's axle. Break it and the whole capital gets its reference plane back."},
+        {"s": "CHR001", "ko": "잴 필요 없다. 여기 있는 전원, 돌아갈 곳이 있다.", "en": "No need to weigh us. Every one of us has somewhere to return to."},
+        {"s": "CHR004", "ko": "그럼 저희는 무거운 사람들이네요. 좋아요, 무겁게 가요!", "en": "Then we're heavy people. Good. Let's go in heavy!"},
+        {"s": "CHR014", "ko": "과부하 좋지! 내 무게까지 얹어 주마!", "en": "Overload? Great! Pile my weight on too!"},
+        {"s": "N", "ko": "저울이 기울었다. 수도 전체가 한 번, 크게 울렸다.", "en": "The scale tipped. The whole capital rang out once, deep and loud."}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "바로 선 수도",
+      "title_en": "The Capital Set Right",
+      "background": "rail",
+      "cast": {"LEFT": "CHR019", "CENTER": "CHR012", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "저울이 부서지자 떨어지던 건물들이 멈췄다. 먼지가 천천히, 제대로 된 방향으로 내려앉았다.", "en": "When the scale broke, the falling buildings stopped. Dust drifted slowly down, in the right direction."},
+        {"s": "BOSS", "ko": "……감사를 종료합니다. 하중을…… 측정할 수 없습니다.", "en": "…Audit concluded. The load… cannot be measured."},
+        {"s": "BOSS", "ko": "……아무도 돌아오지 않으면…… 무너질 일도, 없을 줄……", "en": "…If no one ever came back… nothing would ever collapse…"},
+        {"s": "CHR019", "ko": "돌아오는 사람이 없으면 무너질 일도 없다. 틀린 계산은 아닌데, 사는 계산도 아니지.", "en": "No one returning, nothing collapsing. Not wrong math. Just not math anyone can live with."},
+        {"s": "CHR006", "ko": "수도 전 구역 신호 정상. 격리 해제. 살아 있는 신호 만오천, 외부 노선에 다시 연결됐어.", "en": "All capital districts normal. Isolation lifted. Fifteen thousand living signals reconnected to the outside lines."},
+        {"s": "CHR004", "ko": "만오천 명이 이제 바깥에 소식을 보낼 수 있는 거죠? 와, 전압 오른다!", "en": "Fifteen thousand people can send word outside now, right? Wow, my voltage is spiking!"},
+        {"s": "N", "ko": "본청 단말들이 일제히 켜졌다. 격리 규약의 원본 경로가 화면을 가로질렀다.", "en": "Every terminal in Headquarters lit at once. The original path of the isolation protocol streaked across the screens."},
+        {"s": "CHR012", "ko": "원본 발신지는 여기가 아니다. 제로 신호 정원. 수도의 규약은 사본이었어.", "en": "The original source isn't here. The Garden of Zero Signal. The capital's protocol was a copy."},
+        {"s": "CHR003", "ko": "원본은 격리가 아니라 초기화를 준비 중이야. 대상은…… 전 노선의 기억.", "en": "The original isn't preparing isolation. It's preparing a reset. Its target… the memory of every line."},
+        {"s": "N", "ko": "바로 선 하늘 너머, 빛의 선은 더 선명해져 있었다. 이제는 사막의 선로까지 그 선에 닿아 있었다.", "en": "Beyond the righted sky, the line of light had grown sharper. Now even the desert rails reached it."},
+        {"s": "CHR012", "ko": "단말에 저 선의 이름이 있다. '종말선.' 전 노선을 하나의 종착지로 묶는 계획이다.", "en": "The terminal has a name for that line. 'The Last Line.' A plan to bind every route into a single terminus."},
+        {"s": "CONTROL", "ko": "항해자님, 정원의 꽃이 곧 핍니다. 아프지 않은 세계가 머지않았습니다.", "en": "Navigator, the garden's flowers will bloom soon. A world without pain is near."},
+        {"s": "CHR019", "ko": "기억 초기화? 제일 싫어하는 명령어야. 어떤 시스템도 사람 방향을 대신 못 정하게, 끝까지 망쳐 줄게.", "en": "A memory reset? My least favorite command. No system gets to choose a person's direction. I'll wreck it all the way."},
+        {"s": "CHR001", "ko": "잊어서 얻는 평화는 필요 없다. 정원으로 간다.", "en": "We don't need a peace bought by forgetting. To the garden."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "뒤집힌 왕궁",
+      "title_en": "The Inverted Palace",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR019", "CENTER": "CHR013", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "왕궁 구역은 아직 뒤집힌 채였다. 샹들리에가 바닥에서 솟아 있었고, 계단은 하늘로 내려갔다.", "en": "The palace district was still upside down. Chandeliers sprouted from the floor, and staircases descended into the sky."},
+        {"s": "CHR019", "ko": "여긴 내 해킹이 안 먹혀. 중력을 쥔 게 장치가 아니라 저 왕관이야.", "en": "My hacks don't work here. What's holding gravity isn't a device. It's that crown."},
+        {"s": "CHR013", "ko": "왕관이 도시를 들고 있는 셈이군요. 무겁겠어요. 오래 들었다면 더더욱.", "en": "So the crown is holding up the city. That must be heavy. Heavier still after so long."},
+        {"s": "CHR005", "ko": "뒤집힌 왕궁에서 포격이라. 탄도가 위로 떨어져도 내 탓 아니야.", "en": "Artillery in an upside-down palace. If the shells fall upward, that's not on me."},
+        {"s": "CHR015", "ko": "탄도 보정은 내가 한다. 떨어지는 방향만 알려 줘.", "en": "I'll handle the ballistic correction. Just tell me which way is falling."},
+        {"s": "CHR003", "ko": "왕궁 지하에서 약한 신호 하나. 암호화돼 있어. ……누가 화면 너머로 우리를 보고 있어.", "en": "One faint signal under the palace. Encrypted. …Someone's watching us through a screen."},
+        {"s": "CHR001", "ko": "보고만 있다면 사정이 있겠지. 내려가서 묻는다. 겁주지 말고.", "en": "If they're only watching, they have their reasons. We go down and ask. Without scaring them."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "제자리로 돌아온 층",
+      "title_en": "Every Floor in Its Place",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR039", "CENTER": "CHR001", "RIGHT": "CHR019"},
+      "lines": [
+        {"s": "N", "ko": "왕관이 금 가는 소리가 도시 전체에 울렸다. 뒤집혀 있던 층들이 하나씩 제자리로 돌아왔다.", "en": "The sound of the crown cracking rang through the whole city. One by one, the inverted floors returned to their places."},
+        {"s": "HBOSS", "ko": "……바깥이 없으면…… 아무도, 떨어지지 않을 줄……", "en": "…If there were no outside… no one would ever fall…"},
+        {"s": "CHR039", "ko": "……층 번호가 맞아요. 지하 12층이 다시 지하예요. 열두 해 만에……", "en": "…The floor numbers match. Basement twelve is below ground again. After twelve years…"},
+        {"s": "CHR001", "ko": "잘 버텼다. 이름을 물어도 될까.", "en": "You held out well. May I ask your name?"},
+        {"s": "CHR039", "ko": "소아예요. ……화면 없이 사람이랑 이렇게 오래 얘기한 건 처음이에요.", "en": "Soa. …I've never talked with people this long without a screen."},
+        {"s": "CHR019", "ko": "소아, 그 방어벽 혼자 짠 거지? 해커가 둘이면 우리 최강인데.", "en": "Soa, you built that firewall solo, right? With two hackers, we'd be unbeatable."},
+        {"s": "CHR039", "ko": "……같이 가도 될까요? 화면 너머 말고, 옆에서요.", "en": "…Can I come with you? Not from behind a screen. Beside you."},
+        {"s": "CHR001", "ko": "물론이다. 화면 뒤에 있든 곁에 있든, 우리는 전원 센다.", "en": "Of course. Behind a screen or beside us, we count everyone."},
+        {"s": "CHR003", "ko": "왕궁 기록고에서 배송 기록 발견. 씨앗 상자, 수신처는 제로 신호 정원.", "en": "Found a shipping log in the palace records. Seed crates, addressed to the Garden of Zero Signal."},
+        {"s": "CHR004", "ko": "씨앗이요? 수도가 꽃을 보냈다고요? ……왠지 불길한데요.", "en": "Seeds? The capital was sending flowers? …That feels ominous."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR003", "ko": "반전 장치 하나가 제멋대로 방향을 바꿔. 누가 안에서 건드리고 있어.", "en": "One inversion device keeps flipping direction on its own. Someone's tampering from inside."},
+      {"s": "CHR019", "ko": "짠! 위아래가 뭐가 중요해, 재밌잖아? 어, 손님이다. 안녕~", "en": "Ta-da! Who cares which way is up? It's fun, right? Oh, visitors. Hi~"},
+      {"s": "CHR018", "ko": "……거꾸로 매달려서 인사하지 마. 보는 사람 머리에 피 쏠려.", "en": "…Don't wave at us hanging upside down. My head's rushing just watching."},
+      {"s": "CHR019", "ko": "여기선 이게 정자세야. 근데 너희, 방금 감사관 경보 밟았어. 몰랐지?", "en": "This is proper posture here. But you just tripped the Auditor's alarm. Didn't know, huh?"},
+      {"s": "CHR001", "ko": "반전 장치를 멈추러 왔다. 넌 어느 쪽이지?", "en": "We came to stop the inversion devices. Whose side are you on?"},
+      {"s": "CHR019", "ko": "멈추면 안 돼, 뒤집어야지! 경비체들 좀 막아 줘. 삼 분이면 해킹 끝나. ……아마 오 분.", "en": "Don't stop them, flip them! Hold off the sentries. Three minutes and I'm done hacking. …Maybe five."},
+      {"s": "CHR004", "ko": "해킹이요? 제 전기 좀 빌려드릴까요?", "en": "Hacking? Want to borrow some of my current?"},
+      {"s": "CHR019", "ko": "오, 전기 좋아! 근데 과충전은 사양이야. 자, 온다!", "en": "Ooh, I love current! Just no overcharging. Here they come!"}
+    ],
+    "WANDERER": [
+      {"s": "CHR019", "ko": "어, 내 해킹이 튕겼어. 누가 역으로 막았네? 실력 좋은데?", "en": "Whoa, my hack bounced. Someone countered it? Nice work."},
+      {"s": "CHR039", "ko": "……저, 저기요. 더 오시면 방어 로봇이 켜져요. 화면으로 말해서 죄송해요……", "en": "…Um, excuse me. Come any closer and the defense bots turn on. Sorry for talking through a screen…"},
+      {"s": "CHR003", "ko": "신호 발신지, 바로 저 벽 뒤야. 사람이야.", "en": "Signal source: right behind that wall. A person."},
+      {"s": "CHR039", "ko": "그 등불 문장…… 등로단이에요? 증명할 수 있어요? 목소리만 믿다가 몇 번 속았거든요.", "en": "That lantern crest… are you the Lamplighters? Can you prove it? I've been fooled a few times trusting voices alone."},
+      {"s": "CHR001", "ko": "로봇을 켜라. 멈추는 걸 보여 주겠다.", "en": "Turn on the bots. We'll show you we can stop them."},
+      {"s": "CHR039", "ko": "……아, 알겠어요. 그럼 저도…… 직접 나갈게요. 화면 뒤에선 판단이 안 돼서요.", "en": "…O-okay. Then I'll… come out myself. I can't judge anything from behind a screen."},
+      {"s": "CHR019", "ko": "오, 나온다! 해커가 모니터 밖으로 나오는 건 대사건이지.", "en": "Ooh, she's coming out! A hacker leaving her monitor is a major event."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "최종 감사를 개시합니다. 수도의 모든 귀환 의지를 압류합니다.", "en": "Final audit commencing. All will to return within the capital is hereby seized."},
+      {"s": "CHR009", "ko": "돌아가려는 마음을 압류하겠다고? 그건 내가 열두 해 붙든 거야. 못 줘.", "en": "Seize the wish to go home? I've held on to that for twelve years. You can't have it."},
+      {"s": "BOSS", "ko": "감사 결과는 이미 확정되었습니다. 이의 신청은 받지 않습니다.", "en": "The audit's findings are final. Objections will not be accepted."},
+      {"s": "CHR019", "ko": "이의 말고 버그 신고할게. 네 저울, 처음부터 틀렸어!", "en": "Not an objection. A bug report. Your scale was broken from the start!"}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "반전 왕관이 수도를 지탱하고 있습니다. 왕관을 벗기면 도시는 추락합니다.", "en": "The Inversion Crown is holding up the capital. Remove the crown and the city will fall."},
+      {"s": "CHR019", "ko": "거짓말. 아래는 우리가 이미 맞춰 놨어. 네가 쥐고 있는 건 겁뿐이야.", "en": "Liar. We already set 'down' right. All you're holding is fear."},
+      {"s": "HBOSS", "ko": "위아래가 뒤집혀 있는 한, 누구도 밖으로 나가지 않습니다. 자리에 앉아 계십시오.", "en": "As long as up and down are reversed, no one leaves. Please remain seated."},
+      {"s": "CHR018", "ko": "앉아 있을 시간 없어. 왕관 벗긴다!", "en": "No time to sit. That crown's coming off!"}
+    ],
+    "ANOMALY_1": [
+      {"s": "ENEMY", "ko": "추락 방향을 안내합니다. 승객 여러분은 위쪽으로 떨어지십시오.", "en": "Fall direction guidance. Passengers, please fall upward."},
+      {"s": "CHR002", "ko": "위로 떨어지라고 친절하게도 말하네!", "en": "How kind of it to tell us to fall up!"},
+      {"s": "CHR010", "ko": "넘어진 분들부터 붙잡아요. 발끝이 허공을 향하고 있어요!", "en": "Grab the ones who've tripped first. Their feet are pointing at open sky!"}
+    ],
+    "ANOMALY_2": [
+      {"s": "CHR015", "ko": "경비체 셋, 중력 방향을 무기로 쓴다. 착지 오차 0.2초 안으로 맞춰.", "en": "Three sentries, using gravity as a weapon. Keep your landing timing within 0.2 seconds."},
+      {"s": "ENEMY", "ko": "무단 귀환자를 감지했습니다. 무게를 다시 측정합니다.", "en": "Unauthorized returnees detected. Re-measuring weight."},
+      {"s": "CHR013", "ko": "무게라면 제가 받아 줄게요. 다들 방패 뒤로.", "en": "If it's weight, I'll bear it. Everyone, behind my shield."}
+    ],
+    "ANOMALY_3": [
+      {"s": "CHR012", "ko": "왕궁 경비 신호가 거꾸로 송출된다. 소리의 앞뒤가 바뀌었다.", "en": "The palace guard signal is transmitting backward. Its sound is reversed."},
+      {"s": "ENEMY", "ko": "……다니습없 수 갈아돌. 다니습없 수 갈아돌.", "en": "…nruter tonnac uoY. nruter tonnac uoY."},
+      {"s": "CHR018", "ko": "거꾸로 말해도 뜻은 알겠네. 됐고, 부순다.", "en": "Backward or not, I get the message. Whatever. Smashing it."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "위에서 쏟아지는 적", "title_en": "Enemies Raining Up",
+     "lines": [
+       {"s": "N", "ko": "머리 위 거리에서 잔향체들이 비처럼 쏟아졌다. 그것들에게는 아래로 뛰어내린 셈이었다.", "en": "Echoforms poured like rain from the street overhead. To them, it was a leap downward."},
+       {"s": "CHR018", "ko": "거꾸로 오든 바로 오든 적은 적이야. 칠래, 피할래?", "en": "Upside down or right side up, an enemy's an enemy. Fight or dodge?"}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "맞서 싸운다", "en": "Fight them"},
+                 {"outcome": "EVADE", "ko": "다른 층으로 우회한다", "en": "Detour through another level"}]},
+    {"kind": "DISTRESS", "title_ko": "가로등에 매달린 사람", "title_en": "Hanging from a Streetlamp",
+     "lines": [
+       {"s": "N", "ko": "뒤집힌 가로등에 한 사람이 매달려 있었다. 그 발밑은 곧 하늘이었다.", "en": "Someone clung to an inverted streetlamp. Beneath her feet was nothing but sky."},
+       {"s": "SURVIVOR", "ko": "손이 미끄러워요! 여기서 놓치면 구름까지 떨어져요!", "en": "My hands are slipping! If I let go, I'll fall all the way to the clouds!"},
+       {"s": "CHR016", "ko": "제 방패를 발판으로 쓰십시오. 천천히, 저만 보고.", "en": "Use my shield as a foothold. Slowly. Look only at me."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "끌어올리고 보급을 나눈다", "en": "Pull her up and share supplies"},
+                 {"outcome": "RECORD", "ko": "위치를 기록해 구조 신호를 보낸다", "en": "Log the spot and send a rescue signal"}]},
+    {"kind": "STORM", "title_ko": "유리 소용돌이", "title_en": "Glass Maelstrom",
+     "lines": [
+       {"s": "N", "ko": "잔광 폭풍이 뒤집힌 거리를 휩쓸었다. 깨진 유리창들이 공중에서 소용돌이쳤다.", "en": "An afterglow storm tore through the inverted streets. Shattered windows whirled in midair."},
+       {"s": "CHR011", "ko": "파편 궤도 예측 불가. 대피할지, 틈을 노려 돌파할지 결정하십시오.", "en": "Debris trajectories unpredictable. Decide: take cover, or punch through a gap."}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "건물 안으로 대피한다", "en": "Take cover inside"},
+                 {"outcome": "PUSH", "ko": "틈을 노려 돌파한다", "en": "Punch through a gap"}]},
+    {"kind": "CACHE", "title_ko": "천장으로 쏟아진 보급품", "title_en": "Supplies Spilling Upward",
+     "lines": [
+       {"s": "N", "ko": "거꾸로 매달린 역무실 사물함이 열리자 보급품이 쏟아졌다. 전부 천장 쪽으로.", "en": "An upside-down station locker burst open and supplies spilled out. All of them toward the ceiling."},
+       {"s": "CHR004", "ko": "하늘로 도망가기 전에 잡아요! 손은 제가 제일 빨라요!", "en": "Grab them before they escape into the sky! My hands are the fastest!"}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "보급품을 붙잡는다", "en": "Grab the supplies"}]},
+    {"kind": "BANTER", "title_ko": "기준이 셋인 계산", "title_en": "Three Frames of Reference",
+     "lines": [
+       {"s": "CHR012", "ko": "나린, 네 좌표 계산은 중력 기준이 하나일 때만 맞다.", "en": "Narin, your coordinate math only works with a single gravity reference."},
+       {"s": "CHR003", "ko": "그래서 방금 셋으로 다시 짰어. 키르, 네 주파수도 거꾸로 돌려 봐.", "en": "So I just rebuilt it for three. Kir, try running your frequency backward too."},
+       {"s": "CHR012", "ko": "……이미 했다. 이번엔 네가 한발 늦었군.", "en": "…Already did. You're a step behind this time."}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "두 사람의 계산을 따라간다", "en": "Follow their calculations"}]},
+    {"kind": "ECHO", "title_ko": "정시 운행 안내", "title_en": "On-Time Service",
+     "lines": [
+       {"s": "N", "ko": "뒤집힌 방송탑에서 대정전 이전의 시보가 흘러나왔다.", "en": "An inverted broadcast tower played a time signal from before the Blackout."},
+       {"s": "ECHO", "ko": "수도 순환선은 오늘도 정시 운행 중입니다. 좋은 하루 되십시오.", "en": "The capital loop is running on time today. Have a pleasant day."},
+       {"s": "CHR014", "ko": "……정시 운행이라. 그땐 이 도시도 평범하게 바빴겠지.", "en": "…Running on time. Back then, this city was just ordinarily busy."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+                 {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

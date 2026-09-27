@@ -1,7 +1,8 @@
 """Japanese story voice pipeline (text stays Korean on screen, voices are Japanese only).
 
 Steps (each is resumable and writes only inside the project):
-  extract   scenarios + ko.csv -> data_source/voice/ja/lines_base.json (one entry per unique speaker+line)
+  extract   scenarios + chapter-map pages (first meetings, anomalies, bosses, incidents) + ko.csv
+            -> data_source/voice/ja/lines_base.json (one entry per unique speaker+line)
   jobs      lines_base + translation_ja.json + voice_cast_ja.json -> work/voice_ja/jobs.jsonl
   run       jobs.jsonl -> raw WAV takes through the alibaba-token-plan helper (Token Plan, Singapore host)
   qa        raw WAV -> faster-whisper Japanese transcripts + timing/level stats -> work/voice_ja/qa.json
@@ -11,7 +12,7 @@ Steps (each is resumable and writes only inside the project):
 Narration and character dialogue are voiced; the player's choice buttons are not (the protagonist is unvoiced).
 The API key is read only by the helper; this script never touches it.
 """
-import argparse, csv, glob, hashlib, json, os, pathlib, re, shutil, struct, subprocess, sys, tempfile, threading, time
+import argparse, csv, glob, hashlib, json, os, pathlib, re, shutil, struct, subprocess, sys, tempfile, threading, time, unicodedata
 from concurrent.futures import ThreadPoolExecutor
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -49,24 +50,46 @@ def sha256(path):
 
 # ---------------------------------------------------------------- extract
 
+def _map_pages(definition):
+    """Voiced map dialogue: (source id, page) for every authored page with a speaker key."""
+    chapter = definition.get("chapter_id", "")
+    for event in definition.get("event_encounters", []):
+        for page in event.get("pre_battle_dialogue", []):
+            yield f"{chapter}:{event['event_encounter_id']}", page
+    for node in definition.get("nodes", []):
+        for page in node.get("presentation", {}).get("pre_battle_dialogue", []):
+            yield f"{chapter}:{node['node_id']}", page
+    for incident in definition.get("incidents", []):
+        for page in incident.get("lines", []):
+            yield f"{chapter}:{incident['incident_id']}", page
+
+
 def extract(_args):
     ko = {r["key"]: r["text"] for r in csv.DictReader(open(ROOT / "data_source/localization/ko.csv", encoding="utf-8-sig"))}
     entries, by_line = [], {}
+
+    def add(speaker_key, text_key, kind, source):
+        text = ko[text_key]
+        key = (speaker_key, text)
+        if key not in by_line:
+            by_line[key] = {"voice_id": "vo_" + text_key.lower(), "speaker_key": speaker_key,
+                            "speaker_ko": ko.get(speaker_key, speaker_key), "kind": kind,
+                            "ko": text, "first_scenario": source, "text_keys": []}
+            entries.append(by_line[key])
+        if text_key not in by_line[key]["text_keys"]:
+            by_line[key]["text_keys"].append(text_key)
+
     for path in sorted(glob.glob(str(ROOT / "data_source/scenarios/*.json"))):
         scenario = load_json(path)
         for command in scenario["commands"]:
-            if command.get("command") not in VOICED:
-                continue
-            speaker_key, text_key = command.get("speaker_key", ""), command["text_key"]
-            text = ko[text_key]
-            key = (speaker_key, text)
-            if key not in by_line:
-                by_line[key] = {"voice_id": "vo_" + text_key.lower(), "speaker_key": speaker_key,
-                                "speaker_ko": ko.get(speaker_key, speaker_key), "kind": command["command"],
-                                "ko": text, "first_scenario": scenario["id"], "text_keys": []}
-                entries.append(by_line[key])
-            if text_key not in by_line[key]["text_keys"]:
-                by_line[key]["text_keys"].append(text_key)
+            if command.get("command") in VOICED:
+                add(command.get("speaker_key", ""), command["text_key"], command["command"], scenario["id"])
+    # Map pages without a speaker key are legacy generated notices and stay unvoiced.
+    for path in sorted(glob.glob(str(ROOT / "godot/data/compiled/chapter_maps/*.json"))):
+        for source, page in _map_pages(load_json(path)):
+            if page.get("speaker_key") and page.get("text_key") in ko:
+                kind = "narration" if page.get("speaker_kind") == "NARRATION" else "dialogue"
+                add(page["speaker_key"], page["text_key"], kind, source)
     write_json(SRC / "lines_base.json", {"schema_version": 1, "generated_by": "tools/voice/voice_ja_pipeline.py extract",
                                          "lines": entries})
     print(json.dumps({"unique_lines": len(entries), "text_keys": sum(len(e["text_keys"]) for e in entries)}))
@@ -79,6 +102,16 @@ def tts_text(ja, readings):
     for word, kana in sorted(readings.items(), key=lambda kv: -len(kv[0])):
         ja = ja.replace(word, kana)
     return ja
+
+
+def profile_for(cast, speaker_key):
+    """Exact speaker first; boss/anomaly keys share a prefix profile (ENEMY_*)."""
+    if speaker_key in cast["speakers"]:
+        return cast["speakers"][speaker_key]
+    for prefix, profile in cast.get("prefix_speakers", {}).items():
+        if speaker_key.startswith(prefix):
+            return profile
+    raise KeyError(f"no voice cast for {speaker_key}")
 
 
 def translation_for(translation, line):
@@ -98,8 +131,9 @@ def jobs(args):
         if not tr or not tr.get("ja"):
             missing.append(line["voice_id"])
             continue
-        profile = cast["speakers"][line["speaker_key"]]
-        text = tr.get("tts") or tts_text(tr["ja"], readings)
+        profile = profile_for(cast, line["speaker_key"])
+        # Readings also cover hand-written tts overrides, which usually fix only a number.
+        text = tts_text(tr.get("tts") or tr["ja"], readings)
         instruction = profile["instruction"]
         if tr.get("direction"):
             # "<language>. <persona>. <delivery>" -> the line's direction replaces the default delivery.
@@ -192,7 +226,37 @@ def run(args):
 KANA_ONLY = re.compile(r"[^\u3040-\u30ff\u4e00-\u9fff\uff66-\uff9dA-Za-z0-9]")
 
 
+KANJI_DIGITS = "〇一二三四五六七八九"
+STYLE_PROMPT = "今日は天気が良いので、公園を散歩しました。"
+DIGIT_RUN = re.compile(r"[0-9][0-9,]*")
+
+
+def _kanji_below_10000(n):
+    text = ""
+    for value, unit in ((1000, "千"), (100, "百"), (10, "十")):
+        q, n = divmod(n, value)
+        if q:
+            text += ("" if q == 1 else KANJI_DIGITS[q]) + unit
+    return text + (KANJI_DIGITS[n] if n else "")
+
+
+def _kanji_number(n):
+    if n == 0:
+        return "零"
+    text = ""
+    for value, unit in ((10 ** 8, "億"), (10 ** 4, "万")):
+        if n >= value:
+            text += _kanji_below_10000(n // value) + unit
+            n %= value
+    return text + _kanji_below_10000(n)
+
+
 def _norm(text):
+    # Whisper writes numbers as digits ("4,311") where the script spells them in kanji.
+    text = unicodedata.normalize("NFKC", text)
+    text = DIGIT_RUN.sub(lambda m: _kanji_number(int(m.group().replace(",", ""))), text)
+    # Katakana and hiragana spell the same sound (coined names come back as トウロダン).
+    text = "".join(chr(ord(ch) - 0x60) if "ァ" <= ch <= "ヶ" else ch for ch in text)
     return KANA_ONLY.sub("", text).lower()
 
 
@@ -237,20 +301,48 @@ def qa(args):
     report = load_json(args.out) if pathlib.Path(args.out).exists() else {}
     for row in rows:
         wav = pathlib.Path(row["out"])
-        if not wav.exists() or (row["id"] in report and report[row["id"]].get("file") == str(wav) and not args.force):
+        known = report.get(row["id"], {})
+        fresh = known.get("file") == str(wav) and not args.force
+        if not wav.exists() or (fresh and not (args.recheck and known["cer"] > args.threshold and "asr_styled" not in known)):
             continue
-        # No initial prompt: a prompt of the expected text would bias Whisper toward "hearing" it.
-        segments, info = model.transcribe(str(wav), language="ja", beam_size=5)
-        heard = "".join(s.text for s in segments).strip()
-        entry = {"file": str(wav), "tts": row["text"], "ja": row["ja"], "asr": heard,
-                 "cer_ja": round(_cer(row["ja"], heard), 3),
-                 "cer_tts": round(_cer(row["text"], heard), 3), **_stats(wav)}
-        entry["cer"] = min(entry["cer_ja"], entry["cer_tts"])
+        entry = known if fresh else None
+        if entry is None:
+            # No initial prompt: a prompt of the expected text would bias Whisper toward "hearing" it.
+            segments, info = model.transcribe(str(wav), language="ja", beam_size=5)
+            heard = "".join(s.text for s in segments).strip()
+            entry = {"file": str(wav), "tts": row["text"], "ja": row["ja"], "asr": heard,
+                     "cer_ja": round(_cer(row["ja"], heard), 3),
+                     "cer_tts": round(_cer(row["text"], heard), 3), **_stats(wav)}
+            entry["cer"] = min(entry["cer_ja"], entry["cer_tts"])
+        if entry["cer"] > args.threshold:
+            # Whisper sometimes answers in plain hiragana, which scores as a mismatch against kanji.
+            # A neutral sentence (never the expected text) steers it back to ordinary orthography.
+            segments, info = model.transcribe(str(wav), language="ja", beam_size=5, initial_prompt=STYLE_PROMPT)
+            styled = "".join(s.text for s in segments).strip()
+            entry["asr_styled"] = styled
+            styled_cer = min(_cer(row["ja"], styled), _cer(row["text"], styled))
+            if styled_cer < entry["cer"]:
+                entry.update(asr=styled, cer_ja=round(_cer(row["ja"], styled), 3),
+                             cer_tts=round(_cer(row["text"], styled), 3))
+                entry["cer"] = min(entry["cer_ja"], entry["cer_tts"])
         entry["flag"] = entry["cer"] > args.threshold or entry["clip"] > 0 or entry["dur"] < 0.6
         report[row["id"]] = entry
         write_json(args.out, report)
     flagged = sorted(k for k, v in report.items() if v["flag"])
     print(json.dumps({"checked": len(report), "flagged": len(flagged), "ids": flagged[:40]}, ensure_ascii=False))
+
+
+def rescore(args):
+    """Recompute error rates from the stored transcripts after a normalisation change."""
+    report = load_json(args.report)
+    for entry in report.values():
+        entry["cer_ja"] = round(_cer(entry["ja"], entry["asr"]), 3)
+        entry["cer_tts"] = round(_cer(entry["tts"], entry["asr"]), 3)
+        entry["cer"] = min(entry["cer_ja"], entry["cer_tts"])
+        entry["flag"] = entry["cer"] > args.threshold or entry["clip"] > 0 or entry["dur"] < 0.6
+    write_json(args.report, report)
+    flagged = sorted(k for k, v in report.items() if v["flag"])
+    print(json.dumps({"checked": len(report), "flagged": len(flagged)}))
 
 
 # ---------------------------------------------------------------- select
@@ -299,7 +391,7 @@ def finalize(args):
     for line in base:
         src = pathlib.Path(selection[line["voice_id"]])
         dst = OUT / f"{line['voice_id']}.ogg"
-        profile = cast["speakers"][line["speaker_key"]]
+        profile = profile_for(cast, line["speaker_key"])
         pre, post = profile.get("pre_ms", 60) / 1000.0, profile.get("post_ms", 220) / 1000.0
         # Keep only the profile's breath margin of silence before and after the speech.
         trim = (f"silenceremove=start_periods=1:start_threshold=-45dB:start_silence={pre},"
@@ -345,9 +437,14 @@ def main():
     q.add_argument("--model", default="medium")
     q.add_argument("--threshold", type=float, default=0.2)
     q.add_argument("--force", action="store_true")
+    q.add_argument("--recheck", action="store_true", help="add the styled second pass to already-checked flagged takes")
     q.add_argument("--device", default="cpu", choices=["cpu", "cuda"])
     q.add_argument("--dll-dir")
     q.set_defaults(fn=qa)
+    rs = sub.add_parser("rescore")
+    rs.add_argument("report")
+    rs.add_argument("--threshold", type=float, default=0.2)
+    rs.set_defaults(fn=rescore)
     s = sub.add_parser("select")
     s.add_argument("reports", nargs="+")
     s.add_argument("--overrides", default=str(WORK / "selection_overrides.json"))

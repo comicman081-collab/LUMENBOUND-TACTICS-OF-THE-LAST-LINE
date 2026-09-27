@@ -2,6 +2,7 @@
   "id": "SCN_CH19_PREBOSS",
   "title_key": "SCENARIO_CH19_PREBOSS_TITLE",
   "chapter_id": "CH19",
+  "presentation": "CINEMATIC",
   "commands": [
     {
       "id": "start",
@@ -11,18 +12,24 @@
     {
       "command": "show_portrait",
       "slot": "LEFT",
+      "asset_id": "portrait_chr018_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
       "asset_id": "portrait_chr024_dev",
-      "expression": "BATTLE_FOCUS"
+      "expression": "NEUTRAL"
     },
     {
       "command": "show_portrait",
       "slot": "RIGHT",
-      "asset_id": "portrait_chr023_dev",
-      "expression": "SERIOUS"
+      "asset_id": "enemy_boss022_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "fade_in",
-      "duration": 0.24
+      "duration": 0.35
     },
     {
       "command": "narration",
@@ -31,18 +38,126 @@
     },
     {
       "command": "dialogue",
-      "speaker_key": "CHAR_MOEN_NAME",
-      "text_key": "STORY_CH19_PREBOSS_02"
+      "speaker_key": "ENEMY_ETERNAL_TICKET",
+      "text_key": "STORY_CH19_PREBOSS_02",
+      "portrait_asset_id": "enemy_boss022_dev"
     },
     {
-      "command": "set_expression",
-      "slot": "LEFT",
-      "expression": "RESOLVED"
+      "command": "dialogue",
+      "speaker_key": "ENEMY_ETERNAL_TICKET",
+      "text_key": "STORY_CH19_PREBOSS_03",
+      "portrait_asset_id": "enemy_boss022_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_RIAS_NAME",
+      "text_key": "STORY_CH19_PREBOSS_04",
+      "portrait_asset_id": "portrait_chr018_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr013_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_REMA_NAME",
+      "text_key": "STORY_CH19_PREBOSS_05",
+      "portrait_asset_id": "portrait_chr013_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr024_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "dialogue",
       "speaker_key": "CHAR_MOEN_NAME",
-      "text_key": "STORY_CH19_PREBOSS_03"
+      "text_key": "STORY_CH19_PREBOSS_06",
+      "portrait_asset_id": "portrait_chr024_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr019_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "CONCERNED"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_PERIN_NAME",
+      "text_key": "STORY_CH19_PREBOSS_07",
+      "portrait_asset_id": "portrait_chr019_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "enemy_boss022_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "ENEMY_ETERNAL_TICKET",
+      "text_key": "STORY_CH19_PREBOSS_08",
+      "portrait_asset_id": "enemy_boss022_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_MOEN_NAME",
+      "text_key": "STORY_CH19_PREBOSS_09",
+      "portrait_asset_id": "portrait_chr024_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH19_PREBOSS_10",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr005_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_SOREN",
+      "text_key": "STORY_CH19_PREBOSS_11",
+      "portrait_asset_id": "portrait_chr005_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr004_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "BATTLE_FOCUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_EDA",
+      "text_key": "STORY_CH19_PREBOSS_12",
+      "portrait_asset_id": "portrait_chr004_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH19_PREBOSS_13"
     },
     {
       "command": "grant_reward",

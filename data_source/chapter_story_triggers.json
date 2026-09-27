@@ -5,40 +5,31 @@
     "stage_id": "",
     "scenario_id": "SCN_CH01_INTRO",
     "completion_flag": "story.trigger.TRIG_CH01_INTRO",
-    "priority": 10
+    "priority": 1010
   },
   {
     "id": "TRIG_CH01_MID_A",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH01-N03",
+    "stage_id": "CH01-N04",
     "scenario_id": "SCN_CH01_MID_A",
     "completion_flag": "story.trigger.TRIG_CH01_MID_A",
-    "priority": 20,
-    "fallback_stage_ids": [
-      "CH01-N04"
-    ]
+    "priority": 1020
   },
   {
     "id": "TRIG_CH01_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH01-N05",
+    "stage_id": "CH01-N08",
     "scenario_id": "SCN_CH01_MID_B",
     "completion_flag": "story.trigger.TRIG_CH01_MID_B",
-    "priority": 30,
-    "fallback_stage_ids": [
-      "CH01-N06"
-    ]
+    "priority": 1030
   },
   {
-    "id": "TRIG_CH01_MID_C",
+    "id": "TRIG_CH01_CAMP",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH01-N07",
-    "scenario_id": "SCN_CH01_MID_C",
-    "completion_flag": "story.trigger.TRIG_CH01_MID_C",
-    "priority": 40,
-    "fallback_stage_ids": [
-      "CH01-N08"
-    ]
+    "stage_id": "CH01-N10",
+    "scenario_id": "SCN_CH01_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH01_CAMP",
+    "priority": 1040
   },
   {
     "id": "TRIG_CH01_PREBOSS",
@@ -46,18 +37,31 @@
     "stage_id": "CH01-N19",
     "scenario_id": "SCN_CH01_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH01_PREBOSS",
-    "priority": 50
+    "priority": 1050
   },
   {
     "id": "TRIG_CH01_OUTRO",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH01-H05",
+    "stage_id": "CH01-N20",
     "scenario_id": "SCN_CH01_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH01_OUTRO",
-    "priority": 60,
-    "fallback_stage_ids": [
-      "CH01-N20"
-    ]
+    "priority": 1060
+  },
+  {
+    "id": "TRIG_CH01_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH01-H01",
+    "scenario_id": "SCN_CH01_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH01_HARD_INTRO",
+    "priority": 1070
+  },
+  {
+    "id": "TRIG_CH01_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH01-H05",
+    "scenario_id": "SCN_CH01_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH01_HARD_OUTRO",
+    "priority": 1080
   },
   {
     "id": "TRIG_CH02_INTRO",
@@ -65,26 +69,31 @@
     "stage_id": "",
     "scenario_id": "SCN_CH02_INTRO",
     "completion_flag": "story.trigger.TRIG_CH02_INTRO",
-    "priority": 70
+    "priority": 2010
   },
   {
     "id": "TRIG_CH02_MID_A",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH02-N03",
+    "stage_id": "CH02-N04",
     "scenario_id": "SCN_CH02_MID_A",
     "completion_flag": "story.trigger.TRIG_CH02_MID_A",
-    "priority": 80,
-    "fallback_stage_ids": [
-      "CH02-N04"
-    ]
+    "priority": 2020
   },
   {
     "id": "TRIG_CH02_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH02-N06",
+    "stage_id": "CH02-N10",
     "scenario_id": "SCN_CH02_MID_B",
     "completion_flag": "story.trigger.TRIG_CH02_MID_B",
-    "priority": 90
+    "priority": 2030
+  },
+  {
+    "id": "TRIG_CH02_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH02-N12",
+    "scenario_id": "SCN_CH02_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH02_CAMP",
+    "priority": 2040
   },
   {
     "id": "TRIG_CH02_PREBOSS",
@@ -92,26 +101,31 @@
     "stage_id": "CH02-N19",
     "scenario_id": "SCN_CH02_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH02_PREBOSS",
-    "priority": 100
-  },
-  {
-    "id": "TRIG_CH02_HARD_INTRO",
-    "event": "STAGE_CLEAR",
-    "stage_id": "CH02-N20",
-    "scenario_id": "SCN_CH02_HARD_INTRO",
-    "completion_flag": "story.trigger.TRIG_CH02_HARD_INTRO",
-    "priority": 110
+    "priority": 2050
   },
   {
     "id": "TRIG_CH02_OUTRO",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH02-H05",
+    "stage_id": "CH02-N20",
     "scenario_id": "SCN_CH02_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH02_OUTRO",
-    "priority": 120,
-    "fallback_stage_ids": [
-      "CH02-N20"
-    ]
+    "priority": 2060
+  },
+  {
+    "id": "TRIG_CH02_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH02-H01",
+    "scenario_id": "SCN_CH02_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH02_HARD_INTRO",
+    "priority": 2070
+  },
+  {
+    "id": "TRIG_CH02_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH02-H05",
+    "scenario_id": "SCN_CH02_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH02_HARD_OUTRO",
+    "priority": 2080
   },
   {
     "id": "TRIG_CH03_INTRO",
@@ -119,7 +133,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH03_INTRO",
     "completion_flag": "story.trigger.TRIG_CH03_INTRO",
-    "priority": 130
+    "priority": 3010
   },
   {
     "id": "TRIG_CH03_MID_A",
@@ -127,15 +141,23 @@
     "stage_id": "CH03-N04",
     "scenario_id": "SCN_CH03_MID_A",
     "completion_flag": "story.trigger.TRIG_CH03_MID_A",
-    "priority": 140
+    "priority": 3020
   },
   {
     "id": "TRIG_CH03_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH03-N14",
+    "stage_id": "CH03-N10",
     "scenario_id": "SCN_CH03_MID_B",
     "completion_flag": "story.trigger.TRIG_CH03_MID_B",
-    "priority": 150
+    "priority": 3030
+  },
+  {
+    "id": "TRIG_CH03_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH03-N12",
+    "scenario_id": "SCN_CH03_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH03_CAMP",
+    "priority": 3040
   },
   {
     "id": "TRIG_CH03_PREBOSS",
@@ -143,7 +165,7 @@
     "stage_id": "CH03-N19",
     "scenario_id": "SCN_CH03_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH03_PREBOSS",
-    "priority": 160
+    "priority": 3050
   },
   {
     "id": "TRIG_CH03_OUTRO",
@@ -151,7 +173,23 @@
     "stage_id": "CH03-N20",
     "scenario_id": "SCN_CH03_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH03_OUTRO",
-    "priority": 170
+    "priority": 3060
+  },
+  {
+    "id": "TRIG_CH03_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH03-H01",
+    "scenario_id": "SCN_CH03_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH03_HARD_INTRO",
+    "priority": 3070
+  },
+  {
+    "id": "TRIG_CH03_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH03-H05",
+    "scenario_id": "SCN_CH03_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH03_HARD_OUTRO",
+    "priority": 3080
   },
   {
     "id": "TRIG_CH04_INTRO",
@@ -159,7 +197,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH04_INTRO",
     "completion_flag": "story.trigger.TRIG_CH04_INTRO",
-    "priority": 180
+    "priority": 4010
   },
   {
     "id": "TRIG_CH04_MID_A",
@@ -167,15 +205,23 @@
     "stage_id": "CH04-N04",
     "scenario_id": "SCN_CH04_MID_A",
     "completion_flag": "story.trigger.TRIG_CH04_MID_A",
-    "priority": 190
+    "priority": 4020
   },
   {
     "id": "TRIG_CH04_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH04-N14",
+    "stage_id": "CH04-N12",
     "scenario_id": "SCN_CH04_MID_B",
     "completion_flag": "story.trigger.TRIG_CH04_MID_B",
-    "priority": 200
+    "priority": 4030
+  },
+  {
+    "id": "TRIG_CH04_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH04-N14",
+    "scenario_id": "SCN_CH04_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH04_CAMP",
+    "priority": 4040
   },
   {
     "id": "TRIG_CH04_PREBOSS",
@@ -183,7 +229,7 @@
     "stage_id": "CH04-N19",
     "scenario_id": "SCN_CH04_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH04_PREBOSS",
-    "priority": 210
+    "priority": 4050
   },
   {
     "id": "TRIG_CH04_OUTRO",
@@ -191,7 +237,23 @@
     "stage_id": "CH04-N20",
     "scenario_id": "SCN_CH04_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH04_OUTRO",
-    "priority": 220
+    "priority": 4060
+  },
+  {
+    "id": "TRIG_CH04_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH04-H01",
+    "scenario_id": "SCN_CH04_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH04_HARD_INTRO",
+    "priority": 4070
+  },
+  {
+    "id": "TRIG_CH04_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH04-H05",
+    "scenario_id": "SCN_CH04_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH04_HARD_OUTRO",
+    "priority": 4080
   },
   {
     "id": "TRIG_CH05_INTRO",
@@ -199,7 +261,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH05_INTRO",
     "completion_flag": "story.trigger.TRIG_CH05_INTRO",
-    "priority": 230
+    "priority": 5010
   },
   {
     "id": "TRIG_CH05_MID_A",
@@ -207,15 +269,23 @@
     "stage_id": "CH05-N04",
     "scenario_id": "SCN_CH05_MID_A",
     "completion_flag": "story.trigger.TRIG_CH05_MID_A",
-    "priority": 240
+    "priority": 5020
   },
   {
     "id": "TRIG_CH05_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH05-N14",
+    "stage_id": "CH05-N09",
     "scenario_id": "SCN_CH05_MID_B",
     "completion_flag": "story.trigger.TRIG_CH05_MID_B",
-    "priority": 250
+    "priority": 5030
+  },
+  {
+    "id": "TRIG_CH05_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH05-N12",
+    "scenario_id": "SCN_CH05_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH05_CAMP",
+    "priority": 5040
   },
   {
     "id": "TRIG_CH05_PREBOSS",
@@ -223,7 +293,7 @@
     "stage_id": "CH05-N19",
     "scenario_id": "SCN_CH05_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH05_PREBOSS",
-    "priority": 260
+    "priority": 5050
   },
   {
     "id": "TRIG_CH05_OUTRO",
@@ -231,7 +301,23 @@
     "stage_id": "CH05-N20",
     "scenario_id": "SCN_CH05_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH05_OUTRO",
-    "priority": 270
+    "priority": 5060
+  },
+  {
+    "id": "TRIG_CH05_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH05-H01",
+    "scenario_id": "SCN_CH05_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH05_HARD_INTRO",
+    "priority": 5070
+  },
+  {
+    "id": "TRIG_CH05_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH05-H05",
+    "scenario_id": "SCN_CH05_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH05_HARD_OUTRO",
+    "priority": 5080
   },
   {
     "id": "TRIG_CH06_INTRO",
@@ -239,7 +325,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH06_INTRO",
     "completion_flag": "story.trigger.TRIG_CH06_INTRO",
-    "priority": 280
+    "priority": 6010
   },
   {
     "id": "TRIG_CH06_MID_A",
@@ -247,15 +333,23 @@
     "stage_id": "CH06-N04",
     "scenario_id": "SCN_CH06_MID_A",
     "completion_flag": "story.trigger.TRIG_CH06_MID_A",
-    "priority": 290
+    "priority": 6020
   },
   {
     "id": "TRIG_CH06_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH06-N14",
+    "stage_id": "CH06-N13",
     "scenario_id": "SCN_CH06_MID_B",
     "completion_flag": "story.trigger.TRIG_CH06_MID_B",
-    "priority": 300
+    "priority": 6030
+  },
+  {
+    "id": "TRIG_CH06_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH06-N16",
+    "scenario_id": "SCN_CH06_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH06_CAMP",
+    "priority": 6040
   },
   {
     "id": "TRIG_CH06_PREBOSS",
@@ -263,7 +357,7 @@
     "stage_id": "CH06-N19",
     "scenario_id": "SCN_CH06_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH06_PREBOSS",
-    "priority": 310
+    "priority": 6050
   },
   {
     "id": "TRIG_CH06_OUTRO",
@@ -271,7 +365,23 @@
     "stage_id": "CH06-N20",
     "scenario_id": "SCN_CH06_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH06_OUTRO",
-    "priority": 320
+    "priority": 6060
+  },
+  {
+    "id": "TRIG_CH06_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH06-H01",
+    "scenario_id": "SCN_CH06_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH06_HARD_INTRO",
+    "priority": 6070
+  },
+  {
+    "id": "TRIG_CH06_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH06-H05",
+    "scenario_id": "SCN_CH06_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH06_HARD_OUTRO",
+    "priority": 6080
   },
   {
     "id": "TRIG_CH07_INTRO",
@@ -279,7 +389,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH07_INTRO",
     "completion_flag": "story.trigger.TRIG_CH07_INTRO",
-    "priority": 330
+    "priority": 7010
   },
   {
     "id": "TRIG_CH07_MID_A",
@@ -287,15 +397,23 @@
     "stage_id": "CH07-N04",
     "scenario_id": "SCN_CH07_MID_A",
     "completion_flag": "story.trigger.TRIG_CH07_MID_A",
-    "priority": 340
+    "priority": 7020
   },
   {
     "id": "TRIG_CH07_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH07-N14",
+    "stage_id": "CH07-N11",
     "scenario_id": "SCN_CH07_MID_B",
     "completion_flag": "story.trigger.TRIG_CH07_MID_B",
-    "priority": 350
+    "priority": 7030
+  },
+  {
+    "id": "TRIG_CH07_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH07-N14",
+    "scenario_id": "SCN_CH07_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH07_CAMP",
+    "priority": 7040
   },
   {
     "id": "TRIG_CH07_PREBOSS",
@@ -303,7 +421,7 @@
     "stage_id": "CH07-N19",
     "scenario_id": "SCN_CH07_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH07_PREBOSS",
-    "priority": 360
+    "priority": 7050
   },
   {
     "id": "TRIG_CH07_OUTRO",
@@ -311,7 +429,23 @@
     "stage_id": "CH07-N20",
     "scenario_id": "SCN_CH07_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH07_OUTRO",
-    "priority": 370
+    "priority": 7060
+  },
+  {
+    "id": "TRIG_CH07_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH07-H01",
+    "scenario_id": "SCN_CH07_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH07_HARD_INTRO",
+    "priority": 7070
+  },
+  {
+    "id": "TRIG_CH07_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH07-H05",
+    "scenario_id": "SCN_CH07_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH07_HARD_OUTRO",
+    "priority": 7080
   },
   {
     "id": "TRIG_CH08_INTRO",
@@ -319,7 +453,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH08_INTRO",
     "completion_flag": "story.trigger.TRIG_CH08_INTRO",
-    "priority": 380
+    "priority": 8010
   },
   {
     "id": "TRIG_CH08_MID_A",
@@ -327,7 +461,7 @@
     "stage_id": "CH08-N04",
     "scenario_id": "SCN_CH08_MID_A",
     "completion_flag": "story.trigger.TRIG_CH08_MID_A",
-    "priority": 390
+    "priority": 8020
   },
   {
     "id": "TRIG_CH08_MID_B",
@@ -335,7 +469,15 @@
     "stage_id": "CH08-N14",
     "scenario_id": "SCN_CH08_MID_B",
     "completion_flag": "story.trigger.TRIG_CH08_MID_B",
-    "priority": 400
+    "priority": 8030
+  },
+  {
+    "id": "TRIG_CH08_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH08-N16",
+    "scenario_id": "SCN_CH08_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH08_CAMP",
+    "priority": 8040
   },
   {
     "id": "TRIG_CH08_PREBOSS",
@@ -343,7 +485,7 @@
     "stage_id": "CH08-N19",
     "scenario_id": "SCN_CH08_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH08_PREBOSS",
-    "priority": 410
+    "priority": 8050
   },
   {
     "id": "TRIG_CH08_OUTRO",
@@ -351,7 +493,23 @@
     "stage_id": "CH08-N20",
     "scenario_id": "SCN_CH08_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH08_OUTRO",
-    "priority": 420
+    "priority": 8060
+  },
+  {
+    "id": "TRIG_CH08_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH08-H01",
+    "scenario_id": "SCN_CH08_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH08_HARD_INTRO",
+    "priority": 8070
+  },
+  {
+    "id": "TRIG_CH08_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH08-H05",
+    "scenario_id": "SCN_CH08_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH08_HARD_OUTRO",
+    "priority": 8080
   },
   {
     "id": "TRIG_CH09_INTRO",
@@ -359,7 +517,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH09_INTRO",
     "completion_flag": "story.trigger.TRIG_CH09_INTRO",
-    "priority": 430
+    "priority": 9010
   },
   {
     "id": "TRIG_CH09_MID_A",
@@ -367,15 +525,23 @@
     "stage_id": "CH09-N04",
     "scenario_id": "SCN_CH09_MID_A",
     "completion_flag": "story.trigger.TRIG_CH09_MID_A",
-    "priority": 440
+    "priority": 9020
   },
   {
     "id": "TRIG_CH09_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH09-N14",
+    "stage_id": "CH09-N10",
     "scenario_id": "SCN_CH09_MID_B",
     "completion_flag": "story.trigger.TRIG_CH09_MID_B",
-    "priority": 450
+    "priority": 9030
+  },
+  {
+    "id": "TRIG_CH09_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH09-N12",
+    "scenario_id": "SCN_CH09_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH09_CAMP",
+    "priority": 9040
   },
   {
     "id": "TRIG_CH09_PREBOSS",
@@ -383,7 +549,7 @@
     "stage_id": "CH09-N19",
     "scenario_id": "SCN_CH09_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH09_PREBOSS",
-    "priority": 460
+    "priority": 9050
   },
   {
     "id": "TRIG_CH09_OUTRO",
@@ -391,7 +557,23 @@
     "stage_id": "CH09-N20",
     "scenario_id": "SCN_CH09_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH09_OUTRO",
-    "priority": 470
+    "priority": 9060
+  },
+  {
+    "id": "TRIG_CH09_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH09-H01",
+    "scenario_id": "SCN_CH09_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH09_HARD_INTRO",
+    "priority": 9070
+  },
+  {
+    "id": "TRIG_CH09_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH09-H05",
+    "scenario_id": "SCN_CH09_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH09_HARD_OUTRO",
+    "priority": 9080
   },
   {
     "id": "TRIG_CH10_INTRO",
@@ -399,7 +581,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH10_INTRO",
     "completion_flag": "story.trigger.TRIG_CH10_INTRO",
-    "priority": 480
+    "priority": 10010
   },
   {
     "id": "TRIG_CH10_MID_A",
@@ -407,7 +589,7 @@
     "stage_id": "CH10-N04",
     "scenario_id": "SCN_CH10_MID_A",
     "completion_flag": "story.trigger.TRIG_CH10_MID_A",
-    "priority": 490
+    "priority": 10020
   },
   {
     "id": "TRIG_CH10_MID_B",
@@ -415,7 +597,15 @@
     "stage_id": "CH10-N15",
     "scenario_id": "SCN_CH10_MID_B",
     "completion_flag": "story.trigger.TRIG_CH10_MID_B",
-    "priority": 500
+    "priority": 10030
+  },
+  {
+    "id": "TRIG_CH10_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH10-N18",
+    "scenario_id": "SCN_CH10_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH10_CAMP",
+    "priority": 10040
   },
   {
     "id": "TRIG_CH10_PREBOSS",
@@ -423,7 +613,7 @@
     "stage_id": "CH10-N19",
     "scenario_id": "SCN_CH10_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH10_PREBOSS",
-    "priority": 510
+    "priority": 10050
   },
   {
     "id": "TRIG_CH10_OUTRO",
@@ -431,7 +621,23 @@
     "stage_id": "CH10-N20",
     "scenario_id": "SCN_CH10_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH10_OUTRO",
-    "priority": 520
+    "priority": 10060
+  },
+  {
+    "id": "TRIG_CH10_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH10-H01",
+    "scenario_id": "SCN_CH10_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH10_HARD_INTRO",
+    "priority": 10070
+  },
+  {
+    "id": "TRIG_CH10_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH10-H05",
+    "scenario_id": "SCN_CH10_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH10_HARD_OUTRO",
+    "priority": 10080
   },
   {
     "id": "TRIG_CH11_INTRO",
@@ -439,7 +645,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH11_INTRO",
     "completion_flag": "story.trigger.TRIG_CH11_INTRO",
-    "priority": 530
+    "priority": 11010
   },
   {
     "id": "TRIG_CH11_MID_A",
@@ -447,15 +653,23 @@
     "stage_id": "CH11-N04",
     "scenario_id": "SCN_CH11_MID_A",
     "completion_flag": "story.trigger.TRIG_CH11_MID_A",
-    "priority": 540
+    "priority": 11020
   },
   {
     "id": "TRIG_CH11_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH11-N14",
+    "stage_id": "CH11-N11",
     "scenario_id": "SCN_CH11_MID_B",
     "completion_flag": "story.trigger.TRIG_CH11_MID_B",
-    "priority": 550
+    "priority": 11030
+  },
+  {
+    "id": "TRIG_CH11_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH11-N14",
+    "scenario_id": "SCN_CH11_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH11_CAMP",
+    "priority": 11040
   },
   {
     "id": "TRIG_CH11_PREBOSS",
@@ -463,7 +677,7 @@
     "stage_id": "CH11-N19",
     "scenario_id": "SCN_CH11_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH11_PREBOSS",
-    "priority": 560
+    "priority": 11050
   },
   {
     "id": "TRIG_CH11_OUTRO",
@@ -471,7 +685,23 @@
     "stage_id": "CH11-N20",
     "scenario_id": "SCN_CH11_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH11_OUTRO",
-    "priority": 570
+    "priority": 11060
+  },
+  {
+    "id": "TRIG_CH11_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH11-H01",
+    "scenario_id": "SCN_CH11_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH11_HARD_INTRO",
+    "priority": 11070
+  },
+  {
+    "id": "TRIG_CH11_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH11-H05",
+    "scenario_id": "SCN_CH11_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH11_HARD_OUTRO",
+    "priority": 11080
   },
   {
     "id": "TRIG_CH12_INTRO",
@@ -479,7 +709,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH12_INTRO",
     "completion_flag": "story.trigger.TRIG_CH12_INTRO",
-    "priority": 580
+    "priority": 12010
   },
   {
     "id": "TRIG_CH12_MID_A",
@@ -487,15 +717,23 @@
     "stage_id": "CH12-N04",
     "scenario_id": "SCN_CH12_MID_A",
     "completion_flag": "story.trigger.TRIG_CH12_MID_A",
-    "priority": 590
+    "priority": 12020
   },
   {
     "id": "TRIG_CH12_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH12-N14",
+    "stage_id": "CH12-N13",
     "scenario_id": "SCN_CH12_MID_B",
     "completion_flag": "story.trigger.TRIG_CH12_MID_B",
-    "priority": 600
+    "priority": 12030
+  },
+  {
+    "id": "TRIG_CH12_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH12-N16",
+    "scenario_id": "SCN_CH12_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH12_CAMP",
+    "priority": 12040
   },
   {
     "id": "TRIG_CH12_PREBOSS",
@@ -503,7 +741,7 @@
     "stage_id": "CH12-N19",
     "scenario_id": "SCN_CH12_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH12_PREBOSS",
-    "priority": 610
+    "priority": 12050
   },
   {
     "id": "TRIG_CH12_OUTRO",
@@ -511,7 +749,23 @@
     "stage_id": "CH12-N20",
     "scenario_id": "SCN_CH12_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH12_OUTRO",
-    "priority": 620
+    "priority": 12060
+  },
+  {
+    "id": "TRIG_CH12_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH12-H01",
+    "scenario_id": "SCN_CH12_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH12_HARD_INTRO",
+    "priority": 12070
+  },
+  {
+    "id": "TRIG_CH12_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH12-H05",
+    "scenario_id": "SCN_CH12_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH12_HARD_OUTRO",
+    "priority": 12080
   },
   {
     "id": "TRIG_CH13_INTRO",
@@ -519,7 +773,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH13_INTRO",
     "completion_flag": "story.trigger.TRIG_CH13_INTRO",
-    "priority": 630
+    "priority": 13010
   },
   {
     "id": "TRIG_CH13_MID_A",
@@ -527,15 +781,23 @@
     "stage_id": "CH13-N04",
     "scenario_id": "SCN_CH13_MID_A",
     "completion_flag": "story.trigger.TRIG_CH13_MID_A",
-    "priority": 640
+    "priority": 13020
   },
   {
     "id": "TRIG_CH13_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH13-N14",
+    "stage_id": "CH13-N09",
     "scenario_id": "SCN_CH13_MID_B",
     "completion_flag": "story.trigger.TRIG_CH13_MID_B",
-    "priority": 650
+    "priority": 13030
+  },
+  {
+    "id": "TRIG_CH13_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH13-N12",
+    "scenario_id": "SCN_CH13_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH13_CAMP",
+    "priority": 13040
   },
   {
     "id": "TRIG_CH13_PREBOSS",
@@ -543,7 +805,7 @@
     "stage_id": "CH13-N19",
     "scenario_id": "SCN_CH13_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH13_PREBOSS",
-    "priority": 660
+    "priority": 13050
   },
   {
     "id": "TRIG_CH13_OUTRO",
@@ -551,7 +813,23 @@
     "stage_id": "CH13-N20",
     "scenario_id": "SCN_CH13_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH13_OUTRO",
-    "priority": 670
+    "priority": 13060
+  },
+  {
+    "id": "TRIG_CH13_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH13-H01",
+    "scenario_id": "SCN_CH13_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH13_HARD_INTRO",
+    "priority": 13070
+  },
+  {
+    "id": "TRIG_CH13_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH13-H05",
+    "scenario_id": "SCN_CH13_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH13_HARD_OUTRO",
+    "priority": 13080
   },
   {
     "id": "TRIG_CH14_INTRO",
@@ -559,7 +837,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH14_INTRO",
     "completion_flag": "story.trigger.TRIG_CH14_INTRO",
-    "priority": 680
+    "priority": 14010
   },
   {
     "id": "TRIG_CH14_MID_A",
@@ -567,7 +845,7 @@
     "stage_id": "CH14-N04",
     "scenario_id": "SCN_CH14_MID_A",
     "completion_flag": "story.trigger.TRIG_CH14_MID_A",
-    "priority": 690
+    "priority": 14020
   },
   {
     "id": "TRIG_CH14_MID_B",
@@ -575,7 +853,15 @@
     "stage_id": "CH14-N14",
     "scenario_id": "SCN_CH14_MID_B",
     "completion_flag": "story.trigger.TRIG_CH14_MID_B",
-    "priority": 700
+    "priority": 14030
+  },
+  {
+    "id": "TRIG_CH14_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH14-N16",
+    "scenario_id": "SCN_CH14_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH14_CAMP",
+    "priority": 14040
   },
   {
     "id": "TRIG_CH14_PREBOSS",
@@ -583,7 +869,7 @@
     "stage_id": "CH14-N19",
     "scenario_id": "SCN_CH14_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH14_PREBOSS",
-    "priority": 710
+    "priority": 14050
   },
   {
     "id": "TRIG_CH14_OUTRO",
@@ -591,7 +877,23 @@
     "stage_id": "CH14-N20",
     "scenario_id": "SCN_CH14_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH14_OUTRO",
-    "priority": 720
+    "priority": 14060
+  },
+  {
+    "id": "TRIG_CH14_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH14-H01",
+    "scenario_id": "SCN_CH14_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH14_HARD_INTRO",
+    "priority": 14070
+  },
+  {
+    "id": "TRIG_CH14_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH14-H05",
+    "scenario_id": "SCN_CH14_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH14_HARD_OUTRO",
+    "priority": 14080
   },
   {
     "id": "TRIG_CH15_INTRO",
@@ -599,7 +901,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH15_INTRO",
     "completion_flag": "story.trigger.TRIG_CH15_INTRO",
-    "priority": 730
+    "priority": 15010
   },
   {
     "id": "TRIG_CH15_MID_A",
@@ -607,15 +909,23 @@
     "stage_id": "CH15-N04",
     "scenario_id": "SCN_CH15_MID_A",
     "completion_flag": "story.trigger.TRIG_CH15_MID_A",
-    "priority": 740
+    "priority": 15020
   },
   {
     "id": "TRIG_CH15_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH15-N14",
+    "stage_id": "CH15-N12",
     "scenario_id": "SCN_CH15_MID_B",
     "completion_flag": "story.trigger.TRIG_CH15_MID_B",
-    "priority": 750
+    "priority": 15030
+  },
+  {
+    "id": "TRIG_CH15_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH15-N14",
+    "scenario_id": "SCN_CH15_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH15_CAMP",
+    "priority": 15040
   },
   {
     "id": "TRIG_CH15_PREBOSS",
@@ -623,7 +933,7 @@
     "stage_id": "CH15-N19",
     "scenario_id": "SCN_CH15_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH15_PREBOSS",
-    "priority": 760
+    "priority": 15050
   },
   {
     "id": "TRIG_CH15_OUTRO",
@@ -631,7 +941,23 @@
     "stage_id": "CH15-N20",
     "scenario_id": "SCN_CH15_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH15_OUTRO",
-    "priority": 770
+    "priority": 15060
+  },
+  {
+    "id": "TRIG_CH15_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH15-H01",
+    "scenario_id": "SCN_CH15_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH15_HARD_INTRO",
+    "priority": 15070
+  },
+  {
+    "id": "TRIG_CH15_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH15-H05",
+    "scenario_id": "SCN_CH15_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH15_HARD_OUTRO",
+    "priority": 15080
   },
   {
     "id": "TRIG_CH16_INTRO",
@@ -639,7 +965,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH16_INTRO",
     "completion_flag": "story.trigger.TRIG_CH16_INTRO",
-    "priority": 780
+    "priority": 16010
   },
   {
     "id": "TRIG_CH16_MID_A",
@@ -647,7 +973,7 @@
     "stage_id": "CH16-N04",
     "scenario_id": "SCN_CH16_MID_A",
     "completion_flag": "story.trigger.TRIG_CH16_MID_A",
-    "priority": 790
+    "priority": 16020
   },
   {
     "id": "TRIG_CH16_MID_B",
@@ -655,7 +981,15 @@
     "stage_id": "CH16-N15",
     "scenario_id": "SCN_CH16_MID_B",
     "completion_flag": "story.trigger.TRIG_CH16_MID_B",
-    "priority": 800
+    "priority": 16030
+  },
+  {
+    "id": "TRIG_CH16_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH16-N18",
+    "scenario_id": "SCN_CH16_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH16_CAMP",
+    "priority": 16040
   },
   {
     "id": "TRIG_CH16_PREBOSS",
@@ -663,7 +997,7 @@
     "stage_id": "CH16-N19",
     "scenario_id": "SCN_CH16_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH16_PREBOSS",
-    "priority": 810
+    "priority": 16050
   },
   {
     "id": "TRIG_CH16_OUTRO",
@@ -671,7 +1005,23 @@
     "stage_id": "CH16-N20",
     "scenario_id": "SCN_CH16_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH16_OUTRO",
-    "priority": 820
+    "priority": 16060
+  },
+  {
+    "id": "TRIG_CH16_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH16-H01",
+    "scenario_id": "SCN_CH16_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH16_HARD_INTRO",
+    "priority": 16070
+  },
+  {
+    "id": "TRIG_CH16_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH16-H05",
+    "scenario_id": "SCN_CH16_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH16_HARD_OUTRO",
+    "priority": 16080
   },
   {
     "id": "TRIG_CH17_INTRO",
@@ -679,7 +1029,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH17_INTRO",
     "completion_flag": "story.trigger.TRIG_CH17_INTRO",
-    "priority": 830
+    "priority": 17010
   },
   {
     "id": "TRIG_CH17_MID_A",
@@ -687,15 +1037,23 @@
     "stage_id": "CH17-N04",
     "scenario_id": "SCN_CH17_MID_A",
     "completion_flag": "story.trigger.TRIG_CH17_MID_A",
-    "priority": 840
+    "priority": 17020
   },
   {
     "id": "TRIG_CH17_MID_B",
     "event": "STAGE_CLEAR",
-    "stage_id": "CH17-N14",
+    "stage_id": "CH17-N10",
     "scenario_id": "SCN_CH17_MID_B",
     "completion_flag": "story.trigger.TRIG_CH17_MID_B",
-    "priority": 850
+    "priority": 17030
+  },
+  {
+    "id": "TRIG_CH17_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH17-N12",
+    "scenario_id": "SCN_CH17_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH17_CAMP",
+    "priority": 17040
   },
   {
     "id": "TRIG_CH17_PREBOSS",
@@ -703,7 +1061,7 @@
     "stage_id": "CH17-N19",
     "scenario_id": "SCN_CH17_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH17_PREBOSS",
-    "priority": 860
+    "priority": 17050
   },
   {
     "id": "TRIG_CH17_OUTRO",
@@ -711,7 +1069,23 @@
     "stage_id": "CH17-N20",
     "scenario_id": "SCN_CH17_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH17_OUTRO",
-    "priority": 870
+    "priority": 17060
+  },
+  {
+    "id": "TRIG_CH17_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH17-H01",
+    "scenario_id": "SCN_CH17_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH17_HARD_INTRO",
+    "priority": 17070
+  },
+  {
+    "id": "TRIG_CH17_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH17-H05",
+    "scenario_id": "SCN_CH17_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH17_HARD_OUTRO",
+    "priority": 17080
   },
   {
     "id": "TRIG_CH18_INTRO",
@@ -719,7 +1093,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH18_INTRO",
     "completion_flag": "story.trigger.TRIG_CH18_INTRO",
-    "priority": 880
+    "priority": 18010
   },
   {
     "id": "TRIG_CH18_MID_A",
@@ -727,7 +1101,15 @@
     "stage_id": "CH18-N04",
     "scenario_id": "SCN_CH18_MID_A",
     "completion_flag": "story.trigger.TRIG_CH18_MID_A",
-    "priority": 890
+    "priority": 18020
+  },
+  {
+    "id": "TRIG_CH18_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH18-N12",
+    "scenario_id": "SCN_CH18_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH18_CAMP",
+    "priority": 18030
   },
   {
     "id": "TRIG_CH18_MID_B",
@@ -735,7 +1117,7 @@
     "stage_id": "CH18-N16",
     "scenario_id": "SCN_CH18_MID_B",
     "completion_flag": "story.trigger.TRIG_CH18_MID_B",
-    "priority": 900
+    "priority": 18040
   },
   {
     "id": "TRIG_CH18_PREBOSS",
@@ -743,7 +1125,7 @@
     "stage_id": "CH18-N19",
     "scenario_id": "SCN_CH18_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH18_PREBOSS",
-    "priority": 910
+    "priority": 18050
   },
   {
     "id": "TRIG_CH18_OUTRO",
@@ -751,7 +1133,23 @@
     "stage_id": "CH18-N20",
     "scenario_id": "SCN_CH18_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH18_OUTRO",
-    "priority": 920
+    "priority": 18060
+  },
+  {
+    "id": "TRIG_CH18_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH18-H01",
+    "scenario_id": "SCN_CH18_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH18_HARD_INTRO",
+    "priority": 18070
+  },
+  {
+    "id": "TRIG_CH18_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH18-H05",
+    "scenario_id": "SCN_CH18_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH18_HARD_OUTRO",
+    "priority": 18080
   },
   {
     "id": "TRIG_CH19_INTRO",
@@ -759,7 +1157,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH19_INTRO",
     "completion_flag": "story.trigger.TRIG_CH19_INTRO",
-    "priority": 930
+    "priority": 19010
   },
   {
     "id": "TRIG_CH19_MID_A",
@@ -767,7 +1165,7 @@
     "stage_id": "CH19-N04",
     "scenario_id": "SCN_CH19_MID_A",
     "completion_flag": "story.trigger.TRIG_CH19_MID_A",
-    "priority": 940
+    "priority": 19020
   },
   {
     "id": "TRIG_CH19_MID_B",
@@ -775,7 +1173,15 @@
     "stage_id": "CH19-N14",
     "scenario_id": "SCN_CH19_MID_B",
     "completion_flag": "story.trigger.TRIG_CH19_MID_B",
-    "priority": 950
+    "priority": 19030
+  },
+  {
+    "id": "TRIG_CH19_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH19-N16",
+    "scenario_id": "SCN_CH19_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH19_CAMP",
+    "priority": 19040
   },
   {
     "id": "TRIG_CH19_PREBOSS",
@@ -783,7 +1189,7 @@
     "stage_id": "CH19-N19",
     "scenario_id": "SCN_CH19_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH19_PREBOSS",
-    "priority": 960
+    "priority": 19050
   },
   {
     "id": "TRIG_CH19_OUTRO",
@@ -791,7 +1197,23 @@
     "stage_id": "CH19-N20",
     "scenario_id": "SCN_CH19_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH19_OUTRO",
-    "priority": 970
+    "priority": 19060
+  },
+  {
+    "id": "TRIG_CH19_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH19-H01",
+    "scenario_id": "SCN_CH19_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH19_HARD_INTRO",
+    "priority": 19070
+  },
+  {
+    "id": "TRIG_CH19_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH19-H05",
+    "scenario_id": "SCN_CH19_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH19_HARD_OUTRO",
+    "priority": 19080
   },
   {
     "id": "TRIG_CH20_INTRO",
@@ -799,7 +1221,7 @@
     "stage_id": "",
     "scenario_id": "SCN_CH20_INTRO",
     "completion_flag": "story.trigger.TRIG_CH20_INTRO",
-    "priority": 980
+    "priority": 20010
   },
   {
     "id": "TRIG_CH20_MID_A",
@@ -807,7 +1229,15 @@
     "stage_id": "CH20-N04",
     "scenario_id": "SCN_CH20_MID_A",
     "completion_flag": "story.trigger.TRIG_CH20_MID_A",
-    "priority": 990
+    "priority": 20020
+  },
+  {
+    "id": "TRIG_CH20_CAMP",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH20-N12",
+    "scenario_id": "SCN_CH20_CAMP",
+    "completion_flag": "story.trigger.TRIG_CH20_CAMP",
+    "priority": 20030
   },
   {
     "id": "TRIG_CH20_MID_B",
@@ -815,7 +1245,7 @@
     "stage_id": "CH20-N17",
     "scenario_id": "SCN_CH20_MID_B",
     "completion_flag": "story.trigger.TRIG_CH20_MID_B",
-    "priority": 1000
+    "priority": 20040
   },
   {
     "id": "TRIG_CH20_PREBOSS",
@@ -823,7 +1253,7 @@
     "stage_id": "CH20-N19",
     "scenario_id": "SCN_CH20_PREBOSS",
     "completion_flag": "story.trigger.TRIG_CH20_PREBOSS",
-    "priority": 1010
+    "priority": 20050
   },
   {
     "id": "TRIG_CH20_OUTRO",
@@ -831,6 +1261,22 @@
     "stage_id": "CH20-N20",
     "scenario_id": "SCN_CH20_OUTRO",
     "completion_flag": "story.trigger.TRIG_CH20_OUTRO",
-    "priority": 1020
+    "priority": 20060
+  },
+  {
+    "id": "TRIG_CH20_HARD_INTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH20-H01",
+    "scenario_id": "SCN_CH20_HARD_INTRO",
+    "completion_flag": "story.trigger.TRIG_CH20_HARD_INTRO",
+    "priority": 20070
+  },
+  {
+    "id": "TRIG_CH20_HARD_OUTRO",
+    "event": "STAGE_CLEAR",
+    "stage_id": "CH20-H05",
+    "scenario_id": "SCN_CH20_HARD_OUTRO",
+    "completion_flag": "story.trigger.TRIG_CH20_HARD_OUTRO",
+    "priority": 20080
   }
 ]

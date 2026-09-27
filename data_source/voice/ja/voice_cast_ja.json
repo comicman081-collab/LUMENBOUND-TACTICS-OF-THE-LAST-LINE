@@ -1,60 +1,376 @@
 {
- "schema_version": 1,
- "service": "Alibaba Cloud Model Studio Token Plan, Singapore host (token-plan.ap-southeast-1.maas.aliyuncs.com)",
- "model": "qwen-audio-3.0-tts-plus",
- "voice_id_format": "qwen-audio-3.0-tts-plus-<voice>",
- "policy": "Every speaker is an adult woman (docs/PROJECT_CONTENT_POLICY.md); only adult female base voices are cast. The protagonist (the player's choices) is not voiced.",
- "casting_source": "Female voices vetted in the AFTER SIGNAL voice audition (2026-09-24); Japanese pronunciation checked here by ASR on every generated line.",
- "speakers": {
-  "SPEAKER_ROUTEKEEPER": {"name": "길잡이 (나레이션)", "voice": "longtonghewei", "pre_ms": 80, "post_ms": 360,
-   "instruction": "Native Tokyo Japanese. Mature female narrator. Calm, measured storytelling, gentle gravity."},
-  "SPEAKER_MAERU": {"name": "마에루 CHR001", "voice": "longyuyaoluan", "pre_ms": 60, "post_ms": 240,
-   "instruction": "Native Tokyo Japanese. Calm, dignified team leader. Warm but firm, clear and steady."},
-  "SPEAKER_ROAN": {"name": "로안 CHR002", "voice": "longyitingyan", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Brisk, confident scout. Crisp, upbeat, quick."},
-  "SPEAKER_NARIN": {"name": "나린 CHR003", "voice": "longchengtingtong", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Sharp analyst. Cool, precise, quietly intense."},
-  "SPEAKER_SOREN": {"name": "소렌 CHR005", "voice": "longqingxiaoxiang", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Confident gunner. Poised, slightly teasing, clear."},
-  "CHAR_VERA_NAME": {"name": "베라 CHR006", "voice": "longshanyusong", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Earnest signal tracker. Steady, determined, sincere."},
-  "CHAR_TOA_NAME": {"name": "토아 CHR007", "voice": "longlinxinghong", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Precise technician. Calm, level, exact."},
-  "SPEAKER_IRI": {"name": "이리 CHR008", "voice": "longlanghongmo", "pre_ms": 60, "post_ms": 240,
-   "instruction": "Native Tokyo Japanese. Gentle medic. Soft, warm, kind, unhurried."},
-  "CHAR_LIV_NAME": {"name": "리브 CHR009", "voice": "longxuanzhengju", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Strong frontliner. Resonant, resolute, protective."},
-  "CHAR_SEON_NAME": {"name": "세온 CHR010", "voice": "longchezhuyu", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Kind field medic. Natural, warm, reassuring."},
-  "CHAR_ADELINE_NAME": {"name": "아델린 CHR011", "voice": "longyingshiyu", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Seasoned artillery officer. Capable, crisp, assured."},
-  "CHAR_KIR_NAME": {"name": "키르 CHR012", "voice": "longmolinglian", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Signal analyst. Steady, declarative, focused."},
-  "CHAR_REMA_NAME": {"name": "레마 CHR013", "voice": "longxinzhenghe", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Veteran guardian. Mature, resilient, gentle strength."},
-  "CHAR_VEON_NAME": {"name": "베온 CHR014", "voice": "longyilanni", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Hot-blooded striker. Passionate, energetic, bold."},
-  "CHAR_HART_NAME": {"name": "하르트 CHR015", "voice": "longfengyueyao", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Straightforward gunner. Crisp, direct, matter-of-fact."},
-  "CHAR_ORSA_NAME": {"name": "오르사 CHR016", "voice": "longyilianxia", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Stately shield bearer. Noble, composed, weighty."},
-  "CHAR_TIEL_NAME": {"name": "티엘 CHR017", "voice": "longxueyuxia", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Elegant medic. Warm, graceful, dignified."},
-  "CHAR_RIAS_NAME": {"name": "리아스 CHR018", "voice": "longbaiyunlin", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Sharp-tongued vanguard. Brusque, sharp, quick."},
-  "CHAR_PERIN_NAME": {"name": "페린 CHR019", "voice": "longximusong", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Playful hacker. Quirky, mischievous, light."},
-  "CHAR_KARN_NAME": {"name": "카른 CHR020", "voice": "longcanzhuyue", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Plain-spoken fighter. Sincere, simple, honest."},
-  "CHAR_NOAR_NAME": {"name": "노아르 CHR021", "voice": "longlinchengquan", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Soft-spoken healer. Graceful, soothing, tender."},
-  "CHAR_SEB_NAME": {"name": "세브 CHR022", "voice": "longtongjunfeng", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Easygoing archivist. Relaxed, chatty, warm."},
-  "CHAR_YURIEN_NAME": {"name": "유리엔 CHR023", "voice": "longnilanfeng", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Mature long-range gunner. Low, intimate, composed."},
-  "CHAR_MOEN_NAME": {"name": "모엔 CHR024", "voice": "longliulingfu", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Quiet witness. Wistful, soft, thoughtful."},
-  "CHAR_LAVENT_NAME": {"name": "라벤트 CHR025", "voice": "longluanhuiyu", "pre_ms": 50, "post_ms": 220,
-   "instruction": "Native Tokyo Japanese. Composed guardian. Mature, steady, reassuring."}
- }
+  "schema_version": 1,
+  "service": "Alibaba Cloud Model Studio Token Plan, Singapore host (token-plan.ap-southeast-1.maas.aliyuncs.com)",
+  "model": "qwen-audio-3.0-tts-plus",
+  "voice_id_format": "qwen-audio-3.0-tts-plus-<voice>",
+  "policy": "Every speaker is an adult woman (docs/PROJECT_CONTENT_POLICY.md); only adult female base voices are cast. The protagonist (the player's choices) is not voiced.",
+  "casting_source": "Female voices vetted in the AFTER SIGNAL voice audition (2026-09-24); Japanese pronunciation checked here by ASR on every generated line.",
+  "speakers": {
+    "SPEAKER_ROUTEKEEPER": {
+      "name": "길잡이 (나레이션)",
+      "voice": "longtonghewei",
+      "pre_ms": 80,
+      "post_ms": 360,
+      "instruction": "Native Tokyo Japanese. Mature female narrator. Calm, measured storytelling, gentle gravity."
+    },
+    "SPEAKER_MAERU": {
+      "name": "마에루 CHR001",
+      "voice": "longyuyaoluan",
+      "pre_ms": 60,
+      "post_ms": 240,
+      "instruction": "Native Tokyo Japanese. Calm, dignified team leader. Warm but firm, clear and steady."
+    },
+    "SPEAKER_ROAN": {
+      "name": "로안 CHR002",
+      "voice": "longyitingyan",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Brisk, confident scout. Crisp, upbeat, quick."
+    },
+    "SPEAKER_NARIN": {
+      "name": "나린 CHR003",
+      "voice": "longchengtingtong",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Sharp analyst. Cool, precise, quietly intense."
+    },
+    "SPEAKER_SOREN": {
+      "name": "소렌 CHR005",
+      "voice": "longqingxiaoxiang",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Confident gunner. Poised, slightly teasing, clear."
+    },
+    "CHAR_VERA_NAME": {
+      "name": "베라 CHR006",
+      "voice": "longshanyusong",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Earnest signal tracker. Steady, determined, sincere."
+    },
+    "CHAR_TOA_NAME": {
+      "name": "토아 CHR007",
+      "voice": "longlinxinghong",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Precise technician. Calm, level, exact."
+    },
+    "SPEAKER_IRI": {
+      "name": "이리 CHR008",
+      "voice": "longlanghongmo",
+      "pre_ms": 60,
+      "post_ms": 240,
+      "instruction": "Native Tokyo Japanese. Gentle medic. Soft, warm, kind, unhurried."
+    },
+    "CHAR_LIV_NAME": {
+      "name": "리브 CHR009",
+      "voice": "longxuanzhengju",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Strong frontliner. Resonant, resolute, protective."
+    },
+    "CHAR_SEON_NAME": {
+      "name": "세온 CHR010",
+      "voice": "longchezhuyu",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Kind field medic. Natural, warm, reassuring."
+    },
+    "CHAR_ADELINE_NAME": {
+      "name": "아델린 CHR011",
+      "voice": "longyingshiyu",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Seasoned artillery officer. Capable, crisp, assured."
+    },
+    "CHAR_KIR_NAME": {
+      "name": "키르 CHR012",
+      "voice": "longmolinglian",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Signal analyst. Steady, declarative, focused."
+    },
+    "CHAR_REMA_NAME": {
+      "name": "레마 CHR013",
+      "voice": "longxinzhenghe",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Veteran guardian. Mature, resilient, gentle strength."
+    },
+    "CHAR_VEON_NAME": {
+      "name": "베온 CHR014",
+      "voice": "longyilanni",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Hot-blooded striker. Passionate, energetic, bold."
+    },
+    "CHAR_HART_NAME": {
+      "name": "하르트 CHR015",
+      "voice": "longfengyueyao",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Straightforward gunner. Crisp, direct, matter-of-fact."
+    },
+    "CHAR_ORSA_NAME": {
+      "name": "오르사 CHR016",
+      "voice": "longyilianxia",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Stately shield bearer. Noble, composed, weighty."
+    },
+    "CHAR_TIEL_NAME": {
+      "name": "티엘 CHR017",
+      "voice": "longxueyuxia",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Elegant medic. Warm, graceful, dignified."
+    },
+    "CHAR_RIAS_NAME": {
+      "name": "리아스 CHR018",
+      "voice": "longbaiyunlin",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Sharp-tongued vanguard. Brusque, sharp, quick."
+    },
+    "CHAR_PERIN_NAME": {
+      "name": "페린 CHR019",
+      "voice": "longximusong",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Playful hacker. Quirky, mischievous, light."
+    },
+    "CHAR_KARN_NAME": {
+      "name": "카른 CHR020",
+      "voice": "longcanzhuyue",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Plain-spoken fighter. Sincere, simple, honest."
+    },
+    "CHAR_NOAR_NAME": {
+      "name": "노아르 CHR021",
+      "voice": "longlinchengquan",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Soft-spoken healer. Graceful, soothing, tender."
+    },
+    "CHAR_SEB_NAME": {
+      "name": "세브 CHR022",
+      "voice": "longtongjunfeng",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Easygoing archivist. Relaxed, chatty, warm."
+    },
+    "CHAR_YURIEN_NAME": {
+      "name": "유리엔 CHR023",
+      "voice": "longnilanfeng",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Mature long-range gunner. Low, intimate, composed."
+    },
+    "CHAR_MOEN_NAME": {
+      "name": "모엔 CHR024",
+      "voice": "longliulingfu",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Quiet witness. Wistful, soft, thoughtful."
+    },
+    "CHAR_LAVENT_NAME": {
+      "name": "라벤트 CHR025",
+      "voice": "longluanhuiyu",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Composed guardian. Mature, steady, reassuring."
+    },
+    "SPEAKER_EDA": {
+      "name": "에다 CHR004",
+      "voice": "longlingjinquan",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Bright, impulsive assault runner. Energetic, quick, cheerful."
+    },
+    "SPEAKER_CONTROL": {
+      "name": "종착 관제",
+      "voice": "longhuikeyuan",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Terminus control announcer. Gentle, flawlessly polite, eerily calm."
+    },
+    "SPEAKER_SIO": {
+      "name": "시오 (마에루의 옛 동료)",
+      "voice": "longjishuangmu",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Lost rescue partner. Warm, brave, softly echoing."
+    },
+    "SPEAKER_SURVIVOR": {
+      "name": "생존자",
+      "voice": "longlinlinying",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Stranded survivor. Tired, shaken, hopeful."
+    },
+    "SPEAKER_ECHO": {
+      "name": "잔향",
+      "voice": "longxuanyanyun",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Hollow signal echo. Distant, somber, fragmented."
+    },
+    "SPEAKER_EAST_KING": {
+      "name": "동부선 노선왕",
+      "voice": "longjintongxi",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Stately eastern line monarch. Regal, archaic, proud."
+    },
+    "SPEAKER_WEST_KING": {
+      "name": "서부선 노선왕",
+      "voice": "longxuanchengdie",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Blunt western line monarch. Curt, forceful, short."
+    },
+    "CHAR_KAIREN_NAME": {
+      "name": "카이렌 CHR026",
+      "voice": "longjinlianji",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Taciturn marksman. Low, sparse, subdued."
+    },
+    "CHAR_INOA_NAME": {
+      "name": "이노아 CHR027",
+      "voice": "longlanqinluan",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Telegraph operator. Clipped, coded, intellectual."
+    },
+    "CHAR_DRAN_NAME": {
+      "name": "드란 CHR028",
+      "voice": "longtongshuoxiu",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Plains hunter. Rough, hearty, booming."
+    },
+    "CHAR_MERIN_NAME": {
+      "name": "메린 CHR029",
+      "voice": "longjunqingyu",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Diving medic. Soft, murmuring, gentle."
+    },
+    "CHAR_CIEL_NAME": {
+      "name": "시엘 CHR030",
+      "voice": "longliutaohong",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Flak gunner. Prickly, sharp, sulky."
+    },
+    "CHAR_ROME_NAME": {
+      "name": "로메 CHR031",
+      "voice": "longlinjinying",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Bridge mender. Slow, sturdy, patient."
+    },
+    "CHAR_KIAN_NAME": {
+      "name": "키안 CHR032",
+      "voice": "longfengxuanxing",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Snowfield survivor. Cynical, dry, gloomy."
+    },
+    "CHAR_DAEL_NAME": {
+      "name": "다엘 CHR033",
+      "voice": "longchengxuanxian",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Track surveyor. Precise, numeric, brisk."
+    },
+    "CHAR_ORBIN_NAME": {
+      "name": "오르빈 CHR034",
+      "voice": "longkeyanyu",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Former station guard. Strict, formal, steady."
+    },
+    "CHAR_HERAON_NAME": {
+      "name": "헤라온 CHR035",
+      "voice": "longlanwangyi",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Star watcher. Dreamy, airy, wondering."
+    },
+    "CHAR_MIRE_NAME": {
+      "name": "미레 CHR036",
+      "voice": "longluzhulan",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Breakwater rescuer. Tough, gutsy, loud."
+    },
+    "CHAR_RAEN_NAME": {
+      "name": "라엔 CHR037",
+      "voice": "longlanfengyu",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Pilgrim swordswoman. Quiet, composed, few words."
+    },
+    "CHAR_ZERN_NAME": {
+      "name": "제른 CHR038",
+      "voice": "longxiaoxingyi",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Desert courier. Fast, breathless, eager."
+    },
+    "CHAR_SOA_NAME": {
+      "name": "소아 CHR039",
+      "voice": "longyizhengmu",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Underground hacker. Shy, hesitant, soft."
+    },
+    "CHAR_BAEL_NAME": {
+      "name": "바엘 CHR040",
+      "voice": "longxianlingling",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Garden herbalist. Languid, dreamy, slow."
+    },
+    "CHAR_TERAN_NAME": {
+      "name": "테란 CHR041",
+      "voice": "longhongyanxuan",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Deserter knight. Direct, firm, commanding."
+    },
+    "CHAR_YUNAK_NAME": {
+      "name": "유나크 CHR042",
+      "voice": "longruiyuling",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Library battery gunner. Learned, calm, articulate."
+    },
+    "CHAR_ARINT_NAME": {
+      "name": "아린트 CHR043",
+      "voice": "longquantaolan",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Line works foreman. Gruff, flat, mature."
+    },
+    "CHAR_VELK_NAME": {
+      "name": "벨크 CHR044",
+      "voice": "longyanxuyi",
+      "pre_ms": 50,
+      "post_ms": 220,
+      "instruction": "Native Tokyo Japanese. Loop escapee. Shaky, desperate, urgent."
+    }
+  },
+  "prefix_speakers": {
+    "ENEMY_": {
+      "name": "보스·이상체 (역 안내 방송)",
+      "voice": "longdieshuangluan",
+      "pre_ms": 60,
+      "post_ms": 280,
+      "instruction": "Native Tokyo Japanese. Broken station announcement. Cold, polite, mechanical, slightly distorted."
+    }
+  }
 }

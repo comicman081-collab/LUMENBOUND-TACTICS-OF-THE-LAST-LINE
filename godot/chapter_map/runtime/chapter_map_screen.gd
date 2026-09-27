@@ -13,6 +13,8 @@ signal map_ready
 # paintable from this signal without ever presenting an interactive map whose
 # later movement will synchronously construct resources.
 signal map_load_progress(value: float, phase: String)
+# One button press inside the sudden-incident dialog (NEXT or an outcome).
+signal incident_step(value: String)
 
 const DEFAULT_MAP_ID := "CH01_MAP"
 const TILE_SIZE := 1.08
@@ -295,6 +297,9 @@ var tutorial_pointer_origin := Vector2.ZERO
 var tutorial_pointer_started_msec := -100000
 var leader_selector_layer: Control
 var treasure_save_failure_layer: CanvasLayer
+var incident_layer: CanvasLayer
+# Caption for the enemy phase owed after an in-place reward overlay closes.
+var post_reward_turn_label := "보물 획득"
 
 func _web_async_owner_alive() -> bool:
 	# Web builders yield across many browser frames. Once navigation removes this
@@ -5627,6 +5632,12 @@ func _resume_post_reward_turn() -> void:
 	preview_risk = "SAFE"
 	turn_transitioning = false
 	map_state[POST_REWARD_TURN_PENDING_KEY] = false
+	var owed_turn_label := post_reward_turn_label
+	post_reward_turn_label = "보물 획득"
+	if owed_turn_label != "보물 획득":
+		# A rewarded sudden incident owes the same single enemy phase.
+		await _complete_player_turn(owed_turn_label)
+		return
 	await _complete_player_turn("보물 획득")
 
 func _complete_player_turn(action_label: String) -> void:
@@ -6234,6 +6245,10 @@ func _move_along(path: Array[Vector2i]) -> void:
 			# the map owner. A treasure/battle arrival destroys the Web screen; the
 			# old ordering left a deferred builder targeting that retired SubViewport.
 			call_deferred("_build_map_content_visuals")
+		# A quiet arrival may raise one authored sudden incident before the enemy
+		# phase. A rewarded incident hands the owed turn to the reward overlay.
+		if await _run_sudden_incident(traveled_path):
+			return
 		await _complete_player_turn("이동 완료")
 	# Do not snap to the destination after walking: the stepped follow camera has
 	# already kept the squad in view and retains surrounding terrain context.
@@ -6341,6 +6356,159 @@ func _resolve_arrival(path: Array[Vector2i]) -> String:
 	var return_coord := path[path.size() - 2] if path.size() >= 2 else Vector2i(int(map_state.current_q), int(map_state.current_r))
 	map_state.last_pre_contact_hex = [return_coord.x, return_coord.y]
 	return "TRANSITION" if _start_patrol_contact(node_id, return_coord) else "STAY"
+
+func _incidents_enabled() -> bool:
+	# The opening operations stay free of interruptions while the map tutorial
+	# teaches movement; incidents begin once the chapter's N02 is cleared.
+	var chapter_id := str(definition.get("chapter_id", ""))
+	if chapter_id.is_empty() or map_simulation_paused:
+		return false
+	return bool(AppState.profile.get("first_clear", {}).get(chapter_id + "-N02", false))
+
+func _run_sudden_incident(path: Array[Vector2i]) -> bool:
+	if path.size() < 2 or not _incidents_enabled():
+		return false
+	var arrival := path[-1]
+	var incident := MapExplorationServiceScript.roll_incident(map_state, definition, path.size() - 1, arrival)
+	if incident.is_empty():
+		return false
+	turn_transitioning = true
+	var outcome := await _present_incident(incident)
+	turn_transitioning = false
+	if not is_inside_tree():
+		return true
+	var result := MapExplorationServiceScript.resolve_incident(map_state, definition, incident, outcome, arrival)
+	if not result.ok:
+		return false
+	_refresh_state_visuals()
+	if result.value.get("rewards", {}).is_empty():
+		return false
+	# Same owner hand-off as a treasure: persist the owed enemy phase, then let
+	# AppShell present the reward over the live map.
+	map_state[POST_REWARD_TURN_PENDING_KEY] = true
+	post_reward_turn_label = "돌발 사건"
+	SaveService.save_game()
+	turn_transitioning = true
+	call_deferred("_emit_treasure_reward_after_map_callback", result.value)
+	return true
+
+func _incident_label(text_value: String, font_size: int, color: Color) -> Label:
+	var label := Label.new()
+	label.text = text_value
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var runtime_size := _runtime_layout_size()
+	var ui_scale := _portrait_ui_scale(runtime_size) if runtime_size.y > runtime_size.x else 1.0
+	label.add_theme_font_size_override("font_size", roundi(font_size * ui_scale))
+	label.add_theme_color_override("font_color", color)
+	return label
+
+func _incident_speaker_name(line: Dictionary) -> String:
+	if str(line.get("speaker_kind", "")) == "NARRATION":
+		return LocalizationService.tr_key("MAP_EVENT_NARRATION_NAME")
+	var speaker_key := str(line.get("speaker_key", ""))
+	return LocalizationService.tr_key(speaker_key) if not speaker_key.is_empty() else ""
+
+func _set_incident_actions(actions: HBoxContainer, rows: Array) -> void:
+	for child in actions.get_children():
+		actions.remove_child(child)
+		child.queue_free()
+	for row_value in rows:
+		var row: Dictionary = row_value
+		var value := str(row.get("value", ""))
+		var button := _button(str(row.get("label", "")), func() -> void: incident_step.emit(value), Vector2(260, 64))
+		button.name = "MapIncident_%s" % value
+		actions.add_child(button)
+
+func _present_incident(incident: Dictionary) -> String:
+	if incident_layer != null and is_instance_valid(incident_layer):
+		incident_layer.queue_free()
+	incident_layer = CanvasLayer.new()
+	incident_layer.name = "MapIncidentLayer"
+	incident_layer.layer = 430
+	add_child(incident_layer)
+	var surface := Control.new()
+	surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	surface.mouse_filter = Control.MOUSE_FILTER_STOP
+	surface.theme = theme
+	incident_layer.add_child(surface)
+	var dimmer := ColorRect.new()
+	dimmer.color = Color("020710c8")
+	dimmer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	dimmer.mouse_filter = Control.MOUSE_FILTER_STOP
+	surface.add_child(dimmer)
+	var runtime_size := _runtime_layout_size()
+	var portrait_layout := runtime_size.y > runtime_size.x
+	var panel := PanelContainer.new()
+	panel.name = "MapIncidentPanel"
+	panel.anchor_left = 0.04 if portrait_layout else 0.17
+	panel.anchor_right = 0.96 if portrait_layout else 0.83
+	# Two or three short lines: a compact card keeps the live map in view.
+	panel.anchor_top = 0.26 if portrait_layout else 0.27
+	panel.anchor_bottom = 0.74 if portrait_layout else 0.73
+	panel.add_theme_stylebox_override("panel", GameUI.panel_style(Color("081725f4"), Color("7cebd0"), 1, GameUI.RADIUS_MODAL, Vector4(28, 22, 28, 24), 16))
+	surface.add_child(panel)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 12)
+	panel.add_child(column)
+	column.add_child(_incident_label(LocalizationService.tr_key("MAP_INCIDENT_CAPTION"), 18, Color("9df5e4")))
+	var title := _incident_label(LocalizationService.tr_key(str(incident.get("title_key", ""))), 30, Color("ffe1a0"))
+	title.name = "MapIncidentTitle"
+	column.add_child(title)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 18)
+	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(row)
+	var art := TextureRect.new()
+	art.name = "MapIncidentSpeakerArt"
+	art.custom_minimum_size = Vector2(150, 210)
+	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(art)
+	var text_column := VBoxContainer.new()
+	text_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text_column.add_theme_constant_override("separation", 8)
+	row.add_child(text_column)
+	var speaker := _incident_label("", 20, Color("91f5df"))
+	speaker.name = "MapIncidentSpeaker"
+	text_column.add_child(speaker)
+	var body := _incident_label("", 24, GameUI.TEXT)
+	body.name = "MapIncidentBody"
+	text_column.add_child(body)
+	var actions := HBoxContainer.new()
+	actions.alignment = BoxContainer.ALIGNMENT_END
+	actions.add_theme_constant_override("separation", 12)
+	column.add_child(actions)
+	var lines: Array = incident.get("lines", [])
+	var choice_rows: Array = []
+	for choice_value in incident.get("choices", []):
+		var choice: Dictionary = choice_value
+		choice_rows.append({"value": str(choice.get("outcome", "")), "label": LocalizationService.tr_key(str(choice.get("label_key", "")))})
+	var outcome := ""
+	for index in range(lines.size()):
+		var line: Dictionary = lines[index]
+		speaker.text = _incident_speaker_name(line)
+		body.text = LocalizationService.tr_key(str(line.get("text_key", "")))
+		var art_id := str(line.get("portrait_asset_id", ""))
+		var art_path := AssetRegistry.resolve(art_id) if not art_id.is_empty() else ""
+		art.texture = load(art_path) as Texture2D if not art_path.is_empty() else null
+		art.visible = art.texture != null
+		AudioService.play_line_voice(str(line.get("text_key", "")))
+		# The last line stays on screen while the squad decides.
+		var last := index == lines.size() - 1
+		_set_incident_actions(actions, choice_rows if last else [{"value": "NEXT", "label": LocalizationService.tr_key("MAP_EVENT_DIALOGUE_NEXT")}])
+		var pressed := str(await incident_step)
+		if not is_inside_tree():
+			return ""
+		if last:
+			outcome = pressed
+	AudioService.stop_voice()
+	if incident_layer != null and is_instance_valid(incident_layer):
+		incident_layer.queue_free()
+	incident_layer = null
+	if outcome.is_empty() and not choice_rows.is_empty():
+		outcome = str(choice_rows[0].get("value", ""))
+	return outcome
 
 func _emit_treasure_reward_after_map_callback(report: Dictionary) -> void:
 	if not is_inside_tree():

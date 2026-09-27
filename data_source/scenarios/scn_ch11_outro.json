@@ -2,27 +2,34 @@
   "id": "SCN_CH11_OUTRO",
   "title_key": "SCENARIO_CH11_OUTRO_TITLE",
   "chapter_id": "CH11",
+  "presentation": "CINEMATIC",
   "commands": [
     {
       "id": "start",
       "command": "set_background",
-      "asset_id": "bg_lantern_tunnel_dev"
-    },
-    {
-      "command": "show_portrait",
-      "slot": "RIGHT",
-      "asset_id": "portrait_chr001_dev",
-      "expression": "SMILE"
+      "asset_id": "bg_ch01_glass_rail_story"
     },
     {
       "command": "show_portrait",
       "slot": "LEFT",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
       "asset_id": "portrait_chr016_dev",
-      "expression": "SMILE"
+      "expression": "NEUTRAL"
     },
     {
       "command": "fade_in",
-      "duration": 0.24
+      "duration": 0.35
     },
     {
       "command": "narration",
@@ -30,24 +37,141 @@
       "text_key": "STORY_CH11_OUTRO_01"
     },
     {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "enemy_boss014_dev",
+      "expression": "NEUTRAL"
+    },
+    {
       "command": "dialogue",
-      "speaker_key": "SPEAKER_MAERU",
-      "text_key": "STORY_CH11_OUTRO_02"
+      "speaker_key": "ENEMY_TIDE_REAPER",
+      "text_key": "STORY_CH11_OUTRO_02",
+      "portrait_asset_id": "enemy_boss014_dev"
     },
     {
       "command": "set_expression",
       "slot": "RIGHT",
-      "expression": "SMILE"
+      "expression": "SAD"
     },
     {
       "command": "dialogue",
-      "speaker_key": "SPEAKER_MAERU",
-      "text_key": "STORY_CH11_OUTRO_03"
+      "speaker_key": "ENEMY_TIDE_REAPER",
+      "text_key": "STORY_CH11_OUTRO_03",
+      "portrait_asset_id": "enemy_boss014_dev"
+    },
+    {
+      "command": "hide_portrait",
+      "slot": "RIGHT"
     },
     {
       "command": "narration",
       "speaker_key": "SPEAKER_ROUTEKEEPER",
-      "text_key": "STORY_CH11_OUTRO_INTERLUDE"
+      "text_key": "STORY_CH11_OUTRO_04"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_CH11_OUTRO_05",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr016_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_ORSA_NAME",
+      "text_key": "STORY_CH11_OUTRO_06",
+      "portrait_asset_id": "portrait_chr016_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr004_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_EDA",
+      "text_key": "STORY_CH11_OUTRO_07",
+      "portrait_asset_id": "portrait_chr004_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH11_OUTRO_08",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH11_OUTRO_09"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr007_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_TOA_NAME",
+      "text_key": "STORY_CH11_OUTRO_10",
+      "portrait_asset_id": "portrait_chr007_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr012_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_KIR_NAME",
+      "text_key": "STORY_CH11_OUTRO_11",
+      "portrait_asset_id": "portrait_chr012_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_CONTROL",
+      "text_key": "STORY_CH11_OUTRO_12"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr014_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VEON_NAME",
+      "text_key": "STORY_CH11_OUTRO_13",
+      "portrait_asset_id": "portrait_chr014_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH11_OUTRO_14",
+      "portrait_asset_id": "portrait_chr001_dev"
     },
     {
       "command": "grant_reward",

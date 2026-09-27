@@ -92,11 +92,12 @@ func _run() -> void:
 		check(shell.region_entry_stage(chapter_id) == chapter_id + "-N01", chapter_id + " completed region remains revisitable")
 	check(families.size() == 8, "all eight distinct environment palettes are represented")
 	AppState.new_game()
-	AppState.selected_stage_id = "CH01-H05"
+	# The chapter ending plays on the final normal operation (N20).
+	AppState.selected_stage_id = "CH01-N20"
 	AppState.profile.chapter_progress.CH02.unlocked = true
-	AppState.queue_story_event("STAGE_CLEAR", "CH01-H05", "CH01")
+	AppState.queue_story_event("STAGE_CLEAR", "CH01-N20", "CH01")
 	shell._travel_to_region("CH02")
-	check(SceneRouter.current_screen == "STORY" and AppState.active_scenario_id == "SCN_CH01_OUTRO" and AppState.selected_stage_id == "CH01-H05", "region travel plays the departing ending before changing chapters")
+	check(SceneRouter.current_screen == "STORY" and AppState.active_scenario_id == "SCN_CH01_OUTRO" and AppState.selected_stage_id == "CH01-N20", "region travel plays the departing ending before changing chapters")
 	check(AppState.route_payload.get("region_destination", "") == "CH02-N01", "requested region survives the ending route")
 	AppState.complete_story_trigger_for_scenario("SCN_CH01_OUTRO")
 	shell.current_screen = "STORY"

@@ -1,0 +1,300 @@
+{
+  "chapter_id": "CH09",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "잠든 법정",
+      "title_en": "The Sleeping Court",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR001", "RIGHT": "CHR002"},
+      "lines": [
+        {"s": "N", "ko": "역무국 청사는 숨소리로 가득했다. 긴 의자마다 사람들이 잠들어 있었고, 아무도 깨어나지 않았다.", "en": "The Directorate hall was full of breathing. People slept on every long bench, and not one of them woke."},
+        {"s": "CHR003", "ko": "생체 반응 사백열한 개. 전원 같은 수면 단계, 같은 뇌파야. 모두 한 꿈을 꾸고 있어.", "en": "Four hundred eleven life signs. Same sleep stage, same brainwaves. They're all dreaming one dream."},
+        {"s": "CHR002", "ko": "사백 명이 같은 꿈이라…… 제목이라도 알면 좀 덜 으스스할 텐데.", "en": "Four hundred people, one dream… Knowing the title would make it a little less creepy."},
+        {"s": "N", "ko": "천장의 전광판이 깜박이며 글자를 흘렸다. 개정. 사건 번호 0412. 피고인 부재.", "en": "The board on the ceiling flickered and spilled letters. COURT IN SESSION. CASE 0412. DEFENDANT ABSENT."},
+        {"s": "CHR004", "ko": "재판이요? 자는 사람들을요? 변론도 못 하는데 그게 무슨 재판이에요!", "en": "A trial? Of sleeping people? They can't even defend themselves. What kind of trial is that!"},
+        {"s": "CHR012", "ko": "판결문 찍히는 소리가 아래층에서 올라온다. 일정하다. 쉬는 박자가 없다.", "en": "Verdicts are being printed downstairs. Steady rhythm. No rests."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 역무국 자동 재판이 진행 중입니다. 피고인은 출석하지 않아도 됩니다.", "en": "Your attention, please. The Directorate's automated court is now in session. Defendants need not attend."},
+        {"s": "CONTROL", "ko": "항해자님께서는 방청석으로 모시겠습니다. 승객 여러분은 정숙해 주십시오.", "en": "Navigator, please allow us to seat you in the gallery. Passengers, kindly remain silent."},
+        {"s": "CHR005", "ko": "우린 조용히 하라는데 항해자는 귀빈석이네. 관제가 편애가 좀 심해.", "en": "We get told to hush, and the Navigator gets a VIP seat. Control plays favorites."},
+        {"s": "CHR006", "ko": "관제 신호를 거꾸로 짚어 봤어. 재판을 돌리는 건 관제가 아니야. 그냥 지켜보고 있어.", "en": "I traced Control's signal back. It isn't running the court. It's just watching."},
+        {"s": "CHR013", "ko": "채굴환에서 건진 기억들이 이 재판을 지목했지. 자는 동안 판결받은 사람들이 있다고.", "en": "The memories we recovered from the ring pointed at this court. They said people were being judged in their sleep."},
+        {"s": "CHR010", "ko": "맥이 느리고 약해요. 꿈속에서도 계속 긴장하고 있어서…… 오래 두면 심장이 먼저 지쳐요.", "en": "Their pulses are slow and faint. They're tense even in their sleep… Leave them too long and their hearts give out first."},
+        {"s": "N", "ko": "항해 기록기가 전광판 불빛에 맞춰 희미하게 떨렸다. 마치 호명을 기다리는 것처럼.", "en": "The recorder trembled faintly in time with the board's light, as if waiting to hear its name called."},
+        {"s": "CHR001", "ko": "깨우는 게 먼저다. 판결문이 나오는 곳을 끊는다. 사백열한 명, 여기서 판결받게 두지 않는다.", "en": "Waking them comes first. We cut off wherever those verdicts come from. Four hundred eleven people. None of them gets sentenced here."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "사건 번호 0001",
+      "title_en": "Case 0001",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR001", "RIGHT": "CHR007"},
+      "lines": [
+        {"s": "N", "ko": "지하 인쇄실에서 판결문이 끝없이 쏟아지고 있었다. 종이는 아직 따뜻했고, 잉크 냄새가 매캐했다.", "en": "In the print room below, verdicts poured out without end. The paper was still warm, and the ink smell stung."},
+        {"s": "CHR003", "ko": "죄목이 없어. 대신 확률이 적혀 있어. '노선 운행 방해 가능성 12.7퍼센트. 유죄.'", "en": "There's no charge. Just a probability. 'Likelihood of obstructing rail operations: 12.7 percent. Guilty.'"},
+        {"s": "CHR007", "ko": "아직 일어나지 않은 일을 계산했어. 기준값을 넘으면 판결. 증거는 필요 없고.", "en": "It's calculating things that haven't happened. Cross the threshold, get a verdict. No evidence needed."},
+        {"s": "CHR002", "ko": "그 기준이면 나도 유죄겠는데? 가능성으로 치면 난 매일 선로 위에서 사고 치잖아.", "en": "By that standard I'm guilty too. Odds-wise, I cause trouble on the rails every single day."},
+        {"s": "CHR008", "ko": "웃을 일이 아니야, 로안. 여기서 유죄를 받은 사람들, 꿈속에서 매일 밤 벌을 받고 있어.", "en": "It's not funny, Roan. Everyone found guilty here is punished in their dreams, every night."},
+        {"s": "N", "ko": "나린의 손이 한 장에서 멈췄다. 미결 사건 목록의 맨 위, 가장 오래된 번호였다.", "en": "Narin's hand stopped on one sheet. The top of the pending docket. The oldest number of all."},
+        {"s": "CHR003", "ko": "사건 번호 0001. 피고인, 기록 항해자. 혐의…… 최종 시간표 무단 이탈.", "en": "Case 0001. Defendant: Record Navigator. Charge… unauthorized departure from the Final Timetable."},
+        {"s": "CHR004", "ko": "항해자가요? 이탈이라니…… 그럼 항해자가 원래는 그 시간표 안에 있었다는……", "en": "The Navigator? Departure… So the Navigator was originally part of that timetable…?"},
+        {"s": "CHR001", "ko": "에다. 거기까지.", "en": "Eda. That's enough."},
+        {"s": "CHR001", "ko": "판결문은 종이다. 사람을 정하는 건 종이가 아니야. 인쇄 신호의 원본을 찾는다.", "en": "A verdict is paper. Paper doesn't decide who a person is. Find where the print signal starts."},
+        {"s": "CHR012", "ko": "원본은 동쪽 법정동이다. 누군가 거기서 판결문을 태우고 있다. 찍히는 속도보다 빠르게.", "en": "The source is the east court wing. Someone's burning verdicts there. Faster than they're printed."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N10",
+      "title_ko": "아홉 번째 서명",
+      "title_en": "The Ninth Signature",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR014", "CENTER": "CHR001", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "마지막 집행관이 무너지자, 흩날리던 판결문이 재처럼 바닥에 내려앉았다.", "en": "When the last bailiff fell, the scattered verdicts settled to the floor like ash."},
+        {"s": "CHR014", "ko": "베온이다. 여기서 판결문을 태운 지 석 달째야. 태운 만큼 새로 찍혀 나오더라.", "en": "I'm Veon. Been burning verdicts here for three months. Every one I burn, a new one prints."},
+        {"s": "CHR003", "ko": "잠깐. 이 서류들…… 피고인 이름이 전부 너로 바뀌어 있어.", "en": "Wait. These files… every defendant's name has been changed to yours."},
+        {"s": "CHR014", "ko": "인계 조항이 있더라고. 미결 사건은 자원자가 대신 받을 수 있대. 그래서 전부 받았어.", "en": "There's a transfer clause. A volunteer can take over pending cases. So I took all of them."},
+        {"s": "CHR010", "ko": "전부요? 판결이 몸에 새겨진다면서요. 그걸 혼자 다……", "en": "All of them? You said the verdicts carve into your body. And you took every one alone…?"},
+        {"s": "CHR014", "ko": "사백 명이 따로 아픈 것보단 한 명이 아픈 게 계산이 쉽잖아. 난 튼튼하거든.", "en": "One person hurting is simpler math than four hundred hurting separately. I'm sturdy."},
+        {"s": "CHR003", "ko": "……항해자의 사건도야. 0001번. 피고인 이름이 베온으로 넘어가 있어.", "en": "…The Navigator's case too. Number 0001. The defendant's name has passed to Veon."},
+        {"s": "CHR014", "ko": "그 이탈 어쩌고? 무슨 사정인지 몰라도, 종이 한 장 때문에 끌려가게 둘 순 없지.", "en": "That 'departure' thing? Don't know the story, but I won't let anyone get dragged off over one sheet of paper."},
+        {"s": "N", "ko": "그때 항해 기록기가 빛을 터뜨렸다. 여덟 개의 무늬 곁에, 아홉 번째 무늬가 불꽃처럼 새겨졌다.", "en": "Then the recorder flared. Beside eight patterns, a ninth burned itself in like a spark."},
+        {"s": "CHR014", "ko": "우와, 뭐야 이거? ……따뜻하네. 판결 도장보다 훨씬 낫다.", "en": "Whoa, what's this? …It's warm. Way better than a verdict stamp."},
+        {"s": "CHR001", "ko": "베온, 네 판결은 이제 등로단이 나눠 진다. 법정 꼭대기까지, 같이 간다.", "en": "Veon, the Lamplighters share your sentences now. We go to the top of this court together."},
+        {"s": "CHR014", "ko": "나눠 진다라…… 좋아! 아무도 혼자 판결을 짊어지지 않게. 그게 내 판결이다!", "en": "Share them… All right! Nobody carries a verdict alone. That's my ruling!"}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N12",
+      "title_ko": "피고인들의 모닥불",
+      "title_en": "The Defendants' Fire",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR002", "CENTER": "CHR001", "RIGHT": "CHR014"},
+      "lines": [
+        {"s": "N", "ko": "기록 보관실 난로에 폐기 판결문을 태웠다. 종이 타는 냄새가 밤새 복도를 채웠다.", "en": "They fed discarded verdicts into the archive stove. The smell of burning paper filled the halls all night."},
+        {"s": "CHR014", "ko": "로안, 아까 그 복도 누가 먼저 뚫었지? 내가 세 걸음 빨랐다.", "en": "Roan, who broke through that corridor first? I was three steps ahead."},
+        {"s": "CHR002", "ko": "세 걸음 빨랐고 두 번 넘어졌지. 정찰은 빠른 게 아니라 안 넘어지는 거야, 신입.", "en": "Three steps ahead and fell twice. Scouting isn't about speed, rookie. It's about not falling."},
+        {"s": "CHR014", "ko": "신입? 판결 사백열두 건 짊어진 신입 봤어? 난 이 방에서 제일 무거운 사람이야!", "en": "Rookie? Ever seen a rookie carrying four hundred twelve verdicts? I'm the heaviest person in this room!"},
+        {"s": "CHR003", "ko": "0001번, 다시 봤어. 이탈 시각이 대정전 당일 밤이야. 우연이라기엔 겹치는 게 너무 많아.", "en": "I looked at 0001 again. The departure time is the night of the Blackout. Too many overlaps for coincidence."},
+        {"s": "CHR013", "ko": "채굴환 기억 속, 관제 콘솔 앞에서 서명하던 뒷모습. 그것도 그 밤이었지.", "en": "That figure in the ring's memories, signing at the control console. That was the same night."},
+        {"s": "CHR012", "ko": "죽은 절차가 산 사람을 정하게 두지 마라. 나는 설원에서 그걸 배웠다.", "en": "Don't let a dead procedure define a living person. I learned that in the snow."},
+        {"s": "CHR004", "ko": "그래도 궁금하긴 해요. 항해자, 정말 그 시간표에서 도망친 거예요?", "en": "I'm still curious, though. Navigator, did you really run away from that timetable?"},
+        {"choice": [
+          {"key": "CHOICE_CH09_HERE_NOW", "flag": "CH09_HERE_NOW", "ko": "모른다. 하지만 지금은 여기 있다", "en": "I don't know. But I'm here now", "reply": [
+            {"s": "CHR004", "ko": "……네. 그거면 됐어요. 괜히 물어봐서 미안해요.", "en": "…Okay. That's enough. Sorry I asked."}
+          ]},
+          {"key": "CHOICE_CH09_HAD_REASON", "flag": "CH09_HAD_REASON", "ko": "그랬다면, 이유가 있었을 것이다", "en": "If I did, I had a reason", "reply": [
+            {"s": "CHR014", "ko": "하! 그거면 됐어. 변론 한 줄은 있는 셈이네.", "en": "Ha! That'll do. That's one line of defense, at least."}
+          ]}
+        ]},
+        {"s": "CHR001", "ko": "기록이 뭐라든 상관없다. 우리가 아는 항해자는 지금 여기 있는 사람이다.", "en": "I don't care what the record says. The Navigator we know is the one sitting here now."},
+        {"s": "CHR014", "ko": "……그 말, 판결문보다 잘 쓰였네. 좋아, 0001번은 내가 끝까지 들고 간다.", "en": "…Better written than any verdict. Fine. I'm carrying case 0001 to the end."},
+        {"s": "N", "ko": "자정 무렵, 법정동에서 종소리가 한 번 울렸다. 선고 기일이 내일로 당겨졌다는 신호였다.", "en": "Near midnight, a bell rang once in the court wing. The sentencing date had been moved up to tomorrow."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "선고",
+      "title_en": "Sentencing",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR014", "CENTER": "CHR001", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "최상층 법정의 천장은 별 대신 판결 번호로 빛났다. 법대 위에서 거대한 망치가 천천히 들렸다.", "en": "The ceiling of the highest court glittered with verdict numbers instead of stars. Above the bench, a giant gavel slowly rose."},
+        {"s": "BOSS", "ko": "개정합니다. 피고인 베온, 사백열두 건 인계를 확인했습니다. 유죄 판결을 집행합니다.", "en": "Court is in session. Defendant Veon: transfer of four hundred twelve cases confirmed. The guilty verdicts will now be carried out."},
+        {"s": "BOSS", "ko": "판결은 현실에서 효력을 가집니다. 방청객 여러분은 자리를 지켜 주시기 바랍니다.", "en": "Verdicts take effect in reality. Members of the gallery are asked to remain seated."},
+        {"s": "CHR014", "ko": "윽……! 팔에 번호가…… 진짜로 새겨지고 있어.", "en": "Ngh…! Numbers on my arm… they're actually carving in."},
+        {"s": "CHR008", "ko": "베온, 숨 쉬어. 상처는 내가 막을게. 대신 절대 혼자 앞으로 나가지 마.", "en": "Breathe, Veon. I'll close the wounds. Just don't you dare charge ahead alone."},
+        {"s": "CHR003", "ko": "판결이 한 사람에게 몰려서 집행이 빨라졌어. 이대로면 사백열두 건이 전부 베온에게 떨어져.", "en": "With every verdict on one person, execution's accelerating. At this rate all four hundred twelve land on Veon."},
+        {"s": "CHR014", "ko": "그러라고 받은 거야! 저 사람들이 깨어날 수만 있으면……!", "en": "That's why I took them! As long as those people wake up…!"},
+        {"s": "CHR010", "ko": "사백 명을 살리려고 한 사람을 내주는 건 치료가 아니에요, 베온.", "en": "Giving up one person to save four hundred isn't treatment, Veon."},
+        {"s": "CHR001", "ko": "안 된다. 등로단에서 혼자 벌받는 사람은 없다.", "en": "No. No one in the Lamplighters takes punishment alone."},
+        {"choice": [
+          {"key": "CHOICE_CH09_TAKE_CASE", "flag": "CH09_TAKE_CASE", "ko": "사건 0001을 돌려받는다", "en": "Take back case 0001", "reply": [
+            {"s": "BOSS", "ko": "피고인 기록 항해자, 출석을 확인했습니다. 사건 0001을 반환합니다.", "en": "Defendant Record Navigator, attendance confirmed. Case 0001 is returned to you."},
+            {"s": "CHR014", "ko": "야, 그건 내가 들고 가기로……! ……하, 나눠 진다는 게 이런 거냐.", "en": "Hey, I said I'd carry that…! …Ha. So this is what sharing means."}
+          ]},
+          {"key": "CHOICE_CH09_SHIELD_VEON", "flag": "CH09_SHIELD_VEON", "ko": "베온 앞에 선다", "en": "Stand in front of Veon", "reply": [
+            {"s": "CHR014", "ko": "……너, 무모하다는 말 자주 듣지? 나도 자주 들어.", "en": "…You get called reckless a lot, don't you? Me too."}
+          ]}
+        ]},
+        {"s": "CHR002", "ko": "좋아, 판결은 나눴고. 이제 저 망치를 나눠서 부술 차례지.", "en": "Right, the verdicts are shared. Now we share the job of breaking that gavel."},
+        {"s": "BOSS", "ko": "집행을 방해하는 승객은 공범으로 분류됩니다. 전원 유죄입니다.", "en": "Passengers obstructing execution are classified as accomplices. All of you are guilty."},
+        {"s": "CHR005", "ko": "전원 유죄라. 그럼 전원이 한 번씩 쏴도 공평하겠네.", "en": "All guilty, huh? Then it's only fair we all get a shot."},
+        {"s": "CHR014", "ko": "……고마워. 이번엔, 같이 받자!", "en": "…Thanks. This time, we take it together!"}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "무효",
+      "title_en": "Void",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR010", "CENTER": "CHR001", "RIGHT": "CHR014"},
+      "lines": [
+        {"s": "N", "ko": "망치가 부러지자, 천장의 판결 번호들이 한 줄씩 꺼져 갔다.", "en": "When the gavel snapped, the verdict numbers on the ceiling went dark, one row at a time."},
+        {"s": "BOSS", "ko": "재판…… 무효. 사건 목록을 반환합니다. 피고인 여러분은…… 귀가하십시오.", "en": "Trial… void. Returning the docket. All defendants… may go home."},
+        {"s": "BOSS", "ko": "……미리 벌하면, 아무도 죄를 짓지…… 않을 테니까…… 아무도, 다치지……", "en": "…If we punished first, no one would ever… do wrong… and no one… would get hurt…"},
+        {"s": "N", "ko": "아래층에서 사백열한 개의 숨소리가 한꺼번에 흐트러졌다. 누군가 울음 섞인 기지개를 켰다.", "en": "Below, four hundred eleven breaths broke rhythm all at once. Someone stretched awake with a sob."},
+        {"s": "CHR010", "ko": "깨어났어요. 맥박도 전부 정상으로 돌아오고 있어요. 전부요.", "en": "They're awake. Every pulse is coming back to normal. Every single one."},
+        {"s": "CHR014", "ko": "팔의 번호도 사라졌어. 하, 판결 없는 팔이 이렇게 가벼웠나.", "en": "The numbers on my arm are gone too. Ha. Was an arm without verdicts always this light?"},
+        {"s": "CHR003", "ko": "0001번도 목록에서 빠졌어. 그런데 판결 시각 기록이 이상해. 둘로 갈라지고 있어.", "en": "Case 0001's off the docket too. But the verdict timestamps are strange. They're splitting in two."},
+        {"s": "CHR007", "ko": "같은 시각이 두 달력에 동시에 찍혔어. 한쪽은 선고 전, 한쪽은 무효 후.", "en": "The same moment got stamped on two calendars. One before sentencing, one after the void."},
+        {"s": "N", "ko": "깨진 창 너머 밤하늘에, 달 두 개가 나란히 떠올랐다.", "en": "Beyond the broken window, two moons rose side by side."},
+        {"s": "CHR004", "ko": "……달이, 두 개예요. 저 전압 올리다 헛것 보는 거 아니죠?", "en": "…There are two moons. I'm not seeing things from running too hot, right?"},
+        {"s": "CHR006", "ko": "두 달 아래로 같은 열차 호출 신호가 두 번 잡혀. 쌍월 환승로 쪽이야.", "en": "Under the two moons, I'm picking up the same train call twice. From Twin-Moon Junction."},
+        {"s": "CHR014", "ko": "달이 둘이면 판결 시각도 둘이란 거잖아. 누가 또 혼자 짊어지기 전에 가자.", "en": "Two moons means two verdict times. Let's go before someone ends up carrying that alone again."},
+        {"s": "CHR001", "ko": "사백열한 명이 깼다. 이번엔 두 달 아래 몇 명이 기다리는지부터 센다.", "en": "Four hundred eleven are awake. Next, we count how many are waiting under two moons."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "결재를 기다리는 복도",
+      "title_en": "The Corridor Awaiting Approval",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR001", "RIGHT": "CHR014"},
+      "lines": [
+        {"s": "N", "ko": "국장실로 이어지는 복도는 두꺼운 카펫이 발소리를 삼켰다. 벽마다 규정 조항이 빼곡히 붙어 있었다.", "en": "Thick carpet swallowed every footstep in the corridor to the Director's office. Regulations covered every wall."},
+        {"s": "CHR003", "ko": "재판을 멈췄는데도 이 층만 수면 신호가 살아 있어. 발신원은 국장실이야.", "en": "We stopped the court, but the sleep signal's still alive on this floor. Source: the Director's office."},
+        {"s": "CHR014", "ko": "국장? 판사 위에 윗선이 따로 있었다는 거야?", "en": "A Director? So there was someone above the judge?"},
+        {"s": "CHR012", "ko": "사람이 아니다. 국장 권한을 가진 자동 절차다. 결재만 하고, 깨어나지 않는다.", "en": "Not a person. An automated procedure with a Director's authority. It approves things. It never wakes."},
+        {"s": "CHR002", "ko": "결재만 하고 안 깨는 윗선이라…… 어디서 많이 듣던 얘기네.", "en": "A boss who only signs off and never wakes up… Sounds familiar."},
+        {"s": "N", "ko": "복도 끝에서 누군가 규정 조항을 또박또박 소리 내어 읽고 있었다. 사람의 목소리였다.", "en": "At the end of the corridor, someone was reading the regulations aloud, word by careful word. A human voice."},
+        {"s": "CHR013", "ko": "읽는 목소리가 떨리지 않아. 아주 오래 혼자 버틴 사람이야.", "en": "Her voice doesn't waver. She's held out alone for a very long time."},
+        {"s": "CHR001", "ko": "먼저 말을 건다. 총구는 아래로.", "en": "We speak first. Muzzles down."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "최종조",
+      "title_en": "The Final Article",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR034", "RIGHT": "CHR013"},
+      "lines": [
+        {"s": "N", "ko": "국장실의 결재등이 마지막으로 한 번 깜박이고 꺼졌다. 책상 위 도장에는 먼지가 두껍게 앉아 있었다.", "en": "The approval lamp in the Director's office blinked once more and went out. Dust lay thick on the stamp."},
+        {"s": "HBOSS", "ko": "……안건을 보류합니다. 국장이 깨어날 때까지는, 아무것도 잘못 정해지지 않도록……", "en": "…Matters on hold. Until the Director wakes, so that nothing is ever decided wrongly…"},
+        {"s": "CHR003", "ko": "수면 신호 소멸. 깨어나지 못한 채로 멈췄어. 대기 안건은 전부 반려됐어.", "en": "Sleep signal gone. It stopped without ever waking. Every pending matter was returned."},
+        {"s": "CHR013", "ko": "반려라도 괜찮아. 허락만 기다리던 사람들이 이제 자기 손으로 문을 열 수 있으니까.", "en": "Returned is fine. People who only waited for permission can open doors with their own hands now."},
+        {"s": "N", "ko": "오르빈이 품에서 닳은 규정집을 꺼냈다. 마지막 쪽은 비어 있었다.", "en": "Orvin took a worn rulebook from her coat. The last page was blank."},
+        {"s": "CHR034", "ko": "경비 규정 최종조. 본관이 지금 추가합니다. '사람이 먼저다.'", "en": "Security Regulations, final article. I am adding it now. 'People come first.'"},
+        {"s": "CHR034", "ko": "……열두 해 걸렸습니다. 이 한 줄을 쓰는 데.", "en": "…It took me twelve years. To write this one line."},
+        {"s": "CHR014", "ko": "하! 그런 규정이면 나도 지킬 수 있겠다.", "en": "Ha! Now that's a rule even I can follow."},
+        {"s": "CHR034", "ko": "그렇다면 여러분의 노선에도 경비가 한 명 필요하겠군요. 출입증은…… 제가 발급하겠습니다.", "en": "Then your line will need a guard as well. As for passes… I'll issue them myself."},
+        {"s": "CHR001", "ko": "환영한다, 오르빈. 두 달 아래로 같이 가자.", "en": "Welcome, Orvin. Come with us, under the two moons."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR003", "ko": "법정동에 생체 반응 하나. 판결문 더미 위야. 잔향체 집행관 넷에 둘러싸였어.", "en": "One life sign in the court wing. On top of a pile of verdicts. Four echoform bailiffs around her."},
+      {"s": "CHR014", "ko": "또 왔냐, 집행관! 재판? 좋아, 다 내 이름으로 받아 주지!", "en": "Back again, bailiffs? A trial? Fine. I'll take it all under my name!"},
+      {"s": "CHR002", "ko": "저 사람, 판결문을 방벽처럼 쌓아 놓고 싸우는데?", "en": "She's stacked the verdicts into a barricade and she's fighting from behind it?"},
+      {"s": "CHR014", "ko": "거기 너희! 피고인이야, 방청객이야? 방청객이면 비켜, 피고인이면 내 뒤로!", "en": "Hey, you lot! Defendants or spectators? Spectators, move. Defendants, get behind me!"},
+      {"s": "CHR001", "ko": "어느 쪽도 아니다. 등로단이다. 잠든 사람들을 깨우러 왔다.", "en": "Neither. We're the Lamplighters. We came to wake the sleepers."},
+      {"s": "CHR014", "ko": "깨운다고? 하! 오늘 들은 판결 중에 제일 마음에 드네. 그럼 같이 부수자!", "en": "Wake them? Ha! Best verdict I've heard all day. Then let's smash these together!"},
+      {"s": "CHR004", "ko": "좋아요, 저 지금 과충전 상태예요! 판결문째로 태워 버릴게요!", "en": "Great, I'm overcharged right now! I'll burn them up, verdicts and all!"},
+      {"s": "CHR014", "ko": "조심해! 저 망치에 맞으면 꿈속 판결이 몸에 새겨진다!", "en": "Careful! Take a hit from those gavels and the dream verdict gets carved into your body!"}
+    ],
+    "WANDERER": [
+      {"s": "CHR034", "ko": "정지. 역무국 경비 규정 제3조. 출입증을 보여 주십시오.", "en": "Halt. Directorate Security Regulation, Article 3. Present your pass."},
+      {"s": "CHR002", "ko": "출입증? 여기 문은 열두 해째 열려 있던 거 아니었어?", "en": "A pass? Hasn't that door been open for twelve years?"},
+      {"s": "CHR034", "ko": "문이 열려 있다고 규정이 열리지는 않습니다. 출입증이 없으면 퇴거 조치합니다.", "en": "An open door is not an open regulation. Without a pass, you will be removed."},
+      {"s": "CHR013", "ko": "우리는 아래층 재판을 멈추고 왔어. 이 안의 절차도 멈추려고.", "en": "We just stopped the court downstairs. We're here to stop the procedure inside too."},
+      {"s": "CHR034", "ko": "국장님 결재 없이 절차는 멈출 수 없습니다. 제4조, 무단 침입자는 제압합니다.", "en": "No procedure may be stopped without the Director's approval. Article 4: intruders will be subdued."},
+      {"s": "CHR014", "ko": "규정, 규정! 좋아, 그럼 몸으로 결재받아 주지!", "en": "Rules, rules! Fine. I'll get your approval the physical way!"},
+      {"s": "CHR001", "ko": "베온, 다치게 하지 마. 저 사람은 열두 해 동안 여길 지킨 사람이다.", "en": "Veon, don't hurt her. She's guarded this place for twelve years."},
+      {"s": "CHR034", "ko": "……경고는 끝났습니다. 제압을 개시합니다.", "en": "…Warnings are concluded. Commencing suppression."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "선고 공판을 속개합니다. 피고인 및 공범은 법대 앞으로 나오십시오.", "en": "Sentencing resumes. Defendants and accomplices, please approach the bench."},
+      {"s": "CHR014", "ko": "나왔다! 이번엔 판결 받으러 온 게 아니라 뒤집으러 왔어!", "en": "Here we are! Not to hear a verdict, but to overturn one!"},
+      {"s": "CHR012", "ko": "망치가 떨어지기 직전, 판결 신호가 한 번 끊긴다. 그 틈을 친다.", "en": "Right before the gavel drops, the verdict signal cuts out once. We strike in that gap."},
+      {"s": "CHR001", "ko": "번호는 보지 마라. 옆 사람의 등만 봐라. 간다!", "en": "Don't look at the numbers. Watch each other's backs. Go!"}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "결재 대기 중입니다. 모든 안건은 국장 기상 후 처리됩니다. 기상 예정 시각은 미정입니다.", "en": "Awaiting approval. All matters will be processed once the Director wakes. Expected wake time: undetermined."},
+      {"s": "CHR003", "ko": "적체된 안건 삼만 건. 저게 안 깨면, 이 층 사람들은 아무것도 허락받지 못해.", "en": "Thirty thousand matters in backlog. If that thing never wakes, no one on this floor gets permission for anything."},
+      {"s": "CHR014", "ko": "허락은 필요 없어! 그 결재 책상째로 부숴 주지!", "en": "We don't need permission! I'll smash that approval desk to pieces!"},
+      {"s": "CHR001", "ko": "잠든 절차는 깨울 필요 없다. 여기서 멈춘다.", "en": "No need to wake a sleeping procedure. It stops here."}
+    ],
+    "ANOMALY_1": [
+      {"s": "ENEMY", "ko": "민원이 접수되었습니다. 귀하에게 사건 번호를 부여합니다. 다음 분.", "en": "Your complaint has been received. You have been assigned a case number. Next, please."},
+      {"s": "CHR002", "ko": "민원 넣은 적 없는데? 벌써 번호표가 등에 붙었잖아!", "en": "I never filed anything! There's already a number tag stuck on my back!"},
+      {"s": "CHR003", "ko": "접수 절차가 잔향체를 찍어 내고 있어. 번호가 붙은 놈부터 끊어.", "en": "The intake procedure is stamping out echoforms. Cut down the numbered ones first."}
+    ],
+    "ANOMALY_2": [
+      {"s": "ENEMY", "ko": "증인을 소환합니다. 증언을 거부하면 위증으로 간주합니다.", "en": "Summoning witnesses. Refusal to testify will be treated as perjury."},
+      {"s": "CHR009", "ko": "증언이라면 해 주지. 너희는 여기서 끝난다. 이상.", "en": "You want testimony? Here it is. You end here. That's all."},
+      {"s": "CHR006", "ko": "저 목소리, 잠든 사람들 꿈에서 뜯어 온 거야. 돌려받아야 해.", "en": "Those voices were torn from the sleepers' dreams. We have to take them back."}
+    ],
+    "ANOMALY_3": [
+      {"s": "ENEMY", "ko": "복도에서는 정숙하십시오. 소음은 수면 방해죄로 처리됩니다.", "en": "Silence in the corridor, please. Noise will be processed as disturbing sleep."},
+      {"s": "CHR004", "ko": "정숙이요? 저 지금 찌릿찌릿해서 가만히 못 있어요!", "en": "Silence? I'm buzzing so hard right now I can't sit still!"},
+      {"s": "CHR005", "ko": "그럼 조용히 끝내 주지. 소음기 없는 포격으로.", "en": "Then I'll end this quietly. With artillery. No silencer."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "집행조 기습", "title_en": "Bailiff Squad Ambush",
+     "lines": [
+       {"s": "N", "ko": "서류 선반 사이에서 망치를 든 잔향체들이 한꺼번에 일어섰다.", "en": "Between the file shelves, echoforms with gavels rose all at once."},
+       {"s": "CHR002", "ko": "집행조다! 받아칠까, 선반 뒤로 돌아갈까?", "en": "Bailiff squad! Hit back, or loop around the shelves?"}
+     ],
+     "choices": [
+       {"outcome": "FIGHT", "ko": "맞서 싸운다", "en": "Fight them"},
+       {"outcome": "EVADE", "ko": "선반 뒤로 우회한다", "en": "Circle behind the shelves"}
+     ]},
+    {"kind": "DISTRESS", "title_ko": "잠에서 깬 사람", "title_en": "One Who Woke",
+     "lines": [
+       {"s": "N", "ko": "긴 의자 하나에서 한 사람이 식은땀을 흘리며 반쯤 눈을 떴다.", "en": "On one bench, a woman half-opened her eyes, drenched in cold sweat."},
+       {"s": "SURVIVOR", "ko": "저…… 아무것도 안 했어요. 그런데 꿈에서 계속 판결을……", "en": "I… I didn't do anything. But in the dream they keep sentencing me…"},
+       {"s": "CHR010", "ko": "괜찮아요, 여긴 법정이 아니에요. 천천히 숨 쉬어요.", "en": "It's all right, this isn't a courtroom. Breathe slowly."}
+     ],
+     "choices": [
+       {"outcome": "RESCUE", "ko": "깨워서 데려간다", "en": "Wake her and bring her along"},
+       {"outcome": "RECORD", "ko": "위치를 기록해 둔다", "en": "Record her location"}
+     ]},
+    {"kind": "STORM", "title_ko": "종이 폭풍", "title_en": "Paper Storm",
+     "lines": [
+       {"s": "N", "ko": "환기구로 잔광 폭풍이 새어 들어와, 판결문이 눈보라처럼 휘몰아쳤다.", "en": "An afterglow storm leaked through the vents, whipping verdicts into a blizzard."},
+       {"s": "CHR003", "ko": "종이마다 신호가 묻어 있어. 스치기만 해도 판결 번호가 옮아 붙어.", "en": "Every sheet carries a signal. Just brushing one can transfer a verdict number."}
+     ],
+     "choices": [
+       {"outcome": "SHELTER", "ko": "기록실로 대피한다", "en": "Take shelter in the records room"},
+       {"outcome": "PUSH", "ko": "종이 폭풍을 뚫는다", "en": "Push through the paper storm"}
+     ]},
+    {"kind": "CACHE", "title_ko": "역무원 사물함", "title_en": "Staff Lockers",
+     "lines": [
+       {"s": "N", "ko": "잠긴 역무원 사물함 안에 열두 해 전 비상 식량과 배터리가 그대로 남아 있었다.", "en": "Inside a locked staff locker, twelve-year-old emergency rations and batteries sat untouched."},
+       {"s": "CHR005", "ko": "주인한텐 미안하지만, 판결문보다는 이쪽이 훨씬 쓸모 있지.", "en": "Sorry to the owner, but these are a lot more useful than verdicts."}
+     ],
+     "choices": [
+       {"outcome": "TAKE", "ko": "회수한다", "en": "Take them"}
+     ]},
+    {"kind": "BANTER", "title_ko": "가능성 수치", "title_en": "Probability Scores",
+     "lines": [
+       {"s": "CHR002", "ko": "나린, 네 방해 가능성 수치는 몇이었어? 난 12.7퍼센트래.", "en": "Narin, what was your obstruction score? Mine was 12.7 percent."},
+       {"s": "CHR003", "ko": "0.3퍼센트. 참고로 그중 0.2는 너랑 같은 조라서 오른 거야.", "en": "0.3 percent. For the record, 0.2 of that is from being on your team."},
+       {"s": "CHR002", "ko": "내가 네 인생의 위험 요소라니, 영광인데?", "en": "I'm a risk factor in your life? I'm honored."}
+     ],
+     "choices": [
+       {"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep moving"}
+     ]},
+    {"kind": "ECHO", "title_ko": "마지막 결재 요청", "title_en": "The Last Request for Approval",
+     "lines": [
+       {"s": "N", "ko": "끊긴 구내 방송에서 대정전 이전의 목소리가 새어 나왔다.", "en": "A voice from before the Blackout leaked through the broken intercom."},
+       {"s": "ECHO", "ko": "국장님, 결재 부탁드립니다. 피난 열차 증편 건입니다. ……국장님?", "en": "Director, I need your approval. Additional evacuation trains. …Director?"},
+       {"s": "CHR013", "ko": "끝내 결재를 받지 못했구나. 그 열차는.", "en": "So that train never got its approval."}
+     ],
+     "choices": [
+       {"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+       {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}
+     ]}
+  ]
+}

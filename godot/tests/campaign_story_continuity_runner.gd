@@ -22,6 +22,9 @@ func _ready() -> void:
 		for contact in map_definition.get("event_encounters", []):
 			if str(contact.get("event_kind", "")) != "COMPANION": continue
 			var contact_node := map_definition.nodes.filter(func(n): return n.node_id == contact.node_id)[0] as Dictionary
+			# Wanderer contacts ride the optional hard route (H03); only the
+			# chapter's canonical recruit must sit on the mandatory normal route.
+			if str(DataRegistry.stage(str(contact_node.stage_id)).mode) == "HARD": continue
 			check(chapter.required_stage_ids.has(str(contact_node.stage_id)), id + " canonical companion contact is mandatory")
 			if int(chapter.number) >= 3:
 				var middle := DataRegistry.by_id("chapter_story_triggers", "TRIG_" + id + "_MID_B")
@@ -94,8 +97,9 @@ func _ready() -> void:
 	AppState.complete_story_trigger_for_scenario("SCN_CH01_MID_A")
 	check(not AppState.queue_story_event("STAGE_CLEAR", "CH01-N03", "CH01"), "later optional clear cannot replay completed fallback")
 	check(AppState.next_pending_story_trigger("CH02").is_empty(), "recovery never queues another region")
-	check(fallback_count == 4, "four optional-branch fallbacks are authored")
-	check(outro_fallback_count == 2, "CH01/CH02 H05 outros fall back to their final normal stage")
+	# Authored story scenes sit only on mandatory stages, so no fallback is needed.
+	check(fallback_count == 0, "no story scene waits on an optional branch")
+	check(outro_fallback_count == 0, "chapter outros play on the final normal stage")
 	shell.free()
 	print("CAMPAIGN_STORY_CONTINUITY total=%d pass=%d fail=%d chapters=20 scenes=%d fallbacks=%d outro_fallbacks=%d" % [passed+failed, passed, failed, scenes, fallback_count, outro_fallback_count])
 	get_tree().quit(0 if failed == 0 else 1)

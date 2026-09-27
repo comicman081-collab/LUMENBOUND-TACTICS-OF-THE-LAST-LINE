@@ -1,0 +1,293 @@
+{
+  "chapter_id": "CH02",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "회송 전용 종착역",
+      "title_en": "Returning Trains Only",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR002", "CENTER": "CHR003", "RIGHT": "CHR006"},
+      "lines": [
+        {"s": "N", "ko": "회송선 끝의 종착역. 벽을 메운 시계 백여 개가 한꺼번에 거꾸로 돌고 있었다.", "en": "The terminus at the end of the return line. Over a hundred clocks covered the walls, all running backward at once."},
+        {"s": "N", "ko": "초침이 뒤로 한 칸 갈 때마다 승강장 공기가 조금씩 차가워졌다.", "en": "Each time the second hands ticked backward, the air on the platform grew a little colder."},
+        {"s": "CHR003", "ko": "등불이 켜지는 순서가 반대야. 종착점에서 출발점 쪽으로 불이 들어와.", "en": "The lanterns are lighting up in reverse. From the terminus back toward the origin."},
+        {"s": "CHR002", "ko": "보통은 우리가 켜면서 들어가잖아. 누가 마중이라도 나온 건가?", "en": "Usually we light them on the way in. Did someone come out to meet us?"},
+        {"s": "CHR006", "ko": "마중이 아니야. 신호가 되감기고 있어. 한 시간 전에 보낸 내 호출이 방금 다시 들어왔어.", "en": "Not a welcome. Signals are rewinding. A call I sent an hour ago just came back in."},
+        {"s": "CHR004", "ko": "제 시계도 이상해요! 아까 세 시였는데 지금 두 시 반이에요! ……이득인가요?", "en": "My watch is weird too! It was three o'clock, and now it's two-thirty! …Is that a bonus?"},
+        {"s": "CHR005", "ko": "이득 아니야, 에다. 시계만 돌아가는 게 아니라 우리까지 끌려가는 중이거든.", "en": "No bonus, Eda. It's not just the clocks turning back. We're being dragged with them."},
+        {"s": "N", "ko": "승강장 스피커가 켜졌다. 음성은 되감긴 테이프처럼 한 번 늘어졌다가 제 속도를 찾았다.", "en": "The platform speakers came on. The voice warped like rewound tape, then found its pace."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 이 역은 회송 전용 종착역입니다.", "en": "Attention, please. This station is a terminus for returning trains only."},
+        {"s": "CONTROL", "ko": "승객 여러분은 출발 시각으로 돌아가십시오. 항해자님께서는 예외입니다. 편히 머무르십시오.", "en": "Passengers, please return to your departure time. The Navigator is exempt. Please, make yourself comfortable."},
+        {"s": "CHR003", "ko": "……예외? 항해자한테만 다른 규칙을 적용하고 있어.", "en": "…Exempt? It's applying a different rule to the Navigator alone."},
+        {"choice": [
+          {"key": "CH02_CHOICE_TOGETHER", "flag": "CH02_INTRO_TOGETHER", "ko": "모두와 함께 간다", "en": "Go with everyone", "reply": [
+            {"s": "CHR001", "ko": "당연하지. 등로단에 예외는 없다. 같이 들어가서 같이 나온다.", "en": "Of course. The Lamplighters make no exceptions. We go in together and come out together."}
+          ]},
+          {"key": "CH02_CHOICE_CLOCKS", "flag": "CH02_INTRO_CLOCKS", "ko": "주위의 시계를 살핀다", "en": "Examine the clocks nearby", "reply": [
+            {"s": "CHR003", "ko": "항해자 주변 시계만 정상으로 돌아. 반경 두 걸음. ……기분 나쁘게 정확해.", "en": "Only the clocks around you run normally. Two paces in every direction. …Unpleasantly precise."}
+          ]}
+        ]},
+        {"s": "CHR001", "ko": "이리가 이 역 어딘가에서 길을 열어 두겠다고 했다. 그 약속이 되감기기 전에 찾는다.", "en": "Iri said she'd keep the way open somewhere in this station. We find her before that promise rewinds."},
+        {"s": "CHR002", "ko": "그럼 서두르자. 거꾸로 가는 역에서 앞으로 가는 건 우리 특기니까.", "en": "Then let's hurry. Moving forward in a station that runs backward—that's our specialty."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "과거 명부",
+      "title_en": "The Old Roster",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR002", "CENTER": "CHR003", "RIGHT": "CHR004"},
+      "lines": [
+        {"s": "N", "ko": "닫힌 승강장 너머에서 호명이 이어졌다. 탑승하지 않은 승객의 이름을, 한 명씩, 정중하게.", "en": "Beyond a sealed platform, names were being called. Passengers who never boarded, one by one, politely."},
+        {"s": "ECHO", "ko": "탑승 명부를 확인합니다. 승객 세아 님. 승객 유림 님. 승객 로안 님.", "en": "Checking the boarding roster. Passenger Seah. Passenger Yurim. Passenger Roan."},
+        {"s": "CHR002", "ko": "……방금, 내 이름 불렀어?", "en": "…Did it just call my name?"},
+        {"s": "CHR003", "ko": "명부 날짜가 대정전 전날이야. 로안, 그날 열차 탈 예정이었어?", "en": "The roster's dated the day before the Blackout. Roan, were you booked on a train that day?"},
+        {"s": "CHR002", "ko": "……배달 일 때문에 첫차 표를 끊어 뒀었지. 결국 못 탔어. 그날 전부 멈췄으니까.", "en": "…I had a first-train ticket for a delivery job. Never got on. Everything stopped that day."},
+        {"s": "CHR006", "ko": "명부가 널 과거 승객으로 끌어당기고 있어. 네 신호가 흐려져. 오래 들으면 위험해.", "en": "The roster's pulling you in as a past passenger. Your signal's fading. Listen too long and it's dangerous."},
+        {"s": "CHR004", "ko": "로안 대장님! 여기 있잖아요! 지금! 제 옆에!", "en": "Captain Roan! You're right here! Now! Next to me!"},
+        {"s": "CHR002", "ko": "……그래, 여기 있지. 좋아. 저 목록에서 우리 이름을 지우고, 현재 좌표를 남기자.", "en": "…Yeah. I'm here. Okay. Let's scrub our names off that list and leave our current coordinates instead."},
+        {"s": "CHR003", "ko": "좌표 기록 완료. 오늘 날짜, 이 위치, 일곱 명. 명부보다 이쪽이 정확해.", "en": "Coordinates logged. Today's date, this location, seven people. That's more accurate than any roster."},
+        {"s": "CHR001", "ko": "명부는 지나간 사람을 부른다. 우리는 앞에 있는 사람을 데리러 간다. 이리한테로.", "en": "The roster calls people who are gone. We go for the ones ahead of us. To Iri."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N10",
+      "title_ko": "역송 구간",
+      "title_en": "The Backflow Section",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR006", "CENTER": "CHR003", "RIGHT": "CHR004"},
+      "lines": [
+        {"s": "N", "ko": "역송 구간에 들어서자 전선의 불빛이 발밑에서 등 뒤로 흘러갔다. 전력이 거꾸로 흐르고 있었다.", "en": "In the backflow section, light along the cables streamed from underfoot to behind them. The power was running in reverse."},
+        {"s": "CHR003", "ko": "이 구간 회송핵이 살아 있는 승객을 과거 명부로 덮어쓰고 있어.", "en": "The return core in this section is overwriting living passengers with the old roster."},
+        {"s": "CHR006", "ko": "벽 너머에 생체 신호 열둘. 전부 이름이 과거 쪽으로 기울고 있어. 곧 사라져.", "en": "Twelve life signs past the wall. Every name is tilting toward the past. They'll vanish soon."},
+        {"s": "CHR004", "ko": "사라진다는 게…… 없어진다는 거예요? 방금까지 숨 쉬던 사람이?", "en": "Vanish… as in gone? People who were breathing a second ago?"},
+        {"s": "N", "ko": "그때 잡음 사이로 부드러운 목소리가 끼어들었다. 종탑 아래에서 받았던 그 호출이었다.", "en": "Then a soft voice slipped in through the static. The same call they'd received beneath the bell tower."},
+        {"s": "CHR008", "ko": "등로단, 들려? 이리야. 숨 한 번 크게 쉬고, 내 말 들어 줘.", "en": "Lamplighters, can you hear me? It's Iri. Take one deep breath, and listen."},
+        {"s": "CHR008", "ko": "생체 기록을 써. 맥박과 체온은 과거로 못 돌려. 그걸로 명부를 지금에 고정해.", "en": "Use their vitals. Pulse and body heat can't be rewound. Pin the roster to the present with those."},
+        {"s": "CHR003", "ko": "……맞아. 명부는 이름을 되감지만, 심장은 되감지 못해. 좋은 발상이야.", "en": "…She's right. A roster can rewind a name, but not a heartbeat. Good thinking."},
+        {"s": "CHR006", "ko": "열두 명 맥박 동기화. ……고정됐어. 전원 지금, 여기 있어.", "en": "Syncing twelve pulses. …Locked. All of them are here, now."},
+        {"s": "CHR001", "ko": "이리, 어디 있지? 우리가 간다.", "en": "Iri, where are you? We're coming."},
+        {"s": "CHR008", "ko": "중앙 개찰 앞. 부상자가 많아서 움직일 수가 없어. 천천히 와. ……아니, 조금만 서둘러 줘.", "en": "At the central gates. Too many wounded for me to move. Take your time. …No, actually, hurry a little."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N12",
+      "title_ko": "뒤집힌 대합실",
+      "title_en": "The Upside-Down Waiting Room",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR004", "CENTER": "CHR001", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "천장에 의자가 매달린 뒤집힌 대합실. 등로단은 거꾸로 걸린 시간표 아래 불을 피웠다.", "en": "An upside-down waiting room, its benches hanging from the ceiling. The Lamplighters built a fire beneath an inverted timetable."},
+        {"s": "CHR001", "ko": "에다. 지난번에 물었지. 빈 좌석 말이다.", "en": "Eda. You asked me before. About the empty seat."},
+        {"s": "CHR004", "ko": "아, 네! 아니, 괜찮아요. 말하기 싫으시면……", "en": "Oh, yes! I mean—it's okay. If you'd rather not…"},
+        {"s": "CHR001", "ko": "시오. 내 동료였다. 대정전 직후, 구조 작전에서 돌아오지 못했어.", "en": "Sio. She was my comrade. Right after the Blackout, she didn't come back from a rescue operation."},
+        {"s": "CHR001", "ko": "돌아오지 못한 동료의 자리를 비워 두는 거야. 언제든 앉을 수 있게.", "en": "I keep a seat empty for the comrade who didn't come back. So she can sit down anytime."},
+        {"s": "CHR003", "ko": "오늘 명부가 이름을 부를 때, 단장 표정이 제일 굳어 있었어. 그래서였구나.", "en": "When the roster was calling names today, your face went stiffer than anyone's. That's why."},
+        {"s": "CHR001", "ko": "명부가 시오를 부를까 봐. ……부르면, 대신 대답해 버릴 것 같아서.", "en": "I was afraid it would call Sio. …And that if it did, I'd answer for her."},
+        {"s": "CHR006", "ko": "지나간 신호도 어딘가엔 흔적이 남아. 언젠가 그 이름이 걸리면, 제일 먼저 알려 줄게.", "en": "Even old signals leave traces somewhere. If that name ever turns up, you'll be the first to know."},
+        {"choice": [
+          {"key": "CH02_CHOICE_KEEP_SEAT", "flag": "CH02_CAMP_KEEP_SEAT", "ko": "빈 좌석을 함께 비워 둔다", "en": "Keep the seat empty with her", "reply": [
+            {"s": "CHR001", "ko": "……고맙다. 그거면 충분해.", "en": "…Thank you. That's enough."}
+          ]},
+          {"key": "CH02_CHOICE_ASK_SIO", "flag": "CH02_CAMP_ASK_SIO", "ko": "시오에 대해 더 묻는다", "en": "Ask more about Sio", "reply": [
+            {"s": "CHR001", "ko": "웃음소리가 컸다. 늘 제일 먼저 뛰어나갔지. ……오늘은 여기까지.", "en": "She laughed loud. Always the first one out the door. …That's all for tonight."}
+          ]}
+        ]},
+        {"s": "N", "ko": "모닥불이 튀었다. 뒤집힌 시간표의 숫자들이 불빛 속에서 잠깐 바로 읽혔다.", "en": "The fire crackled. For a moment, in its light, the numbers on the inverted timetable read the right way up."},
+        {"s": "CHR002", "ko": "자, 내일은 중앙 개찰이야. 누가 제일 먼저 이리한테 닿는지 내기할 사람?", "en": "Right, tomorrow's the central gates. Anyone want to bet on who reaches Iri first?"}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "역방향 개찰",
+      "title_en": "Reverse Ticketing",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR001", "CENTER": "CHR008", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "마지막 잔향체가 쓰러지자 이리는 그제야 무릎을 폈다. 스물여섯 명의 맥박이 모두 지금에 남아 있었다.", "en": "Only when the last echoform fell did Iri straighten her knees. All twenty-six pulses remained in the present."},
+        {"s": "CHR008", "ko": "……다들 무사해. 고마워. 혼자서는 여기까지가 한계였어.", "en": "…Everyone's safe. Thank you. Alone, this was as far as I could go."},
+        {"s": "CHR001", "ko": "등로단에 와라, 이리. 네 손이 필요하다.", "en": "Join the Lamplighters, Iri. We need your hands."},
+        {"s": "CHR008", "ko": "보호받으라는 말은 많이 들었어. 지켜 달라는 말은 처음이네. ……같이 갈게.", "en": "I've been told to stay safe so many times. This is the first time I've been asked to protect. …I'll come."},
+        {"s": "N", "ko": "항해 기록기가 다시 빛났다. 첫 무늬 옆에 두 번째 무늬가 조용히 새겨졌다.", "en": "The recorder glowed again. Beside the first mark, a second one quietly etched itself."},
+        {"s": "CHR003", "ko": "두 번째. 베라 때와 같아. 합류를 스스로 결정한 순간에만 떠.", "en": "The second. Same as with Vera. It only appears the moment someone decides to join."},
+        {"s": "CHR008", "ko": "그 기록기, 따뜻하네. ……아, 미안. 의무관 버릇이라 체온부터 재 버렸어.", "en": "That recorder's warm. …Oh, sorry. Medic's habit. I took its temperature first."},
+        {"s": "N", "ko": "그때 중앙 개찰구의 차단기가 일제히 내려왔다. 거대한 개찰 기계가 뒷걸음으로 걸어 나왔다.", "en": "Then every barrier at the central gates slammed down. A colossal ticket machine walked out backward."},
+        {"s": "BOSS", "ko": "승차권을 확인합니다. 현재는 유효하지 않은 승차권입니다.", "en": "Checking tickets. The present is not a valid ticket."},
+        {"s": "BOSS", "ko": "모든 승객은 출발 전으로 돌아가십시오. 떠나지 않은 승객은 잃을 것도 없습니다.", "en": "All passengers, return to before departure. Passengers who never leave have nothing to lose."},
+        {"s": "CHR008", "ko": "떠나지 않았으면 다치지도 않았겠지. 그래도 이분들은 살아서 여기까지 왔어.", "en": "If they'd never left, they'd never have been hurt. But they made it here alive."},
+        {"s": "CHR006", "ko": "출발 전으로 돌아가면, 보낸 신호도 받은 대답도 전부 없던 일이 돼. 그건 구조가 아니야.", "en": "Go back before departure, and every signal sent and every answer received never happened. That's not rescue."},
+        {"s": "BOSS", "ko": "이의 신청은 접수되지 않습니다. 개찰을 시작합니다.", "en": "Objections are not accepted. Ticketing will now begin."},
+        {"s": "CHR001", "ko": "그럼 우리 표는 우리가 끊는다. 편도로. 앞으로만 간다.", "en": "Then we'll write our own tickets. One way. Forward only."}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "정방향",
+      "title_en": "Forward Again",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR008", "CENTER": "CHR001", "RIGHT": "CHR006"},
+      "lines": [
+        {"s": "N", "ko": "개찰 기계가 무릎을 꿇었다. 거꾸로 돌던 시계들이 한 박자 멈칫하더니, 앞으로 가기 시작했다.", "en": "The ticket machine fell to its knees. The backward clocks hesitated for a beat, then began to move forward."},
+        {"s": "BOSS", "ko": "……모두 떠나기 전으로 돌려보내면, 아무도 떠나지 않아도…… 되니까……", "en": "…If everyone went back to before they left, then no one… would ever have to leave…"},
+        {"s": "CHR008", "ko": "그날 떠난 사람들을 붙잡고 싶었구나. 돌려보내는 방법밖에 몰랐던 거야.", "en": "It wanted to hold on to the people who left that day. Sending them back was the only way it knew."},
+        {"s": "CHR006", "ko": "신호 방향 정상화. 출발점에서 종착점으로. 열두 해 만에 제대로 흘러.", "en": "Signal flow normalized. Origin to terminus. Running right for the first time in twelve years."},
+        {"s": "CHR004", "ko": "제 시계도 돌아왔어요! 다시 세 시! ……근데 그럼 저 삼십 분 손해 본 거죠?", "en": "My watch is back too! Three o'clock again! …Wait, so I lost thirty minutes?"},
+        {"s": "CHR005", "ko": "잘 쓴 삼십 분으로 치자. 스물여섯 명이 지금에 남았잖아.", "en": "Call it thirty minutes well spent. Twenty-six people stayed in the present."},
+        {"s": "N", "ko": "그때 역의 모든 스피커가 동시에 켜졌다. 이번에는 늘어지지도, 되감기지도 않았다.", "en": "Then every speaker in the station came on at once. This time the voice neither warped nor rewound."},
+        {"s": "CONTROL", "ko": "제2 노선 정리를 확인했습니다. 항해자님, 아직 기억하지 못하시는군요.", "en": "Line Two has been cleared. Navigator, you still don't remember, do you?"},
+        {"s": "CONTROL", "ko": "괜찮습니다. 기다리는 일에는 익숙합니다. 다음 노선에서 뵙겠습니다.", "en": "That's quite all right. I am accustomed to waiting. I'll see you on the next line."},
+        {"s": "CHR002", "ko": "……기다리는 데 익숙하다니. 저 말이 제일 소름 돋네.", "en": "…'Accustomed to waiting.' That's the creepiest thing it's said."},
+        {"s": "N", "ko": "일행의 시선이 한꺼번에 항해자에게 모였다. 누구도 먼저 입을 열지 못했다.", "en": "Every eye turned to the Navigator at once. No one could bring themselves to speak first."},
+        {"choice": [
+          {"key": "CH02_CHOICE_NO_MEMORY", "flag": "CH02_OUTRO_NO_MEMORY", "ko": "기억나는 것은 없다", "en": "I remember nothing", "reply": [
+            {"s": "CHR001", "ko": "……알겠다. 모르는 건 모르는 대로 둔다. 같이 알아 가면 돼.", "en": "…Understood. What we don't know, we leave unknown for now. We'll find out together."}
+          ]},
+          {"key": "CH02_CHOICE_SHOW_RECORDER", "flag": "CH02_OUTRO_SHOW_RECORDER", "ko": "기록기를 모두에게 보인다", "en": "Show everyone the recorder", "reply": [
+            {"s": "CHR003", "ko": "무늬 두 개. ……관제는 이것 말고 뭘 더 기다리고 있는 걸까.", "en": "Two marks. …What else is Control waiting for?"}
+          ]}
+        ]},
+        {"s": "CHR008", "ko": "환자 한 분이 그러더라. 유리 평원을 가로지르는, 멈추지 않는 야간열차를 봤대.", "en": "One of my patients told me something. She saw a night train crossing the glass plains that never stops."},
+        {"s": "CHR001", "ko": "멈추지 않는 열차라면, 누군가 타고 있다. 다음은 유리 평원이다.", "en": "A train that never stops has someone aboard. The glass plains are next."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "공석의 편성표",
+      "title_en": "Timetables of Empty Seats",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR004", "CENTER": "CHR003", "RIGHT": "CHR008"},
+      "lines": [
+        {"s": "N", "ko": "지하 회송실의 벽은 편성표로 덮여 있었다. 수천 장 어디에도 승객 이름은 없었다.", "en": "The walls of the underground return depot were papered with train rosters. Not one of the thousands bore a passenger's name."},
+        {"s": "CHR003", "ko": "좌석 번호만 있고 이름 칸은 전부 공백이야. 행선지 칸도 비었어.", "en": "Seat numbers only. Every name field is blank. So is every destination."},
+        {"s": "CHR004", "ko": "빈 열차를 왜 이렇게 많이 짜요? 누굴 태우려고요?", "en": "Why build so many empty trains? Who are they for?"},
+        {"s": "CHR008", "ko": "……누군가를 기다리는 거겠지. 오지 않는 사람을.", "en": "…They're waiting for someone, I think. Someone who isn't coming."},
+        {"s": "N", "ko": "마에루는 대답 대신 벽의 공석 하나를 오래 바라보았다.", "en": "Maeru said nothing, and gazed a long while at one empty seat on the wall."},
+        {"s": "CHR006", "ko": "벽 뒤에서 수동 전신 부호가 들려. 짧게, 길게…… '취소, 취소, 취소.'", "en": "Manual telegraph code behind the wall. Short, long… 'Cancel, cancel, cancel.'"},
+        {"s": "CHR002", "ko": "누가 손으로 뭘 계속 취소하고 있다고? 궁금해지는데. 먼저 간다.", "en": "Someone's cancelling things by hand, over and over? Now I'm curious. I'll go first."},
+        {"s": "CHR001", "ko": "빈 열차가 출발하기 전에 이유를 찾는다.", "en": "We find the reason before those empty trains depart."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "바깥으로 가는 신호",
+      "title_en": "A Signal Heading Out",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR008", "CENTER": "CHR001", "RIGHT": "CHR027"},
+      "lines": [
+        {"s": "N", "ko": "회송 편성핵이 멈추자 벽의 편성표가 한 장씩 떨어져 내렸다. 종이 소리가 비처럼 들렸다.", "en": "When the Return Formation Core stopped, the rosters peeled from the walls one by one. The rustle sounded like rain."},
+        {"s": "HBOSS", "ko": "……빈 좌석을 준비해 두면, 언젠가 모두…… 돌아올 자리가……", "en": "…If I kept the seats ready… then someday, everyone… would have a place to come back to…"},
+        {"s": "CHR008", "ko": "돌아올 자리를 만들어 둔 거였네. 아무도 오지 않는 줄도 모르고.", "en": "It was making places for people to come home to. Never knowing no one would come."},
+        {"s": "CHR001", "ko": "……자리를 비워 두는 건 나쁜 일이 아니다. 사람을 끌어다 앉히는 게 잘못이지.", "en": "…Keeping a seat empty isn't wrong. Dragging people into it is."},
+        {"s": "CHR027", "ko": "회송 명령. 소멸 확인. 열두 해. 취소 작업. 종료.", "en": "Return orders. Terminated. Twelve years. Cancellation work. Complete."},
+        {"s": "CHR027", "ko": "……손. 이제. 쉰다. 고맙다. 끊음.", "en": "…Hands. Can rest. Now. Thank you. Over."},
+        {"s": "CHR006", "ko": "잠깐. 바깥으로 나가는 신호가 하나 있어. 회송이 아니라 정방향이야.", "en": "Wait. There's one signal heading outward. Not a return—forward."},
+        {"s": "CHR003", "ko": "발신원이 움직여. 시속 구십 킬로. 유리평원의 야간열차에서 나오는 신호야.", "en": "The source is moving. Ninety kilometers an hour. It's coming from the night train on the glass plains."},
+        {"s": "CHR027", "ko": "이노아. 동행 희망. 전신기 지참. ……긴 문장은. 나중에.", "en": "Inoa. Request to join. Telegraph included. …Long sentences. Later."},
+        {"s": "CHR002", "ko": "좋아, 짧은 대답이 제일 좋은 대답이지. 환영해, 이노아.", "en": "Great. Short answers are the best answers. Welcome, Inoa."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR006", "ko": "중앙 개찰 앞 신호 확인. 이리야. 부상자 여럿, 그리고 잔향체 무리.", "en": "Signal confirmed at the central gates. It's Iri. Several wounded, and a pack of echoforms."},
+      {"s": "CHR008", "ko": "아, 왔구나. ……늦어서 미안해. 길을 열어 두겠다고 했는데.", "en": "Oh, you made it. …Sorry I'm late. I said I'd keep the way open."},
+      {"s": "CHR001", "ko": "늦은 건 우리다. 부상자는 몇 명이지?", "en": "We're the ones who are late. How many wounded?"},
+      {"s": "CHR008", "ko": "스물여섯. 전부 명부에 덮이기 직전이야. 내가 손을 떼면 과거로 끌려가.", "en": "Twenty-six. Every one of them is about to be overwritten. If I let go, they get dragged into the past."},
+      {"s": "CHR004", "ko": "그럼 이리 씨는 계속 치료해요! 싸우는 건 저희가 할게요!", "en": "Then keep treating them, Iri! We'll do the fighting!"},
+      {"s": "CHR008", "ko": "고마워. 그럼 부탁해도 될까. 저것들이 개찰구를 넘지 못하게.", "en": "Thank you. Then may I ask a favor? Don't let those things past the gates."},
+      {"s": "CHR005", "ko": "부탁을 그렇게 다정하게 하면, 한 발 더 쏘고 싶어지잖아.", "en": "Ask that sweetly and I'll want to fire an extra round."},
+      {"s": "CHR008", "ko": "……조심해. 다치면 내가 또 바빠지니까.", "en": "…Be careful. If you get hurt, I'll just get busier."}
+    ],
+    "WANDERER": [
+      {"s": "CHR006", "ko": "전신 부호 발신지 도착. 사람 하나가 전건을 두드리고 있어.", "en": "We've reached the telegraph source. Someone's working a telegraph key."},
+      {"s": "CHR027", "ko": "수신. 정체불명. 다수. 회송반 여부. 확인 요망. 끊음.", "en": "Received. Unknown. Multiple. Return crew. Confirm. Over."},
+      {"s": "CHR002", "ko": "……방금 우리한테 말한 거 맞지? 전보 치듯이?", "en": "…Was that directed at us? Like a telegram?"},
+      {"s": "CHR001", "ko": "회송반이 아니다. 등로단이다. 회송을 멈추러 왔다.", "en": "We're not a return crew. We're the Lamplighters. We came to stop the returns."},
+      {"s": "CHR027", "ko": "회송반. 매번. 같은 답. 열두 해. 속았음.", "en": "Return crews. Always. Same answer. Twelve years. Fooled before."},
+      {"s": "CHR027", "ko": "증명. 요구. 교전 후. 재수신. 끊음.", "en": "Proof. Required. After combat. Will re-receive. Over."},
+      {"s": "CHR004", "ko": "와, 말을 한 박자씩 끊어요! 멋있는데 무서워요!", "en": "Whoa, she talks in beats! That's cool and terrifying!"},
+      {"s": "CHR027", "ko": "평가. 불필요. 개시.", "en": "Evaluation. Unnecessary. Commencing."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "역방향 개찰 중입니다. 승객 여러분은 과거를 향해 한 줄로 서십시오.", "en": "Reverse ticketing in progress. Passengers, please form a single line facing the past."},
+      {"s": "CHR008", "ko": "미안하지만, 우리 환자분들은 지금이 제일 좋대.", "en": "Sorry, but my patients say they like the present best."},
+      {"s": "BOSS", "ko": "불응 승객을 확인했습니다. 승차권을 회수합니다.", "en": "Noncompliant passengers detected. Revoking tickets."},
+      {"s": "CHR002", "ko": "회수할 수 있으면 해 봐. 우린 반품 불가야!", "en": "Revoke them if you can. We're non-refundable!"}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "회송 편성을 완료했습니다. 공석을 채울 승객을 모집합니다.", "en": "Return formation complete. Now recruiting passengers to fill vacant seats."},
+      {"s": "CHR003", "ko": "공석이 삼천 개야. 채우려는 건 지금 살아 있는 사람들이고.", "en": "Three thousand empty seats. And it wants to fill them with the living."},
+      {"s": "HBOSS", "ko": "승객 여러분을 확인했습니다. 과거 명부에 배정합니다.", "en": "Passengers identified. Assigning you to the past roster."},
+      {"s": "CHR008", "ko": "좌석 배정은 사양할게. 우리 자리는 우리가 정해.", "en": "We'll decline the seating. We choose our own seats."}
+    ],
+    "ANOMALY_1": [
+      {"s": "CHR006", "ko": "이상 신호. 저 잔향체, 우리가 방금 한 말을 거꾸로 되뇌고 있어.", "en": "Anomalous signal. That echoform is repeating what we just said—backward."},
+      {"s": "ENEMY", "ko": "……다니합작시 를투전. ……다니합작시 를투전.", "en": "…Nigeb lliw tabmoc. …Nigeb lliw tabmoc."},
+      {"s": "CHR004", "ko": "거꾸로 말하니까 좀 귀엽지 않아요? ……아니에요? 네, 쏠게요.", "en": "Isn't it kind of cute backward? …No? Okay, shooting now."}
+    ],
+    "ANOMALY_2": [
+      {"s": "CHR003", "ko": "전방 개체, 시간 역행 중. 쓰러뜨려도 삼 초 전으로 돌아가서 다시 일어나.", "en": "Target ahead is moving backward in time. Knock it down and it rewinds three seconds and stands up again."},
+      {"s": "ENEMY", "ko": "승차권을 확인합니다. 확인합니다. 확인합니다.", "en": "Checking tickets. Checking. Checking."},
+      {"s": "CHR005", "ko": "삼 초 안에 끝내면 되지. 조준은 벌써 끝났어.", "en": "Then finish it inside three seconds. I'm already aimed."},
+      {"s": "CHR002", "ko": "그럼 난 이 초 안에. 내기다, 소렌.", "en": "Then I'll do it in two. You're on, Soren."}
+    ],
+    "ANOMALY_3": [
+      {"s": "CHR006", "ko": "공석을 지키는 개체야. 빈자리에 다가가면 반응해.", "en": "It guards the empty seats. It reacts if you get close to one."},
+      {"s": "ENEMY", "ko": "이 좌석은 예약석입니다. 착석하지 마십시오.", "en": "This seat is reserved. Please do not sit."},
+      {"s": "CHR001", "ko": "……예약석이라. 비켜라. 지나가기만 할 거다.", "en": "…Reserved, huh. Step aside. We're only passing through."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "역류하는 매복", "title_en": "Backflow Ambush",
+     "lines": [
+       {"s": "N", "ko": "거꾸로 흐르는 전선을 타고 잔향체 무리가 덮쳐 왔다. 소리는 앞에서 났는데, 놈들은 뒤에 있었다.", "en": "A pack of echoforms swept in along the backflowing cables. The sound came from ahead, but they were behind."},
+       {"s": "CHR002", "ko": "이 역은 방향 감각부터 뺏어 가네. 붙을래, 빠질래?", "en": "This station steals your sense of direction first. Fight, or slip away?"}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "교전한다", "en": "Engage"},
+                 {"outcome": "EVADE", "ko": "우회한다", "en": "Detour"}]},
+    {"kind": "DISTRESS", "title_ko": "어제로 가는 시계", "title_en": "A Clock Running to Yesterday",
+     "lines": [
+       {"s": "N", "ko": "뒤집힌 매표소 안에서 두드리는 소리가 났다. 세 번, 쉬고, 세 번.", "en": "Knocking came from inside an overturned ticket booth. Three times, a pause, three times."},
+       {"s": "SURVIVOR", "ko": "거기 누구 있어요? 시계가…… 시계가 자꾸 어제로 가요.", "en": "Is someone there? My watch… my watch keeps going back to yesterday."},
+       {"s": "CHR006", "ko": "진짜 생체 신호야. 명부에 덮이기 전에 꺼내야 해.", "en": "That's a real life sign. We have to get her out before the roster overwrites her."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "구조한다", "en": "Rescue her"},
+                 {"outcome": "RECORD", "ko": "좌표를 기록한다", "en": "Log the coordinates"}]},
+    {"kind": "STORM", "title_ko": "어제의 바람", "title_en": "Yesterday's Wind",
+     "lines": [
+       {"s": "N", "ko": "역사 틈으로 잔광 폭풍이 불어닥쳤다. 바람 속에서 어제 들은 말들이 다시 들렸다.", "en": "An afterglow storm howled through cracks in the station. On the wind, things said yesterday could be heard again."},
+       {"s": "CHR005", "ko": "어제가 날아다니네. 오래 맞으면 오늘이 헷갈려. 피할래, 뚫을래?", "en": "Yesterday's blowing around. Stay in it and you'll lose track of today. Duck, or push?"}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "대피한다", "en": "Take shelter"},
+                 {"outcome": "PUSH", "ko": "돌파한다", "en": "Push through"}]},
+    {"kind": "CACHE", "title_ko": "유통 기한", "title_en": "Expiration Date",
+     "lines": [
+       {"s": "N", "ko": "멈춘 자판기 안에 보급품이 채워져 있었다. 유통 기한이 내일에서 어제로 바뀌는 중이었다.", "en": "A dead vending machine was stocked with supplies. Their expiration dates were turning from tomorrow to yesterday."},
+       {"s": "CHR004", "ko": "빨리 꺼내요! 어제가 되기 전에!", "en": "Grab them quick! Before they turn into yesterday!"}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "회수한다", "en": "Take them"}]},
+    {"kind": "BANTER", "title_ko": "숨소리", "title_en": "The Sound of Breathing",
+     "lines": [
+       {"s": "CHR004", "ko": "베라 씨, 신호 추적할 때 무슨 소리가 들려요? 삐삐? 치지직?", "en": "Vera, what do you hear when you track signals? Beeps? Static?"},
+       {"s": "CHR006", "ko": "사람 숨소리. 신호마다 숨 쉬는 박자가 달라. ……에다 신호는 계속 뛰고 있어.", "en": "Breathing. Every signal breathes to a different rhythm. …Yours is always running."},
+       {"s": "CHR004", "ko": "제가 원래 좀 과충전 상태라서요!", "en": "I'm a little overcharged by nature!"}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep moving"}]},
+    {"kind": "ECHO", "title_ko": "첫차는 반드시 옵니다", "title_en": "The First Train Always Comes",
+     "lines": [
+       {"s": "N", "ko": "역 방송실에서 오래된 녹음이 흘러나왔다. 막차를 놓친 승객에게 건네는 안내였다.", "en": "An old recording played from the station's broadcast room. An announcement for passengers who missed the last train."},
+       {"s": "ECHO", "ko": "막차를 놓치신 승객께서는 대합실에서 첫차를 기다려 주십시오. 첫차는 반드시 옵니다.", "en": "Passengers who missed the last train, please wait in the lobby for the first. The first train always comes."},
+       {"s": "CHR001", "ko": "……반드시, 라.", "en": "…'Always,' huh."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+                 {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

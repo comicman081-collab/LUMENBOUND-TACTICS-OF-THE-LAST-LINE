@@ -83,7 +83,6 @@ func advance() -> Dictionary:
 				AppState.mark_scenario_completed(state.scenario_id)
 				var join_stage := AppState.story_trigger_stage(state.scenario_id)
 				if state.scenario_id == "SCN_CH01_MID_B": AppState.unlock_character("CHR006", join_stage)
-				if state.scenario_id == "SCN_CH01_OUTRO": AppState.unlock_character("CHR007", join_stage)
 				AppState.profile.last_scenario_position.erase(state.scenario_id)
 			state.finished = true
 			return command

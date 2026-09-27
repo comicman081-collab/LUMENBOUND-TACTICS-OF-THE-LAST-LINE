@@ -1,0 +1,146 @@
+{
+  "id": "SCN_CH10_HARD_OUTRO",
+  "title_key": "SCENARIO_CH10_HARD_OUTRO_TITLE",
+  "chapter_id": "CH10",
+  "presentation": "CINEMATIC",
+  "commands": [
+    {
+      "id": "start",
+      "command": "set_background",
+      "asset_id": "bg_ch01_glass_rail_story"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr035_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr015_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "fade_in",
+      "duration": 0.35
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH10_HARD_OUTRO_01"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "enemy_enm027_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "ENEMY_ECLIPSE_CONDUCTOR",
+      "text_key": "STORY_CH10_HARD_OUTRO_02",
+      "portrait_asset_id": "enemy_enm027_dev"
+    },
+    {
+      "command": "hide_portrait",
+      "slot": "RIGHT"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_CH10_HARD_OUTRO_03",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "set_expression",
+      "slot": "CENTER",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_HERAON_NAME",
+      "text_key": "STORY_CH10_HARD_OUTRO_04",
+      "portrait_asset_id": "portrait_chr035_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr015_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_HART_NAME",
+      "text_key": "STORY_CH10_HARD_OUTRO_05",
+      "portrait_asset_id": "portrait_chr015_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr004_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_EDA",
+      "text_key": "STORY_CH10_HARD_OUTRO_06",
+      "portrait_asset_id": "portrait_chr004_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_HERAON_NAME",
+      "text_key": "STORY_CH10_HARD_OUTRO_07",
+      "portrait_asset_id": "portrait_chr035_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr002_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_CH10_HARD_OUTRO_08",
+      "portrait_asset_id": "portrait_chr002_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_HERAON_NAME",
+      "text_key": "STORY_CH10_HARD_OUTRO_09",
+      "portrait_asset_id": "portrait_chr035_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH10_HARD_OUTRO_10",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "grant_reward",
+      "item_id": "LANTERN_SHARD",
+      "quantity": 5
+    },
+    {
+      "command": "end_scenario"
+    }
+  ]
+}

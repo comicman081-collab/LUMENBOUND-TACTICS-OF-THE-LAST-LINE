@@ -2,27 +2,34 @@
   "id": "SCN_CH20_OUTRO",
   "title_key": "SCENARIO_CH20_OUTRO_TITLE",
   "chapter_id": "CH20",
+  "presentation": "CINEMATIC",
   "commands": [
     {
       "id": "start",
       "command": "set_background",
-      "asset_id": "bg_lantern_tunnel_dev"
-    },
-    {
-      "command": "show_portrait",
-      "slot": "RIGHT",
-      "asset_id": "portrait_chr001_dev",
-      "expression": "SMILE"
+      "asset_id": "bg_ch01_signal_cathedral_story"
     },
     {
       "command": "show_portrait",
       "slot": "LEFT",
-      "asset_id": "portrait_chr025_dev",
-      "expression": "SMILE"
+      "asset_id": "portrait_chr006_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "enemy_boss023_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "fade_in",
-      "duration": 0.24
+      "duration": 0.35
     },
     {
       "command": "narration",
@@ -30,24 +37,185 @@
       "text_key": "STORY_CH20_OUTRO_01"
     },
     {
-      "command": "dialogue",
-      "speaker_key": "SPEAKER_MAERU",
-      "text_key": "STORY_CH20_OUTRO_02"
-    },
-    {
       "command": "set_expression",
       "slot": "RIGHT",
-      "expression": "SMILE"
+      "expression": "SAD"
     },
     {
       "command": "dialogue",
-      "speaker_key": "SPEAKER_MAERU",
-      "text_key": "STORY_CH20_OUTRO_03"
+      "speaker_key": "ENEMY_LAST_LINE_WARDEN",
+      "text_key": "STORY_CH20_OUTRO_02",
+      "portrait_asset_id": "enemy_boss023_dev"
+    },
+    {
+      "command": "hide_portrait",
+      "slot": "RIGHT"
     },
     {
       "command": "narration",
       "speaker_key": "SPEAKER_ROUTEKEEPER",
-      "text_key": "STORY_CH20_OUTRO_INTERLUDE"
+      "text_key": "STORY_CH20_OUTRO_03"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_CONTROL",
+      "text_key": "STORY_CH20_OUTRO_04"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_CONTROL",
+      "text_key": "STORY_CH20_OUTRO_05"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "SMILE"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VERA_NAME",
+      "text_key": "STORY_CH20_OUTRO_06",
+      "portrait_asset_id": "portrait_chr006_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr008_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_IRI",
+      "text_key": "STORY_CH20_OUTRO_07",
+      "portrait_asset_id": "portrait_chr008_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr014_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "CENTER",
+      "expression": "ALERT"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VEON_NAME",
+      "text_key": "STORY_CH20_OUTRO_08",
+      "portrait_asset_id": "portrait_chr014_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr022_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_SEB_NAME",
+      "text_key": "STORY_CH20_OUTRO_09",
+      "portrait_asset_id": "portrait_chr022_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr024_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_MOEN_NAME",
+      "text_key": "STORY_CH20_OUTRO_10",
+      "portrait_asset_id": "portrait_chr024_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr025_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_LAVENT_NAME",
+      "text_key": "STORY_CH20_OUTRO_11",
+      "portrait_asset_id": "portrait_chr025_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr005_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "SMILE"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_SOREN",
+      "text_key": "STORY_CH20_OUTRO_12",
+      "portrait_asset_id": "portrait_chr005_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr004_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "ALERT"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_EDA",
+      "text_key": "STORY_CH20_OUTRO_13",
+      "portrait_asset_id": "portrait_chr004_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_CH20_OUTRO_14",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr002_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_CH20_OUTRO_15",
+      "portrait_asset_id": "portrait_chr002_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH20_OUTRO_16",
+      "portrait_asset_id": "portrait_chr001_dev"
     },
     {
       "command": "grant_reward",

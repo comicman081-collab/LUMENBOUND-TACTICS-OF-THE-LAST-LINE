@@ -1,0 +1,292 @@
+{
+  "chapter_id": "CH01",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "꺼진 노선의 신호",
+      "title_en": "The Signal on the Dead Line",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR002", "CENTER": "CHR001", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "제7 승강장에서 사흘. 등로단의 전진 기지는 끊긴 노선 끝에서 조용히 불을 밝히고 있었다.", "en": "Three days after Platform Seven. The Lamplighters' forward base glowed quietly at the end of a severed line."},
+        {"s": "CHR001", "ko": "항해자, 몸은 좀 어때? 첫 작전이다. 무리하지 말고 우리 뒤에 붙어.", "en": "Navigator, how are you holding up? First operation. Don't push it. Stay behind us."},
+        {"s": "CHR003", "ko": "구조 신호가 들어왔어. 발신지는 지도에 없는 선로. 등록 번호가 비어 있어.", "en": "A distress signal came in. Source: a line that isn't on any map. Its registry number is blank."},
+        {"s": "CHR002", "ko": "지도에 없는 길이라…… 정찰 담당 입장에선 이만한 선물이 없지.", "en": "A road off the map… For a scout, you couldn't ask for a better gift."},
+        {"s": "CHR003", "ko": "들뜰 일이 아니야. 신호가 약해지는 게 아니라 거꾸로 닳고 있어. 누군가 끝에서 먹어 치우는 것처럼.", "en": "Don't get excited. It isn't fading—it's being worn down from the far end. Like something is eating it."},
+        {"s": "CHR004", "ko": "그럼 빨리 가야죠! 먹히기 전에! 제 회로는 벌써 충전 끝났어요!", "en": "Then we'd better hurry! Before it's eaten! My circuits are already fully charged!"},
+        {"s": "CHR005", "ko": "에다, 네 회로보다 보급 목록부터 충전해. 이번 선로는 등불이 하나도 안 켜져 있어.", "en": "Eda, charge the supply list before your circuits. Not a single lantern is lit on that line."},
+        {"s": "N", "ko": "그때, 기지 천장의 낡은 스피커가 잡음을 토해냈다.", "en": "Then the old speaker in the base's ceiling coughed out static."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 제1 노선의 운행 재개를 환영합니다, 항해자님.", "en": "Attention, please. Welcome to the resumption of service on Line One, Navigator."},
+        {"s": "CONTROL", "ko": "승객 여러분께서는 안전선 안쪽에서 대기하십시오. 구조 신호는 곧 처리될 예정입니다.", "en": "Passengers, please wait behind the safety line. The distress signal will be processed shortly."},
+        {"s": "CHR004", "ko": "……저 스피커, 전선 끊어 놓은 거 아니었어요? 제가 직접 잘랐는데요?", "en": "…Wait, wasn't that speaker disconnected? I cut the wires myself!"},
+        {"s": "CHR003", "ko": "전력 공급 없음. 그런데 송출은 정상이야. ……항해자, 저 목소리가 왜 너를 알지?", "en": "No power feed. The broadcast is clean anyway. …Navigator, why does that voice know you?"},
+        {"choice": [
+          {"key": "CH01_CHOICE_UNKNOWN", "flag": "CH01_INTRO_UNKNOWN", "ko": "나도 모른다", "en": "I don't know either", "reply": [
+            {"s": "CHR001", "ko": "그럼 됐어. 모르는 걸 아는 척하는 것보다 훨씬 낫다.", "en": "Then that's fine. Far better than pretending to know."}
+          ]},
+          {"key": "CH01_CHOICE_RECORDER", "flag": "CH01_INTRO_RECORDER", "ko": "항해 기록기를 내려다본다", "en": "Look down at the recorder", "reply": [
+            {"s": "CHR003", "ko": "……방송 내내 기록기 점멸이 빨라졌어. 기억해 둘게.", "en": "…Your recorder blinked faster the whole time it spoke. I'll remember that."}
+          ]}
+        ]},
+        {"s": "CHR001", "ko": "따라갈 건 저 방송이 아니라 구조 신호다. 누군가 아직 끝에서 부르고 있어.", "en": "We follow the distress call, not that broadcast. Someone is still calling from the end of the line."},
+        {"s": "CHR002", "ko": "길은 내가 연다. 열두 해 묵은 어둠이니까, 다들 발밑 조심하고.", "en": "I'll open the way. That dark's had twelve years to settle, so watch your step."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "대답하지 못하는 목소리",
+      "title_en": "A Voice That Cannot Answer",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR004", "CENTER": "CHR003", "RIGHT": "CHR005"},
+      "lines": [
+        {"s": "N", "ko": "전투가 끝난 선로에 목소리 하나가 남았다. 여기 있어요. 같은 높이, 같은 간격으로.", "en": "When the fighting ended, one voice remained on the rails. I'm here. Same pitch, same interval."},
+        {"s": "ECHO", "ko": "여기 있어요. 여기 있어요. 여기…… 있어요.", "en": "I'm here. I'm here. I'm… here."},
+        {"s": "CHR004", "ko": "사람이에요! 거기 몇 명이에요? 다친 사람은요? 대답해 줘요!", "en": "It's a person! How many of you are there? Anyone hurt? Answer me!"},
+        {"s": "ECHO", "ko": "여기 있어요.", "en": "I'm here."},
+        {"s": "CHR003", "ko": "질문 세 개에 같은 문장 하나. 잔향체야. 대답은 못 하고 흉내만 내.", "en": "Three questions, one sentence. It's an echoform. It can't answer. It can only imitate."},
+        {"s": "CHR004", "ko": "……사람 목소리였는데. 진짜 누군가 여기서 저렇게 불렀던 거죠?", "en": "…But it was a real voice. Someone really called out like that here, didn't they?"},
+        {"s": "CHR005", "ko": "그래서 쏘기가 싫은 거야. 저건 누군가의 마지막 한마디였을 테니까.", "en": "That's why I hate shooting them. That was probably someone's last words."},
+        {"s": "CHR002", "ko": "여기 봐, 기록편이다. 잔향체 발밑에 있었는데 흠집 하나 없어.", "en": "Look, a record shard. It was under the echoform, and there's not a scratch on it."},
+        {"s": "CHR003", "ko": "제1 노선 막차의 운행 기록이야. 행선지 칸만 누가 긁어낸 것처럼 비었어.", "en": "The last train on Line One. The log is intact except the destination—scraped clean."},
+        {"s": "N", "ko": "그 순간 수신기의 구조 신호가 길게 늘어나더니, 선로 안쪽 어둠으로 빨려 들어갔다.", "en": "Then the distress signal on the receiver stretched thin and was drawn into the dark down the line."},
+        {"s": "CHR001", "ko": "신호가 끌려가는 곳에 보낸 사람도 있다. 거기까지 간다.", "en": "Wherever that signal's being dragged, its sender is there too. That's where we go."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N08",
+      "title_ko": "첫 번째 무늬",
+      "title_en": "The First Mark",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR001", "CENTER": "CHR006", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "마지막 잔향체가 흩어지자 중계기의 녹슨 안테나가 낮게 웅웅거렸다. 주위엔 발자국이 하나뿐이었다.", "en": "As the last echoform scattered, the relay's rusted antenna hummed low. There was only one set of footprints around it."},
+        {"s": "CHR006", "ko": "……진짜 사람이네. 미안. 요즘은 발소리도 믿지 않게 돼서.", "en": "…You're real. Sorry. These days I don't even trust footsteps."},
+        {"s": "CHR006", "ko": "베라. 신호 추적자야. 이 중계기를 지킨 지 오늘로 사백 일째.", "en": "Vera. Signal tracker. Today makes four hundred days guarding this relay."},
+        {"s": "CHR003", "ko": "신호가 거꾸로 닳는 이유, 알고 있어?", "en": "Do you know why the signal's wearing down from the far end?"},
+        {"s": "CHR006", "ko": "선로 끝에 공허 기관이 있어. 구조 신호의 잔향을 연료로 태워. 부를수록 그것만 배불러.", "en": "There's a Hollow Engine at the end of the line. It burns the echoes of distress calls as fuel. The more people call, the fatter it gets."},
+        {"s": "CHR006", "ko": "그래서 여기서 신호를 되돌려 보냈어. 혼자서는 절반도 못 막았지만.", "en": "So I've been bouncing signals back from here. Alone, I couldn't save even half."},
+        {"s": "CHR001", "ko": "이제 혼자가 아니다. 같이 가자, 베라. 신호를 보낸 사람들에게.", "en": "You're not alone now. Come with us, Vera. To the people who sent those signals."},
+        {"s": "CHR006", "ko": "……좋아. 구조 신호는 보낸 사람에게 돌아가야 해. 그게 내가 여기 남은 이유야.", "en": "…All right. A distress call has to make it back to the people who sent it. That's why I stayed."},
+        {"s": "N", "ko": "그때 항해 기록기가 처음으로 빛났다. 차가운 푸른빛 속에서 낯선 무늬 하나가 새겨졌다.", "en": "Then, for the first time, the recorder lit up. In a cold blue glow, an unfamiliar mark etched itself into it."},
+        {"s": "CHR003", "ko": "베라가 대답한 순간에 맞춰 떴어. 우연이라기엔 타이밍이 너무 정확해.", "en": "It appeared the instant Vera answered. Too precise to be a coincidence."},
+        {"s": "CHR006", "ko": "그 기록기, 대운행국 물건이지? 나중에 제대로 보여 줘. 지금은 기관이 먼저야.", "en": "That recorder's Directorate hardware, isn't it? Show me properly later. The Engine comes first."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N10",
+      "title_ko": "종탑 아래의 모닥불",
+      "title_en": "Campfire Under the Bell Tower",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR006", "CENTER": "CHR001", "RIGHT": "CHR004"},
+      "lines": [
+        {"s": "N", "ko": "종탑 모양의 중계기 아래 모닥불을 피웠다. 탑 꼭대기의 녹슨 종은 바람에도 울리지 않았다.", "en": "They lit a fire beneath the bell-tower relay. The rusted bell at its top did not ring, even in the wind."},
+        {"s": "CHR006", "ko": "잠깐. 먼 곳에서 생체 신호가 하나 걸렸어. 암호화된 문장이야. 풀어 볼게.", "en": "Hold on. I've caught a distant life sign. It's carrying an encrypted message. Let me decode it."},
+        {"s": "CHR006", "ko": "'등로단에게. 아직 합류할 수 없어. 종착선 앞에서 길을 열어 둘게.' ……서명은 이리, 의무관.", "en": "'To the Lamplighters. I can't join you yet. I'll keep the way open at the terminus.' …Signed Iri, medic."},
+        {"s": "CHR003", "ko": "종착선이면 다음 노선의 끝이야. 신호 세기로 보면, 거기서 오래 버틴 사람이야.", "en": "The terminus is at the end of the next line. From the signal strength, she's been holding out there a long time."},
+        {"s": "CHR005", "ko": "길을 열어 두겠다니. 초대장치곤 꽤 다정한데.", "en": "'I'll keep the way open.' Pretty sweet, for an invitation."},
+        {"s": "N", "ko": "불을 끄기 전, 마에루는 궤도차의 빈 좌석 안전띠를 당겨 보았다. 매번 같은 자리였다.", "en": "Before the fire was banked, Maeru tugged at the seatbelt of an empty seat on the rail cart. Always the same seat."},
+        {"s": "CHR004", "ko": "단장님, 그거 매번 하시던데요. 아무도 안 앉는 자리 안전띠요. 왜 그러세요?", "en": "Chief, you do that every time. The seatbelt on the seat nobody uses. Why?"},
+        {"s": "CHR001", "ko": "……나중에.", "en": "…Later."},
+        {"s": "CHR002", "ko": "에다, 불 좀 봐 줄래? 네 회로 말고, 진짜 불.", "en": "Eda, mind watching the fire? Not your circuits. The real one."},
+        {"s": "CHR004", "ko": "……네. 죄송해요, 단장님.", "en": "…Okay. Sorry, Chief."},
+        {"choice": [
+          {"key": "CH01_CHOICE_SEAT", "flag": "CH01_CAMP_SEAT", "ko": "빈 좌석 옆에 앉는다", "en": "Sit beside the empty seat", "reply": [
+            {"s": "CHR001", "ko": "……거긴 비워 두는 자리야. 옆은 괜찮아.", "en": "…That one stays empty. Beside it is fine."}
+          ]},
+          {"key": "CH01_CHOICE_FIRE", "flag": "CH01_CAMP_FIRE", "ko": "모닥불에 장작을 넣는다", "en": "Add wood to the fire", "reply": [
+            {"s": "CHR001", "ko": "고맙다. 불이 꺼지지 않으면, 내일도 길이 보인다.", "en": "Thanks. As long as the fire holds, we'll see the road tomorrow."}
+          ]}
+        ]},
+        {"s": "CHR006", "ko": "내일은 선로 끝이야. 공허 기관이 삼킨 신호, 하나도 남기지 않고 꺼내자.", "en": "Tomorrow, the end of the line. Every signal the Hollow Engine swallowed—we get them all back."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "무한 대기 창구",
+      "title_en": "The Endless Queue",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR006", "CENTER": "CHR001", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "선로 끝은 거대한 승강장이었다. 천장까지 쌓인 송신 기록이 벌레 떼처럼 웅웅거렸다.", "en": "The end of the line was a colossal platform. Transmission logs stacked to the ceiling droned like a swarm."},
+        {"s": "CHR006", "ko": "전부 구조 신호야. 셀 수가 없어…… 최소 사천 건은 돼.", "en": "They're all distress calls. I can't count them… Four thousand at least."},
+        {"s": "CHR003", "ko": "사천삼백십일 건. 발신 시각은 전부 같아. 대정전 그날 밤.", "en": "Four thousand three hundred eleven. All sent at the same hour. The night of the Blackout."},
+        {"s": "N", "ko": "승강장 한가운데서 무언가 눈을 떴다. 텅 빈 보일러 같은 몸이 신호를 들이마시며 숨을 쉬었다.", "en": "At the platform's heart, something opened its eyes. A body like a hollow boiler breathed, inhaling signals."},
+        {"s": "BOSS", "ko": "구조 요청이 접수되었습니다. 처리 대기 시간은 무한입니다.", "en": "Your request for rescue has been received. The estimated wait time is infinite."},
+        {"s": "BOSS", "ko": "접수된 요청은 안전하게 보관됩니다. 전달은 예정되어 있지 않습니다.", "en": "All requests are stored safely. Delivery is not scheduled."},
+        {"s": "CHR004", "ko": "보관만 한다고요? 그럼 저 사람들은…… 열두 해 동안 대답을 못 들은 거예요?", "en": "Just stored? Then those people… never got an answer, for twelve whole years?"},
+        {"s": "CHR006", "ko": "대답을 기다리다 꺼진 신호가 얼마나 많은지 알아? 난 하나하나 들으면서 셌어.", "en": "Do you know how many signals died waiting for an answer? I counted them, one by one, listening."},
+        {"s": "CHR003", "ko": "보관만 하고 전달하지 않는 절차. 고장이 아니야. 처음부터 그렇게 굳어 버린 규칙이야.", "en": "A procedure that stores but never delivers. It's not broken. It's a rule that hardened that way."},
+        {"s": "BOSS", "ko": "신규 요청을 확인했습니다. 등로단 승객 여러분의 신호도 대기열에 추가합니다.", "en": "New requests detected. Lamplighter passengers, your signals have been added to the queue."},
+        {"s": "CHR002", "ko": "우리를 대기열에? 미안하지만, 난 줄 서는 게 제일 질색이야.", "en": "Put us in the queue? Sorry, but there's nothing I hate more than waiting in line."},
+        {"s": "CHR005", "ko": "창구가 하나뿐이면, 부숴서 넓히면 되지.", "en": "If there's only one window, we'll just knock out the wall."},
+        {"s": "N", "ko": "항해 기록기의 무늬가 희미하게 떨렸다. 마치 저 기관을 알고 있다는 듯이.", "en": "The mark on the recorder trembled faintly, as if it knew that engine."},
+        {"s": "CHR001", "ko": "누구 하나 창구 앞에 두고 가지 않는다. 오늘로 이 대기열을 끝낸다.", "en": "We don't leave a single person waiting at that window. This queue ends today."}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "지워진 행선지",
+      "title_en": "The Erased Destination",
+      "background": "cathedral", "cg": "cg_ch01_pilot_teamwork",
+      "cast": {"LEFT": "CHR006", "CENTER": "CHR001", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "공허 기관의 몸이 금 가며 식어 갔다. 갈라진 틈마다 푸른 신호가 새어 나왔다.", "en": "The Hollow Engine's body cracked and cooled. Blue signals seeped from every fissure."},
+        {"s": "BOSS", "ko": "……모든 요청을 보관했습니다. 누구도…… 거절당하지 않도록……", "en": "…All requests… have been kept. So that no one… would ever be turned away…"},
+        {"s": "CHR006", "ko": "……거절하지 않으려고, 전달도 안 했던 거야? 그게 네가 지키려던 거였어?", "en": "…You never delivered them, so you'd never have to refuse one? Was that what you were protecting?"},
+        {"s": "N", "ko": "수천 개의 신호가 한꺼번에 풀려났다. 승강장이 열두 해 전의 목소리들로 가득 찼다.", "en": "Thousands of signals broke free at once. The platform filled with voices from twelve years ago."},
+        {"s": "SURVIVOR", "ko": "여기는 제1 노선 막차. 승객 이백십 명, 전원 무사합니다. 행선지를 알립니다……", "en": "This is the last train on Line One. Two hundred ten passengers, all safe. Announcing our destination…"},
+        {"s": "CHR003", "ko": "기록편의 빈칸이 채워지고 있어. 행선지는…… 역 이름이 아니야. 좌표가 움직여.", "en": "The blank in the shard is filling in. The destination is… not a station. The coordinates are moving."},
+        {"s": "CHR006", "ko": "움직이는 피난처야. 막차는 사람들을 태우고, 멈추지 않는 열차로 가고 있었어.", "en": "A moving shelter. The last train was carrying its passengers to a train that never stops."},
+        {"s": "CHR004", "ko": "그럼 그 사람들, 어딘가에서 아직 달리고 있을 수도 있다는 거죠? 그렇죠?", "en": "So those people might still be out there, running somewhere? Right?"},
+        {"s": "CHR001", "ko": "그럴 수 있다면, 찾는다. 그게 등로단이다.", "en": "If there's any chance, we find them. That's what the Lamplighters are."},
+        {"s": "CHR006", "ko": "하나 더. 캠프에서 받은 이리의 신호, 발신지가 잡혔어. 회송선 깊은 곳이야.", "en": "One more thing. I've located Iri's signal from camp. It's coming from deep in the return line."},
+        {"s": "N", "ko": "그때 무너진 승강장의 스피커가 일제히 켜졌다. 목소리는 여전히 온화했다.", "en": "Then every speaker on the ruined platform switched on at once. The voice was as gentle as ever."},
+        {"s": "CONTROL", "ko": "제1 노선 정리를 확인했습니다. 수고하셨습니다, 항해자님.", "en": "Line One has been cleared. Thank you for your hard work, Navigator."},
+        {"s": "CONTROL", "ko": "이어서 제2 노선, 회송 절차를 개시합니다.", "en": "Commencing return procedures on Line Two."},
+        {"s": "CHR003", "ko": "자기 절차가 부서졌는데 인사를 해. 마치 항해자가 이걸 해 주길 기다린 것처럼.", "en": "Its own procedure just got smashed, and it thanks you. As if it had been waiting for you to do exactly this."},
+        {"s": "CHR001", "ko": "기다리라고 해. 우리 걸음은 우리가 정한다. 다음은 회송선이다. 이리가 길을 열어 두고 있어.", "en": "Let it wait. We choose our own steps. Next is the return line. Iri's keeping the way open."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "끝나지 않은 경보",
+      "title_en": "The Alarm That Never Ended",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR004", "CENTER": "CHR003", "RIGHT": "CHR005"},
+      "lines": [
+        {"s": "N", "ko": "폐광 갱도 깊은 곳에서 종소리가 울렸다. 한 번, 또 한 번. 간격은 정확히 열두 초였다.", "en": "Deep in the abandoned mine, a bell tolled. Once, then again. Exactly twelve seconds apart."},
+        {"s": "CHR003", "ko": "대운행국 대피 경보 규격이야. 대정전 그날 밤에 울렸던 것과 같은 패턴.", "en": "That's the Directorate's evacuation alarm standard. The same pattern that rang the night of the Blackout."},
+        {"s": "CHR004", "ko": "경보가 아직도 울린다고요? 열두 해 동안요? 누가 끄는 걸 깜빡한 거예요?", "en": "The alarm's still going? For twelve years? Did someone forget to turn it off?"},
+        {"s": "CHR005", "ko": "깜빡한 게 아니라, 끌 사람이 없었던 거겠지.", "en": "Not forgot. More like there was no one left to turn it off."},
+        {"s": "N", "ko": "갱도 벽마다 분필로 적은 대피 인원수가 남아 있었다. 마지막 칸만 비어 있었다.", "en": "Evacuation head counts were chalked along the tunnel walls. Only the last column was blank."},
+        {"s": "CHR006", "ko": "종소리 사이에 신호가 섞여 있어. 경비대 호출 부호야. 누군가 아직 여기서 응답하고 있어.", "en": "There's a signal woven between the tolls. A guard unit call sign. Someone down here is still answering."},
+        {"s": "CHR002", "ko": "좁고, 어둡고, 종은 시끄럽고. 완벽하네. 내가 먼저 들어간다.", "en": "Narrow, dark, and a noisy bell. Perfect. I'm going in first."},
+        {"s": "CHR001", "ko": "경보가 끝나지 않았다면, 대피도 끝나지 않은 거다. 종이 멈추지 않는 이유를 찾는다.", "en": "If the alarm never ended, the evacuation never did either. We find out why the bell won't stop."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "마지막 빈칸",
+      "title_en": "The Last Blank",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR006", "CENTER": "CHR001", "RIGHT": "CHR026"},
+      "lines": [
+        {"s": "N", "ko": "마지막 종소리가 갱도 끝까지 굴러가 사라졌다. 열두 해 만의 정적이 먼지처럼 내려앉았다.", "en": "The last toll rolled to the end of the tunnel and vanished. Twelve years' worth of silence settled like dust."},
+        {"s": "HBOSS", "ko": "……대피 완료를 확인하지 못했습니다. 마지막 한 분이 나올 때까지…… 울려야……", "en": "…Evacuation not confirmed. Until the very last one is out… I must keep… ringing…"},
+        {"s": "CHR006", "ko": "벽의 마지막 빈칸…… 종은 그 칸이 채워지길 기다리고 있었던 거야.", "en": "The last blank on the wall… the bell was waiting for it to be filled."},
+        {"s": "CHR026", "ko": "그 칸은 내 동료들 몫이었다. 경비대는 끝까지 남아서 사람들을 내보냈지.", "en": "That column belonged to my squad. The guards stayed to the end, getting everyone else out."},
+        {"s": "CHR001", "ko": "……그럼 우리가 채운다. 대피 완료. 경비대 전원, 임무를 마쳤다고.", "en": "…Then we'll fill it. Evacuation complete. Every guard, mission accomplished."},
+        {"s": "CHR004", "ko": "경비대분들…… 이제 다들 푹 쉬셨으면 좋겠어요.", "en": "The guards… I hope they can all rest now."},
+        {"s": "N", "ko": "마에루가 분필로 빈칸에 선을 그었다. 카이렌은 오래도록 그 선을 바라보았다.", "en": "Maeru drew a line through the blank in chalk. Kairen stared at it for a long time."},
+        {"s": "CHR026", "ko": "……이제야 잘 수 있겠군.", "en": "…Now I can finally sleep."},
+        {"s": "CHR002", "ko": "잘 거면 우리랑 가면서 자. 궤도차 소음이 꽤 괜찮은 자장가거든.", "en": "If you're sleeping, sleep on the move with us. The rail cart makes a decent lullaby."},
+        {"s": "CHR026", "ko": "……종보다는 조용하겠지. 가지.", "en": "…Quieter than a bell, at least. Let's go."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR003", "ko": "중계기 앞에 생체 반응 하나. 잔향체에 둘러싸였어.", "en": "One life sign at the relay. Surrounded by echoforms."},
+      {"s": "CHR006", "ko": "멈춰! 누구 신호를 타고 왔지? 목소리 흉내라면 이미 질리도록 들었어.", "en": "Stop! Whose signal did you ride in on? I've heard enough mimicked voices to last a lifetime."},
+      {"s": "CHR001", "ko": "등로단이다. 구조 신호를 따라왔다.", "en": "We're the Lamplighters. We followed the distress call."},
+      {"s": "CHR006", "ko": "잔향체도 똑같이 말했어. '구조하러 왔어요.' 그게 열한 번째였지.", "en": "The echoforms said the same thing. 'We're here to save you.' That was the eleventh time."},
+      {"s": "CHR004", "ko": "저희 진짜예요! 이렇게 시끄러운 잔향체 보신 적 있어요?", "en": "We're real! Have you ever met an echoform this loud?"},
+      {"s": "CHR006", "ko": "……시끄러운 건 인정해. 그래도 말은 흉내 낼 수 있어.", "en": "…I'll grant you loud. But words can be copied."},
+      {"s": "CHR006", "ko": "좋아. 그럼 증명해. 저것들부터 치워. 말은 그다음이야.", "en": "Fine. Then prove it. Clear those things out first. We talk after."},
+      {"s": "CHR005", "ko": "한 발이면 충분해. 잘 봐 둬, 신호 추적자 씨.", "en": "One shot's enough. Watch closely, signal tracker."}
+    ],
+    "WANDERER": [
+      {"s": "CHR002", "ko": "멈춰. 저 위, 갱목 사이에 총구 하나. 우릴 겨누고 있어.", "en": "Hold it. Up there, between the timbers. A muzzle, aimed at us."},
+      {"s": "CHR026", "ko": "움직이지 마. 질문 하나. 틀리면 쏜다.", "en": "Don't move. One question. Get it wrong and I shoot."},
+      {"s": "CHR026", "ko": "거기, 시끄러운 쪽. 네 왼쪽에 선 사람 이름과, 그 사람이 제일 싫어하는 걸 말해.", "en": "You. The loud one. Tell me the name of the one on your left, and what she hates most."},
+      {"s": "CHR004", "ko": "제 왼쪽이요? 로안 대장님이고요, 줄 서는 걸 제일 싫어하세요!", "en": "My left? That's Captain Roan, and she hates waiting in line more than anything!"},
+      {"s": "CHR026", "ko": "……잔향체는 질문에 대답하지 못한다. 쓸데없이 긴 대답이군. 사람이다.", "en": "…Echoforms can't answer questions. And that answer was needlessly long. You're human."},
+      {"s": "CHR026", "ko": "카이렌. 폐광 경비대. ……뒤에서 너희 목소리가 또 들리는군. 저건 가짜다.", "en": "Kairen. Mine guard. …I hear your voices behind you again. Those are fakes."},
+      {"s": "CHR005", "ko": "우리 목소리를 흉내 내는 잔향체 떼라. 오늘은 한 발로는 좀 모자라겠네.", "en": "A swarm of echoforms wearing our voices. One shot might not cut it today."},
+      {"s": "CHR026", "ko": "진짜라면 가짜를 쏠 수 있겠지. 보여 줘.", "en": "If you're real, you can shoot the fakes. Show me."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "구조 요청 처리 창구입니다. 대기 번호를 받으십시오.", "en": "This is the rescue request window. Please take a number."},
+      {"s": "CHR006", "ko": "대기는 끝났어. 네가 삼킨 신호, 전부 돌려받는다!", "en": "The wait is over. Every signal you swallowed—we're taking them back!"},
+      {"s": "BOSS", "ko": "창구 업무 방해를 확인했습니다. 방해 승객을 보관 처리합니다.", "en": "Obstruction at the window confirmed. Obstructing passengers will be placed in storage."},
+      {"s": "CHR002", "ko": "처리될 건 너야. 비켜!", "en": "You're the one getting processed. Out of the way!"}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "대피 경보 발령 중입니다. 모든 인원은 갱도 밖으로 대피하십시오.", "en": "An evacuation alarm is in effect. All personnel, evacuate the mine immediately."},
+      {"s": "CHR006", "ko": "열두 해째 같은 호출이야. 대피할 사람은 이제 아무도 없어.", "en": "Twelve years of the same call. There's no one left to evacuate."},
+      {"s": "HBOSS", "ko": "대피 미완료 인원을 확인했습니다. 경보를 연장합니다.", "en": "Personnel yet to evacuate detected. Extending the alarm."},
+      {"s": "CHR001", "ko": "그럼 오늘로 대피를 끝낸다. 종을 멈춘다!", "en": "Then the evacuation ends today. We stop that bell!"}
+    ],
+    "ANOMALY_1": [
+      {"s": "CHR003", "ko": "전방에 이상 개체. 등불 잔광을 빨아들이면서 커지고 있어.", "en": "Anomaly ahead. It's growing as it drinks in the lantern glow."},
+      {"s": "ENEMY", "ko": "……불 꺼 주세요. 눈이 부셔요. 불 꺼 주세요.", "en": "…Turn off the light. It's too bright. Turn off the light."},
+      {"s": "CHR005", "ko": "등불을 끄라는 부탁이라. 미안하지만 그건 못 들어줘.", "en": "Asking us to kill the lanterns? Sorry. That's one favor I can't do."},
+      {"s": "CHR001", "ko": "등불 사수. 하나도 꺼뜨리지 마라.", "en": "Guard the lanterns. Don't let a single one go out."}
+    ],
+    "ANOMALY_2": [
+      {"s": "CHR002", "ko": "선로 위에 뭔가 서 있어. ……내 목소리로 날 부르는데?", "en": "Something's standing on the rails. …And it's calling me in my own voice?"},
+      {"s": "ENEMY", "ko": "로안, 이쪽이야. 길은 내가 연다.", "en": "Roan, this way. I'll open the way."},
+      {"s": "CHR002", "ko": "남의 대사 훔치지 마. 사용료는 칼로 받는다.", "en": "Don't steal my line. I charge royalties—payable by blade."},
+      {"s": "CHR004", "ko": "목소리는 똑같은데, 멋은 반도 안 되네요!", "en": "Same voice, but not even half as cool!"}
+    ],
+    "ANOMALY_3": [
+      {"s": "CHR003", "ko": "갱도 벽에서 진동. 종소리에 맞춰 뭔가 기어 나와.", "en": "Vibrations in the tunnel wall. Something's crawling out in time with the bell."},
+      {"s": "ENEMY", "ko": "대피하십시오. 대피하십시오. 대피……", "en": "Evacuate. Evacuate. Evac…"},
+      {"s": "CHR005", "ko": "대피하라면서 길을 막네. 친절한 척은 그만해.", "en": "Telling us to evacuate while blocking the exit. Drop the courtesy act."},
+      {"s": "CHR001", "ko": "밀고 들어간다. 종까지 멈추지 마라.", "en": "Push through. Don't stop until we reach the bell."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "선로 틈의 매복", "title_en": "Ambush from the Rail Gaps",
+     "lines": [
+       {"s": "N", "ko": "등불이 꺼진 구간에서 잔향체들이 선로 틈으로 솟아올랐다.", "en": "In a stretch where the lanterns were dead, echoforms surged up between the rails."},
+       {"s": "CHR002", "ko": "매복이다! 뚫고 갈래, 돌아갈래? 어느 쪽이든 앞장은 내가 선다.", "en": "Ambush! Break through or go around? Either way, I'm taking point."}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "교전한다", "en": "Engage"},
+                 {"outcome": "EVADE", "ko": "우회한다", "en": "Detour"}]},
+    {"kind": "DISTRESS", "title_ko": "떨리는 조난 신호", "title_en": "A Trembling Distress Call",
+     "lines": [
+       {"s": "N", "ko": "무너진 대피소 쪽에서 신호가 들렸다. 잔향체의 흉내와 달리, 떨리고 있었다.", "en": "A signal came from a collapsed shelter. Unlike an echoform's mimicry, it trembled."},
+       {"s": "SURVIVOR", "ko": "……누구 있어요? 물이 떨어졌어요. 이틀째예요.", "en": "…Is anyone there? We're out of water. It's been two days."},
+       {"s": "CHR003", "ko": "문장이 매번 달라. 흉내가 아니라 사람이야. 체온도 떨어지는 중이고.", "en": "Her words change every time. That's no imitation—it's a person. And her temperature's dropping."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "구조한다", "en": "Rescue her"},
+                 {"outcome": "RECORD", "ko": "좌표를 기록한다", "en": "Log the coordinates"}]},
+    {"kind": "STORM", "title_ko": "잔광 폭풍", "title_en": "Afterglow Storm",
+     "lines": [
+       {"s": "N", "ko": "갱도 입구로 잔광 폭풍이 밀려들었다. 바람 속에서 모르는 사람들의 웃음소리가 흩날렸다.", "en": "An afterglow storm poured into the tunnel mouth. Strangers' laughter scattered on the wind."},
+       {"s": "CHR005", "ko": "기억이 섞인 바람이야. 오래 맞으면 남의 추억에 취해. 쉬어 갈래, 뚫고 갈래?", "en": "That wind is full of memories. Stand in it too long and you get drunk on other people's pasts. Rest, or push on?"}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "대피한다", "en": "Take shelter"},
+                 {"outcome": "PUSH", "ko": "돌파한다", "en": "Push through"}]},
+    {"kind": "CACHE", "title_ko": "다음 사람에게", "title_en": "For Whoever Comes Next",
+     "lines": [
+       {"s": "N", "ko": "선로 옆 신호함 안에 봉인된 보급 상자가 있었다. 뚜껑에 '다음 사람에게'라고 적혀 있었다.", "en": "Inside a trackside signal box sat a sealed supply crate. On the lid: 'For whoever comes next.'"},
+       {"s": "CHR004", "ko": "다음 사람…… 우리네요! 고마워요, 모르는 분! 잘 쓸게요!", "en": "Whoever comes next… that's us! Thank you, whoever you are! We'll put it to good use!"}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "회수한다", "en": "Take it"}]},
+    {"kind": "BANTER", "title_ko": "로안의 감", "title_en": "Roan's Hunch",
+     "lines": [
+       {"s": "CHR002", "ko": "나린, 방금 갈림길 말이야. 내 감으로는 왼쪽이었어.", "en": "Narin, about that fork back there. My gut said left."},
+       {"s": "CHR003", "ko": "네 감은 이번 주에 네 번 틀렸어. 오른쪽이 신호 세기가 3퍼센트 높아.", "en": "Your gut's been wrong four times this week. The right path had three percent stronger signal."},
+       {"s": "CHR002", "ko": "……그 네 번 중 두 번은 운이 나빴던 거야.", "en": "…Two of those four were just bad luck."}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep moving"}]},
+    {"kind": "ECHO", "title_ko": "평범한 아침의 방송", "title_en": "An Ordinary Morning's Broadcast",
+     "lines": [
+       {"s": "N", "ko": "꺼진 역사 안에서 오래된 방송이 흘러나왔다. 대정전 이전, 평범한 아침의 목소리였다.", "en": "An old announcement drifted through a dead station. A voice from an ordinary morning before the Blackout."},
+       {"s": "ECHO", "ko": "제1 노선 열차가 곧 도착합니다. 오늘도 좋은 하루 보내십시오.", "en": "The Line One train will arrive shortly. Have a pleasant day."},
+       {"s": "CHR001", "ko": "……이 노선이 사람을 실어 나르던 때가 있었지.", "en": "…There was a time this line carried people."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+                 {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

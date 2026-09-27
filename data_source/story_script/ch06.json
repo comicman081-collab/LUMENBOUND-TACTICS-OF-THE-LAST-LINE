@@ -1,0 +1,271 @@
+{
+  "chapter_id": "CH06",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "통행료",
+      "title_en": "The Toll",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR010", "RIGHT": "CHR009"},
+      "lines": [
+        {"s": "N", "ko": "번개가 3초마다 떨어졌다. 구름 위에 뜬 하늘교량은 그 빛 속에서만 모습을 드러냈다.", "en": "Lightning struck every three seconds. Skybridge, floating above the clouds, appeared only in its flashes."},
+        {"s": "CHR003", "ko": "교량 길이 사천이백 미터, 낙뢰 간격 3.1초. 쉬지 않고 건너도 스무 번은 맞아.", "en": "Bridge length: forty-two hundred meters. Strike interval: 3.1 seconds. Even without stopping, you'd take twenty hits."},
+        {"s": "CHR010", "ko": "교량 입구에 피난 행렬이 있어요. 천막이 낡았어요. 몇 해는 여기 있었나 봐요.", "en": "There's an evacuation column at the bridgehead. The tents are worn. They've been here for years."},
+        {"s": "CHR009", "ko": "건너려다 돌아온 사람들이야. 천막마다 빈자리가 있어.", "en": "People who tried to cross and turned back. Every tent has an empty spot."},
+        {"s": "SURVIVOR", "ko": "해마다 한 번씩 건너 봤어요. 그때마다 몇 명씩 저쪽에 닿지 못했고요.", "en": "We tried once a year. Every time, a few of us never reached the other side."},
+        {"s": "CHR004", "ko": "번개라면 제 전문인데요! 제가 먼저 맞으면서 건너 볼까요?", "en": "Lightning's my specialty! Should I go first and soak up the hits?"},
+        {"s": "CHR005", "ko": "에다, 그건 전문이 아니라 무모야. 네가 피뢰침이 되면 우린 누굴 데리고 돌아가.", "en": "Eda, that's not a specialty, that's reckless. If you play lightning rod, who do we bring home?"},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 하늘교량 통행료를 징수합니다.", "en": "Attention, please. Skybridge tolls are now being collected."},
+        {"s": "CONTROL", "ko": "항해자님께서는 면제입니다. 승객 여러분은 정해진 요금을 지불하시기 바랍니다.", "en": "The Navigator is exempt. All other passengers, please pay the designated fare."},
+        {"s": "CHR002", "ko": "면제래. 항해자만. ……저 방송, 갈수록 편애가 노골적이네.", "en": "Exempt. Just the Navigator. …That broadcast is getting shameless about its favorites."},
+        {"s": "CHR006", "ko": "교량 반대편 끝에서 전력 흡입 신호가 잡혀. 회백도시 전력이 거기로 빨려 가.", "en": "I'm reading a power draw at the far end. The Ashen City's power is being sucked over there."},
+        {"s": "CHR001", "ko": "요금이 무엇인지부터 알아낸다. 사람 목숨이라면, 한 푼도 내지 않는다.", "en": "First we find out what the fare is. If it's lives, we don't pay a cent."},
+        {"s": "CHR008", "ko": "행렬에 환자가 서른둘이야. 여기서 또 한 해를 기다릴 수는 없어.", "en": "Thirty-two patients in that column. They can't wait here another year."},
+        {"s": "CHR001", "ko": "로안, 첫 번째 교각까지. 번개 사이로 길을 재.", "en": "Roan, to the first pylon. Measure a path between the strikes."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "계단처럼 깎인 심박",
+      "title_en": "Heartbeats Worn Down",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR007", "RIGHT": "CHR010"},
+      "lines": [
+        {"s": "N", "ko": "첫 교각의 제어함은 뜨거웠다. 번개가 칠 때마다 계기판의 숫자가 하나씩 올라갔다.", "en": "The first pylon's control box was hot. Each strike ticked a number on its gauge up by one."},
+        {"s": "CHR003", "ko": "번개 한 번에 카운터가 하나씩 올라. 날씨가 아니야. 건너는 사람을 세는 장치야.", "en": "One strike, one tick. This isn't weather. It's a device counting everyone who crosses."},
+        {"s": "CHR007", "ko": "교량 개통 때 설치한 자동 통행료 징수기야. 원래는 전력 요금을 걷던 장치고.", "en": "An automatic toll collector, installed when the bridge opened. It used to charge for electricity."},
+        {"s": "CHR010", "ko": "그런데 이 사람들 생체 신호가…… 건널 때마다 조금씩 깎였어요. 기록에 다 남아 있어요.", "en": "But these people's vital signs… dropped a little every time they crossed. It's all in the records."},
+        {"s": "CHR008", "ko": "심박 기록이 계단처럼 내려가. 요금을 전기가 아니라 사람한테서 걷고 있어.", "en": "Their heart rates step down like stairs. It's collecting the fare from people, not power."},
+        {"s": "SURVIVOR", "ko": "언니는 세 번 건넜어요. 세 번째에, 저쪽 끝에서 쓰러졌어요.", "en": "My sister crossed three times. On the third, she collapsed at the far end."},
+        {"s": "CHR009", "ko": "……요금이 쌓인다는 거야. 건널수록 줄어들어.", "en": "…So the toll accumulates. The more you cross, the less of you is left."},
+        {"s": "CHR001", "ko": "그럼 한 번에 전부 건넌다. 두 번 건너는 사람이 없도록.", "en": "Then everyone crosses in one go. No one crosses twice."},
+        {"s": "CHR002", "ko": "저기, 포대 쪽에서 포성이야. 누가 혼자서 번개랑 싸우고 있어.", "en": "Listen, cannon fire from the battery. Someone's fighting the lightning alone."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N13",
+      "title_ko": "이백사십 초",
+      "title_en": "Two Hundred Forty Seconds",
+      "background": "rail",
+      "cast": {"LEFT": "CHR005", "CENTER": "CHR011", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "아흔 번째 초에 포대가 울렸다. 번개 기둥 셋이 동시에 포탄에 맞아 빛을 잃었다.", "en": "On the ninetieth second, the battery roared. Three lightning pillars took shells at once and went dark."},
+        {"s": "CHR011", "ko": "탄착 확인. 좌표를 번개 기둥에 겹쳤소. 이제 한 번, 바람이 멎는 구간이 생길 거요.", "en": "Impact confirmed. I laid the coordinates over the pillars. There will be one window where the wind dies."},
+        {"s": "CHR003", "ko": "무풍 구간, 지속 시간 이백사십 초. 행렬 전체가 건너기엔 빠듯해.", "en": "Windless window: two hundred forty seconds. Tight for the whole column."},
+        {"s": "CHR011", "ko": "빠듯한 게 아니라 정확한 거요. 계산은 끝났소. 걸음만 맞추면 되오.", "en": "Not tight. Precise. The math is done. They need only keep pace."},
+        {"s": "CHR005", "ko": "포탄으로 번개를 끄다니. 한 발이면 충분하다는 말, 나보다 어울리는 사람이 있었네.", "en": "Shooting out lightning. Looks like someone suits 'one shot is enough' better than I do."},
+        {"s": "CHR011", "ko": "한 발로 모자라 삼백 발을 쐈소. 열두 해 동안 이 교량을 혼자 겨눴으니.", "en": "One was never enough. I fired three hundred. I've had this bridge in my sights alone for twelve years."},
+        {"s": "CHR010", "ko": "혼자서요? 왜 혼자서……", "en": "Alone? Why alone…?"},
+        {"s": "CHR011", "ko": "포는 정확하지만 누가 아직 못 건넜는지는 모르오. 그걸 들을 사람의 귀가 필요했소.", "en": "A cannon is precise, but it can't tell who's still waiting to cross. For that, I needed human ears."},
+        {"s": "CHR011", "ko": "당신들에겐 그 귀가 있소. 이 포대, 당신들 편성에 넣으시오. 교량 끝까지 엄호하겠소.", "en": "You have those ears. Put this battery in your formation. I'll cover you to the end of the bridge."},
+        {"s": "N", "ko": "항해 기록기가 빛났다. 여섯 번째 무늬가 새겨지는 동안, 번개가 한 박자 늦게 떨어졌다.", "en": "The voyage recorder glowed. As the sixth mark etched itself, the lightning fell a beat late."},
+        {"s": "CHR001", "ko": "행렬을 깨운다. 이백사십 초 안에, 한 사람도 남기지 않고 건넌다.", "en": "Wake the column. In two hundred forty seconds, we cross, and no one stays behind."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N16",
+      "title_ko": "불가의 질문",
+      "title_en": "A Question by the Fire",
+      "background": "rail",
+      "cast": {"LEFT": "CHR005", "CENTER": "CHR011", "RIGHT": "CHR001"},
+      "lines": [
+        {"s": "N", "ko": "무풍 구간 너머 교각 아래, 포대 불빛 둘이 나란히 켜졌다. 바람이 처음으로 잠잠했다.", "en": "Beneath a pylon past the windless stretch, two battery lamps glowed side by side. For once, the wind was still."},
+        {"s": "CHR005", "ko": "장약을 반 푼 줄이면 탄도가 눕잖아. 번개 기둥 맞힐 땐 그게 낫지 않아?", "en": "Cut the charge by a hair and the trajectory flattens. Isn't that better for hitting the pillars?"},
+        {"s": "CHR011", "ko": "눕히면 바람을 더 타오. 대신 한 발 더 쏘면 되지. 포병은 탄약을 아끼지 않소.", "en": "Flatten it and the wind takes it. Better to fire one more. Gunners don't hoard shells."},
+        {"s": "CHR005", "ko": "난 한 발이면 충분하다는 주의라서. 철학의 차이네.", "en": "I'm a one-shot kind of gunner. Difference in philosophy."},
+        {"s": "CHR011", "ko": "철학이 아니라 보급의 차이요. 당신네 등로단은 가난하군.", "en": "Not philosophy. Supply. Your Lamplighters are poor."},
+        {"s": "N", "ko": "마에루가 불가를 떠나 항해자 곁에 앉았다. 한동안 말없이 교량 너머 어둠만 보았다.", "en": "Maeru left the fire and sat beside the Navigator. For a while she only watched the dark beyond the bridge."},
+        {"s": "CHR001", "ko": "회백도시에서 관제가 한 말. 그날 밤 당신의 명령을 목격했다던 거. 신경 쓰이나?", "en": "What Control said in the Ashen City. That the city witnessed your command that night. Does it bother you?"},
+        {"s": "CHR001", "ko": "솔직하게 말해도 된다. 지금은 우리 둘뿐이다.", "en": "You can be honest. It's just the two of us."},
+        {"choice": [
+          {"key": "CHOICE_CH06_NO_MEMORY", "flag": "CH06_NO_MEMORY", "ko": "기억나지 않는다", "en": "I don't remember", "reply": [
+            {"s": "CHR001", "ko": "……그래. 기억나지 않는 일로 사람을 재판하지는 않는다. 적어도 나는.", "en": "…All right. I won't put anyone on trial for something they can't remember. Not me."},
+            {"s": "CHR001", "ko": "그날 밤 무엇을 했든, 오늘 저 행렬을 건너게 한 건 당신이다.", "en": "Whatever happened that night, you're the one who got that column across today."}
+          ]},
+          {"key": "CHOICE_CH06_WANT_TRUTH", "flag": "CH06_WANT_TRUTH", "ko": "알고 싶다", "en": "I want to know", "reply": [
+            {"s": "CHR001", "ko": "알고 싶다라. ……그 대답이 나올 줄 알았다. 용감하고, 무서운 대답이야.", "en": "You want to know. …I thought you might say that. It's a brave answer, and a frightening one."},
+            {"s": "CHR001", "ko": "좋다. 진실이 어디 있든 같이 찾는다. 대신 혼자 가지는 마라.", "en": "Fine. Wherever the truth is, we look for it together. Just don't go looking alone."}
+          ]}
+        ]},
+        {"s": "CHR001", "ko": "나도 그날 밤을 다 알지는 못한다. 우리가 누구를 데리러 갔는지조차 끝내 듣지 못했지.", "en": "I don't know all of that night either. I never even learned who we were sent to bring back."},
+        {"s": "CHR001", "ko": "그러니 서로 모르는 걸로 서로를 재지 말자. 내일은 교량 끝이다.", "en": "So let's not measure each other by what we don't know. Tomorrow, the end of the bridge."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "교량 해제",
+      "title_en": "Bridge Release",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR011", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "교량 중앙 변전탑. 공기에 쇳내가 가득했고, 발밑 교량이 신음하듯 기울기 시작했다.", "en": "The central substation. The air reeked of hot iron, and the bridge underfoot began to tilt with a groan."},
+        {"s": "BOSS", "ko": "통행 안내입니다. 금일 통행 인원이 허용 부하를 초과하였습니다.", "en": "Crossing notice. Today's crossings have exceeded the permitted load."},
+        {"s": "BOSS", "ko": "통행자가 없으면 부하도 없습니다. 지금부터 교량을 해제합니다.", "en": "Without travelers, there is no load. Commencing bridge release."},
+        {"s": "CHR003", "ko": "고정 볼트가 풀리고 있어! 행렬 뒤쪽 절반이 아직 교량 위야!", "en": "The anchor bolts are coming loose! Half the column is still on the bridge!"},
+        {"s": "CHR010", "ko": "뒤쪽엔 환자들이 있어요. 뛰지 못하는 분들이에요!", "en": "The patients are at the back. They can't run!"},
+        {"s": "CHR011", "ko": "포대 전환. 볼트 열두 개를 번개로 용접하겠소. 계산할 시간이 필요하오.", "en": "Battery, switch targets. I'll weld all twelve bolts with lightning. I need time to calculate."},
+        {"s": "BOSS", "ko": "통행료 미납 승객이 있습니다. 미납 승객은 교량과 함께 정산됩니다.", "en": "There are passengers with unpaid fares. They will be settled along with the bridge."},
+        {"s": "CHR009", "ko": "정산? 사람을 교량째로 떨어뜨리는 걸 정산이라고 부르나.", "en": "Settled? You call dropping people with the bridge 'settling'?"},
+        {"s": "CHR005", "ko": "아델린, 계산해. 그동안 저건 내가 붙잡아 둘게. 포병 둘이면 번개도 줄을 서겠지.", "en": "Adeline, do your math. I'll pin that thing down meanwhile. With two gunners, even lightning waits its turn."},
+        {"s": "CHR004", "ko": "번개랑 번개가 붙으면 누가 이기는지, 오늘 확실히 보여 줄게요!", "en": "Lightning versus lightning? Today I'll show you exactly who wins!"},
+        {"s": "CHR006", "ko": "행렬 무전은 내가 잡을게. 한 명도 멈추지 말라고 계속 말할 거야.", "en": "I'll keep the column on the radio. I'll keep telling them not to stop."},
+        {"s": "CHR002", "ko": "변전탑까지 사십 미터. 번개 사이로 길을 열게.", "en": "Forty meters to the substation. I'll open a path between the strikes."},
+        {"s": "CHR001", "ko": "교량이 무너지기 전에 저걸 무너뜨린다. 간다.", "en": "We bring that down before it brings down the bridge. Go."}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "한 명도 빠짐없이",
+      "title_en": "Not One Missing",
+      "background": "rail",
+      "cast": {"LEFT": "CHR011", "CENTER": "CHR010", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "변전탑이 마지막 불꽃을 토했다. 번개가 멎자 사천이백 미터의 교량이 처음으로 고요해졌다.", "en": "The substation spat its last sparks. With the lightning gone, forty-two hundred meters of bridge fell silent for the first time."},
+        {"s": "BOSS", "ko": "……교량 해제를 취소합니다. 아무도 건너지 않으면, 아무도 떨어지지……", "en": "…Bridge release canceled. If no one ever crossed, then no one would ever fall…"},
+        {"s": "CHR011", "ko": "볼트 열두 개, 용접 완료. 교량 고정을 확인했소.", "en": "Twelve bolts, welded. Bridge anchored. Confirmed."},
+        {"s": "N", "ko": "행렬의 마지막 수레가 교량 끝에 닿았다. 천여 명이 한 사람도 빠짐없이 건넜다.", "en": "The column's last cart reached the far end. More than a thousand people crossed, and not one was missing."},
+        {"s": "CHR008", "ko": "변전탑이 삼키던 회백도시 전력도 돌아가. 이제 교량 불빛이 도시까지 이어질 거야.", "en": "The Ashen City power the substation was devouring is flowing back. The bridge lights will reach the city now."},
+        {"s": "SURVIVOR", "ko": "언니가 못 건넌 다리를…… 제가 건넜어요. 제 발로요.", "en": "The bridge my sister never finished… I crossed it. On my own feet."},
+        {"s": "CHR010", "ko": "명단 대조 끝났어요. 한 명도 안 빠졌어요. 한 명도요.", "en": "Roll check complete. No one's missing. No one."},
+        {"s": "CHR007", "ko": "집정관의 최초 명령을 찾았어. '교량 붕괴 사고 재발 방지.' 대정전 날 한 번 무너졌대.", "en": "Found the Archon's original directive: 'Prevent another bridge collapse.' It fell once, on the day of the Blackout."},
+        {"s": "CHR003", "ko": "그 뒤로 사람 수를 세기 시작한 거야. 적게 건널수록 안전하다고.", "en": "That's when it started counting people. Fewer crossings, more safety."},
+        {"s": "CHR002", "ko": "그러다 아무도 못 건너게 만들었고. ……착한 의도로 쌓은 벽이 제일 높네.", "en": "Until nobody could cross at all. …The walls built with good intentions are always the tallest."},
+        {"s": "CHR006", "ko": "잠깐. 북쪽 설원에서 방송이 잡혀. 똑같은 계수 명령이야. 거기서도 사람을 세고 있어.", "en": "Wait. I'm picking up a broadcast from the northern snowfield. Same counting order. Something's counting people there too."},
+        {"s": "CONTROL", "ko": "북부 설원 노선은 대기 절차 중입니다. 항해자님, 서두르실 필요 없습니다.", "en": "The northern snowfield line is under standby procedure. Navigator, there is no need to hurry."},
+        {"s": "CHR001", "ko": "서두를 필요 없다는 방송이 나오면, 서둘러야 한다는 뜻이다.", "en": "When the broadcast says there's no need to hurry, that means we hurry."},
+        {"s": "CHR011", "ko": "설원이라. 포신이 얼겠군. 그래도 가겠소. 이제 내 귀는 당신들 편이니.", "en": "The snowfield. My barrels will freeze. I'll go anyway. My ears are on your side now."},
+        {"s": "CHR001", "ko": "북쪽으로. 거기 누가 기다리고 있다면, 이미 너무 오래 기다렸다.", "en": "North. If someone's waiting there, they've already waited far too long."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "폭풍의 눈",
+      "title_en": "Eye of the Storm",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR011", "RIGHT": "CHR005"},
+      "lines": [
+        {"s": "N", "ko": "교량 아래로 내려가자 소리가 사라졌다. 폭풍의 눈 한가운데서 거대한 그림자가 번개를 모으고 있었다.", "en": "Below the bridge, all sound vanished. In the eye of the storm, a vast shadow was gathering lightning."},
+        {"s": "CHR003", "ko": "폭풍 중심부야. 기압이 비정상적으로 낮아. 뭔가 폭풍을 붙잡고 있어.", "en": "The storm's core. The pressure's abnormally low. Something is holding the storm in place."},
+        {"s": "CHR011", "ko": "저 그림자는 대정전 전의 기상 제어 기관이오. 폭풍을 흩어 놓으라고 만든 것이오.", "en": "That shadow is a pre-Blackout weather engine. It was built to scatter storms."},
+        {"s": "CHR005", "ko": "흩어 놓는 대신 모아 놨네. 열두 해 치 폭풍을.", "en": "Instead it gathered them up. Twelve years' worth."},
+        {"s": "CHR007", "ko": "교각 쪽에서 볼트 조이는 소리가 들려. 이 바람 속에서 누가……?", "en": "I hear bolts being tightened on the pylon. In this wind, who…?"},
+        {"s": "CHR004", "ko": "폭풍 한복판에서 수리요? 그 사람 회로가 저보다 튼튼한 거 아니에요?", "en": "Repairs in the middle of a storm? Whoever that is, their circuits must be tougher than mine."},
+        {"s": "CHR001", "ko": "소리부터 확인한다. 폭풍 속에 사람이 있다면, 먼저 데려온다.", "en": "We check that sound first. If there's a person in this storm, we bring them out first."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "열두 해 만의 별",
+      "title_en": "Stars After Twelve Years",
+      "background": "rail",
+      "cast": {"LEFT": "CHR004", "CENTER": "CHR031", "RIGHT": "CHR011"},
+      "lines": [
+        {"s": "N", "ko": "폭풍의 눈이 흩어졌다. 찢어진 구름 틈으로 차갑고 작은 빛들이 하나둘 떠올랐다.", "en": "The eye of the storm broke apart. Through the torn clouds, small cold lights appeared one by one."},
+        {"s": "HBOSS", "ko": "……폭풍을 붙잡고 있으면, 교량은 흔들리지……", "en": "…If I held the storm here, the bridge would never shake…"},
+        {"s": "CHR004", "ko": "저거…… 별이에요? 진짜 별?", "en": "Are those… stars? Real stars?"},
+        {"s": "CHR003", "ko": "대정전 이후 관측 기록 없음. 열두 해 만에 처음 보이는 거야.", "en": "No sightings recorded since the Blackout. First time in twelve years."},
+        {"s": "CHR031", "ko": "……허어. 열두 해 동안 볼트만 보느라, 고개 드는 걸 잊었네.", "en": "…Well, now. Twelve years staring at bolts, and I forgot to look up."},
+        {"s": "CHR031", "ko": "이제 교각은 알아서 버틸 거야. 나는 당신들을 좀 버텨 줄까 해. 천천히, 튼튼하게.", "en": "The pylon can hold itself now. Think I'll hold you lot up instead. Slow and sturdy."},
+        {"s": "CHR011", "ko": "포병은 별을 보고 좌표를 잡았소. 이제 다시 그럴 수 있겠군.", "en": "Gunners once took their bearings from the stars. Now we can again."},
+        {"s": "CHR010", "ko": "건너간 행렬 사람들도 보고 있을까요. 다들 고개를 들었으면 좋겠어요.", "en": "I wonder if the people who crossed can see them. I hope they're all looking up."},
+        {"s": "CHR001", "ko": "별이 보이면 방향도 잡힌다. 북쪽이다.", "en": "If we can see the stars, we can find our way. North."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR005", "ko": "포대 하나가 아직 살아 있어. 발사 간격이 정확해. 사람이 쏘고 있어.", "en": "One battery's still alive. The firing intervals are exact. A person is firing it."},
+      {"s": "CHR011", "ko": "민간인은 물러나시오. 여긴 교전 구역이오. 3초 뒤 탄착이 있소.", "en": "Civilians, stand back. This is a combat zone. Impact in three seconds."},
+      {"s": "CHR001", "ko": "민간인이 아니다. 등로단이다.", "en": "We're not civilians. We're the Lamplighters."},
+      {"s": "CHR011", "ko": "……등로단. 제7 승강장에서 돌아온 이들이 있다는 소문은 들었소.", "en": "…Lamplighters. I heard a rumor that some came back from Platform Seven."},
+      {"s": "CHR011", "ko": "좋소, 부탁하오. 계산에 90초가 필요하오. 그동안 이 포대를 지켜 주시오.", "en": "Very well, then. A request. I need ninety seconds to calculate. Guard this battery until then."},
+      {"s": "CHR004", "ko": "90초요? 그 정도면 번개가 서른 번은 떨어지는데요!", "en": "Ninety seconds? That's like thirty lightning strikes!"},
+      {"s": "CHR011", "ko": "서른 번 떨어지는 동안 한 번도 틀리지 않으면 교량이 건너가오. 시작하시오.", "en": "Get through all thirty without a single mistake, and the bridge is crossed. Begin."}
+    ],
+    "WANDERER": [
+      {"s": "CHR002", "ko": "교각 끝에 누가 매달려 있어. 이 바람에 볼트를 조이고 있어!", "en": "Someone's hanging off the end of the pylon. Tightening bolts in this wind!"},
+      {"s": "CHR031", "ko": "……어어, 손님이네. 잠깐만. 이 볼트, 반 바퀴만 더 돌리면 되거든.", "en": "…Oh, visitors. Hang on. This bolt just needs another half turn."},
+      {"s": "CHR001", "ko": "등로단이다. 거기서 내려와. 폭풍이 더 거세진다.", "en": "We're the Lamplighters. Come down from there. The storm's getting worse."},
+      {"s": "CHR031", "ko": "내려가면 이 교각이 흔들려. 열두 해째 내가 조이는 거라, 내가 제일 잘 알아.", "en": "If I come down, this pylon shakes. I've been tightening it for twelve years. I know it best."},
+      {"s": "CHR031", "ko": "그리고, 음…… 당신들이 진짜 사람인지도 아직 모르겠고. 번개 잔향이 흉내를 잘 내거든.", "en": "And, um… I don't know yet if you're real people. The lightning echoes are good mimics."},
+      {"s": "CHR009", "ko": "그럼 확인해. 무엇을 하면 믿겠어?", "en": "Then check. What would it take for you to believe us?"},
+      {"s": "CHR031", "ko": "저기 몰려오는 번개 잔향부터 같이 막아 줘. 천천히 하자. 급하게 조인 볼트는 금방 풀리니까.", "en": "Help me hold off those lightning echoes coming this way. Take it slow. A bolt tightened in a hurry comes loose fast."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "통행료를 징수합니다. 승객 여러분은 생체 신호를 제출하십시오.", "en": "Collecting tolls. Passengers, please submit your vital signs."},
+      {"s": "CHR011", "ko": "요금은 포탄으로 내겠소. 거스름돈은 필요 없소.", "en": "I'll pay in shells. Keep the change."},
+      {"s": "CHR001", "ko": "행렬은 건넌다. 요금은 없다.", "en": "The column crosses. Free of charge."},
+      {"s": "BOSS", "ko": "미납을 확인했습니다. 교량 해제 절차를 앞당깁니다.", "en": "Nonpayment confirmed. Advancing the bridge release procedure."}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "기상 경보를 발령합니다. 폭풍은 교량 하부에 격리 보관 중입니다.", "en": "Weather alert issued. The storm is being held in isolation beneath the bridge."},
+      {"s": "CHR003", "ko": "격리가 아니라 축적이야. 한계치까지 삼 분.", "en": "That's not isolation, that's accumulation. Three minutes to its limit."},
+      {"s": "HBOSS", "ko": "폭풍을 방출하면 교량이 위험합니다. 방출을 거부합니다.", "en": "Releasing the storm would endanger the bridge. Release denied."},
+      {"s": "CHR005", "ko": "그럼 우리가 대신 흩어 줄게. 좀 시끄러울 거야.", "en": "Then we'll scatter it for you. It'll be a little loud."}
+    ],
+    "ANOMALY_1": [
+      {"s": "CHR003", "ko": "번개 속에 계수 신호. 우리를 통행자로 등록하고 있어.", "en": "Counting signal in the lightning. It's registering us as travelers."},
+      {"s": "ENEMY", "ko": "통행자 확인. 1인당 요금을 산정합니다.", "en": "Travelers confirmed. Calculating fare per person."},
+      {"s": "CHR004", "ko": "요금은 전기로 낼게요! 거스름돈까지 넉넉하게!", "en": "I'll pay in electricity! Keep the change!"}
+    ],
+    "ANOMALY_2": [
+      {"s": "CHR009", "ko": "교량 닻이 움직여. 저게 풀리면 이 구간이 통째로 떨어져.", "en": "The bridge anchor's moving. If it lets go, this whole section drops."},
+      {"s": "ENEMY", "ko": "과적 구간입니다. 초과 인원은 낙하 처리합니다.", "en": "Section overloaded. Excess passengers will be dropped."},
+      {"s": "CHR001", "ko": "초과 인원은 없다. 전부 정원이다. 닻부터 붙잡는다.", "en": "No one here is excess. Every one of us belongs. Secure the anchor."}
+    ],
+    "ANOMALY_3": [
+      {"s": "CHR005", "ko": "구름 속에 렌즈가 떠 있어. 번개를 모아서 우리한테 쏘려는 거야.", "en": "A lens is floating in the clouds. It's focusing lightning to fire at us."},
+      {"s": "ENEMY", "ko": "집광 완료. 통행 거부 신호를 발사합니다.", "en": "Focus complete. Firing passage-denied signal."},
+      {"s": "CHR007", "ko": "렌즈 초점 거리 계산했어. 반 박자 비켜서 쏴.", "en": "Got its focal length. Sidestep half a beat, then fire."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "틀린 가사", "title_en": "Wrong Lyrics",
+     "lines": [
+       {"s": "N", "ko": "번개가 떨어진 자리에서 잔향체가 일어섰다. 피난민이 부르던 노래를 흉내 내고 있었다.", "en": "Echoforms rose where the lightning struck, mimicking a song the refugees used to sing."},
+       {"s": "CHR006", "ko": "곡조는 따라 해도 가사가 틀려. 사람이 아니야.", "en": "They've got the tune, but the words are wrong. Not people."}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "교전한다", "en": "Engage"}, {"outcome": "EVADE", "ko": "난간을 따라 우회한다", "en": "Detour along the railing"}]},
+    {"kind": "DISTRESS", "title_ko": "멈춘 객차의 불빛", "title_en": "Light in a Stalled Car",
+     "lines": [
+       {"s": "N", "ko": "교량 아래 케이블에 걸린 객차 안에서 손전등 불빛이 깜박였다.", "en": "A flashlight blinked inside a carriage snagged on the cables below the bridge."},
+       {"s": "SURVIVOR", "ko": "여기 둘이에요. 다친 데는 없어요. 물이 다 떨어졌어요.", "en": "Two of us here. No injuries. We're out of water."},
+       {"s": "CHR009", "ko": "끌어올릴 수 있어. 아니면 좌표를 남겨서 뒤따르는 행렬이 챙기게 하든지.", "en": "We can haul them up. Or leave the coordinates so the column behind us picks them up."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "객차를 끌어올린다", "en": "Haul up the carriage"}, {"outcome": "RECORD", "ko": "좌표를 행렬에 넘긴다", "en": "Pass the coordinates to the column"}]},
+    {"kind": "STORM", "title_ko": "연쇄 낙뢰", "title_en": "Chain Lightning",
+     "lines": [
+       {"s": "N", "ko": "낙뢰가 한곳에 연달아 떨어지기 시작했다. 교량 철골이 붉게 달아올랐다.", "en": "Lightning began striking the same spot over and over. The bridge's steel frame glowed red."},
+       {"s": "CHR003", "ko": "다음 낙뢰까지 2.8초. 철골 밑으로 피하든지, 그 사이로 뛰든지.", "en": "2.8 seconds to the next strike. Duck under the frame, or run the gap."}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "철골 아래로 대피한다", "en": "Shelter under the frame"}, {"outcome": "PUSH", "ko": "낙뢰 사이로 돌파한다", "en": "Dash between the strikes"}]},
+    {"kind": "CACHE", "title_ko": "멈춘 시계들", "title_en": "Stopped Watches",
+     "lines": [
+       {"s": "N", "ko": "부서진 통행료 징수함 안에는 동전 대신 멈춘 손목시계들이 가득했다.", "en": "The broken toll box held no coins, only a pile of stopped wristwatches."},
+       {"s": "CHR010", "ko": "……건너다 쓰러진 분들 거예요. 쓸 수 있는 보급품만 챙겨요.", "en": "…These belonged to people who fell crossing. Let's take only the usable supplies."},
+       {"s": "CHR002", "ko": "시계는 두고 가자. 주인한테 돌려줄 방법을 찾을 때까지.", "en": "Leave the watches. Until we find a way to return them."}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "보급품을 회수한다", "en": "Collect the supplies"}]},
+    {"kind": "BANTER", "title_ko": "화상 연고", "title_en": "Burn Ointment",
+     "lines": [
+       {"s": "CHR010", "ko": "이리, 번개 화상엔 뭐가 제일 좋아요?", "en": "Iri, what's best for lightning burns?"},
+       {"s": "CHR008", "ko": "안 맞는 게 제일 좋아. 두 번째가 내 연고고.", "en": "Not getting hit is best. My ointment is second."}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep going"}]},
+    {"kind": "ECHO", "title_ko": "개통 기념일", "title_en": "Opening Anniversary",
+     "lines": [
+       {"s": "N", "ko": "교량 전광판에 대정전 당일의 문구가 깜박였다. 글자 사이로 오래된 목소리가 흘렀다.", "en": "The bridge's signboard flickered with a message from the day of the Blackout. An old voice drifted through the letters."},
+       {"s": "ECHO", "ko": "하늘교량 개통 오 주년입니다. 오늘 건너시는 모든 분께 행운을.", "en": "Today marks five years since Skybridge opened. Good luck to everyone crossing today."},
+       {"s": "CHR005", "ko": "행운이라. 그날 건넌 사람들은 정말 행운이 필요했겠네.", "en": "Good luck. Everyone who crossed that day must have needed it."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 들어 본다", "en": "Listen to the end"}, {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

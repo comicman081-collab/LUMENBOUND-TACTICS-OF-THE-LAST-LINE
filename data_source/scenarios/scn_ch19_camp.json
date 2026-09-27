@@ -1,0 +1,216 @@
+{
+  "id": "SCN_CH19_CAMP",
+  "title_key": "SCENARIO_CH19_CAMP_TITLE",
+  "chapter_id": "CH19",
+  "presentation": "CINEMATIC",
+  "commands": [
+    {
+      "id": "start",
+      "command": "set_background",
+      "asset_id": "bg_lantern_tunnel_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr006_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr024_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "fade_in",
+      "duration": 0.35
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH19_CAMP_01"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VERA_NAME",
+      "text_key": "STORY_CH19_CAMP_02",
+      "portrait_asset_id": "portrait_chr006_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr009_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_LIV_NAME",
+      "text_key": "STORY_CH19_CAMP_03",
+      "portrait_asset_id": "portrait_chr009_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH19_CAMP_04"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr014_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "CENTER",
+      "expression": "ALERT"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VEON_NAME",
+      "text_key": "STORY_CH19_CAMP_05",
+      "portrait_asset_id": "portrait_chr014_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr023_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_YURIEN_NAME",
+      "text_key": "STORY_CH19_CAMP_06",
+      "portrait_asset_id": "portrait_chr023_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr024_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_MOEN_NAME",
+      "text_key": "STORY_CH19_CAMP_07",
+      "portrait_asset_id": "portrait_chr024_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH19_CAMP_08"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_SIO",
+      "text_key": "STORY_CH19_CAMP_09"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_SIO",
+      "text_key": "STORY_CH19_CAMP_10"
+    },
+    {
+      "command": "choice",
+      "choices": [
+        {
+          "text_key": "CH19_CHOICE_PROMISE",
+          "target": "c1_a",
+          "set_flag": "CH19_PROMISE_SIO"
+        },
+        {
+          "text_key": "CH19_CHOICE_THANK",
+          "target": "c1_b",
+          "set_flag": "CH19_THANK_SIO"
+        }
+      ]
+    },
+    {
+      "id": "c1_a",
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "CENTER",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH19_CAMP_11",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_b",
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH19_CAMP_12",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_end",
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr023_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr014_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH19_CAMP_13",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH19_CAMP_14"
+    },
+    {
+      "command": "grant_reward",
+      "item_id": "LANTERN_SHARD",
+      "quantity": 5
+    },
+    {
+      "command": "end_scenario"
+    }
+  ]
+}

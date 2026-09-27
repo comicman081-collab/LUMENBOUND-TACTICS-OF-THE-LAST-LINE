@@ -2,6 +2,7 @@
   "id": "SCN_CH07_PREBOSS",
   "title_key": "SCENARIO_CH07_PREBOSS_TITLE",
   "chapter_id": "CH07",
+  "presentation": "CINEMATIC",
   "commands": [
     {
       "id": "start",
@@ -11,18 +12,24 @@
     {
       "command": "show_portrait",
       "slot": "LEFT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
       "asset_id": "portrait_chr012_dev",
-      "expression": "BATTLE_FOCUS"
+      "expression": "NEUTRAL"
     },
     {
       "command": "show_portrait",
       "slot": "RIGHT",
-      "asset_id": "portrait_chr011_dev",
-      "expression": "SERIOUS"
+      "asset_id": "enemy_boss010_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "fade_in",
-      "duration": 0.24
+      "duration": 0.35
     },
     {
       "command": "narration",
@@ -31,18 +38,146 @@
     },
     {
       "command": "dialogue",
-      "speaker_key": "CHAR_KIR_NAME",
-      "text_key": "STORY_CH07_PREBOSS_02"
+      "speaker_key": "ENEMY_FROST_CANTOR",
+      "text_key": "STORY_CH07_PREBOSS_02",
+      "portrait_asset_id": "enemy_boss010_dev"
     },
     {
-      "command": "set_expression",
-      "slot": "LEFT",
-      "expression": "RESOLVED"
+      "command": "dialogue",
+      "speaker_key": "ENEMY_FROST_CANTOR",
+      "text_key": "STORY_CH07_PREBOSS_03",
+      "portrait_asset_id": "enemy_boss010_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH07_PREBOSS_04"
     },
     {
       "command": "dialogue",
       "speaker_key": "CHAR_KIR_NAME",
-      "text_key": "STORY_CH07_PREBOSS_03"
+      "text_key": "STORY_CH07_PREBOSS_05",
+      "portrait_asset_id": "portrait_chr012_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_SIO",
+      "text_key": "STORY_CH07_PREBOSS_06"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH07_PREBOSS_07"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH07_PREBOSS_08",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr002_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "BATTLE_FOCUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_CH07_PREBOSS_09",
+      "portrait_asset_id": "portrait_chr002_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "enemy_boss010_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "CENTER",
+      "expression": "SAD"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "ENEMY_FROST_CANTOR",
+      "text_key": "STORY_CH07_PREBOSS_10",
+      "portrait_asset_id": "enemy_boss010_dev"
+    },
+    {
+      "command": "choice",
+      "choices": [
+        {
+          "text_key": "CHOICE_CH07_HOLD_MAERU",
+          "target": "c1_a",
+          "set_flag": "CH07_HOLD_MAERU"
+        },
+        {
+          "text_key": "CHOICE_CH07_STEP_FORWARD",
+          "target": "c1_b",
+          "set_flag": "CH07_STEP_FORWARD"
+        }
+      ]
+    },
+    {
+      "id": "c1_a",
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH07_PREBOSS_11"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH07_PREBOSS_12",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_b",
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH07_PREBOSS_13"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH07_PREBOSS_14",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_end",
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH07_PREBOSS_15",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH07_PREBOSS_16"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH07_PREBOSS_17",
+      "portrait_asset_id": "portrait_chr001_dev"
     },
     {
       "command": "grant_reward",

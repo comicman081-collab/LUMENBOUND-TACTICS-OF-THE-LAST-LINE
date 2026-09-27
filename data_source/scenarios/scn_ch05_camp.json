@@ -1,0 +1,166 @@
+{
+  "id": "SCN_CH05_CAMP",
+  "title_key": "SCENARIO_CH05_CAMP_TITLE",
+  "chapter_id": "CH05",
+  "presentation": "CINEMATIC",
+  "commands": [
+    {
+      "id": "start",
+      "command": "set_background",
+      "asset_id": "bg_lantern_tunnel_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr010_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr008_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr002_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "fade_in",
+      "duration": 0.35
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH05_CAMP_01"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "CONCERNED"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_SEON_NAME",
+      "text_key": "STORY_CH05_CAMP_02",
+      "portrait_asset_id": "portrait_chr010_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_IRI",
+      "text_key": "STORY_CH05_CAMP_03",
+      "portrait_asset_id": "portrait_chr008_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_SEON_NAME",
+      "text_key": "STORY_CH05_CAMP_04",
+      "portrait_asset_id": "portrait_chr010_dev"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "ALERT"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_CH05_CAMP_05",
+      "portrait_asset_id": "portrait_chr002_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH05_CAMP_06"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_CH05_CAMP_07",
+      "portrait_asset_id": "portrait_chr002_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr009_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_LIV_NAME",
+      "text_key": "STORY_CH05_CAMP_08",
+      "portrait_asset_id": "portrait_chr009_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_CH05_CAMP_09",
+      "portrait_asset_id": "portrait_chr002_dev"
+    },
+    {
+      "command": "choice",
+      "choices": [
+        {
+          "text_key": "CHOICE_CH05_SIT_ROAN",
+          "target": "c1_a",
+          "set_flag": "CH05_SIT_ROAN"
+        },
+        {
+          "text_key": "CHOICE_CH05_ASK_NAMES",
+          "target": "c1_b",
+          "set_flag": "CH05_ASK_NAMES"
+        }
+      ]
+    },
+    {
+      "id": "c1_a",
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_CH05_CAMP_10",
+      "portrait_asset_id": "portrait_chr002_dev"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_b",
+      "command": "dialogue",
+      "speaker_key": "CHAR_SEON_NAME",
+      "text_key": "STORY_CH05_CAMP_11",
+      "portrait_asset_id": "portrait_chr010_dev"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_end",
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH05_CAMP_12",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "grant_reward",
+      "item_id": "LANTERN_SHARD",
+      "quantity": 5
+    },
+    {
+      "command": "end_scenario"
+    }
+  ]
+}

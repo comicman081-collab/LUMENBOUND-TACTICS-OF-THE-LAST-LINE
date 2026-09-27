@@ -2,27 +2,34 @@
   "id": "SCN_CH16_OUTRO",
   "title_key": "SCENARIO_CH16_OUTRO_TITLE",
   "chapter_id": "CH16",
+  "presentation": "CINEMATIC",
   "commands": [
     {
       "id": "start",
       "command": "set_background",
-      "asset_id": "bg_lantern_tunnel_dev"
-    },
-    {
-      "command": "show_portrait",
-      "slot": "RIGHT",
-      "asset_id": "portrait_chr001_dev",
-      "expression": "SMILE"
+      "asset_id": "bg_ch01_glass_rail_story"
     },
     {
       "command": "show_portrait",
       "slot": "LEFT",
-      "asset_id": "portrait_chr021_dev",
-      "expression": "SMILE"
+      "asset_id": "portrait_chr012_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "enemy_boss019_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "fade_in",
-      "duration": 0.24
+      "duration": 0.35
     },
     {
       "command": "narration",
@@ -30,24 +37,118 @@
       "text_key": "STORY_CH16_OUTRO_01"
     },
     {
-      "command": "dialogue",
-      "speaker_key": "SPEAKER_MAERU",
-      "text_key": "STORY_CH16_OUTRO_02"
-    },
-    {
       "command": "set_expression",
       "slot": "RIGHT",
-      "expression": "SMILE"
+      "expression": "SERIOUS"
     },
     {
       "command": "dialogue",
-      "speaker_key": "SPEAKER_MAERU",
-      "text_key": "STORY_CH16_OUTRO_03"
+      "speaker_key": "ENEMY_CROWN_LANCER",
+      "text_key": "STORY_CH16_OUTRO_02",
+      "portrait_asset_id": "enemy_boss019_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "ENEMY_CROWN_LANCER",
+      "text_key": "STORY_CH16_OUTRO_03",
+      "portrait_asset_id": "enemy_boss019_dev"
+    },
+    {
+      "command": "hide_portrait",
+      "slot": "RIGHT"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_EAST_KING",
+      "text_key": "STORY_CH16_OUTRO_04"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_WEST_KING",
+      "text_key": "STORY_CH16_OUTRO_05"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_EAST_KING",
+      "text_key": "STORY_CH16_OUTRO_06"
+    },
+    {
+      "command": "choice",
+      "choices": [
+        {
+          "text_key": "STORY_CH16_OUTRO_CHOICE1_A",
+          "target": "c1_a",
+          "set_flag": "CH16_NO_CROWN"
+        },
+        {
+          "text_key": "STORY_CH16_OUTRO_CHOICE1_B",
+          "target": "c1_b",
+          "set_flag": "CH16_SHARE_CROWN"
+        }
+      ]
+    },
+    {
+      "id": "c1_a",
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_WEST_KING",
+      "text_key": "STORY_CH16_OUTRO_07"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_b",
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_EAST_KING",
+      "text_key": "STORY_CH16_OUTRO_08"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_end",
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH16_OUTRO_09"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_KIR_NAME",
+      "text_key": "STORY_CH16_OUTRO_10",
+      "portrait_asset_id": "portrait_chr012_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_EAST_KING",
+      "text_key": "STORY_CH16_OUTRO_11"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_WEST_KING",
+      "text_key": "STORY_CH16_OUTRO_12"
     },
     {
       "command": "narration",
       "speaker_key": "SPEAKER_ROUTEKEEPER",
-      "text_key": "STORY_CH16_OUTRO_INTERLUDE"
+      "text_key": "STORY_CH16_OUTRO_13"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_CONTROL",
+      "text_key": "STORY_CH16_OUTRO_14"
+    },
+    {
+      "command": "set_expression",
+      "slot": "CENTER",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH16_OUTRO_15",
+      "portrait_asset_id": "portrait_chr001_dev"
     },
     {
       "command": "grant_reward",

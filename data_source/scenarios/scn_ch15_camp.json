@@ -1,0 +1,177 @@
+{
+  "id": "SCN_CH15_CAMP",
+  "title_key": "SCENARIO_CH15_CAMP_TITLE",
+  "chapter_id": "CH15",
+  "presentation": "CINEMATIC",
+  "commands": [
+    {
+      "id": "start",
+      "command": "set_background",
+      "asset_id": "bg_lantern_tunnel_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr020_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr005_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "fade_in",
+      "duration": 0.35
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH15_CAMP_01"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "CONCERNED"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_KARN_NAME",
+      "text_key": "STORY_CH15_CAMP_02",
+      "portrait_asset_id": "portrait_chr020_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr004_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_EDA",
+      "text_key": "STORY_CH15_CAMP_03",
+      "portrait_asset_id": "portrait_chr004_dev"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_KARN_NAME",
+      "text_key": "STORY_CH15_CAMP_04",
+      "portrait_asset_id": "portrait_chr020_dev"
+    },
+    {
+      "command": "set_expression",
+      "slot": "CENTER",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_SOREN",
+      "text_key": "STORY_CH15_CAMP_05",
+      "portrait_asset_id": "portrait_chr005_dev"
+    },
+    {
+      "command": "set_expression",
+      "slot": "CENTER",
+      "expression": "SMILE"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_SOREN",
+      "text_key": "STORY_CH15_CAMP_06",
+      "portrait_asset_id": "portrait_chr005_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH15_CAMP_07",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_SOREN",
+      "text_key": "STORY_CH15_CAMP_08",
+      "portrait_asset_id": "portrait_chr005_dev"
+    },
+    {
+      "command": "choice",
+      "choices": [
+        {
+          "text_key": "STORY_CH15_CAMP_CHOICE1_A",
+          "target": "c1_a",
+          "set_flag": "CH15_ASK_SIO"
+        },
+        {
+          "text_key": "STORY_CH15_CAMP_CHOICE1_B",
+          "target": "c1_b",
+          "set_flag": "CH15_TEND_FIRE"
+        }
+      ]
+    },
+    {
+      "id": "c1_a",
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH15_CAMP_09",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_b",
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_SOREN",
+      "text_key": "STORY_CH15_CAMP_10",
+      "portrait_asset_id": "portrait_chr005_dev"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_end",
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH15_CAMP_11",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_KARN_NAME",
+      "text_key": "STORY_CH15_CAMP_12",
+      "portrait_asset_id": "portrait_chr020_dev"
+    },
+    {
+      "command": "grant_reward",
+      "item_id": "LANTERN_SHARD",
+      "quantity": 5
+    },
+    {
+      "command": "end_scenario"
+    }
+  ]
+}

@@ -74,8 +74,8 @@ func _test_content_counts() -> void:
 		if number >= 6 and number <= 25:
 			acquisition_valid = acquisition_valid and str(character.get("acquisition_source", "")) == "EVENT_CONTACT" and contact_recruits.has(character_id)
 		elif number >= 26:
-			reserved_valid = reserved_valid and str(character.get("acquisition_source", "")) == "RESERVED" and not contact_recruits.has(character_id)
-	check(acquisition_valid and reserved_valid and contact_recruits.size() == 20 and battle_route_counts.keys().all(func(value): return int(value) in range(1, 6)) and battle_route_counts.size() == 5, "CONTENT_02A 20 story companions span Chapters 1-20 and CHR026-044 remain reserved without auto-grant")
+			reserved_valid = reserved_valid and str(character.get("acquisition_source", "")) == "EVENT_CONTACT" and contact_recruits.has(character_id)
+	check(acquisition_valid and reserved_valid and contact_recruits.size() == 39 and battle_route_counts.keys().all(func(value): return int(value) in range(1, 6)) and battle_route_counts.size() == 5, "CONTENT_02A 20 story companions span Chapters 1-20 and the 19 wanderers CHR026-044 join through H03 contacts")
 
 func _entity_ids() -> Array:
 	var ids: Array[String] = []
@@ -222,14 +222,16 @@ func _test_map_bindings() -> void:
 			companion_events += 1 if event_kind == "COMPANION" else 0
 			special_enemy_events += 1 if event_kind == "SPECIAL_ENEMY" else 0
 			var pages: Array = event.get("pre_battle_dialogue", [])
-			event_dialogue_valid = event_dialogue_valid and pages.size() >= 2 and pages.size() <= 4
+			event_dialogue_valid = event_dialogue_valid and pages.size() >= 2 and pages.size() <= ChapterMapLoader.MAX_DIALOGUE_PAGES
 			for page_value in pages:
 				var page: Dictionary = page_value if page_value is Dictionary else {}
-				event_dialogue_valid = event_dialogue_valid and str(page.get("speaker_kind", "")) in ["COMMAND", "COMPANION", "ENEMY"] and not str(page.get("text_key", "")).is_empty()
+				event_dialogue_valid = event_dialogue_valid and str(page.get("speaker_kind", "")) in ChapterMapLoader.DIALOGUE_SPEAKER_KINDS and not str(page.get("text_key", "")).is_empty()
 			if event_kind == "SPECIAL_ENEMY":
 				event_dialogue_valid = event_dialogue_valid and not DataRegistry.enemy(str(event.get("enemy_id", ""))).is_empty() and event.get("recruitments", []).is_empty()
-		maps_valid = maps_valid and normal_nodes == 20 and hard_nodes == 5 and companion_events == 1 and special_enemy_events == 3 and event_dialogue_valid
-	check(maps_valid, "MAP_01 all maps validate with 25 battle nodes, one companion contact, and three special-enemy pre-battle events")
+		# Chapters 1-19 add one wanderer contact on H03; the finale has none.
+		var expected_companions := 1 if int(chapter.get("number", 0)) == 20 else 2
+		maps_valid = maps_valid and normal_nodes == 20 and hard_nodes == 5 and companion_events == expected_companions and special_enemy_events == 3 and event_dialogue_valid
+	check(maps_valid, "MAP_01 all maps validate with 25 battle nodes, recruit and wanderer contacts, and three special-enemy pre-battle events")
 	var all_stage_bindings := true
 	for stage in DataRegistry.list_of("stages"): all_stage_bindings = all_stage_bindings and map_stage_ids.has(str(stage.id))
 	check(all_stage_bindings and map_stage_ids.size() == 500, "MAP_02 all 500 stage IDs bind once to chapter map encounter nodes")
@@ -259,7 +261,7 @@ func _test_map_bindings() -> void:
 
 func _test_scenario_content() -> void:
 	var scenarios := DataRegistry.list_of("scenarios")
-	var commands_valid := scenarios.size() == 105
+	var commands_valid := scenarios.size() == 163
 	var visual_contract_valid := true
 	var portrait_ids: Dictionary = {}
 	var background_ids: Dictionary = {}
@@ -286,8 +288,8 @@ func _test_scenario_content() -> void:
 			elif type == "set_expression":
 				has_expression_change = has_expression_change or not str(command.get("expression", "")).is_empty()
 		visual_contract_valid = visual_contract_valid and has_background and has_portrait and has_expression_change
-	check(commands_valid, "STORY_01 all 105 compiled scenarios have executable command lists")
-	check(visual_contract_valid and portrait_ids.size() >= 4 and background_ids.size() >= 4, "STORY_04 all 105 scenarios resolve authored portrait, expression-state and background/CG presentation")
+	check(commands_valid, "STORY_01 all 163 compiled scenarios have executable command lists")
+	check(visual_contract_valid and portrait_ids.size() >= 4 and background_ids.size() >= 4, "STORY_04 all 163 scenarios resolve authored portrait, expression-state and background/CG presentation")
 	var iri_story: Dictionary = DataRegistry.by_id("scenarios", "SCN_REL_IRI")
 	var iri_portraits: Array = iri_story.get("commands", []).filter(func(command): return str(command.get("command", "")) == "show_portrait")
 	var iri_speakers: Array = iri_story.get("commands", []).filter(func(command): return str(command.get("speaker_key", "")) == "SPEAKER_IRI")
@@ -299,21 +301,21 @@ func _test_scenario_content() -> void:
 func _test_story_progression_triggers() -> void:
 	var triggers: Array = DataRegistry.list_of("chapter_story_triggers")
 	var ids: Dictionary = {}
-	var valid := triggers.size() == 102
+	var valid := triggers.size() == 160
 	for trigger_value in triggers:
 		var trigger: Dictionary = trigger_value
 		var trigger_id := str(trigger.get("id", ""))
 		valid = valid and not trigger_id.is_empty() and not ids.has(trigger_id)
 		valid = valid and not DataRegistry.by_id("scenarios", str(trigger.get("scenario_id", ""))).is_empty()
 		ids[trigger_id] = true
-	check(valid, "STORY_02 102 unique data-driven Campaign-20 map/stage story triggers resolve")
+	check(valid, "STORY_02 160 unique data-driven Campaign-20 map/stage story triggers resolve")
 	AppState.new_game()
 	var intro_queued := AppState.queue_story_event("MAP_ENTER", "", "CH01")
 	var intro := AppState.next_pending_story_trigger("CH01")
 	var chapter2_intro_not_queued := AppState.next_pending_story_trigger("CH02").is_empty()
 	AppState.complete_story_trigger_for_scenario(str(intro.get("scenario_id", "")))
 	var intro_not_requeued := not AppState.queue_story_event("MAP_ENTER", "", "CH01")
-	var mid_queued := AppState.queue_story_event("STAGE_CLEAR", "CH01-N03")
+	var mid_queued := AppState.queue_story_event("STAGE_CLEAR", "CH01-N04")
 	var mid := AppState.next_pending_story_trigger()
 	check(intro_queued and str(intro.get("scenario_id", "")) == "SCN_CH01_INTRO" and chapter2_intro_not_queued and intro_not_requeued and mid_queued and str(mid.get("scenario_id", "")) == "SCN_CH01_MID_A", "STORY_03 chapter-scoped trigger completion persists and stage-clear queues next unread story once")
 	AppState.new_game()
@@ -359,20 +361,20 @@ func _test_result_refresh_boundaries() -> void:
 	tokenless_shell.free()
 	SaveService.reset_save_files()
 
-	# Build the exact N03 map-contact transaction. The battle result commits one
+	# Build the exact N04 map-contact transaction. The battle result commits one
 	# reward, first-clear/map state, and its mandatory story before the atomic save.
 	AppState.profile.chapter_progress.CH01.normal_highest = 2
 	for stage_id in ["CH01-N01", "CH01-N02"]:
 		AppState.profile.first_clear[stage_id] = true
 		AppState.profile.stage_stars[stage_id] = 3
-	AppState.selected_stage_id = "CH01-N03"
+	AppState.selected_stage_id = "CH01-N04"
 	AppState.refresh_chapter_map_reveal()
 	var n02: Dictionary = ChapterMapLoader.node_for_stage(definition, "CH01-N02")
-	var n03: Dictionary = ChapterMapLoader.node_for_stage(definition, "CH01-N03")
+	var n04: Dictionary = ChapterMapLoader.node_for_stage(definition, "CH01-N04")
 	var n02_coord := Vector2i(int(n02.get("q", 0)), int(n02.get("r", 0)))
 	AppState.set_chapter_map_position(n02_coord, str(n02.get("node_id", "")))
-	check(AppState.prepare_map_encounter("CH01-N03", str(n03.get("node_id", "")), n02_coord), "RESULT_TXN_02 N03 map contact prepares exactly one pending encounter")
-	check(AppState.begin_battle_transaction("CH01-N03"), "RESULT_TXN_03 N03 owns exactly one battle entry token")
+	check(AppState.prepare_map_encounter("CH01-N04", str(n04.get("node_id", "")), n02_coord), "RESULT_TXN_02 N04 map contact prepares exactly one pending encounter")
+	check(AppState.begin_battle_transaction("CH01-N04"), "RESULT_TXN_03 N04 owns exactly one battle entry token")
 	var commit_token := AppState.pending_battle_token
 	var inventory_before: Dictionary = AppState.profile.inventory.duplicate(true)
 	var commit_shell := AppShellScript.new()
@@ -380,12 +382,12 @@ func _test_result_refresh_boundaries() -> void:
 	var committed_profile := _persistent_profile(AppState.profile)
 	var committed_inventory: Dictionary = AppState.profile.inventory.duplicate(true)
 	var committed_reveal: Dictionary = AppState.chapter_map_state().get("pending_reveal", {}).duplicate(true)
-	var commit_contract := bool(AppState.profile.first_clear.get("CH01-N03", false))
-	commit_contract = commit_contract and int(AppState.profile.chapter_progress.CH01.normal_highest) == 3
-	commit_contract = commit_contract and AppState.chapter_map_state().get("cleared_encounters", []).has(str(n03.get("node_id", "")))
+	var commit_contract := bool(AppState.profile.first_clear.get("CH01-N04", false))
+	commit_contract = commit_contract and int(AppState.profile.chapter_progress.CH01.normal_highest) == 4
+	commit_contract = commit_contract and AppState.chapter_map_state().get("cleared_encounters", []).has(str(n04.get("node_id", "")))
 	commit_contract = commit_contract and str(AppState.next_pending_story_trigger().get("scenario_id", "")) == "SCN_CH01_MID_A"
 	commit_contract = commit_contract and JSON.stringify(_canonical(inventory_before)) != JSON.stringify(_canonical(committed_inventory))
-	check(commit_contract, "RESULT_TXN_04 one committed victory grants reward, first clear, hostile removal and pending story together", JSON.stringify({"first": AppState.profile.first_clear.get("CH01-N03", false), "highest": AppState.profile.chapter_progress.CH01.normal_highest, "cleared": AppState.chapter_map_state().get("cleared_encounters", []), "story": AppState.next_pending_story_trigger(), "rewards": commit_shell.last_rewards, "token": commit_token}))
+	check(commit_contract, "RESULT_TXN_04 one committed victory grants reward, first clear, hostile removal and pending story together", JSON.stringify({"first": AppState.profile.first_clear.get("CH01-N04", false), "highest": AppState.profile.chapter_progress.CH01.normal_highest, "cleared": AppState.chapter_map_state().get("cleared_encounters", []), "story": AppState.next_pending_story_trigger(), "rewards": commit_shell.last_rewards, "token": commit_token}))
 	check(str(committed_reveal.get("reveal_id", "")) == commit_token, "RESULT_TXN_05 result commit persists one presentation-only map reveal token", JSON.stringify({"token": commit_token, "pending_reveal": committed_reveal, "processed_rewards": AppState.chapter_map_state().get("processed_reward_tokens", [])}))
 
 	AppState.new_game()
@@ -542,11 +544,12 @@ func _test_full_chapter_transaction_route() -> void:
 		var recruited := bool(AppState.profile.roster.get(character_id, {}).get("unlocked", false))
 		expansion_recruits_complete = expansion_recruits_complete and recruited
 		if not recruited: unrecruited.append(character_id)
-	var reserved_recruits_stay_locked := true
-	for number in range(26, 45): reserved_recruits_stay_locked = reserved_recruits_stay_locked and not bool(AppState.profile.roster.get("CHR%03d" % number, {}).get("unlocked", false))
+	# The full route also clears every H03, so each wanderer has joined.
+	var wanderer_recruits_complete := true
+	for number in range(26, 45): wanderer_recruits_complete = wanderer_recruits_complete and bool(AppState.profile.roster.get("CHR%03d" % number, {}).get("unlocked", false))
 	var iri_catchup: Dictionary = AppState.profile.roster.get("CHR008", {})
 	var iri_join_valid := bool(iri_catchup.get("unlocked", false)) and int(iri_catchup.get("level", 0)) >= 54 and int(iri_catchup.get("breakthrough", 0)) >= 2
-	check(committed and duplicated and all_cleared and hard_routes_complete and expansion_recruits_complete and reserved_recruits_stay_locked and iri_join_valid, "FULL_ROUTE_01 all Campaign-20 transactions commit once; 20 story recruits resolve, reserved IDs stay locked, and late Iri arrives battle-ready", JSON.stringify({"committed": committed, "duplicated": duplicated, "transaction_failures": transaction_failures, "duplicate_failures": duplicate_failures, "hard": hard_routes_complete, "unrecruited": unrecruited, "reserved_locked": reserved_recruits_stay_locked, "iri": iri_catchup}))
+	check(committed and duplicated and all_cleared and hard_routes_complete and expansion_recruits_complete and wanderer_recruits_complete and iri_join_valid, "FULL_ROUTE_01 all Campaign-20 transactions commit once; 20 story recruits and 19 wanderers resolve, and late Iri arrives battle-ready", JSON.stringify({"committed": committed, "duplicated": duplicated, "transaction_failures": transaction_failures, "duplicate_failures": duplicate_failures, "hard": hard_routes_complete, "unrecruited": unrecruited, "wanderers_joined": wanderer_recruits_complete, "iri": iri_catchup}))
 	var saved_profile := _persistent_profile(AppState.profile)
 	var saved := SaveService.save_game()
 	AppState.new_game()

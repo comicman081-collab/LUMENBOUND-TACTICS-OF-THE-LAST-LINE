@@ -897,11 +897,28 @@ func _test_story_voice_contracts() -> void:
 		if not path.begins_with(AudioService.VOICE_RUNTIME_PREFIX) or not ResourceLoader.exists(path) or not load(path) is AudioStreamOggVorbis:
 			missing.append(text_key)
 		files[path] = true
-	check(voiced.size() == 335 and missing.is_empty(), "all 335 spoken story lines resolve to a Japanese voice stream", ", ".join(missing.slice(0, 8)))
+	check(voiced.size() == 1905 and missing.is_empty(), "all 1905 spoken story lines resolve to a Japanese voice stream", ", ".join(missing.slice(0, 8)))
+	# Map contact, boss and sudden-incident pages speak through the same manifest.
+	var map_voiced := {}
+	for chapter in DataRegistry.list_of("chapters"):
+		var definition := ChapterMapLoader.load_map(str(chapter.get("id", "")) + "_MAP")
+		var pages: Array = []
+		for event in definition.get("event_encounters", []): pages.append_array(event.get("pre_battle_dialogue", []))
+		for node in definition.get("nodes", []): pages.append_array(node.get("presentation", {}).get("pre_battle_dialogue", []))
+		for incident in definition.get("incidents", []): pages.append_array(incident.get("lines", []))
+		for page in pages:
+			if not str(page.get("speaker_key", "")).is_empty(): map_voiced[str(page.get("text_key", ""))] = true
+	var map_missing := []
+	for text_key in map_voiced:
+		var path := AudioService.line_voice_path(text_key)
+		if not path.begins_with(AudioService.VOICE_RUNTIME_PREFIX) or not ResourceLoader.exists(path):
+			map_missing.append(text_key)
+		files[path] = true
+	check(map_voiced.size() == 952 and map_missing.is_empty(), "all 952 map contact, boss and incident lines resolve to a Japanese voice stream", ", ".join(map_missing.slice(0, 8)))
 	var voiced_choices := choice_keys.keys().filter(func(key): return AudioService.line_voice_path(key) != "")
 	check(not choice_keys.is_empty() and voiced_choices.is_empty() and AudioService.line_voice_path("UNVOICED_PROBE_KEY") == "", "protagonist choices and unknown keys stay unvoiced")
 	var manifest := _read_json(AudioService.VOICE_MANIFEST_PATH)
-	check(files.size() == 250 and manifest.get("language") == "ja" and str(manifest.get("provenance", {}).get("note", "")).contains("no runtime or online TTS"), "250 shared voice takes ship with provenance and no runtime TTS")
+	check(files.size() == 2857 and manifest.get("language") == "ja" and str(manifest.get("provenance", {}).get("note", "")).contains("no runtime or online TTS"), "2857 voice takes (story and map lines) ship with provenance and no runtime TTS")
 	# Headless has no audio device: a voiced line must report "not started" so the
 	# story keeps its text-only AUTO timing.
 	check(not AudioService.play_line_voice(voiced.keys()[0]) and not AudioService.voice_is_playing(), "voice playback declines cleanly without an audio device")
@@ -1814,7 +1831,7 @@ func _test_story() -> void:
 	var shell_source := FileAccess.get_file_as_string("res://screens/app_shell.gd").replace("\r\n", "\n")
 	var web_checkpoint_wiring := shell_source.contains("func _persist_story_checkpoint()") and shell_source.contains("var command := scenario_runner.advance()\n\t\t_persist_story_checkpoint()") and shell_source.contains("story_checkpoint_dirty = true") and shell_source.contains("func _flush_story_checkpoint_after_delay()") and shell_source.contains("await get_tree().create_timer(0.24).timeout") and shell_source.contains("story_checkpoint_dirty = false\n\tSaveService.save_game()") and shell_source.contains("var chosen := scenario_runner.choose(index)\n\tif not chosen.ok: return false\n\t_persist_story_checkpoint()")
 	check(web_checkpoint_wiring, "story checkpoints are atomically persisted at Web dialogue and choice boundaries")
-	check(DataRegistry.list_of("scenarios").size() == 105, "story content count covers all 20 chapters and interludes")
+	check(DataRegistry.list_of("scenarios").size() == 163, "story content count covers all 20 chapters and interludes")
 	AppState.profile = story_profile_before
 
 func _test_relay() -> void:

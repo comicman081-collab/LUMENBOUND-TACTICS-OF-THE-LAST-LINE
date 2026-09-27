@@ -48,11 +48,11 @@ func _test_archive_replay() -> void:
 	var flags_before := JSON.stringify(AppState.profile.story_flags)
 	_run_scenario("SCN_PROLOGUE", true)
 	check(AppState.inventory_count("LANTERN_SHARD") == shards_after_first and JSON.stringify(AppState.profile.story_flags) == flags_before and not AppState.profile.last_scenario_position.has("SCN_PROLOGUE"), "ARCHIVE_03 replay grants nothing, sets no flags and leaves no checkpoint")
-	check(not bool(AppState.profile.roster.CHR007.unlocked), "ARCHIVE_04 fixture keeps CHR007 locked before its outro")
-	_run_scenario("SCN_CH01_OUTRO", true)
-	check(not bool(AppState.profile.roster.CHR007.unlocked), "ARCHIVE_05 replaying an outro cannot recruit its companion")
-	_run_scenario("SCN_CH01_OUTRO", false)
-	check(bool(AppState.profile.roster.CHR007.unlocked) and str(AppState.profile.roster.CHR007.acquisition_status) == "OWNED", "ARCHIVE_06 the real outro recruits through unlock_character")
+	check(not bool(AppState.profile.roster.CHR006.unlocked), "ARCHIVE_04 fixture keeps CHR006 locked before her joining scene")
+	_run_scenario("SCN_CH01_MID_B", true)
+	check(not bool(AppState.profile.roster.CHR006.unlocked), "ARCHIVE_05 replaying a joining scene cannot recruit its companion")
+	_run_scenario("SCN_CH01_MID_B", false)
+	check(bool(AppState.profile.roster.CHR006.unlocked) and str(AppState.profile.roster.CHR006.acquisition_status) == "OWNED", "ARCHIVE_06 the real joining scene recruits through unlock_character")
 
 func _test_party_presets() -> void:
 	AppState.new_game()

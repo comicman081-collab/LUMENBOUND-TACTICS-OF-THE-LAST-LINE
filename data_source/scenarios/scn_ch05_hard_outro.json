@@ -1,0 +1,134 @@
+{
+  "id": "SCN_CH05_HARD_OUTRO",
+  "title_key": "SCENARIO_CH05_HARD_OUTRO_TITLE",
+  "chapter_id": "CH05",
+  "presentation": "CINEMATIC",
+  "commands": [
+    {
+      "id": "start",
+      "command": "set_background",
+      "asset_id": "bg_ch01_signal_cathedral_story"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr030_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr005_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "fade_in",
+      "duration": 0.35
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH05_HARD_OUTRO_01"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "enemy_enm021_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "ENEMY_CINDER_JUDICATOR",
+      "text_key": "STORY_CH05_HARD_OUTRO_02",
+      "portrait_asset_id": "enemy_enm021_dev"
+    },
+    {
+      "command": "hide_portrait",
+      "slot": "RIGHT"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_CH05_HARD_OUTRO_03",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr010_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_SEON_NAME",
+      "text_key": "STORY_CH05_HARD_OUTRO_04",
+      "portrait_asset_id": "portrait_chr010_dev"
+    },
+    {
+      "command": "set_expression",
+      "slot": "CENTER",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_CIEL_NAME",
+      "text_key": "STORY_CH05_HARD_OUTRO_05",
+      "portrait_asset_id": "portrait_chr030_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_CIEL_NAME",
+      "text_key": "STORY_CH05_HARD_OUTRO_06",
+      "portrait_asset_id": "portrait_chr030_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr005_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_SOREN",
+      "text_key": "STORY_CH05_HARD_OUTRO_07",
+      "portrait_asset_id": "portrait_chr005_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_CIEL_NAME",
+      "text_key": "STORY_CH05_HARD_OUTRO_08",
+      "portrait_asset_id": "portrait_chr030_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH05_HARD_OUTRO_09",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "grant_reward",
+      "item_id": "LANTERN_SHARD",
+      "quantity": 5
+    },
+    {
+      "command": "end_scenario"
+    }
+  ]
+}

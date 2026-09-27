@@ -190,7 +190,7 @@ CHAPTER_STORY_ARCS = {
         ("되찾은 열아홉 노선의 빛이 세계의 마지막 등불 앞에 모였지만 점화 권한은 봉인돼 있었다.", "Light from nineteen restored routes gathers before the Last Lantern, but ignition authority remains sealed."),
         ("봉인이 세는 것은 사람 수가 아니라 서로 다른 노선에서 확보한 스무 개의 독립 서명이었다. 같은 기록의 복제로는 점화할 수 없다.", "The seal counts not people but twenty independent signatures secured on different lines; copied records cannot satisfy ignition."),
         ("라벤트는 모든 방어 신호를 연결해 동료들의 기록이 심연에 지워지지 않도록 마지막 벽을 세운다.", "Lavent links every defense signal into a final wall so the Abyss cannot erase the companions' records."),
-        ("최후선 수문장은 등불을 켜면 모든 어둠도 동시에 노선을 얻는다며 점화를 역으로 이용한다.", "The Last Line Warden warns that lighting the lantern gives every darkness a route as well, and turns ignition against the crew."),
+        ("최후선 수문장은 등불을 켜면 모든 어둠도 동시에 노선을 얻는다며 점화를 역으로 이용한다.", "The Final Line Warden warns that lighting the lantern gives every darkness a route as well, and turns ignition against the crew."),
         ("등로단은 어둠을 없애지 않고 돌아올 길을 함께 밝히는 방식으로 마지막 등불을 점화한다.", "The Lamplighters ignite the final lantern not to erase darkness, but to illuminate a way home through it."),
         ("라벤트가 연결한 스무 개의 독립 노선 서명은 새 시간표의 첫 좌표가 되고, 세계는 다시 선택할 수 있게 된다.", "The twenty independent line signatures Lavent connected become the first coordinates of a new timetable, and the world can choose again."),
     ),
@@ -217,6 +217,66 @@ REGULAR_ENEMY_CODES = (
     ("CIRCUIT_HUNTER", "LOOP_CASTER", "RING_BASTION"),
     ("ABYSS_SCOUT", "LUMEN_REAVER", "FINAL_SENTINEL"),
 )
+
+
+# The nineteen wandering Lamplighters are optional recruits.  Each is met in
+# her own chapter's Hard route at H03 (docs/STORY_BIBLE.md), fought once as a
+# test, and joins after that victory.  Chapter 20 has no wanderer.
+WANDERER_RECRUIT_IDS = tuple(f"CHR{26 + index:03d}" for index in range(19))
+WANDERER_STAGE = "H03"
+
+
+def wanderer_for_chapter(number: int) -> str:
+    return WANDERER_RECRUIT_IDS[number - 1] if 1 <= number <= len(WANDERER_RECRUIT_IDS) else ""
+
+
+# Player-facing names for every finale.  The Hard finale from Chapter 4 on is
+# fought as the chapter pack's elite, but the story and boss card present it
+# under its authored procedure name.
+BOSS_DISPLAY_NAMES = {
+    "HOLLOW_ENGINE": ("공허 기관", "Hollow Engine"), "NIGHT_BELL": ("심야의 종", "Night Bell"),
+    "REVERSE_GATEKEEPER": ("역행의 개찰자", "Reverse Gatekeeper"), "RETURN_FORMATION_CORE": ("회송 편성핵", "Return Formation Core"),
+    "GLASS_MARSHAL": ("유리 원수", "Glass Marshal"), "WHITE_DAWN_OBSERVER": ("백야 관측체", "White Dawn Observer"),
+    "TIDAL_SWITCHMASTER": ("조수 전환장", "Tidal Switchmaster"), "ABYSSAL_SEMAPHORE": ("심연 신호기", "Abyssal Semaphore"),
+    "ASH_CITADEL": ("재의 성채", "Ash Citadel"), "CINDER_JUDICATOR": ("잿빛 심판관", "Cinder Judicator"),
+    "VOLT_ARCHON": ("전압 집정관", "Volt Archon"), "TEMPEST_COLOSSUS": ("폭풍 거상", "Tempest Colossus"),
+    "FROST_CANTOR": ("서리 성가대장", "Frost Cantor"), "WHITEOUT_TRANSMITTER": ("백시 송신기", "Whiteout Transmitter"),
+    "SCARLET_EXCAVATOR": ("진홍 굴착기", "Scarlet Excavator"), "ORBITAL_MAW": ("궤도의 아가리", "Orbital Maw"),
+    "DREAM_BAILIFF": ("꿈의 집행관", "Dream Bailiff"), "SOMNOLENT_DIRECTOR": ("잠든 국장", "Somnolent Director"),
+    "LUNAR_DIVIDER": ("월분할자", "Lunar Divider"), "ECLIPSE_CONDUCTOR": ("월식 지휘자", "Eclipse Conductor"),
+    "TIDE_REAPER": ("조류 수확자", "Tide Reaper"), "BLACKWATER_LEVIATHAN": ("흑수 리바이어던", "Blackwater Leviathan"),
+    "NAMELESS_PRELATE": ("무명 고위사제", "Nameless Prelate"), "CHOIR_LOCK": ("성가 자물쇠", "Choir Lock"),
+    "DUNE_STATIONMASTER": ("사구 역장", "Dune Stationmaster"), "MIRAGE_LOCOTIVE": ("신기루 기관차", "Mirage Locomotive"),
+    "GRAVITY_AUDITOR": ("중력 감사관", "Gravity Auditor"), "INVERSION_CROWN": ("반전 왕관", "Inversion Crown"),
+    "NULL_GARDENER": ("무의 정원사", "Null Gardener"), "ZERO_BLOOM": ("제로 개화", "Zero Bloom"),
+    "CROWN_LANCER": ("왕관 창기사", "Crown Lancer"), "SOVEREIGN_ENGINE": ("군주 기관", "Sovereign Engine"),
+    "INDEX_PREDATOR": ("색인 포식자", "Index Predator"), "PALIMPSEST_CORE": ("팰림프세스트 핵", "Palimpsest Core"),
+    "DOOM_SIGNALER": ("종말 신호수", "Doom Signaler"), "MIDNIGHT_TERMINUS": ("자정 종착역", "Midnight Terminus"),
+    "ETERNAL_TICKET": ("영원 승차권", "Eternal Ticket"), "OUROBOROS_RAIL": ("우로보로스 선로", "Ouroboros Rail"),
+    "LAST_LINE_WARDEN": ("최후선 수문장", "Final Line Warden"), "LUMEN_ABYSS": ("루멘 심연", "Lumen Abyss"),
+}
+
+# Korean names for the regional enemy families (ENM016-ENM042).
+REGULAR_ENEMY_NAMES_KO = {
+    "GLASS_STALKER": "유리 추적자", "PRISM_GUNNER": "프리즘 사수", "MIRROR_BULWARK": "거울 방벽",
+    "DROWNED_SCOUT": "수몰 척후", "FOG_MORTAR": "안개 박격체", "SILT_MEDIC": "침니 수복체",
+    "ASH_RUNNER": "재의 질주체", "CINDER_RIFLE": "불씨 소총체", "SMOG_WARDEN": "매연 감시자",
+    "ARC_HARRIER": "아크 습격체", "THUNDER_LENS": "뇌광 렌즈", "BRIDGE_ANCHOR": "교량 닻",
+    "SNOW_TRACKER": "설원 추적자", "ICE_RELAY": "빙결 중계기", "WHITE_MEDIC": "백색 수복체",
+    "QUARRY_CUTTER": "채석 절단기", "MAGMA_CASTER": "용암 투사체", "ORE_BASTION": "광석 보루",
+    "DREAM_PATROL": "꿈 순찰체", "SLEEP_NEEDLE": "수면 바늘", "DOCKET_GUARD": "사건부 경비체",
+    "MOON_SKIRMISHER": "월광 척후", "TIDAL_SNIPER": "조석 저격체", "ECLIPSE_WARD": "월식 결계체",
+    "SURGE_RUNNER": "해일 질주체", "BRINE_CANNON": "염수 포대", "BREAKWATER_GUARD": "방파 경비체",
+    "CHOIR_ACOLYTE": "성가 시종체", "NAME_ERASER": "이름 지우개", "RELIQUARY_WALL": "성유물 장벽",
+    "DUNE_RAIDER": "사구 약탈체", "MIRAGE_GUNNER": "신기루 사수", "SAND_BULWARK": "모래 방벽",
+    "RING_DIVER": "환선 강하체", "GRAVITY_CASTER": "중력 투사체", "CAPITAL_SENTINEL": "수도 파수체",
+    "NULL_SPROUT": "무의 새싹", "MEMORY_LEECH": "기억 거머리", "GARDEN_KEEPER": "정원 관리체",
+    "CROWN_SCOUT": "왕관 척후", "ROYAL_ARTILLERY": "왕실 포대", "THRONE_GUARD": "옥좌 경비체",
+    "INDEX_HOUND": "색인 사냥체", "INK_CASTER": "잉크 투사체", "ARCHIVE_WARD": "서고 결계체",
+    "DOOM_COURIER": "종말 전령체", "LAST_HOUR_GUNNER": "최후 시각 사수", "TERMINAL_GUARD": "종착 경비체",
+    "CIRCUIT_HUNTER": "원환 사냥체", "LOOP_CASTER": "순환 투사체", "RING_BASTION": "원환 보루",
+    "ABYSS_SCOUT": "심연 척후", "LUMEN_REAVER": "루멘 약탈체", "FINAL_SENTINEL": "최후 파수체",
+}
 
 
 def chapter_id(number: int) -> str:

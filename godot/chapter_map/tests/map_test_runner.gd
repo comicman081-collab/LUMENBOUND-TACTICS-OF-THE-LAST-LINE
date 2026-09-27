@@ -202,7 +202,8 @@ func _test_data() -> void:
 	check(event_contract_valid, "MAP_EVENT_LOCALIZATION_01 map events use localization keys without raw runtime text")
 	check(event_localization_valid, "MAP_EVENT_LOCALIZATION_02 all map event title, body and choice keys resolve in ko/en")
 	var companion_localization_valid: bool = true
-	var companion_data_valid: bool = definition.get("event_encounters", []).size() == 4
+	# Canonical recruit + H03 wanderer + three anomalies.
+	var companion_data_valid: bool = definition.get("event_encounters", []).size() == 5
 	var companion_count := 0
 	var special_enemy_count := 0
 	for encounter_value in definition.get("event_encounters", []):
@@ -224,12 +225,12 @@ func _test_data() -> void:
 			companion_data_valid = companion_data_valid and not DataRegistry.enemy(str(encounter.get("enemy_id", ""))).is_empty() and recruitments.is_empty()
 		else:
 			companion_data_valid = false
-		companion_data_valid = companion_data_valid and str(encounter.get("marker", "")) == "BANG" and not str(encounter.get("contact_outcome_key", "")).is_empty() and dialogue_pages.size() >= 2 and dialogue_pages.size() <= 4
+		companion_data_valid = companion_data_valid and str(encounter.get("marker", "")) == "BANG" and not str(encounter.get("contact_outcome_key", "")).is_empty() and dialogue_pages.size() >= 2 and dialogue_pages.size() <= ChapterMapLoader.MAX_DIALOGUE_PAGES
 		for recruitment_value in recruitments:
 			var recruitment: Dictionary = recruitment_value
 			companion_data_valid = companion_data_valid and not DataRegistry.character(str(recruitment.get("character_id", ""))).is_empty()
 			companion_data_valid = companion_data_valid and int(recruitment.get("battle_victories_required", 0)) in range(1, 6)
-	check(companion_data_valid and companion_count == 1 and special_enemy_count == 3, "EVENT_PAWN_DATA_01 one chapter companion and three special-enemy contacts own validated pre-battle dialogue data")
+	check(companion_data_valid and companion_count == 2 and special_enemy_count == 3, "EVENT_PAWN_DATA_01 the chapter recruit, one wanderer and three special-enemy contacts own validated pre-battle dialogue data")
 	check(companion_localization_valid, "EVENT_PAWN_DATA_02 every event and dialogue page resolves in ko/en")
 
 func _test_user_facing_labels() -> void:
@@ -1409,14 +1410,14 @@ func _test_exploration_pulses_and_companion_events() -> void:
 	AppState.pending_battle_token = ""
 	check(AppState.prepare_map_encounter("CH01-N08", "NODE_N08", Vector2i.ZERO), "EVENT_PAWN_02A special contact prepares one ordinary battle transaction")
 	var contact_payload := AppState.pending_map_special_event()
-	check(str(contact_payload.get("event_encounter_id", "")) == str(vera.get("event_encounter_id", "")) and str(contact_payload.get("event_kind", "")) == "COMPANION" and str(contact_payload.get("character_id", "")) == "CHR006" and str(contact_payload.get("contact_outcome_key", "")) == str(vera.get("contact_outcome_key", "")) and contact_payload.get("pre_battle_dialogue", []).size() == 3 and str(state.get("recruitment_states", {}).get("CHR006", "")) == "UNMET", "EVENT_PAWN_02B companion contact carries dialogue presentation only; recruitment is still uncommitted before victory")
+	check(str(contact_payload.get("event_encounter_id", "")) == str(vera.get("event_encounter_id", "")) and str(contact_payload.get("event_kind", "")) == "COMPANION" and str(contact_payload.get("character_id", "")) == "CHR006" and str(contact_payload.get("contact_outcome_key", "")) == str(vera.get("contact_outcome_key", "")) and contact_payload.get("pre_battle_dialogue", []).size() == vera.get("pre_battle_dialogue", []).size() and contact_payload.get("pre_battle_dialogue", []).size() >= 2 and str(state.get("recruitment_states", {}).get("CHR006", "")) == "UNMET", "EVENT_PAWN_02B companion contact carries dialogue presentation only; recruitment is still uncommitted before victory")
 	AppState.abandon_pending_map_encounter()
 	check(AppState.pending_map_special_event().is_empty() and int(AppState.profile.inventory.get("CREDIT", 0)) == credit_before_contact, "EVENT_PAWN_02C abandoning a special contact clears only its presentation transaction and grants no reward")
 	var anomaly := ExplorationScript.event_encounter_for_node(definition, "NODE_N06")
 	check(str(anomaly.get("event_kind", "")) == "SPECIAL_ENEMY" and str(anomaly.get("enemy_id", "")) == "ENM010" and anomaly.get("recruitments", []).is_empty(), "EVENT_PAWN_02D special enemy contact is a non-recruiting event with an authored enemy identity")
 	check(AppState.prepare_map_encounter("CH01-N06", "NODE_N06", Vector2i.ZERO), "EVENT_PAWN_02E special enemy contact prepares its ordinary map battle transaction")
 	var anomaly_payload := AppState.pending_map_special_event()
-	check(str(anomaly_payload.get("event_kind", "")) == "SPECIAL_ENEMY" and str(anomaly_payload.get("enemy_id", "")) == "ENM010" and anomaly_payload.get("character_ids", []).is_empty() and anomaly_payload.get("pre_battle_dialogue", []).size() == 3, "EVENT_PAWN_02F special enemy handoff carries enemy art/dialogue data but no companion grant")
+	check(str(anomaly_payload.get("event_kind", "")) == "SPECIAL_ENEMY" and str(anomaly_payload.get("enemy_id", "")) == "ENM010" and anomaly_payload.get("character_ids", []).is_empty() and anomaly_payload.get("pre_battle_dialogue", []).size() >= 2, "EVENT_PAWN_02F special enemy handoff carries enemy art/dialogue data but no companion grant")
 	AppState.abandon_pending_map_encounter()
 	# Reproduce the player-facing last approach: an honestly unlocked N20 route
 	# ends on the hostile hex, then the existing one-shot contact transaction

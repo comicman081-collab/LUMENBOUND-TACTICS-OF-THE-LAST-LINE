@@ -1,0 +1,277 @@
+{
+  "chapter_id": "CH13",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "모래 위의 열차",
+      "title_en": "A Train on the Sand",
+      "background": "rail",
+      "cast": {"LEFT": "CHR002", "CENTER": "CHR003", "RIGHT": "CHR006"},
+      "lines": [
+        {"s": "N", "ko": "모래는 밤이 되어도 식지 않았다. 선로 한 가닥 없는 사구 너머에서 기적 소리가 먼저 도착했다.", "en": "The sand stayed warm long after dark. From beyond dunes without a single rail, a whistle arrived first."},
+        {"s": "CHR002", "ko": "바퀴 자국도, 침목도 없는데 열차가 달려. 정찰 보고서에 뭐라고 써야 하지?", "en": "No wheel ruts, no sleepers, and a train is running anyway. What do I even put in the scouting report?"},
+        {"s": "CHR003", "ko": "'존재하지 않음'이라고 써. 질량 반응 없음, 신호 반응만 있어. 편성은 열두 량.", "en": "Write 'does not exist.' No mass, only signal. Twelve cars in the consist."},
+        {"s": "CHR006", "ko": "승객 명부 신호를 잡았어. 이천사백 명. ……전부 성당에서 되찾은 이름이야.", "en": "I've caught the passenger manifest. Two thousand four hundred. …Every name recovered from the cathedral."},
+        {"s": "CHR017", "ko": "성당에서 풀려난 이름들이에요. 주인에게 돌아가야 할 이름들이 왜 저 열차에……", "en": "Names freed from the cathedral. They should have gone home to their owners. Why are they on that train…"},
+        {"s": "N", "ko": "창가마다 사람의 윤곽이 앉아 있었다. 누구도 창밖을 보지 않았고, 누구도 내리지 않았다.", "en": "A silhouette sat at every window. None looked out, and none got off."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 선택하지 않은 삶도 운행합니다. 원하시는 객차에 탑승하십시오.", "en": "Attention, please. Lives you did not choose are also in service. Please board the car of your choice."},
+        {"s": "CHR004", "ko": "원하는 객차라니…… 이상하게 솔깃한 말인데요?", "en": "The car of my choice… why does that sound so tempting?"},
+        {"s": "CHR005", "ko": "솔깃한 방송일수록 요금이 비싸. 저 스피커가 공짜로 뭘 준 적 있어?", "en": "The more tempting the announcement, the steeper the fare. Has that speaker ever given anything away?"},
+        {"s": "CHR014", "ko": "이름을 되찾자마자 또 끌려갔다고? 이번엔 누구 판결인데!", "en": "They just got their names back and got dragged off again? Whose verdict was it this time?"},
+        {"s": "CHR012", "ko": "판결이 아니다. 시간표다. 이 사막 전체에 존재하지 않는 노선이 깔려 있어.", "en": "Not a verdict. A timetable. A route that doesn't exist is laid across this entire desert."},
+        {"s": "N", "ko": "모래 위에 정차선 하나가 그어져 있었다. 도착 표시만 있을 뿐, 떠난 바퀴 자국은 없었다.", "en": "A stop line was drawn in the sand. It bore an arrival mark, but no wheel tracks led away."},
+        {"s": "CHR003", "ko": "다음 정차 예정지는 북쪽 사구. 열차가 멈추는 곳이라면, 승객도 내릴 수 있어.", "en": "Next scheduled stop: the northern dunes. If the train stops there, passengers can get off."},
+        {"s": "CHR001", "ko": "이천사백. 한 이름도 저 창가에 두고 가지 않는다. 북쪽으로.", "en": "Two thousand four hundred. We leave no name at those windows. North."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "고르지 않은 삶",
+      "title_en": "The Lives Not Chosen",
+      "background": "rail",
+      "cast": {"LEFT": "CHR002", "CENTER": "CHR003", "RIGHT": "CHR006"},
+      "lines": [
+        {"s": "N", "ko": "열차가 멈추자 창문마다 낯익은 얼굴이 떠올랐다. 모래바람 속에서, 그 얼굴들은 태평하게 웃고 있었다.", "en": "When the train stopped, familiar faces surfaced in every window. Through the blowing sand, they smiled without a care."},
+        {"s": "CHR002", "ko": "……저거 나야. 배달 가방 메고, 등로단 배지도 없이. 되게 편한 얼굴이네.", "en": "…That's me. Courier bag, no Lamplighter badge. She looks so relaxed."},
+        {"s": "CHR003", "ko": "셋째 창은 연구소 가운을 입은 나. 그해 잔류 제안을 수락했다면. 확률로는 저쪽이 높았어.", "en": "Third window: me, in a lab coat. If I'd accepted the offer to stay that year. The odds favored her."},
+        {"s": "CHR006", "ko": "명부가 움직여. 창문을 오래 본 사람일수록 승객 칸에 이름이 굳어 가.", "en": "The manifest is shifting. The longer someone stares at a window, the harder their name sets into a passenger slot."},
+        {"s": "N", "ko": "항해자 앞의 창문만이 비어 있었다. 유리에는 모래 한 톨조차 비치지 않았다.", "en": "Only the window before the Navigator stood empty. Not even a grain of sand showed in the glass."},
+        {"s": "CHR007", "ko": "유리평원 때와 같아. 기록이 잠겨 있는 사람은 어디에도 비치지 않아.", "en": "Same as on the glass plain. A person whose record is locked reflects nowhere."},
+        {"s": "CONTROL", "ko": "항해자님께는 고르지 않은 삶이 없습니다. 그날 밤, 이미 전부 고르셨으니까요.", "en": "You have no unchosen life, Navigator. You chose everything already, that night."},
+        {"s": "CHR001", "ko": "귀 기울이지 마. 저 방송은 대답하는 척하면서 질문만 남긴다.", "en": "Don't listen. That broadcast pretends to answer and leaves only questions."},
+        {"s": "CHR002", "ko": "……그래, 그만 볼래. 저쪽 나, 솔직히 좀 부러웠지만.", "en": "…Right. I'll stop looking. Honestly, I was a little jealous of her."},
+        {"s": "CHR003", "ko": "창문에서 눈 떼. 명부 신호의 근원은 편성 앞쪽이야. 거기서 끊어야 해.", "en": "Eyes off the windows. The manifest signal comes from the front of the train. That's where we cut it."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N09",
+      "title_ko": "마지막 선택의 표식",
+      "title_en": "Marks of the Last Choice",
+      "background": "rail",
+      "cast": {"LEFT": "CHR018", "CENTER": "CHR003", "RIGHT": "CHR002"},
+      "lines": [
+        {"s": "N", "ko": "환영 승객들이 흩어지자 모래가 식기 시작했다. 리아스의 총구에서 가는 연기가 피어올랐다.", "en": "As the phantom passengers scattered, the sand began to cool. A thin thread of smoke rose from Rias's muzzle."},
+        {"s": "CHR018", "ko": "봤지? 저것들은 네가 안 고른 쪽에 서서 손짓만 해. 따라가면 끝이야.", "en": "See? They stand on the side you didn't choose and beckon. Follow them, and you're done."},
+        {"s": "CHR003", "ko": "명부 고정이 풀렸어. 하지만 열차가 달리는 한, 이름은 다시 굳어.", "en": "The manifest lock is broken. But as long as the train runs, the names will set again."},
+        {"s": "CHR018", "ko": "그러니까 표식을 남겨. 각자 실제로 내린 마지막 선택. 그게 닻이야.", "en": "So leave a mark. The last choice each of you actually made. That's your anchor."},
+        {"s": "CHR002", "ko": "마지막 선택이라…… 오늘 아침에 여기 오기로 한 거. 그거면 돼?", "en": "Last choice, huh… Deciding to come here this morning. Does that count?"},
+        {"s": "CHR018", "ko": "……빠르네. 돼. 거창할 필요 없어. 진짜로 고른 거면.", "en": "…That was quick. It counts. Doesn't have to be grand. Just real."},
+        {"s": "CHR001", "ko": "열두 해 만에 제7 승강장으로 돌아가기로 한 것. 내 표식은 그거다.", "en": "Going back to Platform Seven after twelve years. That's my mark."},
+        {"s": "N", "ko": "리아스가 모래 위에 자기 표식을 긋는 순간, 항해 기록기가 뜨겁게 빛났다. 열세 번째 무늬였다.", "en": "The moment Rias scored her own mark into the sand, the recorder flared hot. The thirteenth pattern."},
+        {"s": "CHR018", "ko": "……뭐야, 이거. 내가 방금 뭘 한 건데?", "en": "…What's this? What did I just do?"},
+        {"s": "CHR017", "ko": "노선 서명이에요. 스물 중 열셋. 당신의 선택이 이 노선의 결말로 새겨졌어요.", "en": "A line signature. Thirteen of twenty. Your choice was carved in as this line's ending."},
+        {"s": "CHR018", "ko": "선택은 되찾는 게 아니야. 새로 만드는 거지. ……좋아, 같이 가 줄게. 느리면 두고 간다.", "en": "Choices aren't recovered. They're made new. …Fine, I'll come. Fall behind and I leave you."},
+        {"s": "CHR003", "ko": "편성표에 역장 인가 도장이 찍혀 있어. 사구 끝 역사야. 거기가 시간표의 뿌리야.", "en": "The timetable bears a stationmaster's seal. The station at the edge of the dunes. That's the root."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N12",
+      "title_ko": "사막의 모닥불",
+      "title_en": "Desert Campfire",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR018", "CENTER": "CHR004", "RIGHT": "CHR002"},
+      "lines": [
+        {"s": "N", "ko": "사막의 밤은 소리를 멀리 보냈다. 무너진 중계소 그늘에서 장작 튀는 소리가 사구 너머까지 굴러갔다.", "en": "The desert night carried sound far. From the shade of a ruined relay post, the crackle of the fire rolled past the dunes."},
+        {"s": "CHR018", "ko": "에다, 네 회로는 불 피우는 데만 쓰냐? 전투 때마다 반 박자씩 늦던데.", "en": "Eda, is that circuit of yours only good for lighting fires? You were half a beat late every fight."},
+        {"s": "CHR004", "ko": "그건 리아스 씨가 제 앞을 가로질러서잖아요! 다음엔 같이 감전시켜 드려요?", "en": "Because you kept cutting in front of me! Want me to shock you too next time?"},
+        {"s": "CHR018", "ko": "……해 봐. 대신 제대로 맞혀. 어설프게 찌릿하면 더 짜증 나니까.", "en": "…Try it. But hit me properly. A half-hearted zap is more annoying."},
+        {"s": "CHR002", "ko": "하하. 배달부였어도 나쁘진 않았겠지만…… 이렇게 시끄러운 밤은 없었겠지.", "en": "Ha. Being a courier wouldn't have been bad… but I'd never have had a night this loud."},
+        {"s": "CHR003", "ko": "……항해자, 기록기 좀 볼게. 열세 번째가 새겨질 때 뭔가 보였어.", "en": "…Navigator, let me see the recorder. Something showed when the thirteenth was carved."},
+        {"s": "CHR003", "ko": "맨 아래, 베라의 서명보다 오래된 긁힌 자국. 노선 무늬가 아니야. ……사람 필적 같아.", "en": "At the very bottom, a scratch older than Vera's signature. Not a line pattern. …It looks like handwriting."},
+        {"choice": [
+          {"ko": "기록기를 내밀며 조사를 부탁한다", "en": "Hold out the recorder and ask her to look into it", "flag": "CH13_SHARE_MARK", "reply": [
+            {"s": "CHR003", "ko": "알았어. 추측은 안 적어. 확인된 것만 기록할게.", "en": "All right. I won't write guesses. Only what I can confirm."}
+          ]},
+          {"ko": "소매로 자국을 가린다", "en": "Cover the mark with a sleeve", "flag": "CH13_HIDE_MARK", "reply": [
+            {"s": "CHR001", "ko": "……가리고 싶으면 가려도 돼. 다만 혼자 짊어지진 마.", "en": "…You can cover it if you want. Just don't carry it alone."}
+          ]}
+        ]},
+        {"s": "CHR018", "ko": "다들 표정이 왜 그래. 내일 역장 치러 가는 사람들 맞아?", "en": "Why the long faces? Aren't you the ones taking down a stationmaster tomorrow?"},
+        {"s": "CHR004", "ko": "맞아요! 리아스 씨 감전은 그다음이고요!", "en": "We are! Shocking Rias comes after that!"},
+        {"s": "CHR001", "ko": "불 줄여. 동틀 무렵 사구 끝 역사로 간다.", "en": "Bank the fire. We leave for the station at the dunes' edge at first light."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "후회의 객차",
+      "title_en": "Cars of Regret",
+      "background": "rail",
+      "cast": {"LEFT": "CHR018", "CENTER": "CHR006", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "사구 끝 역사에는 벽이 없었다. 기둥과 시계, 그리고 끝없이 이어진 객차만이 모래 위에 서 있었다.", "en": "The station at the edge of the dunes had no walls. Only pillars, a clock, and an endless string of cars stood on the sand."},
+        {"s": "BOSS", "ko": "사구역에 오신 것을 환영합니다. 본 역은 선택하지 않은 삶의 종착역입니다.", "en": "Welcome to Dune Station. This station is the terminus for lives not chosen."},
+        {"s": "CHR006", "ko": "객차가 늘어나고 있어. 명부 이천사백…… 아니, 방금 이천육백이 됐어.", "en": "The cars are multiplying. Manifest at two thousand four hundred… no, it just hit two thousand six hundred."},
+        {"s": "BOSS", "ko": "미련이 큰 선택일수록 강한 객차가 됩니다. 승객 여러분의 후회는 훌륭한 연료입니다.", "en": "The greater the regret, the stronger the car. Your regrets make excellent fuel."},
+        {"s": "CHR018", "ko": "후회를 연료로 쓴다고? 역겹네. 그 객차, 전부 떼어 버린다.", "en": "Burning regret for fuel? Disgusting. I'm uncoupling every one of those cars."},
+        {"s": "N", "ko": "객차 하나가 일행 사이로 미끄러져 들어왔다. 창문 안에서, 등로단에 오지 않은 로안이 손을 흔들었다.", "en": "A car slid in among them. In its window, the Roan who never joined the Lamplighters waved."},
+        {"s": "CHR003", "ko": "로안, 그 객차에서 떨어져. 명부 신호가 네 쪽으로 감기고 있어.", "en": "Roan, get away from that car. The manifest signal is winding toward you."},
+        {"s": "BOSS", "ko": "로안 승객님, 배달부 편성으로 환승하시겠습니까? 그쪽 삶은 아무도 잃지 않았습니다.", "en": "Passenger Roan, would you care to transfer to the courier service? In that life, you lost no one."},
+        {"s": "CHR002", "ko": "……솔깃하네. 근데 그쪽엔 이 사람들이 없잖아. 거절할게.", "en": "…Tempting. But these people aren't there. I'll pass."},
+        {"s": "CHR013", "ko": "잘 골랐어요, 로안. 잃은 게 없는 삶보다, 지킬 게 있는 삶이 더 무거운 법이죠.", "en": "Good choice, Roan. A life with something to protect weighs more than a life with nothing lost."},
+        {"s": "CHR001", "ko": "연결부를 노린다. 한 량씩 끊고, 한 사람씩 되찾는다.", "en": "Aim for the couplings. One car at a time. One person at a time."},
+        {"s": "CHR015", "ko": "연결부 간격은 일정하다. 한 량당 삼 초면 끊는다.", "en": "The coupling intervals are uniform. Three seconds per car and it's cut."},
+        {"s": "CHR018", "ko": "삼 초도 길어. 뛰어!", "en": "Three seconds is too long. Run!"}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "말려 올라간 선로",
+      "title_en": "Rails Curling Skyward",
+      "background": "rail",
+      "cast": {"LEFT": "CHR018", "CENTER": "CHR017", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "마지막 객차가 떨어져 나가자 역사의 시계가 처음으로 멈췄다. 모래 위로 긴 그림자들이 흩어졌다.", "en": "When the last car broke away, the station clock stopped for the first time. Long shadows scattered across the sand."},
+        {"s": "BOSS", "ko": "……안내 말씀 드립니다. 본 역은 운행을…… 종료합니다.", "en": "…Attention, please. This station is now… ending service."},
+        {"s": "BOSS", "ko": "……못 고른 삶도, 한 번쯤은 태워 드리고 싶었……", "en": "…Even the lives you couldn't choose… I only wanted to give them one ride…"},
+        {"s": "CHR017", "ko": "명부의 이름들이 흩어져요. 이번엔 원래 주인에게로. 맥박이 하나씩 돌아와요.", "en": "The names on the manifest are scattering. Back to their owners this time. The heartbeats are returning, one by one."},
+        {"s": "CHR018", "ko": "……멍청한 역장. 태워 줄 거면 산 사람을 태웠어야지.", "en": "…Stupid stationmaster. If you wanted to give rides, you should've carried the living."},
+        {"s": "CHR013", "ko": "그래도 그 마음은 알 것 같아요. 가지 못한 길을 누군가 기억해 주길 바라는 마음.", "en": "Still, I think I understand the wish. To have someone remember the roads not taken."},
+        {"s": "CHR006", "ko": "이름 이천육백, 전부 수신처 확인. 한 명도 명부에 남지 않았어.", "en": "All two thousand six hundred names have found their receivers. Not one is left on the manifest."},
+        {"s": "N", "ko": "그때 발밑의 선로가 모래를 털고 일어섰다. 쇠줄은 하늘로 말려 올라가 구름 속으로 사라졌다.", "en": "Then the rails beneath them shook off the sand and rose. The steel curled into the sky and vanished into the clouds."},
+        {"s": "CHR003", "ko": "선로가 위로 이어져. 좌표는…… 수도 순환선. 그런데 방향이 뒤집혀 있어.", "en": "The rails lead upward. Coordinates… the capital loop. But its orientation is inverted."},
+        {"s": "CHR016", "ko": "하늘로 떨어지는 길이라. 방패로 받칠 수 있는 무게이길 바랍니다.", "en": "A road that falls into the sky. I hope it's a weight a shield can bear."},
+        {"s": "CONTROL", "ko": "수도는 곧 외부 노선과의 연결을 종료합니다.", "en": "The capital will soon terminate its connection to all outside lines."},
+        {"s": "CONTROL", "ko": "다만 항해자님은 언제든 들어오실 수 있습니다. 본청이 기다리고 있습니다.", "en": "You, however, may enter at any time, Navigator. Headquarters is waiting."},
+        {"s": "CHR002", "ko": "초대장은 한 장인데 우린 단체라서. 몰려가도 되겠지?", "en": "One invitation, a whole crew. Guess we're crashing together."},
+        {"s": "CHR001", "ko": "사막은 끝났다. 다음은 수도다. 거기서도 한 사람씩 센다.", "en": "The desert's done. The capital's next. We count there too, one person at a time."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "신기루 구역",
+      "title_en": "The Mirage Zone",
+      "background": "rail",
+      "cast": {"LEFT": "CHR015", "CENTER": "CHR012", "RIGHT": "CHR018"},
+      "lines": [
+        {"s": "N", "ko": "한낮의 신기루 구역은 공기가 물처럼 일렁였다. 지평선 위로 같은 열차가 셋, 넷으로 늘어났다.", "en": "At noon the mirage zone rippled like water. On the horizon, one train became three, then four."},
+        {"s": "CHR015", "ko": "열차 간격 4.2초. 같은 편성이 시간차를 두고 복제되고 있다.", "en": "Interval between trains: 4.2 seconds. The same consist is being copied on a delay."},
+        {"s": "CHR012", "ko": "방향음은 전부 거짓이다. 진짜 기적 소리는 하나뿐이야. 내가 골라낸다.", "en": "Every bearing is false. There's only one real whistle. I'll pick it out."},
+        {"s": "CHR018", "ko": "유령 열차에 신기루까지? 이 사막은 거짓말밖에 할 줄 몰라?", "en": "Ghost trains, and now mirages? Does this desert know anything but lies?"},
+        {"s": "CHR005", "ko": "거짓말이 많은 곳일수록 한 발은 정직해야지. 진짜 기관차만 맞히면 돼.", "en": "The more lies around, the more honest the shot has to be. Just hit the real engine."},
+        {"s": "CHR003", "ko": "기관차 신호에서 명부 조각이 계속 새어 나와. 역장이 못 태운 승객이 남은 거야.", "en": "Manifest fragments keep leaking from the engine's signal. Passengers the stationmaster never boarded are still out here."},
+        {"s": "CHR002", "ko": "모래 위에 발자국 한 줄. 신기루는 발자국을 안 남기는데……", "en": "One line of footprints in the sand. Mirages don't leave footprints…"},
+        {"s": "CHR001", "ko": "남은 승객이 있다면 간다. 신기루든 뭐든, 한 명이라도.", "en": "If there are passengers left, we go. Mirage or not, even for one."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "진짜 발자국",
+      "title_en": "Real Footprints",
+      "background": "rail",
+      "cast": {"LEFT": "CHR038", "CENTER": "CHR002", "RIGHT": "HBOSS"},
+      "lines": [
+        {"s": "N", "ko": "신기루가 걷히자 열기가 가라앉았다. 모래 위에는 진짜 발자국만 남았다.", "en": "As the mirage lifted, the heat settled. Only real footprints remained in the sand."},
+        {"s": "HBOSS", "ko": "……어디에도 도착하지 않으면…… 아무도, 늦지 않을 줄……", "en": "…If it arrived nowhere… no one would ever be late…"},
+        {"s": "CHR038", "ko": "……처음이네. 도착한 흔적이 남는 거. 신기루는 발자국을 안 남기거든.", "en": "…First time I've seen it. Tracks that prove you arrived. Mirages never leave any."},
+        {"s": "CHR002", "ko": "배달부 씨. 내가 안 고른 삶에서 난 너 같은 사람이었어. 되게 태평해 보이던데.", "en": "Hey, courier. In the life I didn't choose, I was someone like you. She looked awfully carefree."},
+        {"s": "CHR038", "ko": "태평? 배달부가? 뭘 모르네. ……제른이야. 같이 달릴 편성이 필요했어. 끼워 줘.", "en": "Carefree? A courier? You know nothing. …I'm Zern. I needed a crew to run with. Count me in."},
+        {"s": "CHR001", "ko": "환영한다. 우리 편성은 느려도 전원 도착한다.", "en": "Welcome. We may be slow, but every one of us arrives."},
+        {"s": "CHR018", "ko": "느린 건 인정하는구나. 제른, 선두는 내 자리야.", "en": "So you admit you're slow. Zern, the lead spot's mine."},
+        {"s": "CHR003", "ko": "선로 흔적이 전부 위로 휘어 있어. 수도 쪽이야. 늦으면 닫혀.", "en": "Every rail trace bends upward. Toward the capital. If we're late, it closes."},
+        {"s": "CHR038", "ko": "늦는다고? 그 말 제일 싫어. 가자!", "en": "Late? I hate that word. Let's go!"}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR003", "ko": "전방에 생체 반응 하나. 환영 승객들 사이를 거꾸로 달리고 있어.", "en": "One life sign ahead. Running against the stream of phantom passengers."},
+      {"s": "CHR018", "ko": "거기, 창문 보고 멍하니 선 사람들! 미련은 나중에 떨고, 지금은 뛰어!", "en": "Hey, you lot gawking at windows! Save the regrets for later. Run!"},
+      {"s": "CHR002", "ko": "……초면에 인사가 좀 거칠다?", "en": "…Bit of a rough hello, isn't it?"},
+      {"s": "CHR018", "ko": "인사는 살아남고 나서 해. 저 승객들한테 잡히면 명부에 네 이름이 적혀.", "en": "Say hello once you've survived. Get grabbed by those passengers and your name goes on the manifest."},
+      {"s": "CHR006", "ko": "우린 그 명부의 이름을 돌려받으러 왔어. 원래 주인들에게.", "en": "We came to take the names on that manifest back. To their owners."},
+      {"s": "CHR018", "ko": "돌려받아? 틀렸어. 거기 적힌 건 안 고른 삶이야. 되찾을 게 아니라 끊어 내야지.", "en": "Take back? Wrong. What's written there are lives nobody chose. You don't take them back. You cut them loose."},
+      {"s": "CHR004", "ko": "와, 말보다 발이 빠른 사람이다!", "en": "Wow, her feet are even faster than her mouth!"},
+      {"s": "CHR018", "ko": "말은 됐고, 따라올 수 있으면 따라와. 뒤처지면 안 기다린다.", "en": "Enough talk. Keep up if you can. I don't wait for stragglers."}
+    ],
+    "WANDERER": [
+      {"s": "CHR002", "ko": "모래 먼지 하나가 우리보다 빠르게 다가와. 잔향체치곤 너무 빠른데?", "en": "A plume of dust is closing faster than we move. Too fast for an echoform."},
+      {"s": "CHR038", "ko": "비켜, 비켜! 늦는 건 죄야! 내 배달 경로 막고 선 게 너희지?", "en": "Move, move! Being late is a sin! You're the ones blocking my delivery route?"},
+      {"s": "CHR003", "ko": "사람이야. 등에 우편낭. 이 사막에서 열두 해 동안 누가 편지를 받는다고……", "en": "She's human. Mailbag on her back. Who's been getting letters in this desert for twelve years…"},
+      {"s": "CHR038", "ko": "받을 사람이 있든 없든 약속한 시각엔 도착해. 그게 배달부야.", "en": "Whether anyone's there or not, I arrive on time. That's what a courier does."},
+      {"s": "CHR002", "ko": "배달부라…… 오늘따라 그 단어랑 인연이 많네. 우린 저 기관차 세우러 왔어.", "en": "A courier… that word keeps finding me today. We're here to stop that engine."},
+      {"s": "CHR038", "ko": "등로단 배지? 신기루도 그 배지를 달고 나타나더라.", "en": "Lamplighter badges? The mirages showed up wearing those too."},
+      {"s": "CHR038", "ko": "진짜면 내 속도 따라와 봐. 증명은 달리면서 해!", "en": "If you're real, keep pace with me. Prove it on the run!"}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "사구역 최종 편성, 출발 준비를 마쳤습니다. 후회가 큰 승객부터 탑승하십시오.", "en": "Dune Station's final consist is ready to depart. Passengers with the greatest regrets, please board first."},
+      {"s": "CHR018", "ko": "후회 순서로 줄 세우는 역이라니. 서비스 최악이네.", "en": "A station that queues people by regret. Worst service ever."},
+      {"s": "BOSS", "ko": "리아스 승객님의 객차가 가장 무겁습니다. 고르지 않은 삶이 가장 많으시군요.", "en": "Passenger Rias, your car is the heaviest. You have more unchosen lives than anyone."},
+      {"s": "CHR018", "ko": "……그러니까 뛰는 거야. 멈추면 전부 따라잡히니까. 끊어 줄게!", "en": "…That's why I run. If I stop, they all catch up. I'm cutting you loose!"}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "신기루 기관차, 출발합니다. 본 열차는 어디에도 도착하지 않습니다.", "en": "The Mirage Locomotive is departing. This train arrives nowhere."},
+      {"s": "CHR002", "ko": "도착 안 하는 열차를 누가 타. 여기서 내려 줄게.", "en": "Who rides a train that never arrives? I'll let you off right here."},
+      {"s": "HBOSS", "ko": "종착역이 없으면 늦는 승객도 없습니다. 안심하고 탑승하십시오.", "en": "Without a terminus, no passenger is ever late. Please board with peace of mind."},
+      {"s": "CHR018", "ko": "늦어도 도착하는 쪽이 나아. 멈춰!", "en": "Late but arriving beats that. Stop!"}
+    ],
+    "ANOMALY_1": [
+      {"s": "CHR006", "ko": "모래 속에서 명부 신호가 솟아. 승객이 아니야, 검표원이다.", "en": "Manifest signals are rising from the sand. Not passengers. Ticket inspectors."},
+      {"s": "ENEMY", "ko": "승차권을 확인하겠습니다. 고르지 않은 삶의 승차권을 제시하십시오.", "en": "Tickets, please. Present your ticket for the life you did not choose."},
+      {"s": "CHR014", "ko": "그런 거 없어! 난 고른 삶만 들고 다닌다고!", "en": "Don't have one! I only carry the life I chose!"}
+    ],
+    "ANOMALY_2": [
+      {"s": "CHR015", "ko": "모래 폭풍 속 이동체 셋. 속도가 우리 발걸음에 정확히 맞춰져 있다.", "en": "Three moving contacts in the sandstorm. Their speed matches our stride exactly."},
+      {"s": "ENEMY", "ko": "……같이 가자. 저쪽 길이 더 편해.", "en": "…Come with me. That way is easier."},
+      {"s": "CHR009", "ko": "목소리 흉내는 질렸어. 대답해 봐, 저쪽 길이 어딘데?", "en": "I'm sick of mimicked voices. Answer me: where does that way go?"},
+      {"s": "ENEMY", "ko": "같이 가자. 같이 가자. 같이……", "en": "Come with me. Come with me. Come…"}
+    ],
+    "ANOMALY_3": [
+      {"s": "CHR012", "ko": "신기루 속에서 열차 문이 열린다. 안에서 누군가 부르고 있다.", "en": "A train door opens inside the mirage. Someone is calling from within."},
+      {"s": "ENEMY", "ko": "다음 정차역은 '그때 그랬더라면'입니다. 내리실 문은 없습니다.", "en": "Next stop: 'If Only.' There are no exit doors."},
+      {"s": "CHR011", "ko": "내릴 문이 없다면 뚫으면 됩니다. 포대, 조준.", "en": "If there's no door, we make one. Battery, take aim."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "모래 아래의 검표", "title_en": "Inspection from Below",
+     "lines": [
+       {"s": "N", "ko": "발밑의 모래가 꺼지며 잔향체들이 솟아올랐다. 모두 찢어진 승차권을 쥐고 있었다.", "en": "The sand gave way underfoot and echoforms surged up, each clutching a torn ticket."},
+       {"s": "CHR002", "ko": "마중치고는 과격하네. 한판 할까, 돌아갈까?", "en": "Rough welcome. Fight, or go around?"}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "맞서 싸운다", "en": "Fight them"},
+                 {"outcome": "EVADE", "ko": "사구를 돌아 우회한다", "en": "Circle around the dune"}]},
+    {"kind": "DISTRESS", "title_ko": "명부에서 풀려난 사람", "title_en": "Released from the Manifest",
+     "lines": [
+       {"s": "N", "ko": "사구 그늘에서 누군가 빈 물통을 흔들었다. 명부에서 막 풀려난 생존자였다.", "en": "In the shade of a dune, someone waved an empty canteen. A survivor just freed from the manifest."},
+       {"s": "SURVIVOR", "ko": "이름이…… 돌아왔어요. 그런데 여기가 어딘지 모르겠어요.", "en": "My name… it came back. But I don't know where I am."},
+       {"s": "CHR010", "ko": "괜찮아요, 물부터 천천히요. 좌표도 같이 남겨 둘게요.", "en": "It's all right. Water first, slowly. We'll log your coordinates too."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "물과 보급을 나눈다", "en": "Share water and supplies"},
+                 {"outcome": "RECORD", "ko": "좌표를 기록해 둔다", "en": "Log the coordinates"}]},
+    {"kind": "STORM", "title_ko": "망설임의 모래바람", "title_en": "Sandstorm of Hesitation",
+     "lines": [
+       {"s": "N", "ko": "잔광 폭풍이 사막을 덮었다. 모래 알갱이마다 누군가의 망설임이 속삭였다.", "en": "An afterglow storm swept the desert. Every grain of sand whispered someone's hesitation."},
+       {"s": "CHR016", "ko": "제 방패 뒤로 오십시오. 지나가길 기다릴지, 뚫고 갈지 정하시지요.", "en": "Behind my shield, please. Decide: wait it out, or push through."}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "방패 뒤에서 대피한다", "en": "Shelter behind the shield"},
+                 {"outcome": "PUSH", "ko": "폭풍을 뚫고 나아간다", "en": "Push through the storm"}]},
+    {"kind": "CACHE", "title_ko": "수신인 없는 우편낭", "title_en": "Mailbag Without an Address",
+     "lines": [
+       {"s": "N", "ko": "반쯤 묻힌 우편낭에서 봉인된 보급 상자가 나왔다. 수신인 칸은 비어 있었다.", "en": "A half-buried mailbag held a sealed supply crate. The addressee line was blank."},
+       {"s": "CHR008", "ko": "받을 사람이 없다면 우리가 받아 가자. 누군가를 위해 쓰면 되니까.", "en": "If there's no one to receive it, let's take it. We'll use it for someone."}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "보급 상자를 회수한다", "en": "Recover the crate"}]},
+    {"kind": "BANTER", "title_ko": "사구 경주", "title_en": "Dune Race",
+     "lines": [
+       {"s": "CHR014", "ko": "로안! 배달부 로안이 너보다 빨랐다며? 나한텐 어림없지!", "en": "Roan! Heard courier-Roan was faster than you. She'd never beat me!"},
+       {"s": "CHR002", "ko": "그쪽은 싸우면서 달려 본 적이 없거든. 그건 내가 원조야.", "en": "She never had to run and fight at the same time. That's my specialty."},
+       {"s": "CHR014", "ko": "좋아, 다음 사구까지 내기다!", "en": "Fine. Race you to the next dune!"}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "웃으며 뒤따른다", "en": "Follow with a smile"}]},
+    {"kind": "ECHO", "title_ko": "사막 특급의 출발 안내", "title_en": "Desert Express Departure",
+     "lines": [
+       {"s": "N", "ko": "모래에 묻힌 확성기에서 대정전 이전의 출발 안내가 흘러나왔다.", "en": "A loudspeaker buried in the sand played a departure announcement from before the Blackout."},
+       {"s": "ECHO", "ko": "사막 횡단 특급, 곧 출발합니다. 배웅 나오신 분은 선 밖으로 물러나……", "en": "The trans-desert express will depart shortly. Those seeing passengers off, please step behind the line…"},
+       {"s": "CHR017", "ko": "……이 목소리에도 누군가를 배웅하던 맥박이 있었겠죠.", "en": "…Behind this voice, too, there must have been a heartbeat seeing someone off."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+                 {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

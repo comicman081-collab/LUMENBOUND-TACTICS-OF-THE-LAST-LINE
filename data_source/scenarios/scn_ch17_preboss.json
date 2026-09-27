@@ -2,6 +2,7 @@
   "id": "SCN_CH17_PREBOSS",
   "title_key": "SCENARIO_CH17_PREBOSS_TITLE",
   "chapter_id": "CH17",
+  "presentation": "CINEMATIC",
   "commands": [
     {
       "id": "start",
@@ -11,18 +12,24 @@
     {
       "command": "show_portrait",
       "slot": "LEFT",
+      "asset_id": "portrait_chr006_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
       "asset_id": "portrait_chr022_dev",
-      "expression": "BATTLE_FOCUS"
+      "expression": "NEUTRAL"
     },
     {
       "command": "show_portrait",
       "slot": "RIGHT",
-      "asset_id": "portrait_chr021_dev",
-      "expression": "SERIOUS"
+      "asset_id": "enemy_boss020_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "fade_in",
-      "duration": 0.24
+      "duration": 0.35
     },
     {
       "command": "narration",
@@ -31,18 +38,131 @@
     },
     {
       "command": "dialogue",
-      "speaker_key": "CHAR_SEB_NAME",
-      "text_key": "STORY_CH17_PREBOSS_02"
+      "speaker_key": "ENEMY_INDEX_PREDATOR",
+      "text_key": "STORY_CH17_PREBOSS_02",
+      "portrait_asset_id": "enemy_boss020_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "ENEMY_INDEX_PREDATOR",
+      "text_key": "STORY_CH17_PREBOSS_03",
+      "portrait_asset_id": "enemy_boss020_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH17_PREBOSS_04"
     },
     {
       "command": "set_expression",
       "slot": "LEFT",
-      "expression": "RESOLVED"
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VERA_NAME",
+      "text_key": "STORY_CH17_PREBOSS_05",
+      "portrait_asset_id": "portrait_chr006_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr020_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_KARN_NAME",
+      "text_key": "STORY_CH17_PREBOSS_06",
+      "portrait_asset_id": "portrait_chr020_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr022_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "BATTLE_FOCUS"
     },
     {
       "command": "dialogue",
       "speaker_key": "CHAR_SEB_NAME",
-      "text_key": "STORY_CH17_PREBOSS_03"
+      "text_key": "STORY_CH17_PREBOSS_07",
+      "portrait_asset_id": "portrait_chr022_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_VERA_NAME",
+      "text_key": "STORY_CH17_PREBOSS_08",
+      "portrait_asset_id": "portrait_chr006_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr018_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_RIAS_NAME",
+      "text_key": "STORY_CH17_PREBOSS_09",
+      "portrait_asset_id": "portrait_chr018_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "enemy_boss020_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "ENEMY_INDEX_PREDATOR",
+      "text_key": "STORY_CH17_PREBOSS_10",
+      "portrait_asset_id": "enemy_boss020_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_CH17_PREBOSS_11",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH17_PREBOSS_12",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr002_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "BATTLE_FOCUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_CH17_PREBOSS_13",
+      "portrait_asset_id": "portrait_chr002_dev"
     },
     {
       "command": "grant_reward",

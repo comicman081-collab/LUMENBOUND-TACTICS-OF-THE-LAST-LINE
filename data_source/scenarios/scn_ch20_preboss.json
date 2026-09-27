@@ -2,6 +2,7 @@
   "id": "SCN_CH20_PREBOSS",
   "title_key": "SCENARIO_CH20_PREBOSS_TITLE",
   "chapter_id": "CH20",
+  "presentation": "CINEMATIC",
   "commands": [
     {
       "id": "start",
@@ -12,17 +13,23 @@
       "command": "show_portrait",
       "slot": "LEFT",
       "asset_id": "portrait_chr025_dev",
-      "expression": "BATTLE_FOCUS"
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "show_portrait",
       "slot": "RIGHT",
-      "asset_id": "portrait_chr024_dev",
-      "expression": "SERIOUS"
+      "asset_id": "enemy_boss023_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "fade_in",
-      "duration": 0.24
+      "duration": 0.35
     },
     {
       "command": "narration",
@@ -31,18 +38,181 @@
     },
     {
       "command": "dialogue",
-      "speaker_key": "CHAR_LAVENT_NAME",
-      "text_key": "STORY_CH20_PREBOSS_02"
+      "speaker_key": "ENEMY_LAST_LINE_WARDEN",
+      "text_key": "STORY_CH20_PREBOSS_02",
+      "portrait_asset_id": "enemy_boss023_dev"
     },
     {
-      "command": "set_expression",
-      "slot": "LEFT",
-      "expression": "RESOLVED"
+      "command": "dialogue",
+      "speaker_key": "ENEMY_LAST_LINE_WARDEN",
+      "text_key": "STORY_CH20_PREBOSS_03",
+      "portrait_asset_id": "enemy_boss023_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "ENEMY_LAST_LINE_WARDEN",
+      "text_key": "STORY_CH20_PREBOSS_04",
+      "portrait_asset_id": "enemy_boss023_dev"
     },
     {
       "command": "dialogue",
       "speaker_key": "CHAR_LAVENT_NAME",
-      "text_key": "STORY_CH20_PREBOSS_03"
+      "text_key": "STORY_CH20_PREBOSS_05",
+      "portrait_asset_id": "portrait_chr025_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH20_PREBOSS_06"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_CONTROL",
+      "text_key": "STORY_CH20_PREBOSS_07"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_CONTROL",
+      "text_key": "STORY_CH20_PREBOSS_08"
+    },
+    {
+      "command": "set_expression",
+      "slot": "CENTER",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH20_PREBOSS_09",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "choice",
+      "choices": [
+        {
+          "text_key": "CH20_CHOICE_SIGN",
+          "target": "c1_a",
+          "set_flag": "CH20_SIGN_NEW"
+        },
+        {
+          "text_key": "CH20_CHOICE_TOGETHER",
+          "target": "c1_b",
+          "set_flag": "CH20_SIGN_TOGETHER"
+        }
+      ]
+    },
+    {
+      "id": "c1_a",
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH20_PREBOSS_10"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_CH20_PREBOSS_11",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_b",
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH20_PREBOSS_12"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr013_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_REMA_NAME",
+      "text_key": "STORY_CH20_PREBOSS_13",
+      "portrait_asset_id": "portrait_chr013_dev"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_end",
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "enemy_boss023_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr025_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_CONTROL",
+      "text_key": "STORY_CH20_PREBOSS_14"
+    },
+    {
+      "command": "set_expression",
+      "slot": "CENTER",
+      "expression": "SAD"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH20_PREBOSS_15",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "ENEMY_LAST_LINE_WARDEN",
+      "text_key": "STORY_CH20_PREBOSS_16",
+      "portrait_asset_id": "enemy_boss023_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr002_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "BATTLE_FOCUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_CH20_PREBOSS_17",
+      "portrait_asset_id": "portrait_chr002_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr025_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "CENTER",
+      "expression": "BATTLE_FOCUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_LAVENT_NAME",
+      "text_key": "STORY_CH20_PREBOSS_18",
+      "portrait_asset_id": "portrait_chr025_dev"
     },
     {
       "command": "grant_reward",

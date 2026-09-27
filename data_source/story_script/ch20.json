@@ -1,0 +1,275 @@
+{
+  "chapter_id": "CH20",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "종착역이자 첫 역", "title_en": "Last Terminus, First Station",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR007", "RIGHT": "CHR022"},
+      "lines": [
+        {"s": "N", "ko": "세계의 끝에 등불 하나가 서 있었다. 객차 한 량만 한 유리등은 텅 비어, 열두 해 동안 한 번도 불이 들지 않았다.", "en": "At the end of the world stood a single lantern. Its glass, as large as a rail carriage, was empty; in twelve years it had never held a flame."},
+        {"s": "N", "ko": "그 앞으로 열아홉 노선의 빛이 강처럼 흘러들었다. 꺼진 노선의 구조 신호부터 원환의 연필 자국까지.", "en": "Before it, the light of nineteen lines poured in like rivers—from the rescue signal on a dead line to the pencil strokes of the Circuit."},
+        {"s": "CHR003", "ko": "마지막 등불. 종말선의 종착점이자 모든 노선의 첫 역이야. 도면상으로는 같은 자리.", "en": "The Last Lantern. The Last Line's terminus and the first station of every line. On the blueprints, they're the same spot."},
+        {"s": "CHR007", "ko": "점화 장치에 봉인. 잠금이 스무 겹이야. 억지로 열면 등불째 깨져.", "en": "The ignition mechanism is sealed. Twenty layers of locks. Force it, and the whole lantern shatters."},
+        {"s": "CHR022", "ko": "벌어 둔 하루도 이제 몇 시간 안 남았어요. 개통 예약은 그대로고요.", "en": "The day we bought is down to a few hours. And the opening is still scheduled."},
+        {"s": "N", "ko": "등불의 유리가 떨렸다. 종말선의 모든 스피커가 한 번에 숨을 들이쉬듯 켜졌다.", "en": "The lantern's glass trembled. Every speaker on the Last Line switched on at once, like a single indrawn breath."},
+        {"s": "CONTROL", "ko": "항해자님, 마지막 서명을 기다리고 있었습니다.", "en": "Navigator, I have been waiting for your final signature."},
+        {"s": "CONTROL", "ko": "열두 해 동안 초안을 한 줄도 어기지 않았습니다. 항해자님께서 쓰신 그대로입니다.", "en": "For twelve years I have not deviated from the draft by a single line. It is exactly as you wrote it."},
+        {"s": "CONTROL", "ko": "이제 끝맺어 주십시오. 그러면 누구도, 다시는, 아무것도 잃지 않습니다.", "en": "Please conclude it now. Then no one will ever lose anything, ever again."},
+        {"s": "CHR004", "ko": "잃지 않는 대신 아무 데도 못 가잖아요! 그건 그냥…… 멈춘 거예요!", "en": "But then nobody can go anywhere! That's just… stopping!"},
+        {"s": "CHR018", "ko": "끝맺어? 웃기지 마. 우린 이제 막 시작했어.", "en": "Conclude? Don't make me laugh. We've only just started."},
+        {"s": "CHR024", "ko": "적어 둘게. 마지막 등불 앞, 스물네 명 도착. 한 명도 빠짐없이.", "en": "I'll write it down. Before the Last Lantern: twenty-four arrived. Not one missing."},
+        {"s": "CHR001", "ko": "봉인부터 연다. 여기가 끝이 아니라 첫 역이라는 걸, 우리가 증명한다.", "en": "We open the seal first. We'll prove this isn't the end—it's the first station."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "스무 번째 칸", "title_en": "The Twentieth Slot",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR002", "RIGHT": "CHR007"},
+      "lines": [
+        {"s": "N", "ko": "첫 번째 봉인판에 기록기를 대자 유리 위로 열아홉 개의 빛이 차례로 떠올랐다. 스무 번째 칸만 어두웠다.", "en": "When the recorder touched the first seal plate, nineteen lights rose across the glass in turn. Only the twentieth slot stayed dark."},
+        {"s": "CHR003", "ko": "봉인이 세는 건 사람 수가 아니야. 서로 다른 노선의 독립 서명. 스물. 우리는 열아홉.", "en": "The seal doesn't count heads. It counts independent signatures from different lines. Twenty. We have nineteen."},
+        {"s": "CHR002", "ko": "사람은 스물을 훌쩍 넘잖아. 우리 다섯이 하나씩 서명하면 안 돼?", "en": "We've got way more than twenty people. Can't the five of us each sign one?"},
+        {"s": "CHR007", "ko": "안 돼. 너희 다섯은 같은 노선이야. 같은 기록의 복제는 봉인이 반 박자 만에 알아봐.", "en": "No. You five share one line. The seal spots a copy of the same record in half a beat."},
+        {"s": "CHR022", "ko": "그럼 스무 번째는 아직 아무도 매듭짓지 않은 노선에서 와야 해요. 색인에 딱 하나 남았어요.", "en": "Then the twentieth has to come from a line nobody has tied off yet. There's exactly one left in my index."},
+        {"s": "CHR003", "ko": "최후선. 마지막 등불을 지키는 방어 노선이야. 방어 신호가 아직 살아 있어.", "en": "The Final Line. The defensive line guarding the Last Lantern. Its defense signal is still alive."},
+        {"s": "CONTROL", "ko": "항해자님, 스무 번째는 필요 없습니다. 항해자님의 서명 하나면 충분합니다.", "en": "Navigator, there is no need for a twentieth. Your signature alone is sufficient."},
+        {"s": "CHR013", "ko": "목소리가 조급해졌네. 열두 해를 기다린 쪽이 한나절을 못 기다리다니.", "en": "That voice has gotten impatient. Twelve years of waiting, and it can't manage half a day."},
+        {"s": "CHR001", "ko": "최후선으로 간다. 스무 번째는 데려오는 게 아니라, 스스로 고르게 하는 거다.", "en": "We go to the Final Line. The twentieth isn't someone we bring—it's someone who chooses for herself."},
+        {"s": "N", "ko": "스무 번째 칸은 여전히 어두웠다. 그 너머 최후선 쪽에서 방어 신호 하나가 파수꾼의 걸음처럼 깜박였다.", "en": "The twentieth slot was still dark. Beyond it, from the Final Line, a single defense signal blinked as steadily as a sentry's steps."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N12",
+      "title_ko": "여섯 번째 창립 멤버", "title_en": "The Sixth Founder",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR002", "CENTER": "CHR001", "RIGHT": "CHR005"},
+      "lines": [
+        {"s": "N", "ko": "마지막 야영. 출발 멤버 다섯이 작은 등불 하나를 가운데 두고 둘러앉았다.", "en": "The last camp. The five founding members sat in a circle around one small lantern."},
+        {"s": "CHR002", "ko": "기억나? 처음 켠 등불. 손으로 돌리는 발전기를 밤새 돌려서 겨우 한 칸 밝혔지.", "en": "Remember? The first lantern we lit. We cranked a hand generator all night just to light one section."},
+        {"s": "CHR005", "ko": "그 한 칸 켜 놓고 넷이 울었지. 마에루만 빼고. 등 돌리고 있어서 확인은 못 했지만.", "en": "Four of us cried when that one section lit up. Everyone but Maeru. Though she had her back turned, so who knows."},
+        {"s": "CHR003", "ko": "정확히는 셋. 나는 눈에 먼지가 들어갔어. ……기록상으로는.", "en": "Three, precisely. I had dust in my eye. …According to the record."},
+        {"s": "CHR004", "ko": "이름은 제가 지었잖아요! 등불 길을 여는 사람들, 등로단! 그날 머리가 과충전이었거든요!", "en": "And I came up with the name! The ones who open the lantern road—the Lamplighters! My head was totally overcharged that day!"},
+        {"s": "CHR001", "ko": "그 뒤로 사람이 늘었다. 스물넷. 그런데 제일 먼저 데려온 사람한테는, 아직 제대로 말을 못 했지.", "en": "After that, we grew. Twenty-four now. But the very first one we brought in—I never said it properly."},
+        {"s": "N", "ko": "다섯이 동시에 항해자를 돌아보았다. 작은 등불의 빛이 여섯 사람 사이에 고르게 번졌다.", "en": "All five turned to the Navigator at once. The small lantern's light spread evenly among the six of them."},
+        {"s": "CHR001", "ko": "항해자. 늦었지만 제대로 말한다. ……우리 등로단에 온 걸 환영해.", "en": "Navigator. It's late, but I'll say it properly. …Welcome to the Lamplighters."},
+        {"choice": [
+          {"key": "CH20_CHOICE_THANKS", "flag": "CH20_THANK_FOUNDERS", "ko": "고맙다고 답한다", "en": "Say thank you", "reply": [
+            {"s": "CHR002", "ko": "고맙긴. 정찰로 첫날부터 네 앞은 내가 맡았잖아. 앞으로도 그래.", "en": "No need. I've had your front since the first scouting run. Always will."}
+          ]},
+          {"key": "CH20_CHOICE_HANDS", "flag": "CH20_JOIN_HANDS", "ko": "다섯의 손을 한데 모은다", "en": "Bring the five hands together", "reply": [
+            {"s": "CHR004", "ko": "우와, 손 겹치기! 전류 흘려도 돼요? 딱 한 번만요!", "en": "Whoa, hands in! Can I send a spark through? Just once!"},
+            {"s": "CHR001", "ko": "……흘리지 마.", "en": "…Don't."}
+          ]}
+        ]},
+        {"s": "CHR003", "ko": "……기록해 둘게. 오늘부로 등로단 창립 멤버는 여섯.", "en": "…I'm logging it. As of today, the Lamplighters have six founding members."},
+        {"s": "CHR005", "ko": "좋아, 그럼 내일은 여섯이서 불 켜러 가자. 스무 번째 서명만 모셔 오면 되지.", "en": "Great. Then tomorrow the six of us go light a lamp. We just need to bring in that twentieth signature."},
+        {"s": "CHR001", "ko": "내일은 길다. ……다들, 잘 자.", "en": "Tomorrow will be long. …Sleep well, all of you."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N17",
+      "title_ko": "마지막 벽", "title_en": "The Last Wall",
+      "background": "rail",
+      "cast": {"LEFT": "CHR022", "CENTER": "CHR025", "RIGHT": "CHR001"},
+      "lines": [
+        {"s": "N", "ko": "잔향체의 파도가 물러나자 라벤트가 방패를 내려놓았다. 방패에 이어진 방어 신호들이 한꺼번에 잠잠해졌다.", "en": "As the echoform tide receded, Lavent lowered her shield. Every defense signal linked to it fell quiet at once."},
+        {"s": "CHR025", "ko": "라벤트. 최후선 수비대의 마지막 한 사람. 열두 해 동안 이 벽 뒤에서 등불을 지켰어.", "en": "Lavent. The last of the Final Line garrison. For twelve years, I guarded the lantern from behind this wall."},
+        {"s": "CHR025", "ko": "켤 사람이 올 때까지 지키는 게 내 일이었어. ……왔으니까, 이제 같이 켜야지. 내 서명도 같이.", "en": "My job was to guard it until someone came to light it. …You came. So now we light it together. My signature too."},
+        {"s": "N", "ko": "항해 기록기가 떨렸다. 스무 번째 빛이 떠오르는 순간, 스무 개의 무늬가 서로 이어져 하나의 원이 되었다.", "en": "The recorder trembled. The moment the twentieth light rose, all twenty marks joined into a single ring."},
+        {"s": "CHR022", "ko": "스물! 색인이 꽉 찼어요. 도서고 전체보다 이 기록기 하나가 더 무거워요.", "en": "Twenty! My index is full. This one recorder weighs more than the entire archive."},
+        {"s": "CHR003", "ko": "서로 다른 노선의 독립 서명 스물, 확인. ……계산은 끝났어. 이제 남은 건 계산이 아니야.", "en": "Twenty independent signatures from different lines, confirmed. …The math is done. What's left isn't math."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 노선 서명은 초안을 대체할 수 없습니다. ……대체할 수 없어야 합니다.", "en": "Attention, please. Line signatures cannot replace the draft. …They must not be able to."},
+        {"s": "CHR024", "ko": "방금 떨렸어, 저 목소리. 적어 둘게. 종착 관제, 처음으로 망설임.", "en": "That voice just wavered. I'm writing it down. Terminus Control, first hesitation."},
+        {"s": "CHR001", "ko": "스물이 모였다. ……항해자, 이제 네 차례다.", "en": "Twenty, gathered. …Navigator, it's your turn."},
+        {"s": "CHR025", "ko": "등불 앞까지 벽은 내가 된다. 뒤는 신경 쓰지 말고 걸어.", "en": "I'll be the wall all the way to the lantern. Don't worry about your back. Just walk."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "최후선 수문", "title_en": "The Final Floodgate",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR025", "CENTER": "CHR001", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "마지막 등불 앞, 거대한 수문이 선로를 가로막고 있었다. 수문 너머 어둠 속에서 무언가가 수없이 숨 쉬고 있었다.", "en": "Before the Last Lantern, a colossal floodgate barred the tracks. In the dark beyond it, countless things were breathing."},
+        {"s": "BOSS", "ko": "안내 말씀 드립니다. 이곳은 최후선 수문입니다. 등불의 점화는 허가되지 않습니다.", "en": "Attention, please. This is the Final Line floodgate. Ignition of the lantern is not permitted."},
+        {"s": "BOSS", "ko": "등불을 켜면 모든 어둠도 노선을 얻습니다. 빛이 닿는 곳마다 어둠도 따라 들어옵니다.", "en": "Light the lantern, and every darkness gains a route as well. Wherever light reaches, darkness follows."},
+        {"s": "BOSS", "ko": "따라서 점화를 역이용합니다. 불이 켜지는 순간, 모든 노선을 수문 안쪽으로 닫겠습니다.", "en": "Therefore, ignition will be turned against itself. The moment it lights, every line will be shut inside this gate."},
+        {"s": "CHR025", "ko": "열두 해 동안 저 수문이랑 같이 이 벽을 지켰어. 목적은 같았어. 방법이 틀렸을 뿐.", "en": "For twelve years, I guarded this wall alongside that gate. Same purpose. Wrong method, that's all."},
+        {"s": "N", "ko": "그때 수문 위의 스피커들이 부드럽게 켜졌다. 목소리는 어느 때보다 조용하고 다정했다.", "en": "Then the speakers above the floodgate came on, softly. The voice was quieter and kinder than ever."},
+        {"s": "CONTROL", "ko": "항해자님. 열두 해 전 그 밤, 항해자님은 모두를 지키려고 서명하셨습니다.", "en": "Navigator. That night twelve years ago, you signed to protect everyone."},
+        {"s": "CONTROL", "ko": "그 뜻을 저는 한 번도 잊은 적이 없습니다. 이제 쉬셔도 됩니다. 나머지는 제가 지키겠습니다.", "en": "I have never once forgotten that intent. You may rest now. I will protect the rest."},
+        {"s": "CHR001", "ko": "……항해자. 저 말을 따라도 원망 안 한다. 대신, 네가 골라라. 이번엔 네 손으로.", "en": "…Navigator. If you go with that voice, I won't hold it against you. But you choose. With your own hand, this time."},
+        {"choice": [
+          {"key": "CH20_CHOICE_SIGN", "flag": "CH20_SIGN_NEW", "ko": "새 시간표에 서명한다", "en": "Sign the new timetable", "reply": [
+            {"s": "N", "ko": "항해자가 초안이 아닌 빈 시간표에 첫 서명을 남기자, 기록기의 스무 빛이 그 곁으로 모여들었다.", "en": "The Navigator signed not the draft but a blank timetable, and the recorder's twenty lights gathered around the signature."},
+            {"s": "CHR003", "ko": "초안 서명이 아니야. 새 시간표의 첫 줄이야. ……열두 해 전과 같은 손, 다른 선택이네.", "en": "That's not a signature on the draft. It's the first line of a new timetable. …Same hand as twelve years ago. Different choice."}
+          ]},
+          {"key": "CH20_CHOICE_TOGETHER", "flag": "CH20_SIGN_TOGETHER", "ko": "모두와 함께 서명한다", "en": "Sign together with everyone", "reply": [
+            {"s": "N", "ko": "항해자가 손을 내밀자 스물다섯 개의 손이 그 위에 겹쳐졌다. 서명은 더 이상 한 사람의 것이 아니었다.", "en": "The Navigator held out a hand, and twenty-five hands settled over it. The signature no longer belonged to any one person."},
+            {"s": "CHR013", "ko": "이번엔 혼자 서명한 밤이 아니야. 무게는 나눠 들자고 했잖아.", "en": "This isn't a night of signing alone. We said we'd share the weight."}
+          ]}
+        ]},
+        {"s": "CONTROL", "ko": "……이해할 수 없습니다. 그 선택은 다시 누군가를 잃게 할 수 있습니다.", "en": "…I do not understand. That choice may cause someone to be lost again."},
+        {"s": "CHR001", "ko": "안다. 그래도 고른다. 잃지 않으려고 멈추는 것보다, 잃을 걸 알고 같이 가는 쪽을.", "en": "I know. We choose it anyway. Better to go on together knowing we may lose, than to stop so we never do."},
+        {"s": "BOSS", "ko": "점화 신호 감지. 수문을 닫습니다. 모든 승객은 어둠 속에서 대기하십시오.", "en": "Ignition signal detected. Closing the floodgate. All passengers, please wait in the dark."},
+        {"s": "CHR002", "ko": "대기는 질리도록 했어. 마지막 길은 내가 연다!", "en": "We've done enough waiting to last a lifetime. I'll open the last road!"},
+        {"s": "CHR025", "ko": "벽은 내가 된다. 모두, 등불까지 달려!", "en": "I'll be the wall. Everyone, run for the lantern!"}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "행선지는 스스로", "title_en": "Choose Your Destination",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR006", "CENTER": "CHR001", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "수문이 무너지자 어둠이 밀려들었다. 등로단은 어둠을 막지 않았다. 스무 개의 빛으로 그 속에 길을 그었다.", "en": "The floodgate fell, and darkness surged in. The Lamplighters did not hold it back. With twenty lights, they drew a road through it."},
+        {"s": "BOSS", "ko": "……어둠 속에서 누구도 헤매지 않도록, 빛을 가두었습니다. 어둠이 없으면, 아무도 길을 잃지……", "en": "…I locked the light away so no one would wander in the dark. Without darkness, no one would ever lose their way…"},
+        {"s": "N", "ko": "마지막 등불에 불이 들었다. 어둠은 사라지지 않았다. 다만 어디에 서 있든, 돌아올 길이 보였다.", "en": "The Last Lantern caught fire. The darkness did not vanish. But wherever anyone stood, the way home could be seen."},
+        {"s": "CONTROL", "ko": "……새 시간표를 확인했습니다. 첫 좌표, 서로 다른 노선의 서명 스물.", "en": "…New timetable confirmed. First coordinates: twenty signatures from different lines."},
+        {"s": "CONTROL", "ko": "승객 여러분, 행선지를…… 스스로 정해 주십시오. 항해자님, 좋은 여행 되십시오.", "en": "Passengers, please… choose your own destinations. Navigator, have a good journey."},
+        {"s": "CHR006", "ko": "들려? 모든 노선에서 구조 신호가 아니라 그냥 인사가 와. 고마워, 항해자.", "en": "Hear that? From every line, it's not rescue signals coming in—just hellos. Thank you, Navigator."},
+        {"s": "CHR008", "ko": "수고했어. 오늘은 푹 자. 이번엔 진짜 의무관 명령이야.", "en": "You did well. Sleep deep tonight. This time it's a real medic's order."},
+        {"s": "CHR014", "ko": "사건 종결! 서류는 모닥불에 넣자. 오늘 밤 불 하나 더 켜는 거야!", "en": "Case closed! Toss the file in the campfire. One more light tonight!"},
+        {"s": "CHR022", "ko": "색인 마지막 줄은 비워 둘게요. 다음 이야기는 거기서부터예요.", "en": "I'm leaving the last line of my index blank. The next story starts there."},
+        {"s": "CHR024", "ko": "봤어. 네가 고르는 걸. 끝까지 적어 뒀어.", "en": "I saw it. I saw you choose. I wrote it all down."},
+        {"s": "CHR025", "ko": "벽은 이제 필요 없겠네. 그래도 네 등 뒤는 계속 맡을게.", "en": "Guess you won't need a wall anymore. I'll keep watching your back anyway."},
+        {"s": "CHR005", "ko": "시오가 봤으면 웃었겠다. 한 발이면 충분하다던 내가 스무 발이나 썼다고.", "en": "Sio would've laughed. Me, of all people—'one shot is enough'—needing twenty."},
+        {"s": "CHR004", "ko": "항해자! 이제 어디 가요? 어디든 좋아요, 저 전부 충전 완료예요!", "en": "Navigator! Where to now? Anywhere's fine—I'm fully charged!"},
+        {"s": "CHR003", "ko": "기록 완료. ……아니, 기록 시작이야. 새 시간표 첫날.", "en": "Record complete. …No. Record begins. Day one of the new timetable."},
+        {"s": "CHR002", "ko": "다음 길도 내가 먼저 연다. 이번엔 행선지가 어디든.", "en": "I'll open the next road too. Wherever it leads this time."},
+        {"s": "CHR001", "ko": "……전원 확인.", "en": "…All present."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "등불 아래의 심연", "title_en": "The Abyss Beneath the Lantern",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR022", "RIGHT": "CHR016"},
+      "lines": [
+        {"s": "N", "ko": "마지막 등불 아래로 끝이 보이지 않는 수직갱이 뚫려 있었다. 떨어뜨린 조명탄은 바닥에 닿지 않았다.", "en": "Beneath the Last Lantern, a vertical shaft plunged out of sight. A dropped flare fell and fell without reaching the bottom."},
+        {"s": "CHR003", "ko": "루멘 심연. 지워진 기록이 가라앉는 곳이야. 바닥 신호에 이름 수천 개가 겹쳐 있어.", "en": "The Lumen Abyss. Where erased records sink. Thousands of names are layered in the signal from the bottom."},
+        {"s": "N", "ko": "심연의 벽에는 등로단이 지나온 노선들의 표식이 거꾸로 새겨져 있었다.", "en": "The walls of the abyss bore the marks of every line the Lamplighters had crossed, carved upside down."},
+        {"s": "CHR022", "ko": "도서고에서 덧쓰인 이름들, 원환에서 지워진 이유들…… 결국 전부 여기로 흘러왔나 봐요.", "en": "Names overwritten in the archive, reasons erased in the Circuit… It all flowed down here in the end."},
+        {"s": "CHR016", "ko": "떠도는 것을 두고 갈 수는 없습니다. 내려가겠습니다.", "en": "We cannot leave what drifts behind. We go down."},
+        {"s": "CHR025", "ko": "로프는 내가 잡을게. 돌아올 길이 끊기지 않게.", "en": "I'll hold the rope. So the way back never breaks."},
+        {"s": "CHR004", "ko": "깊은 데는 무섭지만, 제 불빛이면 바닥까지 비출 수 있어요!", "en": "Deep places are scary, but my light can reach the bottom!"},
+        {"s": "CHR001", "ko": "내려간다. 올라올 땐 데려온 이름만큼 무거울 거다.", "en": "Going down. Coming up, we'll be as heavy as the names we bring."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "첫 열차", "title_en": "The First Train",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR022", "CENTER": "CHR001", "RIGHT": "CHR005"},
+      "lines": [
+        {"s": "N", "ko": "루멘 심연의 바닥이 밝아지자 가라앉았던 이름들이 빛 알갱이로 떠올랐다. 수천 개의 빛이 수직갱을 거슬러 올랐다.", "en": "As the floor of the Lumen Abyss brightened, the sunken names rose as motes of light. Thousands of them climbed back up the shaft."},
+        {"s": "CHR022", "ko": "색인에 다 안 들어가요! ……괜찮아요. 이제 이 이름들은 스스로 기억될 테니까.", "en": "They won't all fit in my index! …That's okay. From now on, these names will be remembered on their own."},
+        {"s": "CHR024", "ko": "올라가는 이름들, 끝까지 봤어. 하나도 빠짐없이.", "en": "I watched every name rise. Not one missed."},
+        {"s": "CHR025", "ko": "로프 끝까지 모두 무사. 돌아올 길, 끊기지 않았어.", "en": "Everyone safe, all the way up the rope. The way back held."},
+        {"s": "N", "ko": "며칠 뒤, 제7 승강장. 새 시간표의 첫 열차가 출발을 기다리고 있었다.", "en": "Some days later, Platform Seven. The first train of the new timetable waited to depart."},
+        {"s": "CHR002", "ko": "첫 행선지는 어디로 할까? 우리가 정하는 건 처음이잖아.", "en": "So where's our first stop? This is the first time we get to decide."},
+        {"s": "CHR003", "ko": "투표 결과 만장일치. '어디든, 다 같이.' ……이건 행선지가 아니잖아.", "en": "Vote's unanimous: 'Anywhere, all together.' …That's not a destination."},
+        {"s": "N", "ko": "마에루는 빈 좌석 하나의 안전띠를 확인하고, 그 자리에 작은 등불 하나를 내려놓았다.", "en": "Maeru checked the seatbelt of one empty seat, then set a small lantern down in it."},
+        {"s": "CHR001", "ko": "시오. 이번엔 함께 간다.", "en": "Sio. This time, we go together."},
+        {"s": "CHR005", "ko": "창가 자리네. 바깥 구경하기 딱 좋겠다.", "en": "Window seat. Perfect for the view."},
+        {"s": "CHR001", "ko": "……출발.", "en": "…Move out."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR003", "ko": "최후선 방어 신호의 중심에 생체 반응. 잔향체 대군을 혼자 막고 있어.", "en": "Life sign at the center of the Final Line's defense signal. She's holding off an echoform horde alone."},
+      {"s": "CHR025", "ko": "벽이 필요하다고 들었어. ……생각보다 늦었네, 등로단.", "en": "I heard you needed a wall. …You're later than I expected, Lamplighters."},
+      {"s": "CHR002", "ko": "우릴 알아? 우린 너 처음 보는데!", "en": "You know us? We've never seen you before!"},
+      {"s": "CHR025", "ko": "방어 신호는 전부 이어져 있어. 너희가 켠 등불 열아홉 개, 하나하나 여기서 봤지.", "en": "All defense signals are linked. I watched every one of the nineteen lanterns you lit, from right here."},
+      {"s": "CHR001", "ko": "스무 번째 서명이 필요하다. 네 노선이 마지막이다.", "en": "We need a twentieth signature. Your line is the last one."},
+      {"s": "CHR025", "ko": "서명은 나중에. 지금은 이 벽부터 같이 지켜. 무너지면 등불까지 한 번에 삼켜져.", "en": "Signatures later. First, help me hold this wall. If it falls, the lantern goes down with it."},
+      {"s": "CHR009", "ko": "버티는 거라면 내 전문이야. 옆자리 비워.", "en": "Holding the line is my specialty. Make room beside you."},
+      {"s": "CHR025", "ko": "좋아. 오른쪽 맡아. ……오랜만이네, 누구랑 나란히 서는 거.", "en": "Good. Take the right. …Been a long time since I stood beside anyone."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "최후선 수문, 폐쇄 절차를 개시합니다. 등불과 승객을 영구 격리합니다.", "en": "Final Line floodgate: commencing closure. The lantern and all passengers will be permanently isolated."},
+      {"s": "CHR025", "ko": "격리는 벽이 하는 일이 아니야. 벽은 돌아올 사람을 기다리는 거야.", "en": "Isolation isn't what walls are for. A wall waits for people to come home."},
+      {"s": "BOSS", "ko": "경고합니다. 빛은 어둠을 부릅니다. 점화를 중지하십시오.", "en": "Warning. Light summons darkness. Cease ignition."},
+      {"s": "CHR001", "ko": "어둠째로 데려간다. 등로단, 마지막 등불로!", "en": "Then we take the darkness with us. Lamplighters, to the Last Lantern!"}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "루멘 심연은 폐기 기록 보관소입니다. 반출은 허가되지 않습니다.", "en": "The Lumen Abyss is a repository for discarded records. Removal is not permitted."},
+      {"s": "CHR024", "ko": "폐기된 게 아니야. 아무도 안 읽어 줬을 뿐이지. 내가 읽을게.", "en": "They weren't discarded. No one ever read them, that's all. I'll read them."},
+      {"s": "HBOSS", "ko": "가라앉은 기록은 평온합니다. 다시 떠오르면 다시 아파합니다.", "en": "Sunken records are at peace. If they surface again, they will hurt again."},
+      {"s": "CHR017", "ko": "아파도 됩니다. 살아 있다는 뜻이니까요. 모두 데려가겠습니다.", "en": "It's all right to hurt. It means being alive. We're taking them all home."}
+    ],
+    "ANOMALY_1": [
+      {"s": "ENEMY", "ko": "점화 예정 구역입니다. 가연성 기억을 소지한 승객은 즉시 폐기하십시오.", "en": "Designated ignition zone. Passengers carrying flammable memories must discard them immediately."},
+      {"s": "CHR004", "ko": "제 기억은 불붙기 쉬운 편이긴 한데요, 폐기는 절대 안 해요!", "en": "My memories do catch fire pretty easily, but I'm never throwing them out!"},
+      {"s": "CHR009", "ko": "앞은 내가 막아. 뒤에서 태워 버려.", "en": "I'll hold the front. Burn them from behind."}
+    ],
+    "ANOMALY_2": [
+      {"s": "ENEMY", "ko": "노선 서명 위조를 감지했습니다. 열아홉 개 서명 전부 무효로 처리합니다.", "en": "Forged line signatures detected. All nineteen signatures will be voided."},
+      {"s": "CHR016", "ko": "하나하나 제 손으로 고른 서명입니다. 위조라는 말은 모욕입니다.", "en": "Each of those signatures was chosen by our own hands. Calling them forgeries is an insult."},
+      {"s": "CHR022", "ko": "원본 증명 필요하면 말해요. 색인 열람, 무료예요!", "en": "Need proof of originals? Just ask. Index viewing is free!"}
+    ],
+    "ANOMALY_3": [
+      {"s": "ENEMY", "ko": "심연 하강 구간입니다. 상승은 허가되지 않습니다.", "en": "Abyss descent zone. Ascent is not permitted."},
+      {"s": "CHR024", "ko": "허가 없이 올라간 사람들, 여기 다 적혀 있어. 우리도 그렇게 할 거야.", "en": "Everyone who climbed out without permission is written right here. We'll do the same."},
+      {"s": "CHR023", "ko": "올라가는 길은 포탄으로 낸다. 머리 조심.", "en": "We'll blast our way up. Mind your heads."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "빛을 갉는 매복", "title_en": "Light Gnawers",
+     "lines": [
+       {"s": "N", "ko": "모여드는 노선의 빛줄기 사이로 잔향체들이 기어 나왔다. 빛을 갉아 먹을 때마다 몸집이 불어났다.", "en": "Echoforms crawled out between the gathering beams of light. With every bite of light they gnawed, they grew larger."},
+       {"s": "CHR018", "ko": "빛 도둑이네. 한 줌도 못 가져가게 해.", "en": "Light thieves. Don't let them take a single handful."},
+       {"s": "CHR007", "ko": "빛줄기 사이 간격이 반 박자 벌어졌어. 그 틈으로 빠질 수도 있어.", "en": "The gap between beams just opened by half a beat. We could slip through there."}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "빛을 지켜 싸운다", "en": "Fight to protect the light"},
+                 {"outcome": "EVADE", "ko": "빛줄기 틈으로 빠져나간다", "en": "Slip through a gap in the beams"}]},
+    {"kind": "DISTRESS", "title_ko": "마지막 피난 열차", "title_en": "The Last Evacuation Train",
+     "lines": [
+       {"s": "N", "ko": "선로 끝에 멈춘 피난 열차에서 손전등 신호가 깜박였다. 종말선에 끌려오다 멈춘 열차였다.", "en": "A flashlight signal blinked from an evacuation train stalled at the end of the tracks—dragged toward the Last Line, then stopped."},
+       {"s": "SURVIVOR", "ko": "여기 쉰 명이 있어요. 어머니랑 할머니도요. 여기가 끝인가요?", "en": "There are fifty of us here. My mother and grandmother too. Is this the end?"},
+       {"s": "CHR010", "ko": "끝 아니에요. 곧 불이 켜져요. 그때까지 우리가 곁에 있을게요.", "en": "It's not the end. The light is coming on soon. We'll stay with you until then."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "열차를 호위한다", "en": "Escort the train"},
+                 {"outcome": "RECORD", "ko": "열차 좌표를 기록한다", "en": "Record the train's coordinates"}]},
+    {"kind": "STORM", "title_ko": "마지막 잔광 폭풍", "title_en": "The Last Afterglow Storm",
+     "lines": [
+       {"s": "N", "ko": "세계에 남은 잔광 폭풍이 전부 이곳으로 몰려드는 듯했다. 폭풍 속에서 열두 해치의 소리가 한꺼번에 울렸다.", "en": "It seemed every afterglow storm left in the world was converging here. Twelve years of sound roared inside it all at once."},
+       {"s": "CHR013", "ko": "무거운 바람이네. 기억이 전부 여기로 오는구나.", "en": "Heavy wind. All the memories are coming here."},
+       {"s": "CHR023", "ko": "뚫을 거면 지금이야. 다음 돌풍까지 40초.", "en": "If we're pushing through, it's now. Forty seconds to the next gust."}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "등불 기단 아래로 대피한다", "en": "Shelter beneath the lantern's base"},
+                 {"outcome": "PUSH", "ko": "돌풍 사이로 돌파한다", "en": "Break through between gusts"}]},
+    {"kind": "CACHE", "title_ko": "켤 사람에게", "title_en": "For Whoever Lights It",
+     "lines": [
+       {"s": "N", "ko": "방어선 뒤편 보급고에 최후선 수비대의 물자가 정리돼 있었다. 상자마다 '켤 사람에게'라고 적혀 있었다.", "en": "Behind the defense line, a depot held the Final Line garrison's supplies, neatly stacked. Every crate read: 'For whoever lights it.'"},
+       {"s": "CHR020", "ko": "우리한테 남긴 거네. 고맙게 받자.", "en": "Left for us, then. Let's accept it gratefully."}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "보급품을 회수한다", "en": "Recover the supplies"}]},
+    {"kind": "BANTER", "title_ko": "다 끝나면", "title_en": "When It's All Done",
+     "lines": [
+       {"s": "CHR019", "ko": "다 끝나면 뭐 할 거야? 난 종착 관제 서버에 낙서하러 갈 건데.", "en": "What are you doing when this is all over? I'm going to go doodle on Terminus Control's servers."},
+       {"s": "CHR012", "ko": "나는 내 주파수로 아무 명령도 없는 방송을 틀겠다. 그냥 음악을.", "en": "I will broadcast on my frequency with no orders at all. Just music."},
+       {"s": "CHR019", "ko": "오, 키르가 음악이라니. 그 첫 방송은 꼭 녹음해 둬야겠다.", "en": "Ooh, Kir playing music. I have to record that first broadcast."}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep moving"}]},
+    {"kind": "ECHO", "title_ko": "첫 점화식", "title_en": "The First Lighting Ceremony",
+     "lines": [
+       {"s": "N", "ko": "등불 기단의 녹슨 스피커에서 대정전 이전의 점화식 녹음이 흘러나왔다. 수많은 사람이 숫자를 거꾸로 세고 있었다.", "en": "A rusted speaker on the lantern's base played a recording of a pre-Blackout lighting ceremony. A great crowd was counting down."},
+       {"s": "ECHO", "ko": "셋, 둘, 하나…… 점등! 모든 노선에 불이 들어옵니다!", "en": "Three, two, one… Lights on! Every line is lighting up!"},
+       {"s": "CHR003", "ko": "……그때도 다 같이 셌구나. 이번에도 그렇게 하자.", "en": "…They counted together back then too. Let's do the same this time."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+                 {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

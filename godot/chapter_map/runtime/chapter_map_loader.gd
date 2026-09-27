@@ -5,6 +5,10 @@ const COMPILED_ROOT := "res://data/compiled/chapter_maps/"
 const MacroWorldGeneratorScript := preload("res://chapter_map/model/macro_world_generator.gd")
 const HexCoordScript := preload("res://chapter_map/model/hex_coord.gd")
 const HexGridScript := preload("res://chapter_map/model/hex_grid.gd")
+# Authored first meetings run up to ten voiced pages; boss pages add a few more.
+const MAX_DIALOGUE_PAGES := 16
+const DIALOGUE_SPEAKER_KINDS := ["COMMAND", "COMPANION", "ENEMY", "NARRATION", "VOICE"]
+const INCIDENT_KINDS := ["AMBUSH", "DISTRESS", "STORM", "CACHE", "BANTER", "ECHO"]
 static var cached_maps: Dictionary = {}
 
 static func load_map(map_id: String) -> Dictionary:
@@ -78,20 +82,9 @@ static func validate(definition: Dictionary) -> Array[String]:
 		if event_kind not in ["COMPANION", "SPECIAL_ENEMY"]: errors.append("event encounter kind invalid " + event_encounter_id)
 		if str(event_encounter.get("title_key", "")).is_empty() or str(event_encounter.get("body_key", "")).is_empty() or str(event_encounter.get("contact_outcome_key", "")).is_empty(): errors.append("event encounter localization missing " + event_encounter_id)
 		var dialogue: Array = event_encounter.get("pre_battle_dialogue", [])
-		if dialogue.size() < 2 or dialogue.size() > 4:
+		if dialogue.size() < 2 or dialogue.size() > MAX_DIALOGUE_PAGES:
 			errors.append("event encounter dialogue count invalid " + event_encounter_id)
-		for page_value in dialogue:
-			if not page_value is Dictionary:
-				errors.append("event encounter dialogue invalid " + event_encounter_id)
-				continue
-			var page: Dictionary = page_value
-			var speaker_kind := str(page.get("speaker_kind", ""))
-			if speaker_kind not in ["COMMAND", "COMPANION", "ENEMY"] or str(page.get("text_key", "")).is_empty():
-				errors.append("event encounter dialogue payload invalid " + event_encounter_id)
-			if speaker_kind == "COMPANION" and DataRegistry.character(str(page.get("speaker_id", ""))).is_empty():
-				errors.append("event encounter dialogue companion invalid " + event_encounter_id)
-			if speaker_kind == "ENEMY" and DataRegistry.enemy(str(page.get("speaker_id", ""))).is_empty():
-				errors.append("event encounter dialogue enemy invalid " + event_encounter_id)
+		errors.append_array(_dialogue_page_errors(dialogue, event_encounter_id))
 		var recruitments: Array = event_encounter.get("recruitments", [])
 		if recruitments.is_empty() and not str(event_encounter.get("character_id", "")).is_empty():
 			recruitments = [{
@@ -115,6 +108,22 @@ static func validate(definition: Dictionary) -> Array[String]:
 			if recruitment_timing == "AFTER_STAGE_CLEAR" and DataRegistry.stage(str(recruitment.get("recruit_after_stage_id", ""))).is_empty(): errors.append("event encounter recruit stage invalid " + event_encounter_id)
 			var route_battles := int(recruitment.get("battle_victories_required", 1))
 			if recruitment.has("battle_victories_required") and (route_battles < 1 or route_battles > 5): errors.append("event encounter battle route invalid " + event_encounter_id)
+	var incident_ids: Dictionary = {}
+	for incident_value in definition.get("incidents", []):
+		var incident: Dictionary = incident_value if incident_value is Dictionary else {}
+		var incident_id := str(incident.get("incident_id", ""))
+		if incident_id.is_empty() or incident_ids.has(incident_id): errors.append("invalid or duplicate incident " + incident_id)
+		incident_ids[incident_id] = true
+		if str(incident.get("kind", "")) not in INCIDENT_KINDS: errors.append("incident kind invalid " + incident_id)
+		if str(incident.get("title_key", "")).is_empty(): errors.append("incident title missing " + incident_id)
+		var incident_lines: Array = incident.get("lines", [])
+		if incident_lines.is_empty() or incident_lines.size() > 4: errors.append("incident line count invalid " + incident_id)
+		errors.append_array(_dialogue_page_errors(incident_lines, incident_id))
+		var incident_choices: Array = incident.get("choices", [])
+		if incident_choices.is_empty(): errors.append("incident without choices " + incident_id)
+		for choice_value in incident_choices:
+			var choice: Dictionary = choice_value if choice_value is Dictionary else {}
+			if str(choice.get("outcome", "")).is_empty() or str(choice.get("label_key", "")).is_empty(): errors.append("incident choice invalid " + incident_id)
 	var treasure_ids: Dictionary = {}
 	for treasure in definition.get("treasures", []):
 		var treasure_id := str(treasure.get("treasure_id", ""))
@@ -206,6 +215,22 @@ static func validate(definition: Dictionary) -> Array[String]:
 			var target_coord := Vector2i(int(target.q), int(target.r))
 			if grid.traversable(target_coord) and not connected.has(HexCoordScript.key(target_coord)):
 				errors.append("unreachable %s %s" % [str(target.kind), str(target.id)])
+	return errors
+
+static func _dialogue_page_errors(pages: Array, owner_id: String) -> Array[String]:
+	var errors: Array[String] = []
+	for page_value in pages:
+		if not page_value is Dictionary:
+			errors.append("dialogue page invalid " + owner_id)
+			continue
+		var page: Dictionary = page_value
+		var speaker_kind := str(page.get("speaker_kind", ""))
+		if speaker_kind not in DIALOGUE_SPEAKER_KINDS or str(page.get("text_key", "")).is_empty():
+			errors.append("dialogue payload invalid " + owner_id)
+		if speaker_kind == "COMPANION" and DataRegistry.character(str(page.get("speaker_id", ""))).is_empty():
+			errors.append("dialogue companion invalid " + owner_id)
+		if speaker_kind == "ENEMY" and DataRegistry.enemy(str(page.get("speaker_id", ""))).is_empty():
+			errors.append("dialogue enemy invalid " + owner_id)
 	return errors
 
 static func node_for_stage(definition: Dictionary, stage_id: String) -> Dictionary:

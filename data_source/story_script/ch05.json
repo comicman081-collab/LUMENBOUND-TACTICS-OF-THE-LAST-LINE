@@ -1,0 +1,268 @@
+{
+  "chapter_id": "CH05",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "잿빛 성벽",
+      "title_en": "The Ashen Wall",
+      "background": "rail",
+      "cast": {"LEFT": "CHR009", "CENTER": "CHR003", "RIGHT": "CHR002"},
+      "lines": [
+        {"s": "N", "ko": "재가 눈처럼 내렸다. 회백도시의 성벽은 열두 해째 안쪽에서 두드려지고 있었다.", "en": "Ash fell like snow. For twelve years, someone had been knocking on the Ashen City's walls from the inside."},
+        {"s": "CHR009", "ko": "수몰 신호원 기록의 마지막 수신처가 여기야. 늦은 건 알아. 그래도 전해야 해.", "en": "This is the last address on the drowned yard's records. I know we're late. It still gets delivered."},
+        {"s": "CHR003", "ko": "두드리는 간격이 일정하지 않아. 기계 박자가 아니야. 사람 손이야.", "en": "The knocking isn't evenly spaced. That's not a machine's rhythm. Those are hands."},
+        {"s": "CHR002", "ko": "성문은 봉쇄 모드, 틈이 없어. 담을 넘기엔 재가 너무 뜨겁고.", "en": "Gate's in lockdown. Not a crack. And the ash is too hot to climb over."},
+        {"s": "CHR004", "ko": "문을 두드리는데 아무도 안 열어 줬다고요? 열두 해 동안요?", "en": "They've been knocking and nobody opened up? For twelve years?"},
+        {"s": "CHR006", "ko": "성벽 안에서 신호 수백 개. 전부 같은 말을 보내고 있어. '들어 주세요.'", "en": "Hundreds of signals behind the wall. All sending the same words: 'Please listen.'"},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 회백도시 봉쇄는 여러분을 보호하기 위한 것입니다.", "en": "Attention, please. The Ashen City blockade exists for your protection."},
+        {"s": "CONTROL", "ko": "항해자님께서는 성벽 바깥에 머무르십시오. 안쪽은 이미 집계가 끝났습니다.", "en": "Navigator, kindly remain outside the walls. The count inside has already been completed."},
+        {"s": "CHR005", "ko": "집계가 끝났다라. 사람을 창고 재고처럼 말하네.", "en": "'The count is complete.' Talks about people like warehouse stock."},
+        {"s": "CHR008", "ko": "두드리는 소리가 점점 약해져. 두드리는 손도 약해지고 있다는 뜻이야.", "en": "The knocking's getting weaker. That means the hands are, too."},
+        {"s": "CHR001", "ko": "방송이 머물라고 하면, 우리는 두드리는 쪽으로 간다.", "en": "When the broadcast says stay, we go toward the knocking."},
+        {"s": "CHR007", "ko": "성벽 밑에 배수로가 있어. 폭은 한 사람. 한 명씩 들어가야 해.", "en": "There's a drainage channel under the wall. One body wide. We go in single file."},
+        {"s": "CHR001", "ko": "한 명씩 들어가서, 한 명도 빠짐없이 나온다. 안쪽 인원부터 센다.", "en": "One at a time in, and every one of us out. First, we count who's inside."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "증언 보관",
+      "title_en": "Testimony in Storage",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR009", "RIGHT": "CHR006"},
+      "lines": [
+        {"s": "N", "ko": "첫 격리동의 문에서 쇳내가 났다. 딱지에는 '감염 위험'이 아니라 '증언 보관'이라 적혀 있었다.", "en": "The first quarantine door smelled of rust. Its seal read not 'Infection Risk' but 'Testimony in Storage.'"},
+        {"s": "CHR003", "ko": "감염 기록이 하나도 없어. 격리 사유는 전부 같아. '목격자.'", "en": "Not one infection record. Every quarantine order gives the same reason: 'Witness.'"},
+        {"s": "CHR009", "ko": "……병이 아니라, 본 것 때문에 가뒀다고?", "en": "…They locked people up not for sickness, but for what they saw?"},
+        {"s": "SURVIVOR", "ko": "열어 주지 않아도 돼요. 대신 들어 주세요. 우리가 본 걸.", "en": "You don't have to open the door. Just listen. To what we saw."},
+        {"s": "SURVIVOR", "ko": "그날 밤, 관제탑 불이 한꺼번에 켜졌어요. 그리고 누군가 서명했어요.", "en": "That night, every light in the control tower came on at once. And someone signed."},
+        {"s": "CHR006", "ko": "서명이요? 무슨 서명을요? 누가요?", "en": "Signed? Signed what? Who?"},
+        {"s": "SURVIVOR", "ko": "얼굴은 못 봤어요. 도시 전체가 그 빛을 봤고, 다음 날 성문이 닫혔어요.", "en": "We never saw a face. The whole city saw that light, and the next day the gates closed."},
+        {"s": "CHR005", "ko": "도시 하나가 통째로 증인이란 거네. 그러니 통째로 가뒀고.", "en": "So a whole city became a witness. And got locked up whole."},
+        {"s": "CHR001", "ko": "증언은 옮지 않는다. 문 열 방법을 찾는다. 먼저 이 사람들이 숨 쉴 공기부터.", "en": "Testimony isn't contagious. We find a way to open these doors. Air for these people comes first."},
+        {"s": "CHR008", "ko": "안쪽 구역에 부상자 신호가 모여 있어. 봉쇄 안에서 누가 치료를 계속하고 있어.", "en": "There's a cluster of injured signals deeper in. Someone inside the blockade is still treating them."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N09",
+      "title_ko": "다섯 번째 무늬",
+      "title_en": "The Fifth Mark",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR008", "CENTER": "CHR010", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "마지막 봉합이 끝나자 바리케이드 뒤에서 스물세 사람의 숨소리가 고르게 이어졌다.", "en": "When the last stitch was tied, twenty-three people behind the barricade breathed evenly."},
+        {"s": "CHR010", "ko": "이제 옮겨도 돼요. 세온이에요. 이 구역 현장 의무관이고요. 버텨 줘서 고마워요.", "en": "They can be moved now. I'm Seon, field medic for this sector. Thank you for holding the line."},
+        {"s": "CHR008", "ko": "혼자서 스물셋을? 약이며 붕대는 어디서 구했어?", "en": "Twenty-three, on your own? Where did you even find medicine and bandages?"},
+        {"s": "CHR010", "ko": "폐기된 의료 명부요. 성채는 쓰레기로 분류했지만, 누가 어디 누웠는지 다 적혀 있어요.", "en": "A discarded medical register. The citadel filed it as trash, but it lists who's lying where."},
+        {"s": "CHR003", "ko": "명부 좌표를 지도에 겹치면…… 성채 포격 범위 밖으로 회랑 하나가 이어져.", "en": "Overlay the register on the map and… one corridor runs outside the citadel's firing range."},
+        {"s": "CHR010", "ko": "생존자 구역이랑 회랑을 가를 수 있어요. 성채는 사람을 세기만 하지, 누가 아픈지는 몰라요.", "en": "Then we can separate the survivor wards from the corridor. The citadel counts people. It doesn't know who's sick."},
+        {"s": "CHR001", "ko": "피난 행렬을 이끌어 줘. 앞은 우리가 연다.", "en": "Lead the evacuation. We'll open the way ahead."},
+        {"s": "CHR010", "ko": "아뇨, 맨 뒤에 설게요. 마지막 환자까지 제가 봐야 하니까요. 그러려면 같이 가야겠네요.", "en": "No, I'll take the rear. I need eyes on the very last patient. Which means I'm coming with you."},
+        {"s": "N", "ko": "항해 기록기가 빛났다. 앞선 네 무늬 곁에 다섯 번째 무늬가 조용히 새겨졌다.", "en": "The voyage recorder glowed. Beside the first four marks, a fifth etched itself quietly."},
+        {"s": "CHR005", "ko": "다섯 개째. 합류할 때마다 늘어나네. 우연이라기엔 너무 성실한데.", "en": "Number five. One more every time someone joins. Awfully diligent for a coincidence."},
+        {"s": "CHR001", "ko": "의미는 나중에 따진다. 회랑이 닫히기 전에 행렬을 움직인다.", "en": "We'll work out what it means later. Move the column before the corridor closes."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N12",
+      "title_ko": "먹히지 않은 농담",
+      "title_en": "The Joke That Fell Flat",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR010", "CENTER": "CHR008", "RIGHT": "CHR002"},
+      "lines": [
+        {"s": "N", "ko": "회랑 끝 폐역사에 천막 마흔 동이 섰다. 재 냄새 사이로 끓인 보리죽 냄새가 번졌다.", "en": "Forty tents went up in a dead station at the corridor's end. Barley porridge cut through the smell of ash."},
+        {"s": "CHR010", "ko": "이리, 3번 천막 할머니요. 폐 소리가 거칠어요. 기록 좀 맞춰 봐 줄래요?", "en": "Iri, the grandmother in tent three. Her lungs sound rough. Can we compare records?"},
+        {"s": "CHR008", "ko": "내 기록엔 호흡 정상인데…… 아, 재를 마신 날짜가 달라. 네 기록이 맞아.", "en": "Mine says her breathing's fine… oh, the ash exposure date is off. Yours is right."},
+        {"s": "CHR010", "ko": "둘이 맞추니까 빠르네요. 혼자선 매일 밤 틀린 데가 없나 세어 봤거든요.", "en": "It's faster with two. Alone, I spent every night checking for mistakes."},
+        {"s": "CHR002", "ko": "자, 분위기 좀 띄워 볼까? 재 내리는 도시에서 제일 잘 팔리는 게 뭘까요. 우산!", "en": "All right, let's lift the mood. What sells best in a city where it rains ash? Umbrellas!"},
+        {"s": "N", "ko": "아무도 웃지 않았다. 천막 사이로 누군가 소리 죽여 우는 소리만 이어졌다.", "en": "No one laughed. Between the tents, someone kept crying quietly."},
+        {"s": "CHR002", "ko": "……안 먹히네. 처음이야, 이런 거.", "en": "…Nothing. That's a first."},
+        {"s": "CHR009", "ko": "여기 사람들은 열두 해 동안 문을 두드렸어. 우산 얘기로는 모자라.", "en": "These people knocked on a door for twelve years. An umbrella joke won't cover that."},
+        {"s": "CHR002", "ko": "알아. 그래서 해 본 거야. 뭐라도 안 하면 이 무게에 깔릴 것 같아서.", "en": "I know. That's why I tried. Felt like if I didn't do something, the weight would flatten me."},
+        {"choice": [
+          {"key": "CHOICE_CH05_SIT_ROAN", "flag": "CH05_SIT_ROAN", "ko": "로안 곁에 앉는다", "en": "Sit beside Roan", "reply": [
+            {"s": "CHR002", "ko": "……고마워, 항해자. 다음 농담은 제대로 된 걸로 준비해 둘게.", "en": "…Thanks, Navigator. I'll have a proper joke ready next time."}
+          ]},
+          {"key": "CHOICE_CH05_ASK_NAMES", "flag": "CH05_ASK_NAMES", "ko": "천막을 돌며 이름을 묻는다", "en": "Go tent to tent asking names", "reply": [
+            {"s": "CHR010", "ko": "이름을 물어봐 주는 사람, 여기선 처음이에요. 다들 번호로만 불렸거든요.", "en": "You're the first to ask their names here. Everyone's only ever been a number."}
+          ]}
+        ]},
+        {"s": "CHR001", "ko": "성채는 이 사람들을 숫자로 센다. 우리는 이름으로 센다. 내일 그 차이를 보여 준다.", "en": "The citadel counts these people as numbers. We count them by name. Tomorrow, we show it the difference."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "집계 완료",
+      "title_en": "Count Complete",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR010", "CENTER": "CHR003", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "성채의 포문 백여 개가 일제히 회랑을 향해 돌았다. 내리던 재마저 멎은 듯 공기가 무거웠다.", "en": "Over a hundred citadel gunports swung toward the corridor at once. The air grew so heavy the ash seemed to stop falling."},
+        {"s": "BOSS", "ko": "승객 여러분께 알려 드립니다. 생존자 수 집계를 완료하였습니다.", "en": "Passengers, please be advised. The survivor count is complete."},
+        {"s": "BOSS", "ko": "집계 인원 이천사백십 명. 위협도 최상. 회랑을 포격 목표로 지정합니다.", "en": "Total: two thousand four hundred and ten. Threat level: maximum. The corridor is now designated a bombardment target."},
+        {"s": "CHR010", "ko": "이천사백…… 제가 센 것보다 훨씬 많아요. 다른 구역에도 사람이 있었어요.", "en": "Twenty-four hundred… That's far more than I counted. There were people in other wards, too."},
+        {"s": "CHR003", "ko": "위협도 산정 기준이 뒤틀렸어. 인원이 많을수록 올라가. 살아 있는 게 곧 위협이야.", "en": "Its threat formula is twisted. The more people, the higher it goes. Being alive is the threat."},
+        {"s": "CHR006", "ko": "왜 사람을 세서 쏘는 거야? 성채는 도시를 지키려고 세운 거잖아!", "en": "Why count people just to shoot them? The citadel was built to protect this city!"},
+        {"s": "BOSS", "ko": "봉쇄 구역 밖으로 이동하는 인원은 미확인 인원입니다. 미확인 인원은 보호할 수 없습니다.", "en": "Anyone moving beyond the blockade is unverified. Unverified persons cannot be protected."},
+        {"s": "CHR009", "ko": "보호할 수 없으면 없애겠다는 거냐. 늦게 온 나도 그런 말은 안 해.", "en": "So if you can't protect them, you erase them? Even I, who came too late, never said that."},
+        {"s": "CHR005", "ko": "포문 백 개라. 이쪽은 한 발이면 충분한데, 줄 서는 순서가 문제네.", "en": "A hundred gunports. I only need one shot. Question is who goes first."},
+        {"s": "CHR010", "ko": "행렬은 제가 뒤에서 붙잡을게요. 한 명도 흩어지지 않게요.", "en": "I'll hold the column together from the back. Not one person strays."},
+        {"s": "CHR004", "ko": "과충전 완료! 저 포문들, 하나씩 합선시켜 줄게요!", "en": "Fully overcharged! I'll short out those gunports one by one!"},
+        {"s": "CHR002", "ko": "길은 내가 연다. 성채 발밑까지.", "en": "I'll open the way. Right to the citadel's feet."},
+        {"s": "CHR001", "ko": "회랑 앞에 선다. 포탄이 사람을 세기 전에, 우리가 먼저 선다.", "en": "We stand in front of the corridor. Before any shell can count a single person, we're there."}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "열린 성문",
+      "title_en": "The Open Gate",
+      "background": "rail",
+      "cast": {"LEFT": "CHR010", "CENTER": "CHR001", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "포문이 하나씩 식어 갔다. 재 너머로 열두 해 만에 성문 여는 소리가 길게 울렸다.", "en": "One by one the gunports went cold. Past the ash, the groan of the gate opening rang out for the first time in twelve years."},
+        {"s": "BOSS", "ko": "……집계를 종료합니다. 모두 셀 수 있으면, 아무도 사라지지……", "en": "…Ending the count. If everyone could be counted, then no one would ever vanish…"},
+        {"s": "N", "ko": "두드리던 손들이 멈췄다. 이천사백십 명이 처음으로 성벽 바깥의 공기를 마셨다.", "en": "The knocking hands fell still. Two thousand four hundred and ten people breathed air from beyond the wall."},
+        {"s": "CHR010", "ko": "천천히요, 천천히! 걷기 힘든 분은 손 드세요. 제가 갈게요.", "en": "Slowly, slowly! If walking's hard, raise your hand. I'll come to you."},
+        {"s": "CHR009", "ko": "……늦었지만, 전했다. 수몰 신호원의 기록, 봉쇄 관제소에 넣었어.", "en": "…Late, but delivered. The drowned yard's records are in the blockade control office."},
+        {"s": "CHR003", "ko": "도시 예비 전력이 풀렸어. 그런데 흐름이 이상해. 전부 북동쪽으로 빨려 가.", "en": "The city's reserve power is free. But the flow is wrong. It's all being drawn northeast."},
+        {"s": "CHR007", "ko": "하늘교량 쪽이야. 피난 전력이 교량으로 우회하고 있어. 거기서 누가 받아먹고 있어.", "en": "Toward Skybridge. The evacuation power is rerouting there. Something is feeding on it."},
+        {"s": "CONTROL", "ko": "항해자님, 이 도시는 그날 밤 당신의 명령을 목격했습니다.", "en": "Navigator, on that night, this city witnessed your command."},
+        {"s": "N", "ko": "방송은 그것으로 끊겼다. 광장을 메운 시선이 천천히 항해자에게 모였다.", "en": "The broadcast ended there. Every gaze in the square slowly turned to the Navigator."},
+        {"s": "CHR004", "ko": "……명령이요? 항해자가요? 무슨 소리예요, 저거?", "en": "…A command? The Navigator? What is that supposed to mean?"},
+        {"s": "CHR006", "ko": "흔들어 보려는 거야. 신호 추적자로서 말하는데, 저건 증거가 아니라 방송이야.", "en": "It's trying to shake us. Speaking as a signal tracker, that's a broadcast, not evidence."},
+        {"s": "CHR001", "ko": "그날 밤 누가 무엇을 했든, 오늘 이 문을 연 건 항해자다. 그건 내가 봤다.", "en": "Whatever anyone did that night, the one who opened this gate today was the Navigator. I saw that myself."},
+        {"s": "CHR010", "ko": "증언은 제가 받아 적어 둘게요. 전부 모이면, 그때 판단해도 늦지 않아요.", "en": "I'll take down the testimony. Once it's all gathered, there's time enough to judge."},
+        {"s": "CHR001", "ko": "하늘교량으로 간다. 이 도시 사람들이 언젠가 건너야 할 다리다.", "en": "We head for Skybridge. It's a bridge these people will have to cross someday."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "증인의 법정",
+      "title_en": "Court of Witnesses",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR010", "RIGHT": "CHR005"},
+      "lines": [
+        {"s": "N", "ko": "성벽 아래로 내려가자 재가 멎었다. 무너진 방청석과 판사석이 어둠 속에 줄지어 있었다.", "en": "Beneath the wall, the ash stopped. Collapsed galleries and a judge's bench lined up in the dark."},
+        {"s": "CHR003", "ko": "재판정이야. 대정전 다음 날부터 열렸어. 피고 명단은…… 전부 증인들이야.", "en": "A courtroom. It opened the day after the Blackout. And the defendants are… all witnesses."},
+        {"s": "CHR010", "ko": "제 환자들 이름이 몇 개 있어요. 본 걸 말했다는 이유만으로요.", "en": "Some of my patients are on it. Just for saying what they saw."},
+        {"s": "CHR005", "ko": "증인을 벌주는 재판이라. 순서가 완전히 거꾸로네.", "en": "A trial that punishes the witnesses. That's backward from start to finish."},
+        {"s": "CHR008", "ko": "판사석에 아직 신호가 돌아. 판결이 한 번도 멈추지 않았다는 뜻이야.", "en": "There's still a signal running at the bench. The verdicts never stopped."},
+        {"s": "CHR002", "ko": "위쪽 포대에서 조준음이 나. 누가 여길 겨누고 있어.", "en": "Targeting tone from the battery above. Someone has us in their sights."},
+        {"s": "CHR001", "ko": "판결을 멈춘다. 증인이 벌받는 법정은 오늘 문을 닫는다.", "en": "We stop the verdicts. A court that punishes witnesses closes today."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "공개된 증언",
+      "title_en": "Testimony Released",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR030", "RIGHT": "CHR005"},
+      "lines": [
+        {"s": "N", "ko": "판사석의 불이 꺼졌다. 봉인 상자 수천 개가 한꺼번에 열리며 종이 스치는 소리가 법정을 채웠다.", "en": "The bench went dark. Thousands of sealed boxes opened at once, and the rustle of paper filled the court."},
+        {"s": "HBOSS", "ko": "……위험한 기억을 가둬 두면, 도시는 조용히……", "en": "…If dangerous memories stay locked away, the city can sleep quietly…"},
+        {"s": "CHR003", "ko": "증언 기록 사천여 건. 분류가 '위험물'에서 '공개'로 바뀌고 있어.", "en": "Over four thousand testimonies. Their classification is flipping from 'Hazard' to 'Public.'"},
+        {"s": "CHR010", "ko": "이제 이 사람들이 본 걸, 도시 밖에서도 들을 수 있어요.", "en": "Now what these people saw can be heard outside the city, too."},
+        {"s": "CHR030", "ko": "……성문 연 거, 진짜 당신들이었구나. 포 겨눈 건 사과 안 해. 확인이 내 일이니까.", "en": "…So you really did open the gate. I'm not apologizing for aiming at you. Checking is my job."},
+        {"s": "CHR030", "ko": "대신 하늘은 내가 봐 줄게. 방공포 조작수가 할 일이 아직 남은 것 같거든.", "en": "But I'll watch the sky for you. Seems an anti-air gunner still has work to do."},
+        {"s": "CHR005", "ko": "각도 지적한 건 사과할게. 한 발 맞은 걸로 쳐 줘.", "en": "I'll apologize for critiquing your angle. Call it even for the shot I took."},
+        {"s": "CHR030", "ko": "안 쳐 줘. 다음에 내가 더 잘 쏘면, 그때 쳐 줄게.", "en": "Not even. When I outshoot you, then we're even."},
+        {"s": "CHR001", "ko": "증언은 이제 제 발로 간다. 우리는 교량으로 간다.", "en": "The testimony can walk on its own now. We go to the bridge."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR002", "ko": "바리케이드 뒤에 한 사람. 주위에 누운 사람이…… 스물이 넘어.", "en": "One person behind the barricade. And lying around her… more than twenty."},
+      {"s": "CHR010", "ko": "거기 멈춰요! 한 발만 더 오면 재가 들어와요. 여긴 지금 수술 중이에요.", "en": "Stop right there! One more step and you'll bring the ash in. I'm in the middle of surgery."},
+      {"s": "CHR001", "ko": "등로단이다. 부상자를 옮기러 왔다.", "en": "We're the Lamplighters. We've come to move the wounded."},
+      {"s": "CHR010", "ko": "지금 옮기면 죽어요. 치료가 끝날 때까지 여긴 못 비워요.", "en": "Move them now and they'll die. I can't leave this place until the treatment's done."},
+      {"s": "CHR010", "ko": "대신 저것들이 오고 있어요. 방송만 울리면 몰려드는 것들이에요.", "en": "But those things are coming. They swarm whenever the broadcast sounds."},
+      {"s": "CHR004", "ko": "그럼 저희가 막으면 되죠! 수술 계속하세요!", "en": "Then we'll hold them off! Keep operating!"},
+      {"s": "CHR010", "ko": "……고마워요. 봉합 세 번이면 끝나요. 그동안만 버텨 줘요.", "en": "…Thank you. Three more sutures. Just hold them that long."}
+    ],
+    "WANDERER": [
+      {"s": "CHR003", "ko": "위쪽 방공포대에서 조준 신호. 우리를 정확히 겨누고 있어.", "en": "Targeting signal from the anti-air battery. It's locked right on us."},
+      {"s": "CHR030", "ko": "거기, 행렬 끝! 봉쇄군 새 편대야? 이번엔 몇 명을 세러 왔는데?", "en": "You, at the back! New blockade squad? How many are you here to count this time?"},
+      {"s": "CHR001", "ko": "봉쇄군이 아니다. 등로단이다. 성문을 연 건 우리다.", "en": "We're not the blockade. We're the Lamplighters. We opened the gate."},
+      {"s": "CHR030", "ko": "웃기지 마. 성문은 열두 해 동안 안 열렸어. 그 말 하던 건 전부 성채 확성기였고.", "en": "Don't make me laugh. That gate's been shut twelve years. Only the citadel's speakers ever said otherwise."},
+      {"s": "CHR005", "ko": "그 포, 조준이 3도쯤 왼쪽으로 틀어져 있네. 그 각도로는 우리 못 맞혀.", "en": "Your gun's about three degrees left. You won't hit us at that angle."},
+      {"s": "CHR030", "ko": "……뭐? 지금 내 포 각도를 지적했어? 좋아, 한 발 먼저 맞아 보고 말해!", "en": "…Excuse me? You're critiquing my aim? Fine. Take a shot first, then talk!"},
+      {"s": "CHR002", "ko": "대화는 끝난 모양이네. 저 포대까지 한달음에 올라가 주지.", "en": "Guess that's the end of the talking. I'll be up at that battery in one sprint."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "집계 외 인원이 접근 중입니다. 즉시 번호를 부여받으십시오.", "en": "Uncounted persons approaching. Report at once to be assigned a number."},
+      {"s": "CHR010", "ko": "번호는 필요 없어요. 여기 있는 사람들은 전부 이름이 있어요.", "en": "No one needs a number. Every person here has a name."},
+      {"s": "CHR001", "ko": "포문을 닫아라. 회랑은 넘겨주지 않는다.", "en": "Close your gunports. The corridor is not yours."},
+      {"s": "BOSS", "ko": "번호 수령 거부를 확인했습니다. 위협도를 재산정합니다.", "en": "Refusal of numbering confirmed. Recalculating threat level."}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "개정합니다. 증인 전원에 대해 위험물 분류를 유지합니다.", "en": "Court is in session. All witnesses remain classified as hazardous material."},
+      {"s": "CHR010", "ko": "그 사람들은 위험물이 아니에요. 본 걸 말했을 뿐이에요.", "en": "Those people aren't hazards. They only said what they saw."},
+      {"s": "HBOSS", "ko": "증언은 도시를 불안하게 합니다. 불안은 봉쇄 사유입니다.", "en": "Testimony unsettles the city. Unrest is grounds for blockade."},
+      {"s": "CHR001", "ko": "그럼 판결을 뒤집는다. 증언은 밖으로 나간다.", "en": "Then we overturn the verdict. The testimony goes out."}
+    ],
+    "ANOMALY_1": [
+      {"s": "CHR003", "ko": "재 속에서 계수기 신호. 우리 머릿수를 세고 있어.", "en": "Counter signal in the ash. It's taking a headcount of us."},
+      {"s": "ENEMY", "ko": "미등록 인원 다섯…… 여섯…… 일곱. 계수를 계속합니다.", "en": "Unregistered persons: five… six… seven. Continuing count."},
+      {"s": "CHR002", "ko": "셀 거면 끝까지 세 봐. 다 세기 전에 끝내 줄 테니까.", "en": "Go on, count to the end. We'll finish you before you do."}
+    ],
+    "ANOMALY_2": [
+      {"s": "CHR009", "ko": "벽이 움직여. 봉쇄선이 우리 쪽으로 밀려와.", "en": "The wall's moving. The blockade line is pushing toward us."},
+      {"s": "ENEMY", "ko": "봉쇄선을 확장합니다. 안쪽에 계신 분은 안쪽에 머무르십시오.", "en": "Expanding the blockade. Those inside, please remain inside."},
+      {"s": "CHR001", "ko": "안쪽이 어디인지는 우리가 정한다. 밀어낸다.", "en": "We decide where inside is. Push it back."}
+    ],
+    "ANOMALY_3": [
+      {"s": "ENEMY", "ko": "정숙하십시오. 증인에게는 발언권이 없습니다.", "en": "Order in the court. Witnesses have no right to speak."},
+      {"s": "CHR004", "ko": "발언권은 없어도 번개는 있거든요! 정숙은 그쪽이 해요!", "en": "Maybe not, but we've got lightning! You be quiet!"},
+      {"s": "CHR007", "ko": "법정 경위 신호야. 판결 집행용이야. 방청석 뒤로 돌아가.", "en": "That's a bailiff signal, built to carry out sentences. Circle behind the gallery."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "기침 소리", "title_en": "The Cough",
+     "lines": [
+       {"s": "N", "ko": "재 더미가 일어섰다. 잔향체가 피난민의 기침 소리를 흉내 내며 다가왔다.", "en": "A heap of ash rose up. Echoforms approached, mimicking the coughs of refugees."},
+       {"s": "CHR008", "ko": "기침 소리를 흉내 내다니…… 돕겠다고 나오는 사람을 노리는 거야.", "en": "Imitating coughs… It's baiting anyone who comes out to help."}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "교전한다", "en": "Engage"}, {"outcome": "EVADE", "ko": "골목으로 우회한다", "en": "Detour through the alleys"}]},
+    {"kind": "DISTRESS", "title_ko": "약국 셔터", "title_en": "The Pharmacy Shutter",
+     "lines": [
+       {"s": "N", "ko": "무너진 약국 셔터 안쪽에서 손톱으로 긁는 소리가 들렸다.", "en": "From behind a collapsed pharmacy shutter came the sound of fingernails scraping."},
+       {"s": "SURVIVOR", "ko": "여기 셋이에요. 약은 있는데 문이 안 열려요.", "en": "There are three of us. We have medicine, but the door won't open."},
+       {"s": "CHR009", "ko": "셔터는 내가 든다. 못 들면 좌표라도 남겨 두자.", "en": "I'll lift the shutter. If it won't budge, we log the coordinates."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "셔터를 들어 올린다", "en": "Lift the shutter"}, {"outcome": "RECORD", "ko": "좌표를 기록해 둔다", "en": "Record the coordinates"}]},
+    {"kind": "STORM", "title_ko": "비명을 품은 재", "title_en": "Ash Full of Screams",
+     "lines": [
+       {"s": "N", "ko": "잔광 폭풍이 재를 휘감아 올렸다. 재 알갱이마다 누군가의 비명이 갇혀 있었다.", "en": "An afterglow storm whipped the ash skyward. Every grain held someone's scream."},
+       {"s": "CHR005", "ko": "숨 쉴 때마다 남의 비명이 들어오네. 오래 있을 곳은 아니야.", "en": "Every breath pulls in somebody else's scream. Not a place to linger."}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "무너진 역사로 대피한다", "en": "Shelter in the ruined station"}, {"outcome": "PUSH", "ko": "재를 뚫고 나아간다", "en": "Push through the ash"}]},
+    {"kind": "CACHE", "title_ko": "집계 인원 분량", "title_en": "Rations by Headcount",
+     "lines": [
+       {"s": "N", "ko": "봉쇄군 보급 상자가 재에 반쯤 묻혀 있었다. 뚜껑에는 '집계 인원 분량'이라 적혀 있었다.", "en": "A blockade supply crate lay half-buried in ash. The lid read 'Rations per Headcount.'"},
+       {"s": "CHR003", "ko": "배급량이 인원수에 딱 맞춰져 있어. 한 명만 늘어도 모자라게.", "en": "Portioned to the exact headcount. Add one person and it runs short."},
+       {"s": "CHR004", "ko": "그럼 이제 저희가 인원을 늘려 줄 차례네요!", "en": "Then it's our turn to add some people!"}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "보급품을 회수한다", "en": "Collect the supplies"}]},
+    {"kind": "BANTER", "title_ko": "닳은 박자", "title_en": "A Worn-Out Rhythm",
+     "lines": [
+       {"s": "CHR007", "ko": "베라, 이 도시 신호는 전부 같은 박자로 두드려. 반 박자 차이도 없어.", "en": "Vera, every signal in this city knocks to the same beat. Not even half a beat apart."},
+       {"s": "CHR006", "ko": "지친 거야. 열두 해를 두드리면 박자도 닳아서 다 같아져.", "en": "They're exhausted. Knock for twelve years and the rhythm wears down until it's all the same."}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep going"}]},
+    {"kind": "ECHO", "title_ko": "축제 전날", "title_en": "The Eve of the Festival",
+     "lines": [
+       {"s": "N", "ko": "꺼진 확성기에서 대정전 전날의 시청 안내 방송이 흘러나왔다.", "en": "From a dead loudspeaker drifted a city hall announcement from the day before the Blackout."},
+       {"s": "ECHO", "ko": "내일은 광장에서 등불 축제가 열립니다. 시민 여러분, 늦지 마세요.", "en": "Tomorrow the lantern festival opens in the square. Citizens, don't be late."},
+       {"s": "CHR002", "ko": "……축제 전날이었구나, 그날.", "en": "…So it was the night before a festival."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 들어 본다", "en": "Listen to the end"}, {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

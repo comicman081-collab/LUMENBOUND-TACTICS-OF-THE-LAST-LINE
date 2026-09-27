@@ -1,0 +1,302 @@
+{
+  "chapter_id": "CH10",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "두 번 호출된 열차",
+      "title_en": "The Train Called Twice",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR001", "RIGHT": "CHR006"},
+      "lines": [
+        {"s": "N", "ko": "하늘에 달이 둘 떠 있었다. 하나는 차갑게 희고, 하나는 녹슨 구리색이었다.", "en": "Two moons hung in the sky. One cold white, the other the color of rusted copper."},
+        {"s": "CHR003", "ko": "환승로 전광판에 같은 편성 번호가 두 번 떠. 제9 야간열차. 도착 시각만 달라.", "en": "The junction board shows the same train number twice. Night Train Nine. Only the arrival times differ."},
+        {"s": "CHR006", "ko": "호출 신호도 둘이야. 둘 다 탑승 확인 신호를 보내고 있어. 사람이 타 있다는 뜻이야.", "en": "Two call signals too. Both are sending boarding confirmations. That means people are aboard."},
+        {"s": "CHR002", "ko": "같은 열차에 같은 승객이 두 벌이라…… 유리평원 이후로 이런 건 질렸는데.", "en": "Same train, same passengers, two copies… I've had enough of that since the glass plains."},
+        {"s": "CHR007", "ko": "사본이 아니야. 반 박자 차이도 없어. 둘 다 원본이야.", "en": "They're not copies. Not even a half-beat off. Both are originals."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 제9 야간열차가 두 달력선에서 동시에 운행 중입니다.", "en": "Your attention, please. Night Train Nine is running on two calendar lines simultaneously."},
+        {"s": "CONTROL", "ko": "두 편성 중 하나를 선택하십시오. 선택되지 않은 편성은 운행을 종료합니다.", "en": "Please select one of the two trains. The train not selected will be retired from service."},
+        {"s": "CHR004", "ko": "운행 종료면…… 거기 탄 사람들은요? 내려 주는 거죠? 그렇죠?", "en": "Retired… What about the people on it? They let them off first, right? Right?"},
+        {"s": "CHR003", "ko": "종료 절차에 하차 단계가 없어. 편성째로 시간표에서 빠져.", "en": "The retirement procedure has no disembarking step. The whole train drops out of the timetable."},
+        {"s": "CHR014", "ko": "재판을 깨니까 달이 쪼개졌다며. 그럼 이 난장판은 우리가 수습할 몫이지.", "en": "The moon split because we broke that court, right? Then this mess is ours to clean up."},
+        {"s": "CHR001", "ko": "항해자. 관제는 너한테 고르라고 했다. 어떻게 하겠나.", "en": "Navigator. Control told you to choose. What will you do?"},
+        {"choice": [
+          {"key": "CHOICE_CH10_CHOOSE_NEITHER", "flag": "CH10_CHOOSE_NEITHER", "ko": "어느 쪽도 고르지 않는다", "en": "Choose neither", "reply": [
+            {"s": "CHR001", "ko": "좋다. 그럼 둘 다 태울 길을 찾는다.", "en": "Good. Then we find a way to carry both."}
+          ]},
+          {"key": "CHOICE_CH10_COUNT_BOTH", "flag": "CH10_COUNT_BOTH", "ko": "양쪽 승객부터 센다", "en": "Count both sets of passengers first", "reply": [
+            {"s": "CHR001", "ko": "……내 버릇을 닮아 가는군. 좋다, 세어 보자.", "en": "…You're picking up my habits. All right, let's count."}
+          ]}
+        ]},
+        {"s": "N", "ko": "나린이 두 열차의 신호를 겹쳐 세었다. 같은 이름, 같은 맥박이 두 번씩 찍혀 나왔다.", "en": "Narin counted both trains' signals side by side. The same names, the same heartbeats, each appearing twice."},
+        {"s": "CHR003", "ko": "편성당 백육십 명. 같은 백육십 명이 두 현재에 동시에 살아 있어.", "en": "A hundred sixty per train. The same hundred sixty people, alive in two presents at once."},
+        {"s": "CHR001", "ko": "백육십 명이 두 번 살아 있다. 어느 쪽도 지우지 않는다. 움직인다.", "en": "A hundred sixty people, alive twice. We erase neither. Move."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "충돌 예정 시각",
+      "title_en": "Collision Scheduled",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR012", "RIGHT": "CHR011"},
+      "lines": [
+        {"s": "N", "ko": "중앙 분기기 위로 두 달빛이 겹쳐, 레일마다 그림자가 두 겹으로 드리웠다. 쇠가 서로 다른 박자로 울었다.", "en": "Two moonlights crossed over the central switch, casting a double shadow along every rail. The steel rang in two rhythms."},
+        {"s": "CHR003", "ko": "계산 끝났어. 두 시간표는 합류 지점 하나를 공유해. 여기, 제3 분기점.", "en": "Calculation done. The two timetables share one merge point. Here. Junction Three."},
+        {"s": "CHR012", "ko": "두 열차가 같은 시각에 이 점을 지나면 충돌이 아니라 덮어쓰기다. 늦은 쪽의 현재가 통째로 지워진다.", "en": "If both trains pass this point at the same moment, it's not a collision. It's an overwrite. The later train's present is erased whole."},
+        {"s": "CHR011", "ko": "남은 시간은?", "en": "How long do we have?"},
+        {"s": "CHR003", "ko": "두 달이 겹치는 월식까지 사십 시간. 그 전에 두 열차의 시계를 하나로 맞춰야 해.", "en": "Forty hours until the eclipse, when the moons overlap. Before then we have to sync both trains' clocks."},
+        {"s": "CHR005", "ko": "시계 맞추는 거면 포병 몫이지. 우린 원래 초 단위로 사는 사람들이잖아. 그렇지, 아델린?", "en": "Syncing clocks sounds like gunner work. We live by the second anyway. Right, Adeline?"},
+        {"s": "CHR011", "ko": "초 단위로는 부족하오. 두 달력의 오차는 그보다 훨씬 가늘게 흔들리고 있소.", "en": "Seconds will not suffice. The drift between these calendars trembles far finer than that."},
+        {"s": "CHR001", "ko": "그럼 그 가는 오차를 잴 수 있는 사람을 찾는다.", "en": "Then we find someone who can measure that fine."},
+        {"s": "N", "ko": "그때 멀리 고지대에서 포성이 울렸다. 한 발, 또 한 발. 소름 끼치도록 일정한 간격이었다.", "en": "Then artillery boomed from the far highlands. One shot, then another, at an unnervingly steady interval."},
+        {"s": "CHR011", "ko": "……간격이 같소. 누군가 포탄으로 시간을 재고 있소.", "en": "…The intervals are identical. Someone is measuring time with shells."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N15",
+      "title_ko": "열 번째 서명",
+      "title_en": "The Tenth Signature",
+      "background": "rail",
+      "cast": {"LEFT": "CHR015", "CENTER": "CHR001", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "포연이 걷히자, 포대 벽을 가득 채운 분필 숫자들이 드러났다. 수천 발의 비행 시간이었다.", "en": "As the smoke cleared, chalk numbers covering the battery walls came into view. Flight times for thousands of shells."},
+        {"s": "CHR015", "ko": "하르트. 포수. 달이 둘로 갈라진 뒤로 한숨도 안 자고 쐈어. 방금 게 삼천이백 발째야.", "en": "Hart. Gunner. Haven't slept since the moon split. That last one was shell three thousand two hundred."},
+        {"s": "CHR003", "ko": "이 숫자들…… 같은 탄이 두 달력선에서 다른 시간으로 날아갔어. 그 차이를 전부 적었구나.", "en": "These numbers… the same shell flew for different times on the two calendar lines. You recorded every difference."},
+        {"s": "CHR015", "ko": "탄은 거짓말 안 해. 쏘고 떨어질 때까지, 어느 달 아래서든 물리는 하나야.", "en": "Shells don't lie. From launch to impact, under either moon, physics is the same."},
+        {"s": "CHR012", "ko": "두 달 아래서 변하지 않는 신호는 그것 하나다. 기준 시계로 쓸 수 있다.", "en": "It's the one signal that doesn't change under either moon. It can serve as a master clock."},
+        {"s": "CHR015", "ko": "그래서 쐈어. 한 발마다 두 열차 오차가 줄어. 혼자선 월식 전에 못 끝내지만.", "en": "That's why I've been firing. Every shell shrinks the drift. Alone, I won't finish before the eclipse."},
+        {"s": "CHR001", "ko": "혼자가 아니라면?", "en": "And if you're not alone?"},
+        {"s": "CHR015", "ko": "……사수 셋에 관측수 둘이면 열여섯 시간. 계산상 충분해.", "en": "…Three gunners and two spotters: sixteen hours. Mathematically sufficient."},
+        {"s": "N", "ko": "하르트가 분필을 내려놓는 순간, 항해 기록기가 포성처럼 울리며 빛났다. 열 번째 무늬가 새겨졌다.", "en": "The moment Hart set down her chalk, the recorder rang out like a gunshot and glowed. A tenth pattern was engraved."},
+        {"s": "CHR003", "ko": "열 개째. 노선마다 하나. 규칙은 그대로야. 이유만 아직 모르고.", "en": "That's ten. One per line. The rule holds. We just don't know why yet."},
+        {"s": "CHR014", "ko": "하, 숫자로 말하는 사람이 하나 더 늘었네. 나린, 경쟁자 왔다.", "en": "Ha, another person who talks in numbers. Narin, you've got competition."},
+        {"s": "CHR015", "ko": "측정 불가 신호라…… 좋아, 따라가면서 재지. 다음 오차는 내가 먼저 계산한다. 열여섯 시간, 지금부터.", "en": "An unmeasurable signal… Fine, I'll measure it on the way. I'll calculate the next drift before it comes. Sixteen hours, starting now."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N18",
+      "title_ko": "관제의 제안",
+      "title_en": "Control's Proposal",
+      "background": "rail",
+      "cast": {"LEFT": "CHR004", "CENTER": "CHR001", "RIGHT": "CHR015"},
+      "lines": [
+        {"s": "N", "ko": "고지대 포대에서 야영하던 밤, 환승로의 모든 스피커가 한꺼번에 켜졌다. 바람 소리마저 멎었다.", "en": "On the night they camped at the highland battery, every speaker in the junction switched on at once. Even the wind went still."},
+        {"s": "CONTROL", "ko": "항해자님께 직접 말씀드립니다. 승객 여러분께서도 함께 들어 주십시오.", "en": "I address the Navigator directly. Passengers, please listen as well."},
+        {"s": "CONTROL", "ko": "열두 해 전, 이 노선망은 하룻밤에 수만 명을 잃었습니다. 최종 시간표는 그 밤을 되풀이하지 않기 위한 것입니다.", "en": "Twelve years ago, this network lost tens of thousands in a single night. The Final Timetable exists so that night never repeats."},
+        {"s": "CONTROL", "ko": "모든 노선이 하나의 종착에 닿으면, 더는 아무도 잃지 않습니다. 항해자님은 그 뜻을 아실 겁니다.", "en": "When every line reaches a single terminus, no one will ever be lost again. You understand that, Navigator."},
+        {"s": "CHR004", "ko": "……더는 아무도 안 잃는 세계. 솔직히 그게 나쁜 말로 안 들려서, 그게 무서워요.", "en": "…A world where no one's ever lost. Honestly, what scares me is that it doesn't sound bad."},
+        {"s": "CHR008", "ko": "환자를 한 명도 잃지 않는 병동…… 나도 매일 밤 그런 꿈을 꿔.", "en": "A ward where no patient is ever lost… I dream about that every night."},
+        {"s": "CHR015", "ko": "오차 없는 세계라는 거지. 근데 오차가 없으면 쏠 이유도 없어. 과녁이 안 움직이니까.", "en": "A world without drift. But without drift there's no reason to fire. The target never moves."},
+        {"s": "CHR003", "ko": "잃는 게 없다는 건, 바뀌는 게 없다는 뜻이야. 선택도, 내일도.", "en": "Nothing lost means nothing changes. No choices. No tomorrow."},
+        {"s": "CHR014", "ko": "그러니까 거절이지! ……근데 다들 왜 항해자만 쳐다봐?", "en": "So we refuse! …Wait, why is everyone looking at the Navigator?"},
+        {"choice": [
+          {"key": "CHOICE_CH10_CHOOSING_WORLD", "flag": "CH10_CHOOSING_WORLD", "ko": "그래도 고르는 세계가 낫다", "en": "A world where we choose is still better", "reply": [
+            {"s": "CHR001", "ko": "……그래. 잃을 수 있어야, 지킬 수도 있지.", "en": "…Right. Only what can be lost can be protected."},
+            {"s": "CONTROL", "ko": "……기록했습니다. 그래도 저는 기다리겠습니다, 항해자님.", "en": "…Recorded. Even so, I will wait, Navigator."}
+          ]},
+          {"key": "CHOICE_CH10_SILENCE", "flag": "CH10_SILENCE", "ko": "대답하지 않는다", "en": "Say nothing", "reply": [
+            {"s": "CONTROL", "ko": "침묵도 대답으로 기록하겠습니다. 저는 기다리는 데 익숙합니다.", "en": "I will record silence as an answer. I am accustomed to waiting."},
+            {"s": "CHR001", "ko": "대답은 관제가 아니라 우리한테 하면 된다. 천천히.", "en": "Give your answer to us, not to Control. Take your time."}
+          ]}
+        ]},
+        {"s": "N", "ko": "스피커가 꺼졌다. 월식까지 열 시간. 한동안 아무도 모닥불에서 눈을 들지 않았다.", "en": "The speakers went dead. Ten hours to the eclipse. For a long while, no one looked up from the fire."},
+        {"s": "CHR001", "ko": "잃지 않으려고 멈추는 것과 잃을까 봐 싸우는 건 다르다. 난 한 번 잃어 봤다. 그래도 멈추지 않는다.", "en": "Stopping so you never lose, and fighting because you might. Those aren't the same. I've lost someone before. I still won't stop."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "선택되지 않은 쪽",
+      "title_en": "The Unchosen",
+      "background": "rail",
+      "cast": {"LEFT": "CHR015", "CENTER": "CHR001", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "월식 직전, 제3 분기점 위로 두 달이 서로를 향해 기울었다. 양쪽에서 전조등 두 개가 다가왔다.", "en": "Just before the eclipse, the two moons leaned toward each other over Junction Three. Two headlights approached from either side."},
+        {"s": "CHR015", "ko": "기준 시계 동기화 97퍼센트. 남은 오차 0.02초. 마지막 한 발이면 돼.", "en": "Master clock sync at 97 percent. Remaining drift, 0.02 seconds. One last shell will do it."},
+        {"s": "BOSS", "ko": "정정 안내입니다. 두 편성 모두 진짜입니다. 어느 쪽도 사본이 아닙니다.", "en": "A correction. Both trains are genuine. Neither is a copy."},
+        {"s": "BOSS", "ko": "선택하지 않은 쪽을 적으로 지정합니다. 선택이 없었으므로, 양쪽 모두를 적으로 지정합니다.", "en": "The unchosen train will be designated hostile. As no selection was made, both trains are designated hostile."},
+        {"s": "N", "ko": "두 열차의 객차 지붕이 열리고, 녹슨 포신들이 서로를 겨누었다. 창 안의 승객들은 잠든 채였다.", "en": "The roofs of both trains opened, and rusted gun barrels swung toward each other. The passengers inside slept on."},
+        {"s": "CHR004", "ko": "안 돼요, 저기 사람들이 타고 있잖아요! 서로 쏘게 만들면……!", "en": "No, there are people on those trains! If they make them fire on each other…!"},
+        {"s": "CHR003", "ko": "편성끼리 공격하면 충돌이 앞당겨져. 월식까지 남은 시간, 십일 분.", "en": "If the trains attack each other, the collision moves up. Eleven minutes until the eclipse."},
+        {"s": "CHR014", "ko": "고르라고 해 놓고 안 고르면 둘 다 적이라니. 판결보다 더 고약하네!", "en": "Tell us to choose, then make both enemies when we don't? That's worse than the verdicts!"},
+        {"s": "CHR001", "ko": "고르라는 게 버리라는 뜻이라면, 우리는 둘 다를 고른다.", "en": "If choosing means abandoning, then we choose both."},
+        {"s": "BOSS", "ko": "'둘 다'는 등록된 선택지가 아닙니다. 입력을 거부합니다.", "en": "'Both' is not a registered option. Input rejected."},
+        {"s": "CHR015", "ko": "등록 안 돼 있으면 등록시키면 되지. 소렌, 아델린. 내 신호에 맞춰.", "en": "If it's not registered, we register it. Soren, Adeline. On my signal."},
+        {"s": "CHR005", "ko": "포수 셋이 한 박자로. 이건 좀 멋지겠는데.", "en": "Three gunners on one beat. This is going to look good."},
+        {"s": "CHR011", "ko": "포대 준비 완료. 명령을 기다리오.", "en": "Battery ready. Awaiting your order."},
+        {"s": "CHR001", "ko": "두 열차 합쳐 삼백이십 명. 한 명도 적이 아니다. 목표는 분할자 하나. 쏴라!", "en": "Three hundred twenty lives across both trains. Not one is an enemy. Our only target is the Divider. Fire!"}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "하나의 달",
+      "title_en": "One Moon",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR001", "RIGHT": "CHR015"},
+      "lines": [
+        {"s": "N", "ko": "마지막 포탄이 분할자의 핵을 꿰뚫는 순간, 두 달이 천천히 겹쳐 하나의 원이 되었다.", "en": "The instant the last shell pierced the Divider's core, the two moons slowly overlapped into a single circle."},
+        {"s": "BOSS", "ko": "선택…… 미입력. 두 편성을…… 하나의 시간표로 병합합니다.", "en": "Selection… not received. Merging both trains… into a single timetable."},
+        {"s": "BOSS", "ko": "……누구도 고르지 않아도 되게, 둘 다 남겨 두려…… 했는데…… 둘 다, 적으로만……", "en": "…I meant to keep both… so no one would have to choose… but I only made them… enemies…"},
+        {"s": "N", "ko": "제3 분기점에서 두 열차가 하나로 포개졌다. 충돌음 대신 긴 기적 소리가 한 번 울렸다.", "en": "At Junction Three, the two trains folded into one. Instead of a crash, a single long whistle sounded."},
+        {"s": "CHR003", "ko": "탑승 신호 백육십. 중복 없음, 결손 없음. 두 현재가 하나로 합쳐졌어.", "en": "A hundred sixty boarding signals. No duplicates, no losses. The two presents merged into one."},
+        {"s": "CHR010", "ko": "맥박 전부 잡혀요. 다들 그냥…… 조금 긴 꿈을 꾼 것 같대요.", "en": "I've got every pulse. They all say it just felt like… a slightly long dream."},
+        {"s": "CHR015", "ko": "오차 0.00초. ……처음 보는 숫자네.", "en": "Drift: 0.00 seconds. …Never seen that number before."},
+        {"s": "CHR004", "ko": "하르트 씨, 지금 웃었죠? 방금 입꼬리 올라갔죠?", "en": "Hart, you just smiled, didn't you? The corner of your mouth went up!"},
+        {"s": "CHR015", "ko": "측정 오류야.", "en": "Measurement error."},
+        {"s": "N", "ko": "그러나 병합에서 넘친 신호가 선로를 타고 흘러내렸다. 검게 물든 빛이 바다 쪽으로 쏟아졌다.", "en": "But the signal that overflowed from the merge ran down the rails. Blackened light poured toward the sea."},
+        {"s": "CHR012", "ko": "잉여 신호다. 갈 곳을 잃고 해안으로 몰린다. 저 방향은…… 방파선이다.", "en": "Surplus signal. With nowhere to go, it's rushing to the coast. That direction… the breakwater."},
+        {"s": "CONTROL", "ko": "병합 잉여분을 방파선 해역으로 방류합니다. 항해자님, 모든 것을 남길 수는 없습니다.", "en": "Merge surplus is being discharged into the breakwater waters. Navigator, you cannot keep everything."},
+        {"s": "CHR013", "ko": "방파선 안쪽엔 도시가 하나 있어. 거기 사람들한텐 저 검은 물이 곧 해일이야.", "en": "There's a city behind that breakwater. For the people there, that black water is a tidal wave."},
+        {"s": "CHR001", "ko": "두 열차를 데려왔다. 다음은 방파선이다. 모든 걸 남길 수 없다는 말은, 가 보고 나서 듣는다.", "en": "We brought both trains home. The breakwater's next. I'll hear 'you can't keep everything' after we've been there."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "월식 구역",
+      "title_en": "The Eclipse Zone",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR001", "RIGHT": "CHR015"},
+      "lines": [
+        {"s": "N", "ko": "달이 하나가 된 뒤에도, 환승로 남쪽 끝만은 월식에 잠겨 있었다. 공기가 살을 에듯 차가웠다.", "en": "Even after the moons became one, the junction's southern end stayed drowned in eclipse. The air cut like ice."},
+        {"s": "CHR003", "ko": "이 구역만 달빛이 0이야. 신호가 빛을 먹고 있어. 발신원은 관측탑.", "en": "Moonlight in this zone reads zero. A signal's eating the light. Source: the observation tower."},
+        {"s": "CHR015", "ko": "월식이 멈춰 있다고? 천체는 멈추지 않아. 멈추게 만든 게 있겠지.", "en": "The eclipse is frozen? Celestial bodies don't stop. Something's holding it."},
+        {"s": "CHR005", "ko": "어두운 데서 쏘는 건 자신 있는데, 과녁이 안 보이면 얘기가 다르지.", "en": "I'm fine shooting in the dark. Shooting at what I can't see is another story."},
+        {"s": "N", "ko": "그때 관측탑 꼭대기에서 누군가 흥얼거리는 소리가 내려왔다. 별자리를 하나씩 세는 노래였다.", "en": "Then a hum drifted down from the top of the tower. A song that counted the constellations one by one."},
+        {"s": "CHR002", "ko": "이런 데서 노래를? 간이 크거나, 아주 오래 혼자였거나.", "en": "Singing, out here? Either she's got nerves of steel or she's been alone a very long time."},
+        {"s": "CHR015", "ko": "음정 오차가 크네. 반음 가까이 떨어져.", "en": "Big pitch drift. Nearly a semitone flat."},
+        {"s": "CHR001", "ko": "둘 다일 수도 있지. 불빛 하나만 들고 올라간다. 놀라게 하지 마라.", "en": "Could be both. We go up with a single light. Don't startle her."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "진짜 달",
+      "title_en": "The Real Moon",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR035", "RIGHT": "CHR015"},
+      "lines": [
+        {"s": "N", "ko": "지휘봉이 부러지자 월식의 그림자가 천천히 물러났다. 은빛 달 하나가 온전히 떠올랐다.", "en": "When the baton broke, the eclipse's shadow slowly withdrew. A single silver moon rose whole."},
+        {"s": "HBOSS", "ko": "……연주를 마칩니다. 달을 가려 두면, 아무도 어느 달을 고를지 괴로워하지 않을 줄……", "en": "…The performance ends. I thought if the moon stayed hidden, no one would suffer over which one to choose…"},
+        {"s": "CHR003", "ko": "월식 신호 소멸. 환승로의 시각이 전부 하나로 맞춰졌어.", "en": "Eclipse signal gone. Every clock in the junction is aligned as one."},
+        {"s": "CHR035", "ko": "……달이 하나네. 가짜 별들도 다 졌어. 그런데 이상하지. 하나뿐인데 더 밝아.", "en": "…Just one moon. The false stars are all gone. Strange, though. There's only one, and it's brighter."},
+        {"s": "CHR015", "ko": "반사율은 같아. 가리던 게 없어졌을 뿐이야.", "en": "Same albedo. Whatever was covering it is just gone."},
+        {"s": "CHR004", "ko": "하르트 씨, 그럴 땐 그냥 '예쁘다'고 하면 돼요.", "en": "Hart, at times like this you can just say 'it's pretty.'"},
+        {"s": "CHR035", "ko": "너희랑 가면 진짜 별을 더 볼 수 있을까? 지도에 없는 하늘 같은 거.", "en": "If I go with you, will I see more real stars? Skies that aren't on any map?"},
+        {"s": "CHR002", "ko": "지도에 없는 건 내 전문이지. 같이 가자, 별 박사.", "en": "Things not on the map are my specialty. Come along, star doctor."},
+        {"s": "CHR035", "ko": "좋아. 첫 관측 일지 제목은 '달이 하나였던 밤'으로 할게.", "en": "All right. My first observation log will be titled 'The Night There Was One Moon.'"},
+        {"s": "CHR001", "ko": "헤라온, 등로단의 하늘은 네게 맡긴다. ……다음은 검은 바다다.", "en": "Heraon, the Lamplighters' sky is yours to watch. …Next is the black sea."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR003", "ko": "고지대 포대에 생체 반응 하나. 잔향체가 포대를 에워싸고 있어.", "en": "One life sign at the highland battery. Echoforms have it surrounded."},
+      {"s": "CHR015", "ko": "오차 0.4초. 당신들 때문에 다시 재야 해.", "en": "Drift, 0.4 seconds. Thanks to you, I have to measure again."},
+      {"s": "CHR002", "ko": "……구하러 왔는데 첫마디가 그거야?", "en": "…We came to rescue you, and that's your first line?"},
+      {"s": "CHR015", "ko": "구조 요청 안 했어. 방금 쏜 탄의 착탄음을 당신들 발소리가 덮었어. 기록 무효.", "en": "I didn't request rescue. Your footsteps drowned out the impact of my last shell. Record void."},
+      {"s": "CHR011", "ko": "포수, 탄도 기록은 우리가 지켜 주겠소. 발사를 계속하시오.", "en": "Gunner, we will protect your ballistic records. Continue firing."},
+      {"s": "CHR015", "ko": "……군 출신이네. 좋아. 삼십 초 줄게. 그 안에 저것들 치워. 29, 28.", "en": "…Military, huh. Fine. You get thirty seconds to clear them. Twenty-nine, twenty-eight."},
+      {"s": "CHR005", "ko": "카운트다운으로 사람 부리는 타입이네. 마음에 들어.", "en": "She's the type who bosses people around by countdown. I like her."},
+      {"s": "CHR001", "ko": "들었지. 이십칠 초다. 움직여.", "en": "You heard her. Twenty-seven seconds. Move."}
+    ],
+    "WANDERER": [
+      {"s": "CHR035", "ko": "쉿. 방금 월식 가장자리에 별이 하나 새로 떴거든. 지금 이름 붙이는 중이야.", "en": "Shh. A new star just appeared on the edge of the eclipse. I'm naming it."},
+      {"s": "CHR002", "ko": "이름 짓는 중에 미안한데, 너 지금 잔향체 떼한테 둘러싸여 있어.", "en": "Sorry to interrupt the naming, but you're surrounded by echoforms."},
+      {"s": "CHR035", "ko": "아, 저것들? 밤마다 와. 월식을 지키는 별자리 같은 거지. 너희는 무슨 별자리야?", "en": "Oh, those? They come every night. A sort of constellation guarding the eclipse. What constellation are you?"},
+      {"s": "CHR003", "ko": "……등로단. 별자리 아니야. 저 관측탑의 월식 신호를 끄러 왔어.", "en": "…The Lamplighters. Not a constellation. We're here to shut off that tower's eclipse signal."},
+      {"s": "CHR035", "ko": "끄면 안 돼. 월식이 끝나면 별이 안 보여. 열두 해 동안 여기서만 별을 볼 수 있었는데.", "en": "You can't. When the eclipse ends, the stars disappear. This was the only place I could see them for twelve years."},
+      {"s": "CHR015", "ko": "월식은 천체 현상이야. 끝나는 게 정상이고. 비켜.", "en": "An eclipse is an astronomical event. Ending is normal. Move."},
+      {"s": "CHR035", "ko": "그럼 이러자. 너희가 진짜 별을 보여 줄 수 있는지, 내 망원포로 먼저 확인할게!", "en": "Then how about this: I'll check with my telescope cannon whether you can really show me stars!"},
+      {"s": "CHR001", "ko": "……시험이군. 받아 준다. 망원경은 부수지 마라.", "en": "…A test. We accept. Don't break her telescope."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "월식 개시까지 십 분. 선택 입력을 대기합니다. 미입력 시 양 편성의 운행을 종료합니다.", "en": "Ten minutes until eclipse. Awaiting selection. If no input is received, both trains will be retired."},
+      {"s": "CHR015", "ko": "십 분이면 탄 서른 발이야. 넉넉해.", "en": "Ten minutes is thirty shells. Plenty."},
+      {"s": "CHR014", "ko": "입력해 주지. 내 주먹으로!", "en": "I'll give you input. With my fists!"},
+      {"s": "CHR001", "ko": "양쪽 전조등을 등 뒤에 둔다. 어느 쪽도 멈추게 하지 마라.", "en": "Keep both headlights at our backs. Don't let either one stop."}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "월식 연주를 계속합니다. 달이 가려진 동안에는 아무것도 선택되지 않습니다.", "en": "The eclipse performance continues. While the moon is hidden, nothing will be chosen."},
+      {"s": "CHR003", "ko": "월식 신호가 환승로의 시각을 붙들고 있어. 이게 남으면 시간표가 다시 갈라질 수 있어.", "en": "The eclipse signal is gripping the junction's time. If it survives, the timetables could split again."},
+      {"s": "CHR015", "ko": "지휘봉 박자, 1.2초 간격. 그 사이에 쏜다.", "en": "Baton tempo: 1.2-second intervals. I fire in between."},
+      {"s": "CHR001", "ko": "연주는 끝났다. 달을 돌려받는다.", "en": "The performance is over. We're taking back the moon."}
+    ],
+    "ANOMALY_1": [
+      {"s": "ENEMY", "ko": "현재 시각은 두 개입니다. 승객 여러분은 둘 중 한 시각에만 존재하십시오.", "en": "There are two current times. Passengers, please exist in only one of them."},
+      {"s": "CHR007", "ko": "놈이 우리 좌표를 반씩 갈라놓으려 해. 발 맞춰. 반 박자도 어긋나지 마.", "en": "It's trying to split our coordinates in half. Keep in step. Not even a half-beat off."},
+      {"s": "CHR009", "ko": "갈라놓을 수 있으면 해 봐. 내 방패는 한 번에 한 곳에만 선다.", "en": "Split us if you can. My shield only stands in one place at a time."}
+    ],
+    "ANOMALY_2": [
+      {"s": "ENEMY", "ko": "선택 안내. 왼쪽과 오른쪽 선로 중 하나는 폐쇄됩니다. 하나를 고르십시오.", "en": "Selection notice. Either the left or right track will be closed. Please choose one."},
+      {"s": "CHR006", "ko": "양쪽 선로 모두에서 구조 신호가 들려. 어느 쪽을 골라도 놈은 반대쪽을 끊을 거야.", "en": "I'm hearing distress signals from both tracks. Whichever we pick, it'll cut the other."},
+      {"s": "CHR014", "ko": "그럼 고르지 말고 놈을 끊자!", "en": "Then we don't pick. We cut it instead!"}
+    ],
+    "ANOMALY_3": [
+      {"s": "ENEMY", "ko": "월식 중에는 그림자가 본체입니다. 본체를 반납하십시오.", "en": "During the eclipse, shadows are the true bodies. Please surrender your bodies."},
+      {"s": "CHR005", "ko": "그림자가 본체라니. 그럼 오늘 난 좀 날씬하겠네.", "en": "Shadows are the real us? Guess I'm looking slim today."},
+      {"s": "CHR013", "ko": "농담은 좋은데, 발밑을 봐. 그림자가 우리보다 먼저 움직이고 있어.", "en": "Cute joke, but look down. Our shadows are moving before we do."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "두 겹 그림자의 기습", "title_en": "Ambush from Double Shadows",
+     "lines": [
+       {"s": "N", "ko": "두 달빛이 만든 두 겹의 그림자에서 잔향체들이 기어 나왔다.", "en": "Echoforms crawled out of the double shadows cast by two moons."},
+       {"s": "CHR005", "ko": "그림자가 둘이면 적도 두 배라는 거지. 쏠까, 달빛 없는 쪽으로 빠질까?", "en": "Two shadows, twice the enemies. Do we shoot, or slip off where there's no moonlight?"}
+     ],
+     "choices": [
+       {"outcome": "FIGHT", "ko": "맞서 싸운다", "en": "Fight"},
+       {"outcome": "EVADE", "ko": "달빛 없는 쪽으로 빠진다", "en": "Slip into the moonless side"}
+     ]},
+    {"kind": "DISTRESS", "title_ko": "두 번 들리는 구조 요청", "title_en": "A Call Heard Twice",
+     "lines": [
+       {"s": "N", "ko": "같은 목소리의 구조 요청이 두 방향에서 반 초 간격으로 들려왔다.", "en": "The same voice called for help from two directions, half a second apart."},
+       {"s": "SURVIVOR", "ko": "여기요…… 여기요. 저 말고 제가 한 명 더 있는 것 같아요……", "en": "Over here… over here. I think there's another one of me…"},
+       {"s": "CHR008", "ko": "둘 다 진짜 맥박이야. 한 사람이 두 시간에 걸려 있어.", "en": "Both pulses are real. One woman, caught across two times."}
+     ],
+     "choices": [
+       {"outcome": "RESCUE", "ko": "양쪽 모두 찾아간다", "en": "Reach both of her"},
+       {"outcome": "RECORD", "ko": "좌표를 기록한다", "en": "Record the coordinates"}
+     ]},
+    {"kind": "STORM", "title_ko": "달빛 폭풍", "title_en": "Moonlight Storm",
+     "lines": [
+       {"s": "N", "ko": "두 달빛이 부딪친 자리에 잔광 폭풍이 일었다. 시곗바늘이 제멋대로 앞뒤로 튀었다.", "en": "An afterglow storm rose where the two moonlights collided. Clock hands jumped wildly back and forth."},
+       {"s": "CHR003", "ko": "이 안에선 일 분이 얼마가 될지 몰라. 뚫고 가면 시간을 잃을 수도 있어.", "en": "In there, a minute could be anything. Push through and we might lose time."}
+     ],
+     "choices": [
+       {"outcome": "SHELTER", "ko": "분기기 아래로 대피한다", "en": "Shelter under the switch"},
+       {"outcome": "PUSH", "ko": "폭풍을 뚫는다", "en": "Push through the storm"}
+     ]},
+    {"kind": "CACHE", "title_ko": "두 날짜의 보급 상자", "title_en": "Crates of Two Dates",
+     "lines": [
+       {"s": "N", "ko": "시계탑 아래 창고에 두 날짜가 찍힌 보급 상자가 나란히 쌓여 있었다.", "en": "In the storeroom under the clock tower, supply crates stamped with two dates sat side by side."},
+       {"s": "CHR002", "ko": "같은 상자가 두 개라…… 이번만큼은 쌍월이 고맙네.", "en": "Two of the same crate… For once, I'm grateful for twin moons."}
+     ],
+     "choices": [
+       {"outcome": "TAKE", "ko": "회수한다", "en": "Take them"}
+     ]},
+    {"kind": "BANTER", "title_ko": "달 내기", "title_en": "A Bet on the Moons",
+     "lines": [
+       {"s": "CHR014", "ko": "로안, 저 달 둘 중에 어느 쪽이 더 빠른지 내기할래?", "en": "Roan, wanna bet on which of those two moons is faster?"},
+       {"s": "CHR002", "ko": "달은 안 달려, 베온. ……굳이 고르자면 구리색 쪽.", "en": "Moons don't race, Veon. …If I had to pick, the copper one."},
+       {"s": "CHR003", "ko": "둘 다 공전 주기가 같아. 내기 무효야.", "en": "Both have identical orbital periods. Bet's void."}
+     ],
+     "choices": [
+       {"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep moving"}
+     ]},
+    {"kind": "ECHO", "title_ko": "다음 역을 말하지 못하는 방송", "title_en": "The Announcement Without a Next Stop",
+     "lines": [
+       {"s": "N", "ko": "분기기의 낡은 스피커에서 대정전 이전의 안내 방송이 흘러나왔다.", "en": "An announcement from before the Blackout spilled from the switch's old speaker."},
+       {"s": "ECHO", "ko": "제9 야간열차, 정시 출발합니다. 다음 역은…… 다음 역은……", "en": "Night Train Nine, departing on time. The next stop is… the next stop is…"},
+       {"s": "CHR012", "ko": "다음 역을 말하지 못한다. 열두 해 전 그 밤에 끊긴 방송이다.", "en": "It can't name the next stop. This broadcast was cut off that night, twelve years ago."}
+     ],
+     "choices": [
+       {"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+       {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}
+     ]}
+  ]
+}

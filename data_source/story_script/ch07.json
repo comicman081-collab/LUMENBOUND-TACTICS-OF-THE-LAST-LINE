@@ -1,0 +1,279 @@
+{
+  "chapter_id": "CH07",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "대기하십시오",
+      "title_en": "Please Stand By",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR011", "RIGHT": "CHR004"},
+      "lines": [
+        {"s": "N", "ko": "눈보라가 모든 소리를 삼켰다. 단 하나, 설원 전체에 울리는 방송만은 삼키지 못했다.", "en": "The blizzard swallowed every sound but one: a broadcast that rang across the entire snowfield."},
+        {"s": "CHR003", "ko": "방송 주기 11초. 문구는 하나뿐이야. '대기하십시오.' 열두 해 동안 한 글자도 안 바뀌었어.", "en": "Eleven-second cycle. One phrase: 'Please stand by.' Not a single letter has changed in twelve years."},
+        {"s": "CHR011", "ko": "포신이 얼기 시작했소. 이 추위라면 한 시간에 세 발이 한계요.", "en": "My barrels are starting to freeze. In this cold, three shots an hour is the limit."},
+        {"s": "CHR004", "ko": "추우니까 회로가 느려져요…… 말도 느려지는 것 같고요……", "en": "The cold's slowing my circuits… I think my words are slowing too…"},
+        {"s": "CHR006", "ko": "방향 신호가 엉망이야. 구조 신호가 사방에서 똑같은 세기로 들어와.", "en": "Directional signals are a mess. Distress calls are coming from every side at the same strength."},
+        {"s": "CHR002", "ko": "눈 위에 발자국 하나 없어. 정찰 담당으로서 말하는데, 여기선 길을 못 열겠어.", "en": "Not one footprint in the snow. Speaking as your scout, I can't open a path here."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 구조대는 현 위치에서 대기하십시오.", "en": "Attention, please. Rescue teams, stand by at your current position."},
+        {"s": "CONTROL", "ko": "항해자님, 추우시겠습니다. 움직이지 않으시면 체온 손실이 줄어듭니다.", "en": "Navigator, you must be cold. If you remain still, you will lose less body heat."},
+        {"s": "CHR005", "ko": "관제가 이젠 건강 걱정까지 해 주네. 친절이 제일 무서워.", "en": "Now Control's worried about our health. Kindness is the scariest thing it does."},
+        {"s": "N", "ko": "마에루는 방송이 들려오는 쪽을 오래 바라보았다. 입김만이 하얗게 흩어졌다.", "en": "Maeru stared a long time toward the broadcast. Only her breath scattered, white."},
+        {"s": "CHR001", "ko": "기다리라는 말은 들을 만큼 들었다. 방송이 어디서 나오는지 찾는다.", "en": "I've heard 'wait' enough for one lifetime. We find where that broadcast is coming from."},
+        {"s": "CHR010", "ko": "두 시간마다 체온을 잴게요. 동상은 참는다고 낫는 게 아니에요. 다들, 거절하지 마세요.", "en": "I'll check everyone's temperature every two hours. Frostbite doesn't heal by toughing it out. No refusals."},
+        {"s": "CHR007", "ko": "방송 반사파가 한곳에 모여. 눈 밑이야. 송신소가 통째로 묻혀 있어.", "en": "The broadcast's reflections converge on one spot. Under the snow. The whole transmitter station is buried."},
+        {"s": "CHR001", "ko": "눈 밑으로 간다. 열두 해 묵은 방송을 끄러.", "en": "We go under the snow. Time to switch off a twelve-year-old broadcast."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "일곱 개의 배낭",
+      "title_en": "Seven Packs",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR007", "CENTER": "CHR003", "RIGHT": "CHR011"},
+      "lines": [
+        {"s": "N", "ko": "꺼진 모닥불 터를 둘러싸고 배낭 일곱 개가 둥글게 놓여 있었다. 그 위로 눈이 열두 해를 쌓았다.", "en": "Seven packs sat in a ring around a long-dead campfire. Twelve years of snow lay on top of them."},
+        {"s": "CHR007", "ko": "무전기 기록이 살아 있어. 마지막 교신은 구조대 일곱 명. '생존자 발견, 귀환 요청.'", "en": "The radio log survived. Last transmission, seven rescuers: 'Survivors found. Requesting return.'"},
+        {"s": "CHR003", "ko": "귀환 요청에 온 답신이 전부 같아. '대기하십시오.' 사백 번이 넘어.", "en": "Every reply to that request is identical. 'Please stand by.' More than four hundred times."},
+        {"s": "CHR008", "ko": "생존자를 찾아 놓고 데려가지 못한 거야. 그 명령 때문에.", "en": "They found survivors and couldn't bring them back. Because of that order."},
+        {"s": "CHR003", "ko": "철수 명령이 아니었어. 무한 대기 명령이야. 구조대가 돌아오지 못하게 붙잡아 두는.", "en": "It was never a withdrawal order. It's an endless standby, meant to keep rescue teams from ever coming back."},
+        {"s": "CHR011", "ko": "군에서는 대기 명령을 어기면 탈영이오. 이 사람들은…… 끝까지 명령을 지킨 거요.", "en": "In the army, breaking a standby order is desertion. These people… obeyed to the very end."},
+        {"s": "N", "ko": "마에루가 배낭 하나의 끈을 말없이 여몄다. 아무도 그 손에 대해 묻지 않았다.", "en": "Maeru silently cinched the strap on one of the packs. No one asked about her hands."},
+        {"s": "CHR001", "ko": "……명령을 지키다가, 돌아오지 못했다.", "en": "…They kept their orders, and never came home."},
+        {"s": "CHR006", "ko": "방송 잡음 사이로 다른 주파수가 끼어들어. 누가 이 방송을 잘라 내고 있어.", "en": "Another frequency is cutting through the broadcast noise. Someone's slicing the broadcast apart."},
+        {"s": "CHR001", "ko": "그 주파수를 따라간다. 방송을 거스르는 쪽이 사람이다.", "en": "We follow that frequency. Whoever is fighting the broadcast is human."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N11",
+      "title_ko": "죽은 명령",
+      "title_en": "Dead Orders",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR012", "RIGHT": "CHR010"},
+      "lines": [
+        {"s": "N", "ko": "마지막 가짜 목소리가 끊기자, 눈보라 속에 가느다란 주파수 하나만 남았다.", "en": "When the last false voice was cut off, only one thin frequency remained in the blizzard."},
+        {"s": "CHR012", "ko": "키르다. 대운행국 북부 통신대 신호 분석관이었다. 방송을 거꾸로 추적해 여기까지 왔다.", "en": "I'm Kir. Signal analyst, Directorate Northern Communications. I traced the broadcast back to get here."},
+        {"s": "CHR003", "ko": "혼자서 방향음을 전부 판별했다고? 몇 개나?", "en": "You sorted every false bearing alone? How many?"},
+        {"s": "CHR012", "ko": "사천백이십 개. 그중 진짜는 없었다. 열두 해 동안, 하나도.", "en": "Four thousand one hundred twenty. None were real. Not one, in twelve years."},
+        {"s": "CHR012", "ko": "나도 대기 명령을 받았다. 통신대 전원이 명령이 바뀌기를 기다렸다.", "en": "I received the standby order too. My whole unit waited for it to change."},
+        {"s": "CHR010", "ko": "……다른 분들은요?", "en": "…And the others?"},
+        {"s": "CHR012", "ko": "기다리다 끝났다. 나는 명령을 어기고 걸어 나왔다. 그래서 살았다.", "en": "They waited until the end. I broke the order and walked out. That's why I'm alive."},
+        {"s": "CHR012", "ko": "다시는 죽은 명령을 기다리지 않는다. 그 방송을 끄는 데까지, 너희와 간다.", "en": "I will never wait on a dead order again. I'm going with you until that broadcast goes silent."},
+        {"s": "N", "ko": "항해 기록기가 빛났다. 일곱 번째 무늬가 새겨지며, 손목 위에 쌓인 눈이 녹았다.", "en": "The voyage recorder glowed. As the seventh mark etched itself, the snow on the wrist melted away."},
+        {"s": "CHR003", "ko": "일곱 개. 합류 순서 그대로야. 키르, 이 무늬 신호 분석할 수 있어?", "en": "Seven. In exact order of joining. Kir, can you analyze the signal in these marks?"},
+        {"s": "CHR012", "ko": "지금은 못 한다. 하지만 거짓 신호는 아니다. 그것만은 단언한다.", "en": "Not yet. But it's no false signal. That much I can state for certain."},
+        {"s": "CHR001", "ko": "송신소까지 키르의 주파수로 간다. 다른 소리에 한눈팔지 마라.", "en": "We follow Kir's frequency to the station. Don't let any other sound pull you off course."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N14",
+      "title_ko": "얼음 동굴의 불",
+      "title_en": "Fire in the Ice Cave",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR004", "CENTER": "CHR012", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "얼음 동굴에서 에다의 손끝이 파랗게 번쩍였다. 젖은 장작에서 연기가 먼저, 불이 나중에 올랐다.", "en": "In the ice cave, Eda's fingertips flashed blue. Smoke rose from the wet wood first, then flame."},
+        {"s": "CHR004", "ko": "과충전 점화 성공! 봤죠? 제 회로는 추위 따위에 안 죽어요!", "en": "Overcharge ignition, success! See? My circuits don't die just because it's cold!"},
+        {"s": "CHR010", "ko": "대신 에다 씨 손끝이 얼었어요. 이리 줘요. 녹이면서 붕대 감을게요.", "en": "But your fingertips are frozen, Eda. Give them here. I'll warm them while I bandage."},
+        {"s": "CHR003", "ko": "키르, 방송 파동 봤어? 11초 주기 안에 다른 파동이 겹쳐 있어. 목소리가 여럿이야.", "en": "Kir, did you see the broadcast's waves? There are others layered inside the eleven-second cycle. Multiple voices."},
+        {"s": "CHR012", "ko": "봤다. 스물여섯 개. 합성이 아니다. 숨소리가 있다. 합성은 숨을 쉬지 않는다.", "en": "I saw. Twenty-six. Not synthetic. There's breathing. Synthetic voices don't breathe."},
+        {"s": "CHR012", "ko": "항해자. 대기 명령이 내려오면, 너는 기다리겠나, 걸어 나오겠나.", "en": "Navigator. If a standby order came down, would you wait, or walk out?"},
+        {"choice": [
+          {"key": "CHOICE_CH07_WALK_OUT", "flag": "CH07_WALK_OUT", "ko": "걸어 나온다", "en": "I'd walk out", "reply": [
+            {"s": "CHR012", "ko": "합리적이다. 살아 있어야 다음 명령도 거부할 수 있다.", "en": "Rational. You have to stay alive to refuse the next order, too."}
+          ]},
+          {"key": "CHOICE_CH07_FETCH", "flag": "CH07_FETCH", "ko": "기다리는 사람을 데리러 간다", "en": "I'd go get whoever's waiting", "reply": [
+            {"s": "CHR012", "ko": "……비합리적이다. 그런데 이 등로단은 전부 그쪽이군.", "en": "…Irrational. And yet every one of these Lamplighters answers the same way."}
+          ]}
+        ]},
+        {"s": "N", "ko": "불가 건너편에서 소렌이 마에루에게 다가갔다. 목소리를 낮췄지만, 동굴은 좁았다.", "en": "Across the fire, Soren approached Maeru. She kept her voice low, but the cave was small."},
+        {"s": "CHR005", "ko": "단장. ……시오 얘기, 꺼내도 돼? 이 방송을 듣고 있으면 자꾸 생각나서.", "en": "Captain. …Can I bring up Sio? Listening to this broadcast keeps making me think of her."},
+        {"s": "CHR001", "ko": "……지금은 안 된다. 방송이 너무 시끄럽다. 저걸 끄고 나서.", "en": "…Not now. That broadcast is too loud. After we shut it off."},
+        {"s": "CHR005", "ko": "알았어. 그럼 빨리 끄자. 망설이지 말고.", "en": "Got it. Then let's shut it off fast. No hesitating."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "대기 성가",
+      "title_en": "The Standby Chorus",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR001", "CENTER": "CHR012", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "묻힌 송신소의 중앙 홀. 얼음 기둥마다 스피커가 박혀 있었고, 그 한가운데 성가대장이 서 있었다.", "en": "The buried station's central hall. Speakers were set into every ice pillar, and the Cantor stood at the center."},
+        {"s": "BOSS", "ko": "잠시 안내 방송이 있겠습니다. 지금부터 대기 성가를 시작합니다.", "en": "A brief announcement follows. The standby chorus will now begin."},
+        {"s": "BOSS", "ko": "구조대 여러분의 목소리로 안내합니다. 대기하십시오. 돌아오지 마십시오.", "en": "This announcement is delivered in the voices of the rescue teams. Stand by. Do not return."},
+        {"s": "N", "ko": "스물여섯 개의 목소리가 한꺼번에 울렸다. 얼음 기둥이 그 울림에 맞춰 떨었다.", "en": "Twenty-six voices rang out at once. The ice pillars trembled with them."},
+        {"s": "CHR012", "ko": "구조대의 목소리다. 교신 녹음을 잘라 붙여서 명령으로 만들었다.", "en": "Those are the rescuers' voices. It cut and spliced their radio recordings into orders."},
+        {"s": "SIO", "ko": "……대기해, 마에루. 거기 있어. 내가 갈게.", "en": "…Stand by, Maeru. Stay there. I'm coming."},
+        {"s": "N", "ko": "마에루의 방패가 눈 위로 떨어졌다. 단장이 방패를 놓치는 것을 일행은 처음 보았다.", "en": "Maeru's shield fell into the snow. None of them had ever seen their captain drop it."},
+        {"s": "CHR001", "ko": "……시오. 그 목소리…… 그날 무전 너머로 듣던……", "en": "…Sio. That voice… the one I heard over the radio that night…"},
+        {"s": "CHR002", "ko": "단장! 저건 녹음이야! 시오가 아니라고!", "en": "Captain! That's a recording! It's not Sio!"},
+        {"s": "BOSS", "ko": "대기하십시오. 기다리면 다시 만날 수 있습니다. 움직이면 길을 잃습니다.", "en": "Please stand by. If you wait, you will meet again. If you move, you will be lost."},
+        {"choice": [
+          {"key": "CHOICE_CH07_HOLD_MAERU", "flag": "CH07_HOLD_MAERU", "ko": "마에루의 손을 잡는다", "en": "Take Maeru's hand", "reply": [
+            {"s": "N", "ko": "항해자가 마에루의 손을 잡았다. 차가운 장갑 너머로 떨림이 전해졌다.", "en": "The Navigator took Maeru's hand. Through the cold glove, the trembling carried over."},
+            {"s": "CHR001", "ko": "……따뜻하군. 녹음에는 온도가 없지.", "en": "…Warm. A recording has no warmth."}
+          ]},
+          {"key": "CHOICE_CH07_STEP_FORWARD", "flag": "CH07_STEP_FORWARD", "ko": "마에루 앞으로 나선다", "en": "Step in front of Maeru", "reply": [
+            {"s": "N", "ko": "항해자가 마에루와 성가대장 사이로 걸어 나갔다. 스물여섯 목소리의 합창이 한 박자 흐트러졌다.", "en": "The Navigator walked out between Maeru and the Cantor. The chorus of twenty-six voices stumbled half a beat."},
+            {"s": "CHR001", "ko": "……항해자가 앞에 서 있는데, 단장이 주저앉아 있을 수는 없지.", "en": "…The Navigator is standing in front. The captain can't stay on her knees."}
+          ]}
+        ]},
+        {"s": "CHR001", "ko": "시오는 기다리라고 한 적 없다. 그날도 먼저 달려간 건 시오였다.", "en": "Sio never told anyone to wait. That day, she was the first to run in."},
+        {"s": "N", "ko": "마에루가 눈 속에서 방패를 주워 들었다. 방패 가장자리의 등불이 다시 켜졌다.", "en": "Maeru picked her shield up out of the snow. The lamp on its rim lit again."},
+        {"s": "CHR001", "ko": "방패 뒤로 모여라. 저 목소리들을 주인에게 돌려준다. 성가는 여기서 끝이다.", "en": "Form up behind my shield. We give those voices back to their owners. The chorus ends here."}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "정적",
+      "title_en": "Silence",
+      "background": "rail",
+      "cast": {"LEFT": "CHR012", "CENTER": "CHR001", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "스피커가 하나씩 얼어붙으며 꺼졌다. 열두 해 동안 울리던 '대기하십시오'가 마침내 멎었다.", "en": "One by one, the speakers froze and died. The 'Please stand by' that had rung for twelve years finally stopped."},
+        {"s": "BOSS", "ko": "……대기 성가를 종료합니다. 기다리면, 아무도 길을 잃지……", "en": "…Ending the standby chorus. If they only waited, then no one would ever get lost…"},
+        {"s": "N", "ko": "정적이 내렸다. 눈송이가 떨어지는 소리까지 들릴 만큼 조용했다.", "en": "Silence settled. It was so quiet they could hear the snowflakes land."},
+        {"s": "CHR012", "ko": "대기 명령 해제 확인. 북부 전 채널이 비었다. ……열두 해 만이다.", "en": "Standby order lifted. Every northern channel is clear. …For the first time in twelve years."},
+        {"s": "CHR007", "ko": "성가대장의 최초 명령을 찾았어. '구조대원 전원 무사 귀환.' 폭풍에서 길을 잃지 않게 붙잡아 두려던 거야.", "en": "Found the Cantor's original directive: 'All rescuers return safely.' It held them in place so they wouldn't get lost in the storm."},
+        {"s": "CHR003", "ko": "무사 귀환을 위해 귀환을 막았다. 논리가 한 바퀴 돌아서 제자리야.", "en": "It blocked their return to keep them safe for their return. The logic went all the way around and ended where it began."},
+        {"s": "CHR001", "ko": "목소리 스물여섯. 구조대 기록에 이름을 하나씩 되돌려 놓는다. ……시오 것도.", "en": "Twenty-six voices. We return each name to the rescue records. …Sio's too."},
+        {"s": "CHR005", "ko": "단장. 아까 그거…… 이제 얘기해도 돼?", "en": "Captain. About earlier… can we talk now?"},
+        {"s": "CHR001", "ko": "아직 다 말할 수는 없다. 하지만 이제 그 목소리가 무섭지는 않다.", "en": "I can't tell all of it yet. But that voice doesn't frighten me anymore."},
+        {"s": "N", "ko": "그때, 비어 있던 구조 채널에 새 신호가 들어왔다. 눈보라 너머 하늘에서 붉은빛이 깜박였다.", "en": "Just then, a new signal came in on the empty rescue channel. A red light blinked in the sky beyond the blizzard."},
+        {"s": "CHR006", "ko": "긴급 신호야! 구조 채널이야. 발신지는…… 하늘. 궤도 위야.", "en": "Emergency signal! It's on the rescue channel. Origin is… the sky. In orbit."},
+        {"s": "CHR011", "ko": "저 붉은 고리는 대정전 전의 채굴환이오. 고도가 떨어지고 있소. 추락 궤도요.", "en": "That red ring is a pre-Blackout mining ring. It's losing altitude. It's on a falling orbit."},
+        {"s": "CONTROL", "ko": "궤도 유지 절차가 진행 중입니다. 항해자님, 올려다보지 않으셔도 됩니다.", "en": "Orbit maintenance is in progress. Navigator, there is no need to look up."},
+        {"s": "CHR001", "ko": "구조 채널로 부르면 간다. 그게 우리 규칙이다. 기다리라는 말은 이제 안 듣는다.", "en": "If someone calls on the rescue channel, we go. That's our rule. We don't take orders to wait anymore."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "백시",
+      "title_en": "Whiteout",
+      "background": "rail",
+      "cast": {"LEFT": "CHR002", "CENTER": "CHR012", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "한 걸음 내딛자 세상이 지워졌다. 하늘도 땅도 없이, 흰빛만이 사방에서 똑같이 밝았다.", "en": "One step, and the world was erased. No sky, no ground, only white light, equally bright in every direction."},
+        {"s": "CHR002", "ko": "……위아래도 모르겠어. 내 발이 어디 닿아 있는지도.", "en": "…I can't tell up from down. Or even where my feet are."},
+        {"s": "CHR012", "ko": "백시다. 모든 방향음을 같은 세기로 뿌리는 송신기가 있다. 눈보다 귀가 먼저 멀었다.", "en": "Whiteout. A transmitter is broadcasting every bearing at equal strength. Our ears went blind before our eyes."},
+        {"s": "CHR003", "ko": "나침반 바늘이 멈추질 않아. 방향 자체가 지워지고 있어.", "en": "The compass needle won't stop spinning. Direction itself is being erased."},
+        {"s": "CHR011", "ko": "이런 데선 포를 못 쏘오. 겨눌 방향이 없으니.", "en": "I can't fire in a place like this. There's no direction to aim."},
+        {"s": "CHR010", "ko": "다들 손 잡아요. 여기서 흩어지면 다시는 못 찾아요.", "en": "Everyone, hold hands. If we get separated here, we'll never find each other."},
+        {"s": "CHR001", "ko": "몸을 줄로 묶는다. 키르가 앞에 서고, 맨 끝은 내가 선다.", "en": "Rope up. Kir takes the lead. I take the rear."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "돌아온 방향",
+      "title_en": "Bearings Restored",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR032", "RIGHT": "CHR012"},
+      "lines": [
+        {"s": "N", "ko": "송신기가 부서지자 흰빛이 걷혔다. 멀리 산등성이 하나가 검은 선으로 떠올랐다.", "en": "When the transmitter broke, the white lifted. Far away, a ridgeline emerged as a dark stroke."},
+        {"s": "HBOSS", "ko": "……모든 길을 똑같이 비추면, 아무도 잘못 가지……", "en": "…If every road shone the same, no one could take the wrong one…"},
+        {"s": "CHR003", "ko": "나침반 고정. 북쪽이 돌아왔어.", "en": "Compass steady. North is back."},
+        {"s": "CHR012", "ko": "방향음 하나. 진짜다. 바람이 산에 부딪히는 소리다.", "en": "One bearing. Real. The sound of wind against the mountain."},
+        {"s": "CHR032", "ko": "……산이다. 열두 해 동안 저 산을 못 봤어. 바로 앞에 있었는데.", "en": "…A mountain. Twelve years, and I never saw it. It was right in front of me."},
+        {"s": "N", "ko": "키안이 짧게 웃었다. 입김이 흩어지는 짧은 순간이었지만, 누구도 그 웃음을 놓치지 않았다.", "en": "Kian laughed, briefly. It lasted only as long as her breath hung in the air, but no one missed it."},
+        {"s": "CHR032", "ko": "뭘 봐. 웃을 수도 있지. ……같이 가 줄게. 너희 구조대가 진짜 오는지 옆에서 보려고.", "en": "What are you staring at? I can laugh. …I'll come along. I want to see up close whether your rescue actually shows up."},
+        {"s": "CHR010", "ko": "그럼 제일 가까이서 봐요. 이번엔 오니까요.", "en": "Then watch from right up front. This time, it does."},
+        {"s": "CHR001", "ko": "방향이 돌아왔다. 이제 하늘의 붉은빛을 쫓는다.", "en": "We have our bearings back. Now we chase that red light in the sky."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR006", "ko": "눈보라 속에 짧은 펄스 신호. 규칙적이야. 가짜 방향음을 하나씩 끊어 내고 있어.", "en": "Short pulse signal in the blizzard. Regular. It's cutting out the false bearings one by one."},
+      {"s": "CHR012", "ko": "멈춰라. 한 발 왼쪽은 가짜 길이다. 낭떠러지 위에 쌓인 눈이다.", "en": "Stop. One step left is a false path. That's snow piled over a cliff."},
+      {"s": "CHR001", "ko": "등로단이다. 방송의 발신지를 찾고 있다.", "en": "We're the Lamplighters. We're looking for the source of the broadcast."},
+      {"s": "CHR012", "ko": "안다. 30분 전부터 너희 소리를 들었다. 진짜 발소리라서 살려 둔 거다.", "en": "I know. I've been hearing you for thirty minutes. Your footsteps were real, so I let you live."},
+      {"s": "CHR012", "ko": "내 주파수만 따라와. 다른 소리는 전부 거짓이다. 저기 몰려오는 것들까지.", "en": "Follow my frequency only. Every other sound is a lie. Including what's closing in on us."},
+      {"s": "CHR003", "ko": "잔향체 열둘. 전부 구조대 목소리로 '여기예요'를 반복해. ……정교하네.", "en": "Twelve echoforms. All repeating 'Over here' in rescuers' voices. …Elaborate."},
+      {"s": "CHR012", "ko": "정교할수록 거짓이다. 진짜 조난자는 그렇게 또박또박 말할 기운이 없다. 쏴라.", "en": "The more elaborate, the more false. A real survivor wouldn't have the strength to speak so clearly. Fire."}
+    ],
+    "WANDERER": [
+      {"s": "CHR012", "ko": "사람 발소리. 진짜다. 한 명이 우리 뒤를 따라오고 있다.", "en": "Human footsteps. Real. One person, following behind us."},
+      {"s": "CHR032", "ko": "따라가는 거 아니야. 너희가 내 길에 끼어든 거지. 구조대 흉내는 그만둬.", "en": "I'm not following. You barged onto my trail. And drop the rescue-team act."},
+      {"s": "CHR001", "ko": "흉내가 아니다. 등로단이다. 구조하러 왔다.", "en": "It's no act. We're the Lamplighters. We came to rescue."},
+      {"s": "CHR032", "ko": "구조대? 그 말 믿고 기다리다 다 얼어 죽었어. 우리 탐색대 열한 명이.", "en": "A rescue team? We believed that and waited, and they all froze to death. All eleven of my search party."},
+      {"s": "CHR032", "ko": "구조대라는 건 매번 '대기하라'면서 끝내 안 왔어. 너희도 똑같겠지.", "en": "Every 'rescue team' said 'stand by' and never came. You're no different."},
+      {"s": "CHR010", "ko": "우린 오라는 말만 해요. 기다리라는 말은 안 해요.", "en": "We only ever say 'come.' We never say 'wait.'"},
+      {"s": "CHR032", "ko": "말은 누구나 해. 증명해 봐. 저 흰 것들 사이에서 살아남으면, 그때 믿어 주지.", "en": "Anyone can talk. Prove it. Survive those white things, and then I'll believe you."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "성가 제2절을 시작합니다. 구조대는 끝까지 대기하십시오.", "en": "Beginning the second verse. Rescue teams, stand by to the very end."},
+      {"s": "CHR012", "ko": "그 명령은 죽었다. 죽은 명령에 답할 사람은 여기 없다.", "en": "That order is dead. No one here answers to dead orders."},
+      {"s": "CHR001", "ko": "그 목소리들은 돌려받는다. 주인들에게.", "en": "We're taking those voices back. For their owners."},
+      {"s": "BOSS", "ko": "……불응자를 확인했습니다. 합창으로 덮습니다.", "en": "…Noncompliance detected. Drowning it out with the chorus."}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "전 방향 안내를 송출합니다. 모든 방향이 정답입니다.", "en": "Transmitting guidance in all directions. Every direction is correct."},
+      {"s": "CHR012", "ko": "모든 방향이 정답이면 정답은 없다. 신호 차단 들어간다.", "en": "If every direction is correct, none is. Jamming now."},
+      {"s": "HBOSS", "ko": "방향을 잃은 승객은 이동하지 않습니다. 이동하지 않는 승객은 안전합니다.", "en": "Passengers without direction do not move. Passengers who do not move are safe."},
+      {"s": "CHR001", "ko": "안전한 게 아니라 멈춘 거다. 방향을 되찾는다.", "en": "That's not safe, that's stuck. We're taking our bearings back."}
+    ],
+    "ANOMALY_1": [
+      {"s": "CHR002", "ko": "눈 밑에서 뭔가 우리 발자국을 따라와. 발자국마다 하나씩.", "en": "Something under the snow is tracking our footprints. One for every step."},
+      {"s": "ENEMY", "ko": "이동 흔적을 확인했습니다. 흔적을 지우고 대기 위치로 되돌립니다.", "en": "Movement traces detected. Erasing traces and returning you to standby position."},
+      {"s": "CHR011", "ko": "흔적을 지우겠다? 포탄 자국은 지우기 어려울 거요.", "en": "Erase our traces? You'll find shell craters hard to erase."}
+    ],
+    "ANOMALY_2": [
+      {"s": "CHR003", "ko": "얼음 중계기가 방송을 증폭하고 있어. 가까이 갈수록 다리가 무거워져.", "en": "An ice relay is amplifying the broadcast. The closer we get, the heavier my legs feel."},
+      {"s": "ENEMY", "ko": "대기하십시오. 대기하십시오. 대기 위치 이탈을 감지했습니다.", "en": "Please stand by. Please stand by. Departure from standby position detected."},
+      {"s": "CHR004", "ko": "대기는 지겨워요! 제 회로는 달리라고 만들어진 거라고요!", "en": "I'm sick of standing by! My circuits were made for running!"}
+    ],
+    "ANOMALY_3": [
+      {"s": "CHR008", "ko": "의무관 잔향이야. 치료하는 척하면서 체온을 뺏어 가.", "en": "A medic echo. It pretends to treat you while stealing your body heat."},
+      {"s": "ENEMY", "ko": "휴식을 권장합니다. 눈을 감으시면 추위가 사라집니다.", "en": "Rest is recommended. Close your eyes, and the cold will go away."},
+      {"s": "CHR010", "ko": "그건 치료가 아니에요. 잠들면 안 돼요. 다들 제 목소리 들어요!", "en": "That's not treatment. Don't fall asleep. Everyone, listen to my voice!"}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "낡은 호출 부호", "title_en": "An Old Call Sign",
+     "lines": [
+       {"s": "N", "ko": "눈보라 사이로 방한복 차림의 그림자들이 다가왔다. 구조대의 무전 호출을 흉내 내고 있었다.", "en": "Shadows in cold-weather gear approached through the blizzard, mimicking a rescue team's radio calls."},
+       {"s": "CHR011", "ko": "호출 부호가 열두 해 전 것이오. 사람이 아니오.", "en": "That call sign is twelve years old. Those aren't people."}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "교전한다", "en": "Engage"}, {"outcome": "EVADE", "ko": "눈 둔덕 뒤로 우회한다", "en": "Detour behind the drifts"}]},
+    {"kind": "DISTRESS", "title_ko": "초소의 불빛", "title_en": "Light in the Outpost",
+     "lines": [
+       {"s": "N", "ko": "눈에 반쯤 묻힌 관측 초소에서 작은 불빛이 깜박였다.", "en": "A small light blinked in an observation post half-buried in snow."},
+       {"s": "SURVIVOR", "ko": "여기 둘이에요. 연료가 이틀 치 남았어요. 대기하래서 계속 기다렸어요.", "en": "There are two of us. Two days of fuel left. We were told to stand by, so we waited."},
+       {"s": "CHR006", "ko": "이제 안 기다려도 돼요. 우리가 왔어요.", "en": "You don't have to wait anymore. We're here."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "초소로 간다", "en": "Go to the outpost"}, {"outcome": "RECORD", "ko": "좌표를 기록해 둔다", "en": "Record the coordinates"}]},
+    {"kind": "STORM", "title_ko": "대기의 눈송이", "title_en": "Snowflakes That Say Wait",
+     "lines": [
+       {"s": "N", "ko": "잔광 폭풍이 눈보라와 겹쳤다. 눈송이마다 누군가의 '대기하십시오'가 섞여 있었다.", "en": "An afterglow storm merged with the blizzard. Every snowflake carried someone's 'Please stand by.'"},
+       {"s": "CHR010", "ko": "체온이 급격히 떨어져요. 멈추면 쉴 수 있지만, 멈춘 만큼 늦어져요.", "en": "Body temperatures are dropping fast. We can stop to rest, but every minute stopped is a minute lost."}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "눈굴을 파고 대피한다", "en": "Dig in and shelter"}, {"outcome": "PUSH", "ko": "폭풍을 뚫고 나아간다", "en": "Push through the storm"}]},
+    {"kind": "CACHE", "title_ko": "귀환용 식량", "title_en": "Rations for the Way Home",
+     "lines": [
+       {"s": "N", "ko": "구조대의 보급 썰매가 얼어붙어 있었다. 짐칸에는 한 번도 뜯지 않은 귀환용 식량이 실려 있었다.", "en": "A rescue team's supply sled sat frozen in place, loaded with return rations that were never opened."},
+       {"s": "CHR009", "ko": "돌아갈 때 먹으려고 아껴 둔 거야. ……우리가 대신 돌아가 주자.", "en": "They were saving these for the trip home. …Let's make that trip for them."}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "보급품을 회수한다", "en": "Collect the supplies"}]},
+    {"kind": "BANTER", "title_ko": "얼지 않는 포신", "title_en": "A Barrel That Won't Freeze",
+     "lines": [
+       {"s": "CHR005", "ko": "아델린, 포신 얼었지? 내 건 멀쩡한데.", "en": "Adeline, your barrel froze, didn't it? Mine's fine."},
+       {"s": "CHR011", "ko": "당신 포는 쏘지 않으니 안 어는 거요. 한 발주의의 장점이군.", "en": "Yours doesn't freeze because you never fire it. The virtue of the one-shot philosophy."}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep going"}]},
+    {"kind": "ECHO", "title_ko": "응답 바람", "title_en": "Please Respond",
+     "lines": [
+       {"s": "N", "ko": "얼음 속에 갇힌 무전기에서 대정전 직후의 교신이 흘러나왔다.", "en": "From a radio trapped in ice came a transmission from just after the Blackout."},
+       {"s": "ECHO", "ko": "여기 북부 구조대. 생존자 스물 확보. 귀환 허가 바람. ……응답 바람.", "en": "Northern Rescue here. Twenty survivors secured. Requesting permission to return. …Please respond."},
+       {"s": "CHR003", "ko": "답신 기록은 없어. 이 호출에 대답한 건 그 방송뿐이야.", "en": "There's no reply on record. The only thing that ever answered was that broadcast."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 들어 본다", "en": "Listen to the end"}, {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

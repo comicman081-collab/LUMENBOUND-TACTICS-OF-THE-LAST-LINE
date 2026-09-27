@@ -2,6 +2,7 @@
   "id": "SCN_PROLOGUE",
   "title_key": "SCENARIO_PROLOGUE_TITLE",
   "chapter_id": "PROLOGUE",
+  "presentation": "CINEMATIC",
   "commands": [
     {
       "id": "start",
@@ -12,13 +13,13 @@
       "command": "show_portrait",
       "slot": "LEFT",
       "asset_id": "portrait_chr002_dev",
-      "expression": "SERIOUS"
+      "expression": "NEUTRAL"
     },
     {
       "command": "show_portrait",
       "slot": "RIGHT",
       "asset_id": "portrait_chr001_dev",
-      "expression": "SERIOUS"
+      "expression": "NEUTRAL"
     },
     {
       "command": "fade_in",
@@ -27,40 +28,190 @@
     {
       "command": "narration",
       "speaker_key": "SPEAKER_ROUTEKEEPER",
-      "text_key": "STORY_PRO_01"
+      "text_key": "STORY_PROLOGUE_01"
     },
     {
       "command": "narration",
       "speaker_key": "SPEAKER_ROUTEKEEPER",
-      "text_key": "STORY_PRO_02"
+      "text_key": "STORY_PROLOGUE_02"
     },
     {
-      "command": "set_expression",
-      "slot": "RIGHT",
-      "expression": "BATTLE_FOCUS"
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_PROLOGUE_03"
     },
     {
-      "command": "dialogue",
-      "speaker_key": "SPEAKER_MAERU",
-      "text_key": "STORY_PRO_03"
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_PROLOGUE_04"
     },
     {
       "command": "dialogue",
       "speaker_key": "SPEAKER_ROAN",
-      "text_key": "STORY_PRO_04"
+      "text_key": "STORY_PROLOGUE_05",
+      "portrait_asset_id": "portrait_chr002_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_PROLOGUE_06",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_PROLOGUE_07",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_PROLOGUE_08"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr004_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "CONCERNED"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_EDA",
+      "text_key": "STORY_PROLOGUE_09",
+      "portrait_asset_id": "portrait_chr004_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_CONTROL",
+      "text_key": "STORY_PROLOGUE_10"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr005_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "CENTER",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_SOREN",
+      "text_key": "STORY_PROLOGUE_11",
+      "portrait_asset_id": "portrait_chr005_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_PROLOGUE_12",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_PROLOGUE_13"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "CONCERNED"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_PROLOGUE_14",
+      "portrait_asset_id": "portrait_chr001_dev"
     },
     {
       "command": "choice",
       "choices": [
         {
           "text_key": "CHOICE_LIGHT",
+          "target": "c1_a",
           "set_flag": "CHOSE_LIGHT"
         },
         {
           "text_key": "CHOICE_RECORD",
+          "target": "c1_b",
           "set_flag": "CHOSE_RECORD"
         }
       ]
+    },
+    {
+      "id": "c1_a",
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_PROLOGUE_15",
+      "portrait_asset_id": "portrait_chr001_dev"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_b",
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_PROLOGUE_16",
+      "portrait_asset_id": "portrait_chr003_dev"
+    },
+    {
+      "command": "jump",
+      "target": "c1_end"
+    },
+    {
+      "id": "c1_end",
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr004_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
+      "asset_id": "portrait_chr002_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_ROAN",
+      "text_key": "STORY_PROLOGUE_17",
+      "portrait_asset_id": "portrait_chr002_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_PROLOGUE_18"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_PROLOGUE_19",
+      "portrait_asset_id": "portrait_chr001_dev"
     },
     {
       "command": "set_flag",

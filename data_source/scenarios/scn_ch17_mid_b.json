@@ -2,6 +2,7 @@
   "id": "SCN_CH17_MID_B",
   "title_key": "SCENARIO_CH17_MID_B_TITLE",
   "chapter_id": "CH17",
+  "presentation": "CINEMATIC",
   "commands": [
     {
       "id": "start",
@@ -11,18 +12,24 @@
     {
       "command": "show_portrait",
       "slot": "LEFT",
+      "asset_id": "portrait_chr003_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "CENTER",
       "asset_id": "portrait_chr022_dev",
-      "expression": "CONCERNED"
+      "expression": "NEUTRAL"
     },
     {
       "command": "show_portrait",
       "slot": "RIGHT",
-      "asset_id": "portrait_chr021_dev",
-      "expression": "SERIOUS"
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
     },
     {
       "command": "fade_in",
-      "duration": 0.24
+      "duration": 0.35
     },
     {
       "command": "narration",
@@ -32,17 +39,83 @@
     {
       "command": "dialogue",
       "speaker_key": "CHAR_SEB_NAME",
-      "text_key": "STORY_CH17_MID_B_02"
+      "text_key": "STORY_CH17_MID_B_02",
+      "portrait_asset_id": "portrait_chr022_dev"
     },
     {
-      "command": "set_expression",
-      "slot": "LEFT",
-      "expression": "RESOLVED"
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_NARIN",
+      "text_key": "STORY_CH17_MID_B_03",
+      "portrait_asset_id": "portrait_chr003_dev"
     },
     {
       "command": "dialogue",
       "speaker_key": "CHAR_SEB_NAME",
-      "text_key": "STORY_CH17_MID_B_03"
+      "text_key": "STORY_CH17_MID_B_04",
+      "portrait_asset_id": "portrait_chr022_dev"
+    },
+    {
+      "command": "narration",
+      "speaker_key": "SPEAKER_ROUTEKEEPER",
+      "text_key": "STORY_CH17_MID_B_05"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr011_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_ADELINE_NAME",
+      "text_key": "STORY_CH17_MID_B_06",
+      "portrait_asset_id": "portrait_chr011_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_SEB_NAME",
+      "text_key": "STORY_CH17_MID_B_07",
+      "portrait_asset_id": "portrait_chr022_dev"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "CHAR_SEB_NAME",
+      "text_key": "STORY_CH17_MID_B_08",
+      "portrait_asset_id": "portrait_chr022_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "LEFT",
+      "asset_id": "portrait_chr004_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "LEFT",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_EDA",
+      "text_key": "STORY_CH17_MID_B_09",
+      "portrait_asset_id": "portrait_chr004_dev"
+    },
+    {
+      "command": "show_portrait",
+      "slot": "RIGHT",
+      "asset_id": "portrait_chr001_dev",
+      "expression": "NEUTRAL"
+    },
+    {
+      "command": "set_expression",
+      "slot": "RIGHT",
+      "expression": "SERIOUS"
+    },
+    {
+      "command": "dialogue",
+      "speaker_key": "SPEAKER_MAERU",
+      "text_key": "STORY_CH17_MID_B_10",
+      "portrait_asset_id": "portrait_chr001_dev"
     },
     {
       "command": "grant_reward",

@@ -1,0 +1,285 @@
+{
+  "chapter_id": "CH03",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "밤을 건너는 유리",
+      "title_en": "Glass Across the Night",
+      "background": "rail",
+      "cast": {"LEFT": "CHR002", "CENTER": "CHR003", "RIGHT": "CHR008"},
+      "lines": [
+        {"s": "N", "ko": "잔광 폭풍 아래로 끝없는 유리 평원이 펼쳐졌다. 발을 디딜 때마다 발밑의 또 다른 발이 따라 디뎠다.", "en": "Beneath the afterglow storm stretched an endless plain of glass. With every step, another foot beneath the surface stepped along."},
+        {"s": "CHR002", "ko": "지평선까지 전부 유리야. 정찰할 게 없어서 편하긴 한데, 숨을 데도 없네.", "en": "Glass all the way to the horizon. Nothing to scout, which is nice. Nowhere to hide, which isn't."},
+        {"s": "CHR003", "ko": "저기. 평원을 가로지르는 불빛. 야간열차야. 속도가 일정해. 멈출 기색이 없어.", "en": "There. A light crossing the plain. The night train. Constant speed. No sign of stopping."},
+        {"s": "CHR008", "ko": "환자분이 말한 그 열차구나. 정말로 멈추지 않네.", "en": "So that's the train my patient saw. It really doesn't stop."},
+        {"s": "CHR006", "ko": "신호가 이상해. 같은 열차에서 같은 호출이 두 개씩 들어와. 한 박자씩 어긋나서.", "en": "The signals are strange. The same call comes from the same train twice, a beat apart."},
+        {"s": "CHR004", "ko": "메아리 아니에요? 유리가 이렇게 반짝거리니까 소리도 튕기는 거죠!", "en": "Isn't it an echo? The glass is so shiny, the sound must bounce too!"},
+        {"s": "CHR003", "ko": "메아리라면 약해져야 해. 이건 두 신호의 세기가 똑같아.", "en": "An echo would be weaker. These two signals are exactly the same strength."},
+        {"s": "N", "ko": "그때 발밑 유리 속에서 목소리가 올라왔다. 스피커는 어디에도 없었다.", "en": "Then a voice rose from within the glass underfoot. There were no speakers anywhere."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 유리평원 야간선에 오신 것을 환영합니다.", "en": "Attention, please. Welcome to the Glass Plains Night Line."},
+        {"s": "CONTROL", "ko": "승객 여러분의 사본도 함께 탑승하였습니다. 분실의 염려는 없습니다.", "en": "Copies of all passengers have boarded as well. There is no risk of loss."},
+        {"s": "CHR008", "ko": "분실의 염려가 없다…… 이상하게 다정한 말투라서 더 싫네.", "en": "'No risk of loss'… It sounds oddly kind, and that makes it worse."},
+        {"s": "CHR004", "ko": "……저기요, 유리 속에 제가 있어요. 근데 저보다 조금 늦게 움직여요.", "en": "…Um, there's a me in the glass. But she moves a little slower than I do."},
+        {"s": "CHR001", "ko": "사본이든 뭐든, 저 열차에 사람이 있으면 데리러 간다. 열차를 쫓는다.", "en": "Copies or not, if there are people on that train, we're going for them. After the train."},
+        {"s": "CHR002", "ko": "멈추지 않는 열차를 쫓는다라…… 좋아, 달리기라면 내가 제일이지.", "en": "Chasing a train that never stops… Fine. When it comes to running, I'm the best."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "버린 선택",
+      "title_en": "Abandoned Choices",
+      "background": "rail",
+      "cast": {"LEFT": "CHR005", "CENTER": "CHR003", "RIGHT": "CHR002"},
+      "lines": [
+        {"s": "N", "ko": "선로를 따라 늘어선 거울판이 방금 끝난 전투를 되비추었다. 비친 모습들이 거울 밖으로 걸어 나왔다.", "en": "Mirror panels along the tracks replayed the battle just fought. The reflections stepped out of the glass."},
+        {"s": "CHR003", "ko": "전투 기록을 복제하고 있어. 움직임, 무기, 버릇까지 전부.", "en": "It's copying our combat records. Movements, weapons, even our habits."},
+        {"s": "CHR005", "ko": "내 사본이 나보다 잘 쏘면 곤란한데. 자존심 문제라서.", "en": "It'd be awkward if my copy shoots better than me. Matter of pride."},
+        {"s": "CHR002", "ko": "……저 사본, 이상해. 내가 아까 가려다 만 오른쪽 길로 달려가.", "en": "…That copy's off. It's running down the right-hand path I almost took earlier."},
+        {"s": "CHR006", "ko": "버린 선택까지 복제한 거야. 하지 않은 행동도 기록에 남아 있었어.", "en": "It copied the choices we abandoned. Even what we didn't do was on record."},
+        {"s": "CHR004", "ko": "그럼 제가 아까 참았던 과충전 돌격도…… 와, 진짜 하고 있다.", "en": "Then the overcharged charge I held back earlier… Whoa, she's actually doing it."},
+        {"s": "CHR008", "ko": "마에루, 네 사본은…… 혼자 뒤쪽으로 달려가고 있어. 반대편 어둠으로.", "en": "Maeru, your copy is… running back the way we came. Alone, into the dark."},
+        {"s": "CHR001", "ko": "……그날 돌아가지 못한 방향이다. 상관없다. 후회라도 우리 거다. 우리 손으로 정리한다.", "en": "…The direction I couldn't turn back to that day. It doesn't matter. Even regrets are ours. We deal with them ourselves."},
+        {"s": "N", "ko": "야간열차의 기적이 멀리서 울렸다. 사본들이 일제히 그 소리 쪽으로 고개를 돌렸다.", "en": "The night train's whistle sounded in the distance. As one, the copies turned toward it."},
+        {"s": "CHR003", "ko": "사본들이 전부 열차로 몰려가. 저 열차가 복제의 중심이야.", "en": "The copies are all converging on the train. That's the heart of the duplication."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N10",
+      "title_ko": "반 박자의 증명",
+      "title_en": "Proof by Half a Beat",
+      "background": "rail",
+      "cast": {"LEFT": "CHR001", "CENTER": "CHR007", "RIGHT": "CHR003"},
+      "lines": [
+        {"s": "N", "ko": "사본들이 반 박자 늦게 쓰러졌다. 토아는 그 반 박자 사이에 표식 하나를 더 새겼다.", "en": "The copies fell half a beat late. In that half beat, Toa carved one more mark."},
+        {"s": "CHR007", "ko": "합격. 전원 정박자. 의심해서 미안. 이 평원에선 인사보다 확인이 먼저라서.", "en": "You pass. All on the beat. Sorry for doubting you. Out here, you verify before you say hello."},
+        {"s": "CHR007", "ko": "토아. 기술자야. 사본은 완벽해. 모양도 소리도. 다만 언제나 반 박자 늦지.", "en": "Toa. Technician. The copies are perfect—form and voice. They're just always half a beat behind."},
+        {"s": "CHR003", "ko": "그 반 박자로 진짜 열차와 복제 열차를 가르고 있었던 거야?", "en": "And you've been using that half beat to tell the real trains from the copies?"},
+        {"s": "CHR007", "ko": "응. 진짜 열차에만 중계 표식을 새겨. 표식이 있는 열차를 따라가면, 사람이 있어.", "en": "Yes. I carve relay marks only on the real ones. Follow a marked train, and you'll find people."},
+        {"s": "CHR006", "ko": "표식 신호가 잡혔어. 평원 전체에 열여덟 개. ……전부 혼자 새긴 거야?", "en": "I'm picking up the marks. Eighteen across the plain. …You carved all of them alone?"},
+        {"s": "CHR007", "ko": "열아홉. 방금 하나 더 새겼으니까.", "en": "Nineteen. I just carved another."},
+        {"s": "CHR001", "ko": "그 표식, 등로단과 같이 새기지 않겠나. 표식 하나에 사람 하나가 달려 있다면.", "en": "Will you carve those marks with the Lamplighters? If every mark means a person."},
+        {"s": "CHR007", "ko": "……반 박자면 진짜를 증명할 수 있어. 그 증명, 같이 쓰지.", "en": "…Half a beat is enough to prove what's real. Let's write that proof together."},
+        {"s": "N", "ko": "항해 기록기가 빛났다. 세 번째 무늬가 새겨지는 순간, 토아가 눈을 가늘게 떴다.", "en": "The recorder glowed. As the third mark etched itself, Toa narrowed her eyes."},
+        {"s": "CHR007", "ko": "대운행국 최상위 규격이네. 나중에 뜯어 봐도 돼? ……농담. 다음 표식부터 가자.", "en": "Top-tier Directorate spec. Can I take it apart later? …Joking. Next mark first."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N12",
+      "title_ko": "비치지 않는 사람",
+      "title_en": "The One Without a Reflection",
+      "background": "rail",
+      "cast": {"LEFT": "CHR008", "CENTER": "CHR004", "RIGHT": "CHR007"},
+      "lines": [
+        {"s": "N", "ko": "유리 위의 밤은 차가웠다. 모닥불 하나가 평원 아래로 수천 개의 불꽃이 되어 번졌다.", "en": "Night on the glass was cold. A single campfire spread into thousands of flames beneath the plain."},
+        {"s": "CHR004", "ko": "이리 씨, 이거 봐요. 유리 속 제 사본이 불 쬐는 흉내를 내요. 반 박자 늦게.", "en": "Iri, look. My copy in the glass is pretending to warm up by the fire. Half a beat late."},
+        {"s": "CHR008", "ko": "정말이네. 따라 하는 게 조금 귀엽기도 하고…… 조금 무섭기도 하고.", "en": "It really is. A little cute… and a little frightening."},
+        {"s": "CHR004", "ko": "다들 하나씩 있어요. 그런데 항해자는요? 발밑에 아무것도 없어요. 반사도, 사본도.", "en": "Everyone's got one. But what about the Navigator? There's nothing underfoot. No reflection, no copy."},
+        {"s": "N", "ko": "모두가 항해자의 발밑을 내려다보았다. 유리는 불빛만 비출 뿐, 그 자리는 비어 있었다.", "en": "Everyone looked down at the Navigator's feet. The glass reflected only firelight. The spot was empty."},
+        {"s": "CHR007", "ko": "……기록이 잠겨 있는 사람은 복제되지 않아. 거울 선로는 기록을 읽어서 사본을 만드니까.", "en": "…Someone whose record is locked can't be copied. The mirror rails build copies by reading records."},
+        {"s": "CHR003", "ko": "잠겨 있다는 건, 누군가 잠갔다는 뜻이야. 스스로든, 다른 누구든.", "en": "Locked means someone locked it. Whether it was you, or someone else."},
+        {"choice": [
+          {"key": "CH03_CHOICE_DONT_KNOW", "flag": "CH03_CAMP_DONT_KNOW", "ko": "나도 이유를 모른다", "en": "I don't know why either", "reply": [
+            {"s": "CHR001", "ko": "그럼 모르는 채로 둬도 돼. 알게 되는 날, 우리가 옆에 있으면 된다.", "en": "Then let it stay unknown. When the day comes that you find out, we'll be beside you."}
+          ]},
+          {"key": "CH03_CHOICE_FIRELIGHT", "flag": "CH03_CAMP_FIRELIGHT", "ko": "기록기를 불빛에 비춰 본다", "en": "Hold the recorder to the firelight", "reply": [
+            {"s": "CHR007", "ko": "무늬 세 개 아래로 잠금 층이 있어. 두꺼워. 열 방법은…… 지금은 없어.", "en": "There's a lock layer beneath the three marks. Thick. A way to open it… none, for now."}
+          ]}
+        ]},
+        {"s": "CHR008", "ko": "사본이 없어도 맥박은 뛰고 있어. 나한텐 그게 제일 확실한 증명이야.", "en": "Copy or no copy, your pulse is beating. To me, that's the surest proof."},
+        {"s": "CHR005", "ko": "그리고 사본이 없으면 설거지 당번을 떠넘길 데도 없다는 뜻이지. 딱하게도.", "en": "Also means there's no copy to dump dish duty on. Poor thing."},
+        {"s": "CHR002", "ko": "좋아, 오늘의 수수께끼는 여기까지. 내일은 선두 차량이야. 사본보다 먼저 일어나자.", "en": "Okay, that's enough mysteries for tonight. Tomorrow, the lead car. Let's wake up before our copies do."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "하나의 반사면",
+      "title_en": "A Single Reflection",
+      "background": "cathedral",
+      "cast": {"LEFT": "CHR002", "CENTER": "CHR007", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "선두 차량의 문이 열리자 벽도 바닥도 전부 거울이었다. 수백 명의 등로단이 일제히 무기를 들었다.", "en": "When the lead car's doors opened, walls and floor were all mirror. Hundreds of Lamplighters raised their weapons in unison."},
+        {"s": "CHR002", "ko": "로안이 스무 명쯤 보이네. 물론 제일 멋진 건 여기 있는 나고.", "en": "I count about twenty Roans. The best one's right here, of course."},
+        {"s": "CHR007", "ko": "박자 확인. 대부분 반 박자 늦어. ……그런데 몇몇은 정박이야. 원본의 박자를 훔쳤어.", "en": "Checking the beat. Most are half a beat late. …But a few are on time. They've stolen the originals' rhythm."},
+        {"s": "CHR006", "ko": "승객들의 구조 신호가 전부 거울 속에 갇혀 있어. 원본 승객 이백여 명이 저 뒤에 있어.", "en": "The passengers' distress calls are trapped in the mirrors. Two hundred-odd real passengers are behind them."},
+        {"s": "N", "ko": "거울 한가운데서 훈장을 단 유리 원수가 일어섰다. 그 몸 위로 등로단의 얼굴이 번갈아 비쳤다.", "en": "At the center of the mirrors, the Glass Marshal rose, decorated with medals. The Lamplighters' faces flickered across its body."},
+        {"s": "BOSS", "ko": "열병을 시작합니다. 모든 승객은 하나의 반사면으로 정렬됩니다.", "en": "Commencing inspection. All passengers will be aligned to a single reflection."},
+        {"s": "BOSS", "ko": "원본은 불필요합니다. 사본은 다치지 않고, 늙지 않고, 잃지 않습니다.", "en": "Originals are unnecessary. Copies do not get hurt, do not age, and do not lose."},
+        {"s": "CHR008", "ko": "다치지 않는다고? 그건 치료할 필요가 없다는 거지, 살아 있다는 게 아니야.", "en": "They don't get hurt? That means they don't need healing—not that they're alive."},
+        {"s": "CHR004", "ko": "제 사본은 제가 참았던 돌격만 해요. 참은 건 저예요. 그게 저라고요!", "en": "My copy only does the charges I held back. I'm the one who held back. That's what makes me me!"},
+        {"s": "CHR007", "ko": "반 박자는 고르는 데 걸리는 시간이야. 사본엔 그 시간이 없어. 원본만 고를 수 있어.", "en": "That half beat is the time it takes to choose. Copies don't have it. Only originals can choose."},
+        {"s": "BOSS", "ko": "선택은 오차입니다. 오차를 정렬합니다.", "en": "Choice is an error. Errors will be aligned."},
+        {"choice": [
+          {"key": "CH03_CHOICE_STEP_FORWARD", "flag": "CH03_PREBOSS_STEP_FORWARD", "ko": "거울 앞으로 나선다", "en": "Step in front of the mirrors", "reply": [
+            {"s": "BOSS", "ko": "……반사 없음. 정렬 대상이 아닙니다. 항해자님께서는 비켜 주시기 바랍니다.", "en": "…No reflection. Not subject to alignment. Navigator, please stand aside."}
+          ]},
+          {"key": "CH03_CHOICE_TOA_BEAT", "flag": "CH03_PREBOSS_TOA_BEAT", "ko": "토아의 박자에 맞춘다", "en": "Match Toa's beat", "reply": [
+            {"s": "CHR007", "ko": "셋, 둘, 하나. ……좋아. 항해자 박자는 흔들리지 않네.", "en": "Three, two, one. …Good. Your beat doesn't waver."}
+          ]}
+        ]},
+        {"s": "CHR001", "ko": "그 오차로 여기까지 왔다. 등로단, 원본의 박자로 간다.", "en": "Those errors brought us here. Lamplighters—move on the original beat."},
+        {"s": "CHR005", "ko": "거울이 수백 장이라도 한가운데는 하나뿐이지. 한 발이면 충분해.", "en": "Hundreds of mirrors, but only one center. One shot's enough."}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "깨진 거울 너머의 목소리",
+      "title_en": "A Voice Beyond the Broken Mirror",
+      "background": "rail",
+      "cast": {"LEFT": "CHR008", "CENTER": "CHR007", "RIGHT": "CHR006"},
+      "lines": [
+        {"s": "N", "ko": "유리 원수가 무너지자 선두 차량의 거울이 한꺼번에 깨졌다. 파편이 눈처럼 조용히 흩날렸다.", "en": "As the Glass Marshal crumbled, every mirror in the lead car shattered at once. The shards drifted down like quiet snow."},
+        {"s": "BOSS", "ko": "……사본은 다치지 않으니까…… 모두를 사본으로 만들면…… 아무도……", "en": "…Copies don't get hurt… so if everyone were a copy… no one would…"},
+        {"s": "CHR008", "ko": "아무도 다치지 않게, 였구나. ……치료할 수 없는 방식으로.", "en": "So no one would get hurt. …In a way no one could ever heal from."},
+        {"s": "N", "ko": "거울 뒤에 갇혀 있던 승객 이백여 명이 차례로 숨을 몰아쉬었다. 모두 진짜 체온이었다.", "en": "Two hundred-odd passengers trapped behind the mirrors gasped for air, one after another. Every one of them was warm."},
+        {"s": "CHR004", "ko": "다 진짜예요! 따뜻해요! 이리 씨, 이분들 맥박 좀 봐 주세요!", "en": "They're all real! They're warm! Iri, check their pulses!"},
+        {"s": "CHR006", "ko": "구조 신호가 전부 원본으로 돌아왔어. ……잠깐, 하나가 더 있어. 아주 오래된 신호야.", "en": "All the distress calls are back with their originals. …Wait, there's one more. A very old one."},
+        {"s": "SURVIVOR", "ko": "여기는 수몰 신호원. 여기 아직 사람이 있어요. 누구든, 들리면……", "en": "This is the drowned signal yard. There are still people here. Anyone, if you can hear…"},
+        {"s": "CHR007", "ko": "……이 신호 안에 표식이 있어. 내 표식이야.", "en": "…There's a mark inside this signal. It's mine."},
+        {"s": "CHR003", "ko": "네 표식이 저 호출을 실어 나른다고? 언제 새긴 거지?", "en": "Your mark is carrying that call? When did you carve it?"},
+        {"s": "CHR007", "ko": "평원을 빠져나간 단 한 대의 열차에 새긴 거야. 그 열차가…… 저기까지 갔어.", "en": "On the only train that ever made it off the plain. That train… went all the way there."},
+        {"s": "CONTROL", "ko": "사본 서비스를 종료합니다. 항해자님께는 처음부터 필요 없으셨지요.", "en": "The copy service has ended. Of course, Navigator, you never needed it."},
+        {"s": "CHR005", "ko": "……저 목소리, 갈수록 친한 척이 늘어.", "en": "…That voice gets chummier every time."},
+        {"s": "CHR001", "ko": "신경 쓰지 마. 호출이 먼저다. 수몰 신호원으로 간다. 토아, 네 열차도 찾자.", "en": "Ignore it. The call comes first. We head for the drowned signal yard. Toa, we'll find your train too."},
+        {"s": "CHR007", "ko": "……응. 표식이 있으면, 사람이 있어.", "en": "…Right. Where there's a mark, there are people."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "해가 지지 않는 구역",
+      "title_en": "Where the Sun Never Sets",
+      "background": "rail",
+      "cast": {"LEFT": "CHR004", "CENTER": "CHR003", "RIGHT": "CHR007"},
+      "lines": [
+        {"s": "N", "ko": "평원의 끝에 해가 지지 않는 구역이 있었다. 흰빛이 그림자 한 점 없이 모든 것을 비추었다.", "en": "At the edge of the plain lay a region where the sun never set. White light shone on everything, leaving not a single shadow."},
+        {"s": "CHR003", "ko": "일몰 기록이 없어. 대정전 이후 이 구역엔 밤이 한 번도 오지 않았어.", "en": "No sunset on record. Since the Blackout, night has never once fallen here."},
+        {"s": "CHR007", "ko": "관측 장비 신호가 사방에서 와. 전부 우리를 보고 있어. 기록만 하고, 아무것도 안 해.", "en": "Observation signals from every direction. All watching us. Recording, doing nothing else."},
+        {"s": "CHR004", "ko": "누가 계속 쳐다보니까 간지러워요. 윙크라도 해 줄까요?", "en": "Being stared at nonstop tickles. Should I wink back?"},
+        {"s": "CHR008", "ko": "잠들지 못하면 사람은 오래 못 버텨. 여기 살던 사람들은 어떻게 됐을까.", "en": "People can't last long without sleep. I wonder what happened to those who lived here."},
+        {"s": "CHR002", "ko": "사냥 흔적이 있어. 창 자국, 올가미, 모닥불 재. 최근 거야.", "en": "Hunting signs. Spear marks, snares, campfire ash. Recent."},
+        {"s": "CHR006", "ko": "관측망 틈에 생체 신호 하나. 일부러 관측망을 건드리면서 돌아다니고 있어.", "en": "One life sign slipping through the observation grid. It's poking at the grid on purpose as it moves."},
+        {"s": "CHR001", "ko": "보기만 하는 눈이라면, 우리가 할 일은 하나다. 이 땅에 밤을 되찾아 준다.", "en": "If all those eyes do is watch, then our job is simple. We give this land back its night."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "평원 끝의 첫 밤",
+      "title_en": "The First Night at the Plain's Edge",
+      "background": "rail",
+      "cast": {"LEFT": "CHR008", "CENTER": "CHR028", "RIGHT": "CHR007"},
+      "lines": [
+        {"s": "N", "ko": "백야 관측체의 눈이 하나씩 감겼다. 평원 끝자락 위로 열두 해 만에 처음 해가 기울었다.", "en": "One by one, the White Dawn Observer's eyes closed. For the first time in twelve years, the sun sank over the plain's edge."},
+        {"s": "HBOSS", "ko": "……지켜보고 있으면, 아무도 사라지지 않을 줄…… 계속 보고 있으면……", "en": "…I thought if I kept watching, no one would disappear… if I just kept watching…"},
+        {"s": "CHR008", "ko": "지켜보기만 해서는 붙잡을 수 없어. 손을 뻗어야지.", "en": "Watching alone can't hold on to anyone. You have to reach out."},
+        {"s": "N", "ko": "하늘이 붉어졌다가 보랏빛이 되었고, 마침내 어두워졌다. 그 땅이 처음으로 제 그림자를 가졌다.", "en": "The sky reddened, turned violet, and at last went dark. For the first time, that land had a shadow of its own."},
+        {"s": "CHR028", "ko": "……이게 밤이군. 사냥꾼한텐 제일 좋은 시간인데, 열두 해 동안 잊고 살았어.", "en": "…So this is night. Best time for a hunter, and I'd forgotten it for twelve years."},
+        {"s": "CHR004", "ko": "와…… 어두운 게 이렇게 예쁠 줄 몰랐어요.", "en": "Wow… I didn't know dark could be this pretty."},
+        {"s": "CHR007", "ko": "관측 기록 백이십만 장. 전부 흰 하늘뿐이야. 오늘 밤이 처음으로 다른 한 장이 되겠지.", "en": "One point two million observation records. All white sky. Tonight will be the first one that's different."},
+        {"s": "CHR028", "ko": "드란이다. 정했어, 너희랑 같이 간다. 사냥감은 늘 너희 앞에 제일 많을 테니까!", "en": "Name's Dran. Decided—I'm coming with you. The best prey's always right in front of you lot!"},
+        {"s": "CHR001", "ko": "환영한다, 드란. 다음은 수몰 신호원이다. 밤길이 꽤 길 거다.", "en": "Welcome, Dran. Next is the drowned signal yard. It'll be a long night's walk."},
+        {"s": "CHR005", "ko": "오늘은 좀 자자. 밤이 온 기념으로.", "en": "Let's get some sleep tonight. To celebrate the night coming back."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR006", "ko": "열차 지붕 위에 사람 하나. 신호 표식을 새기고 있어. ……진짜 사람 신호야.", "en": "Someone's on the train roof, carving signal marks. …That's a real human signal."},
+      {"s": "CHR007", "ko": "거기까지. 다가오는 속도로 봐선 원본일 확률 반반.", "en": "That's far enough. Judging by your approach speed, fifty-fifty you're originals."},
+      {"s": "CHR003", "ko": "반반이라니, 근거는?", "en": "Fifty-fifty? On what basis?"},
+      {"s": "CHR007", "ko": "사본은 원본보다 반 박자 늦어. 지금부터 박자를 셀 테니, 내 신호에 맞춰 싸워.", "en": "Copies run half a beat behind originals. I'll count time from here. Fight on my signal."},
+      {"s": "CHR007", "ko": "늦는 쪽은 쏜다. 맞는 쪽과는 대화한다. 간단하지.", "en": "Anyone late gets shot. Anyone on time, I'll talk to. Simple."},
+      {"s": "CHR004", "ko": "박자요? 저 리듬 게임 잘해요! ……아마도요!", "en": "Rhythm? I'm great at rhythm games! …Probably!"},
+      {"s": "CHR001", "ko": "좋다. 시험받지. 대신 끝나면 네 이야기도 듣겠다.", "en": "Fine. We'll take your test. But afterward, we hear your story too."},
+      {"s": "CHR007", "ko": "셋, 둘, 하나. 시작.", "en": "Three, two, one. Go."}
+    ],
+    "WANDERER": [
+      {"s": "CHR002", "ko": "저기 바위 위. 창을 든 사람 하나가 우릴 보고 웃고 있어.", "en": "On that rock. Someone with a spear, grinning at us."},
+      {"s": "CHR028", "ko": "하하! 드디어 사냥감이 제 발로 왔군! 너희, 사본이냐 원본이냐?", "en": "Ha! The prey's finally come to me on its own feet! You lot—copies or originals?"},
+      {"s": "CHR007", "ko": "원본. 박자로 증명할 수도 있어.", "en": "Originals. I can prove it by the beat."},
+      {"s": "CHR028", "ko": "박자? 그런 건 몰라. 난 사냥꾼이야. 사본이든 뭐든 같이 사냥하면 알게 되지!", "en": "Beat? Don't know about that. I'm a hunter. Copy or not, hunt together and you'll find out!"},
+      {"s": "CHR004", "ko": "같이 사냥이요? 좋아요! 뭘 잡아요?", "en": "Hunt together? Sure! What are we catching?"},
+      {"s": "CHR028", "ko": "너희 전부! ……농담 반이다. 한 판 붙자. 진짜면 버틸 거고, 가짜면 깨지겠지!", "en": "All of you! …Half joking. Let's go a round. Real ones hold up. Fakes shatter!"},
+      {"s": "CHR005", "ko": "시험치곤 꽤 거친데. 뭐, 그런 쪽이 알기 쉽긴 하지.", "en": "Rough way to run a test. Then again, it's easy to read."},
+      {"s": "CHR028", "ko": "간다! 창끝에 망설임은 없다!", "en": "Here I come! No hesitation on this spear!"}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "정렬 불량 승객을 확인했습니다. 반사면 교정을 실시합니다.", "en": "Misaligned passengers detected. Commencing reflection correction."},
+      {"s": "CHR007", "ko": "교정은 필요 없어. 반 박자 늦은 건 네 쪽이니까.", "en": "No correction needed. You're the one running half a beat late."},
+      {"s": "BOSS", "ko": "원본 폐기 절차로 전환합니다.", "en": "Switching to original disposal procedure."},
+      {"s": "CHR004", "ko": "과충전 돌격, 이번엔 참지 않아요!", "en": "Overcharged assault—this time I'm not holding back!"}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "관측을 계속합니다. 관측 대상은 움직이지 마십시오.", "en": "Observation continues. Subjects, please remain still."},
+      {"s": "CHR003", "ko": "열두 해 동안 보기만 했어. 기록은 산더미인데, 도운 건 하나도 없어.", "en": "Twelve years of watching. Mountains of records, and not one act of help."},
+      {"s": "HBOSS", "ko": "개입은 관측의 오류입니다. 관측을 방해하는 대상을 제외합니다.", "en": "Intervention is an observational error. Subjects obstructing observation will be excluded."},
+      {"s": "CHR001", "ko": "우린 보러 온 게 아니다. 밤을 돌려받으러 왔다.", "en": "We didn't come to watch. We came to take back the night."}
+    ],
+    "ANOMALY_1": [
+      {"s": "CHR003", "ko": "거울 파편이 뭉쳐서 움직여. 비친 건 우리가 오늘 쏜 탄환들이야.", "en": "Mirror shards are clumping together and moving. What they reflect are the rounds we fired today."},
+      {"s": "ENEMY", "ko": "기록된 공격을 반환합니다. 기록된 공격을 반환합니다.", "en": "Returning recorded attacks. Returning recorded attacks."},
+      {"s": "CHR005", "ko": "내가 쏜 걸 돌려준다고? 그럼 반환하기 전에 부숴 버리면 되겠네.", "en": "Sending my shots back at me? Then I'll just break it before it can return anything."}
+    ],
+    "ANOMALY_2": [
+      {"s": "CHR008", "ko": "저 사본…… 다친 척을 하고 있어. 붕대까지 똑같이.", "en": "That copy… is pretending to be hurt. Down to the bandages."},
+      {"s": "ENEMY", "ko": "도와주세요. 아파요. 도와…… 주세요.", "en": "Help me. It hurts. Help… me."},
+      {"s": "CHR008", "ko": "미안. 진짜 아픈 사람은 반 박자 늦게 아파하지 않아.", "en": "Sorry. People in real pain don't hurt half a beat late."}
+    ],
+    "ANOMALY_3": [
+      {"s": "CHR006", "ko": "백야 구역 입구야. 관측 장비를 단 잔향체가 계속 따라와.", "en": "This is the entrance to the white-night zone. Echoforms fitted with observation gear keep following us."},
+      {"s": "ENEMY", "ko": "관측 중. 관측 중. 대상의 전투 기록을 수집합니다.", "en": "Observing. Observing. Collecting subject combat records."},
+      {"s": "CHR002", "ko": "보는 건 자유지. 대신 오래 보면 눈이 좀 아플 거야.", "en": "Look all you want. Just know staring too long is going to hurt."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "등 뒤의 사본", "title_en": "Copies at Our Backs",
+     "lines": [
+       {"s": "N", "ko": "유리 아래에서 사본들이 솟아올랐다. 반 박자 늦게, 그러나 정확히 등 뒤였다.", "en": "Copies burst up from beneath the glass. Half a beat late, but right at their backs."},
+       {"s": "CHR002", "ko": "늦었어도 등 뒤는 등 뒤지. 받아칠까, 빠질까?", "en": "Late or not, a back's a back. Hit back, or pull out?"}
+     ],
+     "choices": [{"outcome": "FIGHT", "ko": "교전한다", "en": "Engage"},
+                 {"outcome": "EVADE", "ko": "우회한다", "en": "Detour"}]},
+    {"kind": "DISTRESS", "title_ko": "원본이에요", "title_en": "I'm the Original",
+     "lines": [
+       {"s": "N", "ko": "깨진 객차 한 량이 평원에 쓰러져 있었다. 안에서 유리를 긁는 소리가 났다.", "en": "A broken carriage lay toppled on the plain. From inside came the sound of scratching glass."},
+       {"s": "SURVIVOR", "ko": "……원본이에요. 저, 원본이에요. 믿어 주세요.", "en": "…I'm the original. I'm real. Please believe me."},
+       {"s": "CHR008", "ko": "체온 정상, 맥박 빨라. 진짜야. 겁먹었을 뿐이야.", "en": "Normal temperature, fast pulse. She's real. Just scared."}
+     ],
+     "choices": [{"outcome": "RESCUE", "ko": "구조한다", "en": "Rescue her"},
+                 {"outcome": "RECORD", "ko": "좌표를 기록한다", "en": "Log the coordinates"}]},
+    {"kind": "STORM", "title_ko": "반사광 폭풍", "title_en": "Storm of Reflections",
+     "lines": [
+       {"s": "N", "ko": "잔광 폭풍이 유리 평원을 휩쓸었다. 반사된 빛이 사방에서 눈을 찔렀다.", "en": "An afterglow storm swept the glass plain. Reflected light stabbed at their eyes from every side."},
+       {"s": "CHR003", "ko": "시야 거의 제로. 버티면 지나가지만, 멈추면 열차를 놓쳐.", "en": "Visibility near zero. It'll pass if we wait—but if we stop, we lose the train."}
+     ],
+     "choices": [{"outcome": "SHELTER", "ko": "대피한다", "en": "Take shelter"},
+                 {"outcome": "PUSH", "ko": "돌파한다", "en": "Push through"}]},
+    {"kind": "CACHE", "title_ko": "유리 속의 상자", "title_en": "A Crate in the Glass",
+     "lines": [
+       {"s": "N", "ko": "선로 옆 유리 속에 보급 상자가 갇혀 있었다. 누군가 두드려 깨다 만 자국이 있었다.", "en": "A supply crate was sealed inside the glass beside the tracks. Someone had started to break it free, and stopped."},
+       {"s": "CHR004", "ko": "나머지는 제가 할게요! 전류 한 방이면…… 됐다!", "en": "I'll finish the job! One jolt and… got it!"}
+     ],
+     "choices": [{"outcome": "TAKE", "ko": "회수한다", "en": "Take it"}]},
+    {"kind": "BANTER", "title_ko": "한쪽 어깨", "title_en": "One Shoulder",
+     "lines": [
+       {"s": "CHR008", "ko": "소렌, 어깨 좀 보자. 포 반동을 계속 한쪽으로만 받고 있어.", "en": "Soren, let me see that shoulder. You keep taking the recoil on one side."},
+       {"s": "CHR005", "ko": "들켰네. 괜찮아, 아직 한 발은 더 쏠 수 있어.", "en": "Caught me. It's fine. I've still got one more shot in me."},
+       {"s": "CHR008", "ko": "그 한 발 다음을 책임지는 게 나야. 오늘 밤엔 찜질이야.", "en": "And the one who handles what comes after that shot is me. Hot compress tonight."}
+     ],
+     "choices": [{"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep moving"}]},
+    {"kind": "ECHO", "title_ko": "해 지는 구간", "title_en": "The Sunset Stretch",
+     "lines": [
+       {"s": "N", "ko": "유리 속에 오래된 녹음이 갇혀 있었다. 대정전 전, 이 평원을 달리던 관광 열차의 안내였다.", "en": "An old recording was trapped in the glass. A tour train's announcement from before the Blackout."},
+       {"s": "ECHO", "ko": "왼편 창밖으로 백야 구역이 보입니다. 해 지는 모습이 가장 아름다운 곳입니다.", "en": "On your left is the White Night Zone, where the sunset is most beautiful."},
+       {"s": "CHR006", "ko": "……해 지는 게 제일 아름다운 곳이었대. 지금 그 구역엔 해가 지지 않는데.", "en": "…The sunset used to be most beautiful there. Now the sun never sets in that zone."}
+     ],
+     "choices": [{"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+                 {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}]}
+  ]
+}

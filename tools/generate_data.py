@@ -10,11 +10,16 @@ import json
 import math
 from pathlib import Path
 
+import story_script
 from campaign20 import (
+    BOSS_DISPLAY_NAMES,
     CHAPTER_BLUEPRINTS,
     CHAPTER_STORY_ARCS,
     REGULAR_ENEMY_CODES,
+    REGULAR_ENEMY_NAMES_KO,
     STORY_RECRUIT_IDS,
+    WANDERER_RECRUIT_IDS,
+    WANDERER_STAGE,
     boss_id_pairs,
     chapter_rows,
     chapter_field_content,
@@ -22,6 +27,7 @@ from campaign20 import (
     required_normal_numbers,
     regular_enemy_ids_for_chapter,
     story_recruit_set,
+    wanderer_for_chapter,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -183,7 +189,8 @@ def character_data() -> list[dict]:
             # the 20-chapter campaign.  RESERVED characters remain visible for
             # art/skill QA but cannot be silently granted without a future
             # acquisition system.
-            "acquisition_source": "DEFAULT" if index <= 5 else ("EVENT_CONTACT" if cid in story_recruit_set() else "RESERVED"),
+            # The nineteen wanderers are optional Hard-route (H03) contacts.
+            "acquisition_source": "DEFAULT" if index <= 5 else ("EVENT_CONTACT" if cid in story_recruit_set() or cid in WANDERER_RECRUIT_IDS else "RESERVED"),
         })
     return result
 
@@ -635,10 +642,12 @@ CONTACT_EVENT_SPECS = {
 
 # Campaign authority supersedes the former 39-recruit Chapter 1-2 pile-up.
 # Each chapter now owns one readable companion arc and one acquisition result.
+# The optional Hard route adds one wandering Lamplighter per chapter at H03.
 CONTACT_EVENT_SPECS = {
     str(chapter["id"]): [
         (str(chapter["recruit_stage"]), [(str(chapter["recruit_id"]), "IMMEDIATE_ON_VICTORY", "")])
-    ]
+    ] + ([(WANDERER_STAGE, [(wanderer_for_chapter(int(chapter["number"])), "IMMEDIATE_ON_VICTORY", "")])]
+         if wanderer_for_chapter(int(chapter["number"])) else [])
     for chapter in chapter_rows()
 }
 
@@ -658,12 +667,15 @@ for chapter in chapter_rows():
 # a companion acquisition.  These authored special-enemy incidents use the
 # pre-battle dialogue contract but never grant a character, item, or completion
 # flag before their actual battle has been won.
+def anomaly_stage_codes(chapter: dict) -> tuple[str, str, str]:
+    # H03 belongs to the wandering Lamplighter.  The second anomaly moves off
+    # N13 where that node is the companion contact (Chapters 6 and 12) so two
+    # event encounters never share one node.
+    return ("N06", "N15" if str(chapter["recruit_stage"]) == "N13" else "N13", "H02")
+
+
 SPECIAL_ENEMY_EVENT_SPECS = {
-    str(chapter["id"]): [
-        ("N06", regular_enemy_ids_for_chapter(int(chapter["number"]))[0]),
-        ("N13", regular_enemy_ids_for_chapter(int(chapter["number"]))[1]),
-        ("H03", regular_enemy_ids_for_chapter(int(chapter["number"]))[2]),
-    ]
+    str(chapter["id"]): list(zip(anomaly_stage_codes(chapter), regular_enemy_ids_for_chapter(int(chapter["number"]))))
     for chapter in chapter_rows()
 }
 
@@ -704,6 +716,68 @@ for _chapter in chapter_rows():
         "boss_name_key": f"ENEMY_{_chapter['hard_boss_code']}",
         "boss_subtitle_key": f"MAP_BOSS_{_chapter_id}_H05_SUBTITLE",
     }
+
+
+# Authored story scripts (docs/STORY_SCRIPT_FORMAT.md) supersede the generated
+# three-line beats.  A chapter without a script keeps the legacy generation so a
+# partial rewrite still builds.
+STORY_SCRIPTS = story_script.load_scripts(SOURCE)
+_STORY_BUNDLE: dict | None = None
+
+
+def story_context() -> story_script.StoryContext:
+    characters = character_data()
+    return story_script.StoryContext(
+        character_codes={str(c["id"]): str(c["name_key"]).split("_")[1] for c in characters},
+        boss_pairs=boss_id_pairs(),
+        boss_name_keys={str(ch["id"]): (f"ENEMY_{ch['normal_boss_code']}", f"ENEMY_{ch['hard_boss_code']}") for ch in chapter_rows()},
+        required_normal={str(ch["id"]): required_normal_numbers(str(ch["id"])) for ch in chapter_rows()},
+        enemy_name_keys={str(e["id"]): str(e["name_key"]) for e in enemy_data()},
+    )
+
+
+def story_bundle() -> dict:
+    """Compile every script once: scenarios, triggers, map pages, incidents, text."""
+    global _STORY_BUNDLE
+    if _STORY_BUNDLE is not None:
+        return _STORY_BUNDLE
+    ctx = story_context()
+    character_ids = {str(c["id"]) for c in character_data()}
+    errors = [error for script in STORY_SCRIPTS.values() for error in story_script.validate_script(script, character_ids)]
+    if errors:
+        raise SystemExit("story script errors:\n" + "\n".join(errors[:40]))
+    loc: dict[str, tuple[str, str]] = {}
+    scenarios = story_script.compile_scenarios(STORY_SCRIPTS, ctx, loc)
+    triggers = story_script.compile_triggers(STORY_SCRIPTS, ctx)
+    pages: dict[str, dict[str, list[dict]]] = {}
+    incidents: dict[str, list[dict]] = {}
+    for chapter in chapter_rows():
+        chapter_id = str(chapter["id"])
+        script = STORY_SCRIPTS.get(chapter_id)
+        if not script:
+            continue
+        popups = script.get("popups", {})
+        chapter_pages: dict[str, list[dict]] = {}
+        recruit_stage = str(chapter["recruit_stage"])
+        if popups.get("RECRUIT"):
+            chapter_pages[f"CONTACT_{recruit_stage}"] = story_script.compile_pages(ctx, chapter_id, f"MAP_CONTACT_{chapter_id}_{recruit_stage}", popups["RECRUIT"], loc)
+        if popups.get("WANDERER") and wanderer_for_chapter(int(chapter["number"])):
+            chapter_pages[f"CONTACT_{WANDERER_STAGE}"] = story_script.compile_pages(ctx, chapter_id, f"MAP_CONTACT_{chapter_id}_{WANDERER_STAGE}", popups["WANDERER"], loc)
+        for number, (stage_code, enemy_id) in enumerate(SPECIAL_ENEMY_EVENT_SPECS[chapter_id], 1):
+            if popups.get(f"ANOMALY_{number}"):
+                chapter_pages[f"ANOMALY_{stage_code}"] = story_script.compile_pages(ctx, chapter_id, f"MAP_ANOMALY_{chapter_id}_{stage_code}", popups[f"ANOMALY_{number}"], loc, enemy_id)
+        for popup_key, stage_code in (("BOSS", "N20"), ("HARD_BOSS", "H05")):
+            if popups.get(popup_key):
+                chapter_pages[f"BOSS_{stage_code}"] = story_script.compile_pages(ctx, chapter_id, f"MAP_BOSS_{chapter_id}_{stage_code}", popups[popup_key], loc)
+        pages[chapter_id] = chapter_pages
+        incidents[chapter_id] = story_script.compile_incidents(ctx, chapter_id, script.get("incidents", []), loc)
+    loc.update(story_script.speaker_localization())
+    _STORY_BUNDLE = {"scenarios": scenarios, "triggers": triggers, "pages": pages, "incidents": incidents, "loc": loc}
+    return _STORY_BUNDLE
+
+
+def story_pages(chapter_id: str, page_key: str) -> list[dict]:
+    return [dict(page) for page in story_bundle()["pages"].get(chapter_id, {}).get(page_key, [])]
 
 
 def _dialogue_entry(speaker_kind: str, speaker_id: str, text_key: str) -> dict:
@@ -751,7 +825,7 @@ def chapter_contact_events(chapter_id: str) -> list[dict]:
             "battle_victories_required": primary_battle_count,
             "title_key": title_key, "body_key": body_key, "contact_outcome_key": outcome_key,
             "recruitments": recruitment_rows,
-            "pre_battle_dialogue": [
+            "pre_battle_dialogue": story_pages(chapter_id, f"CONTACT_{route_stage}") or [
                 _dialogue_entry("COMMAND", "", f"MAP_CONTACT_{suffix}_DIALOGUE_01"),
                 _dialogue_entry("COMPANION", primary_id, f"MAP_CONTACT_{suffix}_DIALOGUE_02"),
                 _dialogue_entry("COMMAND", "", f"MAP_CONTACT_{suffix}_DIALOGUE_03"),
@@ -771,7 +845,7 @@ def chapter_special_enemy_events(chapter_id: str) -> list[dict]:
             "character_id": "", "recruitment_timing": "", "recruit_after_stage_id": "",
             "title_key": f"MAP_ANOMALY_{suffix}_TITLE", "body_key": f"MAP_ANOMALY_{suffix}_BODY",
             "contact_outcome_key": f"MAP_ANOMALY_{suffix}_OUTCOME", "recruitments": [],
-            "pre_battle_dialogue": [
+            "pre_battle_dialogue": story_pages(chapter_id, f"ANOMALY_{route_stage}") or [
                 _dialogue_entry("COMMAND", "", f"MAP_ANOMALY_{suffix}_DIALOGUE_01"),
                 _dialogue_entry("ENEMY", enemy_id, f"MAP_ANOMALY_{suffix}_DIALOGUE_02"),
                 _dialogue_entry("COMMAND", "", f"MAP_ANOMALY_{suffix}_DIALOGUE_03"),
@@ -835,9 +909,15 @@ def expand_chapter_map_definition(definition: dict, chapter_id: str, stages: lis
                 "unlock_condition": "STAGE_RULE", "reveal_condition": "ROUTE_PROGRESS",
                 "marker_asset_id": _node_marker_asset(node_type), "repeatable": True, "fast_travel_allowed": True,
             })
-            if _is_boss_stage(stage):
+            # The H05 finale always carries the boss card, even where the
+            # chapter pack's elite fights it.
+            is_finale = number == count and stage_id in BOSS_PRESENTATIONS
+            if _is_boss_stage(stage) or is_finale:
                 presentation = dict(BOSS_PRESENTATIONS[stage_id])
                 presentation["transition_style"] = "BOSS"
+                boss_pages = story_pages(chapter_id, f"BOSS_{route_code}{number:02d}")
+                if boss_pages:
+                    presentation["pre_battle_dialogue"] = boss_pages
                 node["presentation"] = presentation
             else:
                 node.pop("presentation", None)
@@ -1178,6 +1258,12 @@ def campaign_scenario_sources() -> list[dict]:
     return result
 
 
+def all_scenario_sources() -> list[dict]:
+    scripted = set(STORY_SCRIPTS)
+    legacy = [scenario for scenario in campaign_scenario_sources() if str(scenario["chapter_id"]) not in scripted]
+    return story_bundle()["scenarios"] + legacy
+
+
 def campaign_story_triggers() -> list[dict]:
     # The generated source file is intentionally rewritten on every build.
     # Retain only the hand-authored CH01/CH02 authority before regenerating
@@ -1223,7 +1309,11 @@ def campaign_story_triggers() -> list[dict]:
                 "completion_flag": f"story.trigger.{trigger_id}", "priority": priority,
             })
             priority += 10
-    return triggers
+    scripted = {chapter_id for chapter_id in STORY_SCRIPTS if chapter_id != "PROLOGUE"}
+    kept = [row for row in triggers if str(row["id"]).split("_")[1] not in scripted]
+    combined = kept + story_bundle()["triggers"]
+    combined.sort(key=lambda row: (str(row["id"]).split("_")[1], int(row.get("priority", 0))))
+    return combined
 
 
 LOCALIZED = {
@@ -1315,6 +1405,13 @@ def localization(characters, enemies, stages, skills, weapons, items, scenarios)
         "BOSS001": "공허 기관", "BOSS002": "심야의 종", "ENM010": "단선 추적자", "ENM011": "유리 송신체", "ENM012": "잔광 차폐기", "BOSS003": "백야 관측체",
         "ENM013": "역송 전극체", "ENM014": "낙선 포대", "ENM015": "빈자리 합창체", "BOSS004": "역행의 개찰자", "BOSS005": "회송 편성핵",
     }
+    for e in enemies:
+        code = str(e["name_key"]).removeprefix("ENEMY_")
+        if str(e["id"]) not in enemy_names:
+            if code in REGULAR_ENEMY_NAMES_KO:
+                enemy_names[str(e["id"])] = REGULAR_ENEMY_NAMES_KO[code]
+            elif code in BOSS_DISPLAY_NAMES:
+                enemy_names[str(e["id"])] = BOSS_DISPLAY_NAMES[code][0]
     item_names = {
         "BLUEPRINT_T1": "설계도 T1", "BLUEPRINT_T2": "설계도 T2", "BLUEPRINT_T3": "설계도 T3", "BLUEPRINT_T4": "설계도 T4",
         "BREAK_CORE_T1": "돌파 코어 T1", "BREAK_CORE_T2": "돌파 코어 T2", "BREAK_CORE_T3": "돌파 코어 T3", "BREAK_CORE_T4": "돌파 코어 T4",
@@ -1358,6 +1455,12 @@ def localization(characters, enemies, stages, skills, weapons, items, scenarios)
         # unregistered placeholder enemies.
         english_enemy_name = str(e["name_key"]).removeprefix("ENEMY_").replace("_", " ").title()
         loc[e["name_key"]] = (enemy_names.get(e["id"], e["id"]), f"Echoform {english_enemy_name}")
+    # From Chapter 4 the Hard finale is fought as the chapter pack's elite; its
+    # authored procedure name is still what the boss card and story announce.
+    for chapter in chapter_rows():
+        hard_code = str(chapter["hard_boss_code"])
+        if f"ENEMY_{hard_code}" not in loc and hard_code in BOSS_DISPLAY_NAMES:
+            loc[f"ENEMY_{hard_code}"] = (BOSS_DISPLAY_NAMES[hard_code][0], f"Echoform {BOSS_DISPLAY_NAMES[hard_code][1]}")
     for s in stages:
         chapter_number = int(str(s["chapter_id"]).replace("CH", ""))
         loc[s["name_key"]] = (f"제{chapter_number}장 {s['mode']} {s['stage_number']}", f"Chapter {chapter_number} {s['mode']} {s['stage_number']}")
@@ -1372,15 +1475,23 @@ def localization(characters, enemies, stages, skills, weapons, items, scenarios)
             title_key = str(event["title_key"])
             body_key = str(event["body_key"])
             outcome_key = str(event["contact_outcome_key"])
-            loc[title_key] = (f"특별 신호 · {joined_ko}", f"Special Signal: {joined_en}")
+            if str(event["stage_id"]).endswith(WANDERER_STAGE):
+                loc[title_key] = (f"떠도는 등로단 · {joined_ko}", f"Wandering Lamplighter: {joined_en}")
+            else:
+                loc[title_key] = (f"특별 신호 · {joined_ko}", f"Special Signal: {joined_en}")
             loc[body_key] = ("왜곡된 회송 신호 속에서 동료의 구조 좌표가 겹쳐진다. 접촉을 마치면 이 조우의 진짜 응답을 확인할 수 있다.", "Rescue coordinates overlap inside a distorted return signal. Complete the contact to verify who answers it.")
             loc[f"MAP_CONTACT_{chapter_id}_{str(event['stage_id']).split('-')[-1]}_DIALOGUE_01"] = ("미확인 신호를 포착했습니다. 전투 구역에 진입하기 전에 응답 주체를 확인합니다.", "An unidentified signal is inside the combat zone. Confirm the responder before entering.")
             loc[f"MAP_CONTACT_{chapter_id}_{str(event['stage_id']).split('-')[-1]}_DIALOGUE_02"] = (f"{joined_ko}입니다. 신호가 적대 개체에 붙잡혀 있습니다. 길을 열면 합류하겠습니다.", f"This is {joined_en}. Hostiles have pinned the signal; clear a path and we will join you.")
             loc[f"MAP_CONTACT_{chapter_id}_{str(event['stage_id']).split('-')[-1]}_DIALOGUE_03"] = ("영입 여부와 보상은 전투 승리 뒤에만 확정됩니다. 편성을 정비하고 접촉을 개시합니다.", "Recruitment and rewards will be confirmed only after victory. Prepare the formation and initiate contact.")
             route_ko = [f"{korean_names[i]} {int(row['battle_victories_required'])}회" for i, row in enumerate(recruitments)]
             route_en = [f"{english_names[i]} {int(row['battle_victories_required'])} battle(s)" for i, row in enumerate(recruitments)]
-            outcome_ko = "작전 승리 누적 후 합류 · " + " / ".join(route_ko)
-            outcome_en = "Joins after operation victories · " + " / ".join(route_en)
+            if all(int(row["battle_victories_required"]) == 1 for row in recruitments):
+                # A single-battle contact joins on this very victory.
+                outcome_ko = "이 전투에서 승리하면 합류 · " + joined_ko
+                outcome_en = "Joins on victory in this battle · " + joined_en
+            else:
+                outcome_ko = "작전 승리 누적 후 합류 · " + " / ".join(route_ko)
+                outcome_en = "Joins after operation victories · " + " / ".join(route_en)
             loc[outcome_key] = (outcome_ko, outcome_en)
     for chapter_id in SPECIAL_ENEMY_EVENT_SPECS:
         for event in chapter_special_enemy_events(chapter_id):
@@ -1444,7 +1555,8 @@ def localization(characters, enemies, stages, skills, weapons, items, scenarios)
                 f"Chapter {int(chapter['number'])} · {chapter['title_en']} — {beat_en}",
             )
     for scn in scenarios:
-        loc[scn["title_key"]] = scenario_titles[scn["id"]]
+        if scn["id"] in scenario_titles:
+            loc[scn["title_key"]] = scenario_titles[scn["id"]]
     story_ko = {
         "STORY_PRO_01": "대정전 뒤, 지하의 광맥 철로는 마지막 도시들을 잇는 유일한 길이 되었다.", "STORY_PRO_02": "새로 깨어난 기록 항해자는 끊긴 등불과 사람들의 기억을 복구해야 한다.", "STORY_PRO_03": "제7 승강장에서 첫 신호가 깜박이고 있어. 거기서 시작하자.", "STORY_PRO_04": "정찰로는 내가 연다. 신호가 살아나면 바로 따라와.",
         "STORY_C1I_01": "등로단은 잔광 폭풍 속에서도 움직이는 소규모 복구 조직이다.", "STORY_C1I_02": "지도에 없는 선로에서 구조 요청을 들었어. 아직 신호가 살아 있어.", "STORY_C1I_03": "진위를 확인하고 길을 복구하자. 모두 출발 준비.",
@@ -1510,7 +1622,22 @@ def localization(characters, enemies, stages, skills, weapons, items, scenarios)
         "MAP_BOSS_CH02_N10_SUBTITLE": ("회송선 중앙 분기장 · 역방향 절차 관리자", "Return Line Junction · Reverse Procedure Gatekeeper"),
         "MAP_BOSS_CH02_H05_TITLE": ("회송 편성핵 정지", "Return Formation Core Shutdown"),
         "MAP_BOSS_CH02_H05_SUBTITLE": ("지하 회송실 최심부 · 빈자리 편성 명령", "Return Chamber Depths · Vacant-Seat Formation Directive"),
+        "MAP_EVENT_NARRATION_NAME": ("나레이션", "Narration"),
+        "MAP_INCIDENT_CAPTION": ("돌발 사건", "Sudden Incident"),
     })
+    # Authored story text wins over every generated fallback.  Generated story
+    # lines that no scenario references any more are dropped so the voice
+    # script and the localization table describe the same story.
+    loc.update(story_bundle()["loc"])
+    referenced: set[str] = set()
+    for scn in scenarios:
+        for command in scn["commands"]:
+            if command.get("text_key"):
+                referenced.add(str(command["text_key"]))
+            for choice in command.get("choices", []):
+                referenced.add(str(choice.get("text_key", "")))
+    for key in [key for key in loc if key.startswith("STORY_") and key not in referenced]:
+        del loc[key]
     return loc
 
 
@@ -1544,7 +1671,7 @@ def main() -> None:
     items = item_data()
     weapons = weapon_data()
     breakthrough, normal_costs, ultimate_costs = costs()
-    scenarios = campaign_scenario_sources()
+    scenarios = all_scenario_sources()
     char_levels, acct_levels, weapon_levels = level_rows(), account_rows(), weapon_level_rows()
     affinity_matrix = json.loads((SOURCE / "affinity_matrix.json").read_text(encoding="utf-8"))
     status_effects = json.loads((SOURCE / "status_effects.json").read_text(encoding="utf-8"))
@@ -1618,6 +1745,7 @@ def main() -> None:
                 node["scenario_id"] = stage_scenario_ids.get(str(node.get("stage_id", "")), "")
         if chapter_id in CONTACT_EVENT_SPECS:
             map_definition["event_encounters"] = chapter_contact_events(chapter_id) + chapter_special_enemy_events(chapter_id)
+            map_definition["incidents"] = story_bundle()["incidents"].get(chapter_id, [])
             # The generated contact catalog is part of the data source of
             # truth, not a compiled-only patch. Persisting it lets map review
             # and Web builds read the exact same 1–2 companion contract.

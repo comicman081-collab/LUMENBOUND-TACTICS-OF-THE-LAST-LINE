@@ -83,6 +83,8 @@ var story_page_indicator: Label
 var story_auto_button: Button
 var story_skip_button: Button
 var story_is_prologue := false
+# Authored campaign scenes share the prologue's full-bleed ensemble staging.
+var story_is_cinematic := false
 var active_chapter_map_screen: Control
 var chapter_map_cache_host: Control
 var cached_chapter_map_screen: Control
@@ -1373,6 +1375,7 @@ func _clear() -> void:
 	story_auto_button = null
 	story_skip_button = null
 	story_is_prologue = false
+	story_is_cinematic = false
 	active_chapter_map_screen = null
 
 func _cache_chapter_map_screen(screen: Control) -> void:
@@ -2189,7 +2192,9 @@ func _show_story(reuse_runtime_state := false) -> void:
 	var ui_scale := _portrait_ui_scale()
 	var story_header := story_header_data(AppState.active_scenario_id)
 	story_is_prologue = AppState.active_scenario_id == "SCN_PROLOGUE"
-	if story_is_prologue:
+	var story_definition := DataRegistry.by_id("scenarios", AppState.active_scenario_id)
+	story_is_cinematic = story_is_prologue or str(story_definition.get("presentation", "")) == "CINEMATIC"
+	if story_is_cinematic:
 		_build_prologue_story_presentation(portrait, ui_scale, story_header)
 	else:
 		_title(str(story_header.title), str(story_header.subtitle))
@@ -2340,7 +2345,7 @@ func _build_prologue_story_presentation(portrait: bool, ui_scale: float, story_h
 	var chapter_copy := VBoxContainer.new()
 	chapter_copy.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	chapter_plate.add_child(chapter_copy)
-	var eyebrow := _story_label("PROLOGUE · THE LAST LINE", 10.0 if compact else 13.0, GameUI.SIGNAL)
+	var eyebrow := _story_label(_story_eyebrow_text(), 10.0 if compact else 13.0, GameUI.SIGNAL)
 	eyebrow.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	chapter_copy.add_child(eyebrow)
 	var chapter_title := _story_label(str(story_header.title), 19.0 if compact else (24.0 if narrow_portrait else 30.0), GameUI.TEXT)
@@ -2396,6 +2401,15 @@ func _build_prologue_story_presentation(portrait: bool, ui_scale: float, story_h
 	# Added last so AUTO/SKIP always sit above the reading plate and keep input.
 	_build_story_top_right_controls(canvas, portrait, true)
 
+func _story_eyebrow_text() -> String:
+	if story_is_prologue:
+		return "PROLOGUE · THE LAST LINE"
+	var scenario := DataRegistry.by_id("scenarios", AppState.active_scenario_id)
+	var chapter := DataRegistry.chapter(str(scenario.get("chapter_id", "")))
+	if chapter.is_empty():
+		return "LUMENBOUND · THE LAST LINE"
+	return LocalizationService.tr_key(str(chapter.get("name_key", "")))
+
 func _build_story_top_right_controls(parent: Control, portrait: bool, cinematic: bool) -> void:
 	var runtime_size := _runtime_layout_size()
 	var auto_width := float(_story_logical_px(60.0)) if _is_compact_landscape_layout() else 132.0
@@ -2406,7 +2420,7 @@ func _build_story_top_right_controls(parent: Control, portrait: bool, cinematic:
 	var right_inset := float(_story_logical_px(8.0))
 	var top_inset := float(_story_logical_px(126.0 if portrait and cinematic else 18.0))
 	story_controls = HBoxContainer.new()
-	story_controls.name = "PrologueTopRightControls" if cinematic else "StoryTopRightControls"
+	story_controls.name = "PrologueTopRightControls" if story_is_prologue else "StoryTopRightControls"
 	story_controls.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	story_controls.anchor_left = 1.0
 	story_controls.anchor_top = 0.0
@@ -2419,11 +2433,11 @@ func _build_story_top_right_controls(parent: Control, portrait: bool, cinematic:
 	story_controls.add_theme_constant_override("separation", roundi(separation))
 	parent.add_child(story_controls)
 	story_auto_button = _story_button("AUTO", _toggle_story_auto, false, Vector2(auto_width, 64))
-	story_auto_button.name = "PrologueAutoButton" if cinematic else "StoryAutoButton"
+	story_auto_button.name = "PrologueAutoButton" if story_is_prologue else "StoryAutoButton"
 	_style_story_overlay_button(story_auto_button, Color("58d8c6"))
 	story_controls.add_child(story_auto_button)
 	story_skip_button = _story_button("SKIP  ▶", _skip_story_from_control, false, Vector2(skip_width, 64))
-	story_skip_button.name = "PrologueSkipButton" if cinematic else "StorySkipButton"
+	story_skip_button.name = "PrologueSkipButton" if story_is_prologue else "StorySkipButton"
 	_style_story_overlay_button(story_skip_button, Color("e6bd68"))
 	story_controls.add_child(story_skip_button)
 
@@ -2844,7 +2858,7 @@ func _refresh_story_art() -> void:
 	if story_background != null:
 		story_background.texture = story_art_texture_for_state(scenario_runner.state.cg_asset_id, scenario_runner.state.background_asset_id)
 		story_background.visible = story_background.texture != null
-	if story_is_prologue and story_portrait_layer != null:
+	if story_is_cinematic and story_portrait_layer != null:
 		_refresh_prologue_portrait_layer()
 	var portrait_id := ""
 	if not scenario_runner.state.portraits.is_empty():
@@ -2866,7 +2880,8 @@ func _refresh_prologue_portrait_layer() -> void:
 	if scenario_runner == null or scenario_runner.state.portraits.is_empty():
 		return
 	var current_line: Dictionary = scenario_runner.state.current_line
-	var active_asset_id := _portrait_asset_for_speaker(str(current_line.get("speaker_key", "")))
+	# Compiled lines name their speaker's art; legacy lines fall back to the key map.
+	var active_asset_id := str(current_line.get("portrait_asset_id", _portrait_asset_for_speaker(str(current_line.get("speaker_key", "")))))
 	var portrait_layout := _is_portrait_layout()
 	var ui_scale := _portrait_ui_scale()
 	var ordered_slots := ["LEFT", "CENTER", "RIGHT"]
@@ -3594,6 +3609,18 @@ func _play_map_battle_transition() -> void:
 		veil.queue_free()
 		await _route_to_battle_with_loading()
 		return
+	var boss_pages: Array = encounter_presentation.get("pre_battle_dialogue", [])
+	if str(encounter_presentation.get("transition_style", "")) == "BOSS" and not boss_pages.is_empty():
+		# The finale speaks first (station-announcement lines), then the boss
+		# card reads out its name.  Presentation only: the battle transaction is
+		# already owned by the pending map encounter.
+		await _play_special_event_dialogue(veil, {
+			"event_kind": "BOSS", "pre_battle_dialogue": boss_pages,
+			"title_key": str(encounter_presentation.get("event_title_key", "MAP_EVENT_DEFAULT_TITLE")),
+			"contact_outcome_key": str(encounter_presentation.get("boss_subtitle_key", "MAP_EVENT_DEFAULT_BODY")),
+		}, focus)
+		veil.color = Color("06101c00")
+		focus.visible = true
 	var boss_card: PanelContainer
 	if str(encounter_presentation.get("transition_style", "")) == "BOSS":
 		# This is an original signal-readout card, not a copied reference layout.
@@ -3772,6 +3799,10 @@ func _play_map_battle_transition() -> void:
 func _event_dialogue_speaker_name(page: Dictionary) -> String:
 	var speaker_kind := str(page.get("speaker_kind", "COMMAND"))
 	var speaker_id := str(page.get("speaker_id", ""))
+	if speaker_kind == "NARRATION":
+		return LocalizationService.tr_key("MAP_EVENT_NARRATION_NAME")
+	if speaker_kind in ["VOICE", "ENEMY"] and not str(page.get("speaker_key", "")).is_empty():
+		return LocalizationService.tr_key(str(page.get("speaker_key", "")))
 	if speaker_kind == "COMPANION":
 		return _display_character_name(speaker_id)
 	if speaker_kind == "ENEMY":
@@ -3858,11 +3889,20 @@ func _play_special_event_dialogue(veil: ColorRect, special_event: Dictionary, fo
 		art_id = str(DataRegistry.character(str(special_event.get("character_id", ""))).get("portrait_asset_id", ""))
 	elif str(special_event.get("event_kind", "")) == "SPECIAL_ENEMY":
 		art_id = str(DataRegistry.enemy(str(special_event.get("enemy_id", ""))).get("asset_id", ""))
+	elif str(special_event.get("event_kind", "")) == "BOSS" and not dialogue.is_empty():
+		for boss_page_value in dialogue:
+			var boss_page: Dictionary = boss_page_value if boss_page_value is Dictionary else {}
+			if str(boss_page.get("speaker_kind", "")) == "ENEMY":
+				art_id = str(boss_page.get("portrait_asset_id", ""))
+				break
+	var page_art: TextureRect = null
 	if not art_id.is_empty():
 		var art := _art_rect(art_id, Vector2.ZERO, TextureRect.STRETCH_KEEP_ASPECT_CENTERED)
+		art.name = "EventPageArt"
 		art.custom_minimum_size = Vector2.ZERO
 		art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		portrait_frame.add_child(art)
+		page_art = art.get_child(0) as TextureRect
 	else:
 		var glyph := _label("!", 40, Color("79ecda"))
 		glyph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -3876,6 +3916,12 @@ func _play_special_event_dialogue(veil: ColorRect, special_event: Dictionary, fo
 		var page: Dictionary = dialogue[clampi(page_index, 0, dialogue.size() - 1)]
 		speaker_label.text = _event_dialogue_speaker_name(page)
 		dialogue_label.text = LocalizationService.tr_key(str(page.get("text_key", special_event.get("body_key", "MAP_EVENT_DEFAULT_BODY"))))
+		# The speaker's own art leads each page; narration keeps the subject.
+		var speaker_art := str(page.get("portrait_asset_id", ""))
+		if page_art != null:
+			page_art.texture = _asset_texture(speaker_art if not speaker_art.is_empty() else art_id)
+		AudioService.stop_voice()
+		AudioService.play_line_voice(str(page.get("text_key", "")))
 		page_counter.text = "%d / %d" % [page_index + 1, dialogue.size()]
 		next_button.text = LocalizationService.tr_key("MAP_EVENT_DIALOGUE_BATTLE") if page_index >= dialogue.size() - 1 else LocalizationService.tr_key("MAP_EVENT_DIALOGUE_NEXT")
 		panel.rewind()
@@ -3905,6 +3951,7 @@ func _play_special_event_dialogue(veil: ColorRect, special_event: Dictionary, fo
 	focus.visible = false
 	while not bool(reading.resolved):
 		await get_tree().process_frame
+	AudioService.stop_voice()
 	pre_battle_event_input_active = false
 	pre_battle_event_input_panel = null
 	pre_battle_event_input_next = null
@@ -3915,6 +3962,8 @@ func _play_special_event_dialogue(veil: ColorRect, special_event: Dictionary, fo
 	outro.tween_property(panel, "modulate", Color("ffffff00"), 0.10)
 	outro.parallel().tween_property(veil, "color", Color("06101c00"), 0.10)
 	await outro.finished
+	# A boss card follows on the same veil; never leave a spent dialog under it.
+	panel.queue_free()
 
 func _show_battle() -> void:
 	battle_transition_active = false

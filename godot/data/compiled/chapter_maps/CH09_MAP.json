@@ -166,22 +166,144 @@
       ],
       "pre_battle_dialogue": [
         {
-          "speaker_kind": "COMMAND",
-          "speaker_id": "",
-          "text_key": "MAP_CONTACT_CH09_N10_DIALOGUE_01"
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR003",
+          "text_key": "MAP_CONTACT_CH09_N10_DIALOGUE_01",
+          "speaker_key": "SPEAKER_NARIN",
+          "portrait_asset_id": "portrait_chr003_dev"
         },
         {
           "speaker_kind": "COMPANION",
           "speaker_id": "CHR014",
-          "text_key": "MAP_CONTACT_CH09_N10_DIALOGUE_02"
+          "text_key": "MAP_CONTACT_CH09_N10_DIALOGUE_02",
+          "speaker_key": "CHAR_VEON_NAME",
+          "portrait_asset_id": "portrait_chr014_dev"
         },
         {
-          "speaker_kind": "COMMAND",
-          "speaker_id": "",
-          "text_key": "MAP_CONTACT_CH09_N10_DIALOGUE_03"
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR002",
+          "text_key": "MAP_CONTACT_CH09_N10_DIALOGUE_03",
+          "speaker_key": "SPEAKER_ROAN",
+          "portrait_asset_id": "portrait_chr002_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR014",
+          "text_key": "MAP_CONTACT_CH09_N10_DIALOGUE_04",
+          "speaker_key": "CHAR_VEON_NAME",
+          "portrait_asset_id": "portrait_chr014_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR001",
+          "text_key": "MAP_CONTACT_CH09_N10_DIALOGUE_05",
+          "speaker_key": "SPEAKER_MAERU",
+          "portrait_asset_id": "portrait_chr001_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR014",
+          "text_key": "MAP_CONTACT_CH09_N10_DIALOGUE_06",
+          "speaker_key": "CHAR_VEON_NAME",
+          "portrait_asset_id": "portrait_chr014_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR004",
+          "text_key": "MAP_CONTACT_CH09_N10_DIALOGUE_07",
+          "speaker_key": "SPEAKER_EDA",
+          "portrait_asset_id": "portrait_chr004_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR014",
+          "text_key": "MAP_CONTACT_CH09_N10_DIALOGUE_08",
+          "speaker_key": "CHAR_VEON_NAME",
+          "portrait_asset_id": "portrait_chr014_dev"
         }
       ],
       "stage_id": "CH09-N10"
+    },
+    {
+      "event_encounter_id": "EVENT_CH09_H03",
+      "node_id": "NODE_H03",
+      "marker": "BANG",
+      "entry_type": "EVENT_CONTACT",
+      "event_kind": "COMPANION",
+      "character_id": "CHR034",
+      "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+      "recruit_after_stage_id": "",
+      "battle_victories_required": 1,
+      "title_key": "MAP_CONTACT_CH09_H03_TITLE",
+      "body_key": "MAP_CONTACT_CH09_H03_BODY",
+      "contact_outcome_key": "MAP_CONTACT_CH09_H03_OUTCOME",
+      "recruitments": [
+        {
+          "character_id": "CHR034",
+          "recruitment_timing": "IMMEDIATE_ON_VICTORY",
+          "recruit_after_stage_id": "",
+          "battle_victories_required": 1
+        }
+      ],
+      "pre_battle_dialogue": [
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR034",
+          "text_key": "MAP_CONTACT_CH09_H03_DIALOGUE_01",
+          "speaker_key": "CHAR_ORBIN_NAME",
+          "portrait_asset_id": "portrait_chr034_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR002",
+          "text_key": "MAP_CONTACT_CH09_H03_DIALOGUE_02",
+          "speaker_key": "SPEAKER_ROAN",
+          "portrait_asset_id": "portrait_chr002_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR034",
+          "text_key": "MAP_CONTACT_CH09_H03_DIALOGUE_03",
+          "speaker_key": "CHAR_ORBIN_NAME",
+          "portrait_asset_id": "portrait_chr034_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR013",
+          "text_key": "MAP_CONTACT_CH09_H03_DIALOGUE_04",
+          "speaker_key": "CHAR_REMA_NAME",
+          "portrait_asset_id": "portrait_chr013_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR034",
+          "text_key": "MAP_CONTACT_CH09_H03_DIALOGUE_05",
+          "speaker_key": "CHAR_ORBIN_NAME",
+          "portrait_asset_id": "portrait_chr034_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR014",
+          "text_key": "MAP_CONTACT_CH09_H03_DIALOGUE_06",
+          "speaker_key": "CHAR_VEON_NAME",
+          "portrait_asset_id": "portrait_chr014_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR001",
+          "text_key": "MAP_CONTACT_CH09_H03_DIALOGUE_07",
+          "speaker_key": "SPEAKER_MAERU",
+          "portrait_asset_id": "portrait_chr001_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR034",
+          "text_key": "MAP_CONTACT_CH09_H03_DIALOGUE_08",
+          "speaker_key": "CHAR_ORBIN_NAME",
+          "portrait_asset_id": "portrait_chr034_dev"
+        }
+      ],
+      "stage_id": "CH09-H03"
     },
     {
       "event_encounter_id": "EVENT_ANOMALY_CH09_N06",
@@ -199,19 +321,25 @@
       "recruitments": [],
       "pre_battle_dialogue": [
         {
-          "speaker_kind": "COMMAND",
-          "speaker_id": "",
-          "text_key": "MAP_ANOMALY_CH09_N06_DIALOGUE_01"
-        },
-        {
           "speaker_kind": "ENEMY",
           "speaker_id": "ENM025",
-          "text_key": "MAP_ANOMALY_CH09_N06_DIALOGUE_02"
+          "text_key": "MAP_ANOMALY_CH09_N06_DIALOGUE_01",
+          "speaker_key": "ENEMY_ARC_HARRIER",
+          "portrait_asset_id": "enemy_enm025_dev"
         },
         {
-          "speaker_kind": "COMMAND",
-          "speaker_id": "",
-          "text_key": "MAP_ANOMALY_CH09_N06_DIALOGUE_03"
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR002",
+          "text_key": "MAP_ANOMALY_CH09_N06_DIALOGUE_02",
+          "speaker_key": "SPEAKER_ROAN",
+          "portrait_asset_id": "portrait_chr002_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR003",
+          "text_key": "MAP_ANOMALY_CH09_N06_DIALOGUE_03",
+          "speaker_key": "SPEAKER_NARIN",
+          "portrait_asset_id": "portrait_chr003_dev"
         }
       ],
       "stage_id": "CH09-N06"
@@ -232,26 +360,32 @@
       "recruitments": [],
       "pre_battle_dialogue": [
         {
-          "speaker_kind": "COMMAND",
-          "speaker_id": "",
-          "text_key": "MAP_ANOMALY_CH09_N13_DIALOGUE_01"
-        },
-        {
           "speaker_kind": "ENEMY",
           "speaker_id": "ENM026",
-          "text_key": "MAP_ANOMALY_CH09_N13_DIALOGUE_02"
+          "text_key": "MAP_ANOMALY_CH09_N13_DIALOGUE_01",
+          "speaker_key": "ENEMY_THUNDER_LENS",
+          "portrait_asset_id": "enemy_enm026_dev"
         },
         {
-          "speaker_kind": "COMMAND",
-          "speaker_id": "",
-          "text_key": "MAP_ANOMALY_CH09_N13_DIALOGUE_03"
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR009",
+          "text_key": "MAP_ANOMALY_CH09_N13_DIALOGUE_02",
+          "speaker_key": "CHAR_LIV_NAME",
+          "portrait_asset_id": "portrait_chr009_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR006",
+          "text_key": "MAP_ANOMALY_CH09_N13_DIALOGUE_03",
+          "speaker_key": "CHAR_VERA_NAME",
+          "portrait_asset_id": "portrait_chr006_dev"
         }
       ],
       "stage_id": "CH09-N13"
     },
     {
-      "event_encounter_id": "EVENT_ANOMALY_CH09_H03",
-      "node_id": "NODE_H03",
+      "event_encounter_id": "EVENT_ANOMALY_CH09_H02",
+      "node_id": "NODE_H02",
       "marker": "BANG",
       "entry_type": "EVENT_CONTACT",
       "event_kind": "SPECIAL_ENEMY",
@@ -259,28 +393,34 @@
       "character_id": "",
       "recruitment_timing": "",
       "recruit_after_stage_id": "",
-      "title_key": "MAP_ANOMALY_CH09_H03_TITLE",
-      "body_key": "MAP_ANOMALY_CH09_H03_BODY",
-      "contact_outcome_key": "MAP_ANOMALY_CH09_H03_OUTCOME",
+      "title_key": "MAP_ANOMALY_CH09_H02_TITLE",
+      "body_key": "MAP_ANOMALY_CH09_H02_BODY",
+      "contact_outcome_key": "MAP_ANOMALY_CH09_H02_OUTCOME",
       "recruitments": [],
       "pre_battle_dialogue": [
         {
-          "speaker_kind": "COMMAND",
-          "speaker_id": "",
-          "text_key": "MAP_ANOMALY_CH09_H03_DIALOGUE_01"
-        },
-        {
           "speaker_kind": "ENEMY",
           "speaker_id": "ENM027",
-          "text_key": "MAP_ANOMALY_CH09_H03_DIALOGUE_02"
+          "text_key": "MAP_ANOMALY_CH09_H02_DIALOGUE_01",
+          "speaker_key": "ENEMY_BRIDGE_ANCHOR",
+          "portrait_asset_id": "enemy_enm027_dev"
         },
         {
-          "speaker_kind": "COMMAND",
-          "speaker_id": "",
-          "text_key": "MAP_ANOMALY_CH09_H03_DIALOGUE_03"
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR004",
+          "text_key": "MAP_ANOMALY_CH09_H02_DIALOGUE_02",
+          "speaker_key": "SPEAKER_EDA",
+          "portrait_asset_id": "portrait_chr004_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR005",
+          "text_key": "MAP_ANOMALY_CH09_H02_DIALOGUE_03",
+          "speaker_key": "SPEAKER_SOREN",
+          "portrait_asset_id": "portrait_chr005_dev"
         }
       ],
-      "stage_id": "CH09-H03"
+      "stage_id": "CH09-H02"
     }
   ],
   "nodes": [
@@ -420,7 +560,7 @@
       "node_id": "NODE_N10",
       "node_type": "NORMAL_ELITE",
       "stage_id": "CH09-N10",
-      "scenario_id": "",
+      "scenario_id": "SCN_CH09_MID_B",
       "unlock_condition": "STAGE_RULE",
       "reveal_condition": "ROUTE_PROGRESS",
       "marker_asset_id": "map_marker_elite_r7",
@@ -446,7 +586,7 @@
       "node_id": "NODE_N12",
       "node_type": "NORMAL_ELITE",
       "stage_id": "CH09-N12",
-      "scenario_id": "",
+      "scenario_id": "SCN_CH09_CAMP",
       "unlock_condition": "STAGE_RULE",
       "reveal_condition": "ROUTE_PROGRESS",
       "marker_asset_id": "map_marker_elite_r7",
@@ -472,7 +612,7 @@
       "node_id": "NODE_N14",
       "node_type": "NORMAL_BATTLE",
       "stage_id": "CH09-N14",
-      "scenario_id": "SCN_CH09_MID_B",
+      "scenario_id": "",
       "unlock_condition": "STAGE_RULE",
       "reveal_condition": "ROUTE_PROGRESS",
       "marker_asset_id": "map_marker_normal_r7",
@@ -560,7 +700,37 @@
         "event_title_key": "MAP_BOSS_CH09_N20_TITLE",
         "boss_name_key": "ENEMY_DREAM_BAILIFF",
         "boss_subtitle_key": "MAP_BOSS_CH09_N20_SUBTITLE",
-        "transition_style": "BOSS"
+        "transition_style": "BOSS",
+        "pre_battle_dialogue": [
+          {
+            "speaker_kind": "ENEMY",
+            "speaker_id": "BOSS012",
+            "text_key": "MAP_BOSS_CH09_N20_DIALOGUE_01",
+            "speaker_key": "ENEMY_DREAM_BAILIFF",
+            "portrait_asset_id": "enemy_boss012_dev"
+          },
+          {
+            "speaker_kind": "COMPANION",
+            "speaker_id": "CHR014",
+            "text_key": "MAP_BOSS_CH09_N20_DIALOGUE_02",
+            "speaker_key": "CHAR_VEON_NAME",
+            "portrait_asset_id": "portrait_chr014_dev"
+          },
+          {
+            "speaker_kind": "COMPANION",
+            "speaker_id": "CHR012",
+            "text_key": "MAP_BOSS_CH09_N20_DIALOGUE_03",
+            "speaker_key": "CHAR_KIR_NAME",
+            "portrait_asset_id": "portrait_chr012_dev"
+          },
+          {
+            "speaker_kind": "COMPANION",
+            "speaker_id": "CHR001",
+            "text_key": "MAP_BOSS_CH09_N20_DIALOGUE_04",
+            "speaker_key": "SPEAKER_MAERU",
+            "portrait_asset_id": "portrait_chr001_dev"
+          }
+        ]
       }
     },
     {
@@ -569,7 +739,7 @@
       "node_id": "NODE_H01",
       "node_type": "HARD_BATTLE",
       "stage_id": "CH09-H01",
-      "scenario_id": "",
+      "scenario_id": "SCN_CH09_HARD_INTRO",
       "unlock_condition": "STAGE_RULE",
       "reveal_condition": "ROUTE_PROGRESS",
       "marker_asset_id": "map_marker_hard_r7",
@@ -621,12 +791,48 @@
       "node_id": "NODE_H05",
       "node_type": "HARD_ELITE",
       "stage_id": "CH09-H05",
-      "scenario_id": "",
+      "scenario_id": "SCN_CH09_HARD_OUTRO",
       "unlock_condition": "STAGE_RULE",
       "reveal_condition": "ROUTE_PROGRESS",
       "marker_asset_id": "map_marker_elite_r7",
       "repeatable": true,
-      "fast_travel_allowed": true
+      "fast_travel_allowed": true,
+      "presentation": {
+        "event_title_key": "MAP_BOSS_CH09_H05_TITLE",
+        "boss_name_key": "ENEMY_SOMNOLENT_DIRECTOR",
+        "boss_subtitle_key": "MAP_BOSS_CH09_H05_SUBTITLE",
+        "transition_style": "BOSS",
+        "pre_battle_dialogue": [
+          {
+            "speaker_kind": "ENEMY",
+            "speaker_id": "ENM027",
+            "text_key": "MAP_BOSS_CH09_H05_DIALOGUE_01",
+            "speaker_key": "ENEMY_SOMNOLENT_DIRECTOR",
+            "portrait_asset_id": "enemy_enm027_dev"
+          },
+          {
+            "speaker_kind": "COMPANION",
+            "speaker_id": "CHR003",
+            "text_key": "MAP_BOSS_CH09_H05_DIALOGUE_02",
+            "speaker_key": "SPEAKER_NARIN",
+            "portrait_asset_id": "portrait_chr003_dev"
+          },
+          {
+            "speaker_kind": "COMPANION",
+            "speaker_id": "CHR014",
+            "text_key": "MAP_BOSS_CH09_H05_DIALOGUE_03",
+            "speaker_key": "CHAR_VEON_NAME",
+            "portrait_asset_id": "portrait_chr014_dev"
+          },
+          {
+            "speaker_kind": "COMPANION",
+            "speaker_id": "CHR001",
+            "text_key": "MAP_BOSS_CH09_H05_DIALOGUE_04",
+            "speaker_key": "SPEAKER_MAERU",
+            "portrait_asset_id": "portrait_chr001_dev"
+          }
+        ]
+      }
     }
   ],
   "treasures": [
@@ -641,6 +847,207 @@
         "TRAINING_NOTE_M": 1,
         "CREDIT": 400
       }
+    }
+  ],
+  "incidents": [
+    {
+      "incident_id": "INC_CH09_AMBUSH",
+      "kind": "AMBUSH",
+      "title_key": "MAP_INCIDENT_CH09_AMBUSH_TITLE",
+      "lines": [
+        {
+          "speaker_kind": "NARRATION",
+          "speaker_id": "",
+          "text_key": "MAP_INCIDENT_CH09_AMBUSH_DIALOGUE_01",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
+          "portrait_asset_id": ""
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR002",
+          "text_key": "MAP_INCIDENT_CH09_AMBUSH_DIALOGUE_02",
+          "speaker_key": "SPEAKER_ROAN",
+          "portrait_asset_id": "portrait_chr002_dev"
+        }
+      ],
+      "choices": [
+        {
+          "outcome": "FIGHT",
+          "label_key": "MAP_INCIDENT_CH09_AMBUSH_CHOICE_FIGHT"
+        },
+        {
+          "outcome": "EVADE",
+          "label_key": "MAP_INCIDENT_CH09_AMBUSH_CHOICE_EVADE"
+        }
+      ]
+    },
+    {
+      "incident_id": "INC_CH09_DISTRESS",
+      "kind": "DISTRESS",
+      "title_key": "MAP_INCIDENT_CH09_DISTRESS_TITLE",
+      "lines": [
+        {
+          "speaker_kind": "NARRATION",
+          "speaker_id": "",
+          "text_key": "MAP_INCIDENT_CH09_DISTRESS_DIALOGUE_01",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
+          "portrait_asset_id": ""
+        },
+        {
+          "speaker_kind": "VOICE",
+          "speaker_id": "",
+          "text_key": "MAP_INCIDENT_CH09_DISTRESS_DIALOGUE_02",
+          "speaker_key": "SPEAKER_SURVIVOR",
+          "portrait_asset_id": ""
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR010",
+          "text_key": "MAP_INCIDENT_CH09_DISTRESS_DIALOGUE_03",
+          "speaker_key": "CHAR_SEON_NAME",
+          "portrait_asset_id": "portrait_chr010_dev"
+        }
+      ],
+      "choices": [
+        {
+          "outcome": "RESCUE",
+          "label_key": "MAP_INCIDENT_CH09_DISTRESS_CHOICE_RESCUE"
+        },
+        {
+          "outcome": "RECORD",
+          "label_key": "MAP_INCIDENT_CH09_DISTRESS_CHOICE_RECORD"
+        }
+      ]
+    },
+    {
+      "incident_id": "INC_CH09_STORM",
+      "kind": "STORM",
+      "title_key": "MAP_INCIDENT_CH09_STORM_TITLE",
+      "lines": [
+        {
+          "speaker_kind": "NARRATION",
+          "speaker_id": "",
+          "text_key": "MAP_INCIDENT_CH09_STORM_DIALOGUE_01",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
+          "portrait_asset_id": ""
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR003",
+          "text_key": "MAP_INCIDENT_CH09_STORM_DIALOGUE_02",
+          "speaker_key": "SPEAKER_NARIN",
+          "portrait_asset_id": "portrait_chr003_dev"
+        }
+      ],
+      "choices": [
+        {
+          "outcome": "SHELTER",
+          "label_key": "MAP_INCIDENT_CH09_STORM_CHOICE_SHELTER"
+        },
+        {
+          "outcome": "PUSH",
+          "label_key": "MAP_INCIDENT_CH09_STORM_CHOICE_PUSH"
+        }
+      ]
+    },
+    {
+      "incident_id": "INC_CH09_CACHE",
+      "kind": "CACHE",
+      "title_key": "MAP_INCIDENT_CH09_CACHE_TITLE",
+      "lines": [
+        {
+          "speaker_kind": "NARRATION",
+          "speaker_id": "",
+          "text_key": "MAP_INCIDENT_CH09_CACHE_DIALOGUE_01",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
+          "portrait_asset_id": ""
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR005",
+          "text_key": "MAP_INCIDENT_CH09_CACHE_DIALOGUE_02",
+          "speaker_key": "SPEAKER_SOREN",
+          "portrait_asset_id": "portrait_chr005_dev"
+        }
+      ],
+      "choices": [
+        {
+          "outcome": "TAKE",
+          "label_key": "MAP_INCIDENT_CH09_CACHE_CHOICE_TAKE"
+        }
+      ]
+    },
+    {
+      "incident_id": "INC_CH09_BANTER",
+      "kind": "BANTER",
+      "title_key": "MAP_INCIDENT_CH09_BANTER_TITLE",
+      "lines": [
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR002",
+          "text_key": "MAP_INCIDENT_CH09_BANTER_DIALOGUE_01",
+          "speaker_key": "SPEAKER_ROAN",
+          "portrait_asset_id": "portrait_chr002_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR003",
+          "text_key": "MAP_INCIDENT_CH09_BANTER_DIALOGUE_02",
+          "speaker_key": "SPEAKER_NARIN",
+          "portrait_asset_id": "portrait_chr003_dev"
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR002",
+          "text_key": "MAP_INCIDENT_CH09_BANTER_DIALOGUE_03",
+          "speaker_key": "SPEAKER_ROAN",
+          "portrait_asset_id": "portrait_chr002_dev"
+        }
+      ],
+      "choices": [
+        {
+          "outcome": "CONTINUE",
+          "label_key": "MAP_INCIDENT_CH09_BANTER_CHOICE_CONTINUE"
+        }
+      ]
+    },
+    {
+      "incident_id": "INC_CH09_ECHO",
+      "kind": "ECHO",
+      "title_key": "MAP_INCIDENT_CH09_ECHO_TITLE",
+      "lines": [
+        {
+          "speaker_kind": "NARRATION",
+          "speaker_id": "",
+          "text_key": "MAP_INCIDENT_CH09_ECHO_DIALOGUE_01",
+          "speaker_key": "SPEAKER_ROUTEKEEPER",
+          "portrait_asset_id": ""
+        },
+        {
+          "speaker_kind": "VOICE",
+          "speaker_id": "",
+          "text_key": "MAP_INCIDENT_CH09_ECHO_DIALOGUE_02",
+          "speaker_key": "SPEAKER_ECHO",
+          "portrait_asset_id": ""
+        },
+        {
+          "speaker_kind": "COMPANION",
+          "speaker_id": "CHR013",
+          "text_key": "MAP_INCIDENT_CH09_ECHO_DIALOGUE_03",
+          "speaker_key": "CHAR_REMA_NAME",
+          "portrait_asset_id": "portrait_chr013_dev"
+        }
+      ],
+      "choices": [
+        {
+          "outcome": "LISTEN",
+          "label_key": "MAP_INCIDENT_CH09_ECHO_CHOICE_LISTEN"
+        },
+        {
+          "outcome": "IGNORE",
+          "label_key": "MAP_INCIDENT_CH09_ECHO_CHOICE_IGNORE"
+        }
+      ]
     }
   ]
 }

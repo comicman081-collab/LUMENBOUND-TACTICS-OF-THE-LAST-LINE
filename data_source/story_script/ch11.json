@@ -1,0 +1,293 @@
+{
+  "chapter_id": "CH11",
+  "scenes": [
+    {
+      "id": "INTRO",
+      "trigger": "MAP_ENTER",
+      "title_ko": "검은 조류",
+      "title_en": "The Black Tide",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR001", "RIGHT": "CHR006"},
+      "lines": [
+        {"s": "N", "ko": "방파선을 때리는 파도는 물이 아니었다. 검게 엉긴 신호가 짠 내 대신 쇳내를 풍겼다.", "en": "The waves pounding the breakwater weren't water. Clotted black signal gave off the smell of iron instead of salt."},
+        {"s": "CHR003", "ko": "쌍월에서 넘친 잉여 신호야. 수위 계속 상승 중. 방파선 뒤로 해안 도시 하나, 생존자 이만.", "en": "Surplus signal from the twin moons. Water still rising. Behind the breakwater: one coastal city, twenty thousand survivors."},
+        {"s": "CHR002", "ko": "파도 속에 뭔가 떠다니는데. 빛나는 점들…… 부표야?", "en": "Something's floating in the waves. Glowing dots… buoys?"},
+        {"s": "CHR006", "ko": "부표가 아니야. 좌표 신호야. 수천 개. 구조 요청이 끊긴 자리마다 하나씩.", "en": "Not buoys. Coordinate signals. Thousands. One for every place a distress call went silent."},
+        {"s": "CHR007", "ko": "버려진 경로도 섞여 있어. 우리가 지나온 갈림길들. 가지 않은 쪽의 선로야.", "en": "Abandoned routes are mixed in too. The forks we passed. The tracks we didn't take."},
+        {"s": "CHR009", "ko": "……구하지 못한 사람들의 좌표도 있겠네. 늦게 도착한 자리들.", "en": "…There'll be coordinates of people who weren't saved, too. The places someone arrived too late."},
+        {"s": "CONTROL", "ko": "안내 말씀 드립니다. 방파선 해역에 유실물이 표류 중입니다.", "en": "Your attention, please. Lost items are drifting in the breakwater waters."},
+        {"s": "CONTROL", "ko": "놓친 승객은 회수하지 않습니다. 항해자님, 뒤돌아보지 마십시오.", "en": "Missed passengers will not be recovered. Navigator, please do not look back."},
+        {"s": "CHR014", "ko": "뒤돌아보지 말라고? 뒤에 사람이 있으면 돌아보는 게 당연하지!", "en": "Don't look back? If there are people behind you, of course you look back!"},
+        {"s": "CHR015", "ko": "회수 안 하면 계속 쌓여. 수위 상승률 시간당 0.3미터. 사흘이면 벽을 넘어.", "en": "Leave them and they pile up. Rising 0.3 meters an hour. In three days it tops the wall."},
+        {"s": "CHR004", "ko": "그럼 저 좌표들은요? 그냥 파도에 둬요?", "en": "Then what about those coordinates? We just leave them to the waves?"},
+        {"s": "CHR001", "ko": "도시 이만 명이 먼저다. 벽을 지키면서, 좌표도 하나씩 건진다.", "en": "The twenty thousand in the city come first. We hold the wall, and pull the coordinates out one by one."},
+        {"s": "N", "ko": "그렇게 말하고도, 마에루는 한동안 검은 수면에서 눈을 떼지 못했다.", "en": "Even after saying it, Maeru couldn't take her eyes off the black water for a long moment."},
+        {"s": "CHR005", "ko": "단장? ……가자. 다음 파도가 온다.", "en": "Captain? …Let's go. Next wave's coming."}
+      ]
+    },
+    {
+      "id": "MID_A",
+      "trigger": "N04",
+      "title_ko": "구조반 03",
+      "title_en": "Rescue Zero-Three",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR001", "RIGHT": "CHR004"},
+      "lines": [
+        {"s": "N", "ko": "제2 제방 앞에서 좌표 하나가 파도를 거슬러 떠올랐다. 호출 부호가 희미하게 깜박였다.", "en": "Before the second dike, one coordinate rose against the waves. Its call sign blinked faintly."},
+        {"s": "CHR003", "ko": "호출 부호 판독. 구조반 03…… 식별명, 시오. 마지막 위치, 제7 승강장.", "en": "Reading call sign. Rescue Zero-Three… Identifier: Sio. Last position: Platform Seven."},
+        {"s": "N", "ko": "마에루의 발이 멈췄다. 방패를 쥔 손이 한 번, 눈에 띄게 떨렸다.", "en": "Maeru stopped dead. The hand gripping her shield trembled once, visibly."},
+        {"s": "CHR001", "ko": "……시오.", "en": "…Sio."},
+        {"s": "CHR004", "ko": "단장님…… 그 이름, 빈 좌석의……", "en": "Captain… that name. The empty seat…"},
+        {"s": "CHR001", "ko": "기록 시각, 대정전 그날 밤. ……열두 해 동안 신호 한 번 없었는데. 이제 와서, 이런 곳에서.", "en": "Timestamp: the night of the Blackout. …Twelve years without a single signal. And now, here, of all places."},
+        {"s": "N", "ko": "다시 밀려온 파도가 좌표를 붙잡아, 먼 바다 쪽으로 끌고 가기 시작했다.", "en": "The next wave caught the coordinate and began dragging it out toward open sea."},
+        {"s": "CHR001", "ko": "안 돼. ……내가 간다!", "en": "No. …I'm going!"},
+        {"s": "CHR009", "ko": "단장, 멈춰! 거기 뛰어들면 좌표보다 네가 먼저 쓸려 가!", "en": "Captain, stop! Jump in there and you'll be swept away before the coordinate is!"},
+        {"s": "CHR003", "ko": "조류가 북쪽 제방으로 흘러. 거기 방패망 신호가 하나 살아 있어. 좌표가 걸릴 수 있어.", "en": "The current's flowing to the north dike. There's a live shield-net signal there. The coordinate could get caught."},
+        {"s": "CHR001", "ko": "……북쪽이다. 서둘러. 부탁한다.", "en": "…North. Hurry. Please."}
+      ]
+    },
+    {
+      "id": "MID_B",
+      "trigger": "N11",
+      "title_ko": "열한 번째 서명",
+      "title_en": "The Eleventh Signature",
+      "background": "rail",
+      "cast": {"LEFT": "CHR016", "CENTER": "CHR001", "RIGHT": "CHR004"},
+      "lines": [
+        {"s": "N", "ko": "잔향체가 물러가자 방패망 속 좌표들이 반딧불처럼 흔들렸다. 파도 소리가 한 박자 잦아들었다.", "en": "As the echoforms fell back, the coordinates in the net swayed like fireflies. The surf quieted by a beat."},
+        {"s": "CHR016", "ko": "오르사입니다. 방파선 수비대의 마지막 방패지요. 열두 해 동안 이 그물로 좌표를 건져 왔습니다.", "en": "I am Orsa, the last shield of the Breakwater Guard. For twelve years I've fished coordinates out with this net."},
+        {"s": "CHR016", "ko": "건진 좌표는 현재에 고정해야 합니다. 그러지 않으면 다음 조류에 다시 쓸려 가지요.", "en": "A recovered coordinate must be anchored to the present. Otherwise the next tide takes it again."},
+        {"s": "N", "ko": "오르사가 방패 끝으로 한 좌표를 가만히 눌렀다. 구조반 03. 떨리던 빛이 멈추고 단단해졌다.", "en": "Orsa pressed one coordinate gently with the edge of her shield. Rescue Zero-Three. The trembling light went still and solid."},
+        {"s": "CHR016", "ko": "고정했습니다. 이제 이 좌표는 오늘을 삽니다. 더는 그 밤으로 떠내려가지 않습니다.", "en": "It's anchored. This coordinate lives in today now. It will not drift back to that night again."},
+        {"s": "CHR001", "ko": "……등불 하나, 빌려줄 수 있나.", "en": "…Could someone lend me a lantern?"},
+        {"s": "N", "ko": "마에루는 빈 등불의 덮개를 열고, 좌표를 두 손으로 옮겨 담았다. 등불이 작고 파랗게 켜졌다.", "en": "Maeru opened an empty lantern and moved the coordinate inside with both hands. The lantern lit, small and blue."},
+        {"s": "CHR004", "ko": "……파란데, 이상하게 따뜻해 보여요.", "en": "…It's blue, but somehow it looks warm."},
+        {"s": "CHR001", "ko": "열두 해 만이다. ……고맙다, 오르사.", "en": "Twelve years. …Thank you, Orsa."},
+        {"s": "N", "ko": "그 순간 항해 기록기가 밀물처럼 부풀며 빛났다. 열한 번째 무늬가 물결 모양으로 새겨졌다.", "en": "In that moment the recorder swelled with light like a rising tide. An eleventh pattern was engraved in the shape of a wave."},
+        {"s": "CHR016", "ko": "떠도는 좌표의 귀환은 제가 끝까지 책임지겠습니다. 이 등불도 포함해서요.", "en": "I will see every drifting coordinate home, to the very end. This lantern included."},
+        {"s": "CHR003", "ko": "조류 한가운데서 거대한 반응. 좌표를 먹어 치우는 게 있어. 고정된 것부터 노리고 있어.", "en": "Massive reading at the center of the tide. Something's devouring coordinates, and it's targeting the anchored ones first."}
+      ]
+    },
+    {
+      "id": "CAMP",
+      "trigger": "N14",
+      "title_ko": "그 밤의 이야기",
+      "title_en": "The Story of That Night",
+      "background": "tunnel",
+      "cast": {"LEFT": "CHR004", "CENTER": "CHR001", "RIGHT": "CHR016"},
+      "lines": [
+        {"s": "N", "ko": "방파선 초소의 난로 곁에서, 파란 등불은 밤새 꺼지지 않았다. 마에루가 먼저 입을 열었다.", "en": "By the stove in the breakwater post, the blue lantern burned all night. Maeru was the first to speak."},
+        {"s": "CHR001", "ko": "대정전 그날 밤. 시오와 나는 제7 승강장으로 갔다. 누군가를 데리러.", "en": "The night of the Blackout, Sio and I went to Platform Seven. To bring someone back."},
+        {"s": "CHR004", "ko": "……단장님이 전에 '나중에'라고 했던 이야기죠.", "en": "…That's the story you said you'd tell 'later.'"},
+        {"s": "CHR001", "ko": "명령서엔 구조 대상 한 명이라고만 적혀 있었다. 이름 칸은 처음부터 지워져 있었지.", "en": "The orders said only 'one rescue target.' The name field was blank from the start."},
+        {"s": "CHR001", "ko": "시오 혼자 대상을 찾아 안쪽 객차로 갔다. 승강장이 무너질 때 무전이 왔지. 남겠다고. 대상을 두고 갈 수 없다고.", "en": "Sio went alone into the inner carriages to find the target. When the platform started collapsing, she radioed. She'd stay. She couldn't leave the target behind."},
+        {"s": "CHR009", "ko": "……남겠다는 사람을 두고 나오는 것도 구조대의 일이지. 제일 힘든 일.", "en": "…Leaving behind someone who chooses to stay is part of rescue work too. The hardest part."},
+        {"s": "CHR001", "ko": "나는 부상자들을 데리고 먼저 나왔다. 돌아가는 열차에 시오 자리를 비워 두고, 안전띠를 채워 뒀지.", "en": "I led the wounded out first. On the train back, I left Sio's seat empty and fastened the belt for her."},
+        {"s": "CHR003", "ko": "그 작전 기록, 나도 찾아봤었어. 구조 대상 칸만 지워져 있어. 누가, 왜 지웠는지도 없고.", "en": "I looked up that operation's records once. Only the rescue target is blank. Nothing on who erased it, or why."},
+        {"s": "N", "ko": "난로 너머, 몇 사람의 시선이 조용히 항해자에게 닿았다가 흩어졌다.", "en": "Across the stove, a few glances quietly came to rest on the Navigator, then scattered."},
+        {"s": "CHR016", "ko": "이름이 지워져도 그 밤의 좌표는 남았습니다. 좌표가 남으면, 언젠가 이야기도 돌아옵니다.", "en": "The name was erased, but that night's coordinate remained. Where a coordinate remains, the story returns someday."},
+        {"choice": [
+          {"key": "CHOICE_CH11_GUARD_LANTERN", "flag": "CH11_GUARD_LANTERN", "ko": "시오의 등불을 함께 지킨다", "en": "Help guard Sio's lantern", "reply": [
+            {"s": "CHR001", "ko": "……그래. 부탁한다, 항해자.", "en": "…All right. I'm counting on you, Navigator."}
+          ]},
+          {"key": "CHOICE_CH11_FIND_TARGET", "flag": "CH11_FIND_TARGET", "ko": "그 밤의 구조 대상을 찾겠다", "en": "Find out who that night's target was", "reply": [
+            {"s": "CHR001", "ko": "……찾게 되면, 나한테 제일 먼저 말해 줘.", "en": "…If you find out, tell me first."}
+          ]}
+        ]},
+        {"s": "CHR001", "ko": "이야기는 여기까지다. 내일 조류는 이 등불부터 노릴 거다. 이번엔, 놓치지 않는다.", "en": "That's all of it. Tomorrow the tide will come for this lantern first. This time, I won't let go."}
+      ]
+    },
+    {
+      "id": "PREBOSS",
+      "trigger": "N19",
+      "title_ko": "수확",
+      "title_en": "The Harvest",
+      "background": "rail",
+      "cast": {"LEFT": "CHR016", "CENTER": "CHR001", "RIGHT": "BOSS"},
+      "lines": [
+        {"s": "N", "ko": "방파선 한가운데서 검은 조류가 기둥처럼 솟았다. 그 끝에 낫 모양의 거대한 기관이 매달려 있었다.", "en": "At the heart of the breakwater, the black tide rose like a pillar. At its tip hung a colossal sickle-shaped engine."},
+        {"s": "BOSS", "ko": "유실물 센터에서 알려 드립니다. 표류 좌표 회수 기간이 종료되었습니다.", "en": "This is the lost-and-found office. The recovery period for drifting coordinates has ended."},
+        {"s": "BOSS", "ko": "고정된 좌표를 수확합니다. 현재에 매달린 과거는 운항에 방해가 됩니다.", "en": "Anchored coordinates will now be harvested. A past clinging to the present obstructs navigation."},
+        {"s": "CHR016", "ko": "그물의 좌표들이 끌려가고 있습니다. 고정된 것일수록 먼저…… 미끼로 쓰고 있어요.", "en": "The coordinates in my net are being pulled away. The anchored ones first… it's using them as bait."},
+        {"s": "N", "ko": "마에루의 허리춤에서, 파란 등불이 조류 쪽으로 끌려가듯 기울었다.", "en": "At Maeru's hip, the blue lantern tilted toward the tide as if being pulled."},
+        {"s": "CHR001", "ko": "……시오의 좌표도다.", "en": "…Sio's coordinate too."},
+        {"s": "CHR015", "ko": "인력 계속 상승. 낫이 한 번 휘두를 때마다 방파선 수위가 0.5미터씩 올라.", "en": "Pull still rising. Every sweep of that sickle raises the water at the wall by half a meter."},
+        {"s": "BOSS", "ko": "선택하십시오. 좌표를 놓으면 방파선은 지켜집니다. 붙들면 도시가 잠깁니다.", "en": "Please choose. Release the coordinates, and the breakwater holds. Keep them, and the city drowns."},
+        {"s": "CHR014", "ko": "또 고르라는 거냐! 그 수법은 쌍월에서 이미 봤다!", "en": "Choose again?! We already saw that trick at the twin moons!"},
+        {"s": "CHR001", "ko": "……이번엔 내가 대답하지.", "en": "…This time, I'll answer."},
+        {"s": "CHR001", "ko": "등불도, 벽도 놓지 않는다. 열두 해 전엔 한 사람을 두고 나왔다. 두 번은 없다.", "en": "I won't let go of the lantern or the wall. Twelve years ago I left someone behind. Never again."},
+        {"s": "CHR009", "ko": "좋아. 벽은 내가, 그물은 오르사가 맡는다. 단장은 그 등불만 꽉 쥐고 있어.", "en": "Good. I take the wall, Orsa takes the net. Captain, you just hold on tight to that lantern."},
+        {"s": "CHR016", "ko": "방패 둘로 파도 하나. 충분합니다.", "en": "Two shields against one wave. That's enough."},
+        {"s": "CHR005", "ko": "그리고 포 셋으로 낫 하나. 계산 끝.", "en": "And three guns against one sickle. Math done."}
+      ]
+    },
+    {
+      "id": "OUTRO",
+      "trigger": "N20",
+      "title_ko": "잔잔한 물 위의 열쇠",
+      "title_en": "A Key on Still Water",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR001", "RIGHT": "CHR016"},
+      "lines": [
+        {"s": "N", "ko": "낫이 부러져 바다에 떨어지자, 검은 조류가 숨을 멈춘 듯 가라앉았다.", "en": "When the sickle broke and fell into the sea, the black tide sank as if holding its breath."},
+        {"s": "BOSS", "ko": "수확…… 중단. 유실물을…… 반환합니다.", "en": "Harvest… halted. Returning… lost items."},
+        {"s": "BOSS", "ko": "……버린 것들을 다시 보지 않게…… 파도 밑에 거두면…… 아무도, 뒤돌아보며 울지……", "en": "…So no one would have to see what they left behind… if I gathered it all under the waves… no one would look back… and cry…"},
+        {"s": "N", "ko": "방패망 안의 좌표들이 하나씩 제 빛을 되찾았다. 방파선 너머 도시의 창마다 불이 켜졌다.", "en": "One by one, the coordinates in the net regained their light. Beyond the wall, windows lit up across the city."},
+        {"s": "CHR003", "ko": "수위 하강. 방파선 붕괴 없음. 도시 피해 0.", "en": "Water falling. No breach in the wall. Zero damage to the city."},
+        {"s": "CHR016", "ko": "건진 좌표 삼천사백여 개. 모두 오늘에 고정했습니다. 귀환 경로는 제가 차례로 열겠습니다.", "en": "Some three thousand four hundred coordinates recovered, all anchored to today. I'll open their routes home one by one."},
+        {"s": "CHR004", "ko": "단장님 등불, 아까보다 더 밝아진 것 같아요.", "en": "Captain, your lantern looks brighter than before."},
+        {"s": "CHR001", "ko": "……그래. 조금은.", "en": "…Yes. A little."},
+        {"s": "N", "ko": "그때 잔잔해진 물결 위로, 녹슨 열쇠 하나가 떠밀려 왔다. 손잡이의 이름 각인이 깎여 나가 있었다.", "en": "Then a rusted key drifted in on the calm water. The name engraved on its bow had been scraped away."},
+        {"s": "CHR007", "ko": "열쇠 홈에 신호가 남아 있어. 성당 문 규격이야. 방향은 내륙, 지도에 이름 없는 곳.", "en": "There's signal left in the teeth. Cathedral door standard. It points inland, somewhere with no name on the map."},
+        {"s": "CHR012", "ko": "그쪽에서 노래가 들린다. 성가다. 가사가…… 비어 있다.", "en": "I hear singing from that direction. A hymn. Its lyrics are… empty."},
+        {"s": "CONTROL", "ko": "다음 구간은 무명성당입니다. 입장 시 이름을 준비해 주십시오.", "en": "The next section is the Nameless Cathedral. Please have your names ready upon entry."},
+        {"s": "CHR014", "ko": "이름을 준비하라니, 무슨 입장권도 아니고. 기분 나쁜데.", "en": "Have our names ready? Like an admission ticket? I don't like that."},
+        {"s": "CHR001", "ko": "각자 자기 이름 꽉 붙들고 따라와라. ……무명성당으로 간다.", "en": "Everyone hold tight to your own name and follow me. …To the Nameless Cathedral."}
+      ]
+    },
+    {
+      "id": "HARD_INTRO",
+      "trigger": "H01",
+      "title_ko": "방파선 바깥",
+      "title_en": "Beyond the Breakwater",
+      "background": "rail",
+      "cast": {"LEFT": "CHR003", "CENTER": "CHR001", "RIGHT": "CHR016"},
+      "lines": [
+        {"s": "N", "ko": "방파선 바깥의 바다는 아직 검었다. 수면 아래에서 거대한 무언가가 느리게 숨을 쉬었다.", "en": "The sea beyond the breakwater was still black. Beneath the surface, something enormous breathed slowly."},
+        {"s": "CHR003", "ko": "수중 반응. 길이 이백 미터 이상. 수확자가 끌어모은 잉여 신호가 아직 저 안에 있어.", "en": "Underwater contact. Over two hundred meters long. The surplus signal the Reaper gathered is still inside it."},
+        {"s": "CHR016", "ko": "수비대는 저것을 흑수라고 불렀습니다. 열두 해 동안 한 번도 수면 위로 올라온 적이 없지요.", "en": "The Guard called it the Blackwater. In twelve years it has never once surfaced."},
+        {"s": "CHR015", "ko": "올라온 적이 없다는 건, 이유가 생기면 한 번에 올라온다는 뜻이야.", "en": "Never surfaced means that when it has a reason, it'll come up all at once."},
+        {"s": "N", "ko": "멀리 부서진 구명정 위에서, 누군가 밧줄을 던지며 소리치고 있었다.", "en": "On a wrecked lifeboat in the distance, someone was hurling ropes and shouting."},
+        {"s": "CHR002", "ko": "사람이야! 저 파도 속에서 혼자 구조 작업을 하고 있어.", "en": "That's a person! She's running a rescue out there alone, in those waves."},
+        {"s": "CHR008", "ko": "팔이 밧줄에 쓸려서 피투성이야. 오래 버틴 거야.", "en": "Her arms are rope-burned and bloody. She's been at this a long time."},
+        {"s": "CHR001", "ko": "배를 댄다. 흑수가 깨기 전에 저 사람부터 확인한다.", "en": "Bring the boat alongside. We check on her before the Blackwater wakes."}
+      ]
+    },
+    {
+      "id": "HARD_OUTRO",
+      "trigger": "H05",
+      "title_ko": "처음으로 잔잔한 바다",
+      "title_en": "Calm, for the First Time",
+      "background": "rail",
+      "cast": {"LEFT": "CHR016", "CENTER": "CHR036", "RIGHT": "CHR008"},
+      "lines": [
+        {"s": "N", "ko": "흑수가 마지막 숨을 토하며 가라앉았다. 수면 위로 수백 개의 좌표가 별처럼 떠올랐다.", "en": "The Blackwater exhaled one last time and sank. Hundreds of coordinates rose to the surface like stars."},
+        {"s": "HBOSS", "ko": "……보관을 종료합니다. 깊이 묻어 두면, 아무도 잃어버린 것을 찾다가 빠지지 않을 줄……", "en": "…Storage terminated. I thought if I buried them deep, no one would drown searching for what they'd lost…"},
+        {"s": "CHR003", "ko": "조류 신호 0. 파고 0.2미터. ……이 바다에서 처음 보는 수치야.", "en": "Tide signal zero. Wave height 0.2 meters. …First time I've seen numbers like that on this sea."},
+        {"s": "CHR036", "ko": "……바다가 조용하네. 열두 해 동안 이렇게 조용한 적이 없었어.", "en": "…The sea's quiet. It hasn't been this quiet in twelve years."},
+        {"s": "CHR016", "ko": "오늘 건진 좌표는 당신 몫이 더 많습니다. 인정하지요.", "en": "You saved more coordinates than I did today. I'll admit it."},
+        {"s": "CHR036", "ko": "당연하지. ……근데 당신 그물 없었으면 반은 놓쳤을 거야. 그건 나도 인정해.", "en": "Obviously. …But without your net I'd have lost half of them. I'll admit that much."},
+        {"s": "CHR008", "ko": "그 팔부터 치료하자. 사흘 못 잤다며. 이제 좀 자도 돼.", "en": "Let's treat those arms first. Three days without sleep, you said? You can rest now."},
+        {"s": "CHR036", "ko": "자는 건 나중에! 너희 배에 구명 장비 몇 개야? 모자라면 내가 챙긴다.", "en": "Sleep can wait! How much life-saving gear is on your boat? If it's short, I'll bring more."},
+        {"s": "CHR001", "ko": "……타라, 미레. 우리 배는 늘 사람이 모자라다.", "en": "…Get aboard, Mire. Our boat is always short of hands."},
+        {"s": "N", "ko": "그날 밤, 바다는 처음으로 흔들림 없이 달을 비추었다.", "en": "That night, for the first time, the sea reflected the moon without a ripple."}
+      ]
+    }
+  ],
+  "popups": {
+    "RECRUIT": [
+      {"s": "CHR003", "ko": "북쪽 제방에 생체 반응. 방패망을 바다 위로 펼쳤어. 잔향체가 그물을 뜯고 있어.", "en": "Life sign on the north dike. She's spread a shield net over the sea. Echoforms are tearing at it."},
+      {"s": "CHR016", "ko": "물러서십시오. 이 그물에 걸린 좌표는 하나도 놓을 수 없습니다.", "en": "Stand back, please. I cannot release a single coordinate caught in this net."},
+      {"s": "CHR001", "ko": "그 그물에…… 구조반 03이라는 좌표가 있나?", "en": "In that net… is there a coordinate called Rescue Zero-Three?"},
+      {"s": "CHR016", "ko": "있습니다. 오늘 밤 떠밀려 온 것 중 가장 오래된 좌표지요. 당신의 사람입니까?", "en": "There is. The oldest coordinate to wash in tonight. Is she one of yours?"},
+      {"s": "CHR001", "ko": "……내 사람이다.", "en": "…She's mine."},
+      {"s": "CHR016", "ko": "그렇다면 도와주십시오. 떠도는 좌표를 버릴 수는 없습니다. 저 혼자로는 그물이 버티지 못합니다.", "en": "Then help me. I cannot abandon drifting coordinates, and alone, this net won't hold."},
+      {"s": "CHR009", "ko": "그물 한쪽은 내가 받친다. 단장은 앞만 봐.", "en": "I'll brace one side of the net. Captain, eyes forward."},
+      {"s": "CHR016", "ko": "……감사합니다. 그럼, 시작하지요.", "en": "…Thank you. Then let us begin."}
+    ],
+    "WANDERER": [
+      {"s": "CHR036", "ko": "거기 배! 구경할 거면 비켜, 도울 거면 밧줄 잡아!", "en": "You, in the boat! If you're watching, move. If you're helping, grab a rope!"},
+      {"s": "CHR002", "ko": "도우러 왔어. 근데 네 뒤에 잔향체가……", "en": "We're here to help. But there are echoforms behind you…"},
+      {"s": "CHR036", "ko": "알아! 저것들이 좌표 물고 가는 거 막느라 사흘째 못 잤어. 살릴 수 있으면 살리는 거지, 뭘 따져!", "en": "I know! Three days without sleep keeping those things off the coordinates. If you can save it, you save it. What's to think about!"},
+      {"s": "CHR016", "ko": "방파선 구호원이군요. 그 좌표들은 저희가 이미 고정했습니다. 물러서 주십시오.", "en": "A breakwater rescuer, I see. We've already anchored those coordinates. Please step back."},
+      {"s": "CHR036", "ko": "고정? 수비대 방패쟁이들이 늘 하던 소리지. 그러고 반은 놓쳤잖아!", "en": "Anchored? That's what you Guard shield-pushers always say. And you lost half of them!"},
+      {"s": "CHR016", "ko": "……반박하지 않겠습니다. 그래서 지금 다시 건지는 겁니다.", "en": "…I won't argue. That's why I'm recovering them again now."},
+      {"s": "CHR036", "ko": "말로는 몰라. 너희가 저것들보다 빨리 건지는지 내 눈으로 봐야겠어. 방해되면 너희도 밀어낸다!", "en": "Talk's cheap. I need to see if you're faster than those things. Get in my way and I'll shove you off too!"},
+      {"s": "CHR001", "ko": "좋다. 누가 더 많이 건지는지 보자.", "en": "Fine. Let's see who saves more."}
+    ],
+    "BOSS": [
+      {"s": "BOSS", "ko": "수확 절차를 재개합니다. 방파선 인근 승객께서는 유실물을 반납해 주십시오.", "en": "Resuming harvest procedure. Passengers near the breakwater, please return all lost items."},
+      {"s": "CHR016", "ko": "반납할 유실물은 없습니다. 여기 있는 건 전부 누군가의 귀환입니다.", "en": "There are no lost items to return. Everything here is someone's homecoming."},
+      {"s": "CHR015", "ko": "낫 궤적 확인. 회전 주기 4.6초. 두 번째 회전 끝에 틈이 생겨.", "en": "Sickle trajectory confirmed. Rotation period, 4.6 seconds. A gap opens at the end of the second swing."},
+      {"s": "CHR001", "ko": "등불을 가운데 두고 선다. 아무것도 넘겨주지 않는다.", "en": "We form up around the lantern. We hand over nothing."}
+    ],
+    "HARD_BOSS": [
+      {"s": "HBOSS", "ko": "해역 안내. 본 해역은 유실물 보관소입니다. 보관품의 반출을 금지합니다.", "en": "Maritime notice. These waters are a lost-and-found depository. Removal of stored items is prohibited."},
+      {"s": "CHR016", "ko": "보관이라니요. 열두 해 동안 삼킨 좌표들, 전부 돌려받겠습니다.", "en": "Depository? Every coordinate you've swallowed in twelve years, we're taking back."},
+      {"s": "CHR003", "ko": "흑수 몸속에 좌표 반응 수백 개. 아직 살아 있는 신호도 섞여 있어.", "en": "Hundreds of coordinate readings inside the Blackwater. Some of those signals are still alive."},
+      {"s": "CHR001", "ko": "배를 붙인다. 삼킨 것들을 전부 뱉게 만든다.", "en": "Close in. We make it spit out everything it swallowed."}
+    ],
+    "ANOMALY_1": [
+      {"s": "ENEMY", "ko": "수위 안내. 현재 수위는 방송 기준을 따릅니다. 실제 수면은 무시하십시오.", "en": "Water level notice. Current level follows the broadcast standard. Please disregard the actual surface."},
+      {"s": "CHR003", "ko": "수위계 신호가 실제 수면보다 2미터 높아. 거짓 경보로 수문을 열게 만들고 있어.", "en": "The gauge reads two meters above the real waterline. It's trying to trick us into opening the floodgates."},
+      {"s": "CHR009", "ko": "수문은 내가 붙든다. 저 거짓말쟁이부터 끊어.", "en": "I'll hold the floodgates. Cut that liar down first."}
+    ],
+    "ANOMALY_2": [
+      {"s": "ENEMY", "ko": "여기 있어요. 여기 있어요. 저를 두고 가셨잖아요.", "en": "I'm here. I'm here. You left me behind, didn't you?"},
+      {"s": "CHR008", "ko": "……구하지 못한 사람 목소리를 흉내 내고 있어. 대답하지 마.", "en": "…It's mimicking the voice of someone we couldn't save. Don't answer it."},
+      {"s": "CHR014", "ko": "대답 대신 부숴 줄게. 진짜 목소리는 그렇게 원망하지 않아!", "en": "I'll smash it instead of answering. A real voice wouldn't blame us like that!"}
+    ],
+    "ANOMALY_3": [
+      {"s": "ENEMY", "ko": "표류물 안내. 방향을 잃은 선박은 해류를 따라 폐기 해역으로 이동하십시오.", "en": "Drift notice. Vessels that have lost their heading, please follow the current to the disposal zone."},
+      {"s": "CHR015", "ko": "해류 초속 3미터. 따라가면 사 분 뒤 폐기 해역이야.", "en": "Current at three meters per second. Follow it and we hit the disposal zone in four minutes."},
+      {"s": "CHR005", "ko": "따라갈 생각 없어. 저 안내판부터 날려 버리지.", "en": "Not planning to. I'll blow that signpost away first."}
+    ]
+  },
+  "incidents": [
+    {"kind": "AMBUSH", "title_ko": "파도 속 습격", "title_en": "Ambush in the Surf",
+     "lines": [
+       {"s": "N", "ko": "검은 파도가 부서진 자리에서 잔향체들이 물보라처럼 튀어 올랐다.", "en": "Where the black waves broke, echoforms burst up like spray."},
+       {"s": "CHR009", "ko": "제방 위로 올라온다! 막아설까, 뒤 제방으로 물러날까?", "en": "They're climbing the dike! Do we hold them, or fall back to the rear dike?"}
+     ],
+     "choices": [
+       {"outcome": "FIGHT", "ko": "막아선다", "en": "Hold the line"},
+       {"outcome": "EVADE", "ko": "뒤 제방으로 물러난다", "en": "Fall back to the rear dike"}
+     ]},
+    {"kind": "DISTRESS", "title_ko": "등대의 손전등", "title_en": "A Flashlight in the Lighthouse",
+     "lines": [
+       {"s": "N", "ko": "꺼진 등대 창가에서 누군가 손전등을 규칙적으로 깜박이고 있었다.", "en": "At the window of a dark lighthouse, someone was blinking a flashlight in a steady rhythm."},
+       {"s": "SURVIVOR", "ko": "물이 계단까지 찼어요. 등대 불을 다시 켜려다 여기 갇혔어요.", "en": "The water's up to the stairs. I got trapped trying to relight the lighthouse."},
+       {"s": "CHR010", "ko": "체온이 떨어지고 있어요. 서두르면 데려갈 수 있어요.", "en": "Her body temperature's dropping. If we hurry, we can bring her out."}
+     ],
+     "choices": [
+       {"outcome": "RESCUE", "ko": "등대로 가서 구한다", "en": "Go to the lighthouse and save her"},
+       {"outcome": "RECORD", "ko": "좌표를 기록한다", "en": "Record the coordinates"}
+     ]},
+    {"kind": "STORM", "title_ko": "검은 너울", "title_en": "Black Swell",
+     "lines": [
+       {"s": "N", "ko": "잔광 폭풍이 바다 위에서 일어나, 검은 너울이 방파선을 넘어 들이쳤다.", "en": "An afterglow storm rose over the sea, and a black swell crashed over the breakwater."},
+       {"s": "CHR015", "ko": "파고 4미터. 그대로 전진하면 둘 중 하나는 쓸려 가.", "en": "Wave height, four meters. Push forward now and one in two of us gets swept away."}
+     ],
+     "choices": [
+       {"outcome": "SHELTER", "ko": "초소로 대피한다", "en": "Shelter in the guard post"},
+       {"outcome": "PUSH", "ko": "너울 사이를 뚫는다", "en": "Push between the swells"}
+     ]},
+    {"kind": "CACHE", "title_ko": "밀려온 보급 상자", "title_en": "Washed-Up Supplies",
+     "lines": [
+       {"s": "N", "ko": "모래톱에 방파선 수비대의 방수 보급 상자가 밀려와 있었다.", "en": "A waterproof supply crate from the Breakwater Guard had washed up on the sandbar."},
+       {"s": "CHR013", "ko": "봉인이 온전해. 누군가 끝까지 지키려던 물건이야. 고맙게 쓰자.", "en": "The seal's intact. Someone meant to guard this to the end. Let's use it gratefully."}
+     ],
+     "choices": [
+       {"outcome": "TAKE", "ko": "회수한다", "en": "Take it"}
+     ]},
+    {"kind": "BANTER", "title_ko": "포수들", "title_en": "The Gunners",
+     "lines": [
+       {"s": "CHR015", "ko": "소렌, 방금 사격. 오차 1.3미터. 바람 보정 안 했지?", "en": "Soren, that last shot. Off by 1.3 meters. You didn't correct for wind, did you?"},
+       {"s": "CHR005", "ko": "했어. 파도가 흔들린 거야. 탄은 거짓말 안 해도, 바다는 하거든.", "en": "I did. The waves moved. Shells don't lie, but the sea does."},
+       {"s": "CHR011", "ko": "둘 다 옳소. 그러니 다음엔 셋이서 한 발로 확인합시다.", "en": "You are both right. So next time, the three of us will settle it with a single shot."}
+     ],
+     "choices": [
+       {"outcome": "CONTINUE", "ko": "계속 간다", "en": "Keep moving"}
+     ]},
+    {"kind": "ECHO", "title_ko": "방파선 마지막 교신", "title_en": "The Breakwater's Last Transmission",
+     "lines": [
+       {"s": "N", "ko": "파도 소리 사이로, 대정전 밤의 수비대 교신이 끊겼다 이어졌다.", "en": "Between the waves, the Guard's radio traffic from the night of the Blackout cut in and out."},
+       {"s": "ECHO", "ko": "제방 붕괴. 수비대는 철수하라. ……아니, 아직 좌표가 남아 있다. 조금만……", "en": "Dike breach. Guard, withdraw. …No, there are still coordinates out there. Just a little longer…"},
+       {"s": "CHR006", "ko": "마지막까지 좌표를 건지려던 교신이야. 누군가 그걸 이어받았네.", "en": "Someone was trying to save coordinates to the very end. And someone else picked up where she left off."}
+     ],
+     "choices": [
+       {"outcome": "LISTEN", "ko": "끝까지 듣는다", "en": "Listen to the end"},
+       {"outcome": "IGNORE", "ko": "지나간다", "en": "Move on"}
+     ]}
+  ]
+}

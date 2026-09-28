@@ -930,5 +930,10 @@
   - 프로젝트 밖: Godot `app_userdata`의 이 게임 테스트 데이터, Claude 세션 임시 파일
   - 목록: `reports/cleanup_20260928/qa_gathered_files.jsonl.gz`
 - 확인: 옮긴 뒤 격리한 사용자 데이터로 test_runner 308/308, 전술 규칙 81/81 통과.
+- 옛 git 커밋 데이터 ("너도 오래된 git 커밋 파일도 지워라"):
+  - 9월 11일 gc가 남긴 cruft pack(3.56GB)을 휴지통으로 보냈다. 2026-09-05 R7 사전 빌드 배포 커밋 4개와 그 빌드 파일로,
+    어디에서도 가리키지 않는 데이터였다.
+  - 기록 재작성·강제 푸시는 하지 않았다. `git fsck --connectivity-only` 통과, `.git` 5.5GB → 2.1GB.
+  - 기록: `reports/cleanup_20260928/git_cruft_pack_retired.txt.gz`
 - `AGENTS.md`의 로컬 저장 규칙을 이번 요청으로 갱신했다. 기록: `reports/cleanup_20260928/CLEANUP_REPORT.md`
 - 배포·푸시는 하지 않았다.

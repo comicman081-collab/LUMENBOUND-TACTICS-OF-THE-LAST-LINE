@@ -911,3 +911,24 @@
   - 빌드는 r14(현재)와 r13(직전 검증본)만 남겼다. r12는 해시 기록 뒤 휴지통으로 보냈다. 음원·영상은 원본과 같아서
     따로 복사하지 않았다. 기록: `reports/tactics_r14_20260928/retired_files.jsonl.gz`
 - 배포·푸시는 하지 않았다.
+
+## 2026-09-28 — 로컬 정리: 사운드와 연결된 음성만 남김 (Claude)
+
+- 사용자 요청:
+  - "커밋하고 필요없는 것들을 다 지워라. 사운드관련 자산만 남기는데, 시나리오 음성의 경우에는 연결된 것만 남기고 폐기본은 삭제한다."
+  - "qa 관련 삭제 자산들도 한군데 이동시켜 모아놔라 내가 삭제하겠다"
+- 휴지통으로 보낸 것 (8,877개 파일, 5.4GB, 모든 파일의 해시는 `reports/cleanup_20260928/retired_files.jsonl.gz`):
+  - 직전 빌드 r13
+  - 옛 빌드·배포 격리본, 음성 r11 런타임, `retained_archive_20260911`
+  - 옛 배포 스테이징(`work/sites_*` 인덱스·업로드 묶음·SFX 핫픽스·minimal zip)
+  - 미선택 음성 테이크·오디션·프로브, `reports/`의 추적되지 않는 QA 캡처·로그
+- 사운드 320개와 `intro.mp4` 사본은 모두 보존본과 같아서 새로 옮긴 것이 없다.
+- 시나리오 음성은 연결된 것만 남았다: 런타임 2,857개, `selection.json`이 가리키는 원본 테이크 2,857개.
+- QA 삭제 대상 2,434개(386MB)는 삭제하지 않고 `DELETE_CANDIDATES/qa_20260928/`에 모았다. 사용자가 직접 지운다.
+  - 프로젝트 안: `godot/.runtime_profile`, `.qa_logs`, `godot/assets/art/qa`, `godot/assets/placeholders_legacy`,
+    `__pycache__`, 일회성 프로브 `godot/tools/tactical_balance_probe.*`
+  - 프로젝트 밖: Godot `app_userdata`의 이 게임 테스트 데이터, Claude 세션 임시 파일
+  - 목록: `reports/cleanup_20260928/qa_gathered_files.jsonl.gz`
+- 확인: 옮긴 뒤 격리한 사용자 데이터로 test_runner 308/308, 전술 규칙 81/81 통과.
+- `AGENTS.md`의 로컬 저장 규칙을 이번 요청으로 갱신했다. 기록: `reports/cleanup_20260928/CLEANUP_REPORT.md`
+- 배포·푸시는 하지 않았다.

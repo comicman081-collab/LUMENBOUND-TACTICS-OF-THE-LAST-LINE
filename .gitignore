@@ -25,8 +25,8 @@ reports/**/contact_sheets/
 reports/**/profiles/
 reports/**/profile/
 reports/**/shader_cache/
-# Verified recovery archives and rejected candidates stay on disk only; see
-# quarantine/retained_archive_20260911/README.md for restore instructions.
+# Retained sound sources and rejected candidates stay on disk only
+# (retained_archive_20260911 was retired on 2026-09-28; see reports/cleanup_20260928/).
 quarantine/
 dist/client/
 dist/.openai/

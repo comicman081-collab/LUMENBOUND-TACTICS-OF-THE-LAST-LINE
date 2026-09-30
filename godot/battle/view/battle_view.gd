@@ -11,6 +11,8 @@ const WeaponEffects := preload("res://battle/view/combat_weapon_effects.gd")
 const Grounding := preload("res://battle/view/battle_grounding.gd")
 const DAMAGE_FONT := preload("res://assets/fonts/LanternRounded-Black.ttf")
 const Ornament := preload("res://ui/ornament_draw.gd")
+const HitFeedback := preload("res://battle/view/combat_hit_feedback.gd")
+const RegionFloor := preload("res://battle/view/battle_region_floor.gd")
 
 signal battle_finished(result: Dictionary)
 ## Emitted once every asset required for this battle is attached, whether the
@@ -43,6 +45,14 @@ var projectiles: Array = []
 var free_floating_texts: Array = []
 var free_projectiles: Array = []
 var unit_flash: Dictionary = {}
+## uid -> {duration, power} for the slide of a damage-scaled hit, and uid ->
+## frames of white flash left (2 frames on every landed hit).
+var unit_flash_span: Dictionary = {}
+var hit_flash_frames: Dictionary = {}
+## Regional floor (phase 4 / D1): theme of the stage's chapter, cached by stage id.
+var region_theme: Dictionary = {}
+var region_theme_stage := ""
+var region_dressing_enabled := true
 var sprite_library := BattleSpriteLibrary.new()
 var action_frames := ActionFrames.new()
 var sprite_pack_ready := false
@@ -1137,6 +1147,9 @@ func skip_to_result() -> bool:
 
 func _process(delta: float) -> void:
 	if simulation == null: return
+	for flash_uid in hit_flash_frames.keys():
+		hit_flash_frames[flash_uid] = int(hit_flash_frames[flash_uid]) - 1
+		if int(hit_flash_frames[flash_uid]) <= 0: hit_flash_frames.erase(flash_uid)
 	if deployment_active: start_band_armed = true
 	if assets_ready: _detect_boss_entrance()
 	if boss_entry_elapsed >= 0.0:
@@ -1217,7 +1230,9 @@ func _process(delta: float) -> void:
 	_track_swarm_members()
 	for uid in unit_flash.keys():
 		unit_flash[uid] = float(unit_flash[uid]) - actor_delta
-		if float(unit_flash[uid]) <= 0: unit_flash.erase(uid)
+		if float(unit_flash[uid]) <= 0:
+			unit_flash.erase(uid)
+			unit_flash_span.erase(uid)
 	queue_redraw()
 	if simulation.state.ended and contact_events.is_empty() and not emitted_finish and not presentation_director.is_active() and consumed_events >= simulation.event_log.size() and enemy_defeat_bursts.is_empty() and defeat_hold_left <= 0.0:
 		if boss_arena_active and simulation.state.victory:
@@ -1362,7 +1377,7 @@ func _present_regular_event(event: Dictionary) -> void:
 	if event.type == BattleEvent.DAMAGE:
 		_spawn_damage_text(event)
 		_register_combo_hit(event)
-		unit_flash[event.target] = .14
+		_register_hit_reaction(event)
 		if damage_event_has_hit_sfx(event):
 			_request_damage_camera_impulse(event)
 		if damage_event_has_hit_sfx(event):
@@ -1373,14 +1388,14 @@ func _present_regular_event(event: Dictionary) -> void:
 				else: AudioService.play_event("ENEMY_HIT", .06)
 		if int(event.value) > 0:
 			var damage_kind := str(event.get("extra", {}).get("source", "BASIC")).to_lower()
-			_spawn_vfx(str(event.source), str(event.target), "impact_%s" % damage_kind)
+			_spawn_vfx(str(event.source), str(event.target), "impact_%s" % damage_kind, 0.0, HitFeedback.impact_accent(HitFeedback.damage_style(event)))
 			var damaged := presentation_unit_for_uid(str(event.target))
 			if not damaged.is_empty() and UnitState.alive(damaged): _play_animation(str(event.target), "hit")
 	elif event.type == BattleEvent.HEAL:
-		_spawn_floating_text({"target": event.target, "text": "+%d" % event.value, "color": Color("76e6a5"), "age": 0.0})
+		_spawn_floating_text({"target": event.target, "text": "+%d" % event.value, "color": Color("76e6a5"), "style": "heal", "age": 0.0})
 		_spawn_vfx(str(event.source), str(event.target), "heal")
 	elif event.type == BattleEvent.SHIELD:
-		_spawn_floating_text({"target": event.target, "text": "SHIELD %d" % event.value, "color": Color("72d5ff"), "age": 0.0})
+		_spawn_floating_text({"target": event.target, "text": "SHIELD %d" % event.value, "color": Color("72d5ff"), "style": "shield", "age": 0.0})
 		_spawn_vfx(str(event.source), str(event.target), "shield")
 	elif event.type == BattleEvent.BASIC_ATTACK:
 		var basic_source := _actor_model(str(event.source))
@@ -1574,7 +1589,7 @@ func _present_ultimate_batch_event(event: Dictionary) -> void:
 		var value := int(event.get("value", 0))
 		_spawn_damage_text(event)
 		_register_combo_hit(event)
-		unit_flash[str(event.get("target", ""))] = .14
+		_register_hit_reaction(event)
 		if damage_event_has_hit_sfx(event):
 			_request_damage_camera_impulse(event)
 		if damage_event_has_hit_sfx(event):
@@ -1584,31 +1599,43 @@ func _present_ultimate_batch_event(event: Dictionary) -> void:
 				elif str(hit_unit.get("rank", "NORMAL")) == "BOSS": AudioService.play_event("BOSS_HIT", .06)
 				else: AudioService.play_event("ENEMY_HIT", .06)
 		if value > 0:
-			_spawn_vfx(str(event.get("source", "")), str(event.get("target", "")), "impact_ultimate")
+			_spawn_vfx(str(event.get("source", "")), str(event.get("target", "")), "impact_ultimate", 0.0, HitFeedback.impact_accent(HitFeedback.damage_style(event)))
 	elif event_type == BattleEvent.HEAL:
-		_spawn_floating_text({"target": event.get("target", ""), "text": "+%d" % int(event.get("value", 0)), "color": Color("76e6a5"), "age": 0.0})
+		_spawn_floating_text({"target": event.get("target", ""), "text": "+%d" % int(event.get("value", 0)), "color": Color("76e6a5"), "style": "heal", "age": 0.0})
 		_spawn_vfx(str(event.get("source", "")), str(event.get("target", "")), "heal")
 	elif event_type == BattleEvent.SHIELD:
-		_spawn_floating_text({"target": event.get("target", ""), "text": "SHIELD %d" % int(event.get("value", 0)), "color": Color("72d5ff"), "age": 0.0})
+		_spawn_floating_text({"target": event.get("target", ""), "text": "SHIELD %d" % int(event.get("value", 0)), "color": Color("72d5ff"), "style": "shield", "age": 0.0})
 		_spawn_vfx(str(event.get("source", "")), str(event.get("target", "")), "shield")
 	elif event_type == BattleEvent.DOWN:
 		_play_animation(str(event.get("target", "")), "down")
 		presentation_director.request_combat_impact(.60)
 
+func _register_hit_reaction(event: Dictionary) -> void:
+	## Victim feedback for one damage event: pink tint and slide (length and
+	## distance follow the damage share) plus a 2-frame white flash when it landed.
+	var uid := str(event.get("target", ""))
+	var target := _actor_model(uid) if simulation != null else {}
+	var style := HitFeedback.damage_style(event)
+	var span := HitFeedback.reaction_span(style, HitFeedback.damage_weight(event, target))
+	unit_flash[uid] = float(span.duration)
+	unit_flash_span[uid] = span
+	if style != "miss" and damage_event_has_hit_sfx(event):
+		hit_flash_frames[uid] = HitFeedback.WHITE_FLASH_FRAMES
+
 func _request_damage_camera_impulse(event: Dictionary) -> void:
 	var extra: Dictionary = event.get("extra", {})
 	if bool(extra.get("miss", false)) or bool(extra.get("invulnerable", false)):
 		return
-	var strength := .34
-	if bool(extra.get("crit", false)):
-		strength += .12
-	if str(extra.get("source", "")) == "ULTIMATE":
-		strength = maxf(strength, .82)
 	var target := _actor_model(str(event.get("target", ""))) if simulation != null else {}
 	var source := _actor_model(str(event.get("source", ""))) if simulation != null else {}
-	if (not target.is_empty() and str(target.get("rank", "")) == "BOSS") or (not source.is_empty() and str(source.get("rank", "")) == "BOSS"):
-		strength = maxf(strength, .62)
-	presentation_director.request_combat_impact(strength)
+	var style := HitFeedback.damage_style(event)
+	var weight := HitFeedback.damage_weight(event, target)
+	var source_kind := str(extra.get("source", ""))
+	var boss_involved := (not target.is_empty() and str(target.get("rank", "")) == "BOSS") or (not source.is_empty() and str(source.get("rank", "")) == "BOSS")
+	# Damage-scaled: hit-stop (capped at 55 ms by the director), shake shape and
+	# camera focus all follow the share of the victim's HP the hit removed.
+	var strength := HitFeedback.impact_strength(style, weight, source_kind, boss_involved)
+	presentation_director.request_combat_impact(strength, HitFeedback.shake_preset(style, weight, source_kind))
 	_request_action_camera_focus(str(event.get("source", "")), str(event.get("target", "")), minf(1.0, strength), .48 if str(extra.get("source", "")) == "ULTIMATE" else .32)
 
 
@@ -1839,7 +1866,8 @@ func _spawn_projectile(source_uid: String, target_uid: String, attack_kind: Stri
 
 func _spawn_damage_text(event: Dictionary) -> void:
 	var value := int(event.get("value",0))
-	var critical := value > 0 and bool(event.get("extra",{}).get("crit",false))
+	var style := HitFeedback.damage_style(event)
+	var critical := style == "crit"
 	var target := _actor_model(str(event.get("target","")))
 	var tint := Color("ffb7ad") if str(target.get("team","")) == "PLAYER" else Color("fffaf0")
 	if critical: tint = Color("ffd66b")
@@ -1848,7 +1876,7 @@ func _spawn_damage_text(event: Dictionary) -> void:
 	if tags.has("FLANK"): prefix = "측면 "
 	elif tags.has("COVER"): prefix = "엄폐 "
 	elif tags.has("AREA"): prefix = "직격 "
-	_spawn_floating_text({"target":str(event.get("target","")),"text":"MISS" if value == 0 else prefix + MathUtil.comma(value),"crit":critical,"color":tint,"age":0.0})
+	_spawn_floating_text({"target":str(event.get("target","")),"text":"MISS" if value == 0 else prefix + MathUtil.comma(value),"crit":critical,"style":style,"weight":HitFeedback.damage_weight(event,target),"color":tint,"age":0.0})
 
 func _damage_screen_scale() -> float:
 	if not is_inside_tree(): return 1.0
@@ -1867,7 +1895,7 @@ func _spawn_floating_text(data: Dictionary) -> void:
 	var item: Dictionary = free_floating_texts.pop_back() if not free_floating_texts.is_empty() else {}
 	item.clear()
 	item.merge(data)
-	item["duration"] = 1.35 if bool(item.get("crit",false)) else 1.15
+	item["duration"] = float(HitFeedback.number_style(_damage_number_style_name(item)).duration)
 	item["stack"] = 0.0
 	# Scatter successive numbers sideways so rapid hits form a readable cluster
 	# instead of one tall column climbing into the backdrop.
@@ -1882,7 +1910,7 @@ func _spawn_floating_text(data: Dictionary) -> void:
 		free_floating_texts.append(floating_texts.pop_front())
 	floating_texts.append(item)
 
-func _spawn_vfx(source_uid: String, target_uid: String, kind: String, delay := 0.0) -> void:
+func _spawn_vfx(source_uid: String, target_uid: String, kind: String, delay := 0.0, accent := "") -> void:
 	var source := _actor_model(source_uid)
 	if source.is_empty(): return
 	var profile := _vfx_profile_for(source)
@@ -1896,9 +1924,9 @@ func _spawn_vfx(source_uid: String, target_uid: String, kind: String, delay := 0
 		_append_vfx_presentation(source_uid, target_uid, "ultimate_base", SIGNAL_BREAKER_ULTIMATE_BASE_KEY, delay, profile, base_tint, false)
 	var asset_kind := kind.trim_prefix("impact_") if kind.begins_with("impact_") else kind
 	var key := "%s_%s" % [str(source.get("def_id", "")).to_lower(), asset_kind]
-	_append_vfx_presentation(source_uid, target_uid, kind, key, delay, profile, Color.WHITE, kind in ["normal", "ultimate"])
+	_append_vfx_presentation(source_uid, target_uid, kind, key, delay, profile, Color.WHITE, kind in ["normal", "ultimate"], accent)
 
-func _append_vfx_presentation(source_uid: String, target_uid: String, kind: String, key: String, delay: float, profile: Dictionary, tint: Color, draw_accent: bool) -> void:
+func _append_vfx_presentation(source_uid: String, target_uid: String, kind: String, key: String, delay: float, profile: Dictionary, tint: Color, draw_accent: bool, accent := "") -> void:
 	var presentation: Dictionary = free_vfx_presentations.pop_back() if not free_vfx_presentations.is_empty() else {}
 	presentation.clear()
 	var duration := 0.40
@@ -1907,7 +1935,7 @@ func _append_vfx_presentation(source_uid: String, target_uid: String, kind: Stri
 	elif kind == "impact_normal": duration = .34
 	elif kind == "impact_ultimate": duration = .48
 	elif kind in ["heal", "shield"]: duration = .56
-	presentation.merge({"source": source_uid, "target": target_uid, "kind": kind, "key": key, "textured": vfx_frames.has(key), "age": 0.0, "delay": delay, "duration": duration, "profile": profile, "tint": tint, "draw_accent": draw_accent})
+	presentation.merge({"source": source_uid, "target": target_uid, "kind": kind, "key": key, "textured": vfx_frames.has(key), "age": 0.0, "delay": delay, "duration": duration, "profile": profile, "tint": tint, "draw_accent": draw_accent, "accent": accent})
 	if vfx_presentations.size() >= MAX_ACTIVE_VFX:
 		free_vfx_presentations.append(vfx_presentations.pop_front())
 	vfx_presentations.append(presentation)
@@ -2026,6 +2054,8 @@ func _clear_active_presentation_effects() -> void:
 	skill_callouts.clear()
 	boss_phase_presentations.clear()
 	unit_flash.clear()
+	unit_flash_span.clear()
+	hit_flash_frames.clear()
 	telegraph_flashes.clear()
 	telegraph_keys.clear()
 	swarm_drops.clear()
@@ -2192,15 +2222,33 @@ func _advance_entries(delta: float) -> void:
 			var track: Dictionary = animation_tracks.get(uid, {})
 			if str(track.get("name", "")) == "move": animation_tracks[uid] = {"name": "idle", "elapsed": 0.0}
 
+func _region_theme() -> Dictionary:
+	## Chapter -> biome family, grade, ornament. Empty for stages without a chapter.
+	if not region_dressing_enabled or simulation == null: return {}
+	var stage_id := str(simulation.stage.get("id", ""))
+	if stage_id != region_theme_stage:
+		region_theme_stage = stage_id
+		region_theme = RegionFloor.theme_for_stage(simulation.stage)
+	return region_theme
+
+func _region_clock() -> float:
+	return float(Time.get_ticks_msec()) / 1000.0
+
+func _battlefield_transform() -> Transform2D:
+	return RegionFloor.battlefield_transform(size, _battlefield_camera_zoom(), presentation_director.battlefield_offset() + field_offset)
+
 func _draw() -> void:
 	var rect := Rect2(Vector2.ZERO, size)
-	if normal_background != null: draw_texture_rect(normal_background, _battlefield_rect(rect), false)
+	var theme := _region_theme()
+	var grade := RegionFloor.background_grade(theme)
+	if normal_background != null: draw_texture_rect(normal_background, _battlefield_rect(rect), false, grade)
 	else: draw_rect(rect, Color("101b35"))
 	var arena_mix := _boss_background_mix()
 	if arena_mix > 0.0 and boss_background != null:
-		draw_texture_rect(boss_background, _battlefield_rect(rect), false, Color(1, 1, 1, arena_mix))
-		if normal_background != null: _draw_connected_boss_floor(arena_mix)
+		draw_texture_rect(boss_background, _battlefield_rect(rect), false, Color(grade.r, grade.g, grade.b, arena_mix))
+		if normal_background != null: _draw_connected_boss_floor(arena_mix, grade)
 	draw_rect(rect, Color(0.02, 0.04, 0.09, 0.16))
+	if not theme.is_empty(): RegionFloor.draw_far(self, theme, size, _region_clock(), 1.0 - .4 * arena_mix)
 	if not assets_ready:
 		# Keep the first painted shell honest: actors are not drawn as temporary
 		# silhouettes while their immutable atlases are still being registered.
@@ -2222,12 +2270,14 @@ func _draw() -> void:
 	visible_units.sort_custom(func(a, b): return _unit_pos(a).y < _unit_pos(b).y)
 	# All ground shadows precede all bodies; a front unit's shadow must not
 	# paint over a rear unit's boots while formation lanes change.
+	if not theme.is_empty(): RegionFloor.draw_floor(self, theme, _battlefield_transform(), size, _region_clock(), 1.0 - .45 * arena_mix)
 	_draw_tactical_grid()
 	_draw_next_wave_preview()
 	for unit in visible_units: _draw_contact_shadow(unit)
 	for unit in visible_units: _draw_weapon_action(unit, true)
 	for unit in visible_units: _draw_unit(unit)
 	for unit in visible_units: _draw_weapon_action(unit, false)
+	if not theme.is_empty(): RegionFloor.draw_front(self, theme, _battlefield_transform(), size, 1.0 - .3 * arena_mix)
 	for drop in swarm_drops: _draw_swarm_drop(drop)
 	_draw_combat_readout()
 	for burst in enemy_defeat_bursts.values():
@@ -2316,7 +2366,7 @@ func _draw() -> void:
 		var source_id := str(source.get("def_id", ""))
 		# The source sheet reserves its later cells for the endpoint burst. Start
 		if kind.begins_with("impact_"):
-			WeaponEffects.impact(self, position, WeaponEffects.family(source_id, str(source.get("role", ""))), progress, _skill_color(source, kind), _battlefield_camera_zoom() * (1.35 if kind == "impact_ultimate" else 1.0))
+			WeaponEffects.impact(self, position, WeaponEffects.family(source_id, str(source.get("role", ""))), progress, _skill_color(source, kind), _battlefield_camera_zoom() * (1.35 if kind == "impact_ultimate" else 1.0), str(presentation.get("accent", "")))
 		# an impact at that authored burst range rather than replaying cast-frame
 		# one at the victim, while ordinary cast VFX still use the full timeline.
 		var signature_effect_progress := .50 + progress * .499 if kind == "impact_ultimate" else progress
@@ -2381,52 +2431,106 @@ func _draw() -> void:
 	if finale_elapsed >= 0.0:
 		_draw_finale_card(finale_elapsed, FINALE_DURATION, "결착", "작전 완료", "모든 적 신호 소멸")
 
+func _damage_number_style_name(text: Dictionary) -> String:
+	var style := str(text.get("style", ""))
+	if style.is_empty():
+		if bool(text.get("crit", false)): return "crit"
+		if str(text.get("text", "")) == "MISS": return "miss"
+		return "normal"
+	return style
+
 func damage_number_layout(text: Dictionary) -> Dictionary:
 	var screen_scale := _damage_screen_scale()
 	var css_size := clampf(size.x * screen_scale * .023,21.0,34.0)
-	var critical := bool(text.get("crit",false))
-	# Misses are secondary information: smaller, so they never mask real damage.
-	var miss := str(text.get("text","")) == "MISS"
-	var font_size := roundi(css_size * (1.38 if critical else (.72 if miss else 1.0)) / screen_scale)
+	var style := _damage_number_style_name(text)
+	var spec := HitFeedback.number_style(style)
+	var critical := style == "crit"
+	# Bigger hits read bigger: a hit worth a third of the victim's HP gets a
+	# small size bonus. Misses stay secondary information.
+	var weight_bonus := 1.0 + .14 * float(text.get("weight",0.0)) if style in ["normal","weak","resist"] else 1.0
+	var font_size := roundi(css_size * float(spec.size) * weight_bonus / screen_scale)
 	var age := float(text.get("age",0.0))
-	var pop := 1.0 + (0.55 if critical else .16) * pow(1.0-clampf(age/.22,0.0,1.0),2.0)
+	var pop := 1.0 + float(spec.pop) * pow(1.0-clampf(age/.22,0.0,1.0),2.0)
 	var anchor: Vector2 = text.get("anchor",size*.5)
 	var target := _actor_model(str(text.get("target",""))) if simulation != null else {}
 	if not target.is_empty() and UnitState.alive(target): anchor = _damage_head_anchor(target)
 	var width := DAMAGE_FONT.get_string_size(str(text.text),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x
 	var ascent := DAMAGE_FONT.get_ascent(font_size)
 	var descent := DAMAGE_FONT.get_descent(font_size)
-	var position := anchor + Vector2(float(text.get("jitter",0.0)),-(12.0+age*34.0)/screen_scale-float(text.get("stack",0.0)))
+	var position := anchor + Vector2(float(text.get("jitter",0.0)),-(12.0+age*float(spec.rise))/screen_scale-float(text.get("stack",0.0)))
 	position.x = clampf(position.x,width*pop*.5+8.0/screen_scale,size.x-width*pop*.5-8.0/screen_scale)
 	position.y = maxf(position.y,(50.0/screen_scale)+ascent*pop)
 	var duration := float(text.get("duration",1.15))
 	var alpha := 1.0-clampf((age-duration*.65)/(duration*.35),0.0,1.0)
-	return {"position":position,"head":anchor,"font_size":font_size,"font_css":font_size*screen_scale*pop,"width":width,"ascent":ascent,"descent":descent,"pop":pop,"alpha":alpha,"crit":critical,"screen_scale":screen_scale}
+	return {"position":position,"head":anchor,"font_size":font_size,"font_css":font_size*screen_scale*pop,"width":width,"ascent":ascent,"descent":descent,"pop":pop,"alpha":alpha,"crit":critical,"style":style,"screen_scale":screen_scale}
 
 func _draw_damage_number(text: Dictionary) -> void:
 	var metrics := damage_number_layout(text)
+	var style := str(metrics.style)
+	var spec := HitFeedback.number_style(style)
 	var position: Vector2 = metrics.position
-	var ink: Color = text.color
-	if bool(metrics.crit):
-		# Critical hits read as gold with a small CRITICAL tag above the number.
-		ink = Color("ffd24a")
-	elif str(text.get("text","")) == "MISS":
-		ink = Color(.78, .82, .88)
-	ink.a = float(metrics.alpha) * (.8 if str(text.get("text","")) == "MISS" else 1.0)
-	if bool(metrics.crit):
-		var tag_size := maxi(10, roundi(float(metrics.font_size) * .42))
-		var tag_width := DAMAGE_FONT.get_string_size("CRITICAL", HORIZONTAL_ALIGNMENT_LEFT, -1, tag_size).x
-		var tag_base := position + Vector2(-tag_width * .5, -float(metrics.ascent) * float(metrics.pop) - 4.0 / float(metrics.screen_scale))
-		draw_string_outline(DAMAGE_FONT, tag_base, "CRITICAL", HORIZONTAL_ALIGNMENT_LEFT, -1, tag_size, maxi(2, roundi(2.0 / float(metrics.screen_scale))), Color(.25, .08, 0.0, ink.a))
-		draw_string(DAMAGE_FONT, tag_base, "CRITICAL", HORIZONTAL_ALIGNMENT_LEFT, -1, tag_size, Color(1.0, .62, .25, ink.a))
+	var screen_scale := float(metrics.screen_scale)
+	# Plain hits keep the side tint (ally damage is warm, enemy damage is white).
+	var ink: Color = text.color if style == "normal" else spec.ink
+	ink.a = float(metrics.alpha) * (.8 if style == "miss" else 1.0)
+	var font_size := int(metrics.font_size)
+	var tag := str(spec.tag)
+	if not tag.is_empty():
+		var tag_size := maxi(10, roundi(float(font_size) * .42))
+		var tag_width := DAMAGE_FONT.get_string_size(tag, HORIZONTAL_ALIGNMENT_LEFT, -1, tag_size).x
+		var tag_base := position + Vector2(-tag_width * .5, -float(metrics.ascent) * float(metrics.pop) - 4.0 / screen_scale)
+		var tag_ink: Color = spec.tag_ink
+		tag_ink.a = ink.a
+		draw_string_outline(DAMAGE_FONT, tag_base, tag, HORIZONTAL_ALIGNMENT_LEFT, -1, tag_size, maxi(2, roundi(2.0 / screen_scale)), Color(.12, .06, .04, ink.a))
+		draw_string(DAMAGE_FONT, tag_base, tag, HORIZONTAL_ALIGNMENT_LEFT, -1, tag_size, tag_ink)
 	var baseline := Vector2(-float(metrics.width)*.5,-float(metrics.descent))
 	draw_set_transform(position,0.0,Vector2.ONE*float(metrics.pop))
-	var font_size := int(metrics.font_size)
-	var outline := maxi(2,roundi(2.4/float(metrics.screen_scale)))
-	draw_string_outline(DAMAGE_FONT,baseline+Vector2(0,2.0/float(metrics.screen_scale)),str(text.text),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,outline+1,Color(0,0,0,ink.a*.7))
+	_draw_damage_number_badge(style, metrics, ink, float(text.get("age",0.0)))
+	var outline := maxi(2,roundi(2.4/screen_scale))
+	draw_string_outline(DAMAGE_FONT,baseline+Vector2(0,2.0/screen_scale),str(text.text),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,outline+1,Color(0,0,0,ink.a*.7))
 	draw_string_outline(DAMAGE_FONT,baseline,str(text.text),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,outline,Color(.10,.065,.065,ink.a))
 	draw_string(DAMAGE_FONT,baseline,str(text.text),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,ink)
 	draw_set_transform(Vector2.ZERO,0.0,Vector2.ONE)
+
+func _draw_damage_number_badge(style: String, metrics: Dictionary, ink: Color, age: float) -> void:
+	## Vector shapes that make the four main number kinds readable without
+	## reading the digits: a gold burst (crit), an up chevron (weak), a down
+	## chevron (resist) and a plus cross with a soft glow (heal).
+	var width := float(metrics.width)
+	var ascent := float(metrics.ascent)
+	var centre := Vector2(0.0, -ascent * .36)
+	var alpha := ink.a
+	if style == "crit":
+		var burst := 1.0 - clampf(age / .42, 0.0, 1.0)
+		if burst <= 0.0: return
+		var outer := width * .5 + ascent * .72
+		var points := PackedVector2Array()
+		for index in range(16):
+			var radius := outer if index % 2 == 0 else outer * .58
+			var angle := TAU * float(index) / 16.0 + .2
+			points.append(centre + Vector2(cos(angle) * radius * 1.12, sin(angle) * radius * .62))
+		draw_colored_polygon(points, Color(1.0, .78, .22, .30 * burst * alpha))
+	elif style == "weak" or style == "resist":
+		var up := style == "weak"
+		var half := ascent * .28
+		var base_x := -width * .5 - ascent * .42
+		var tint: Color = HitFeedback.number_style(style).tag_ink
+		tint.a = alpha
+		for step in range(2 if up else 1):
+			var shift := -float(step) * ascent * .30 if up else 0.0
+			var tip_y := (-half if up else half) + centre.y + shift
+			var base_y := (half if up else -half) + centre.y + shift
+			draw_colored_polygon(PackedVector2Array([Vector2(base_x, tip_y), Vector2(base_x - half, base_y), Vector2(base_x + half, base_y)]), tint)
+	elif style == "heal":
+		var glow := .30 * alpha * (1.0 - clampf(age / .7, 0.0, 1.0))
+		if glow > 0.0:
+			draw_circle(centre, width * .5 + ascent * .5, Color(.46, .92, .66, glow))
+		var arm := ascent * .30
+		var thick := maxf(2.0, ascent * .13)
+		var cross := Vector2(-width * .5 - ascent * .46, centre.y)
+		var cross_ink := Color(.80, 1.0, .88, alpha)
+		draw_line(cross - Vector2(arm, 0), cross + Vector2(arm, 0), cross_ink, thick, true)
+		draw_line(cross - Vector2(0, arm), cross + Vector2(0, arm), cross_ink, thick, true)
 
 func _draw_ultimate_cutin() -> void:
 	var cinematic := presentation_director.cinematic_snapshot()
@@ -2766,7 +2870,7 @@ static func unit_display_name(unit: Dictionary) -> String:
 	# readable localized fallback if a future data row is temporarily incomplete.
 	return "아군" if str(unit.get("team", "")) == "PLAYER" else "적 유닛"
 
-func _draw_connected_boss_floor(visibility := 1.0) -> void:
+func _draw_connected_boss_floor(visibility := 1.0, grade := Color.WHITE) -> void:
 	# The original cathedral image's middle moat cannot be a combat floor.
 	# Composite the existing scene-matched, high-resolution stone foreground
 	# in Canvas (no altered bitmap, download or texture allocation). The boss
@@ -2774,7 +2878,8 @@ func _draw_connected_boss_floor(visibility := 1.0) -> void:
 	var bands := [.615, .665, .93, 1.02]
 	var source_rows := [.605, .645, .93, 1.0]
 	var colors := [Color(.63, .56, .44, 0), Color(.72, .64, .51, 1), Color(.65, .57, .45, 1), Color(.22, .25, .25, 1)]
-	for i in colors.size(): colors[i].a *= visibility
+	for i in colors.size():
+		colors[i] = Color(colors[i].r * grade.r, colors[i].g * grade.g, colors[i].b * grade.b, colors[i].a * visibility)
 	for index in range(bands.size() - 1):
 		var top := float(bands[index])
 		var bottom := float(bands[index + 1])
@@ -2838,7 +2943,7 @@ func _draw_unit(unit: Dictionary) -> void:
 		return
 	var color := _character_color(unit.slot) if player else _enemy_color(unit.rank)
 	if not alive: color = color.darkened(.65)
-	if unit_flash.has(unit.uid): color = Color.WHITE
+	if unit_flash.has(unit.uid) or hit_flash_frames.has(unit.uid): color = Color.WHITE
 	var generated_sprite := (sprite_pack_ready and sprite_library.supports_character(str(unit.def_id))) or fallback_combat_previews.has(str(unit.def_id))
 	# Generated CHR001 frames contain their own motion. Every remaining
 	# code-native DEV placeholder receives the same event-driven directional
@@ -3219,7 +3324,10 @@ func _draw_combat_sprite(unit: Dictionary, p: Vector2, alive: bool) -> bool:
 				var canvas_scale := Vector2(destination_size.x / logical_canvas.x, destination_size.y / logical_canvas.y)
 				destination_rect.position += logical_rect.position * canvas_scale
 				destination_rect.size = logical_rect.size * canvas_scale
-	var modulate := (Color(1.0, .72, .72, 1.0) if unit_flash.has(unit.uid) else Color.WHITE) * sprite_draw_tint
+	var flash_tint := Color.WHITE
+	if hit_flash_frames.has(unit.uid): flash_tint = HitFeedback.WHITE_FLASH_TINT
+	elif unit_flash.has(unit.uid): flash_tint = Color(1.0, .72, .72, 1.0)
+	var modulate := flash_tint * sprite_draw_tint
 	if has_down_pose:
 		# The keyed SD pose is already planted on the fixed logical 512px canvas.
 		# Bypass attack/down rotations and afterimages so the final prone drawing
@@ -3528,7 +3636,8 @@ func _registered_sprite_pose(unit: Dictionary) -> Dictionary:
 		mirrored = false # New rows already face each team's opponent.
 		motion = {"offset": Vector2.ZERO, "scale": Vector2.ONE, "rotation": 0.0}
 	if unit_flash.has(str(unit.get("uid", ""))):
-		motion = ActorChoreography.add_hit_reaction(motion, str(unit.get("team", "")), float(unit_flash.get(str(unit.get("uid", "")), 0.0)))
+		var reaction_span: Dictionary = unit_flash_span.get(str(unit.get("uid", "")), {})
+		motion = ActorChoreography.add_hit_reaction(motion, str(unit.get("team", "")), float(unit_flash.get(str(unit.get("uid", "")), 0.0)), float(reaction_span.get("duration", .14)), float(reaction_span.get("power", 1.0)))
 	motion.offset = (motion.offset as Vector2) * _battlefield_camera_zoom()
 	return Grounding.register_pose(motion, points, _combat_sprite_scale(unit, action), mirrored)
 

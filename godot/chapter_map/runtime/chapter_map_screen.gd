@@ -89,6 +89,8 @@ const MapAtmosphereShader := preload("res://chapter_map/shaders/map_atmosphere.g
 const MapPresentationOverlayScript := preload("res://chapter_map/ui/map_presentation_overlay.gd")
 const ExplorationGaugeScript := preload("res://chapter_map/ui/exploration_gauge.gd")
 const RegionPaletteScript := preload("res://chapter_map/view/region_palette.gd")
+const LandmarkBuilderScript := preload("res://chapter_map/view/landmark_builder.gd")
+const MapCameraRig := preload("res://chapter_map/view/map_camera_rig.gd")
 ## Party token hop (B1): every step bobs a little; a step onto another terrace
 ## height hops higher. Visual only; the pawn root still moves linearly.
 const PAWN_HOP_BASE := 0.10
@@ -110,6 +112,13 @@ var map_frame: PanelContainer
 var camera: Camera3D
 var camera_target := Vector3.ZERO
 var camera_zoom := 1.0
+## Phase 4 / A4: a slightly tilted perspective view (off = the old orthographic one).
+var camera_perspective := true
+var camera_moment_kind := ""
+var camera_moment_elapsed := 0.0
+var camera_moment_focus := Vector3.INF
+var pending_discovery_moment: Dictionary = {}
+const CAMERA_MOMENT_IDLE := {"zoom": 1.0, "yaw": 0.0, "shake": Vector3.ZERO}
 var world_root: Node3D
 var world_backdrop: Node3D
 var world_backdrop_anchor := Vector2i(1000000, 1000000)
@@ -163,6 +172,27 @@ var terrain_surface: MeshInstance3D
 var terrain_material: StandardMaterial3D
 var terrain_cap_material_cache: Dictionary = {}
 var runtime_material_cache: Dictionary = {}
+## Procedural landmarks (phase 4 / A2): roots whose flags and smoke animate, and
+## the few shared emissive materials they flicker.
+var landmarks_enabled := true
+## Marker-relative spots (the camera looks from +x, +z, so -z is "behind"): a
+## stronghold stands behind-right of its node, a route tower behind-left, the
+## chapter boss landmark further back and to the right, clear of the pawn sprite.
+const LANDMARK_STRONGHOLD_OFFSET := Vector3(0.95, -0.09, -1.05)
+const LANDMARK_TOWER_OFFSET := Vector3(-0.95, -0.09, -0.55)
+const LANDMARK_BOSS_OFFSET := Vector3(1.0, -0.09, -2.3)
+const LANDMARK_BOSS_HEIGHT := 3.4
+var landmark_family := ""
+var landmark_roots: Array = []
+## Web: landmark roots are placed during the stage entry, their meshes are built
+## afterwards, a few per frame (see `_attach_landmark`). `landmark_force_defer`
+## lets a headless test exercise that path.
+var landmark_fill_queue: Array = []
+var landmark_fill_dirty := false
+var landmark_force_defer := false
+var landmark_fill_budget_usec := 5000
+var landmark_glow_materials: Dictionary = {}
+var landmark_body_fallback: StandardMaterial3D
 var movement_overlay_material_cache: Dictionary = {}
 var route_overlay_material_cache: Dictionary = {}
 var node_style_cache: Dictionary = {}
@@ -432,6 +462,7 @@ func _ready() -> void:
 	if repaired_map_state:
 		SaveService.save_game()
 	camera_zoom = clampf(float(map_state.get("camera_zoom", 1.0)), 0.72, 1.55)
+	camera_perspective = bool(SettingsService.values.get("map_camera_perspective", true))
 	_build_interface()
 	_emit_map_load_progress(0.06, "shell")
 	# Web must be allowed to present the shell before any terrain work begins.
@@ -1784,11 +1815,18 @@ func _build_world() -> void:
 		float(grid.tile(Vector2i(int(map_state.current_q), int(map_state.current_r))).get("elevation", 0)) * ELEVATION_STEP
 	)
 	camera = Camera3D.new()
-	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-	camera.size = 13.2 / camera_zoom
-	camera.near = 0.1
-	camera.far = 100.0
-	camera.position = camera_target + Vector3(9.2, 14.2, 8.8)
+	camera.size = MapCameraRig.view_size(camera_zoom)
+	if camera_perspective:
+		# Same framing at the target as the orthographic view, with depth.
+		camera.projection = Camera3D.PROJECTION_PERSPECTIVE
+		camera.fov = MapCameraRig.fov_degrees()
+		camera.near = MapCameraRig.NEAR
+		camera.far = MapCameraRig.FAR
+	else:
+		camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+		camera.near = 0.1
+		camera.far = 100.0
+	camera.position = camera_target + MapCameraRig.offset(camera.size, 0.0, camera_perspective)
 	world_root.add_child(camera)
 	# Node3D.look_at requires an in-tree transform. Doing this before add_child
 	# emitted a Web runtime error on every fresh stage-to-map transition.
@@ -3849,6 +3887,249 @@ func _on_node_button_input(event: InputEvent, node: Dictionary) -> void:
 		_select_node(node)
 		_activate_selected_route_from_pointer()
 
+## Perspective camera (phase 4 / A4): how far the pointer/overlay scale is from
+## the old orthographic estimate. Overlay pixels per world unit facing the camera
+## at `world_position`; exact in the orthographic view, measured by projecting one
+## camera-up unit in perspective.
+func _screen_pixels_per_world(world_position: Vector3) -> float:
+	if not camera_perspective or camera == null or not is_instance_valid(camera) or viewport == null or not is_instance_valid(viewport) or overlay == null or not is_instance_valid(overlay):
+		return overlay.size.y / maxf(0.001, camera.size)
+	var camera_up := camera.global_transform.basis.y.normalized()
+	var origin := camera.unproject_position(world_position)
+	var above := camera.unproject_position(world_position + camera_up)
+	return origin.distance_to(above) * (overlay.size.y / maxf(1.0, float(viewport.size.y)))
+
+## A short camera flourish for a map event: push-in, slight orbit, a little
+## shake (MapCameraRig.MOMENTS). Skipped under reduced motion, in a field scene
+## and while the party walks. Returns whether it started.
+func play_camera_moment(kind: String, focus_world: Vector3 = Vector3.INF) -> bool:
+	if camera == null or not is_instance_valid(camera) or not MapCameraRig.is_moment(kind):
+		return false
+	if moving or field_scene_active or bool(SettingsService.values.get("map_reduced_transition", false)):
+		return false
+	camera_moment_kind = kind
+	camera_moment_elapsed = 0.0
+	camera_moment_focus = focus_world
+	return true
+
+func _advance_camera_moment(delta: float) -> Dictionary:
+	if camera_moment_kind.is_empty():
+		return CAMERA_MOMENT_IDLE
+	camera_moment_elapsed += maxf(delta, 0.0)
+	var state := MapCameraRig.moment(camera_moment_kind, camera_moment_elapsed)
+	if not bool(state.active) or moving or field_scene_active:
+		camera_moment_kind = ""
+		camera_moment_focus = Vector3.INF
+		web_entity_projection_dirty = true
+		return CAMERA_MOMENT_IDLE
+	var pull := MapCameraRig.moment_pull(camera_moment_kind)
+	if pull > 0.0 and camera_moment_focus != Vector3.INF:
+		camera_target = _clamp_camera_target_to_terrain(camera_target.lerp(camera_moment_focus, 1.0 - exp(-pull * maxf(delta, 0.0))))
+	return state
+
+func _queue_discovery_moment(changed: Array) -> void:
+	# A cache or event found on the way gets its moment once the party arrives.
+	for discovered_id in changed:
+		var id := str(discovered_id)
+		var holder: Node3D = null
+		var kind := ""
+		if treasure_visuals.has(id):
+			holder = treasure_visuals[id]
+			kind = "treasure"
+		elif event_visuals.has(id):
+			holder = event_visuals[id]
+			kind = "event"
+		if holder == null or not is_instance_valid(holder):
+			continue
+		if kind == "treasure" and MapExplorationServiceScript.treasure_state(map_state, id) != "REVEALED":
+			continue
+		pending_discovery_moment = {"kind": kind, "world": holder.position}
+
+func _play_pending_discovery_moment() -> void:
+	if pending_discovery_moment.is_empty():
+		return
+	var pending := pending_discovery_moment
+	pending_discovery_moment = {}
+	play_camera_moment(str(pending.kind), pending.world)
+
+func _landmark_family() -> String:
+	if landmark_family.is_empty():
+		landmark_family = str(RegionPaletteScript.for_definition(definition).family)
+	return landmark_family
+
+func _landmark_chapter() -> int:
+	return int(str(definition.get("chapter_id", "")).trim_prefix("CH"))
+
+func _landmark_body_material() -> StandardMaterial3D:
+	# Landmarks reuse an existing vertex-colour terrain material. On the web that
+	# is the exact object the boot warmup already drew (same shader variant, so
+	# no compile on first use); its culling is off, which the landmark meshes
+	# tolerate because their two-sided sheets are a hair apart.
+	if OS.has_feature("web") and WebSoakProbe.has_method("web_render_resource"):
+		var warmed = WebSoakProbe.web_render_resource("terrain_material")
+		if warmed is StandardMaterial3D:
+			return warmed
+	if terrain_material != null:
+		return terrain_material
+	if landmark_body_fallback == null:
+		landmark_body_fallback = StandardMaterial3D.new()
+		preload("res://chapter_map/view/web_map_material_policy.gd").apply(landmark_body_fallback)
+		landmark_body_fallback.vertex_color_use_as_albedo = true
+		landmark_body_fallback.roughness = 0.92
+		landmark_body_fallback.metallic = 0.0
+		landmark_body_fallback.cull_mode = BaseMaterial3D.CULL_BACK
+	return landmark_body_fallback
+
+## Adds one procedural landmark (phase 4 / A2) under `parent`. Returns the new
+## root, or null when landmarks are off or the kind is unknown.
+func _attach_landmark(parent: Node3D, kind: String, variant: int, offset: Vector3, scale_factor: float, yaw: float, fit_height := 0.0) -> Node3D:
+	if not landmarks_enabled:
+		return null
+	if not LandmarkBuilderScript.has_kind(kind):
+		return null
+	var family := _landmark_family()
+	var glow_color := LandmarkBuilderScript.glow_color_for(kind, family)
+	var glow_material := _cached_material(glow_color, glow_color)
+	landmark_glow_materials[glow_color.to_html(false)] = glow_material
+	var root := LandmarkBuilderScript.create_root(kind, family, variant)
+	root.name = "ProcLandmark_%s" % kind
+	# Stand on the tile the landmark actually occupies: lifted onto a higher
+	# neighbour, never floating (the plinth below covers a lower one).
+	root.position = offset + Vector3(0.0, maxf(0.0, _landmark_ground_delta(parent.position, offset)), 0.0)
+	root.rotation.y = yaw
+	root.scale = Vector3.ONE * scale_factor
+	parent.add_child(root)
+	landmark_roots.append(root)
+	var entry := {"root": root, "body": _landmark_body_material(), "glow": glow_material, "fit_height": fit_height}
+	if landmark_force_defer or (OS.has_feature("web") and not map_ready_complete):
+		# Building the meshes in GDScript is the expensive part on the web; the
+		# stage entry only places the roots and the meshes follow once the map is up.
+		landmark_fill_queue.append(entry)
+		landmark_fill_dirty = true
+	else:
+		_fill_landmark(entry)
+	return root
+
+func _fill_landmark(entry: Dictionary) -> void:
+	var root_value = entry.get("root")
+	if root_value == null or not is_instance_valid(root_value):
+		return
+	var root := root_value as Node3D
+	if not LandmarkBuilderScript.populate(root, entry.body, entry.glow):
+		return
+	var fit_height := float(entry.get("fit_height", 0.0))
+	if fit_height > 0.0:
+		# Scaled so a tall archetype stays about as tall as a short one.
+		root.scale = Vector3.ONE * clampf(fit_height / maxf(float(root.get_meta("landmark_height", 1.0)), 0.1), 0.5, 1.0)
+
+func _landmark_entry_distance(entry: Dictionary, focus: Vector3) -> float:
+	var root_value = entry.get("root")
+	if root_value == null or not is_instance_valid(root_value):
+		return INF
+	var root := root_value as Node3D
+	return root.global_position.distance_squared_to(focus) if root.is_inside_tree() else INF
+
+## Fills queued landmarks, nearest to the camera first, until the budget is spent
+## (at least one per call). A `budget_usec` of 0 fills everything; the default
+## (-1) uses `landmark_fill_budget_usec`.
+func _drain_landmark_fill_queue(budget_usec := -1) -> void:
+	if landmark_fill_queue.is_empty():
+		return
+	if budget_usec < 0:
+		budget_usec = landmark_fill_budget_usec
+	if landmark_fill_dirty:
+		var focus := camera_target
+		landmark_fill_queue.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+			return _landmark_entry_distance(a, focus) < _landmark_entry_distance(b, focus))
+		landmark_fill_dirty = false
+	var started := Time.get_ticks_usec()
+	while not landmark_fill_queue.is_empty():
+		_fill_landmark(landmark_fill_queue.pop_front())
+		if budget_usec > 0 and Time.get_ticks_usec() - started >= budget_usec:
+			break
+
+## Fills every queued landmark right now (tests, tools).
+func flush_landmark_fill_queue() -> void:
+	_drain_landmark_fill_queue(0)
+
+## Height difference (world units) between the tile a landmark stands on and the
+## tile of its parent node: positive on a higher neighbour, negative on a lower one.
+func _landmark_ground_delta(base: Vector3, offset: Vector3) -> float:
+	if grid == null:
+		return 0.0
+	var own := HexCoordScript.world_to_axial(base, TILE_SIZE)
+	var at := HexCoordScript.world_to_axial(base + offset, TILE_SIZE)
+	if at == own:
+		return 0.0
+	var own_elevation := float(grid.tile(own).get("elevation", 0))
+	var at_elevation := float(grid.tile(at).get("elevation", own_elevation))
+	return (at_elevation - own_elevation) * ELEVATION_STEP
+
+func _landmark_yaw(seed_text: String, spread := 0.5) -> float:
+	# Faces the isometric camera (+x, +z) with a little per-node variation.
+	return PI * 0.25 + (float(abs(seed_text.hash()) % 100) / 100.0 - 0.5) * spread
+
+func _landmark_plinth(parent: Node3D, offset: Vector3, radius: float, tile: Dictionary) -> void:
+	var delta := _landmark_ground_delta(parent.position, offset)
+	var lift := maxf(0.0, delta)
+	var drop := maxf(0.0, -delta)
+	# A shallow foundation so a large landmark never hovers over a lower
+	# neighbouring tile; on a higher tile it simply sinks into the ground.
+	var plinth := MeshInstance3D.new()
+	plinth.name = "LandmarkPlinth"
+	var plinth_mesh := CylinderMesh.new()
+	plinth_mesh.top_radius = radius
+	plinth_mesh.bottom_radius = radius * 1.12
+	plinth_mesh.height = 0.5 + drop
+	plinth_mesh.radial_segments = 10
+	plinth.mesh = plinth_mesh
+	plinth.position = offset + Vector3(0.0, lift - 0.05 - plinth_mesh.height * 0.5, 0.0)
+	plinth.material_override = _cached_material(_terrain_surface_color(tile).lightened(0.12))
+	parent.add_child(plinth)
+
+## Landmark for an encounter node: forward camp at the start, barricade at a
+## regular stronghold, tent at an elite one, the chapter's unique landmark at a
+## boss. Returns the kind attached ("" when none).
+func _attach_node_landmark(marker_root: Node3D, node: Dictionary, node_type: String, stage_id: String, tile: Dictionary) -> String:
+	if not landmarks_enabled:
+		return ""
+	var yaw := _landmark_yaw(str(node.get("node_id", "")))
+	if node_type == "START":
+		return "camp" if _attach_landmark(marker_root, "camp", 0, LANDMARK_STRONGHOLD_OFFSET, 0.85, yaw) != null else ""
+	if node_type.contains("BOSS") or bool(DataRegistry.stage(stage_id).get("boss", false)):
+		var spec := LandmarkBuilderScript.boss_spec(_landmark_chapter())
+		if spec.is_empty():
+			return ""
+		# Scaled to LANDMARK_BOSS_HEIGHT once the mesh is built, so a tall archetype
+		# stays about as tall as a short one.
+		if _attach_landmark(marker_root, str(spec.kind), int(spec.variant), LANDMARK_BOSS_OFFSET, 1.0, yaw, LANDMARK_BOSS_HEIGHT) == null:
+			return ""
+		_landmark_plinth(marker_root, LANDMARK_BOSS_OFFSET, 1.25, tile)
+		return "boss"
+	var kind := "tent" if node_type.contains("ELITE") else "barricade"
+	return kind if _attach_landmark(marker_root, kind, 0, LANDMARK_STRONGHOLD_OFFSET, 0.82, yaw) != null else ""
+
+func _animate_landmarks() -> void:
+	# Flags wave, smoke puffs rise, lamps flicker. Web updates every other frame
+	# and only for landmarks near the camera.
+	if OS.has_feature("web") and Engine.get_process_frames() % 2 == 1:
+		return
+	var clock := float(Time.get_ticks_msec()) / 1000.0
+	var any_visible := false
+	for root in landmark_roots:
+		if not is_instance_valid(root):
+			continue
+		var landmark_node := root as Node3D
+		if not landmark_node.is_visible_in_tree() or landmark_node.global_position.distance_squared_to(camera_target) > 220.0:
+			continue
+		any_visible = true
+		LandmarkBuilderScript.animate(landmark_node, clock)
+	if not any_visible:
+		return
+	for key in landmark_glow_materials:
+		var glow_material := landmark_glow_materials[key] as StandardMaterial3D
+		glow_material.emission_energy_multiplier = LandmarkBuilderScript.flicker(clock, float(str(key).hash() % 7))
+
 func _create_node_marker(node: Dictionary) -> void:
 	var marker_root := Node3D.new()
 	marker_root.name = "EncounterMarker_%s" % str(node.node_id)
@@ -3915,10 +4196,15 @@ func _create_node_marker(node: Dictionary) -> void:
 		marker_root.add_child(fallback)
 	# Three persistent visual anchors make it clear this is a long broken relay
 	# route, even when the streamed local terrain hides far-away node labels.
+	var node_landmark := _attach_node_landmark(marker_root, node, node_type, stage_id, socket_tile)
 	if stage_id.ends_with("N03") or stage_id.ends_with("N07") or stage_id.ends_with("N10") or stage_id.ends_with("N15") or stage_id.ends_with("N20"):
-		_spawn_kit_components("PROP_SIGNAL_TOWER", Vector3(0.62, 0.06, -0.30), 0.76 if stage_id.ends_with("N03") else 1.0, 0.18, marker_root)
+		# The chapter boss already owns a landmark; the route towers stand at the
+		# other anchors, procedural first and the authored kit as the fallback.
+		if node_landmark != "boss" and _attach_landmark(marker_root, "tower", 0, LANDMARK_TOWER_OFFSET, 0.82, _landmark_yaw(str(node.get("node_id", "")) + "t") - 0.4) == null:
+			_spawn_kit_components("PROP_SIGNAL_TOWER", Vector3(0.62, 0.06, -0.30), 0.76 if stage_id.ends_with("N03") else 1.0, 0.18, marker_root)
 	elif stage_id.ends_with("H05") or stage_id.ends_with("H10"):
-		_spawn_kit_components("PROP_SIGNAL_BEACON", Vector3(0.56, 0.05, -0.30), 0.92, -0.30, marker_root)
+		if node_landmark != "boss" and _attach_landmark(marker_root, "beacon", 0, LANDMARK_TOWER_OFFSET, 0.95, _landmark_yaw(str(node.get("node_id", "")) + "b") - 0.3) == null:
+			_spawn_kit_components("PROP_SIGNAL_BEACON", Vector3(0.56, 0.05, -0.30), 0.92, -0.30, marker_root)
 	if not hard_stage and not OS.has_feature("web"):
 		# Compatibility/Web rebuilt its clustered-light buffers when the first two
 		# encounter roots registered their decorative OmniLights. Those two uploads
@@ -4312,27 +4598,33 @@ func _create_treasure_visual(treasure: Dictionary) -> void:
 	shadow.material_override = _material(Color("061019"))
 	shadow.position.y = 0.01
 	root.add_child(shadow)
-	var crate := MeshInstance3D.new()
-	var crate_mesh := BoxMesh.new()
-	crate_mesh.size = Vector3(0.56, 0.34, 0.40)
-	crate.mesh = crate_mesh
-	crate.material_override = _material(Color("875a2f"), Color("6f3c1f"))
-	crate.position.y = 0.22
-	root.add_child(crate)
-	var lid := MeshInstance3D.new()
-	var lid_mesh := BoxMesh.new()
-	lid_mesh.size = Vector3(0.61, 0.11, 0.45)
-	lid.mesh = lid_mesh
-	lid.material_override = _material(Color("e2a853"), Color("b97830"))
-	lid.position.y = 0.43
-	root.add_child(lid)
+	# Phase 4 / A2: a procedural supply crate stack; the plain box and lid remain
+	# as the fallback when landmarks are off.
+	var crate: Node3D = _attach_landmark(root, "crate", 0, Vector3(0.0, -0.02, 0.0), 0.78, _landmark_yaw(treasure_id, 1.6))
+	var lid: MeshInstance3D = null
+	if crate == null:
+		var crate_box := MeshInstance3D.new()
+		var crate_mesh := BoxMesh.new()
+		crate_mesh.size = Vector3(0.56, 0.34, 0.40)
+		crate_box.mesh = crate_mesh
+		crate_box.material_override = _material(Color("875a2f"), Color("6f3c1f"))
+		crate_box.position.y = 0.22
+		root.add_child(crate_box)
+		crate = crate_box
+		lid = MeshInstance3D.new()
+		var lid_mesh := BoxMesh.new()
+		lid_mesh.size = Vector3(0.61, 0.11, 0.45)
+		lid.mesh = lid_mesh
+		lid.material_override = _material(Color("e2a853"), Color("b97830"))
+		lid.position.y = 0.43
+		root.add_child(lid)
 	var seal := MeshInstance3D.new()
 	var seal_mesh := SphereMesh.new()
 	seal_mesh.radius = 0.09
 	seal_mesh.height = 0.18
 	seal.mesh = seal_mesh
 	seal.material_override = _material(Color("b9fff2"), Color("6af8d4"))
-	seal.position = Vector3(0, 0.50, 0.22)
+	seal.position = Vector3(0, 0.50, 0.22) if lid != null else Vector3(0.0, 0.86, 0.0)
 	root.add_child(seal)
 	var glow := MeshInstance3D.new()
 	var glow_mesh := TorusMesh.new()
@@ -4346,12 +4638,12 @@ func _create_treasure_visual(treasure: Dictionary) -> void:
 	root.add_child(glow)
 	if str(treasure.get("visibility", "VISIBLE")) == "HIDDEN":
 		crate.visible = false
-		lid.visible = false
+		if lid != null: lid.visible = false
 		seal.visible = false
 		glow.visible = false
 		_spawn_kit_component("PROP_CRYSTAL_SHARD_1", Vector3(0.20, 0.12, -0.10), 0.76, 0.0, root)
 	root.set_meta("crate", crate)
-	root.set_meta("lid", lid)
+	if lid != null: root.set_meta("lid", lid)
 	root.set_meta("seal", seal)
 	root.set_meta("glow", glow)
 	world_root.add_child(root)
@@ -4364,8 +4656,11 @@ func _create_relay_visual(relay: Dictionary) -> void:
 	root.name = "MapRelay_%s" % relay_id
 	var coord := Vector2i(int(relay.get("q", 0)), int(relay.get("r", 0)))
 	root.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.18)
-	var parts := _spawn_kit_components("PROP_SIGNAL_TOWER", Vector3.ZERO, 0.78, 0.0, root)
-	if parts.is_empty():
+	var relay_tower := _attach_landmark(root, "tower", 0, Vector3(0.0, -0.04, 0.0), 0.9, _landmark_yaw(relay_id, 0.8))
+	var parts: Array[MeshInstance3D] = []
+	if relay_tower == null:
+		parts = _spawn_kit_components("PROP_SIGNAL_TOWER", Vector3.ZERO, 0.78, 0.0, root)
+	if relay_tower == null and parts.is_empty():
 		var mast := MeshInstance3D.new()
 		var mast_mesh := CylinderMesh.new()
 		mast_mesh.top_radius = 0.12
@@ -4392,7 +4687,7 @@ func _create_relay_visual(relay: Dictionary) -> void:
 	label.outline_size = 7
 	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	label.no_depth_test = true
-	label.position.y = 1.48
+	label.position.y = 2.05 if relay_tower != null else 1.48
 	label.modulate = Color("a7d4de")
 	root.add_child(label)
 	root.set_meta("signal", signal_ring)
@@ -4428,7 +4723,15 @@ func _create_landmark_visual(landmark: Dictionary) -> void:
 	var coord := Vector2i(int(landmark.get("q", 0)), int(landmark.get("r", 0)))
 	root.position = HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.16)
 	var is_major := str(landmark.get("kind", "MINOR")) == "MAJOR"
-	_spawn_kit_components(str(landmark.get("prop", "PROP_CRYSTAL_SHARD_1")), Vector3.ZERO, 1.05 if is_major else 0.70, 0.0, root)
+	var prop_name := str(landmark.get("prop", "PROP_CRYSTAL_SHARD_1"))
+	# PROP_RUIN_ARCH has no mesh in the authored kit (the landmark used to render
+	# nothing), so these three props are built procedurally; other props keep the kit.
+	var procedural_kind := str({"PROP_SIGNAL_TOWER": "tower", "PROP_SIGNAL_BEACON": "beacon", "PROP_RUIN_ARCH": "arch"}.get(prop_name, ""))
+	var landmark_label_height := 1.35
+	if not procedural_kind.is_empty() and _attach_landmark(root, procedural_kind, 0, Vector3(0.0, -0.04, 0.0), 1.25 if is_major else 0.95, _landmark_yaw(landmark_id, 0.7)) != null:
+		landmark_label_height = 3.0 if procedural_kind == "tower" else 2.4
+	else:
+		_spawn_kit_components(prop_name, Vector3.ZERO, 1.05 if is_major else 0.70, 0.0, root)
 	if is_major:
 		var label := Label3D.new()
 		label.text = str(landmark.get("name", "지형 표식"))
@@ -4436,7 +4739,7 @@ func _create_landmark_visual(landmark: Dictionary) -> void:
 		label.outline_size = 7
 		label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 		label.no_depth_test = true
-		label.position.y = 1.35
+		label.position.y = landmark_label_height
 		label.modulate = Color("c9e9e4")
 		root.add_child(label)
 	world_root.add_child(root)
@@ -4601,7 +4904,7 @@ func _sync_web_pawn_front_overlay() -> void:
 	pawn_front_overlay.texture = pawn_sprite.texture
 	var frame_size: Vector2 = pawn_animation_pack.get("frame_size", Vector2(104.0, 104.0))
 	var foot_anchor: Vector2 = pawn_animation_pack.get("foot_anchor", Vector2(0.5, 0.88))
-	var screen_pixels_per_world := overlay.size.y / maxf(0.001, camera.size)
+	var screen_pixels_per_world := _screen_pixels_per_world(pawn.global_position)
 	var token_size := frame_size * pawn_sprite.pixel_size * screen_pixels_per_world
 	# Web hides the world Sprite3D and presents this UI copy instead. Project the
 	# actual tweened pawn transform; projecting the logical map hex made the only
@@ -5505,7 +5808,8 @@ func _refresh_state_visuals(refresh_movement_range := true) -> void:
 		var treasure_coord := Vector2i(int(treasure.get("q", 0)), int(treasure.get("r", 0)))
 		root.visible = _coord_is_in_player_vision(treasure_coord) and state != "UNDISCOVERED" and state != "CLAIMED"
 		for visual_name in ["crate", "lid", "seal", "glow"]:
-			var visual = root.get_meta(visual_name, null)
+			if not root.has_meta(visual_name): continue
+			var visual = root.get_meta(visual_name)
 			if visual == null: continue
 			visual.visible = revealed_treasure
 			if visual_name == "glow" and revealed_treasure:
@@ -6507,6 +6811,9 @@ func _activate_selected_relay() -> void:
 	if result.ok:
 		SaveService.save_game()
 		_refresh_state_visuals()
+		var relay_holder: Node3D = relay_visuals.get(str(selected_relay.get("relay_id", "")))
+		if relay_holder != null and is_instance_valid(relay_holder):
+			play_camera_moment("relay", relay_holder.position)
 
 func _resolve_selected_event(choice_index: int) -> void:
 	if selected_event.is_empty(): return
@@ -6516,6 +6823,9 @@ func _resolve_selected_event(choice_index: int) -> void:
 	if result.ok:
 		SaveService.save_game()
 		_refresh_state_visuals()
+		var event_holder: Node3D = event_visuals.get(str(selected_event.get("event_id", "")))
+		if event_holder != null and is_instance_valid(event_holder):
+			play_camera_moment("event", event_holder.position)
 		if not result.value.get("rewards", {}).is_empty(): treasure_reward_requested.emit(result.value)
 
 func _move_along(path: Array[Vector2i]) -> void:
@@ -6591,7 +6901,7 @@ func _move_along(path: Array[Vector2i]) -> void:
 		web_entity_projection_dirty = true
 		# Proximity state is authoritative immediately; its presentation is painted
 		# once at arrival instead of rebuilding every UI/mesh layer between footsteps.
-		MapExplorationServiceScript.update_proximity(map_state, definition, coord, grid)
+		_queue_discovery_moment(MapExplorationServiceScript.update_proximity(map_state, definition, coord, grid))
 		var contacts := _contact_node_ids_at(coord)
 		for contact_id in contacts:
 			if _start_patrol_contact(str(contact_id), prior_coord):
@@ -6608,6 +6918,7 @@ func _move_along(path: Array[Vector2i]) -> void:
 	_set_pawn_motion_state("ARRIVE")
 	await get_tree().create_timer(PAWN_ARRIVE_HOLD_DURATION).timeout
 	_set_pawn_motion_state("IDLE")
+	_play_pending_discovery_moment()
 	active_movement_path.clear()
 	movement_skip_requested = false
 	var arrival_outcome := _resolve_arrival(traveled_path)
@@ -6747,6 +7058,8 @@ func _run_sudden_incident(path: Array[Vector2i]) -> bool:
 	var incident := MapExplorationServiceScript.roll_incident(map_state, definition, path.size() - 1, arrival)
 	if incident.is_empty():
 		return false
+	# A sudden incident jolts the view (a small shake and push-in) as it opens.
+	play_camera_moment("impact", pawn.global_position if pawn != null and is_instance_valid(pawn) else Vector3.INF)
 	turn_transitioning = true
 	var outcome := await _present_incident(incident)
 	turn_transitioning = false
@@ -7506,8 +7819,13 @@ func _process(delta: float) -> void:
 		if glow != null and is_instance_valid(glow) and glow.visible:
 			var pulse := 1.0 + sin(pawn_motion_phase * 1.5 + float(treasure_id.hash() % 9)) * 0.08
 			glow.scale = Vector3(pulse, 1.0, pulse)
-	var desired_camera_size := 13.2 / camera_zoom
-	var desired_camera_position := camera_target + Vector3(9.2, 14.2, 8.8)
+	if not landmark_fill_queue.is_empty() and map_ready_complete:
+		_drain_landmark_fill_queue()
+	if not landmark_roots.is_empty():
+		_animate_landmarks()
+	var camera_moment_state := _advance_camera_moment(delta)
+	var desired_camera_size := MapCameraRig.view_size(camera_zoom * float(camera_moment_state.zoom))
+	var desired_camera_position := camera_target + MapCameraRig.offset(desired_camera_size, float(camera_moment_state.yaw), camera_perspective) + (camera_moment_state.shake as Vector3)
 	var camera_changed := not is_equal_approx(camera.size, desired_camera_size) or not camera.position.is_equal_approx(desired_camera_position)
 	if camera_changed:
 		camera.size = desired_camera_size

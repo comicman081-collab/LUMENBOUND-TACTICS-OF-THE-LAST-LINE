@@ -33,7 +33,7 @@ static func adapt_pose(pose: Dictionary, team: String, role: String, action: Str
 	return pose
 
 
-static func add_hit_reaction(pose: Dictionary, team: String, remaining: float, duration := .14) -> Dictionary:
+static func add_hit_reaction(pose: Dictionary, team: String, remaining: float, duration := .14, power := 1.0) -> Dictionary:
 	## Incoming damage remains readable even while the victim's attack animation
 	## is protected from interruption.  This additive layer is composed before
 	## foot registration, so the stronger recoil never makes a body hover.
@@ -42,10 +42,14 @@ static func add_hit_reaction(pose: Dictionary, team: String, remaining: float, d
 	var forward := 1.0 if team == "PLAYER" else -1.0
 	var progress := 1.0 - clampf(remaining / maxf(.01, duration), 0.0, 1.0)
 	var kick := sin(progress * PI)
-	pose.offset = (pose.get("offset", Vector2.ZERO) as Vector2) + Vector2(-forward * 21.0 * kick, 2.4 * kick)
-	pose.rotation = float(pose.get("rotation", 0.0)) - forward * .085 * kick
+	if not is_equal_approx(power, 1.0):
+		# A damage-scaled hit slides back quickly and returns slowly.
+		kick = sin(pow(progress, .62) * PI)
+	var slide := clampf(power, .4, 2.6)
+	pose.offset = (pose.get("offset", Vector2.ZERO) as Vector2) + Vector2(-forward * 21.0 * slide * kick, 2.4 * minf(slide, 1.6) * kick)
+	pose.rotation = float(pose.get("rotation", 0.0)) - forward * .085 * minf(slide, 1.5) * kick
 	var base_scale: Vector2 = pose.get("scale", Vector2.ONE)
-	pose.scale = base_scale * Vector2(1.0 - .055 * kick, 1.0 + .032 * kick)
+	pose.scale = base_scale * Vector2(1.0 - .055 * minf(slide, 1.5) * kick, 1.0 + .032 * minf(slide, 1.5) * kick)
 	return pose
 
 

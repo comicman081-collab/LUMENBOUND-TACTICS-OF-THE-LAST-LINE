@@ -4,6 +4,8 @@
 ## markers and never writes to a simulation, RNG, event log, or Engine time.
 extends RefCounted
 
+const HitFeedback := preload("res://battle/view/combat_hit_feedback.gd")
+
 const ULTIMATE_DURATION := 2.10
 const CUTIN_START := 0.12
 const CUTIN_PEAK := 0.22
@@ -34,6 +36,7 @@ var hitstop_remaining := 0.0
 var presentation_clock := 0.0
 var combat_impulse_remaining := 0.0
 var combat_impulse_strength := 0.0
+var combat_impulse_preset := "thud"
 var combat_hitstop_remaining := 0.0
 var combat_hitstop_cooldown := 0.0
 var combat_focus_direction := 0.0
@@ -65,13 +68,16 @@ func is_impact_committed() -> bool:
 func in_lead_in() -> bool:
 	return is_active() and lead_in_elapsed < lead_in_total
 
-func request_combat_impact(strength := 0.5) -> void:
+func request_combat_impact(strength := 0.5, preset := "") -> void:
 	## Normal attacks and ordinary hit reactions may move the camera, but never
 	## through Engine time scale or the simulation clock. The strongest impulse
 	## wins so a multi-hit frame remains readable instead of accumulating shake.
 	var safe_strength := clampf(float(strength), 0.0, 1.0)
 	if safe_strength <= 0.0:
 		return
+	# The strongest impulse also owns the shake shape (tap / thud / snap / quake).
+	if combat_impulse_remaining <= 0.0 or safe_strength >= combat_impulse_strength:
+		combat_impulse_preset = str(preset) if str(preset) in HitFeedback.SHAKE_PRESETS else "thud"
 	combat_impulse_strength = maxf(combat_impulse_strength, safe_strength)
 	combat_impulse_remaining = maxf(combat_impulse_remaining, COMBAT_IMPULSE_DURATION * (.72 + safe_strength * .28))
 	# Freeze only actor/projectile presentation for a few frames. Simulation and
@@ -115,6 +121,7 @@ func advance(delta: float) -> Dictionary:
 		combat_impulse_remaining = maxf(0.0, combat_impulse_remaining - safe_delta)
 		if combat_impulse_remaining <= 0.0:
 			combat_impulse_strength = 0.0
+			combat_impulse_preset = "thud"
 	if combat_focus_duration > 0.0:
 		combat_focus_elapsed = minf(combat_focus_duration, combat_focus_elapsed + safe_delta)
 		if combat_focus_elapsed >= combat_focus_duration:
@@ -171,6 +178,7 @@ func force_finish() -> Dictionary:
 	lead_in_elapsed = 0.0
 	combat_impulse_remaining = 0.0
 	combat_impulse_strength = 0.0
+	combat_impulse_preset = "thud"
 	combat_hitstop_remaining = 0.0
 	combat_hitstop_cooldown = 0.0
 	_clear_combat_focus()
@@ -188,6 +196,7 @@ func reset() -> void:
 	presentation_clock = 0.0
 	combat_impulse_remaining = 0.0
 	combat_impulse_strength = 0.0
+	combat_impulse_preset = "thud"
 	combat_hitstop_remaining = 0.0
 	combat_hitstop_cooldown = 0.0
 	_clear_combat_focus()
@@ -213,6 +222,7 @@ func cinematic_snapshot() -> Dictionary:
 		"cutin_visibility": sin(cutin_in * PI * .5) * sin(cutin_out * PI * .5),
 		"impact_committed": impact_committed,
 		"combat_impulse": _combat_impulse(),
+		"combat_impulse_preset": combat_impulse_preset,
 		"combat_hitstop_remaining": combat_hitstop_remaining,
 		"combat_focus": _combat_focus(),
 		"combat_focus_direction": combat_focus_direction,
@@ -236,7 +246,8 @@ func battlefield_offset() -> Vector2:
 		offset += Vector2(sin(elapsed * 91.0) * 8.0 * shake, cos(elapsed * 73.0) * 4.0 * shake)
 	var impulse := _combat_impulse()
 	if impulse > 0.0:
-		offset += Vector2(sin(presentation_clock * 143.0) * 7.0 * impulse, cos(presentation_clock * 109.0) * 3.5 * impulse)
+		var shape := HitFeedback.shake_shape(combat_impulse_preset)
+		offset += Vector2(sin(presentation_clock * float(shape.fx)) * float(shape.ax) * impulse, cos(presentation_clock * float(shape.fy)) * float(shape.ay) * impulse)
 	var focus := _combat_focus()
 	if focus > 0.0:
 		offset += Vector2(-combat_focus_direction * COMBAT_FOCUS_MAX_OFFSET_X * focus, -2.0 * focus)

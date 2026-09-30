@@ -7,6 +7,7 @@ const ActionFrames := preload("res://battle/view/combat_action_frames.gd")
 const WeaponEffects := preload("res://battle/view/combat_weapon_effects.gd")
 const Grounding := preload("res://battle/view/battle_grounding.gd")
 const DAMAGE_FONT := preload("res://assets/fonts/LanternRounded-Black.ttf")
+const Ornament := preload("res://ui/ornament_draw.gd")
 
 signal battle_finished(result: Dictionary)
 ## Emitted once every asset required for this battle is attached, whether the
@@ -224,9 +225,46 @@ var tactical_hold := false
 var tactical_selected_uid := ""
 var tactical_aim_uid := ""
 var tactical_preview_uid := ""
+## Phase 1 presentation (2026-09-30). Every field below is view-only: it reads
+## the event log and the simulation state and never writes back to either.
+## Skill nameplates (allies) and shout bubbles (enemies): at most two on screen,
+## ultimates and boss cues win over ordinary skills.
+const MAX_SKILL_CALLOUTS := 2
+## "N연속" counts allied hits that land within this window of each other.
+const COMBO_WINDOW := 2.0
+const COMBO_MIN_DISPLAY := 3
+var combo_count := 0
+var combo_peak := 0
+var combo_left := 0.0
+var combo_pop := 0.0
+## Victory end card ("결착 · 작전 완료") held before the result hand-off.
+const FINALE_DURATION := 1.45
+var finale_elapsed := -1.0
+## "작전 개시!" owns the screen for a moment after the deployment ends: the
+## simulation starts after this hold, so an automatic opening ultimate cannot
+## cover the start band. Wall-clock only; the tick sequence is unchanged.
+const START_BAND_TITLE := "작전 개시!"
+const START_BAND_HOLD := .9
+var start_band_armed := false
+## Telegraph landing flash: a cast that leaves the pending list on its due tick
+## with a living caster flashes its cells once.
+const TELEGRAPH_FLASH_DURATION := .42
+var telegraph_keys: Dictionary = {}
+var telegraph_flashes: Array = []
+## Ultimate cut-in. SHORT (default) plays inside the ordinary 2.10s timeline and
+## runs long once per character; FULL is always long; OFF keeps the compact
+## caster pulse. The long version adds a lead-in before the unchanged timeline.
+const CUTIN_MODES := ["SHORT", "FULL", "OFF"]
+const LONG_CUTIN_LEAD_IN := 1.05
+var cutin_mode := "SHORT"
+var cutin_seen_ids: Dictionary = {}
+var cutin_first_use_enabled := false
+var cutin_settings_bound := false
+var active_cutin: Dictionary = {}
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_bind_cutin_settings()
 	# Adding BattleView to the scene tree used to synchronously decode every wave's
 	# combat, projectile and VFX atlas before the browser could paint even one
 	# battlefield frame. Keep the deterministic simulation stopped, allow the
@@ -987,6 +1025,15 @@ func setup(value: BattleSimulation) -> void:
 	opening_elapsed = 0.0
 	contact_commits = 0
 	combat_readout = ""
+	finale_elapsed = -1.0
+	start_band_armed = false
+	combo_count = 0
+	combo_peak = 0
+	combo_left = 0.0
+	combo_pop = 0.0
+	telegraph_keys.clear()
+	telegraph_flashes.clear()
+	active_cutin.clear()
 	boss_arena_active = false
 	boss_entry_wave = -1
 	boss_entry_elapsed = -1.0
@@ -1048,6 +1095,7 @@ func skip_to_result() -> bool:
 
 func _process(delta: float) -> void:
 	if simulation == null: return
+	if deployment_active: start_band_armed = true
 	if assets_ready: _detect_boss_entrance()
 	if boss_entry_elapsed >= 0.0:
 		if not paused:
@@ -1065,7 +1113,7 @@ func _process(delta: float) -> void:
 			emitted_finish = true
 			battle_finished.emit(simulation.result_snapshot())
 		return
-	if not paused and not deployment_active and not tactical_hold and not simulation.state.ended and opening_elapsed >= .85 and not presentation_director.is_active() and not _waiting_for_boss_contact():
+	if not paused and not deployment_active and not tactical_hold and not simulation.state.ended and opening_elapsed >= .85 and not presentation_director.is_active() and not _waiting_for_boss_contact() and not start_band_holding():
 		accumulator += delta * speed
 		var safety := 0
 		while accumulator >= BattleSimulation.TICK_DELTA and safety < 30:
@@ -1101,6 +1149,8 @@ func _process(delta: float) -> void:
 		combat_readout_left = maxf(0.0, combat_readout_left - presentation_delta)
 		# The opening banner waits for the deployment to end ("작전 개시").
 		if not deployment_active: wave_banner_left = maxf(0.0, wave_banner_left - presentation_delta)
+		_advance_combo(presentation_delta)
+		if finale_elapsed >= 0.0: finale_elapsed += delta
 		_consume_events()
 	for text in floating_texts:
 		text.age = float(text.age) + presentation_delta
@@ -1115,7 +1165,10 @@ func _process(delta: float) -> void:
 			callout.age = float(callout.age) + presentation_delta
 		for presentation in boss_phase_presentations:
 			presentation.age = float(presentation.age) + presentation_delta
+		for flash in telegraph_flashes:
+			flash.age = float(flash.age) + presentation_delta
 	_recycle_expired_presentations()
+	_track_telegraph_landings()
 	for uid in unit_flash.keys():
 		unit_flash[uid] = float(unit_flash[uid]) - actor_delta
 		if float(unit_flash[uid]) <= 0: unit_flash.erase(uid)
@@ -1124,12 +1177,20 @@ func _process(delta: float) -> void:
 		if boss_arena_active and simulation.state.victory:
 			boss_victory_elapsed = 0.0
 			return
+		# An ordinary victory holds a short end card before the result hand-off.
+		if simulation.state.victory and finale_elapsed < 0.0:
+			finale_elapsed = 0.0
+		if finale_elapsed >= 0.0 and finale_elapsed < FINALE_DURATION:
+			return
 		_finalize_terminal_presentation()
 		emitted_finish = true
 		battle_finished.emit(simulation.result_snapshot())
 
+func start_band_holding() -> bool:
+	return start_band_armed and wave_banner_title == START_BAND_TITLE and wave_banner_left > WAVE_BANNER_DURATION - START_BAND_HOLD
+
 func scene_transition_active() -> bool:
-	return boss_entry_elapsed >= 0.0 or boss_victory_elapsed >= 0.0
+	return boss_entry_elapsed >= 0.0 or boss_victory_elapsed >= 0.0 or finale_elapsed >= 0.0
 
 func _detect_boss_entrance() -> bool:
 	if not contact_events.is_empty(): return false
@@ -1176,7 +1237,7 @@ func _boss_background_mix() -> float:
 	return smoothstep(.30, 1.45, boss_entry_elapsed)
 
 func _draw_boss_scene() -> void:
-	if not scene_transition_active(): return
+	if boss_entry_elapsed < 0.0 and boss_victory_elapsed < 0.0: return
 	var t := boss_entry_elapsed
 	var ending := boss_victory_elapsed >= 0.0
 	var visibility := minf(smoothstep(0.0, .3, t), 1.0 - smoothstep(3.25, BOSS_ENTRY_DURATION, t)) if not ending else 1.0
@@ -1192,20 +1253,15 @@ func _draw_boss_scene() -> void:
 			var landing := (t - 1.95) / .70
 			var center := _battlefield_point(Grounding.cell_point(4, 1) * size)
 			_draw_ellipse_polygon(center, Vector2(size.x * (.025 + .13 * landing), size.y * .025), Color(.46, .87, 1, (1.0 - landing) * .48))
-	var font := battle_font if battle_font != null else ThemeDB.fallback_font
-	var css_scale := _damage_screen_scale()
-	var title_size := roundi(clampf(size.x * css_scale * .027, 19.0, 34.0) / css_scale)
-	var caption_size := roundi(clampf(size.x * css_scale * .018, 13.0, 22.0) / css_scale)
-	var title := "거대 신호 접근 · " + boss_entry_name if not ending else "위협 제거 · 작전 완료"
-	var caption := "상공에서 거대한 반응이 내려옵니다. 전원, 전투 대형 유지!" if not ending else "적의 신호가 소멸했습니다. 다음 노선을 확보합니다."
-	if size.x < size.y:
-		title = boss_entry_name if not ending else "작전 완료"
-		caption = "거대 반응 접근. 전투 대형 유지!" if not ending else "다음 노선을 확보합니다."
-	var text_alpha := smoothstep(.85, 1.2, t) * visibility if not ending else 1.0
-	draw_string(font, Vector2(size.x * .05, band * .70), title, HORIZONTAL_ALIGNMENT_CENTER, size.x * .9, title_size, Color(.96, .82, .49, text_alpha))
-	draw_string(font, Vector2(size.x * .05, size.y - band * .33), caption, HORIZONTAL_ALIGNMENT_CENTER, size.x * .9, caption_size, Color(.89, .96, 1, text_alpha))
-	if ending:
-		draw_rect(Rect2(Vector2.ZERO, size), Color(.008, .018, .03, smoothstep(.8, BOSS_VICTORY_DURATION, boss_victory_elapsed)))
+		_draw_boss_encounter_band(t)
+		var font := battle_font if battle_font != null else ThemeDB.fallback_font
+		var css_scale := _damage_screen_scale()
+		var caption_size := roundi(clampf(size.x * css_scale * .018, 13.0, 22.0) / css_scale)
+		var caption := "상공에서 거대한 반응이 내려옵니다. 전원, 전투 대형 유지!" if size.x >= size.y else "거대 반응 접근. 전투 대형 유지!"
+		var text_alpha := smoothstep(.85, 1.2, t) * visibility
+		draw_string(font, Vector2(size.x * .05, size.y - band * .33), caption, HORIZONTAL_ALIGNMENT_CENTER, size.x * .9, caption_size, Color(.89, .96, 1, text_alpha))
+		return
+	_draw_finale_card(boss_victory_elapsed, BOSS_VICTORY_DURATION, "위협 제거", "작전 완료", "적의 신호가 소멸했습니다" if size.x >= size.y else "다음 노선 확보")
 
 func _consume_events() -> void:
 	if simulation == null or presentation_director.is_active():
@@ -1257,6 +1313,7 @@ func _present_regular_event(event: Dictionary) -> void:
 	_apply_display_event(event)
 	if event.type == BattleEvent.DAMAGE:
 		_spawn_damage_text(event)
+		_register_combo_hit(event)
 		unit_flash[event.target] = .14
 		if damage_event_has_hit_sfx(event):
 			_request_damage_camera_impulse(event)
@@ -1294,7 +1351,7 @@ func _present_regular_event(event: Dictionary) -> void:
 			return
 		var skill_fallback_event := "PLAYER_NORMAL_SKILL" if str(skill_source.team) == "PLAYER" else ("BOSS_SKILL" if str(skill_source.get("rank", "NORMAL")) == "BOSS" else "ENEMY_SKILL")
 		AudioService.play_card_start(card_start_id_for_event(event, skill_source), skill_fallback_event, .10)
-		_spawn_skill_callout(str(event.source), _action_label(event), Color("79e8ff"))
+		_spawn_skill_callout(str(event.source), _action_label(event), Color("79e8ff"), "normal")
 		_spawn_vfx(str(event.source), str(event.target), "normal")
 		_play_animation(str(event.source), "normal_skill", str(event.target))
 		_request_action_camera_focus(str(event.source), str(event.target), .42, .48)
@@ -1304,7 +1361,7 @@ func _present_regular_event(event: Dictionary) -> void:
 			return
 		var ultimate_fallback_event := "PLAYER_ULTIMATE" if str(ultimate_source.team) == "PLAYER" else ("BOSS_SKILL" if str(ultimate_source.get("rank", "NORMAL")) == "BOSS" else "ENEMY_SKILL")
 		AudioService.play_card_start(card_start_id_for_event(event, ultimate_source), ultimate_fallback_event, .12)
-		_spawn_skill_callout(str(event.source), "ULT", Color("ffd36f"))
+		_spawn_skill_callout(str(event.source), _action_label(event), Color("ffd36f"), "ultimate")
 		_spawn_vfx(str(event.source), str(event.target), "ultimate")
 		_play_animation(str(event.source), "ultimate", str(event.target))
 	elif event.type == BattleEvent.DOWN:
@@ -1324,7 +1381,7 @@ func _present_regular_event(event: Dictionary) -> void:
 		# The boss wave owns its own descent cinematic; other waves get a banner.
 		if not simulation.has_boss():
 			var wave_number := int(event.value)
-			wave_banner_title = "작전 개시" if wave_number <= 1 else "WAVE %d" % wave_number
+			wave_banner_title = START_BAND_TITLE if wave_number <= 1 else "WAVE %d" % wave_number
 			wave_banner_subtitle = "WAVE %d / %d" % [wave_number, simulation.state.wave_count] if wave_number <= 1 else "남은 웨이브 %d" % maxi(0, simulation.state.wave_count - wave_number)
 			wave_banner_left = WAVE_BANNER_DURATION
 	elif event.type == BattleEvent.BATTLE_END and int(event.value) == 1:
@@ -1385,6 +1442,9 @@ func _is_related_ultimate_effect(cue: Dictionary, candidate: Dictionary, affecte
 	return false
 
 func _begin_ultimate_presentation(batch: Dictionary) -> bool:
+	var cutin_plan := cutin_plan_for(_actor_model(str(batch.get("source", ""))))
+	if bool(cutin_plan.get("long", false)):
+		batch["lead_in"] = LONG_CUTIN_LEAD_IN
 	if not presentation_director.begin_ultimate(batch):
 		return false
 	active_presentation_batch = batch.duplicate(true)
@@ -1407,7 +1467,14 @@ func _begin_ultimate_presentation(batch: Dictionary) -> bool:
 	_request_action_camera_focus(str(cue.get("source", "")), str(cue.get("target", "")), .82, 1.18)
 	var fallback_event := "PLAYER_ULTIMATE" if str(source.get("team", "")) == "PLAYER" else ("BOSS_SKILL" if str(source.get("rank", "NORMAL")) == "BOSS" else "ENEMY_SKILL")
 	AudioService.play_card_start(card_start_id_for_event(cue, source), fallback_event, .12)
-	_spawn_skill_callout(str(cue.get("source", "")), "ULT", Color("ffd36f"))
+	active_cutin = cutin_plan.duplicate()
+	active_cutin["source"] = str(cue.get("source", ""))
+	active_cutin["skill_name"] = _action_label(cue)
+	if bool(cutin_plan.get("first_use", false)):
+		_mark_cutin_seen(str(cutin_plan.get("def_id", "")))
+	# The character cut-in already names the skill; others get a nameplate/shout.
+	if not bool(cutin_plan.get("show", false)):
+		_spawn_skill_callout(str(cue.get("source", "")), str(active_cutin.skill_name), Color("ffd36f"), "ultimate")
 	_play_animation(str(cue.get("source", "")), "ultimate", str(cue.get("target", "")))
 	return true
 
@@ -1426,6 +1493,7 @@ func _handle_presentation_timeline(timeline: Dictionary) -> void:
 		_commit_active_ultimate_batch()
 	if bool(timeline.get("finished", false)):
 		active_presentation_batch.clear()
+		active_cutin.clear()
 		# The final impact VFX has expired before the 2.10s recovery timeline
 		# completes. Releasing here guarantees that no previous caster remains
 		# resident between actions, while the core idle/hit/down + projectile lease
@@ -1456,6 +1524,7 @@ func _present_ultimate_batch_event(event: Dictionary) -> void:
 		var extra: Dictionary = event.get("extra", {})
 		var value := int(event.get("value", 0))
 		_spawn_damage_text(event)
+		_register_combo_hit(event)
 		unit_flash[str(event.get("target", ""))] = .14
 		if damage_event_has_hit_sfx(event):
 			_request_damage_camera_impulse(event)
@@ -1514,6 +1583,7 @@ func _force_finish_active_presentation() -> void:
 	if bool(forced.get("needs_impact_commit", false)) and not active_presentation_batch.is_empty():
 		_commit_active_ultimate_batch()
 	active_presentation_batch.clear()
+	active_cutin.clear()
 	_release_signature_transient_ultimate_pages()
 	presentation_director.reset()
 
@@ -1809,10 +1879,43 @@ func _vfx_profile_for(source: Dictionary) -> Dictionary:
 	var ultimate: String = "void" if str(definition.get("rank", "")) == "BOSS" else str(["shield", "rush", "lightning", "artillery", "distort", "heal", "chorus", "summon"][seed % 8])
 	return {"primary": primary, "secondary": secondary, "normal": normal, "ultimate": ultimate}
 
-func _spawn_skill_callout(source_uid: String, label: String, color: Color) -> void:
+func _spawn_skill_callout(source_uid: String, label: String, color: Color, kind := "") -> void:
+	var source := _actor_model(source_uid)
+	var team := str(source.get("team", "PLAYER"))
+	var boss := str(source.get("rank", "")) == "BOSS"
+	if kind.is_empty(): kind = "ultimate" if label == "ULT" else "normal"
+	var priority := 2 if kind == "ultimate" or boss else 1
+	# One cue per caster: a newer cue replaces that caster's previous plate.
+	for index in range(skill_callouts.size() - 1, -1, -1):
+		if str(skill_callouts[index].source) == source_uid:
+			free_skill_callouts.append(skill_callouts[index])
+			skill_callouts.remove_at(index)
+	if skill_callouts.size() >= MAX_SKILL_CALLOUTS:
+		var weakest := 0
+		for index in range(1, skill_callouts.size()):
+			var candidate: Dictionary = skill_callouts[index]
+			var current: Dictionary = skill_callouts[weakest]
+			if int(candidate.priority) < int(current.priority) or (int(candidate.priority) == int(current.priority) and float(candidate.age) > float(current.age)):
+				weakest = index
+		if int(skill_callouts[weakest].priority) > priority:
+			return
+		free_skill_callouts.append(skill_callouts[weakest])
+		skill_callouts.remove_at(weakest)
 	var item: Dictionary = free_skill_callouts.pop_back() if not free_skill_callouts.is_empty() else {}
 	item.clear()
-	item.merge({"source": source_uid, "label": label, "color": color, "age": 0.0, "duration": 0.78})
+	var display_label := label
+	if display_label == "ULT" or display_label.is_empty(): display_label = "필살"
+	item.merge({
+		"source": source_uid,
+		"label": display_label,
+		"color": color if team == "PLAYER" else (Color("ff5a4a") if boss else Color("ff8a6a")),
+		"age": 0.0,
+		"duration": 1.30 if priority > 1 else 1.05,
+		"priority": priority,
+		"kind": kind,
+		"style": "plate" if team == "PLAYER" else "shout",
+		"role": BattleGrid.role_label(str(source.get("role", "")), team) if team == "PLAYER" and not str(source.get("role", "")).is_empty() else "",
+	})
 	skill_callouts.append(item)
 
 func _spawn_boss_phase_presentation(source_uid: String, phase_id: String) -> void:
@@ -1854,6 +1957,9 @@ func _recycle_expired_presentations() -> void:
 		if float(boss_phase_presentations[index].age) >= float(boss_phase_presentations[index].duration):
 			free_boss_phase_presentations.append(boss_phase_presentations[index])
 			boss_phase_presentations.remove_at(index)
+	for index in range(telegraph_flashes.size() - 1, -1, -1):
+		if float(telegraph_flashes[index].age) >= TELEGRAPH_FLASH_DURATION:
+			telegraph_flashes.remove_at(index)
 
 func _clear_active_presentation_effects() -> void:
 	# Keep the dictionaries in their dedicated pools, but remove every active
@@ -1871,6 +1977,11 @@ func _clear_active_presentation_effects() -> void:
 	skill_callouts.clear()
 	boss_phase_presentations.clear()
 	unit_flash.clear()
+	telegraph_flashes.clear()
+	telegraph_keys.clear()
+	combo_count = 0
+	combo_left = 0.0
+	combo_pop = 0.0
 
 func pool_diagnostics() -> Dictionary:
 	return {"active_projectiles": projectiles.size(), "free_projectiles": free_projectiles.size(), "active_floating_texts": floating_texts.size(), "free_floating_texts": free_floating_texts.size(), "active_vfx": vfx_presentations.size(), "free_vfx": free_vfx_presentations.size(), "active_skill_callouts": skill_callouts.size(), "free_skill_callouts": free_skill_callouts.size(), "active_boss_phase_presentations": boss_phase_presentations.size(), "free_boss_phase_presentations": free_boss_phase_presentations.size()}
@@ -1884,7 +1995,7 @@ func presentation_residual_snapshot() -> Dictionary:
 		var track: Dictionary = track_value
 		if str(track.get("name", "idle")) in ["move", "basic_attack", "normal_skill", "ultimate", "hit"]:
 			transient_actor_count += 1
-	var active_effect_count := projectiles.size() + vfx_presentations.size() + floating_texts.size() + skill_callouts.size() + boss_phase_presentations.size()
+	var active_effect_count := projectiles.size() + vfx_presentations.size() + floating_texts.size() + skill_callouts.size() + boss_phase_presentations.size() + telegraph_flashes.size()
 	var camera_at_baseline := is_equal_approx(presentation_director.battlefield_zoom(), 1.0) and presentation_director.battlefield_offset().length() <= .001
 	return {
 		"active_effect_count": active_effect_count,
@@ -2199,34 +2310,24 @@ func _draw() -> void:
 			_draw_runtime_skill_vfx(position, source, kind, progress)
 			if bool(presentation.get("draw_accent", false)):
 				_draw_vfx_signature_accent(position, kind, progress, presentation.get("profile", {}))
-	for callout in skill_callouts:
-		var caster := _actor_model(str(callout.source))
-		if caster.is_empty(): continue
-		var alpha := clampf(1.0 - float(callout.age) / maxf(.01, float(callout.duration)), 0.0, 1.0)
-		# Skills deliberately use a compact circular cue rather than an opaque text
-		# box. The permanent circular portrait/gauge at the bottom owns identity and
-		# readiness; this world marker only gives the player a quick, unobscured
-		# origin cue while the actor, projectile and impact remain readable.
-		var callout_position := _unit_pos(caster) + _entry_offset(caster) + _actor_travel_offset(caster) + Vector2(0, -104 - float(callout.age) * 16.0)
-		var callout_color: Color = callout.color
-		callout_color.a = alpha
-		var callout_radius := 16.0 if str(callout.label) == "ULT" else 12.0
-		draw_circle(callout_position, callout_radius + 5.0, Color(callout_color.r, callout_color.g, callout_color.b, alpha * .10))
-		draw_circle(callout_position, callout_radius, Color(.015, .035, .075, alpha * .84))
-		draw_arc(callout_position, callout_radius, -PI * .62, PI * 1.15, 20, callout_color, 1.8, true)
-		draw_circle(callout_position, 3.0, Color(1.0, 1.0, 1.0, alpha * .88))
 	for presentation in boss_phase_presentations:
 		_draw_boss_phase_presentation(presentation)
 	_draw_tactical_markers()
 	for unit in visible_units: _draw_unit_status(unit)
 	_draw_enemy_intents()
+	# Nameplates and shouts sit above HP bars but under the damage numbers.
+	for callout in skill_callouts:
+		_draw_skill_callout(callout)
 	for text in floating_texts:
 		_draw_damage_number(text)
+	_draw_combo_counter()
 	# Warnings sit above the damage numbers so the countdown stays readable.
 	_draw_boss_telegraph_warnings()
 	_draw_wave_banner()
 	_draw_ultimate_cutin()
 	_draw_boss_scene()
+	if finale_elapsed >= 0.0:
+		_draw_finale_card(finale_elapsed, FINALE_DURATION, "결착", "작전 완료", "모든 적 신호 소멸")
 
 func damage_number_layout(text: Dictionary) -> Dictionary:
 	var screen_scale := _damage_screen_scale()
@@ -2287,6 +2388,12 @@ func _draw_ultimate_cutin() -> void:
 	var source := _actor_model(str(cue.get("source", "")))
 	if source.is_empty():
 		return
+	if bool(active_cutin.get("show", false)) and str(active_cutin.get("source", "")) == str(cue.get("source", "")):
+		_draw_character_cutin(source, cinematic, visibility)
+		return
+	_draw_compact_ultimate_pulse(source, cinematic, visibility)
+
+func _draw_compact_ultimate_pulse(source: Dictionary, cinematic: Dictionary, visibility: float) -> void:
 	var accent := _skill_color(source, "ultimate")
 	# The former tilted hero panel was a text-heavy opaque blocker on 390px
 	# phones, and fell back to an empty slab for non-human enemies. Keep the
@@ -2706,48 +2813,58 @@ func _draw_unit(unit: Dictionary) -> void:
 func _draw_wave_banner() -> void:
 	if wave_banner_left <= 0.0 or wave_banner_title.is_empty() or deployment_active: return
 	var elapsed := WAVE_BANNER_DURATION - wave_banner_left
-	var open := smoothstep(0.0, .28, elapsed)
+	var open := smoothstep(0.0, .26, elapsed)
 	var fade := 1.0 - smoothstep(WAVE_BANNER_DURATION - .45, WAVE_BANNER_DURATION, elapsed)
 	var readout := _readout_scale()
 	var center_y := size.y * .36
-	var band_height := 118.0 * readout
+	var band_height := 124.0 * readout
 	var band_width := size.x * open
 	var band := Rect2(Vector2((size.x - band_width) * .5, center_y - band_height * .5), Vector2(band_width, band_height))
-	draw_rect(band, Color(.02, .04, .09, .78 * fade))
-	var gold := Color(.95, .80, .45, .95 * fade)
-	draw_rect(Rect2(band.position, Vector2(band.size.x, 3.0 * readout)), gold)
-	draw_rect(Rect2(band.position + Vector2(0, band.size.y - 3.0 * readout), Vector2(band.size.x, 3.0 * readout)), gold)
+	Ornament.band(self, band, fade, readout * .9, Ornament.LUMEN, fposmod(elapsed * .9, 1.0), Ornament.INK, size.x * .16)
+	# Speed streaks run through the band while it opens, then thin out.
+	var streak_alpha := .30 * fade * (1.0 - smoothstep(.5, 1.1, elapsed))
+	Ornament.speed_lines(self, band.grow_individual(0, -band_height * .20, 0, -band_height * .20), elapsed, Ornament.tint(Ornament.LUMEN, streak_alpha), 14, 3, .8)
 	var font := battle_font if battle_font != null else ThemeDB.fallback_font
 	var punch := 1.0 + .35 * (1.0 - smoothstep(.12, .40, elapsed))
-	var title_size := roundi(58.0 * readout * punch)
-	var title_width := font.get_string_size(wave_banner_title, HORIZONTAL_ALIGNMENT_LEFT, -1, title_size).x
-	var title_base := Vector2(size.x * .5 - title_width * .5, center_y + title_size * .18)
-	draw_string_outline(font, title_base, wave_banner_title, HORIZONTAL_ALIGNMENT_LEFT, -1, title_size, roundi(8.0 * readout), Color(.12, .06, .01, fade))
-	draw_string(font, title_base, wave_banner_title, HORIZONTAL_ALIGNMENT_LEFT, -1, title_size, Color(1.0, .95, .80, fade))
+	var title_size := _fit_font_size(font, wave_banner_title, roundi(60.0 * readout * punch), size.x * .86)
+	Ornament.centered_text(self, font, Vector2(size.x * .5, center_y - band_height * .05), wave_banner_title, title_size, Color(1.0, .95, .80, fade), roundi(8.0 * readout), Color(.12, .06, .01, fade))
 	var sub_size := roundi(20.0 * readout)
-	var sub_width := font.get_string_size(wave_banner_subtitle, HORIZONTAL_ALIGNMENT_LEFT, -1, sub_size).x
-	draw_string(font, Vector2(size.x * .5 - sub_width * .5, center_y + band_height * .40), wave_banner_subtitle, HORIZONTAL_ALIGNMENT_LEFT, -1, sub_size, Color(.72, .92, 1.0, .9 * fade))
+	Ornament.centered_text(self, font, Vector2(size.x * .5, center_y + band_height * .33), wave_banner_subtitle, sub_size, Color(.72, .92, 1.0, .9 * fade))
 
 func _readout_scale() -> float:
 	return clampf(.62 / _damage_screen_scale(), 1.0, 2.6)
 
 func _draw_boss_telegraph_warnings() -> void:
-	if simulation == null or simulation.pending_boss_casts.is_empty(): return
+	if simulation == null or simulation.pending_boss_casts.is_empty() or scene_transition_active(): return
 	var font := battle_font if battle_font != null else ThemeDB.fallback_font
-	var font_size := clampi(roundi(22.0 * _readout_scale()), 22, 52)
+	var readout := _readout_scale()
+	var font_size := clampi(roundi(20.0 * readout), 20, 50)
+	var count_size := clampi(roundi(34.0 * readout), 26, 92)
 	for cast in simulation.pending_boss_casts:
+		var remaining := _telegraph_remaining(cast)
+		var urgency := _telegraph_urgency(cast)
+		# The countdown sits on the marked floor, drawn above the actors.
+		var cells: Array = cast.get("cells", [])
+		if not cells.is_empty():
+			var centroid := Vector2.ZERO
+			for cell in cells:
+				centroid += cell_screen_center(int(cell[0]), int(cell[1]))
+			centroid /= float(cells.size())
+			var beat := 1.0 + .18 * pow(1.0 - fposmod(remaining, 1.0), 3.0)
+			Ornament.centered_text(self, DAMAGE_FONT, centroid, "%.1f" % remaining, roundi(count_size * beat), Color(1.0, .95, .88, .90), maxi(4, roundi(5.0 * readout)), Color(.45, .02, .02, .92))
 		var boss := presentation_unit_for_uid(str(cast.boss_uid))
 		if boss.is_empty() or not UnitState.alive(boss): continue
-		var remaining := maxf(0.0, float(int(cast.due_tick) - int(simulation.state.tick)) * BattleSimulation.TICK_DELTA)
 		var label := str(cast.get("label", ""))
 		if label.is_empty(): label = "집중 조준" if str(cast.get("shape", "")) == "CELL" else "광역 공격"
-		var text := "경고 · %s  %.1f초" % [label, remaining]
+		var text := "경고 · %s" % label
 		var head := _head_position(boss, _ground_position(boss))
-		var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x + 28.0
-		var box := Rect2(head + Vector2(-width * .5, -54.0 * _readout_scale() - font_size), Vector2(width, font_size + 16.0))
-		draw_rect(box, Color(.18, .02, .03, .88))
-		draw_rect(box, Color(1.0, .36, .3, .95), false, 2.0)
-		draw_string(font, box.position + Vector2(14.0, font_size + 3.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color("ffd9d2"))
+		var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x + 48.0 * readout
+		var height := font_size + 16.0 * readout
+		var box := Rect2(head + Vector2(-width * .5, -58.0 * readout - height), Vector2(width, height))
+		box.position.x = clampf(box.position.x, 14.0 * readout, size.x - width - 14.0 * readout)
+		box.position.y = maxf(box.position.y, 8.0)
+		Ornament.band(self, box, 1.0, readout * .62, Color("ff7a5a"), urgency, Color(.30, .03, .05))
+		Ornament.centered_text(self, font, box.get_center(), text, font_size, Color("ffe2d8"), maxi(3, roundi(3.0 * readout)), Color(.2, 0, 0, .9))
 
 # Each enemy shows how close its next attack is; right before it fires, a thin
 # line points at the ally it will hit, so front/back placement can be read live.
@@ -3458,6 +3575,7 @@ func _draw_tactical_grid() -> void:
 			for cell in BattleSimulation.ultimate_area_cells(preview):
 				draw_colored_polygon(_cell_screen_polygon(int(cell[0]), int(cell[1]), .008), Color(1.0, .72, .26, .26))
 	_draw_danger_cells()
+	_draw_telegraph_flashes()
 
 ## A low sandbag barricade at the back edge of a cover cell.
 func _draw_cover_marker(col: int, lane: int) -> void:
@@ -3484,20 +3602,123 @@ func _draw_cover_marker(col: int, lane: int) -> void:
 		draw_string_outline(font, anchor, "엄폐", HORIZONTAL_ALIGNMENT_CENTER, 80.0, font_size, 4, Color(0, 0, 0, .8))
 		draw_string(font, anchor, "엄폐", HORIZONTAL_ALIGNMENT_CENTER, 80.0, font_size, Color("e8d7a6"))
 
-## Cells a telegraphed attack will hit, filling up as the hit approaches.
+func _telegraph_remaining(cast: Dictionary) -> float:
+	return maxf(0.0, float(int(cast.due_tick) - int(simulation.state.tick)) * BattleSimulation.TICK_DELTA)
+
+func _telegraph_urgency(cast: Dictionary) -> float:
+	var windup := maxf(.1, float(cast.get("windup_ticks", BattleSimulation.BOSS_WINDUP_TICKS)) * BattleSimulation.TICK_DELTA)
+	return 1.0 - clampf(_telegraph_remaining(cast) / windup, 0.0, 1.0)
+
+## Cells a telegraphed attack will hit: a floor decal that fills from the rim
+## toward the centre as the hit approaches, with a glowing edge and corner
+## brackets. Area patterns add an ornate ring that closes in. Shapes, cells and
+## timing come unchanged from the simulation.
 func _draw_danger_cells() -> void:
 	if simulation == null or simulation.pending_boss_casts.is_empty(): return
-	var pulse := .5 + .5 * sin(float(Time.get_ticks_msec()) / 110.0)
+	var clock := float(Time.get_ticks_msec()) / 1000.0
+	var pulse := .5 + .5 * sin(clock * 9.0)
 	var zoom := _battlefield_camera_zoom()
 	for cast in simulation.pending_boss_casts:
-		var remaining := maxf(0.0, float(int(cast.due_tick) - int(simulation.state.tick)) * BattleSimulation.TICK_DELTA)
-		var windup := maxf(.1, float(cast.get("windup_ticks", BattleSimulation.BOSS_WINDUP_TICKS)) * BattleSimulation.TICK_DELTA)
-		var urgency := 1.0 - clampf(remaining / windup, 0.0, 1.0)
-		for cell in cast.get("cells", []):
+		var urgency := _telegraph_urgency(cast)
+		var cells: Array = cast.get("cells", [])
+		for cell in cells:
 			var poly := _cell_screen_polygon(int(cell[0]), int(cell[1]), .003)
-			draw_colored_polygon(poly, Color(1.0, .14, .12, .14 + .16 * pulse))
-			draw_colored_polygon(_shrunk(poly, maxf(.05, urgency)), Color(1.0, .30, .18, .30))
-			draw_polyline(_closed(poly), Color(1.0, .36, .28, .70 + .30 * pulse), (2.0 + 2.0 * urgency) * zoom, true)
+			draw_colored_polygon(poly, Color(1.0, .10, .08, .08 + .06 * pulse))
+			var front := _shrunk(poly, 1.0 - urgency)
+			if urgency >= .98:
+				draw_colored_polygon(poly, Color(1.0, .26, .14, .52))
+			elif urgency > .02:
+				_draw_polygon_band(poly, front, Color(1.0, .26, .14, .30 + .22 * urgency))
+			draw_polyline(_closed(poly), Color(1.0, .22, .14, .18 + .10 * pulse), (8.0 + 4.0 * urgency) * zoom, true)
+			draw_polyline(_closed(poly), Color(1.0, .48, .32, .80 + .20 * pulse), (2.0 + 1.4 * urgency) * zoom, true)
+			if urgency > .02 and urgency < .97:
+				draw_polyline(_closed(front), Color(1.0, .86, .62, .55 + .35 * urgency), 1.5 * zoom, true)
+			_draw_cell_brackets(poly, Color(1.0, .80, .55, .70 + .25 * urgency), zoom)
+		if str(cast.get("shape", "CELL")) != "CELL" and cells.size() > 1:
+			_draw_aoe_rings(cells, urgency, clock, zoom)
+
+## Fills the ring between two polygons with the same vertex order.
+func _draw_polygon_band(outer: PackedVector2Array, inner: PackedVector2Array, color: Color) -> void:
+	var count := mini(outer.size(), inner.size())
+	for index in range(count):
+		var next := (index + 1) % count
+		draw_colored_polygon(PackedVector2Array([outer[index], outer[next], inner[next]]), color)
+		draw_colored_polygon(PackedVector2Array([outer[index], inner[next], inner[index]]), color)
+
+func _draw_cell_brackets(poly: PackedVector2Array, color: Color, zoom: float) -> void:
+	var count := poly.size()
+	for index in range(count):
+		var corner := poly[index]
+		draw_line(corner, corner.lerp(poly[(index - 1 + count) % count], .22), color, 2.4 * zoom, true)
+		draw_line(corner, corner.lerp(poly[(index + 1) % count], .22), color, 2.4 * zoom, true)
+
+## Ornate ring around an area pattern: glowing rim, rotating rune ticks, four
+## studs and an inner ring that closes toward the centre as the hit nears.
+func _draw_aoe_rings(cells: Array, urgency: float, clock: float, zoom: float) -> void:
+	var bounds := Rect2()
+	var first := true
+	for cell in cells:
+		for point in _cell_screen_polygon(int(cell[0]), int(cell[1]), 0.0):
+			if first:
+				bounds = Rect2(point, Vector2.ZERO)
+				first = false
+			else:
+				bounds = bounds.expand(point)
+	var center := bounds.get_center()
+	var radii := bounds.size * .5 * 1.04
+	var gold := Color(1.0, .80, .46, .78)
+	_draw_floor_ring(center, radii, Color(1.0, .25, .18, .22), 9.0 * zoom)
+	_draw_floor_ring(center, radii, Color(1.0, .34, .24, .88), 2.4 * zoom)
+	_draw_floor_ring(center, radii * .90, gold, 1.2 * zoom)
+	var ticks := 28
+	for index in range(ticks):
+		var angle := TAU * float(index) / float(ticks) + clock * .55
+		var direction := Vector2(cos(angle), sin(angle))
+		var reach := 1.0 if index % 4 == 0 else .96
+		draw_line(center + direction * radii * .90, center + direction * radii * reach, gold, 1.5 * zoom, true)
+	_draw_floor_ring(center, radii * .88 * maxf(.04, 1.0 - urgency), Color(1.0, .86, .60, .45 + .45 * urgency), 2.0 * zoom)
+	for quarter in range(4):
+		var angle := PI * .5 * float(quarter) + clock * .55
+		Ornament.stud(self, center + Vector2(cos(angle), sin(angle)) * radii, 4.5 * zoom, .9, Color(1.0, .5, .35))
+
+## Records pending casts and flashes their cells when one lands.
+func _track_telegraph_landings() -> void:
+	if simulation == null:
+		return
+	var live: Dictionary = {}
+	for cast in simulation.pending_boss_casts:
+		var key := "%s:%d" % [str(cast.boss_uid), int(cast.due_tick)]
+		live[key] = true
+		if not telegraph_keys.has(key):
+			telegraph_keys[key] = {"cells": (cast.get("cells", []) as Array).duplicate(true), "shape": str(cast.get("shape", "CELL")), "boss_uid": str(cast.boss_uid), "due_tick": int(cast.due_tick)}
+	for key in telegraph_keys.keys():
+		if live.has(key):
+			continue
+		var record: Dictionary = telegraph_keys[key]
+		telegraph_keys.erase(key)
+		# A cancelled cast (caster down or stunned) does not flash.
+		var caster := simulation.find_unit(str(record.boss_uid))
+		if int(simulation.state.tick) >= int(record.due_tick) and not caster.is_empty() and UnitState.alive(caster) and not UnitState.has_status(caster, "STUN"):
+			telegraph_flashes.append({"cells": record.cells, "shape": record.shape, "age": 0.0})
+
+func _draw_telegraph_flashes() -> void:
+	if telegraph_flashes.is_empty():
+		return
+	var zoom := _battlefield_camera_zoom()
+	for flash in telegraph_flashes:
+		var progress := clampf(float(flash.age) / TELEGRAPH_FLASH_DURATION, 0.0, 1.0)
+		var heat := pow(1.0 - progress, 2.0)
+		for cell in flash.cells:
+			var poly := _cell_screen_polygon(int(cell[0]), int(cell[1]), .003)
+			draw_colored_polygon(poly, Color(1.0, .92, .78, .70 * heat))
+			draw_polyline(_closed(_shrunk(poly, 1.0 + .30 * progress)), Color(1.0, .55, .30, 1.0 - progress), (3.0 + 5.0 * (1.0 - progress)) * zoom, true)
+
+func telegraph_snapshot() -> Dictionary:
+	var casts: Array = []
+	if simulation != null:
+		for cast in simulation.pending_boss_casts:
+			casts.append({"urgency": _telegraph_urgency(cast), "remaining": _telegraph_remaining(cast), "shape": str(cast.get("shape", "CELL")), "cells": (cast.get("cells", []) as Array).size()})
+	return {"casts": casts, "tracked": telegraph_keys.size(), "flashes": telegraph_flashes.size()}
 
 ## Focus reticle, aim rings, selection ring and (while deploying) role/reach
 ## tags. Drawn above the actors so a crowd cannot hide them.
@@ -3569,3 +3790,317 @@ func _combat_readout_style() -> StyleBoxFlat:
 	style.bg_color = Color(.025, .055, .085, .9)
 	style.set_corner_radius_all(8)
 	return style
+
+# --- Phase 1 presentation (2026-09-30) ---------------------------------------
+# Nameplates, shouts, combo counter, boss band, end card and the character
+# cut-in. All of it is drawn from view state; none of it writes to the
+# simulation, the event log or the RNG.
+
+static func normalized_cutin_mode(value: String) -> String:
+	var mode := value.strip_edges().to_upper()
+	return mode if mode in CUTIN_MODES else "SHORT"
+
+func _bind_cutin_settings() -> void:
+	# The shell's battle view is in the tree and follows the saved setting. Bare
+	# views in headless tests keep the SHORT default without a first-use record,
+	# so the ordinary presentation timing stays deterministic there.
+	cutin_mode = normalized_cutin_mode(str(SettingsService.values.get("battle_cutin_mode", "SHORT")))
+	cutin_seen_ids.clear()
+	var seen_value = SettingsService.values.get("battle_cutin_seen", [])
+	if seen_value is Array:
+		for id_value in seen_value:
+			cutin_seen_ids[str(id_value)] = true
+	cutin_first_use_enabled = true
+	cutin_settings_bound = true
+
+## How an ULTIMATE cut-in plays. Only allied casters get the character cut-in.
+func cutin_plan_for(source: Dictionary) -> Dictionary:
+	var def_id := str(source.get("def_id", ""))
+	var plan := {"show": false, "long": false, "first_use": false, "def_id": def_id, "mode": cutin_mode}
+	if source.is_empty() or str(source.get("team", "")) != "PLAYER" or cutin_mode == "OFF":
+		return plan
+	plan.show = true
+	if cutin_mode == "FULL":
+		plan.long = true
+	elif cutin_first_use_enabled and not def_id.is_empty() and not cutin_seen_ids.has(def_id):
+		plan.long = true
+		plan.first_use = true
+	return plan
+
+func _mark_cutin_seen(def_id: String) -> void:
+	if def_id.is_empty() or cutin_seen_ids.has(def_id):
+		return
+	cutin_seen_ids[def_id] = true
+	if cutin_settings_bound:
+		var ids: Array = cutin_seen_ids.keys()
+		ids.sort()
+		# Saved with the profile settings on the next save (the result saves).
+		SettingsService.values["battle_cutin_seen"] = ids
+
+func cutin_snapshot() -> Dictionary:
+	var cinematic := presentation_director.cinematic_snapshot()
+	var seen: Array = cutin_seen_ids.keys()
+	seen.sort()
+	return {"mode": cutin_mode, "plan": active_cutin.duplicate(true), "lead_in_total": float(cinematic.get("lead_in_total", 0.0)), "seen": seen}
+
+func _register_combo_hit(event: Dictionary) -> void:
+	if int(event.get("value", 0)) <= 0:
+		return
+	var source := _actor_model(str(event.get("source", "")))
+	if str(source.get("team", "")) != "PLAYER":
+		return
+	combo_count += 1
+	combo_peak = maxi(combo_peak, combo_count)
+	combo_left = COMBO_WINDOW
+	combo_pop = 1.0
+
+func _advance_combo(delta: float) -> void:
+	combo_pop = maxf(0.0, combo_pop - delta * 5.0)
+	if combo_count <= 0:
+		return
+	combo_left = maxf(0.0, combo_left - delta)
+	if combo_left <= 0.0:
+		combo_count = 0
+
+func combo_snapshot() -> Dictionary:
+	return {"count": combo_count, "peak": combo_peak, "left": combo_left, "visible": combo_count >= COMBO_MIN_DISPLAY}
+
+func skill_callout_snapshot() -> Array:
+	var result: Array = []
+	for callout in skill_callouts:
+		result.append({"source": str(callout.source), "label": str(callout.label), "priority": int(callout.get("priority", 1)), "style": str(callout.get("style", "plate")), "role": str(callout.get("role", ""))})
+	return result
+
+func _fit_font_size(font: Font, text: String, font_size: int, max_width: float) -> int:
+	if font == null or text.is_empty():
+		return font_size
+	var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+	if width <= max_width or width <= 0.0:
+		return font_size
+	return maxi(10, int(floor(float(font_size) * max_width / width)))
+
+## Ally nameplate: [role] + skill name on an ornamented band above the head.
+## Enemies and bosses shout the same name in a jagged bubble instead.
+func _draw_skill_callout(callout: Dictionary) -> void:
+	var caster := _actor_model(str(callout.source))
+	if caster.is_empty():
+		return
+	var duration := maxf(.01, float(callout.duration))
+	var age := float(callout.age)
+	var enter := clampf(age / .14, 0.0, 1.0)
+	var alpha := clampf((duration - age) / .28, 0.0, 1.0) * enter
+	if alpha <= 0.0:
+		return
+	var readout := _readout_scale()
+	var font := battle_font if battle_font != null else ThemeDB.fallback_font
+	var strong := int(callout.get("priority", 1)) > 1
+	var font_size := clampi(roundi((25.0 if strong else 21.0) * readout), 18, 52)
+	var text := str(callout.label)
+	var head := _head_position(caster, _ground_position(caster))
+	var rise := (1.0 - enter) * 10.0 * readout + age * 6.0 * readout
+	var accent: Color = callout.color
+	if str(callout.get("style", "plate")) == "shout":
+		_draw_shout_bubble(head, text, font, font_size, accent, alpha, readout, rise, strong)
+		return
+	var role_text := str(callout.get("role", ""))
+	var chip_size := maxi(11, roundi(font_size * .66))
+	var chip_width := 0.0 if role_text.is_empty() else font.get_string_size(role_text, HORIZONTAL_ALIGNMENT_LEFT, -1, chip_size).x + 14.0 * readout
+	var text_width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+	var height := font_size + 14.0 * readout
+	var width := chip_width + text_width + height * .5 + 23.0 * readout
+	var center := head + Vector2(0, -58.0 * readout - rise)
+	var rect := Rect2(center - Vector2(width, height) * .5, Vector2(width, height))
+	var edge_gap := 18.0 * readout + height * .5
+	rect.position.x = clampf(rect.position.x, edge_gap, maxf(edge_gap, size.x - width - 18.0 * readout))
+	rect.position.y = maxf(rect.position.y, 8.0)
+	Ornament.band(self, rect, alpha, readout * (.72 if strong else .60), accent, fposmod(age * 1.4, 1.0) if strong else -1.0)
+	# Circular origin cue on the plate's leading end keeps the old round skill
+	# marker readable at a glance while the plate carries the name.
+	var callout_position := Vector2(rect.position.x, rect.get_center().y)
+	var callout_radius := height * (.50 if strong else .44)
+	draw_circle(callout_position, callout_radius + 4.0 * readout, Color(accent.r, accent.g, accent.b, alpha * .16))
+	draw_circle(callout_position, callout_radius, Color(.015, .035, .075, alpha * .92))
+	draw_arc(callout_position, callout_radius, -PI * .62, PI * 1.15, 24, Color(accent.r, accent.g, accent.b, alpha), 2.0 * readout, true)
+	draw_circle(callout_position, callout_radius * .24, Color(1.0, 1.0, 1.0, alpha * .9))
+	var cursor := rect.position.x + callout_radius + 8.0 * readout
+	if chip_width > 0.0:
+		var chip := Rect2(Vector2(cursor, rect.position.y + height * .18), Vector2(chip_width - 6.0 * readout, height * .64))
+		draw_rect(chip, Ornament.tint(Ornament.GOLD_SHADOW, alpha * .9))
+		draw_rect(chip, Ornament.tint(Ornament.GOLD, alpha), false, 1.2 * readout)
+		Ornament.centered_text(self, font, chip.get_center(), role_text, chip_size, Ornament.tint(Ornament.GOLD_LIGHT, alpha))
+		cursor += chip_width
+	Ornament.centered_text(self, font, Vector2(cursor + text_width * .5, rect.get_center().y), text, font_size, Color(1, 1, 1, alpha), maxi(3, roundi(3.0 * readout)), Color(.02, .04, .08, alpha * .9))
+
+func _draw_shout_bubble(head: Vector2, text: String, font: Font, font_size: int, accent: Color, alpha: float, readout: float, rise: float, strong: bool) -> void:
+	var label := text if text.ends_with("!") else text + "!"
+	var text_width := font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+	var half := Vector2(text_width * .5 + 20.0 * readout, font_size * .5 + 11.0 * readout)
+	var center := head + Vector2(0, -60.0 * readout - rise)
+	center.x = clampf(center.x, half.x + 16.0 * readout, maxf(half.x + 16.0 * readout, size.x - half.x - 16.0 * readout))
+	center.y = maxf(center.y, half.y + 10.0)
+	var points := PackedVector2Array()
+	var spikes := 18
+	for index in range(spikes * 2):
+		var angle := TAU * float(index) / float(spikes * 2)
+		var jag := 1.0 if index % 2 == 0 else (.80 if strong else .87)
+		points.append(center + Vector2(cos(angle) * (half.x + 8.0 * readout) * jag, sin(angle) * (half.y + 7.0 * readout) * jag))
+	var fill := Color(.34, .03, .06, .92 * alpha) if strong else Color(.12, .03, .05, .88 * alpha)
+	var tail := PackedVector2Array([center + Vector2(-10.0 * readout, half.y * .6), center + Vector2(10.0 * readout, half.y * .6), head + Vector2(0, -24.0 * readout)])
+	draw_colored_polygon(tail, fill)
+	draw_colored_polygon(points, fill)
+	var edge := Ornament.tint(Ornament.GOLD, alpha) if strong else Color(accent.r, accent.g, accent.b, alpha)
+	var outline := points.duplicate()
+	outline.append(points[0])
+	draw_polyline(outline, edge, 2.0 * readout, true)
+	Ornament.centered_text(self, font, center, label, font_size, Color(1.0, .95, .90, alpha), maxi(3, roundi(3.0 * readout)), Color(.20, 0, .02, alpha))
+
+## "N연속": allied hits inside the combo window. Display only.
+func _draw_combo_counter() -> void:
+	if combo_count < COMBO_MIN_DISPLAY or scene_transition_active() or deployment_active:
+		return
+	var alpha := clampf(combo_left / .45, 0.0, 1.0)
+	if alpha <= 0.0:
+		return
+	var readout := _readout_scale()
+	var font := battle_font if battle_font != null else ThemeDB.fallback_font
+	var portrait := size.x < size.y
+	var anchor := Vector2(size.x * (.80 if portrait else .87), size.y * (.19 if portrait else .25))
+	var pop := 1.0 + .34 * combo_pop
+	var number := str(combo_count)
+	var number_size := clampi(roundi(46.0 * readout * pop), 30, 132)
+	var number_width := DAMAGE_FONT.get_string_size(number, HORIZONTAL_ALIGNMENT_LEFT, -1, number_size).x
+	var label := "연속"
+	var label_size := clampi(roundi(20.0 * readout), 15, 54)
+	var label_width := font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, label_size).x
+	var gap := 6.0 * readout
+	var total := number_width + gap + label_width
+	var left := minf(anchor.x - total * .5, size.x - total - 16.0 * readout)
+	var baseline := Vector2(left, anchor.y)
+	draw_string_outline(DAMAGE_FONT, baseline, number, HORIZONTAL_ALIGNMENT_LEFT, -1, number_size, maxi(4, roundi(5.0 * readout)), Color(.16, .07, 0, alpha))
+	draw_string(DAMAGE_FONT, baseline, number, HORIZONTAL_ALIGNMENT_LEFT, -1, number_size, Color(1.0, .86, .42, alpha))
+	var label_base := baseline + Vector2(number_width + gap, 0)
+	draw_string_outline(font, label_base, label, HORIZONTAL_ALIGNMENT_LEFT, -1, label_size, maxi(3, roundi(4.0 * readout)), Color(0, 0, 0, .85 * alpha))
+	draw_string(font, label_base, label, HORIZONTAL_ALIGNMENT_LEFT, -1, label_size, Color(1.0, .96, .86, alpha))
+	var rail_from := Vector2(left - 6.0 * readout, anchor.y + 10.0 * readout)
+	var rail_width := (total + 12.0 * readout) * clampf(combo_left / COMBO_WINDOW, 0.0, 1.0)
+	if rail_width > 2.0:
+		Ornament.rail(self, rail_from, rail_from + Vector2(rail_width, 0), alpha, readout * .7)
+	Ornament.stud(self, rail_from, 3.5 * readout, alpha)
+
+## Full-width red boss band: hazard stripes, rails, "BOSS ENCOUNTER" and name.
+func _draw_boss_encounter_band(t: float) -> void:
+	var enter := smoothstep(.80, 1.10, t)
+	var leave := 1.0 - smoothstep(3.10, 3.55, t)
+	if enter * leave <= 0.0:
+		return
+	var readout := _readout_scale()
+	var portrait := size.x < size.y
+	var font := battle_font if battle_font != null else ThemeDB.fallback_font
+	var center_y := size.y * (.28 if portrait else .30)
+	var height := clampf(size.y * (.13 if portrait else .19), 110.0, 420.0)
+	var reveal_width := size.x * enter
+	var reveal := Rect2(Vector2(size.x - reveal_width, center_y - height * .5), Vector2(reveal_width, height))
+	var deep := Color(.40, .02, .05, .90 * leave)
+	var dark := Color(.10, .0, .02, .90 * leave)
+	Ornament.quad(self, reveal.position, reveal.position + Vector2(reveal.size.x, 0), reveal.end, reveal.position + Vector2(0, reveal.size.y), deep, deep, dark, dark)
+	var strip := height * .12
+	Ornament.hazard_stripes(self, Rect2(reveal.position, Vector2(reveal.size.x, strip)), t, Color(1.0, .78, .25, .50 * leave), strip * 1.2)
+	Ornament.hazard_stripes(self, Rect2(Vector2(reveal.position.x, reveal.end.y - strip), Vector2(reveal.size.x, strip)), -t, Color(1.0, .78, .25, .50 * leave), strip * 1.2)
+	var accent := Color("ff9a7a")
+	Ornament.rail(self, reveal.position, Vector2(reveal.end.x, reveal.position.y), leave, readout * .8, accent, fposmod(t * .7, 1.0))
+	Ornament.rail(self, reveal.end, Vector2(reveal.position.x, reveal.end.y), leave, readout * .8, accent, fposmod(t * .7, 1.0))
+	var text_alpha := smoothstep(1.0, 1.25, t) * leave
+	var punch := 1.0 + .25 * (1.0 - smoothstep(1.0, 1.3, t))
+	var shake := Vector2(sin(t * 80.0), cos(t * 67.0)) * 4.0 * readout * (1.0 - smoothstep(1.0, 1.5, t))
+	var title := "BOSS ENCOUNTER"
+	var title_size := _fit_font_size(DAMAGE_FONT, title, roundi(clampf(height * .36 * punch, 30.0, 170.0)), size.x * .90)
+	Ornament.centered_text(self, DAMAGE_FONT, Vector2(size.x * .5, center_y - height * .09) + shake, title, title_size, Color(1.0, .93, .86, text_alpha), maxi(5, roundi(title_size * .08)), Color(.25, 0, .02, text_alpha))
+	var name_size := _fit_font_size(font, boss_entry_name, roundi(clampf(height * .16, 18.0, 70.0)), size.x * .86)
+	Ornament.centered_text(self, font, Vector2(size.x * .5, center_y + height * .27), boss_entry_name, name_size, Color(1.0, .84, .55, text_alpha), maxi(3, roundi(4.0 * readout)), Color(.15, 0, 0, text_alpha))
+
+## Victory end card: eyebrow, punched title and caption on an ornate band,
+## then a short fade into the result hand-off.
+func _draw_finale_card(elapsed: float, duration: float, eyebrow: String, title: String, caption: String) -> void:
+	var open := smoothstep(0.0, .26, elapsed)
+	var fade_out := smoothstep(duration - .30, duration, elapsed)
+	var readout := _readout_scale()
+	var font := battle_font if battle_font != null else ThemeDB.fallback_font
+	var center_y := size.y * .40
+	var height := clampf(150.0 * readout, 120.0, size.y * .34)
+	var width := size.x * open
+	var rect := Rect2(Vector2((size.x - width) * .5, center_y - height * .5), Vector2(width, height))
+	draw_rect(Rect2(Vector2.ZERO, size), Color(.01, .02, .04, .30 * open))
+	Ornament.band(self, rect, 1.0, readout * .9, Ornament.LUMEN, fposmod(elapsed * .8, 1.0), Ornament.INK, size.x * .14)
+	var text_alpha := smoothstep(.08, .22, elapsed)
+	var punch := 1.0 + .30 * (1.0 - smoothstep(.10, .36, elapsed))
+	var title_size := _fit_font_size(font, title, clampi(roundi(64.0 * readout * punch), 40, 190), size.x * .80)
+	Ornament.centered_text(self, font, Vector2(size.x * .5, center_y + height * .04), title, title_size, Color(1.0, .95, .80, text_alpha), maxi(6, roundi(8.0 * readout)), Color(.12, .06, .01, text_alpha))
+	var small := clampi(roundi(20.0 * readout), 15, 56)
+	Ornament.centered_text(self, font, Vector2(size.x * .5, center_y - height * .33), "— %s —" % eyebrow, small, Ornament.tint(Ornament.GOLD, text_alpha), 3, Color(0, 0, 0, .7 * text_alpha))
+	Ornament.centered_text(self, font, Vector2(size.x * .5, center_y + height * .36), caption, small, Color(.72, .94, 1.0, .9 * text_alpha), 3, Color(0, 0, 0, .7 * text_alpha))
+	if fade_out > 0.0:
+		draw_rect(Rect2(Vector2.ZERO, size), Color(.008, .018, .03, fade_out))
+
+## Character cut-in: a band wipes in over the dimmed field, speed lines run
+## through it, the caster's reviewed combat pose slides across and the skill
+## name reads on the right. Portrait uses a flat horizontal band.
+func _draw_character_cutin(source: Dictionary, cinematic: Dictionary, visibility: float) -> void:
+	var def_id := str(source.get("def_id", ""))
+	var profile := _vfx_profile_for(source)
+	var accent := Color(str(profile.get("primary", "79e7ff")))
+	var secondary := Color(str(profile.get("secondary", "ffd36a")))
+	var clock := float(cinematic.get("cutin_clock", 0.0))
+	var long := float(cinematic.get("lead_in_total", 0.0)) > 0.0
+	var portrait := size.x < size.y
+	var readout := _readout_scale()
+	var font := battle_font if battle_font != null else ThemeDB.fallback_font
+	var enter := clampf(clock / (.22 if long else .12), 0.0, 1.0)
+	var ease_in := 1.0 - pow(1.0 - enter, 3.0)
+	draw_rect(Rect2(Vector2.ZERO, size), Color(.004, .012, .03, (.52 if long else .30) * visibility))
+	var band_height := clampf(size.y * (.22 if portrait else .34), 150.0, size.y * .42) * (1.14 if long else 1.0)
+	var center_y := size.y * (.36 if portrait else .44)
+	var slant := 0.0 if portrait else band_height * .30
+	var top := center_y - band_height * .5
+	var bottom := center_y + band_height * .5
+	var reach := -slant + (size.x + slant * 2.0) * ease_in
+	if long:
+		# First use: a counter-slanted accent band sweeps in from the right
+		# behind the main band, so the full version reads as a bigger moment.
+		var back_top := top - band_height * .16
+		var back_bottom := bottom + band_height * .10
+		var back_left := size.x - (size.x + slant * 2.0) * ease_in
+		var back := Color(accent.r, accent.g, accent.b, .30 * visibility)
+		draw_colored_polygon(PackedVector2Array([Vector2(back_left + slant, back_top), Vector2(size.x + slant, back_top), Vector2(size.x - slant, back_bottom), Vector2(back_left - slant, back_bottom)]), back)
+		Ornament.rail(self, Vector2(back_left + slant, back_top), Vector2(size.x + slant, back_top), visibility * .8, readout * .7, secondary, -1.0)
+	var band_poly := PackedVector2Array([Vector2(-slant, top), Vector2(reach + slant, top), Vector2(reach - slant, bottom), Vector2(-slant * 2.0, bottom)])
+	var ink := Color(.02, .035, .07, .94 * visibility)
+	var deep := accent.darkened(.62)
+	deep.a = .94 * visibility
+	draw_polygon(band_poly, PackedColorArray([deep, ink, ink, deep]))
+	var band_rect := Rect2(Vector2(0, top), Vector2(clampf(reach, 0.0, size.x), band_height))
+	Ornament.speed_lines(self, band_rect.grow_individual(0, -6.0, 0, -6.0), clock, Color(secondary.r, secondary.g, secondary.b, .50 * visibility), 26, absi(def_id.hash()) % 97, 1.6)
+	Ornament.speed_lines(self, band_rect, clock * 1.3, Color(1, 1, 1, .26 * visibility), 12, 7, 2.2)
+	Ornament.rail(self, Vector2(-slant, top), Vector2(reach + slant, top), visibility, readout * .9, accent, fposmod(clock * 1.1, 1.0))
+	Ornament.rail(self, Vector2(reach - slant, bottom), Vector2(-slant * 2.0, bottom), visibility, readout * .9, accent, fposmod(clock * 1.1, 1.0))
+	var pose: Texture2D = _signature_cutin_pose_texture(def_id, .20 + clock * .55)
+	if pose == null:
+		pose = ultimate_orb_texture_for(def_id, null)
+	if pose != null:
+		var art_height := band_height * (1.36 if portrait else 1.75) * (1.06 if long else 1.0)
+		var art_size := Vector2(art_height * float(pose.get_width()) / maxf(1.0, float(pose.get_height())), art_height)
+		var art_center_x := size.x * (.22 if portrait else .30) - (1.0 - ease_in) * size.x * .30 + clock * 14.0 * readout
+		var art_rect := Rect2(Vector2(art_center_x - art_size.x * .5, bottom - art_size.y * .92), art_size)
+		draw_texture_rect(pose, Rect2(art_rect.position + Vector2(-18.0 * readout, 0), art_rect.size), false, Color(accent.r, accent.g, accent.b, .40 * visibility))
+		draw_texture_rect(pose, art_rect, false, Color(1, 1, 1, visibility))
+	var text_alpha := clampf((clock - .05) / .12, 0.0, 1.0) * visibility
+	var skill_name := str(active_cutin.get("skill_name", ""))
+	var text_center := Vector2(size.x * (.73 if portrait else .66) + (1.0 - ease_in) * size.x * .20, center_y - band_height * .02)
+	var name_size := _fit_font_size(font, skill_name, clampi(roundi(band_height * .24), 22, 150), size.x * (.46 if portrait else .56))
+	var outline_ink := accent.darkened(.72)
+	Ornament.centered_text(self, font, text_center, skill_name, name_size, Color(1.0, .96, .86, text_alpha), maxi(5, roundi(name_size * .10)), Color(outline_ink.r, outline_ink.g, outline_ink.b, text_alpha))
+	var small := clampi(roundi(band_height * .10), 14, 60)
+	Ornament.centered_text(self, font, text_center + Vector2(0, -band_height * .27), "ULTIMATE", small, Ornament.tint(Ornament.GOLD, text_alpha), 3, Color(0, 0, 0, .7 * text_alpha))
+	var name_ink := accent.lightened(.35)
+	Ornament.centered_text(self, font, text_center + Vector2(0, band_height * .26), unit_display_name(source), small, Color(name_ink.r, name_ink.g, name_ink.b, text_alpha), 3, Color(0, 0, 0, .7 * text_alpha))
+	if long and clock < .16:
+		draw_rect(Rect2(Vector2.ZERO, size), Color(1, 1, 1, (1.0 - clock / .16) * .55))

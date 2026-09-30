@@ -11,6 +11,8 @@ extends RefCounted
 const GameUI := preload("res://ui/game_ui_tokens.gd")
 const GrowthAdvisorScript := preload("res://progression/growth_advisor.gd")
 const CinematicFx := preload("res://ui/cinematic_fx.gd")
+const ResultStamp := preload("res://ui/result_stamp.gd")
+const OrnateFrameOverlay := preload("res://ui/ornate_frame_overlay.gd")
 const GOLD := Color("f1d77a")
 const MUTED := Color("9fb4cc")
 const GOOD := Color("7ee8a8")
@@ -111,6 +113,14 @@ static func build_header(s, parent: Node, scale: float) -> void:
 	CinematicFx.heroic_text(outcome_label, Color("2a1606") if victory else Color("2a0608"), Color("000000b0"))
 	if victory: CinematicFx.shine(outcome_label, {"shine_color": Color("fff2c4")})
 	outcome.add_child(outcome_label)
+	if victory:
+		# The stamp only reflects the committed outcome already shown in text.
+		var stamp := ResultStamp.new()
+		stamp.name = "ResultStamp"
+		stamp.text = "완수" if is_battle_report(s) else "승인"
+		stamp.custom_minimum_size = Vector2(150, 150) * scale
+		stamp.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		row.add_child(stamp)
 	var stage := result_stage(s)
 	var stage_name := LocalizationService.tr_key(str(stage.get("name_key", ""))) if not stage.is_empty() else ""
 	if is_battle_report(s):
@@ -164,10 +174,16 @@ static func build_mvp(s, parent: Node, scale: float) -> void:
 	art.texture = s._asset_texture(str(definition.get("portrait_asset_id", "")))
 	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	art.custom_minimum_size = Vector2(96, 128) * scale
+	art.custom_minimum_size = Vector2(120, 160) * scale
 	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	CinematicFx.live_portrait(art, "MVP_" + best_id, {"rim_color": Color("ffe3a0"), "rim_strength": 0.6})
-	row.add_child(art)
+	var art_frame := MarginContainer.new()
+	art_frame.name = "ResultMvpPortraitFrame"
+	for side in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
+		art_frame.add_theme_constant_override(side, roundi(8 * scale))
+	art_frame.add_child(art)
+	art_frame.add_child(OrnateFrameOverlay.new())
+	row.add_child(art_frame)
 	var copy := VBoxContainer.new()
 	copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	copy.alignment = BoxContainer.ALIGNMENT_CENTER

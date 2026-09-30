@@ -14,7 +14,12 @@ var values := {
 	"battle_speed": 1,
 	"map_camera_follow_strength": 0.72,
 	"map_reduced_transition": false,
-	"map_instant_focus": false
+	"map_instant_focus": false,
+	# Ultimate cut-in: SHORT plays a short cut-in and a long one on each
+	# character's first use; FULL is always long; OFF keeps the compact pulse.
+	"battle_cutin_mode": "SHORT",
+	# Characters whose first long cut-in has been shown.
+	"battle_cutin_seen": []
 }
 
 func _ready() -> void:

@@ -18,6 +18,7 @@ const GameUI := preload("res://ui/game_ui_tokens.gd")
 const CommandPresentation := preload("res://screens/command_presentation.gd")
 const GrowthMenu := preload("res://screens/growth_menu.gd")
 const BattleUltimateOrbScript := preload("res://battle/view/battle_ultimate_orb.gd")
+const OrnateTitleCard := preload("res://ui/ornate_title_card.gd")
 const DESIGN_VIEWPORT_SIZE := Vector2(1920.0, 1080.0)
 const COMPACT_LANDSCAPE_MAX_WIDTH := 980.0
 const MIN_TOUCH_CSS_PX := 56.0
@@ -25,7 +26,9 @@ const STORY_FIT_COMPACT_HEIGHT_CSS := 340.0
 const STORY_FIT_WIDE_HEIGHT_CSS := 520.0
 const STORY_MIN_FIT := 0.55
 const SPECIAL_EVENT_CONTACT_DURATION := 1.85
-const BOSS_ENCOUNTER_CARD_DURATION := 0.82
+const BOSS_ENCOUNTER_CARD_DURATION := 1.20
+const CHAPTER_TITLE_CARD_DURATION := 2.6
+const EVENT_TITLE_CARD_DURATION := 1.1
 const INTRO_VIDEO_PATH := "res://assets/video/lumenbound_intro_full.ogv"
 const INTRO_VIDEO_DURATION_SECONDS := 50.0
 const INTRO_VIDEO_FINISH_GUARD_SECONDS := 0.75
@@ -98,6 +101,8 @@ var story_auto_left := 0.0
 var story_ui_hidden := false
 var story_controls: Control
 var story_typewriter_tween: Tween
+## Chapter-opening title card over the story; the first line waits for it.
+var story_title_card: Control
 var battle_view: BattleView
 var battle_hud: Label
 var battle_gauge: Control
@@ -1293,7 +1298,7 @@ func _process(delta: float) -> void:
 		if _is_compact_landscape_layout() and content != null:
 			_apply_compact_touch_targets(content)
 		_apply_chapter_map_shell_overrides()
-	if current_screen == "STORY" and story_auto and scenario_runner != null and not scenario_runner.state.waiting_for_choice and not AudioService.voice_is_playing():
+	if current_screen == "STORY" and story_auto and scenario_runner != null and not scenario_runner.state.waiting_for_choice and not AudioService.voice_is_playing() and not _story_title_card_open():
 		story_auto_left -= delta
 		if story_auto_left <= 0:
 			_advance_story()
@@ -1458,6 +1463,8 @@ func _show_screen(screen_id: String) -> void:
 	if previous_screen == "STORY" and screen_id != "STORY":
 		AudioService.stop_voice()
 	_prepare_transition_loading_for_screen(previous_screen, screen_id)
+	if screen_id != "STORY":
+		_close_story_title_card()
 	current_screen = screen_id
 	_clear()
 	match screen_id:
@@ -2250,6 +2257,7 @@ func _show_story(reuse_runtime_state := false) -> void:
 		_restore_story_view_after_reflow()
 		_refresh_story_control_states()
 		return
+	_close_story_title_card()
 	scenario_runner = ScenarioRunner.new()
 	scenario_runner.replay = _is_archive_replay(AppState.active_scenario_id)
 	var loaded := scenario_runner.load_scenario(AppState.active_scenario_id, not scenario_runner.replay)
@@ -2260,7 +2268,62 @@ func _show_story(reuse_runtime_state := false) -> void:
 	_refresh_story_art()
 	story_auto_left = 1.0
 	_refresh_story_control_states()
+	# Only a fresh start gets the chapter card; a resumed scene goes straight on.
+	if scenario_runner.state.command_index == 0 and _open_chapter_title_card(AppState.active_scenario_id):
+		return
 	_advance_story()
+
+## Title card data for a chapter opening (SCN_CHxx_INTRO / _HARD_INTRO).
+func chapter_title_card_data(scenario_id: String) -> Dictionary:
+	if not scenario_id.begins_with("SCN_CH") or not scenario_id.ends_with("_INTRO"):
+		return {}
+	var scenario := DataRegistry.by_id("scenarios", scenario_id)
+	var chapter := DataRegistry.chapter(str(scenario.get("chapter_id", "")))
+	if scenario.is_empty() or chapter.is_empty():
+		return {}
+	var number := int(chapter.get("number", 0))
+	var full_name := LocalizationService.tr_key(str(chapter.get("name_key", "")))
+	var parts := full_name.split(" — ", false, 1)
+	var objective_key := str(chapter.get("objective_key", ""))
+	return {
+		"eyebrow": "CHAPTER %02d%s" % [number, "  ·  HARD" if scenario_id.contains("_HARD_") else ""],
+		"number": parts[0] if parts.size() > 1 else "제%d장" % number,
+		"title": parts[1] if parts.size() > 1 else full_name,
+		"subtitle": LocalizationService.tr_key(objective_key) if not objective_key.is_empty() else "",
+	}
+
+func _open_chapter_title_card(scenario_id: String) -> bool:
+	var data := chapter_title_card_data(scenario_id)
+	if data.is_empty():
+		return false
+	_close_story_title_card()
+	var layer := CanvasLayer.new()
+	layer.name = "ChapterTitleCanvas"
+	layer.layer = 120
+	add_child(layer)
+	var card = OrnateTitleCard.new()
+	card.name = "ChapterTitleCard"
+	card.theme = theme
+	card.text_font = _story_weighted_font(700, 0.25)
+	card.configure("CHAPTER", str(data.eyebrow), str(data.title), str(data.subtitle), CHAPTER_TITLE_CARD_DURATION, str(data.number))
+	layer.add_child(card)
+	card.tree_exited.connect(layer.queue_free)
+	story_title_card = card
+	var runner_at_open = scenario_runner
+	card.finished.connect(func() -> void:
+		story_title_card = null
+		if current_screen == "STORY" and scenario_runner != null and scenario_runner == runner_at_open:
+			_advance_story())
+	return true
+
+func _story_title_card_open() -> bool:
+	return story_title_card != null and is_instance_valid(story_title_card) and bool(story_title_card.call("is_open"))
+
+## Leaving the story closes the card without advancing the scenario.
+func _close_story_title_card() -> void:
+	if story_title_card != null and is_instance_valid(story_title_card):
+		story_title_card.queue_free()
+	story_title_card = null
 
 func _build_standard_story_presentation(portrait: bool, ui_scale: float) -> void:
 	var stage := PanelContainer.new()
@@ -2862,6 +2925,9 @@ func _advance_story() -> void:
 
 func _request_story_advance(source: String) -> bool:
 	if current_screen != "STORY" or scenario_runner == null or scenario_runner.state.waiting_for_choice: return false
+	if _story_title_card_open():
+		story_title_card.call("skip")
+		return true
 	if not _consume_transition_edge("STORY_ADVANCE", source): return false
 	_advance_story()
 	return true
@@ -3671,36 +3737,18 @@ func _play_map_battle_transition() -> void:
 		}, focus)
 		veil.color = Color("06101c00")
 		focus.visible = true
-	var boss_card: PanelContainer
+	var boss_card: Control
 	if str(encounter_presentation.get("transition_style", "")) == "BOSS":
-		# This is an original signal-readout card, not a copied reference layout.
-		# It only consumes map-authored localization keys and fades before the
-		# unchanged realtime battle scene owns input and simulation.
-		boss_card = PanelContainer.new()
+		# Full-width red boss band with original rail ornament. It only consumes
+		# map-authored localization keys and fades before the unchanged realtime
+		# battle scene owns input and simulation.
+		boss_card = OrnateTitleCard.new()
 		boss_card.name = "BossEncounterTitleCard"
-		boss_card.set_anchors_preset(Control.PRESET_CENTER)
-		var portrait_boss_layout := _is_portrait_layout()
-		var boss_card_size := Vector2(1580, 620) if portrait_boss_layout else Vector2(660, 144)
-		boss_card.position = -boss_card_size * 0.5 if portrait_boss_layout else Vector2(-330, 64)
-		boss_card.size = boss_card_size
-		boss_card.custom_minimum_size = boss_card_size
+		boss_card.set("auto_close", false)
+		boss_card.set("text_font", _story_weighted_font(700, 0.25))
+		boss_card.call("configure", "BOSS", LocalizationService.tr_key("MAP_BOSS_CONTACT_CAPTION"), LocalizationService.tr_key(str(encounter_presentation.get("boss_name_key", "MAP_BOSS_UNKNOWN_NAME"))), LocalizationService.tr_key(str(encounter_presentation.get("boss_subtitle_key", "MAP_BOSS_UNKNOWN_SUBTITLE"))), BOSS_ENCOUNTER_CARD_DURATION)
 		boss_card.modulate = Color(1.0, 1.0, 1.0, 0.0)
-		var boss_style := GameUI.panel_style(Color("211a18ee"), GameUI.OBJECTIVE, 1, GameUI.RADIUS_MODAL, Vector4(24.0, 14.0, 24.0, 14.0), 12)
-		boss_card.add_theme_stylebox_override("panel", boss_style)
 		veil.add_child(boss_card)
-		var boss_copy := VBoxContainer.new()
-		boss_copy.alignment = BoxContainer.ALIGNMENT_CENTER
-		boss_copy.add_theme_constant_override("separation", 3)
-		boss_card.add_child(boss_copy)
-		var boss_caption := _label(LocalizationService.tr_key("MAP_BOSS_CONTACT_CAPTION"), 15, Color("f3c884"))
-		boss_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		boss_copy.add_child(boss_caption)
-		var boss_name := _label(LocalizationService.tr_key(str(encounter_presentation.get("boss_name_key", "MAP_BOSS_UNKNOWN_NAME"))), 34, Color("fff0cf"))
-		boss_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		boss_copy.add_child(boss_name)
-		var boss_subtitle := _label(LocalizationService.tr_key(str(encounter_presentation.get("boss_subtitle_key", "MAP_BOSS_UNKNOWN_SUBTITLE"))), 17, Color("b9cfde"))
-		boss_subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		boss_copy.add_child(boss_subtitle)
 	if not special_event.is_empty():
 		var character := DataRegistry.character(str(special_event.get("character_id", "")))
 		var contact_character_ids: Array[String] = []
@@ -3986,6 +4034,16 @@ func _play_special_event_dialogue(veil: ColorRect, special_event: Dictionary, fo
 			reading.resolved = true
 	skip_button.pressed.connect(func() -> void: reading.resolved = true)
 	next_button.pressed.connect(advance_page)
+	if str(special_event.get("event_kind", "")) != "BOSS":
+		# EVENT title card before the first page and voice; a tap closes it early.
+		var event_card = OrnateTitleCard.new()
+		event_card.name = "EventTitleCard"
+		event_card.theme = theme
+		event_card.text_font = _story_weighted_font(700, 0.25)
+		event_card.configure("EVENT", LocalizationService.tr_key("MAP_EVENT_CONTACT_SIGNAL"), LocalizationService.tr_key(str(special_event.get("title_key", "MAP_EVENT_DEFAULT_TITLE"))), "", EVENT_TITLE_CARD_DURATION)
+		veil.color = Color("06101cf4")
+		veil.add_child(event_card)
+		await event_card.finished
 	pre_battle_event_input_panel = panel
 	pre_battle_event_input_next = next_button
 	pre_battle_event_input_skip = skip_button
@@ -5631,11 +5689,22 @@ func _show_settings() -> void:
 		_show_screen("SETTINGS"), false, Vector2(300, 64)))
 	box.add_child(_button("텍스트 속도: %.2fs" % SettingsService.values.text_speed, func(): SettingsService.values.text_speed = .01 if float(SettingsService.values.text_speed) >= .03 else float(SettingsService.values.text_speed) + .01; _show_screen("SETTINGS"), false, Vector2(300, 64)))
 	box.add_child(_button("자동 전투: %s" % ("켜짐" if SettingsService.values.battle_auto else "꺼짐"), func(): SettingsService.values.battle_auto = not SettingsService.values.battle_auto; _show_screen("SETTINGS"), false, Vector2(300, 64)))
+	box.add_child(_button("필살기 컷인: %s" % _cutin_mode_label(str(SettingsService.values.get("battle_cutin_mode", "SHORT"))), func(): SettingsService.values.battle_cutin_mode = _next_cutin_mode(str(SettingsService.values.get("battle_cutin_mode", "SHORT"))); _show_screen("SETTINGS"), false, Vector2(360, 64)))
 	box.add_child(_button("맵 카메라 추적: %d%%" % roundi(float(SettingsService.values.map_camera_follow_strength) * 100.0), func(): SettingsService.values.map_camera_follow_strength = 0.35 if float(SettingsService.values.map_camera_follow_strength) > 0.7 else float(SettingsService.values.map_camera_follow_strength) + 0.2; _show_screen("SETTINGS"), false, Vector2(360, 64)))
 	box.add_child(_button("지도 이동 효과 줄이기: %s" % ("켜짐" if SettingsService.values.map_reduced_transition else "꺼짐"), func(): SettingsService.values.map_reduced_transition = not SettingsService.values.map_reduced_transition; _show_screen("SETTINGS"), false, Vector2(360, 64)))
 	box.add_child(_button("지도 카메라 즉시 이동: %s" % ("켜짐" if SettingsService.values.map_instant_focus else "꺼짐"), func(): SettingsService.values.map_instant_focus = not SettingsService.values.map_instant_focus; _show_screen("SETTINGS"), false, Vector2(360, 64)))
 	box.add_child(_button("오픈소스 / 제3자 라이선스", func(): SceneRouter.go("LICENSE"), false, Vector2(360, 64)))
 	box.add_child(_button("설정 저장", func(): _report_result(SaveService.save_game()), false, Vector2(220, 64)))
+
+static func _cutin_mode_label(mode: String) -> String:
+	match BattleView.normalized_cutin_mode(mode):
+		"FULL": return "전체"
+		"OFF": return "끄기"
+	return "짧게 (첫 사용만 길게)"
+
+static func _next_cutin_mode(mode: String) -> String:
+	var modes: Array = BattleView.CUTIN_MODES
+	return str(modes[(modes.find(BattleView.normalized_cutin_mode(mode)) + 1) % modes.size()])
 
 func _show_license() -> void:
 	_title("오픈소스 라이선스", "Godot와 제3자/공용 팩토리 출처 분리")

@@ -19,6 +19,11 @@ const COMBAT_HITSTOP_INTERVAL := 0.20
 ## presentation-safe mobile edge margin, and never changes simulation time.
 const COMBAT_FOCUS_MIN_DURATION := 0.20
 const COMBAT_FOCUS_MAX_OFFSET_X := 22.0
+## A long (first-use or "전체") cut-in plays before the ordinary timeline. The
+## lead-in freezes actors and simulation like the rest of the ultimate, then
+## the unchanged 2.10s timeline runs, so impact and recovery keep their timing.
+const MAX_LEAD_IN := 1.6
+const LEAD_IN_FADE := .14
 
 var active_batch: Dictionary = {}
 var elapsed := 0.0
@@ -35,6 +40,8 @@ var combat_focus_direction := 0.0
 var combat_focus_strength := 0.0
 var combat_focus_elapsed := 0.0
 var combat_focus_duration := 0.0
+var lead_in_total := 0.0
+var lead_in_elapsed := 0.0
 
 func begin_ultimate(batch: Dictionary) -> bool:
 	if is_active() or batch.is_empty():
@@ -45,6 +52,8 @@ func begin_ultimate(batch: Dictionary) -> bool:
 	prep_fired = false
 	finished = false
 	hitstop_remaining = 0.0
+	lead_in_total = clampf(float(batch.get("lead_in", 0.0)), 0.0, MAX_LEAD_IN)
+	lead_in_elapsed = 0.0
 	return true
 
 func is_active() -> bool:
@@ -52,6 +61,9 @@ func is_active() -> bool:
 
 func is_impact_committed() -> bool:
 	return impact_committed
+
+func in_lead_in() -> bool:
+	return is_active() and lead_in_elapsed < lead_in_total
 
 func request_combat_impact(strength := 0.5) -> void:
 	## Normal attacks and ordinary hit reactions may move the camera, but never
@@ -118,6 +130,13 @@ func advance(delta: float) -> Dictionary:
 	if not is_active():
 		result.actor_delta = safe_delta - ordinary_frozen_delta
 		return result
+	if lead_in_elapsed < lead_in_total:
+		var lead_step := minf(lead_in_total - lead_in_elapsed, safe_delta)
+		lead_in_elapsed += lead_step
+		safe_delta -= lead_step
+		result.actor_delta = 0.0
+		if safe_delta <= 0.0:
+			return result
 	elapsed = minf(ULTIMATE_DURATION, elapsed + safe_delta)
 	if not prep_fired and elapsed >= BATTLEFIELD_PREP:
 		prep_fired = true
@@ -130,7 +149,9 @@ func advance(delta: float) -> Dictionary:
 		hitstop_remaining = maxf(0.0, hitstop_remaining - safe_delta)
 		result.actor_delta = 0.0
 	elif ordinary_frozen_delta > 0.0:
-		result.actor_delta = safe_delta - ordinary_frozen_delta
+		result.actor_delta = maxf(0.0, safe_delta - ordinary_frozen_delta)
+	elif lead_in_total > 0.0:
+		result.actor_delta = safe_delta
 	if elapsed >= ULTIMATE_DURATION:
 		finished = true
 		result.finished = true
@@ -146,6 +167,8 @@ func force_finish() -> Dictionary:
 	impact_committed = true
 	finished = true
 	hitstop_remaining = 0.0
+	lead_in_total = 0.0
+	lead_in_elapsed = 0.0
 	combat_impulse_remaining = 0.0
 	combat_impulse_strength = 0.0
 	combat_hitstop_remaining = 0.0
@@ -160,6 +183,8 @@ func reset() -> void:
 	prep_fired = false
 	finished = false
 	hitstop_remaining = 0.0
+	lead_in_total = 0.0
+	lead_in_elapsed = 0.0
 	presentation_clock = 0.0
 	combat_impulse_remaining = 0.0
 	combat_impulse_strength = 0.0
@@ -173,11 +198,18 @@ func batch_snapshot() -> Dictionary:
 func cinematic_snapshot() -> Dictionary:
 	var progress := clampf(elapsed / ULTIMATE_DURATION, 0.0, 1.0)
 	var cutin_in := clampf((elapsed - CUTIN_START) / maxf(0.01, CUTIN_PEAK - CUTIN_START), 0.0, 1.0)
+	if lead_in_total > 0.0:
+		# A long cut-in is already fully open when the ordinary window begins.
+		cutin_in = clampf(lead_in_elapsed / LEAD_IN_FADE, 0.0, 1.0)
 	var cutin_out := clampf((0.95 - elapsed) / 0.20, 0.0, 1.0)
 	return {
 		"active": is_active(),
 		"elapsed": elapsed,
 		"progress": progress,
+		"lead_in_total": lead_in_total,
+		"lead_in_elapsed": lead_in_elapsed,
+		# One clock for the whole visible cut-in: lead-in seconds, then timeline.
+		"cutin_clock": lead_in_elapsed + elapsed,
 		"cutin_visibility": sin(cutin_in * PI * .5) * sin(cutin_out * PI * .5),
 		"impact_committed": impact_committed,
 		"combat_impulse": _combat_impulse(),

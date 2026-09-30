@@ -246,6 +246,29 @@ var finale_elapsed := -1.0
 const START_BAND_TITLE := "작전 개시!"
 const START_BAND_HOLD := .9
 var start_band_armed := false
+## Scale read (D7). A regular enemy is drawn as a three-body squad around the
+## authoritative unit. The two extra bodies are presentation only: they share
+## its HP bar and drop out once the shown HP falls below 2/3 and 1/3. Offset x
+## is in sprite-canvas widths (toward the enemy rear), y in lane steps.
+const SWARM_COMPANIONS := [
+	{"offset": Vector2(.36, -.22), "scale": .76, "phase": 1.9, "threshold": 2.0 / 3.0},
+	{"offset": Vector2(-.26, -.34), "scale": .70, "phase": 3.7, "threshold": 1.0 / 3.0},
+]
+const SWARM_DROP_DURATION := .5
+var swarm_members: Dictionary = {}
+var swarm_drops: Array = []
+## The next wave waits as dark silhouettes on the far walkway behind the enemy
+## side until it spawns. Its layout comes from the same call the deployment
+## preview uses, cached per wave.
+const NEXT_WAVE_FADE := .8
+const SILHOUETTE_SCALE := .6
+var next_wave_cache := {"index": -2, "layout": []}
+var next_wave_age := 0.0
+## Per-draw overrides for `_draw_combat_sprite`, set only around squad bodies
+## and silhouettes and always restored.
+var sprite_draw_scale := 1.0
+var sprite_draw_tint := Color.WHITE
+var sprite_live_phase := 0.0
 ## Telegraph landing flash: a cast that leaves the pending list on its due tick
 ## with a living caster flashes its cells once.
 const TELEGRAPH_FLASH_DURATION := .42
@@ -1027,6 +1050,10 @@ func setup(value: BattleSimulation) -> void:
 	combat_readout = ""
 	finale_elapsed = -1.0
 	start_band_armed = false
+	swarm_members.clear()
+	swarm_drops.clear()
+	next_wave_cache = {"index": -2, "layout": []}
+	next_wave_age = 0.0
 	combo_count = 0
 	combo_peak = 0
 	combo_left = 0.0
@@ -1167,8 +1194,12 @@ func _process(delta: float) -> void:
 			presentation.age = float(presentation.age) + presentation_delta
 		for flash in telegraph_flashes:
 			flash.age = float(flash.age) + presentation_delta
+		for drop in swarm_drops:
+			drop.age = float(drop.age) + presentation_delta
+		next_wave_age += presentation_delta
 	_recycle_expired_presentations()
 	_track_telegraph_landings()
+	_track_swarm_members()
 	for uid in unit_flash.keys():
 		unit_flash[uid] = float(unit_flash[uid]) - actor_delta
 		if float(unit_flash[uid]) <= 0: unit_flash.erase(uid)
@@ -1384,6 +1415,7 @@ func _present_regular_event(event: Dictionary) -> void:
 			wave_banner_title = START_BAND_TITLE if wave_number <= 1 else "WAVE %d" % wave_number
 			wave_banner_subtitle = "WAVE %d / %d" % [wave_number, simulation.state.wave_count] if wave_number <= 1 else "남은 웨이브 %d" % maxi(0, simulation.state.wave_count - wave_number)
 			wave_banner_left = WAVE_BANNER_DURATION
+		next_wave_age = 0.0
 	elif event.type == BattleEvent.BATTLE_END and int(event.value) == 1:
 		for unit in simulation.state.party:
 			if UnitState.alive(unit): _play_animation(str(unit.uid), "victory")
@@ -1979,6 +2011,7 @@ func _clear_active_presentation_effects() -> void:
 	unit_flash.clear()
 	telegraph_flashes.clear()
 	telegraph_keys.clear()
+	swarm_drops.clear()
 	combo_count = 0
 	combo_left = 0.0
 	combo_pop = 0.0
@@ -2173,10 +2206,12 @@ func _draw() -> void:
 	# All ground shadows precede all bodies; a front unit's shadow must not
 	# paint over a rear unit's boots while formation lanes change.
 	_draw_tactical_grid()
+	_draw_next_wave_preview()
 	for unit in visible_units: _draw_contact_shadow(unit)
 	for unit in visible_units: _draw_weapon_action(unit, true)
 	for unit in visible_units: _draw_unit(unit)
 	for unit in visible_units: _draw_weapon_action(unit, false)
+	for drop in swarm_drops: _draw_swarm_drop(drop)
 	_draw_combat_readout()
 	for burst in enemy_defeat_bursts.values():
 		_draw_enemy_defeat_explosion(burst.unit, _ground_position(burst.unit), float(burst.elapsed))
@@ -2792,6 +2827,8 @@ func _draw_unit(unit: Dictionary) -> void:
 	# pose offset so all five allies and all enemies visibly animate.
 	if not generated_sprite:
 		p += _placeholder_pose_offset(unit)
+	elif swarm_unit(unit):
+		_draw_swarm_companions(unit, p, swarm_member_count(UnitState.hp_ratio(unit)))
 	if _draw_combat_sprite(unit, p, alive):
 		pass
 	elif player:
@@ -2903,6 +2940,144 @@ const STATUS_PIPS := {
 # HP, shield, status and name are drawn after every body, projectile and VFX so
 # large effects never hide them. On a phone the canvas is shown at ~0.2-0.4x;
 # scale the readout back up so bars stay a few screen pixels tall and names legible.
+## Squad eligibility: regular enemies only. Elites and bosses stay single.
+static func swarm_unit(unit: Dictionary) -> bool:
+	return str(unit.get("team", "")) != "PLAYER" and str(unit.get("rank", "NORMAL")) == "NORMAL"
+
+## Bodies standing for a squad at this HP ratio (1..3). Presentation only.
+static func swarm_member_count(hp_ratio: float) -> int:
+	var count := 1
+	for companion in SWARM_COMPANIONS:
+		if hp_ratio > float(companion.threshold) + .0001: count += 1
+	return count
+
+func _swarm_companion_offset(unit: Dictionary, index: int) -> Vector2:
+	var offset: Vector2 = SWARM_COMPANIONS[index].offset
+	var canvas := 512.0 * _combat_sprite_scale(unit, "idle")
+	var lane_step := (float(Grounding.LANE_Y[1]) - float(Grounding.LANE_Y[0])) * size.y * _battlefield_camera_zoom()
+	return Vector2(offset.x * canvas, offset.y * lane_step)
+
+## Rear squad bodies, drawn before the main body so it overlaps them.
+func _draw_swarm_companions(unit: Dictionary, p: Vector2, members: int) -> void:
+	var zoom := _battlefield_camera_zoom()
+	for index in range(members - 1):
+		var companion: Dictionary = SWARM_COMPANIONS[index]
+		var foot := p + _swarm_companion_offset(unit, index)
+		_draw_ellipse_polygon(foot, Vector2(46, 8) * zoom * float(companion.scale), Color(0, 0, 0, .26))
+		_draw_squad_body(unit, foot, float(companion.scale), Color(.86, .86, .92, 1.0), float(companion.phase))
+
+func _draw_squad_body(unit: Dictionary, foot: Vector2, body_scale: float, tint: Color, phase: float) -> void:
+	sprite_draw_scale = body_scale
+	sprite_draw_tint = tint
+	sprite_live_phase = phase
+	_draw_combat_sprite(unit, foot, true)
+	sprite_draw_scale = 1.0
+	sprite_draw_tint = Color.WHITE
+	sprite_live_phase = 0.0
+
+## Squad bookkeeping from the shown HP: a body that drops out leaves a short
+## fading burst. A kill that removes the whole squad drops the rear bodies too.
+func _track_swarm_members() -> void:
+	if simulation == null: return
+	for unit_value in simulation.state.enemies:
+		var unit := _presentation_unit(unit_value)
+		if not swarm_unit(unit): continue
+		var uid := str(unit.get("uid", ""))
+		var alive := UnitState.alive(unit)
+		var members := swarm_member_count(UnitState.hp_ratio(unit)) if alive else 1
+		var previous := int(swarm_members.get(uid, members))
+		for index in range(members - 1, previous - 1):
+			swarm_drops.append({"uid": uid, "index": index, "age": 0.0})
+		swarm_members[uid] = members
+	swarm_drops = swarm_drops.filter(func(drop): return float(drop.age) < SWARM_DROP_DURATION)
+
+func swarm_snapshot() -> Dictionary:
+	return {"members": swarm_members.duplicate(), "drops": swarm_drops.size()}
+
+func _draw_swarm_drop(drop: Dictionary) -> void:
+	var unit := _actor_model(str(drop.get("uid", "")))
+	if unit.is_empty(): return
+	var t := clampf(float(drop.get("age", 0.0)) / SWARM_DROP_DURATION, 0.0, 1.0)
+	var index := clampi(int(drop.get("index", 0)), 0, SWARM_COMPANIONS.size() - 1)
+	var companion: Dictionary = SWARM_COMPANIONS[index]
+	var foot := _ground_position(_presentation_unit(unit)) + _swarm_companion_offset(unit, index)
+	var zoom := _battlefield_camera_zoom()
+	var flash := 1.0 - smoothstep(0.0, .35, t)
+	_draw_squad_body(unit, foot + Vector2(0, 10.0 * zoom * t), float(companion.scale) * (1.0 - .12 * t), Color(1.0, .55 + .45 * flash, .45 + .55 * flash, 1.0 - t), float(companion.phase))
+	var center := foot + Vector2(0, -512.0 * _combat_sprite_scale(unit, "idle") * float(companion.scale) * .3)
+	draw_arc(center, (18.0 + 46.0 * t) * zoom, 0.0, TAU, 28, Color(1.0, .74, .42, .8 * (1.0 - t)), 3.0 * zoom, true)
+	for shard in range(6):
+		var angle := TAU * float(shard) / 6.0 + float(index) * .5
+		var from := center + Vector2(cos(angle), sin(angle)) * (10.0 + 40.0 * t) * zoom
+		draw_line(from, from + Vector2(cos(angle), sin(angle)) * 10.0 * zoom, Color(1.0, .86, .6, 1.0 - t), 2.0 * zoom, true)
+
+## The next wave's layout, or [] on the last wave.
+func next_wave_layout() -> Array:
+	if simulation == null: return []
+	var index := simulation.wave_director.current_index + 1
+	if int(next_wave_cache.get("index", -2)) != index:
+		var layout: Array = BattleSimulation.wave_layout(simulation.stage, index, simulation.data) if simulation.wave_director.has_next() else []
+		next_wave_cache = {"index": index, "layout": layout}
+	return next_wave_cache.layout
+
+## Waiting silhouettes stand on the walkway behind the enemy columns, a
+## staggered crowd from the right edge inward.
+func next_wave_silhouette_points(count: int) -> Array:
+	var points: Array = []
+	for index in range(count):
+		var t := float(index) / maxf(1.0, float(count - 1))
+		var x := lerpf(.975, .80, t) if count > 1 else .93
+		var y := float(Grounding.LANE_Y[0]) - .058 + float(index % 2) * .02
+		points.append(_battlefield_point(Vector2(x, y) * size))
+	return points
+
+func _draw_next_wave_preview() -> void:
+	if deployment_active or simulation.state.ended or boss_entry_elapsed >= 0.0 or _boss_present(): return
+	var layout := next_wave_layout()
+	if layout.is_empty(): return
+	var fade := smoothstep(0.0, NEXT_WAVE_FADE, next_wave_age)
+	if fade <= 0.0: return
+	var points := next_wave_silhouette_points(layout.size())
+	var zoom := _battlefield_camera_zoom()
+	var t := float(Time.get_ticks_msec()) / 1000.0
+	# A dim red haze on the walkway ties the crowd together.
+	var first: Vector2 = points[0]
+	var last: Vector2 = points[points.size() - 1]
+	var haze_center := (first + last) * .5 + Vector2(0, 4.0 * zoom)
+	var haze_width := absf(first.x - last.x) * .5 + 60.0 * zoom
+	_draw_ellipse_polygon(haze_center, Vector2(haze_width * 1.15, 20.0 * zoom), Color(.55, .08, .10, .07 * fade))
+	_draw_ellipse_polygon(haze_center, Vector2(haze_width, 12.0 * zoom), Color(.60, .10, .12, .10 * fade))
+	var top := INF
+	for index in range(layout.size() - 1, -1, -1):
+		var entry: Dictionary = layout[index]
+		var definition: Dictionary = entry.get("definition", {})
+		var body := {"uid": "next:%d:%d" % [int(next_wave_cache.index), index], "def_id": str(entry.get("id", "")), "team": "ENEMY", "rank": str(definition.get("rank", "NORMAL")), "role": str(definition.get("role", "")), "alive": true, "hp": 1, "max_hp": 1}
+		var foot: Vector2 = points[index] + Vector2(0, sin(t * 1.3 + float(index)) * 2.0 * zoom)
+		var bodies: Array = []
+		if swarm_unit(body):
+			for companion_index in range(SWARM_COMPANIONS.size()):
+				var companion: Dictionary = SWARM_COMPANIONS[companion_index]
+				bodies.append([foot + _swarm_companion_offset(body, companion_index) * SILHOUETTE_SCALE, SILHOUETTE_SCALE * float(companion.scale), float(companion.phase)])
+		bodies.append([foot, SILHOUETTE_SCALE, 0.0])
+		for item in bodies:
+			# Red rim first (four offset copies), then the dark body on top.
+			var rim := 2.0 * zoom
+			for rim_offset in [Vector2(rim, 0), Vector2(-rim, 0), Vector2(0, rim), Vector2(0, -rim)]:
+				_draw_squad_body(body, (item[0] as Vector2) + rim_offset, float(item[1]), Color(1.0, .22, .18, .34 * fade), float(item[2]))
+			_draw_squad_body(body, item[0], float(item[1]), Color(.07, .08, .13, .9 * fade), float(item[2]))
+		top = minf(top, foot.y - 512.0 * _combat_sprite_scale(body, "idle") * SILHOUETTE_SCALE * .62)
+	var font := battle_font if battle_font != null else ThemeDB.fallback_font
+	var readout := _readout_scale()
+	var font_size := clampi(roundi(12.0 * readout), 12, 28)
+	var label := "NEXT WAVE ×%d" % layout.size()
+	var width := font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x + 14.0
+	var center_x := minf((first.x + last.x) * .5, size.x - width * .5 - 8.0)
+	var tag := Rect2(Vector2(center_x - width * .5, top - font_size - 16.0), Vector2(width, font_size + 8.0))
+	var pulse := .5 + .5 * sin(t * TAU * .8)
+	draw_rect(tag, Color(0.03, 0.02, 0.05, .72 * fade))
+	draw_rect(tag, Color(1.0, .38, .32, (.45 + .35 * pulse) * fade), false, 1.2)
+	draw_string(font, tag.position + Vector2(7.0, font_size + 1.0), label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(1.0, .78, .72, .9 * fade))
+
 func _draw_unit_status(unit: Dictionary) -> void:
 	if boss_entry_elapsed >= 0.0 and str(unit.team) != "PLAYER" and boss_entry_elapsed < .95: return
 	var player: bool = str(unit.team) == "PLAYER"
@@ -2917,6 +3092,19 @@ func _draw_unit_status(unit: Dictionary) -> void:
 	draw_rect(Rect2(bar_origin - Vector2(2, 2), Vector2(bar_width + 4, bar_height + 4)), Color(0.01, 0.02, 0.05, .72))
 	draw_rect(Rect2(bar_origin, Vector2(bar_width, bar_height)), Color("351e2b"))
 	draw_rect(Rect2(bar_origin, Vector2(bar_width * UnitState.hp_ratio(unit), bar_height)), Color("62e49b") if player else Color("ff6868"))
+	if swarm_unit(unit):
+		# One bar, three bodies: thirds mark where a body drops out, and a small
+		# chip counts the bodies still standing.
+		for third in [1.0 / 3.0, 2.0 / 3.0]:
+			draw_line(bar_origin + Vector2(bar_width * third, 0), bar_origin + Vector2(bar_width * third, bar_height), Color(0.01, 0.02, 0.05, .85), maxf(1.5, 2.0 * readout_scale))
+		var count_font := battle_font if battle_font != null else ThemeDB.fallback_font
+		var count_size := clampi(roundi(11.0 * readout_scale), 11, 26)
+		var count_text := "×%d" % swarm_member_count(UnitState.hp_ratio(unit))
+		var count_width := count_font.get_string_size(count_text, HORIZONTAL_ALIGNMENT_LEFT, -1, count_size).x + 6.0
+		var chip := Rect2(bar_origin + Vector2(bar_width + 5.0, (bar_height - count_size - 3.0) * .5), Vector2(count_width, count_size + 3.0))
+		draw_rect(chip, Color(0.02, 0.03, 0.07, .86))
+		draw_rect(chip, Color("ff8a7a"), false, 1.0)
+		draw_string(count_font, chip.position + Vector2(3.0, count_size * .92), count_text, HORIZONTAL_ALIGNMENT_LEFT, -1, count_size, Color("ffd2c8"))
 	if int(unit.shield) > 0:
 		var shield_ratio := minf(1.0, float(unit.shield) / maxf(1.0, float(unit.max_hp)))
 		draw_rect(Rect2(bar_origin + Vector2(0, bar_height + 3.0), Vector2(bar_width * shield_ratio, bar_height * .55)), Color("6ecfff"))
@@ -2989,7 +3177,7 @@ func _draw_combat_sprite(unit: Dictionary, p: Vector2, alive: bool) -> bool:
 			texture = signature_texture as Texture2D
 	if texture == null:
 		return false
-	var scale := _combat_sprite_scale(unit, animation_name)
+	var scale := _combat_sprite_scale(unit, animation_name) * sprite_draw_scale
 	# Runtime atlases use a smaller canvas but retain the immutable 512px
 	# gameplay anchor.  Scale from the authored canvas so Web compaction never
 	# shrinks a real character back into a code-placeholder silhouette.
@@ -3013,7 +3201,7 @@ func _draw_combat_sprite(unit: Dictionary, p: Vector2, alive: bool) -> bool:
 				var canvas_scale := Vector2(destination_size.x / logical_canvas.x, destination_size.y / logical_canvas.y)
 				destination_rect.position += logical_rect.position * canvas_scale
 				destination_rect.size = logical_rect.size * canvas_scale
-	var modulate := Color(1.0, .72, .72, 1.0) if unit_flash.has(unit.uid) else Color.WHITE
+	var modulate := (Color(1.0, .72, .72, 1.0) if unit_flash.has(unit.uid) else Color.WHITE) * sprite_draw_tint
 	if has_down_pose:
 		# The keyed SD pose is already planted on the fixed logical 512px canvas.
 		# Bypass attack/down rotations and afterimages so the final prone drawing
@@ -3028,6 +3216,8 @@ func _draw_combat_sprite(unit: Dictionary, p: Vector2, alive: bool) -> bool:
 	var duration := _action_duration(character_id, animation_name)
 	var progress := clampf(animation_elapsed / maxf(.01, duration), 0.0, 1.0)
 	var afterimages := ActorChoreography.afterimage_samples(str(unit.get("role", "")), animation_name, str(unit.get("team", "")), progress)
+	# Squad bodies and silhouettes skip afterimages; the main body carries them.
+	if sprite_draw_scale < 1.0: afterimages = []
 	var ghost_tint := _skill_color(unit, "ultimate" if animation_name == "ultimate" else "normal")
 	for sample_value in afterimages:
 		var sample: Dictionary = sample_value
@@ -3051,7 +3241,7 @@ func _draw_combat_sprite(unit: Dictionary, p: Vector2, alive: bool) -> bool:
 ## own phase; the layer fades to a third during authored action poses.
 func _live_motion(unit: Dictionary, animation_name: String) -> Dictionary:
 	var t := float(Time.get_ticks_msec()) / 1000.0
-	var phase := float(absi(hash(str(unit.get("uid", "")))) % 1000) / 1000.0 * TAU
+	var phase := float(absi(hash(str(unit.get("uid", "")))) % 1000) / 1000.0 * TAU + sprite_live_phase
 	var boss := str(unit.get("rank", "")) == "BOSS"
 	var facing := 1.0 if str(unit.get("team", "")) == "PLAYER" else -1.0
 	var weight := 1.0 if animation_name in ["idle", "move", "victory"] else .35

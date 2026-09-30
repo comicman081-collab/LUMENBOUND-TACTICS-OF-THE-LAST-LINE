@@ -4,6 +4,16 @@ render_mode unshaded, cull_disabled;
 uniform vec4 weather_tint : source_color = vec4(0.0, 0.0, 0.0, 0.0);
 uniform float ripple_intensity : hint_range(0.0, 1.0) = 0.16;
 uniform float wet_weather : hint_range(0.0, 1.0) = 0.0;
+// Deep-sea gradient (phase 2): brighter shelf water near the chapter's land,
+// darker abyss offshore. The map sets the land bounds; the defaults are
+// neutral (no gradient).
+uniform vec2 island_center = vec2(0.0, 0.0);
+uniform vec2 island_extent = vec2(10000.0, 10000.0);
+varying vec3 world_point;
+
+void vertex() {
+	world_point = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+}
 
 void fragment() {
 	float time_value = TIME * (0.16 + ripple_intensity * 0.17);
@@ -22,6 +32,9 @@ void fragment() {
 	vec3 base = mix(abyss, ocean, volume);
 	base = mix(base, base * (1.0 - weather_tint.rgb * 0.34), wet_weather);
 	base += tide * (long_wave * 0.31 + current_band * 0.14 + rain_ripple * ripple_intensity * 0.24);
+	float offshore = length((world_point.xz - island_center) / max(island_extent, vec2(0.001)));
+	base = mix(base, abyss * 0.8 + base * 0.2, smoothstep(1.0, 2.1, offshore) * 0.72);
+	base += tide * 0.16 * (1.0 - smoothstep(0.55, 1.05, offshore));
 	ALBEDO = mix(base, weather_tint.rgb, weather_tint.a * 0.35);
 	EMISSION = vec3(0.010, 0.135, 0.205) * (long_wave * 0.54 + current_band * 0.22 + rain_ripple * 0.20 * ripple_intensity);
 	ROUGHNESS = 0.42 + wet_weather * 0.10;

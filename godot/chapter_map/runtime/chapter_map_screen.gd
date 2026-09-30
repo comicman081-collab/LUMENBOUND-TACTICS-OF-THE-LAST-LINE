@@ -85,6 +85,15 @@ const WebMovementOverlayScript := preload("res://chapter_map/runtime/web_movemen
 const EnvironmentWaterShader := preload("res://chapter_map/shaders/water_environment.gdshader")
 const FogOfWarShader := preload("res://chapter_map/shaders/fog_of_war.gdshader")
 const FogOfWarScreenShader := preload("res://chapter_map/shaders/fog_of_war_screen.gdshader")
+const MapAtmosphereShader := preload("res://chapter_map/shaders/map_atmosphere.gdshader")
+const MapPresentationOverlayScript := preload("res://chapter_map/ui/map_presentation_overlay.gd")
+const ExplorationGaugeScript := preload("res://chapter_map/ui/exploration_gauge.gd")
+const RegionPaletteScript := preload("res://chapter_map/view/region_palette.gd")
+## Party token hop (B1): every step bobs a little; a step onto another terrace
+## height hops higher. Visual only; the pawn root still moves linearly.
+const PAWN_HOP_BASE := 0.10
+const PAWN_HOP_PER_LEVEL := 0.30
+const ENCOUNTER_PUSH_IN_ZOOM := 1.45
 const GameUI := preload("res://ui/game_ui_tokens.gd")
 
 var definition: Dictionary
@@ -277,6 +286,17 @@ var wait_button: Button
 var map_simulation_paused := false
 var map_notice := ""
 var map_notice_until_msec := 0
+## Phase 2 map presentation: atmosphere pass, marker/route/rim/dust overlay,
+## short notice toast, exploration gauge and the collapsible minimap.
+var atmosphere_overlay: ColorRect
+var map_fx_overlay: Control
+var map_notice_toast: PanelContainer
+var map_notice_toast_label: Label
+var exploration_gauge: Control
+var minimap_toggle: Button
+var minimap_collapsed := false
+var pawn_hop_offset := 0.0
+var encounter_zoom_restore := -1.0
 var map_id := ""
 var tutorial_canvas_layer: CanvasLayer
 var tutorial_surface: Control
@@ -764,6 +784,18 @@ func _build_interface() -> void:
 	persistent_cell_grid.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	persistent_cell_grid.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	presentation_layer.add_child(persistent_cell_grid)
+	# Atmosphere reads the screen before the fog overlay so it blurs the plain
+	# 3D frame (tilt-shift bands and far haze); the fog then reads the same copy.
+	atmosphere_overlay = ColorRect.new()
+	atmosphere_overlay.name = "MapAtmosphereTiltShift"
+	atmosphere_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	atmosphere_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	atmosphere_overlay.color = Color.WHITE
+	var atmosphere_material := ShaderMaterial.new()
+	atmosphere_material.shader = MapAtmosphereShader
+	atmosphere_material.set_shader_parameter("haze_color", RegionPaletteScript.surface_look(definition).haze)
+	atmosphere_overlay.material = atmosphere_material
+	presentation_layer.add_child(atmosphere_overlay)
 	presentation_layer.add_child(fog_screen_overlay)
 	overlay = Control.new()
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -775,6 +807,13 @@ func _build_interface() -> void:
 	# a marker yet never reach the mathematical nearest-node selector.
 	overlay.gui_input.connect(_on_map_input)
 	presentation_layer.add_child(overlay)
+	map_fx_overlay = MapPresentationOverlayScript.new()
+	map_fx_overlay.name = "MapPresentationOverlay"
+	map_fx_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	map_fx_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	map_fx_overlay.set("projector", _overlay_position_from_world)
+	map_fx_overlay.set("visible_check", _overlay_anchor_is_visible)
+	overlay.add_child(map_fx_overlay)
 	if OS.has_feature("web"):
 		web_movement_overlay = WebMovementOverlayScript.new()
 		web_movement_overlay.name = "WebMovementAuthorityOverlay"
@@ -791,6 +830,9 @@ func _build_interface() -> void:
 		web_route_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		web_route_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		web_route_overlay.visible = false
+		# The presentation overlay draws the glowing dotted route on top; this
+		# pooled line stays as a faint guide under it.
+		web_route_overlay.modulate = Color(1.0, 1.0, 1.0, 0.4)
 		overlay.add_child(web_route_overlay)
 		for _segment_index in range(48):
 			var segment := ColorRect.new()
@@ -846,6 +888,18 @@ func _build_interface() -> void:
 	status_backplate.add_theme_stylebox_override("panel", GameUI.panel_style(Color("07111bea"), Color("526d83aa"), 1, GameUI.RADIUS_CONTROL, Vector4(10.0, 6.0, 10.0, 6.0), 0))
 	status_label.add_child(status_backplate)
 	overlay.add_child(status_label)
+	# Notices are short toasts under the top bar; the status line keeps its
+	# chapter/turn readout instead of being replaced for three seconds.
+	map_notice_toast = PanelContainer.new()
+	map_notice_toast.name = "MapNoticeToast"
+	map_notice_toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	map_notice_toast.visible = false
+	map_notice_toast.add_theme_stylebox_override("panel", GameUI.panel_style(Color("07111bee"), Color("e8c476b0"), 1, GameUI.RADIUS_CONTROL, Vector4(16.0, 7.0, 16.0, 7.0), 0))
+	map_notice_toast_label = Label.new()
+	map_notice_toast_label.add_theme_color_override("font_color", Color("fff1c4"))
+	map_notice_toast_label.add_theme_font_size_override("font_size", 22)
+	map_notice_toast.add_child(map_notice_toast_label)
+	overlay.add_child(map_notice_toast)
 	# A macro chapter map deliberately places upcoming encounters outside the
 	# current camera window.  This is a player-facing navigation aid, not a
 	# debug warp: it selects the next real stage node so route preview, movement
@@ -872,6 +926,15 @@ func _build_interface() -> void:
 	route_minimap.expand_requested.connect(_open_explored_map)
 	route_minimap.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	overlay.add_child(route_minimap)
+	minimap_toggle = Button.new()
+	minimap_toggle.name = "MinimapToggle"
+	minimap_toggle.focus_mode = Control.FOCUS_NONE
+	minimap_toggle.tooltip_text = "미니맵 접기 / 펼치기"
+	minimap_toggle.pressed.connect(_toggle_minimap)
+	overlay.add_child(minimap_toggle)
+	exploration_gauge = ExplorationGaugeScript.new()
+	exploration_gauge.name = "ExplorationGauge"
+	overlay.add_child(exploration_gauge)
 	detail_panel = PanelContainer.new()
 	detail_panel.name = "MapSelectionCard"
 	detail_panel.z_index = 80
@@ -1351,6 +1414,11 @@ func _apply_responsive_layout() -> void:
 	# before the player could see their move range or target.  Compact landscape
 	# carries eight two-letter actions (with WAIT and the growth menu); 64-wide
 	# plates keep them on one row down to a 565 CSS-px window.
+	# Desktop keeps the terrain on screen: the actions become a slim bottom bar
+	# and the top keeps one thin status line. Compact layouts keep the top rail.
+	var toolbar_parent := toolbar.get_parent()
+	if toolbar_parent != null:
+		toolbar_parent.move_child(toolbar, 0 if compact else toolbar_parent.get_child_count() - 1)
 	toolbar.add_theme_constant_override("h_separation", roundi((2.0 if portrait else 6.0) * ui_scale))
 	toolbar.add_theme_constant_override("v_separation", roundi(6.0 * ui_scale) if portrait else 0)
 	for index in range(map_toolbar_buttons.size()):
@@ -1360,16 +1428,16 @@ func _apply_responsive_layout() -> void:
 			action_button.add_theme_font_size_override("font_size", roundi((17.0 if portrait else 13.0) * ui_scale))
 			action_button.text = ["일반", "위험", "대표", "개요", "스킵", "지역"][index]
 		else:
-			action_button.custom_minimum_size = [Vector2(128, 56), Vector2(128, 56), Vector2(116, 56), Vector2(116, 56), Vector2(132, 56), Vector2(116, 56)][index]
-			action_button.add_theme_font_size_override("font_size", 24)
+			action_button.custom_minimum_size = [Vector2(112, 46), Vector2(112, 46), Vector2(100, 46), Vector2(100, 46), Vector2(128, 46), Vector2(104, 46)][index]
+			action_button.add_theme_font_size_override("font_size", 20)
 			action_button.text = ["일반 작전", "위험 작전", "맵 대표", "구역 개요", "이동 건너뛰기", "지역 이동"][index]
 	if wait_button != null:
-		wait_button.custom_minimum_size = Vector2((46.0 if portrait else 64.0) * ui_scale, (56.0 if portrait else 32.0) * ui_scale) if compact else Vector2(86, 56)
-		wait_button.add_theme_font_size_override("font_size", roundi((17.0 if portrait else 13.0) * ui_scale) if compact else 24)
+		wait_button.custom_minimum_size = Vector2((46.0 if portrait else 64.0) * ui_scale, (56.0 if portrait else 32.0) * ui_scale) if compact else Vector2(80, 46)
+		wait_button.add_theme_font_size_override("font_size", roundi((17.0 if portrait else 13.0) * ui_scale) if compact else 20)
 		wait_button.text = "대기"
 	if menu_button != null:
-		menu_button.custom_minimum_size = Vector2((46.0 if portrait else 64.0) * ui_scale, (56.0 if portrait else 32.0) * ui_scale) if compact else Vector2(96, 56)
-		menu_button.add_theme_font_size_override("font_size", roundi((17.0 if portrait else 13.0) * ui_scale) if compact else 24)
+		menu_button.custom_minimum_size = Vector2((46.0 if portrait else 64.0) * ui_scale, (56.0 if portrait else 32.0) * ui_scale) if compact else Vector2(88, 46)
+		menu_button.add_theme_font_size_override("font_size", roundi((17.0 if portrait else 13.0) * ui_scale) if compact else 20)
 	if toolbar_spacer != null:
 		toolbar_spacer.visible = not compact
 	if status_label != null:
@@ -1381,8 +1449,8 @@ func _apply_responsive_layout() -> void:
 		# events from reintroducing the old status/button overlap.
 		var status_top := 14.0 + (56.0 + 8.0 if portrait else 0.0)
 		status_label.position = Vector2(14.0, status_top) * ui_scale if compact else Vector2(22, 18)
-		status_label.size = Vector2((360.0 if portrait else 430.0) * ui_scale, 36.0 * ui_scale) if compact else Vector2(560, 38)
-		status_label.add_theme_font_size_override("font_size", roundi((21.0 if portrait else 24.0) * ui_scale) if compact else 29)
+		status_label.size = Vector2((360.0 if portrait else 430.0) * ui_scale, 36.0 * ui_scale) if compact else Vector2(560, 32)
+		status_label.add_theme_font_size_override("font_size", roundi((21.0 if portrait else 24.0) * ui_scale) if compact else 23)
 		if status_backplate != null:
 			status_backplate.position = Vector2(-8.0, -5.0) * ui_scale if compact else Vector2(-8, -5)
 			status_backplate.size = status_label.size + (Vector2(16.0, 10.0) * ui_scale if compact else Vector2(16, 10))
@@ -1419,7 +1487,14 @@ func _apply_responsive_layout() -> void:
 		route_minimap.offset_right = inset + map_width
 		route_minimap.offset_top = -(map_height + inset)
 		route_minimap.offset_bottom = -inset
-		route_minimap.visible = true
+		route_minimap.visible = not minimap_collapsed
+		_layout_minimap_extras(map_width, map_height, inset, ui_scale if compact else 1.0)
+	if map_notice_toast != null:
+		map_notice_toast_label.add_theme_font_size_override("font_size", roundi((17.0 if portrait else 15.0) * ui_scale) if compact else 22)
+		map_notice_toast.set_anchors_preset(Control.PRESET_CENTER_TOP)
+		map_notice_toast.position.y = (14.0 + (56.0 + 8.0) * 2.0 if portrait else 58.0) * ui_scale if compact else 64.0
+	if map_fx_overlay != null:
+		map_fx_overlay.set("ui_scale", ui_scale if compact else 1.0)
 	# Node labels are actual stage-selection controls. They must retain an
 	# explicit phone-sized hit region instead of shrinking with the 1920 canvas.
 	for node_id in node_buttons:
@@ -1934,6 +2009,18 @@ func _create_world_backdrop() -> void:
 	water_material.render_priority = -127
 	water.material_override = water_material
 	map_water_material = water_material
+	# Shelf water near the chapter's land, abyss offshore (sea gradient).
+	var land_min := Vector2(INF, INF)
+	var land_max := Vector2(-INF, -INF)
+	for tile_value in definition.get("tiles", []):
+		var land_tile: Dictionary = tile_value
+		if str(land_tile.get("terrain_type", "")) in ["DEEP_WATER", "SHALLOW_WATER"]: continue
+		var land_world := HexCoordScript.axial_to_world(Vector2i(int(land_tile.get("q", 0)), int(land_tile.get("r", 0))), TILE_SIZE)
+		land_min = Vector2(minf(land_min.x, land_world.x), minf(land_min.y, land_world.z))
+		land_max = Vector2(maxf(land_max.x, land_world.x), maxf(land_max.y, land_world.z))
+	if land_min.x < land_max.x:
+		water_material.set_shader_parameter("island_center", (land_min + land_max) * 0.5)
+		water_material.set_shader_parameter("island_extent", (land_max - land_min) * 0.5 + Vector2(3.0, 3.0))
 	water.set_meta("water_material", water_material)
 	world_root.add_child(water)
 	# Do not place an opaque, fixed world-space horizon plane behind this macro
@@ -2656,6 +2743,15 @@ func _streamed_infill_material() -> ShaderMaterial:
 	if streamed_infill_material == null:
 		streamed_infill_material = ShaderMaterial.new()
 		streamed_infill_material.shader = preload("res://chapter_map/view/web_map_material_policy.gd").surface_shader(preload("res://chapter_map/shaders/terrain_surface.gdshader"))
+		var look := RegionPaletteScript.surface_look(definition)
+		streamed_infill_material.set_shader_parameter("tile_size", TILE_SIZE)
+		streamed_infill_material.set_shader_parameter("elevation_step", ELEVATION_STEP)
+		streamed_infill_material.set_shader_parameter("ocean_y", OCEAN_SURFACE_Y)
+		streamed_infill_material.set_shader_parameter("ground_color", look.ground)
+		streamed_infill_material.set_shader_parameter("patch_color", look.patch)
+		streamed_infill_material.set_shader_parameter("patch_amount", look.patch_amount)
+		streamed_infill_material.set_shader_parameter("wear_color", look.wear)
+		streamed_infill_material.set_shader_parameter("lip_color", look.lip)
 	return streamed_infill_material
 
 func _update_screen_fog_overlay() -> void:
@@ -4484,7 +4580,7 @@ func _sync_web_pawn_front_overlay() -> void:
 	# Web hides the world Sprite3D and presents this UI copy instead. Project the
 	# actual tweened pawn transform; projecting the logical map hex made the only
 	# visible character stay still for the whole tween and snap at cell arrival.
-	var contact := _overlay_position_from_world(pawn.global_position + Vector3(0.0, 0.15, 0.0))
+	var contact := _overlay_position_from_world(pawn.global_position + Vector3(0.0, 0.15, 0.0) + Vector3(0.0, pawn_hop_offset, 0.0))
 	pawn_front_overlay.size = token_size
 	pawn_front_overlay.position = contact - Vector2(token_size.x * foot_anchor.x, token_size.y * foot_anchor.y)
 	pawn_front_overlay.flip_h = not pawn_facing_right
@@ -4733,6 +4829,8 @@ func _append_range_edge_ribbon(vertices: Array[Vector3], from: Vector3, to: Vect
 func _clear_movement_range_overlay() -> void:
 	movement_range_render_generation += 1
 	movement_range_reachable.clear()
+	if map_fx_overlay != null:
+		map_fx_overlay.call("set_rim", [], Vector3.ZERO)
 	web_movement_visible_keys.clear()
 	web_movement_projection_camera = Vector3(1.0e20, 1.0e20, 1.0e20)
 	web_movement_projection_size = Vector2(-1.0, -1.0)
@@ -4880,6 +4978,7 @@ func _update_movement_range_overlay() -> void:
 		movement_range_grid.visible = false
 		movement_range_boundary.visible = false
 		_update_web_movement_range_projection(true)
+		_sync_fx_rim(visible_range_keys)
 		return
 	var fill_vertices: Array[Vector3] = []
 	for key_value in visible_range_keys:
@@ -4928,6 +5027,7 @@ func _update_movement_range_overlay() -> void:
 			var to: Vector3 = corners[edge_indices.y]
 			_append_range_edge_ribbon(boundary_vertices, from, to, 0.070)
 	var boundary_mesh := _movement_triangle_mesh(boundary_vertices, _movement_overlay_material(Color("ffe4a3d9"), Color.BLACK, true))
+	_sync_fx_rim(visible_range_keys)
 	movement_range_fill.mesh = fill_mesh if fill_mesh.get_surface_count() > 0 else null
 	if OS.has_feature("web"):
 		movement_range_grid.visible = false
@@ -5046,6 +5146,93 @@ func _update_web_selected_ring(force_projection := false) -> void:
 	web_selected_projection_camera_size = camera.size
 	web_selected_projection_origin_screen = _overlay_position_from_world(Vector3.ZERO)
 
+## Route preview for the presentation overlay: cell tops along the path, how
+## many steps this turn reaches, and the route's risk colour.
+func _sync_fx_route(route_color: Color, movement_points: int) -> void:
+	if map_fx_overlay == null or not is_instance_valid(map_fx_overlay): return
+	var points: Array = []
+	if preview_path.size() >= 2:
+		for coord in preview_path:
+			# Same height as the route guide so the dots sit on it, not beside it.
+			points.append(HexCoordScript.axial_to_world(coord, TILE_SIZE, float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.57))
+	map_fx_overlay.call("set_route", points, movement_points, route_color)
+
+## Outer edges of the visible move range, for the running rim light.
+func _sync_fx_rim(visible_keys: Array) -> void:
+	if map_fx_overlay == null or not is_instance_valid(map_fx_overlay): return
+	var segments: Array = []
+	var center_sum := Vector3.ZERO
+	for key_value in visible_keys:
+		var coord := HexCoordScript.from_key(str(key_value))
+		var surface_y := float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.14
+		center_sum += HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y)
+		var corners := _movement_hex_corners(coord, surface_y)
+		for direction_index in range(HexCoordScript.DIRECTIONS.size()):
+			var neighbour := coord + HexCoordScript.DIRECTIONS[direction_index]
+			if movement_range_reachable.has(HexCoordScript.key(neighbour)):
+				continue
+			var edge_indices := _movement_boundary_corner_indices(direction_index)
+			segments.append([corners[edge_indices.x], corners[edge_indices.y]])
+	var center := center_sum / maxf(1.0, float(visible_keys.size()))
+	map_fx_overlay.call("set_rim", segments, center)
+
+## Floating markers follow the visible stage labels (boss skull, elite star),
+## discovered map events ("!") and unopened treasure (chest).
+func _sync_fx_markers() -> void:
+	if map_fx_overlay == null or not is_instance_valid(map_fx_overlay): return
+	var markers: Array = []
+	for node in definition.get("nodes", []):
+		var button: Button = node_buttons.get(str(node.get("node_id", "")))
+		if button == null or not is_instance_valid(button) or not button.visible: continue
+		var stage_id := str(node.get("stage_id", ""))
+		if stage_id.is_empty() or _node_encounter_cleared(node): continue
+		var node_type := str(node.get("node_type", ""))
+		var kind := ""
+		if node_type.contains("BOSS") or bool(DataRegistry.stage(stage_id).get("boss", false)):
+			kind = "BOSS"
+		elif node_type.contains("ELITE"):
+			kind = "ELITE"
+		if not kind.is_empty():
+			markers.append({"kind": kind, "button": button, "phase": float(abs(stage_id.hash()) % 628) / 100.0})
+	for event_id in event_visuals:
+		var event_root: Node3D = event_visuals[event_id]
+		if event_root != null and is_instance_valid(event_root) and event_root.visible:
+			markers.append({"kind": "EVENT", "world": event_root.global_position + Vector3(0.0, 1.35, 0.0), "phase": float(abs(str(event_id).hash()) % 628) / 100.0})
+	for treasure_id in treasure_visuals:
+		var treasure_root: Node3D = treasure_visuals[treasure_id]
+		if treasure_root != null and is_instance_valid(treasure_root) and treasure_root.visible:
+			markers.append({"kind": "TREASURE", "world": treasure_root.global_position + Vector3(0.0, 1.25, 0.0), "phase": float(abs(str(treasure_id).hash()) % 628) / 100.0})
+	map_fx_overlay.set("markers", markers)
+
+## Encounter transition push-in (B4): the camera closes on the party while the
+## wipe plays, then restores the saved zoom once the battle owns the screen.
+func play_encounter_push_in(duration: float) -> void:
+	if camera == null or not is_instance_valid(camera): return
+	if encounter_zoom_restore < 0.0:
+		encounter_zoom_restore = camera_zoom
+	if pawn != null and is_instance_valid(pawn):
+		camera_target = _clamp_camera_target_to_terrain(_pawn_camera_goal(pawn.global_position))
+	var push := create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	push.tween_property(self, "camera_zoom", encounter_zoom_restore * ENCOUNTER_PUSH_IN_ZOOM, maxf(0.05, duration))
+	get_tree().create_timer(duration + 0.8).timeout.connect(_restore_encounter_zoom)
+
+func _restore_encounter_zoom() -> void:
+	if encounter_zoom_restore >= 0.0:
+		camera_zoom = encounter_zoom_restore
+		encounter_zoom_restore = -1.0
+
+func presentation_phase2_snapshot() -> Dictionary:
+	return {
+		"fx": map_fx_overlay.call("snapshot") if map_fx_overlay != null else {},
+		"toolbar_index": toolbar.get_index() if toolbar != null else -1,
+		"toast_visible": map_notice_toast != null and map_notice_toast.visible,
+		"toast_text": map_notice_toast_label.text if map_notice_toast_label != null else "",
+		"status": status_label.text if status_label != null else "",
+		"gauge": int(exploration_gauge.get("percent")) if exploration_gauge != null else -1,
+		"minimap_collapsed": minimap_collapsed,
+		"hop": pawn_hop_offset,
+	}
+
 func _update_route_mesh() -> void:
 	for segment in route_segments: segment.queue_free()
 	for node in route_nodes: node.queue_free()
@@ -5058,6 +5245,7 @@ func _update_route_mesh() -> void:
 	var route_color := Color("4fd3c2") if preview_risk == "SAFE" else (Color("e7bd63") if preview_risk == "WATCHED" else Color("e87972"))
 	var movement_points := MapExplorationServiceScript.movement_remaining(map_state, definition)
 	var route_exceeds_pulse := preview_path.size() - 1 > movement_points
+	_sync_fx_route(route_color, movement_points)
 	if preview_path.size() >= 2:
 		var guide_color := Color("657989") if route_exceeds_pulse else route_color.lightened(0.18)
 		if OS.has_feature("web"):
@@ -5073,9 +5261,10 @@ func _update_route_mesh() -> void:
 				var to := HexCoordScript.axial_to_world(preview_path[index + 1], TILE_SIZE, float(grid.tile(preview_path[index + 1]).get("elevation", 0)) * ELEVATION_STEP + 0.57)
 				var ribbon := MeshInstance3D.new()
 				var ribbon_mesh := BoxMesh.new()
-				ribbon_mesh.size = Vector3(0.18, 0.045, from.distance_to(to))
+				# A slim guide under the overlay's glowing dotted route (phase 2).
+				ribbon_mesh.size = Vector3(0.08, 0.035, from.distance_to(to))
 				ribbon.mesh = ribbon_mesh
-				ribbon.material_override = _route_overlay_material(segment_color, segment_color.darkened(0.05))
+				ribbon.material_override = _route_overlay_material(Color(segment_color, 0.38), segment_color.darkened(0.05))
 				ribbon.position = (from + to) * 0.5
 				world_root.add_child(ribbon)
 				ribbon.look_at(to, Vector3.UP)
@@ -5236,11 +5425,14 @@ func _refresh_state_visuals(refresh_movement_range := true) -> void:
 	for node_id in enemy_pawns:
 		_update_enemy_pawn_from_simulation(str(node_id))
 	var completion := MapExplorationServiceScript.completion(map_state, definition)
-	if Time.get_ticks_msec() >= map_notice_until_msec:
-		var status_runtime_size := _runtime_layout_size()
-		var compact_status := status_runtime_size.y > status_runtime_size.x or status_runtime_size.x <= 980.0
-		var status_mode := ("위험" if hard_overlay else "일반") if compact_status else ("위험 작전" if hard_overlay else "일반 작전")
-		status_label.text = region_status_title(definition, compact_status) + " · %s · 이동 %d/%d · 탐험 %d%%" % [status_mode, int(map_state.get("movement_points", 0)), int(map_state.get("movement_points_max", 0)), int(completion.get("percent", 0))]
+	# Notices no longer borrow the status line (they are toasts), and the
+	# exploration percent moved to its own gauge.
+	var status_runtime_size := _runtime_layout_size()
+	var compact_status := status_runtime_size.y > status_runtime_size.x or status_runtime_size.x <= 980.0
+	var status_mode := ("위험" if hard_overlay else "일반") if compact_status else ("위험 작전" if hard_overlay else "일반 작전")
+	status_label.text = region_status_title(definition, compact_status) + " · %s · 이동 %d/%d" % [status_mode, int(map_state.get("movement_points", 0)), int(map_state.get("movement_points_max", 0))]
+	if exploration_gauge != null:
+		exploration_gauge.call("set_percent", int(completion.get("percent", 0)))
 	if wait_button != null: wait_button.disabled = moving or turn_transitioning or map_simulation_paused
 	_update_next_encounter_button()
 	# `_update_panel()` owns responsive layout and minimap configuration. Calling
@@ -5584,8 +5776,54 @@ func _show_map_notice(text_value: String) -> void:
 	# Keep exploration feedback visible long enough to survive a mobile tap and
 	# the short pawn-motion tween; otherwise a completed Wait can look inert.
 	map_notice_until_msec = Time.get_ticks_msec() + 3200
-	if status_label != null:
-		status_label.text = map_notice
+	if map_notice_toast_label != null:
+		map_notice_toast_label.text = map_notice
+		map_notice_toast.reset_size()
+
+## Toast fade: 0.15 s in, visible until the notice deadline, 0.4 s out.
+func _update_map_notice_toast() -> void:
+	if map_notice_toast == null or not is_instance_valid(map_notice_toast): return
+	var left := map_notice_until_msec - Time.get_ticks_msec()
+	var shown := left > 0 and not map_notice.is_empty()
+	map_notice_toast.visible = shown
+	if not shown: return
+	var age := 3200 - left
+	var alpha := minf(clampf(float(age) / 150.0, 0.0, 1.0), clampf(float(left) / 400.0, 0.0, 1.0))
+	map_notice_toast.modulate = Color(1, 1, 1, alpha)
+	map_notice_toast.position.x = (overlay.size.x - map_notice_toast.size.x) * 0.5 if overlay != null else 0.0
+
+func _layout_minimap_extras(map_width: float, map_height: float, inset: float, scale: float) -> void:
+	if minimap_toggle != null:
+		minimap_toggle.text = "미니맵 ▸" if minimap_collapsed else "▾"
+		minimap_toggle.add_theme_font_size_override("font_size", roundi(16.0 * scale))
+		var toggle_size := Vector2((110.0 if minimap_collapsed else 40.0) * scale, 34.0 * scale)
+		minimap_toggle.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+		minimap_toggle.custom_minimum_size = toggle_size
+		minimap_toggle.offset_left = inset + (0.0 if minimap_collapsed else map_width - toggle_size.x - 4.0 * scale)
+		minimap_toggle.offset_right = minimap_toggle.offset_left + toggle_size.x
+		minimap_toggle.offset_bottom = -inset - (0.0 if minimap_collapsed else map_height - toggle_size.y - 4.0 * scale)
+		minimap_toggle.offset_top = minimap_toggle.offset_bottom - toggle_size.y
+	if exploration_gauge != null:
+		var gauge_size := Vector2(150.0, 54.0) * scale
+		var gauge_left := inset + (minimap_toggle.custom_minimum_size.x if minimap_collapsed and minimap_toggle != null else map_width) + 10.0 * scale
+		exploration_gauge.set("ui_scale", scale)
+		exploration_gauge.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+		exploration_gauge.offset_left = gauge_left
+		exploration_gauge.offset_right = gauge_left + gauge_size.x
+		exploration_gauge.offset_bottom = -inset
+		exploration_gauge.offset_top = -inset - gauge_size.y
+		exploration_gauge.queue_redraw()
+
+func _toggle_minimap() -> void:
+	minimap_collapsed = not minimap_collapsed
+	if route_minimap != null:
+		route_minimap.visible = not minimap_collapsed
+	var size := _runtime_layout_size()
+	var compact := size.y > size.x or size.x <= 980.0
+	var map_width := float(_tutorial_logical_px(180.0 if compact else 230.0, size))
+	var map_height := float(_tutorial_logical_px(118.0 if compact else 150.0, size))
+	var inset := float(_tutorial_logical_px(10.0 if compact else 18.0, size))
+	_layout_minimap_extras(map_width, map_height, inset, _compact_ui_scale(size) if compact else 1.0)
 
 func _wait_pulse() -> void:
 	if moving or turn_transitioning or map_simulation_paused: return
@@ -6216,8 +6454,17 @@ func _move_along(path: Array[Vector2i]) -> void:
 			var tween := create_tween().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
 			# Preserve one world-space walking speed on slopes. Elevation adds a small,
 			# proportional amount of time instead of making an uphill cell visibly snap.
-			tween.tween_property(pawn, "position", target, _pawn_step_duration(pawn.position, target))
+			var step_duration := _pawn_step_duration(pawn.position, target)
+			var level_change := absf(target.y - pawn.position.y) / ELEVATION_STEP
+			var hop_height := PAWN_HOP_BASE + PAWN_HOP_PER_LEVEL * minf(level_change, 3.0)
+			tween.tween_property(pawn, "position", target, step_duration)
+			# The hop is a parabola on the visual only, in parallel with the linear
+			# walk: a bob on flat ground, a real jump across a terrace edge.
+			tween.parallel().tween_method(_set_pawn_hop.bind(hop_height), 0.0, 1.0, step_duration)
 			await tween.finished
+			pawn_hop_offset = 0.0
+			if map_fx_overlay != null and is_instance_valid(map_fx_overlay):
+				map_fx_overlay.call("spawn_dust", target - Vector3(0.0, 0.14, 0.0), 0.55 + minf(level_change, 2.0) * 0.45)
 		if generation != movement_generation: return
 		pawn_last_position = target
 		traveled_path.append(coord)
@@ -6261,6 +6508,9 @@ func _move_along(path: Array[Vector2i]) -> void:
 		await _complete_player_turn("이동 완료")
 	# Do not snap to the destination after walking: the stepped follow camera has
 	# already kept the squad in view and retains surrounding terrain context.
+
+func _set_pawn_hop(progress: float, height: float) -> void:
+	pawn_hop_offset = 4.0 * height * progress * (1.0 - progress)
 
 func _follow_moving_pawn(position: Vector3) -> void:
 	# The camera follows one persistent goal in `_process()`. Killing and creating
@@ -7071,9 +7321,11 @@ func _process(delta: float) -> void:
 	pawn_motion_phase += delta * (8.5 if pawn_motion_state == "WALK" else 3.0)
 	if pawn_visual != null and is_instance_valid(pawn_visual):
 		# Motion is authored in the atlas. Moving/scaling the entire cutout would
-		# lift its foot anchor from the terrace and make the pawn look airborne.
-		pawn_visual.position.y = PAWN_VISUAL_BASE_Y
+		# lift its foot anchor from the terrace and make the pawn look airborne;
+		# the only lift is the deliberate step hop, which lands back at zero.
+		pawn_visual.position.y = PAWN_VISUAL_BASE_Y + pawn_hop_offset
 		pawn_visual.scale = Vector3.ONE
+	_update_map_notice_toast()
 	if pawn_banner != null and is_instance_valid(pawn_banner):
 		pawn_banner.rotation.y = sin(pawn_motion_phase * 0.5) * 0.14
 	if selected_ring != null and is_instance_valid(selected_ring) and selected_ring.visible:
@@ -7178,6 +7430,7 @@ func _process(delta: float) -> void:
 		or (not moving and (camera_changed or web_entity_projection_dirty))
 	if entity_projection_changed:
 		_refresh_projected_map_entities(camera_coord)
+		_sync_fx_markers()
 		web_entity_projection_dirty = false
 		if overlay != null and is_instance_valid(overlay):
 			web_entity_projection_size = overlay.size

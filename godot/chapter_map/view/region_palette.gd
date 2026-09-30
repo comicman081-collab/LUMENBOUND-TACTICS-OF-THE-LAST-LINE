@@ -28,3 +28,23 @@ static func for_definition(definition: Dictionary) -> Dictionary:
 	_palettes[visual] = {"family": family, "ground": Color(colors[0]), "road": Color(colors[1]),
 		"ruins": Color(colors[2]), "canopy": Color(colors[3]), "bed_light": Color(colors[4])}
 	return _palettes[visual]
+
+## Terrain shader accents per family: open-ground patches (moss, frost, sand),
+## worn hex rims and the grassy or frosted lip under each terrace. Chapter 1's
+## forest is the reference; other regions reuse the same shader with their own
+## colours, so no region needs a new texture.
+static func surface_look(definition: Dictionary) -> Dictionary:
+	var palette := for_definition(definition)
+	var looks := {
+		"FOREST": ["3e5a2c", .55, "8f8466", "4c6e32", "a9c7c4"],
+		"FROST": ["dce8ec", .62, "b7c3c7", "e6eef1", "c9dae3"],
+		"DUNE": ["b99c68", .45, "cdb488", "8a784c", "e0c9a0"],
+		"ASH": ["2e2b2a", .45, "85766a", "4a4440", "9a8f88"],
+		"TIDAL": ["4d7a5c", .45, "b3a27a", "3e6a54", "a3c9c6"],
+		"GLASS": ["6a9fa4", .35, "9cb1a6", "4d7d76", "b4d6dc"],
+		"LUNAR": ["696e92", .35, "a099ae", "575c7f", "b7b3d0"],
+		"RUINS": ["4a5c38", .40, "998866", "55673e", "b0bcb2"],
+	}
+	var look: Array = looks.get(str(palette.family), looks.FOREST)
+	return {"ground": (palette.ground as Color).lightened(.10), "patch": Color(look[0]), "patch_amount": float(look[1]),
+		"wear": Color(look[2]), "lip": Color(look[3]), "haze": Color(look[4])}

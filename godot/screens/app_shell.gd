@@ -27,6 +27,11 @@ const STORY_FIT_WIDE_HEIGHT_CSS := 520.0
 const STORY_MIN_FIT := 0.55
 const SPECIAL_EVENT_CONTACT_DURATION := 1.85
 const BOSS_ENCOUNTER_CARD_DURATION := 1.20
+## Regular map encounter transition (phase 2 B4): camera push-in, speed-line
+## wipe and the enemy info panel, tap to skip.
+const EncounterWipe := preload("res://ui/encounter_wipe.gd")
+const ENCOUNTER_WIPE_DURATION := 1.35
+const ENCOUNTER_PUSH_IN_DURATION := .5
 const CHAPTER_TITLE_CARD_DURATION := 2.6
 const EVENT_TITLE_CARD_DURATION := 1.1
 const INTRO_VIDEO_PATH := "res://assets/video/lumenbound_intro_full.ogv"
@@ -1658,6 +1663,14 @@ func _apply_chapter_map_shell_overrides() -> void:
 		return
 	if bool(metrics.compact_landscape):
 		return # Final map layout owns its compact encounter shortcut.
+	# Desktop map keeps one thin top line: the chapter title stays and the long
+	# subtitle is hidden (mobile layouts still use it to size the header).
+	var header := content.get_node_or_null("ScreenHeader")
+	if header != null:
+		for label_value in header.find_children("*", "Label", true, false):
+			var header_label := label_value as Label
+			if header_label.text == "탐색 경로를 따라 조우를 선택하고, 기존 실시간 전투에 진입합니다.":
+				header_label.visible = false
 
 func _make_primary_button(button: Button) -> void:
 	GameUI.apply_button(button, "primary")
@@ -3861,6 +3874,23 @@ func _play_map_battle_transition() -> void:
 			outcome.add_theme_color_override("font_outline_color", Color("163f44"))
 			outcome_row.add_child(outcome)
 	var reduced := bool(SettingsService.values.get("map_reduced_transition", false))
+	if special_event.is_empty() and not reduced:
+		# The map camera pushes toward the contact while the transition plays.
+		# A boss keeps its red band after the push-in; a regular encounter gets
+		# the speed-line wipe and the enemy info panel instead of the title fade.
+		if active_chapter_map_screen != null and is_instance_valid(active_chapter_map_screen) and active_chapter_map_screen.has_method("play_encounter_push_in"):
+			active_chapter_map_screen.call("play_encounter_push_in", ENCOUNTER_PUSH_IN_DURATION)
+		if boss_card == null:
+			focus.visible = false
+			var wipe := EncounterWipe.new()
+			wipe.name = "EncounterWipe"
+			wipe.text_font = _story_weighted_font(700, 0.25)
+			wipe.configure(encounter_wipe_data(stage, encounter_title, encounter_heading), ENCOUNTER_WIPE_DURATION)
+			veil.add_child(wipe)
+			await wipe.finished
+			veil.queue_free()
+			await _route_to_battle_with_loading()
+			return
 	# A companion contact carries player-facing context, so hold it long enough
 	# to be read before the existing battle scene takes ownership.  This remains
 	# presentation-only and does not delay or mutate the battle transaction.
@@ -3893,6 +3923,36 @@ func _play_map_battle_transition() -> void:
 	await tween.finished
 	veil.queue_free()
 	await _route_to_battle_with_loading()
+
+## Enemy info panel contents for the encounter wipe: waves as grouped enemy
+## names, the stage's recommended level and the party's average level.
+static func encounter_wipe_data(stage: Dictionary, title: String, heading: String) -> Dictionary:
+	var levels: Array = []
+	for character_id in AppState.get_party():
+		var entry = AppState.profile.get("roster", {}).get(str(character_id), {})
+		if entry is Dictionary: levels.append(int(entry.get("level", 1)))
+	var waves: Array = []
+	var wave_number := 0
+	for wave_value in stage.get("waves", []):
+		wave_number += 1
+		var counts := {}
+		var order: Array = []
+		for enemy_id in wave_value:
+			var enemy_name := BattleView.unit_display_name({"def_id": str(enemy_id), "team": "ENEMY"})
+			if not counts.has(enemy_name):
+				order.append(enemy_name)
+				counts[enemy_name] = 0
+			counts[enemy_name] = int(counts[enemy_name]) + 1
+		var parts := PackedStringArray()
+		for enemy_name in order:
+			parts.append(enemy_name if int(counts[enemy_name]) == 1 else "%s ×%d" % [enemy_name, int(counts[enemy_name])])
+		waves.append("웨이브 %d · %s" % [wave_number, " · ".join(parts)])
+	var level_line := "권장 Lv.%d" % int(stage.get("recommended_level", 1))
+	if not levels.is_empty():
+		var total := 0
+		for level in levels: total += int(level)
+		level_line += " · 부대 평균 Lv.%d" % roundi(float(total) / float(levels.size()))
+	return {"heading": heading, "title": title, "level_line": level_line, "waves": waves.slice(0, 4)}
 
 func _event_dialogue_speaker_name(page: Dictionary) -> String:
 	var speaker_kind := str(page.get("speaker_kind", "COMMAND"))

@@ -1,0 +1,1599 @@
+{
+ "version": 1,
+ "note": "Field direction scenes (phase 3). Presentation only: see field/field_script.gd for the command format.",
+ "scenes": {
+  "aftermath_ch01_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "동력이 꺼진다… 비어 있던 곳이, 다시 열린다…",
+      "en": "Power fading… the hollow… opens again…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "신호 소멸 확인. 다들 무사해요?",
+      "en": "Signal gone. Is everyone all right?"
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch01_h05": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "종이… 마지막으로 울린다. 이 밤은 끝나지 않아…",
+      "en": "The bell tolls… one last time. This night will not end…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "…조용해졌네요. 잠깐 숨 돌려요.",
+      "en": "…It's quiet now. Let's catch our breath."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch02_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "개찰구가 닫힌다… 되돌아가는 표는 없다…",
+      "en": "The gate is closing… there is no ticket back…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "ally",
+     "side": "ally",
+     "portrait": "@ally",
+     "text": {
+      "ko": "끝났어요. 다음 노선으로 가요.",
+      "en": "It's over. On to the next line."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "ally",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch02_h05": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "편성 해제… 회송 열차가 어둠으로 돌아간다…",
+      "en": "Formation released… the empty train returns to the dark…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "마지막 신호까지… 기록해 둘게요.",
+      "en": "Even that last signal… I'll log it."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch03_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "금이 간다… 명령을 내릴 유리 병사가 없다…",
+      "en": "Cracks spreading… no glass soldiers left to command…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "ally",
+     "side": "ally",
+     "portrait": "@ally",
+     "text": {
+      "ko": "방심하지 말아요. 잔여 반응부터 확인해요.",
+      "en": "Stay sharp. Check for residual readings first."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "ally",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch03_h05": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "관측을 종료한다… 밤은 오지 않았다…",
+      "en": "Observation ended… the night never came…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "고마워요, 모두. 정리하고 복귀하죠.",
+      "en": "Thanks, everyone. Let's clear up and head back."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch04_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "조수 전환 실패… 물이 제자리를 찾는다…",
+      "en": "Tide switch failed… the water finds its place…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "신호 소멸 확인. 다들 무사해요?",
+      "en": "Signal gone. Is everyone all right?"
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch05_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "성벽이 재로 돌아간다… 바람에 흩어진다…",
+      "en": "The walls turn to ash… scattered by the wind…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "…조용해졌네요. 잠깐 숨 돌려요.",
+      "en": "…It's quiet now. Let's catch our breath."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch06_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "전압 하강… 회로가 하나씩 어두워진다…",
+      "en": "Voltage falling… circuits dimming one by one…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "ally",
+     "side": "ally",
+     "portrait": "@ally",
+     "text": {
+      "ko": "끝났어요. 다음 노선으로 가요.",
+      "en": "It's over. On to the next line."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "ally",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch07_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "성가가 멎는다… 서리가 조용히 녹는다…",
+      "en": "The hymn stops… the frost melts in silence…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "마지막 신호까지… 기록해 둘게요.",
+      "en": "Even that last signal… I'll log it."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch08_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "굴착 중지… 더 깊은 곳은 파지 못했다…",
+      "en": "Drilling halted… never reached the deeper layer…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "ally",
+     "side": "ally",
+     "portrait": "@ally",
+     "text": {
+      "ko": "방심하지 말아요. 잔여 반응부터 확인해요.",
+      "en": "Stay sharp. Check for residual readings first."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "ally",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch09_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "집행 유예… 꿈에서 깨어나는 소리가 난다…",
+      "en": "Sentence suspended… the sound of waking up…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "고마워요, 모두. 정리하고 복귀하죠.",
+      "en": "Thanks, everyone. Let's clear up and head back."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch10_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "달이 하나로 돌아온다… 나눌 것이 없다…",
+      "en": "The moon returns to one… nothing left to divide…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "신호 소멸 확인. 다들 무사해요?",
+      "en": "Signal gone. Is everyone all right?"
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch11_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "수확 종료… 거둘 파도가 남지 않았다…",
+      "en": "Harvest over… no waves left to reap…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "…조용해졌네요. 잠깐 숨 돌려요.",
+      "en": "…It's quiet now. Let's catch our breath."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch12_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "이름이 없는 채로… 기도만 남는다…",
+      "en": "Nameless still… only the prayer remains…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "ally",
+     "side": "ally",
+     "portrait": "@ally",
+     "text": {
+      "ko": "끝났어요. 다음 노선으로 가요.",
+      "en": "It's over. On to the next line."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "ally",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch13_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "사구 위의 신호가 꺼진다… 열차는 오지 않는다…",
+      "en": "The signal on the dunes goes dark… no train is coming…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "마지막 신호까지… 기록해 둘게요.",
+      "en": "Even that last signal… I'll log it."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch14_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "감사 불합격… 무게가 제자리로 내려앉는다…",
+      "en": "Audit failed… the weight settles back down…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "ally",
+     "side": "ally",
+     "portrait": "@ally",
+     "text": {
+      "ko": "방심하지 말아요. 잔여 반응부터 확인해요.",
+      "en": "Stay sharp. Check for residual readings first."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "ally",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch15_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "가지치기가 끝났다… 이곳엔 무엇도 자라지 않겠지…",
+      "en": "Pruning done… nothing will grow here now…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "고마워요, 모두. 정리하고 복귀하죠.",
+      "en": "Thanks, everyone. Let's clear up and head back."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch16_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "왕관이 떨어진다… 창을 겨눌 상대가 없다…",
+      "en": "The crown falls… no one left to lance…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "신호 소멸 확인. 다들 무사해요?",
+      "en": "Signal gone. Is everyone all right?"
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch17_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "색인이 무너진다… 삼킨 기록이 풀려난다…",
+      "en": "The index collapses… the swallowed records break free…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "…조용해졌네요. 잠깐 숨 돌려요.",
+      "en": "…It's quiet now. Let's catch our breath."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch18_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "마지막 신호를 보낸다… 받는 이가 있기를…",
+      "en": "Sending the last signal… hoping someone receives it…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "ally",
+     "side": "ally",
+     "portrait": "@ally",
+     "text": {
+      "ko": "끝났어요. 다음 노선으로 가요.",
+      "en": "It's over. On to the next line."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "ally",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch19_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "유효 기간 만료… 영원은 여기서 끊긴다…",
+      "en": "Ticket expired… eternity ends here…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "마지막 신호까지… 기록해 둘게요.",
+      "en": "Even that last signal… I'll log it."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_ch20_n20": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "수문을 연다… 더는 막을 것이 없다…",
+      "en": "Opening the gate… nothing left to hold back…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "ally",
+     "side": "ally",
+     "portrait": "@ally",
+     "text": {
+      "ko": "방심하지 말아요. 잔여 반응부터 확인해요.",
+      "en": "Stay sharp. Check for residual readings first."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "ally",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "aftermath_default": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "boss",
+     "zoom": 1.3,
+     "time": 0.6,
+     "shake": 5
+    },
+    {
+     "cmd": "sfx",
+     "id": "BOSS_HIT",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "spark",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "boss",
+     "side": "foe",
+     "portrait": "@boss",
+     "text": {
+      "ko": "{boss}의 신호가 끊긴다…",
+      "en": "{boss}'s signal is cut off…"
+     }
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "boss"
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "portrait": "@leader",
+     "text": {
+      "ko": "신호 소멸 확인. 다들 무사해요?",
+      "en": "Signal gone. Is everyone all right?"
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "dx": 0.35,
+     "time": 0.5,
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "center",
+     "zoom": 1.0,
+     "time": 0.45
+    }
+   ]
+  },
+  "demo_standoff": {
+   "steps": [
+    {
+     "cmd": "camera",
+     "focus": "foe",
+     "zoom": 1.3,
+     "time": 0.5
+    },
+    {
+     "cmd": "face",
+     "actor": "leader",
+     "toward": "foe",
+     "with": true
+    },
+    {
+     "cmd": "face",
+     "actor": "foe",
+     "toward": "leader",
+     "with": true
+    },
+    {
+     "cmd": "emote",
+     "actor": "foe",
+     "kind": "alert",
+     "with": true
+    },
+    {
+     "cmd": "sfx",
+     "id": "audio_sfx_impact_metal_hit_05",
+     "with": true
+    },
+    {
+     "cmd": "banner",
+     "text": {
+      "ko": "경계선 돌파",
+      "en": "Crossing the line"
+     },
+     "style": "boss",
+     "time": 1.2
+    },
+    {
+     "cmd": "say",
+     "actor": "foe",
+     "side": "foe",
+     "text": {
+      "ko": "여기부터는 지나갈 수 없다.",
+      "en": "You cannot pass beyond this point."
+     }
+    },
+    {
+     "cmd": "emote",
+     "actor": "leader",
+     "kind": "question",
+     "with": true
+    },
+    {
+     "cmd": "say",
+     "actor": "leader",
+     "side": "ally",
+     "text": {
+      "ko": "그렇다면 돌파할 뿐이에요.",
+      "en": "Then we break through."
+     }
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "front",
+     "time": 0.4
+    },
+    {
+     "cmd": "jump",
+     "actor": "leader",
+     "height": 0.5,
+     "time": 0.4
+    },
+    {
+     "cmd": "emote",
+     "actor": "foe",
+     "kind": "anger",
+     "with": true
+    },
+    {
+     "cmd": "camera",
+     "focus": "foe",
+     "zoom": 1.5,
+     "shake": 8,
+     "time": 0.3
+    },
+    {
+     "cmd": "wait",
+     "sec": 0.3
+    },
+    {
+     "cmd": "move",
+     "actor": "leader",
+     "to": "home",
+     "time": 0.3
+    }
+   ]
+  }
+ },
+ "bindings": {
+  "boss_aftermath": {
+   "CH01-N20": "aftermath_ch01_n20",
+   "CH01-H05": "aftermath_ch01_h05",
+   "CH02-N20": "aftermath_ch02_n20",
+   "CH02-H05": "aftermath_ch02_h05",
+   "CH03-N20": "aftermath_ch03_n20",
+   "CH03-H05": "aftermath_ch03_h05",
+   "CH04-N20": "aftermath_ch04_n20",
+   "CH05-N20": "aftermath_ch05_n20",
+   "CH06-N20": "aftermath_ch06_n20",
+   "CH07-N20": "aftermath_ch07_n20",
+   "CH08-N20": "aftermath_ch08_n20",
+   "CH09-N20": "aftermath_ch09_n20",
+   "CH10-N20": "aftermath_ch10_n20",
+   "CH11-N20": "aftermath_ch11_n20",
+   "CH12-N20": "aftermath_ch12_n20",
+   "CH13-N20": "aftermath_ch13_n20",
+   "CH14-N20": "aftermath_ch14_n20",
+   "CH15-N20": "aftermath_ch15_n20",
+   "CH16-N20": "aftermath_ch16_n20",
+   "CH17-N20": "aftermath_ch17_n20",
+   "CH18-N20": "aftermath_ch18_n20",
+   "CH19-N20": "aftermath_ch19_n20",
+   "CH20-N20": "aftermath_ch20_n20",
+   "default": "aftermath_default"
+  }
+ }
+}

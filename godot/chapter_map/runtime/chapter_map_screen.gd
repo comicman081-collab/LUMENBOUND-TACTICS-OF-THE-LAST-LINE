@@ -50,7 +50,7 @@ const WEB_ENTRY_TERRAIN_TILE_BATCH := 72
 const WEB_ENTRY_TERRAIN_CHUNK_SPAN := 12
 const WEB_ENTRY_DRESSING_CHUNK_SPAN := 14
 const WEB_ENTRY_DRESSING_TRANSFORM_SLICE := 128
-const WEB_ENTRY_SLICE_BUDGET_USEC := 10000
+const LoadingClockScript := preload("res://core/loading_clock.gd")
 const WEB_BACKDROP_WORLD_RADIUS := 32.0
 const WEB_BACKDROP_RECENTER_HEX_DISTANCE := 8
 const OCEAN_SURFACE_Y := -1.55
@@ -156,6 +156,9 @@ var web_stage_entry_preload_complete := false
 ## missed `map_ready` edge between frames.
 var map_ready_complete := false
 var web_entry_last_yield_usec := 0
+var web_entry_frame_interval_usec := 0
+var web_entry_progress_value := 0.0
+var web_entry_progress_phase := ""
 var terrain_surface: MeshInstance3D
 var terrain_material: StandardMaterial3D
 var terrain_cap_material_cache: Dictionary = {}
@@ -296,6 +299,14 @@ var exploration_gauge: Control
 var minimap_toggle: Button
 var minimap_collapsed := false
 var pawn_hop_offset := 0.0
+# Field direction (phase 3): presentation-only poses and camera that a `MapFieldStage`
+# writes while a contact scene plays. Nothing here reaches map state or saves.
+var field_pawn_offset := Vector3.ZERO
+var field_pawn_hop := 0.0
+var field_pawn_facing_saved := -1
+var field_enemy_bases: Dictionary = {}
+var field_camera_saved := {}
+var field_scene_active := false
 var encounter_zoom_restore := -1.0
 var map_id := ""
 var tutorial_canvas_layer: CanvasLayer
@@ -335,14 +346,26 @@ func _finish_web_build_slice(tag: String, started_usec: int) -> void:
 	# Entry construction has many tiny chunks. Yielding a complete renderer frame
 	# after every one turned inexpensive work into hundreds of mandatory 16.7 ms
 	# waits. Keep each synchronous slice below a ten-millisecond budget instead.
-	if OS.has_feature("web") and web_stage_entry_preload_active \
-		and web_entry_last_yield_usec > 0 \
-		and before_yield_usec - web_entry_last_yield_usec < WEB_ENTRY_SLICE_BUDGET_USEC:
+	# The budget grows with the measured frame interval: a throttled tab that draws
+	# four frames a second would otherwise need hundreds of frames for one entry.
+	# `_build_world` runs before the detail build and yields through this helper too,
+	# so the whole entry (until map_ready) is paced the same way.
+	var entry_build := OS.has_feature("web") and (web_stage_entry_preload_active or not map_ready_complete)
+	if entry_build and web_entry_last_yield_usec > 0 \
+		and before_yield_usec - web_entry_last_yield_usec < LoadingClockScript.slice_budget_usec(web_entry_frame_interval_usec):
 		return
 	await get_tree().process_frame
-	web_entry_last_yield_usec = Time.get_ticks_usec()
+	var resumed_usec := Time.get_ticks_usec()
+	if web_entry_last_yield_usec > 0:
+		web_entry_frame_interval_usec = resumed_usec - web_entry_last_yield_usec
+	web_entry_last_yield_usec = resumed_usec
 	if not _web_async_owner_alive():
 		return
+	# A build slice that ended on a delivered frame is progress. A tab that draws two
+	# frames a second needs dozens of frames between two milestones, which is longer
+	# than the no-progress watchdog allows; the hard deadline still bounds the entry.
+	if entry_build and not web_entry_progress_phase.is_empty():
+		_emit_map_load_progress(web_entry_progress_value, web_entry_progress_phase)
 	if not OS.has_feature("web") or not SettingsService.is_developer_mode():
 		return
 	var elapsed_msec := float(Time.get_ticks_usec() - started_usec) / 1000.0
@@ -479,7 +502,9 @@ func resume_from_cache() -> void:
 	call_deferred("_present_pending_reveal_once")
 
 func _emit_map_load_progress(value: float, phase: String) -> void:
-	map_load_progress.emit(clampf(value, 0.0, 1.0), phase)
+	web_entry_progress_value = clampf(value, 0.0, 1.0)
+	web_entry_progress_phase = phase
+	map_load_progress.emit(web_entry_progress_value, phase)
 
 func _all_map_tile_coverage() -> Dictionary:
 	# A single immutable coverage set is deliberately wider than the current
@@ -630,6 +655,7 @@ func _build_web_map_detail() -> void:
 	web_stage_entry_preload_complete = true
 	web_stage_entry_preload_active = false
 	web_entry_last_yield_usec = 0
+	web_entry_frame_interval_usec = 0
 	web_detail_build_started = false
 	_refresh_state_visuals()
 
@@ -4580,7 +4606,7 @@ func _sync_web_pawn_front_overlay() -> void:
 	# Web hides the world Sprite3D and presents this UI copy instead. Project the
 	# actual tweened pawn transform; projecting the logical map hex made the only
 	# visible character stay still for the whole tween and snap at cell arrival.
-	var contact := _overlay_position_from_world(pawn.global_position + Vector3(0.0, 0.15, 0.0) + Vector3(0.0, pawn_hop_offset, 0.0))
+	var contact := _overlay_position_from_world(pawn.global_position + Vector3(0.0, 0.15, 0.0) + Vector3(0.0, pawn_hop_offset + field_pawn_hop, 0.0) + field_pawn_offset)
 	pawn_front_overlay.size = token_size
 	pawn_front_overlay.position = contact - Vector2(token_size.x * foot_anchor.x, token_size.y * foot_anchor.y)
 	pawn_front_overlay.flip_h = not pawn_facing_right
@@ -5220,6 +5246,96 @@ func _restore_encounter_zoom() -> void:
 	if encounter_zoom_restore >= 0.0:
 		camera_zoom = encounter_zoom_restore
 		encounter_zoom_restore = -1.0
+
+# -- Field direction hooks (phase 3) ---------------------------------------------
+
+## The map node whose encounter is `stage_id` ("" when the map has none).
+func field_node_id_for_stage(stage_id: String) -> String:
+	for node_value in definition.get("nodes", []):
+		var node: Dictionary = node_value
+		if str(node.get("stage_id", "")) == stage_id:
+			return str(node.get("node_id", ""))
+	return ""
+
+## World point of a contact-scene actor: the squad leader or the encounter's pawn.
+func field_actor_world(role: String, node_id: String) -> Vector3:
+	if role == "leader":
+		return pawn.global_position if pawn != null and is_instance_valid(pawn) else Vector3.INF
+	var root: Node3D = enemy_pawns.get(node_id)
+	return root.global_position if root != null and is_instance_valid(root) else Vector3.INF
+
+## Screen point (main canvas pixels) of the head of a world point, `INF` when off screen.
+func field_head_global(world: Vector3) -> Vector2:
+	if world == Vector3.INF or camera == null or not is_instance_valid(camera) or overlay == null or not is_instance_valid(overlay):
+		return Vector2.INF
+	if camera.is_position_behind(world):
+		return Vector2.INF
+	return overlay.get_global_transform() * _overlay_position_from_world(world + Vector3(0.0, 0.95, 0.0))
+
+## World displacement for a scene offset given in half-hex units: x follows the screen
+## right axis, y the screen depth axis, both flattened onto the ground.
+func field_world_offset(offset: Vector2) -> Vector3:
+	if camera == null or not is_instance_valid(camera):
+		return Vector3.ZERO
+	var basis := camera.global_transform.basis
+	var right := Vector3(basis.x.x, 0.0, basis.x.z).normalized()
+	var depth := Vector3(basis.z.x, 0.0, basis.z.z).normalized()
+	return (right * offset.x + depth * offset.y) * TILE_SIZE * 0.5
+
+func field_set_pawn_pose(offset: Vector2, hop: float, flip: int) -> void:
+	field_pawn_offset = field_world_offset(offset)
+	field_pawn_hop = hop * 0.6
+	if flip != 0:
+		if field_pawn_facing_saved < 0:
+			field_pawn_facing_saved = 1 if pawn_facing_right else 0
+		pawn_facing_right = flip > 0
+		_apply_pawn_facing()
+	web_entity_projection_dirty = true
+
+func field_set_enemy_pose(node_id: String, offset: Vector2, hop: float) -> void:
+	var root: Node3D = enemy_pawns.get(node_id)
+	if root == null or not is_instance_valid(root):
+		return
+	if not field_enemy_bases.has(node_id):
+		field_enemy_bases[node_id] = root.position
+	root.position = (field_enemy_bases[node_id] as Vector3) + field_world_offset(offset) + Vector3(0.0, hop * 0.6, 0.0)
+
+## Look at `focus_world` (or the saved view when INF) at `zoom` times the saved zoom.
+func field_set_camera(focus_world: Vector3, zoom: float, shake: float) -> void:
+	if camera == null or not is_instance_valid(camera):
+		return
+	if field_camera_saved.is_empty():
+		field_camera_saved = {"zoom": camera_zoom, "target": camera_target}
+		field_scene_active = true
+	camera_zoom = float(field_camera_saved.zoom) * clampf(zoom, 1.0, 2.0)
+	var goal: Vector3 = field_camera_saved.target if focus_world == Vector3.INF else _clamp_camera_target_to_terrain(focus_world)
+	camera_target = camera_target.lerp(goal, 0.2)
+	camera.h_offset = sin(float(Time.get_ticks_msec()) * 0.09) * shake * 0.02
+	camera.v_offset = cos(float(Time.get_ticks_msec()) * 0.113) * shake * 0.02
+	web_entity_projection_dirty = true
+
+## The scene has ended: put every pawn and the camera back exactly where they were.
+func field_release() -> void:
+	field_scene_active = false
+	field_pawn_offset = Vector3.ZERO
+	field_pawn_hop = 0.0
+	if field_pawn_facing_saved >= 0:
+		pawn_facing_right = field_pawn_facing_saved == 1
+		field_pawn_facing_saved = -1
+		_apply_pawn_facing()
+	for node_id in field_enemy_bases.keys():
+		var root: Node3D = enemy_pawns.get(node_id)
+		if root != null and is_instance_valid(root):
+			root.position = field_enemy_bases[node_id]
+	field_enemy_bases.clear()
+	if not field_camera_saved.is_empty():
+		camera_zoom = float(field_camera_saved.zoom)
+		camera_target = field_camera_saved.target
+		field_camera_saved = {}
+	if camera != null and is_instance_valid(camera):
+		camera.h_offset = 0.0
+		camera.v_offset = 0.0
+	web_entity_projection_dirty = true
 
 func presentation_phase2_snapshot() -> Dictionary:
 	return {
@@ -7323,7 +7439,7 @@ func _process(delta: float) -> void:
 		# Motion is authored in the atlas. Moving/scaling the entire cutout would
 		# lift its foot anchor from the terrace and make the pawn look airborne;
 		# the only lift is the deliberate step hop, which lands back at zero.
-		pawn_visual.position.y = PAWN_VISUAL_BASE_Y + pawn_hop_offset
+		pawn_visual.position = Vector3(field_pawn_offset.x, PAWN_VISUAL_BASE_Y + pawn_hop_offset + field_pawn_hop, field_pawn_offset.z)
 		pawn_visual.scale = Vector3.ONE
 	_update_map_notice_toast()
 	if pawn_banner != null and is_instance_valid(pawn_banner):
@@ -7464,7 +7580,7 @@ func _refresh_projected_map_entities(camera_coord: Vector2i) -> void:
 		var semantic_visible: bool = bool(_coord_is_in_player_vision(node_coord) and (revealed or (not stage_id.is_empty() and unlocked)) and (stage_id == "" or hard_overlay == stage_id.contains("-H")))
 		var label_in_local_stream: bool = HexCoordScript.distance(node_coord, camera_coord) <= STREAM_RADIUS - 2
 		var anchor := _node_overlay_anchor(node)
-		button.visible = semantic_visible and label_in_local_stream and _has_streamed_ground(node_coord) and _overlay_anchor_is_visible(anchor, button.size)
+		button.visible = semantic_visible and label_in_local_stream and _has_streamed_ground(node_coord) and _overlay_anchor_is_visible(anchor, button.size) and not field_scene_active
 		var stage_marker: Node3D = node_markers.get(str(node.get("node_id", "")))
 		if stage_marker != null and is_instance_valid(stage_marker):
 			stage_marker.visible = button.visible

@@ -2,6 +2,9 @@ class_name BattleView
 extends Control
 
 const BattlePresentationDirectorScript := preload("res://battle/view/battle_presentation_director.gd")
+const FieldScriptScript := preload("res://field/field_script.gd")
+const FieldSceneOverlayScript := preload("res://field/field_scene_overlay.gd")
+const BattleFieldStageScript := preload("res://field/battle_field_stage.gd")
 const ActorChoreography := preload("res://battle/view/battle_actor_choreography.gd")
 const ActionFrames := preload("res://battle/view/combat_action_frames.gd")
 const WeaponEffects := preload("res://battle/view/combat_weapon_effects.gd")
@@ -86,6 +89,15 @@ var boss_entry_uids: Array[String] = []
 var boss_entry_name := ""
 var boss_entry_from_arena := false
 var boss_victory_elapsed := -1.0
+# Field direction (phase 3). The host turns the boss aftermath on; tests and tools keep
+# the default so a battle still ends without waiting for a tap.
+var field_aftermath_enabled := false
+var field_portrait_source := Callable()
+var field_aftermath_state := "idle"
+var field_overlay: Control
+var field_poses: Dictionary = {}
+var field_zoom := 1.0
+var field_offset := Vector2.ZERO
 const BOSS_ENTRY_DURATION := 3.8
 const BOSS_VICTORY_DURATION := 1.8
 var battle_font: Font
@@ -1065,6 +1077,7 @@ func setup(value: BattleSimulation) -> void:
 	boss_entry_wave = -1
 	boss_entry_elapsed = -1.0
 	boss_victory_elapsed = -1.0
+	_reset_field_direction()
 	boss_entry_uids.clear()
 	accumulator = 0.0
 	emitted_finish = false
@@ -1099,6 +1112,8 @@ func skip_to_result() -> bool:
 		return false
 	boss_entry_elapsed = -1.0
 	boss_victory_elapsed = -1.0
+	_reset_field_direction()
+	field_aftermath_state = "done"
 	for enemy in simulation.state.enemies:
 		if str(enemy.get("rank", "")) == "BOSS": boss_arena_active = true
 	# A skip commits any held ULTIMATE presentation before replacing the visual
@@ -1206,6 +1221,8 @@ func _process(delta: float) -> void:
 	queue_redraw()
 	if simulation.state.ended and contact_events.is_empty() and not emitted_finish and not presentation_director.is_active() and consumed_events >= simulation.event_log.size() and enemy_defeat_bursts.is_empty() and defeat_hold_left <= 0.0:
 		if boss_arena_active and simulation.state.victory:
+			if _field_aftermath_holds():
+				return
 			boss_victory_elapsed = 0.0
 			return
 		# An ordinary victory holds a short end card before the result hand-off.
@@ -1221,7 +1238,7 @@ func start_band_holding() -> bool:
 	return start_band_armed and wave_banner_title == START_BAND_TITLE and wave_banner_left > WAVE_BANNER_DURATION - START_BAND_HOLD
 
 func scene_transition_active() -> bool:
-	return boss_entry_elapsed >= 0.0 or boss_victory_elapsed >= 0.0 or finale_elapsed >= 0.0
+	return boss_entry_elapsed >= 0.0 or boss_victory_elapsed >= 0.0 or finale_elapsed >= 0.0 or field_aftermath_state == "playing"
 
 func _detect_boss_entrance() -> bool:
 	if not contact_events.is_empty(): return false
@@ -2768,7 +2785,7 @@ func _draw_connected_boss_floor(visibility := 1.0) -> void:
 		draw_polygon(points, PackedColorArray([colors[index], colors[index], colors[index + 1], colors[index + 1]]), uv, normal_background)
 
 func _ground_position(unit: Dictionary) -> Vector2:
-	return _unit_pos(unit) + _entry_offset(unit) + _actor_travel_offset(unit)
+	return _unit_pos(unit) + _entry_offset(unit) + _actor_travel_offset(unit) + _field_pose_offset(unit)
 
 func _draw_contact_shadow(unit: Dictionary) -> void:
 	if boss_entry_elapsed >= 0.0 and boss_entry_uids.has(str(unit.uid)) and boss_entry_elapsed < 1.95: return
@@ -2812,6 +2829,7 @@ func _draw_weapon_action(unit: Dictionary, ground_layer: bool) -> void:
 func _draw_unit(unit: Dictionary) -> void:
 	if boss_entry_elapsed >= 0.0 and str(unit.team) != "PLAYER" and boss_entry_elapsed < .95: return
 	var p := _ground_position(unit)
+	p.y -= _field_hop_px(unit)
 	var player: bool = str(unit.team) == "PLAYER"
 	var alive := UnitState.alive(unit)
 	if not player and not alive:
@@ -3596,16 +3614,156 @@ func _combat_sprite_scale(unit: Dictionary, _animation_name: String) -> float:
 func _battlefield_camera_zoom() -> float:
 	if boss_entry_elapsed >= 0.0:
 		return lerpf(1.10, 1.0, smoothstep(.35, 2.65, boss_entry_elapsed))
-	return presentation_director.battlefield_zoom()
+	return presentation_director.battlefield_zoom() * field_zoom
 
 func _battlefield_point(point: Vector2) -> Vector2:
 	var center := size * 0.5
-	return center + (point - center) * _battlefield_camera_zoom() + presentation_director.battlefield_offset()
+	return center + (point - center) * _battlefield_camera_zoom() + presentation_director.battlefield_offset() + field_offset
 
 func _battlefield_rect(rect: Rect2) -> Rect2:
 	var zoom := _battlefield_camera_zoom()
 	var center := size * 0.5
-	return Rect2(center + (rect.position - center) * zoom + presentation_director.battlefield_offset(), rect.size * zoom)
+	return Rect2(center + (rect.position - center) * zoom + presentation_director.battlefield_offset() + field_offset, rect.size * zoom)
+
+# -- Field direction hooks (phase 3) ------------------------------------------------
+# Presentation only: a BattleFieldStage reads positions and writes poses and camera
+# here. The simulation, its events and the result snapshot are never touched.
+
+func _reset_field_direction() -> void:
+	field_aftermath_state = "idle"
+	if field_overlay != null and is_instance_valid(field_overlay):
+		field_overlay.queue_free()
+	field_overlay = null
+	field_release()
+
+func _field_aftermath_holds() -> bool:
+	if field_aftermath_state == "done":
+		return false
+	if field_aftermath_state == "playing":
+		return true
+	field_aftermath_state = "done"
+	if not field_aftermath_enabled or skip_in_progress or simulation == null:
+		return false
+	if bool(SettingsService.values.get("map_reduced_transition", false)):
+		return false
+	var boss := field_unit("boss")
+	var steps: Array = FieldScriptScript.steps_for("boss_aftermath", str(simulation.stage.get("id", "")), {"boss": unit_display_name(boss)})
+	if steps.is_empty() or field_unit("leader").is_empty():
+		return false
+	field_overlay = FieldSceneOverlayScript.new()
+	field_overlay.name = "BossAftermathField"
+	field_overlay.text_font = battle_font
+	add_child(field_overlay)
+	var stage = BattleFieldStageScript.new(self, field_overlay, {}, field_portrait_source)
+	field_overlay.finished.connect(_on_field_aftermath_finished)
+	if not field_overlay.play(steps, stage, {"letterbox": true}):
+		_reset_field_direction()
+		field_aftermath_state = "done"
+		return false
+	field_aftermath_state = "playing"
+	return true
+
+func _on_field_aftermath_finished(_skipped: bool) -> void:
+	field_aftermath_state = "done"
+	field_release()
+	if field_overlay != null and is_instance_valid(field_overlay):
+		field_overlay.queue_free()
+	field_overlay = null
+	queue_redraw()
+
+## The unit a script role stands for: boss is the defeated boss (its last record),
+## leader and ally the first two surviving party members by slot.
+func field_unit(role: String) -> Dictionary:
+	if simulation == null:
+		return {}
+	if role == "boss":
+		for unit in simulation.state.enemies:
+			if str(unit.get("rank", "")) == "BOSS":
+				return unit
+		for uid in presentation_actor_records:
+			var record: Dictionary = presentation_actor_records[uid]
+			if str(record.get("rank", "")) == "BOSS":
+				return record
+		return {}
+	var alive: Array = simulation.state.party.filter(func(unit): return UnitState.alive(unit))
+	alive.sort_custom(func(a, b): return int(a.get("slot", 0)) < int(b.get("slot", 0)))
+	if alive.is_empty():
+		return {}
+	if role == "ally" and alive.size() > 1:
+		return alive[1]
+	return alive[0]
+
+## Asset id of a role's portrait art (the boss's or a survivor's own).
+func field_portrait_id(role: String) -> String:
+	var unit := field_unit(role)
+	if unit.is_empty():
+		return ""
+	var definition_id := str(unit.get("def_id", ""))
+	var character := DataRegistry.character(definition_id)
+	if not character.is_empty():
+		return str(character.get("portrait_asset_id", ""))
+	return str(DataRegistry.enemy(definition_id).get("asset_id", ""))
+
+func field_actor_name(role: String) -> String:
+	var unit := field_unit(role)
+	return "" if unit.is_empty() else unit_display_name(unit)
+
+func field_layout_point(role: String) -> Vector2:
+	var unit := field_unit(role)
+	if unit.is_empty():
+		return Vector2.INF
+	var uid := str(unit.get("uid", ""))
+	if engagement_positions.has(uid):
+		return (engagement_positions[uid] as Vector2) * size
+	return Grounding.cell_point(float(unit.get("col", 0)), float(unit.get("lane", 1))) * size
+
+func field_head_point(role: String) -> Vector2:
+	var unit := field_unit(role)
+	if unit.is_empty():
+		return Vector2.INF
+	var ground := _ground_position(unit)
+	if role == "boss":
+		return ground + Vector2(0.0, -130.0 * _battlefield_camera_zoom())
+	return _head_position(unit, ground) - Vector2(0.0, _field_hop_px(unit))
+
+func field_move_unit_px() -> float:
+	return Grounding.COLUMN_STEP * size.x
+
+func field_set_pose(role: String, offset: Vector2, hop: float) -> void:
+	var unit := field_unit(role)
+	if unit.is_empty() or role == "boss":
+		return
+	field_poses[str(unit.get("uid", ""))] = {"offset": Vector2(offset.x * field_move_unit_px(), offset.y * size.y * 0.08), "hop": hop * size.y * 0.12}
+
+func _field_pose_offset(unit: Dictionary) -> Vector2:
+	if field_poses.is_empty():
+		return Vector2.ZERO
+	var pose: Dictionary = field_poses.get(str(unit.get("uid", "")), {})
+	return pose.get("offset", Vector2.ZERO)
+
+func _field_hop_px(unit: Dictionary) -> float:
+	if field_poses.is_empty():
+		return 0.0
+	var pose: Dictionary = field_poses.get(str(unit.get("uid", "")), {})
+	return float(pose.get("hop", 0.0))
+
+## Push the battle floor in around focus_point (layout pixels, INF for the middle).
+func field_set_camera(focus_point: Vector2, zoom: float, shake: float) -> void:
+	field_zoom = clampf(zoom, 1.0, 2.0)
+	var target := Vector2.ZERO
+	if focus_point != Vector2.INF:
+		target = -(focus_point - size * 0.5) * field_zoom
+	var limit := (field_zoom - 1.0) * size * 0.5
+	target = Vector2(clampf(target.x, -limit.x, limit.x), clampf(target.y, -limit.y, limit.y))
+	var moment := float(Time.get_ticks_msec())
+	field_offset = field_offset.lerp(target, 0.18) + Vector2(sin(moment * 0.09), cos(moment * 0.113)) * shake
+	queue_redraw()
+
+func field_release() -> void:
+	field_poses.clear()
+	field_zoom = 1.0
+	field_offset = Vector2.ZERO
+	queue_redraw()
 
 func _character_color(slot: int) -> Color:
 	return [Color("5ed6c0"), Color("ff9b73"), Color("75a7ff"), Color("e788ff"), Color("ffd166")][slot % 5]

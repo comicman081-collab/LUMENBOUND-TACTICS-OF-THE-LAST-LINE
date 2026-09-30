@@ -30,6 +30,10 @@ const BOSS_ENCOUNTER_CARD_DURATION := 1.20
 ## Regular map encounter transition (phase 2 B4): camera push-in, speed-line
 ## wipe and the enemy info panel, tap to skip.
 const EncounterWipe := preload("res://ui/encounter_wipe.gd")
+const LoadingClockScript := preload("res://core/loading_clock.gd")
+const FieldScriptScript := preload("res://field/field_script.gd")
+const FieldSceneOverlayScript := preload("res://field/field_scene_overlay.gd")
+const MapFieldStageScript := preload("res://field/map_field_stage.gd")
 const ENCOUNTER_WIPE_DURATION := 1.35
 const ENCOUNTER_PUSH_IN_DURATION := .5
 const CHAPTER_TITLE_CARD_DURATION := 2.6
@@ -45,7 +49,8 @@ const STAGE_ENTRY_PRELOAD_TARGET_MSEC := 5000
 const BATTLE_ENTRY_PRELOAD_TARGET_MSEC := 5000
 const LOADING_IDLE_TIMEOUT_MSEC := 12000
 const LOADING_HARD_TIMEOUT_MSEC := 45000
-var map_load_last_progress_msec := 0
+# Loading deadlines run on frames the browser delivered, not wall time (see LoadingClock).
+var map_load_clock := LoadingClockScript.new()
 const TRANSITION_GPU_WARM_BATCH := 4
 const TRANSITION_LOADING_ART_PATH := "res://assets/art/backgrounds/BG_STORY_RELAY/bg_story_relay_1920x1080.png"
 const TRANSITION_LOADING_LOGO_PATH := "res://assets/art/title/title_logo_r1.png"
@@ -803,7 +808,7 @@ func _on_chapter_map_load_progress(value: float, phase: String, token: int, show
 		return
 	if not _transition_loading_token_is_valid(token):
 		return
-	map_load_last_progress_msec = Time.get_ticks_msec()
+	map_load_clock.mark_progress()
 	var target := lerpf(56.0, 96.0, clampf(value, 0.0, 1.0))
 	_set_transition_loading_phase(token, _map_load_phase_text(phase), target, 0.10)
 
@@ -886,28 +891,29 @@ func _dispose_transition_loading() -> void:
 static func loading_watchdog_expired(now_msec: int, started_msec: int, last_progress_msec: int) -> bool:
 	return now_msec - started_msec >= LOADING_HARD_TIMEOUT_MSEC or now_msec - last_progress_msec >= LOADING_IDLE_TIMEOUT_MSEC
 
-func _wait_for_map_ready_with_deadline(map_screen: Control, started_msec: int, show_generation: int) -> bool:
-	# Five seconds is a measured target, not proof of failure on a slow phone.
-	map_load_last_progress_msec = Time.get_ticks_msec()
+func _wait_for_map_ready_with_deadline(map_screen: Control, show_generation: int) -> bool:
+	# Five seconds is a measured target, not proof of failure on a slow phone. A tab
+	# that is hidden or throttled draws few frames; those frames are what count.
+	map_load_clock = LoadingClockScript.new()
 	while map_screen != null and is_instance_valid(map_screen) \
 		and current_screen == "STAGE_SELECT" and show_generation == chapter_map_show_generation:
 		if bool(map_screen.get("map_ready_complete")):
 			return true
-		if loading_watchdog_expired(Time.get_ticks_msec(), started_msec, map_load_last_progress_msec):
+		if loading_watchdog_expired(map_load_clock.tick(), 0, map_load_clock.last_progress_msec):
 			return false
 		await get_tree().process_frame
 	return false
 
-func _wait_for_battle_assets_with_deadline(view: BattleView, started_msec: int) -> bool:
+func _wait_for_battle_assets_with_deadline(view: BattleView) -> bool:
 	var last_phase := ""
-	var last_progress_msec := Time.get_ticks_msec()
+	var clock := LoadingClockScript.new()
 	while view != null and is_instance_valid(view) and current_screen == "BATTLE":
 		if view.assets_ready:
 			return true
 		if view.asset_warmup_phase != last_phase:
 			last_phase = view.asset_warmup_phase
-			last_progress_msec = Time.get_ticks_msec()
-		if loading_watchdog_expired(Time.get_ticks_msec(), started_msec, last_progress_msec):
+			clock.mark_progress()
+		if loading_watchdog_expired(clock.tick(), 0, clock.last_progress_msec):
 			return false
 		await get_tree().process_frame
 	return false
@@ -3471,7 +3477,7 @@ func _show_chapter_map() -> void:
 	# Keep explicit feedback visible until the cooperatively-built world confirms
 	# that terrain, pawns and input authority are all ready. The map now yields
 	# between build batches so this label and the interface remain paintable.
-	var map_ready_ok := await _wait_for_map_ready_with_deadline(map_screen, stage_preload_started_msec, show_generation)
+	var map_ready_ok := await _wait_for_map_ready_with_deadline(map_screen, show_generation)
 	if not map_ready_ok:
 		if is_instance_valid(map_screen) and map_screen.map_load_progress.is_connected(map_load_handler):
 			map_screen.map_load_progress.disconnect(map_load_handler)
@@ -3734,7 +3740,10 @@ func _play_map_battle_transition() -> void:
 	# payload remains read-only presentation data: recruitment, rewards, and the
 	# event-complete flag still belong exclusively to the victory resolver.
 	if not special_event.is_empty():
-		await _play_special_event_dialogue(veil, special_event, focus)
+		# The contact plays out on the map (phase 3 field direction); the reading
+		# panel stays as the reduced-motion and missing-pawn fallback.
+		if not await _play_field_contact(veil, focus, special_event, _map_node_id_for_stage(AppState.selected_stage_id)):
+			await _play_special_event_dialogue(veil, special_event, focus)
 		veil.queue_free()
 		await _route_to_battle_with_loading()
 		return
@@ -3743,11 +3752,13 @@ func _play_map_battle_transition() -> void:
 		# The finale speaks first (station-announcement lines), then the boss
 		# card reads out its name.  Presentation only: the battle transaction is
 		# already owned by the pending map encounter.
-		await _play_special_event_dialogue(veil, {
+		var boss_contact := {
 			"event_kind": "BOSS", "pre_battle_dialogue": boss_pages,
 			"title_key": str(encounter_presentation.get("event_title_key", "MAP_EVENT_DEFAULT_TITLE")),
 			"contact_outcome_key": str(encounter_presentation.get("boss_subtitle_key", "MAP_EVENT_DEFAULT_BODY")),
-		}, focus)
+		}
+		if not await _play_field_contact(veil, focus, boss_contact, _map_node_id_for_stage(AppState.selected_stage_id)):
+			await _play_special_event_dialogue(veil, boss_contact, focus)
 		veil.color = Color("06101c00")
 		focus.visible = true
 	var boss_card: Control
@@ -3953,6 +3964,50 @@ static func encounter_wipe_data(stage: Dictionary, title: String, heading: Strin
 		for level in levels: total += int(level)
 		level_line += " · 부대 평균 Lv.%d" % roundi(float(total) / float(levels.size()))
 	return {"heading": heading, "title": title, "level_line": level_line, "waves": waves.slice(0, 4)}
+
+func _map_node_id_for_stage(stage_id: String) -> String:
+	if active_chapter_map_screen == null or not is_instance_valid(active_chapter_map_screen) or not active_chapter_map_screen.has_method("field_node_id_for_stage"):
+		return ""
+	return str(active_chapter_map_screen.call("field_node_id_for_stage", stage_id))
+
+## Plays a map contact (event or boss standoff) as a field scene on the map: the
+## pawns turn to each other, the camera pushes in and every authored page is one
+## speech bubble.  Returns false, having shown nothing, when the reading panel
+## must be used instead (reduced motion, no map pawn on screen, no script).
+func _play_field_contact(veil: ColorRect, focus: Label, contact: Dictionary, node_id: String) -> bool:
+	if bool(SettingsService.values.get("map_reduced_transition", false)):
+		return false
+	var map_screen := active_chapter_map_screen
+	var pages: Array = contact.get("pre_battle_dialogue", [])
+	if pages.is_empty() or node_id.is_empty() or map_screen == null or not is_instance_valid(map_screen) or not map_screen.has_method("field_actor_world"):
+		return false
+	if map_screen.call("field_actor_world", "foe", node_id) == Vector3.INF:
+		return false
+	var boss := str(contact.get("event_kind", "")) == "BOSS"
+	var event_ids: Array = []
+	for character_id_value in contact.get("character_ids", []):
+		event_ids.append(str(character_id_value))
+	var options := {"kind": "BOSS" if boss else "EVENT", "event_ids": event_ids, "speaker_name": Callable(self, "_event_dialogue_speaker_name")}
+	if not boss:
+		options["title_key"] = str(contact.get("title_key", "MAP_EVENT_DEFAULT_TITLE"))
+		options["outcome_key"] = str(contact.get("contact_outcome_key", ""))
+	var steps: Array = FieldScriptScript.from_dialogue_pages(pages, options)
+	var field := FieldSceneOverlayScript.new()
+	field.name = "FieldContactScene"
+	field.text_font = _story_weighted_font(600, 0.15)
+	veil.add_child(field)
+	var stage = MapFieldStageScript.new(map_screen, field, node_id, {}, Callable(self, "_asset_texture"))
+	if not field.play(steps, stage, {"letterbox": true}):
+		field.queue_free()
+		return false
+	focus.visible = false
+	# A light tint pushes the map's own HUD back while the pawns act.
+	var tint := create_tween()
+	tint.tween_property(veil, "color", Color("06101c47"), 0.3)
+	await field.finished
+	tint.kill()
+	field.queue_free()
+	return true
 
 func _event_dialogue_speaker_name(page: Dictionary) -> String:
 	var speaker_kind := str(page.get("speaker_kind", "COMMAND"))
@@ -4189,6 +4244,9 @@ func _show_battle() -> void:
 	battle_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	battle_view.custom_minimum_size = Vector2(0.0, 420.0)
 	battle_view.setup(simulation)
+	# A defeated boss leaves a short field scene before the finale card (phase 3).
+	battle_view.field_aftermath_enabled = true
+	battle_view.field_portrait_source = Callable(self, "_asset_texture")
 	battle_view.deployment_active = true
 	battle_selected_uid = ""
 	battle_aim_uid = ""
@@ -4203,7 +4261,7 @@ func _show_battle() -> void:
 	# remains authoritative until all waves, projectiles and VFX are attached.
 	var battle_assets_ok := battle_view.assets_ready
 	if not battle_assets_ok:
-		battle_assets_ok = await _wait_for_battle_assets_with_deadline(battle_view, battle_preload_started_msec)
+		battle_assets_ok = await _wait_for_battle_assets_with_deadline(battle_view)
 	if not battle_assets_ok:
 		# Leaving BATTLE while assets load also ends the wait with `false`; that is
 		# a normal exit handled by the new screen, not a loading failure.

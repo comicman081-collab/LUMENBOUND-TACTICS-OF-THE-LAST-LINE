@@ -2,6 +2,7 @@ extends Node
 
 const WebMovementOverlayScript := preload("res://chapter_map/runtime/web_movement_overlay.gd")
 const EnvironmentWaterShader := preload("res://chapter_map/shaders/water_environment.gdshader")
+const MapAtmosphereShader := preload("res://chapter_map/shaders/map_atmosphere.gdshader")
 
 const SAMPLE_INTERVAL_SECONDS := 5.0
 const MAX_SAMPLES := 240
@@ -314,6 +315,16 @@ func _prewarm_web_render_pipelines() -> void:
 					sample_boundary.append(polygon[edge_index])
 					sample_boundary.append(polygon[(edge_index + 1) % 6])
 	movement_overlay.call("set_geometry", sample_cells, sample_grid, sample_boundary)
+	# The map's tilt-shift/haze pass reads the screen copy; link it here so the first
+	# map frame does not pay that compile (it sits under the same loading gate).
+	var atmosphere_rect := ColorRect.new()
+	atmosphere_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	atmosphere_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	atmosphere_rect.color = Color.WHITE
+	var atmosphere_material := ShaderMaterial.new()
+	atmosphere_material.shader = MapAtmosphereShader
+	atmosphere_rect.material = atmosphere_material
+	canvas_root.add_child(atmosphere_rect)
 	for segment_index in range(48):
 		var segment := ColorRect.new()
 		segment.color = Color("4fd3c2")

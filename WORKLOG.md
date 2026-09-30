@@ -1016,3 +1016,48 @@
 - 하지 않은 것: 달리기 동작·좌우 뒤집기·발소리(B1), 원경 실루엣과 거리 안개(A3), 높이차 확대·바위 기둥(A1, 지형 데이터 변경),
   상단 재화·전력 표시(A5). 조우 패널 제목은 기존 스테이지 이름("제1장 NORMAL 1")을 그대로 쓴다.
 - 배포·푸시는 하지 않았다.
+
+## 2026-09-30 — 로딩 문제 수정 + 필드 연출 시스템 3단계 (Claude)
+
+- 사용자 요청: "로딩 문제 해결하고 3단계 진행해라."
+  - 방향 문서 `reports/visual_direction_20260930/VISUAL_DIRECTION.md`의 3단계(C3 필드 연출 시스템)를 했다.
+  - 지도 규칙·전투 계산·보상·저장은 그대로다. 모두 화면 연출이다.
+- 로딩(웹 첫 지도 진입 "TACTICAL MAP UNAVAILABLE"):
+  - 원인 셋: 벽시계로 재는 12초 무진행 감시(그려지지 않는 동안에도 흐름), 프레임마다 고정 10ms 작업 조각,
+    진행 표시가 6곳뿐이라 그 사이(세계 구성 타일 스캔이 호출마다 프레임 하나씩 씀)가 초당 2~4프레임에서 12초를 넘김.
+  - `core/loading_clock.gd`(새 파일): 전달된 프레임당 최대 250ms만 센다. 작업 조각은 프레임 간격의 절반(20~250ms).
+    맵 빌더, `StageAssetCache` 웜업, `app_shell`의 지도·전투 감시가 같이 쓴다.
+  - `chapter_map_screen.gd` `_finish_web_build_slice`: 조각 예산 건너뛰기를 `map_ready`까지 전체에 적용하고,
+    프레임을 넘긴 조각이 마지막 진행 지점을 다시 알려 무진행 시계를 되돌린다. 전체 45초 제한은 남는다.
+  - 대기 셰이더를 부팅 웜업에 넣었다(`web_soak_probe.gd`).
+  - 실제 브라우저(Chrome headless + CDP, 새 프로필) 첫 진입: r16 CPU ×16 TIMEOUT 45.1초 →
+    r19 제한 없음 2.15초(r16 약 4.2초), CPU ×16 완료 36.9초, 프레임 2/초 완료 25.0초, 4/초 완료 13.4초.
+    중간 r17은 2/초와 4/초에서, r18은 2/초와 4/초에서 여전히 TIMEOUT이라 세계 구성 구간까지 넓힌 것이 r19다.
+    프레임 1/초는 구동기 클릭 타이밍이 맞지 않아 재지 못했다.
+- 필드 연출(`godot/field/`, 새 폴더):
+  - 스크립트 형식(`field_script.gd`): 명령 `say`(말풍선, 아군 청록·적 빨강·이벤트 금색), `move`, `face`, `jump`,
+    `emote`(!, ?, 땀, 분노, 섬광), `camera`(focus/zoom/shake), `banner`, `sfx`, `wait`. `"with": true`는 앞 명령과 같이 시작.
+    배역 `leader/ally/foe/boss/event/center`. 기존 쪽지(`pre_battle_dialogue`, `event_encounters`)를 장면으로 바꾸는 변환 포함.
+  - 실행기 `field_scene.gd`(시간 구동, 탭·건너뛰기), 화면 `field_scene_overlay.gd`(타자 효과 말풍선, 감정 표시, 배너, 레터박스),
+    호스트 어댑터 `field_stage.gd`(인터페이스) · `map_field_stage.gd` · `battle_field_stage.gd`.
+  - 라이브러리 `data/field_scenes/field_scenes.json`: 장면 25개(보스 후일담 23 + 기본 1 + 데모 1), ko/en 문구.
+  - 쓰는 곳: 지도 이벤트 접촉, 보스 대치(밀어붙임 zoom 1.35 / 1.45, 타격음), 보스 격파 후 결과 카드 전 짧은 후일담
+    (보스 마지막 말 + 아군 답, 23개 보스 전투). 긴 대화와 감정 장면은 비주얼 노벨 화면 그대로.
+    "전환 줄이기" 설정, 건너뛰기 진행 중, 적 폰 없음일 때는 기존 읽기 패널로 돌아가거나 후일담을 건너뛴다.
+  - 호스트: `chapter_map_screen.gd`에 `field_*` 훅(폰·적 폰 위치·도약·좌우, 카메라 포커스·줌·흔들림), `battle_view.gd`에
+    후일담 재생·대기와 유닛 위치·도약·카메라 훅, `app_shell.gd`에 `_play_field_contact`(이벤트·보스 접촉이 필드 장면을 먼저
+    시도). `battle_view.field_aftermath_enabled` 기본 false(테스트·도구는 탭을 기다리지 않음), 호스트만 켠다.
+  - 캡처로 찾아 고친 것: 한국어 단어 중간 줄바꿈, 지도 HUD 겹침(베일 색조, 이름표 숨김), 약한 밀어붙임.
+- 검증:
+  - 새 테스트 `res://tests/field_direction_runner.tscn` 115/115, `res://tests/loading_pacing_runner.tscn` 34/34.
+  - 헤드리스 회귀 34개 장면 모두 통과(test_runner 308/308, 맵 358/358, 전술 81/81, r15 54/54, 필드 탐색 342/342, 지역 로딩 197/197,
+    조우 매트릭스 8281/8281, 캠페인 스토리 946/946 외). 마지막 수정 뒤 맵·지역 로딩·필드·맵 2단계·로딩을 다시 돌렸다. 정적 검사 71/71.
+  - 캡처 도구 `res://tools/capture_presentation_phase3_qa.tscn`(창 필요, `map event|boss` / `battle`)으로 1600×900, 390×844 실제 셸
+    캡처. 기록·캡처: `reports/visual_phase3_20260930/PHASE3_REPORT.md`
+- 빌드: `builds/web_visual_r19_release` (PCK SHA-256 `816f0b8260b5f27b816f3400e53d1796fa33f92a82ecb0d1a5a74904785abd39`)를 후보로
+  만들고 로컬 실행기를 r19로 바꿨다. r15는 현재 검증본으로 남겼다.
+  - r16·r17·r18과 r17·r18·r19 development 내보내기는 해시를 `reports/visual_phase3_20260930/*_retirement_manifest.json.gz`에
+    적고 휴지통으로 보냈다. 일회용 Chrome 프로필 17개도 휴지통으로 보냈다.
+- 하지 않은 것 / 못 한 것: 필드 장면은 웹 빌드에서 돌려 보지 못했다(창 있는 셸 캡처와 헤드리스 테스트로만 확인),
+  프레임 1/초 첫 진입, 전투 진입의 느린 프레임 측정, 일반 전투 후일담, 장면 편집 도구.
+- 배포·푸시는 하지 않았다.

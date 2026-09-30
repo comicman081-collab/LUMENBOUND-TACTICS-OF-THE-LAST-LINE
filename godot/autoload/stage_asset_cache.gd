@@ -11,6 +11,7 @@ signal warmup_finished(signature: String, complete: bool)
 const COMBAT_ROOT := "res://assets/runtime_web/combat"
 const MAP_DENSITY_ROOT := "res://assets/runtime_web/map_density/r1"
 const DensityLoader := preload("res://battle/view/density_texture_loader.gd")
+const LoadingClockScript := preload("res://core/loading_clock.gd")
 const PROJECTILE_ROOT := "res://assets/runtime_web/projectiles"
 const NORMAL_BACKGROUND_PATH := "res://assets/art/backgrounds/BG_BATTLE_GLASS_RAIL/bg_battle_glass_rail_1920x1080.png"
 const BOSS_BACKGROUND_PATH := "res://assets/art/backgrounds/BG_BOSS_SIGNAL_CATHEDRAL/bg_boss_signal_cathedral_1920x1080.png"
@@ -27,7 +28,10 @@ var map_ready_signature := ""
 var _generation := 0
 var _active_signature := ""
 var _warm_started_msec := 0
-var _warm_last_progress_msec := 0
+# Deadlines count delivered frames (see LoadingClock), so a throttled tab is not a hang.
+var _warm_clock := LoadingClockScript.new()
+var _warm_last_resume_usec := 0
+var _warm_frame_interval_usec := 0
 var _cache: Dictionary = {}
 
 
@@ -208,8 +212,26 @@ func cancel_warmup() -> void:
 
 func _warmup_deadline_exceeded(started_msec: int) -> bool:
 	if started_msec <= 0: return false
-	var now := Time.get_ticks_msec()
-	return now - started_msec >= WARMUP_DEADLINE_MSEC or now - maxi(started_msec, _warm_last_progress_msec) >= WARMUP_IDLE_TIMEOUT_MSEC
+	return _warm_clock.expired(WARMUP_DEADLINE_MSEC, WARMUP_IDLE_TIMEOUT_MSEC)
+
+
+func _begin_warm_clock() -> void:
+	_warm_clock = LoadingClockScript.new()
+	_warm_last_resume_usec = 0
+	_warm_frame_interval_usec = 0
+
+
+func _warm_slice_usec() -> int:
+	# 9 ms at ordinary frame rates (the old fixed value); more when frames are slow.
+	return maxi(LoadingClockScript.slice_budget_usec(_warm_frame_interval_usec) - 1000, 0)
+
+
+func _yield_warm_frame() -> void:
+	await get_tree().process_frame
+	var resumed_usec := Time.get_ticks_usec()
+	if _warm_last_resume_usec > 0:
+		_warm_frame_interval_usec = resumed_usec - _warm_last_resume_usec
+	_warm_last_resume_usec = resumed_usec
 
 
 func warm_for_stage_select(map_id: String, definition: Dictionary, party_ids: Array, selected_stage_id := "", unlocked_stage_ids := []) -> bool:
@@ -232,6 +254,7 @@ func warm_for_stage_select(map_id: String, definition: Dictionary, party_ids: Ar
 	_active_signature = signature
 	warming = true
 	_warm_started_msec = Time.get_ticks_msec()
+	_begin_warm_clock()
 	_set_progress(0.0, "PLAN")
 	var pending := _empty_bundle(plan)
 	var tasks := _build_tasks(plan)
@@ -251,8 +274,8 @@ func warm_for_stage_select(map_id: String, definition: Dictionary, party_ids: Ar
 		# A browser frame is yielded by elapsed work budget, not once per tiny JSON or
 		# cached resource lookup. The old one-task/one-frame policy added seconds of
 		# artificial latency even when every operation completed in microseconds.
-		if not OS.has_feature("web") or index == tasks.size() - 1 or Time.get_ticks_usec() - slice_started_usec >= 9000:
-			await get_tree().process_frame
+		if not OS.has_feature("web") or index == tasks.size() - 1 or Time.get_ticks_usec() - slice_started_usec >= _warm_slice_usec():
+			await _yield_warm_frame()
 			slice_started_usec = Time.get_ticks_usec()
 	if generation != _generation:
 		return false
@@ -296,6 +319,7 @@ func warm_map_for_stage_select(map_id: String, definition: Dictionary, party_ids
 	_active_signature = signature
 	warming = true
 	_warm_started_msec = Time.get_ticks_msec()
+	_begin_warm_clock()
 	_set_progress(0.0, "MAP_PLAN")
 	var pending := _empty_bundle(plan)
 	var tasks := _build_map_tasks(plan)
@@ -318,8 +342,8 @@ func warm_map_for_stage_select(map_id: String, definition: Dictionary, party_ids
 			loaded = _load_task(task, pending)
 		if not loaded:
 			complete = false
-		if not OS.has_feature("web") or index == tasks.size() - 1 or Time.get_ticks_usec() - slice_started_usec >= 9000:
-			await get_tree().process_frame
+		if not OS.has_feature("web") or index == tasks.size() - 1 or Time.get_ticks_usec() - slice_started_usec >= _warm_slice_usec():
+			await _yield_warm_frame()
 			slice_started_usec = Time.get_ticks_usec()
 	if generation != _generation:
 		return false
@@ -647,7 +671,7 @@ func _textures_from_bundle(bundle: Dictionary) -> Array:
 
 func _set_progress(value: float, phase: String) -> void:
 	if value != progress_value or phase != progress_phase:
-		_warm_last_progress_msec = Time.get_ticks_msec()
+		_warm_clock.mark_progress()
 	progress_value = clampf(value, 0.0, 1.0)
 	progress_phase = phase
 	warmup_progress_changed.emit(progress_value, progress_phase)

@@ -48,7 +48,7 @@ func _process(delta: float) -> void:
 		_finish()
 
 func _gui_input(event: InputEvent) -> void:
-	var pressed := (event is InputEventMouseButton and (event as InputEventMouseButton).pressed) or (event is InputEventScreenTouch and (event as InputEventScreenTouch).pressed)
+	var pressed := (event is InputEventMouseButton and (event as InputEventMouseButton).pressed and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT) or (event is InputEventScreenTouch and (event as InputEventScreenTouch).pressed)
 	if pressed and elapsed >= skip_after:
 		accept_event()
 		skip()

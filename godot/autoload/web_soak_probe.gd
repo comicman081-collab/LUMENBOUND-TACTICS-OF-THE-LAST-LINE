@@ -3,6 +3,8 @@ extends Node
 const WebMovementOverlayScript := preload("res://chapter_map/runtime/web_movement_overlay.gd")
 const EnvironmentWaterShader := preload("res://chapter_map/shaders/water_environment.gdshader")
 const MapAtmosphereShader := preload("res://chapter_map/shaders/map_atmosphere.gdshader")
+const TitlePuppetShader := preload("res://ui/shaders/title_puppet.gdshader")
+const TitleHaloShader := preload("res://ui/shaders/title_halo.gdshader")
 
 const SAMPLE_INTERVAL_SECONDS := 5.0
 const MAX_SAMPLES := 240
@@ -281,7 +283,7 @@ func _prewarm_web_render_pipelines() -> void:
 		instanced_variant.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		root.add_child(instanced_variant)
 		web_render_resource_cache["r17_shader_material_%d" % shader_index] = shader_material
-		await _warmup_draw_slice("맵 재질 %d / %d" % [shader_index + 1, map_shaders.size()], 70 + shader_index * 5)
+		await _warmup_draw_slice("맵 재질 %d / %d" % [shader_index + 1, map_shaders.size()], 70 + shader_index * 4)
 
 	# The map's Web-only range and route presentation is Canvas-based so movement
 	# never uploads three dynamic 3D meshes. Exercise the exact custom draw path
@@ -293,28 +295,21 @@ func _prewarm_web_render_pipelines() -> void:
 	var movement_overlay: Control = WebMovementOverlayScript.new()
 	movement_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	canvas_root.add_child(movement_overlay)
-	var sample_cells: Array[PackedVector2Array] = []
-	var sample_grid := PackedVector2Array()
-	var sample_boundary := PackedVector2Array()
+	# World-space hex cells with an outer ring of border edges, projected through a
+	# throwaway camera that frames them inside the 96px warm-up viewport.
+	var sample_cells: Array = []
 	for row in range(6):
 		for column in range(7):
-			var center := Vector2(7.0 + float(column) * 13.0 + (6.5 if row % 2 == 1 else 0.0), 8.0 + float(row) * 13.0)
-			var polygon := PackedVector2Array([
-				center + Vector2(-6.0, 0.0),
-				center + Vector2(-3.0, -5.0),
-				center + Vector2(3.0, -5.0),
-				center + Vector2(6.0, 0.0),
-				center + Vector2(3.0, 5.0),
-				center + Vector2(-3.0, 5.0),
-			])
-			sample_cells.append(polygon)
-			for edge_index in range(6):
-				sample_grid.append(polygon[edge_index])
-				sample_grid.append(polygon[(edge_index + 1) % 6])
-				if row in [0, 5] or column in [0, 6]:
-					sample_boundary.append(polygon[edge_index])
-					sample_boundary.append(polygon[(edge_index + 1) % 6])
-	movement_overlay.call("set_geometry", sample_cells, sample_grid, sample_boundary)
+			var centre := Vector3(float(column) - 3.0 + (0.5 if row % 2 == 1 else 0.0), 0.2, float(row) * 0.87 - 2.2)
+			var corners: Array[Vector3] = []
+			for corner_index in range(6):
+				var angle := PI / 6.0 + TAU * float(corner_index) / 6.0
+				corners.append(centre + Vector3(cos(angle), 0.0, sin(angle)) * 0.5)
+			sample_cells.append({"corners": corners, "boundary": 0x3F if row in [0, 5] or column in [0, 6] else 0})
+	movement_overlay.call("set_world_cells", sample_cells)
+	var sample_eye := Transform3D(Basis.looking_at(Vector3(0.0, -1.0, -0.55).normalized(), Vector3.UP), Vector3(0.0, 9.0, 5.5))
+	var sample_to_clip := Projection.create_perspective(38.0, 1.0, 0.1, 100.0, false) * Projection(sample_eye.affine_inverse())
+	movement_overlay.call("apply_view", sample_to_clip, Vector2(warmup_viewport.size), 1.0)
 	# The map's tilt-shift/haze pass reads the screen copy; link it here so the first
 	# map frame does not pay that compile (it sits under the same loading gate).
 	var atmosphere_rect := ColorRect.new()
@@ -334,6 +329,41 @@ func _prewarm_web_render_pipelines() -> void:
 		segment.rotation = float(segment_index % 6) * PI / 3.0
 		segment.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		canvas_root.add_child(segment)
+
+	# The title's live-2D puppet and its lantern halo are two more canvas programs (the puppet is by
+	# far the largest). Link them here, with the real textures bound, so the title does not
+	# freeze for the compile when the intro ends.
+	var puppet_rect := ColorRect.new()
+	puppet_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	puppet_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	puppet_rect.color = Color.WHITE
+	var puppet_material := ShaderMaterial.new()
+	puppet_material.shader = TitlePuppetShader
+	var title_rig := preload("res://ui/title_live2d_rig.gd")
+	var hero_cfg: Dictionary = title_rig.HEROES["CHR001"]
+	puppet_material.set_shader_parameter("hero_tex", load(title_rig.ASSET_DIR + String(hero_cfg.hero)))
+	puppet_material.set_shader_parameter("mask_a", load(title_rig.ASSET_DIR + String(hero_cfg.mask_a)))
+	puppet_material.set_shader_parameter("mask_b", load(title_rig.ASSET_DIR + String(hero_cfg.mask_b)))
+	var lantern_cfg: Dictionary = hero_cfg.lantern
+	puppet_material.set_shader_parameter("lantern_tex", load(title_rig.ASSET_DIR + String(lantern_cfg.file)))
+	puppet_material.set_shader_parameter("lantern_rect", lantern_cfg.rect)
+	puppet_material.set_shader_parameter("fx2", Vector4(1.0, 0.0, 0.0, 2.0))
+	puppet_rect.material = puppet_material
+	canvas_root.add_child(puppet_rect)
+	var halo_rect := ColorRect.new()
+	halo_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	halo_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	halo_rect.color = Color.WHITE
+	var halo_material := ShaderMaterial.new()
+	halo_material.shader = TitleHaloShader
+	halo_material.set_shader_parameter("rect_px", Vector2(96.0, 96.0))
+	halo_material.set_shader_parameter("center_px", Vector2(48.0, 48.0))
+	halo_material.set_shader_parameter("unit_px", 60.0)
+	halo_rect.material = halo_material
+	canvas_root.add_child(halo_rect)
+	web_render_resource_cache["title_puppet_material"] = puppet_material
+	web_render_resource_cache["title_halo_material"] = halo_material
+	await _warmup_draw_slice("타이틀 연출", 96)
 
 	# Six actual draw frames cover 3D and Canvas pipeline creation plus two steady
 	# frames. This completes while audio is still locked by the browser.

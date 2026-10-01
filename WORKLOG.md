@@ -1123,3 +1123,27 @@
     스크래치 폴더(C 드라이브)의 테스트 출력 약 600MB도 같다. 기록: `reports/storage_cleanup_20261001/COMPLETION.md`.
   - 사운드(3.9GB 격리 음원 마스터, 음성, 오디오 원본), 인트로 영상, r15·r21 빌드, Codex 작업물, 게임 자산은 남겼다.
 - 배포·푸시는 하지 않았다.
+
+
+## 2026-10-01 — r22: 지도 높이 표시 수정, 타이틀 라이브 2D, 전투 웹 프레임 (Claude)
+
+- 요청: "r21로 배포했다. 개선·추가·버그 수정할 게 있는지 확인하고 r22로 업데이트", "고저차 맵에서 이동 가능 영역 노란 박스 높이가 안 맞는 것도 수정", 시안 영상(`title_live2d_preview.mp4`)을 보고 "타이틀 화면에 이런 수준의 라이브 2D 적용".
+- 지도: 이동 범위·경로·격자를 월드 좌표 칸으로 두고 GPU가 지도 카메라로 투영한다(`world_cell_overlay.gd/.gdshader`).
+  이전에는 CPU가 한 번 투영한 Control을 통째로 밀어서, 원근 카메라에서 고저차가 있는 칸 위로 미끄러졌다(격자는 최대 약 40px).
+  투영 189건이 `Camera3D.unproject_position()`과 일치, 지도 테스트 358/358, 웹 캡처에서 칸마다 자기 윗면 높이에 붙는 것을 확인했다.
+- 타이틀: 인물 일러스트를 픽셀 단위로 휘게 하는 셰이더 퍼핏(`ui/title_live2d.gd`, `title_puppet.gdshader`, 자산 `assets/title_live2d/`).
+  머리카락·옷 흔들림, 랜턴 진자, 숨·눈 깜박임·시선, 심장박동, 입장 연출. 프레임 시간으로 품질 단계를 자동 조절하고 자산이 없으면 정지 타이틀로 돌아간다.
+  웹 예열에 `타이틀 연출` 조각을 넣었다. 시안 영상: `reports/visual_r22_20261001/title_live2d_r22_preview.mp4`.
+- 전투 웹 프레임: 프레임마다 GPU 버퍼를 만들던 도형 명령을 정적 메시·캐시 텍스처로 바꿨다(`battle_mesh_kit.gd`, `battle_soft_sprites.gd`, `battle_region_floor.gd`).
+  같은 PC에서 r21 20~22fps → r22 41~42fps(CPU 4배 느림 5~6 → 10~11fps). 프레임당 폴리곤 명령 약 130개가 남았다.
+- 버그 9건: 피해 숫자 접두어(측면·엄폐·직격) 한글 폴백, `▸`·`▾` 글리프 교체, 오른쪽 클릭·휠이 연출을 건너뜀, 보스 후일담이 탭을 못 받음,
+  전투 뒤 지도 카메라 연출 잔재, 다음 웨이브 표식 글씨 하한, 유닛 이름 외곽선, MISS 숫자 정리, 랜드마크 연기 덩어리.
+- 빌드: `builds/web_visual_r22_release`, PCK `r7_current_13455ea5e24b.pck` 177,065,872바이트(SHA-256 `13455ea5…7731`), r21보다 +210,076바이트.
+  Sites 압축 해제 한도(268,435,456바이트)의 여유가 r21 배포 기준 854,016바이트뿐인데 처음 만든 r22는 +2,737,900바이트였다.
+  그래서 코드가 참조하지 않는 옛 타이틀 이미지 2장(`title_cast_plate_r1.png`, `title_cast_plate_portrait_r1.png`, PCK 안 2,526,818바이트)을
+  `quarantine/title_cast_plate_superseded_20261001/`로 옮기고(삭제 아님, 해시 기록) 다시 빌드했다. 새 여유는 약 0.64MB로 추정한다. 실제 값은 Codex 도구로 확인해야 한다.
+- 검증: 헤드리스 40개 장면 전부 통과, 정적 71/71, 새 Chrome 프로필에서 부팅 → 타이틀 → 지도 → 전투 오류 없음.
+- 인계(Codex): `godot/screens/command_presentation.gd`의 타이틀 연결 부분(`TitleLive2D` preload와 `live_cast` 분기)은 Codex의 미커밋 `title_backdrop` 재작성 안에 있어 커밋하지 않았다. Codex가 타이틀 변경과 같이 커밋해야 한다.
+  `tools/powershell/START_LOCAL_GAME.ps1`은 이제 r22를 가리킨다. 자세한 내용: `reports/visual_r22_20261001/R22_REPORT.md`.
+- 하지 않은 것 / 못 한 것: 실제 휴대폰 확인, NVIDIA+ANGLE 외 GPU 확인, 전투 폴리곤 명령 약 130개 정리.
+- 배포·푸시는 하지 않았다.

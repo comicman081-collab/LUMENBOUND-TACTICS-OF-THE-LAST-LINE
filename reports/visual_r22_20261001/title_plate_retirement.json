@@ -1,0 +1,46 @@
+{
+  "retired_at": "2026-10-01T11:49:09+00:00",
+  "by": "Claude (r22 session)",
+  "action": "moved to quarantine, not deleted",
+  "reason": "Superseded by the live-2D title (godot/ui/title_live2d.gd). Neither plate is referenced at runtime: no path, uid:// or directory scan in godot/, tools/ or data_source/ reaches them. They only cost web payload: the PCK holds their lossless ctex files, 2,526,818 bytes in total, and the Sites expanded-size limit (268,435,456 B) left only 854,016 B of headroom before r22 added 2,737,900 B of title textures.",
+  "pck_cost_bytes": {
+    "title_cast_plate_r1.png": 1503780,
+    "title_cast_plate_portrait_r1.png": 1023038
+  },
+  "evidence": [
+    "grep title_cast_plate over the project (excluding builds/work/quarantine/reports): tests/test_runner.gd (reads the builder source text only), tools/art/build_title_cast_plate.py, data_source/art_source/title/qa/TITLE_CAST_CONTINUITY_R1.json",
+    "grep of the import uids uid://b4tqgicbpfrfs and uid://bpi2ace1qphbk: no matches",
+    "godot/assets/art/title/title_logo_r1.png is still used (app_shell.gd TRANSITION_LOADING_LOGO_PATH) and was NOT moved"
+  ],
+  "restore": "Move the four files back to godot/assets/art/title/ (paths below) or regenerate them with python tools/art/build_title_cast_plate.py (it rebuilds both plates and the logo from the immutable character masters). Both plates are git-ignored art (godot/assets/art/ is in .gitignore).",
+  "files": [
+    {
+      "name": "title_cast_plate_r1.png",
+      "original_path": "godot/assets/art/title/title_cast_plate_r1.png",
+      "quarantine_path": "quarantine/title_cast_plate_superseded_20261001/godot/assets/art/title/title_cast_plate_r1.png",
+      "bytes": 2093872,
+      "sha256": "d4e43255c77f9c858a78293a01b9232466294d1d96c4bc2352e156e1ec886884"
+    },
+    {
+      "name": "title_cast_plate_r1.png.import",
+      "original_path": "godot/assets/art/title/title_cast_plate_r1.png.import",
+      "quarantine_path": "quarantine/title_cast_plate_superseded_20261001/godot/assets/art/title/title_cast_plate_r1.png.import",
+      "bytes": 978,
+      "sha256": "18e0ebc77eed0d4f994de666ad51046d3d9e28752820853a55647792e39641b2"
+    },
+    {
+      "name": "title_cast_plate_portrait_r1.png",
+      "original_path": "godot/assets/art/title/title_cast_plate_portrait_r1.png",
+      "quarantine_path": "quarantine/title_cast_plate_superseded_20261001/godot/assets/art/title/title_cast_plate_portrait_r1.png",
+      "bytes": 1399295,
+      "sha256": "b40863eb2ccf57a77715e000435c9ae74372e645647b2483d6244d728b37b51b"
+    },
+    {
+      "name": "title_cast_plate_portrait_r1.png.import",
+      "original_path": "godot/assets/art/title/title_cast_plate_portrait_r1.png.import",
+      "quarantine_path": "quarantine/title_cast_plate_superseded_20261001/godot/assets/art/title/title_cast_plate_portrait_r1.png.import",
+      "bytes": 1005,
+      "sha256": "73d3a23fd5df6922e261bb10f1b22bc663c11397d4289e2fd447a40a0942191f"
+    }
+  ]
+}

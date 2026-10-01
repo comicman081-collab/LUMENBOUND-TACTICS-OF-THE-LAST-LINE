@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "tool": "tools/art/build_title_live2d.py",
+  "heroes": {
+    "chr001": {
+      "source": "data_source/art_source/card_8head_green_matte_r2/CHR001/chr001_8head_r7_chatgpt_fresh_exact_rgba.png",
+      "source_sha256": "da835137d7de629debc7e66fb3d7ef4b3896d744973fd566d1499a81527d5492",
+      "size": [
+        1086,
+        1448
+      ],
+      "mask_size": [
+        543,
+        724
+      ],
+      "hero_sha256": "04f458bfdb328516d6f909667e1e739ccee10108c209d1c4cde2d40a7ebb6141",
+      "lantern": {
+        "file": "chr001_lantern.png",
+        "rect": [
+          129,
+          710,
+          178,
+          604
+        ],
+        "pivot": [
+          240.0,
+          725.0
+        ],
+        "seam": [
+          722,
+          740
+        ],
+        "sha256": "b7d5d383a45d97fe7e1b41bffeeaa5c2c9bc4feede53c7d489dc249f71d93a39"
+      }
+    },
+    "chr002": {
+      "source": "godot/assets/art/characters/CHR002/CHR002_PORTRAIT_R1.png",
+      "source_sha256": "e739484e7a8539fff3f3c76e6a51419c484ce96820f89da2b99ca4222fcad923",
+      "size": [
+        1048,
+        1536
+      ],
+      "mask_size": [
+        524,
+        768
+      ],
+      "hero_sha256": "1dea5c04b540899eb818310db8be7b0b4643d272c611d915eabdf2cf7ced2660"
+    }
+  }
+}

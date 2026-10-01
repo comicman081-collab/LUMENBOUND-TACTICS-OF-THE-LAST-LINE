@@ -410,6 +410,9 @@ static func populate(root: Node3D, body_material: Material, glow_material: Mater
 			puff.mesh = _puff_mesh()
 			puff.material_override = body_material
 			puff.position = source
+			# animate() sizes the puffs; a landmark nobody animates (far from the camera, or not yet
+			# visited this frame) must not show full-size grey diamonds sitting on its fire
+			puff.scale = Vector3.ONE * .05
 			root.add_child(puff)
 			animated.append({"node": puff, "type": "smoke", "origin": source, "phase": float(puff_index) / float(PUFFS_PER_SMOKE) + float(smoke_index) * .37})
 		smoke_index += 1

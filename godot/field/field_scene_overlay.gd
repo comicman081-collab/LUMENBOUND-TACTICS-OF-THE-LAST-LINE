@@ -34,7 +34,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	skip_button = Button.new()
 	skip_button.name = "FieldSceneSkip"
-	skip_button.text = "건너뛰기 ▸"
+	skip_button.text = "건너뛰기 ›"
 	skip_button.focus_mode = Control.FOCUS_NONE
 	skip_button.pressed.connect(_on_skip_pressed)
 	add_child(skip_button)
@@ -77,7 +77,7 @@ func _on_scene_finished(was_skipped: bool) -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
-	var pressed := (event is InputEventMouseButton and (event as InputEventMouseButton).pressed) or (event is InputEventScreenTouch and (event as InputEventScreenTouch).pressed)
+	var pressed := (event is InputEventMouseButton and (event as InputEventMouseButton).pressed and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT) or (event is InputEventScreenTouch and (event as InputEventScreenTouch).pressed)
 	if pressed and is_active():
 		scene.tap()
 		accept_event()

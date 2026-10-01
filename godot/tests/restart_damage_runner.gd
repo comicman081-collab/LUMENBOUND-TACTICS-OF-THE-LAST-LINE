@@ -36,6 +36,17 @@ func _ready() -> void:
 	SaveService.soak_sandbox_enabled = false
 	var font := BattleView.DAMAGE_FONT
 	check(font != null and font.has_char(48) and font.has_char(57),"rounded font contains damage digits")
+	# The flank / cover / area prefixes are Hangul; the rounded face has none and the web has no system
+	# font, so the battle font must stand behind it (BattleView binds it as soon as the font loads).
+	check(not font.has_char(0xCE21),"rounded font alone has no Hangul (the reason for the fallback)")
+	var prefix_view := BattleView.new()
+	prefix_view.battle_font = load("res://assets/fonts/LanternSans-Medium.ttf") as Font
+	prefix_view._bind_damage_font_fallback()
+	var prefix_ok := true
+	for glyph in "측면엄폐직격":
+		prefix_ok = prefix_ok and font.has_char(glyph.unicode_at(0))
+	check(prefix_ok,"damage prefixes (측면 / 엄폐 / 직격) resolve through the battle font fallback")
+	prefix_view.free()
 	var failures := checks.filter(func(row):return not row.pass)
 	var output := FileAccess.open("res://../reports/existing_roster_spritegen_20260911/restart_tests.json",FileAccess.WRITE)
 	output.store_string(JSON.stringify({"checks":checks,"status":"PASS" if failures.is_empty() else "FAIL"},"\t"))

@@ -27,7 +27,7 @@ const NUMBER_STYLES := {
 	"resist": {"size": .84, "ink": Color("a9b7c8"), "tag": "RESIST", "tag_ink": Color(.72, .78, .86), "rise": 30.0, "pop": .08, "duration": 1.05},
 	"heal": {"size": 1.06, "ink": Color("76e6a5"), "tag": "", "rise": 22.0, "pop": .22, "duration": 1.30},
 	"shield": {"size": .96, "ink": Color("72d5ff"), "tag": "", "rise": 26.0, "pop": .14, "duration": 1.15},
-	"miss": {"size": .72, "ink": Color(.78, .82, .88), "tag": "", "rise": 34.0, "pop": .16, "duration": 1.15},
+	"miss": {"size": .60, "ink": Color(.78, .82, .88), "tag": "", "rise": 34.0, "pop": .16, "duration": .80},
 }
 
 static func damage_style(event: Dictionary) -> String:
@@ -62,12 +62,16 @@ static func shake_preset(style: String, weight: float, source_kind: String) -> S
 	return "tap"
 
 ## Shake shape per preset: x/y frequency and amplitude in battlefield pixels.
+## A constant table: the director asks for it for every point it transforms while a shake runs.
+const SHAKE_SHAPES := {
+	"tap": {"fx": 163.0, "fy": 121.0, "ax": 5.0, "ay": 2.5},
+	"thud": {"fx": 143.0, "fy": 109.0, "ax": 7.0, "ay": 3.5},
+	"snap": {"fx": 187.0, "fy": 97.0, "ax": 10.5, "ay": 2.0},
+	"quake": {"fx": 83.0, "fy": 67.0, "ax": 6.0, "ay": 9.5},
+}
+
 static func shake_shape(preset: String) -> Dictionary:
-	match preset:
-		"tap": return {"fx": 163.0, "fy": 121.0, "ax": 5.0, "ay": 2.5}
-		"snap": return {"fx": 187.0, "fy": 97.0, "ax": 10.5, "ay": 2.0}
-		"quake": return {"fx": 83.0, "fy": 67.0, "ax": 6.0, "ay": 9.5}
-	return {"fx": 143.0, "fy": 109.0, "ax": 7.0, "ay": 3.5}
+	return SHAKE_SHAPES.get(preset, SHAKE_SHAPES.thud)
 
 ## Flash length and slide distance for the victim. Returns {duration, power}.
 static func reaction_span(style: String, weight: float) -> Dictionary:

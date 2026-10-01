@@ -89,6 +89,7 @@ func _encounter_wipe() -> void:
 	wipe.finished.connect(func(): finished_count[0] += 1)
 	var early := InputEventMouseButton.new()
 	early.pressed = true
+	early.button_index = MOUSE_BUTTON_LEFT
 	wipe._gui_input(early)
 	check(wipe.elapsed < wipe.duration, "an early tap cannot skip before the panel is in")
 	for index in range(60):
@@ -100,6 +101,11 @@ func _encounter_wipe() -> void:
 	add_child(skip)
 	skip.configure(data, 5.0)
 	skip.elapsed = EncounterWipe.PANEL_IN + .2
+	var stray := InputEventMouseButton.new()
+	stray.pressed = true
+	stray.button_index = MOUSE_BUTTON_RIGHT
+	skip._gui_input(stray)
+	check(skip.elapsed < skip.duration, "a right click or wheel notch does not skip the wipe")
 	skip._gui_input(early)
 	check(is_equal_approx(skip.elapsed, skip.duration), "a tap after the panel lands skips to the battle")
 	wipe.queue_free()

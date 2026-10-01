@@ -82,6 +82,7 @@ const NaturalTerrain := preload("res://chapter_map/view/natural_terrain_library.
 var natural_terrain_info: Dictionary = {}
 const EnvironmentFXControllerScript := preload("res://chapter_map/presentation/environment_fx_controller.gd")
 const WebMovementOverlayScript := preload("res://chapter_map/runtime/web_movement_overlay.gd")
+const WorldCellOverlayScript := preload("res://chapter_map/runtime/world_cell_overlay.gd")
 const EnvironmentWaterShader := preload("res://chapter_map/shaders/water_environment.gdshader")
 const FogOfWarShader := preload("res://chapter_map/shaders/fog_of_war.gdshader")
 const FogOfWarScreenShader := preload("res://chapter_map/shaders/fog_of_war_screen.gdshader")
@@ -230,23 +231,31 @@ var movement_range_reachable: Dictionary = {}
 var movement_range_render_generation := 0
 var web_movement_overlay
 var web_movement_visible_keys: Array[String] = []
-var web_movement_projection_camera := Vector3(1.0e20, 1.0e20, 1.0e20)
-var web_movement_projection_size := Vector2(-1.0, -1.0)
-var web_movement_projection_camera_size := -1.0
-var web_movement_projection_origin_screen := Vector2.ZERO
 var route_mesh: MeshInstance3D
 var web_route_overlay: Control
 var web_route_rects: Array[ColorRect] = []
-var web_route_projection_camera := Vector3(1.0e20, 1.0e20, 1.0e20)
-var web_route_projection_size := Vector2(-1.0, -1.0)
-var web_route_projection_camera_size := -1.0
-var web_route_projection_origin_screen := Vector2(1.0e20, 1.0e20)
+var web_route_view_serial := -1
+var web_route_segment_width := 7.0
 var web_selected_overlay: Control
 var web_selected_rects: Array[ColorRect] = []
-var web_selected_projection_camera := Vector3(1.0e20, 1.0e20, 1.0e20)
-var web_selected_projection_size := Vector2(-1.0, -1.0)
-var web_selected_projection_camera_size := -1.0
-var web_selected_projection_origin_screen := Vector2(1.0e20, 1.0e20)
+var web_selected_view_serial := -1
+var web_selected_edge_width := 4.0
+## Browsers draw the movement range, route guide and selection ring as 2D overlays
+## (dynamic 3D meshes stall the frame there). `LUMEN_MAP_PROJECTED_OVERLAY=1` runs
+## the same path on desktop so it can be captured and compared with the 3D one.
+var projected_overlay_enabled := OS.has_feature("web") or OS.get_environment("LUMEN_MAP_PROJECTED_OVERLAY") == "1"
+## The exact world -> overlay projection every world-space overlay shares. It is
+## recomputed whenever the camera or the overlay size changes and `overlay_view_serial`
+## ticks, so a pan, zoom, perspective change or camera moment is one matrix upload
+## for the GPU-projected layers and one re-projection of a handful of CPU points.
+var overlay_view_to_clip := Projection.IDENTITY
+var overlay_view_size := Vector2.ZERO
+var overlay_view_scale := 1.0
+var overlay_view_serial := 0
+var overlay_view_target := Vector3.ZERO
+var overlay_view_origin := Vector3.ZERO
+var overlay_view_forward := Vector3.FORWARD
+var overlay_view_distance := 12.0
 var web_entity_projection_dirty := true
 var web_entity_projection_size := Vector2(-1.0, -1.0)
 var runtime_layout_cached_size := Vector2.ZERO
@@ -503,6 +512,12 @@ func resume_from_cache() -> void:
 	# hidden. Rebind and repaint only stateful overlays/pawns; do not rebuild the
 	# 3D world, terrain batches or imported art on every reward return.
 	map_simulation_paused = true
+	# a camera moment (or a discovery waiting to be shown) from before the battle belongs to a walk
+	# that no longer exists: the next completed move must not pull the camera back to an old crate
+	pending_discovery_moment = {}
+	camera_moment_kind = ""
+	camera_moment_focus = Vector3.INF
+	web_entity_projection_dirty = true
 	map_state = AppState.chapter_map_state(map_id)
 	var repaired_map_state := MapExplorationServiceScript.ensure_state(map_state, definition, grid)
 	hard_overlay = _hard_overlay_from_state(map_state, definition)
@@ -871,7 +886,7 @@ func _build_interface() -> void:
 	map_fx_overlay.set("projector", _overlay_position_from_world)
 	map_fx_overlay.set("visible_check", _overlay_anchor_is_visible)
 	overlay.add_child(map_fx_overlay)
-	if OS.has_feature("web"):
+	if projected_overlay_enabled:
 		web_movement_overlay = WebMovementOverlayScript.new()
 		web_movement_overlay.name = "WebMovementAuthorityOverlay"
 		web_movement_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -909,6 +924,9 @@ func _build_interface() -> void:
 			edge.visible = false
 			web_selected_overlay.add_child(edge)
 			web_selected_rects.append(edge)
+		# These stand in for 3D meshes, so they belong under the presentation overlay's
+		# glow, rim and labels exactly like the meshes do.
+		overlay.move_child(map_fx_overlay, overlay.get_child_count() - 1)
 	# Environment FX is inserted between the SubViewport and actual map controls.
 	# It affects only world presentation and can never tint/map-block HUD input.
 	environment_fx = EnvironmentFXControllerScript.new()
@@ -3892,7 +3910,9 @@ func _on_node_button_input(event: InputEvent, node: Dictionary) -> void:
 ## at `world_position`; exact in the orthographic view, measured by projecting one
 ## camera-up unit in perspective.
 func _screen_pixels_per_world(world_position: Vector3) -> float:
-	if not camera_perspective or camera == null or not is_instance_valid(camera) or viewport == null or not is_instance_valid(viewport) or overlay == null or not is_instance_valid(overlay):
+	if camera == null or not is_instance_valid(camera) or overlay == null or not is_instance_valid(overlay):
+		return 1.0
+	if not camera_perspective or viewport == null or not is_instance_valid(viewport):
 		return overlay.size.y / maxf(0.001, camera.size)
 	var camera_up := camera.global_transform.basis.y.normalized()
 	var origin := camera.unproject_position(world_position)
@@ -5161,12 +5181,7 @@ func _clear_movement_range_overlay() -> void:
 	if map_fx_overlay != null:
 		map_fx_overlay.call("set_rim", [], Vector3.ZERO)
 	web_movement_visible_keys.clear()
-	web_movement_projection_camera = Vector3(1.0e20, 1.0e20, 1.0e20)
-	web_movement_projection_size = Vector2(-1.0, -1.0)
-	web_movement_projection_camera_size = -1.0
-	web_movement_projection_origin_screen = Vector2.ZERO
 	if web_movement_overlay != null:
-		web_movement_overlay.position = Vector2.ZERO
 		web_movement_overlay.clear_geometry()
 	movement_range_fill.mesh = null
 	movement_range_grid.mesh = null
@@ -5174,88 +5189,72 @@ func _clear_movement_range_overlay() -> void:
 	movement_range_grid.visible = true
 	movement_range_boundary.visible = true
 
-func _apply_web_movement_range_details(generation: int, cell_grid_mesh: ImmediateMesh, boundary_mesh: ImmediateMesh) -> void:
-	# Assigning three dynamic 3D buffers in the same browser frame caused the
-	# post-step 50-70ms pause. The gold fill is immediate authority; its internal
-	# seams and outer edge arrive on the next two frames, each below one frame's
-	# upload budget. A generation token prevents stale turn geometry from landing.
-	await get_tree().process_frame
-	if not _web_async_owner_alive() or movement_range_grid == null or not is_instance_valid(movement_range_grid) or generation != movement_range_render_generation:
+## Cells of the movement range, kept in world space at their own terrain top. The
+## GPU projects them (world_cell_overlay), so this runs once per range change, not
+## per camera frame.
+func _update_web_movement_range_projection(_force_projection := false) -> void:
+	if not projected_overlay_enabled or web_movement_overlay == null or not is_instance_valid(web_movement_overlay):
 		return
-	movement_range_grid.mesh = cell_grid_mesh if cell_grid_mesh.get_surface_count() > 0 else null
-	movement_range_grid.visible = true
-	await get_tree().process_frame
-	if not _web_async_owner_alive() or movement_range_boundary == null or not is_instance_valid(movement_range_boundary) or generation != movement_range_render_generation:
-		return
-	movement_range_boundary.mesh = boundary_mesh if boundary_mesh.get_surface_count() > 0 else null
-	movement_range_boundary.visible = true
-
-func _update_web_movement_range_projection(force_projection := false) -> void:
-	if not OS.has_feature("web") or web_movement_overlay == null or not is_instance_valid(web_movement_overlay):
-		return
-	if web_movement_visible_keys.is_empty() \
-		or camera == null or not is_instance_valid(camera) \
-		or viewport == null or not is_instance_valid(viewport) \
-		or overlay == null or not is_instance_valid(overlay):
+	if web_movement_visible_keys.is_empty():
 		web_movement_overlay.clear_geometry()
 		return
-	if not force_projection \
-		and camera_target.distance_squared_to(web_movement_projection_camera) <= 0.000001 \
-		and overlay.size.is_equal_approx(web_movement_projection_size) \
-		and is_equal_approx(camera.size, web_movement_projection_camera_size):
-		return
-	if not force_projection \
-		and web_movement_projection_camera.x < 1.0e19 \
-		and overlay.size.is_equal_approx(web_movement_projection_size) \
-		and is_equal_approx(camera.size, web_movement_projection_camera_size):
-		# With a fixed orthographic angle and zoom, camera translation applies one
-		# common screen delta to every highlighted hex. Move the overlay Control as
-		# a unit instead of rebuilding every polygon and edge on every walk frame.
-		var current_origin_screen := _overlay_position_from_world(Vector3.ZERO)
-		web_movement_overlay.position = current_origin_screen - web_movement_projection_origin_screen
-		web_movement_projection_camera = camera_target
-		return
-	web_movement_overlay.position = Vector2.ZERO
-	var cells: Array[PackedVector2Array] = []
-	var grid_segments := PackedVector2Array()
-	var boundary_segments := PackedVector2Array()
-	var emitted_edges: Dictionary = {}
+	var world_cells: Array = []
 	for key in web_movement_visible_keys:
 		var coord := HexCoordScript.from_key(key)
 		var surface_y := float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.105
-		var world_corners := _movement_hex_corners(coord, surface_y)
-		var polygon := PackedVector2Array()
-		for corner in world_corners:
-			polygon.append(_overlay_position_from_world(corner))
-		cells.append(polygon)
-		for direction_index in range(HexCoordScript.DIRECTIONS.size()):
-			var neighbour := coord + HexCoordScript.DIRECTIONS[direction_index]
-			var neighbour_key := HexCoordScript.key(neighbour)
-			var edge_parts := [key, neighbour_key]
-			edge_parts.sort()
-			var edge_key := "%s|%s" % [edge_parts[0], edge_parts[1]]
-			if emitted_edges.has(edge_key):
-				continue
-			emitted_edges[edge_key] = true
-			var edge_indices := _movement_boundary_corner_indices(direction_index)
-			var from := polygon[edge_indices.x]
-			var to := polygon[edge_indices.y]
-			grid_segments.append(from)
-			grid_segments.append(to)
-			if not movement_range_reachable.has(neighbour_key):
-				boundary_segments.append(from)
-				boundary_segments.append(to)
-	web_movement_overlay.set_geometry(cells, grid_segments, boundary_segments)
-	web_movement_projection_camera = camera_target
-	web_movement_projection_size = overlay.size
-	web_movement_projection_camera_size = camera.size
-	web_movement_projection_origin_screen = _overlay_position_from_world(Vector3.ZERO)
+		# Bit i marks the edge from corner i to corner i + 1; the neighbour across
+		# it is the direction whose boundary corner pair is (i, i + 1).
+		var boundary_mask := 0
+		for edge_index in range(6):
+			var direction_index := posmod(5 - edge_index, 6)
+			if not movement_range_reachable.has(HexCoordScript.key(coord + HexCoordScript.DIRECTIONS[direction_index])):
+				boundary_mask |= 1 << edge_index
+		world_cells.append({"corners": _movement_hex_corners(coord, surface_y), "boundary": boundary_mask})
+	web_movement_overlay.set_world_cells(world_cells)
+	if overlay_view_serial > 0:
+		web_movement_overlay.apply_view(overlay_view_to_clip, overlay_view_size, overlay_view_scale)
+
+## Recomputes the shared world -> overlay projection; true when it changed. This is
+## exactly what Camera3D.unproject_position() does, composed once so the GPU-projected
+## layers can apply it per vertex and the CPU overlays can re-project their few points.
+func _refresh_overlay_view() -> bool:
+	if camera == null or not is_instance_valid(camera) or not camera.is_inside_tree() \
+		or overlay == null or not is_instance_valid(overlay):
+		return false
+	var view_size := overlay.size
+	if view_size.x <= 0.0 or view_size.y <= 0.0:
+		return false
+	var to_clip := camera.get_camera_projection() * Projection(camera.get_camera_transform().affine_inverse())
+	var physical_scale := 1.0
+	if is_inside_tree():
+		physical_scale = clampf(get_viewport().get_final_transform().get_scale().x, 0.5, 6.0)
+	if overlay_view_serial > 0 and to_clip == overlay_view_to_clip and view_size == overlay_view_size and is_equal_approx(physical_scale, overlay_view_scale):
+		return false
+	overlay_view_to_clip = to_clip
+	overlay_view_size = view_size
+	overlay_view_scale = physical_scale
+	overlay_view_target = camera_target
+	overlay_view_origin = camera.global_position
+	overlay_view_forward = -camera.global_transform.basis.z
+	overlay_view_distance = maxf(camera.global_position.distance_to(camera_target), 1.0)
+	overlay_view_serial += 1
+	return true
+
+## Pushes the current view to every projected overlay that is showing something.
+func _apply_projected_overlay_view() -> void:
+	if not projected_overlay_enabled:
+		return
+	if web_movement_overlay != null and is_instance_valid(web_movement_overlay) and web_movement_overlay.visible:
+		web_movement_overlay.apply_view(overlay_view_to_clip, overlay_view_size, overlay_view_scale)
+	if web_route_overlay != null and is_instance_valid(web_route_overlay) and web_route_overlay.visible:
+		_update_web_route_line()
+	if web_selected_overlay != null and is_instance_valid(web_selected_overlay) and web_selected_overlay.visible:
+		_update_web_selected_ring()
 
 func _update_movement_range_overlay() -> void:
 	if movement_range_fill == null or movement_range_grid == null or movement_range_boundary == null:
 		return
 	movement_range_render_generation += 1
-	var render_generation := movement_range_render_generation
 	var movement_points := MapExplorationServiceScript.movement_remaining(map_state, definition)
 	# During a pawn tween the starting range remains the player's movement
 	# authority and route context. Do not erase it between pointer confirmation
@@ -5296,7 +5295,7 @@ func _update_movement_range_overlay() -> void:
 		movement_range_grid.mesh = null
 		movement_range_boundary.mesh = null
 		return
-	if OS.has_feature("web"):
+	if projected_overlay_enabled:
 		web_movement_visible_keys.clear()
 		for key_value in visible_range_keys:
 			web_movement_visible_keys.append(str(key_value))
@@ -5358,13 +5357,8 @@ func _update_movement_range_overlay() -> void:
 	var boundary_mesh := _movement_triangle_mesh(boundary_vertices, _movement_overlay_material(Color("ffe4a3d9"), Color.BLACK, true))
 	_sync_fx_rim(visible_range_keys)
 	movement_range_fill.mesh = fill_mesh if fill_mesh.get_surface_count() > 0 else null
-	if OS.has_feature("web"):
-		movement_range_grid.visible = false
-		movement_range_boundary.visible = false
-		call_deferred("_apply_web_movement_range_details", render_generation, cell_grid_mesh, boundary_mesh)
-	else:
-		movement_range_grid.mesh = cell_grid_mesh if cell_grid_mesh.get_surface_count() > 0 else null
-		movement_range_boundary.mesh = boundary_mesh if boundary_mesh.get_surface_count() > 0 else null
+	movement_range_grid.mesh = cell_grid_mesh if cell_grid_mesh.get_surface_count() > 0 else null
+	movement_range_boundary.mesh = boundary_mesh if boundary_mesh.get_surface_count() > 0 else null
 
 func _place_web_overlay_segment(segment: ColorRect, from: Vector2, to: Vector2, width: float, color: Color) -> void:
 	var delta := to - from
@@ -5387,76 +5381,68 @@ func _ensure_web_route_rect_count(required_count: int) -> void:
 		web_route_overlay.add_child(segment)
 		web_route_rects.append(segment)
 
+## World point -> overlay pixels through the shared view, identical to
+## Camera3D.unproject_position() for this overlay's size but without a node query.
+func _project_overlay_point(world_position: Vector3) -> Vector2:
+	return WorldCellOverlayScript.project(overlay_view_to_clip, world_position, overlay_view_size)
+
 func _update_web_route_line(force_projection := false) -> void:
-	if not OS.has_feature("web") or web_route_overlay == null or not is_instance_valid(web_route_overlay):
+	if not projected_overlay_enabled or web_route_overlay == null or not is_instance_valid(web_route_overlay):
 		return
-	if preview_path.size() < 2 \
-		or camera == null or not is_instance_valid(camera) \
-		or viewport == null or not is_instance_valid(viewport) \
-		or overlay == null or not is_instance_valid(overlay):
+	if preview_path.size() < 2 or overlay == null or not is_instance_valid(overlay):
 		web_route_overlay.visible = false
-		web_route_overlay.position = Vector2.ZERO
-		web_route_projection_camera = Vector3(1.0e20, 1.0e20, 1.0e20)
-		web_route_projection_size = Vector2(-1.0, -1.0)
-		web_route_projection_camera_size = -1.0
-		web_route_projection_origin_screen = Vector2(1.0e20, 1.0e20)
+		web_route_view_serial = -1
 		return
-	var geometry_changed := force_projection \
-		or not overlay.size.is_equal_approx(web_route_projection_size) \
-		or not is_equal_approx(camera.size, web_route_projection_camera_size)
-	if not geometry_changed and web_route_projection_origin_screen.x < 1.0e19:
-		# Orthographic camera panning is a common screen-space translation. Move the
-		# pooled Control once instead of reprojecting every route point and querying
-		# browser layout on every movement frame.
-		var current_origin_screen := _overlay_position_from_world(Vector3.ZERO)
-		web_route_overlay.position = current_origin_screen - web_route_projection_origin_screen
-		web_route_projection_camera = camera_target
+	if force_projection:
+		_refresh_overlay_view()
+	elif web_route_view_serial == overlay_view_serial:
 		return
+	if overlay_view_serial <= 0:
+		return
+	# Every point is re-projected through the live camera, so the guide follows the
+	# terrain tops under a perspective camera as well. Colours and width are decided
+	# only when the route itself changes; a camera move just re-places the segments.
+	var route_changed := force_projection or web_route_view_serial < 0
+	var route_color := Color.WHITE
+	var movement_points := 0
+	if route_changed:
+		route_color = Color("4fd3c2") if preview_risk == "SAFE" else (Color("e7bd63") if preview_risk == "WATCHED" else Color("e87972"))
+		movement_points = MapExplorationServiceScript.movement_remaining(map_state, definition)
+		web_route_segment_width = 7.0 * _portrait_ui_scale(_runtime_layout_size())
+		_ensure_web_route_rect_count(preview_path.size() - 1)
 	web_route_overlay.position = Vector2.ZERO
-	var route_color := Color("4fd3c2") if preview_risk == "SAFE" else (Color("e7bd63") if preview_risk == "WATCHED" else Color("e87972"))
-	var movement_points := MapExplorationServiceScript.movement_remaining(map_state, definition)
-	_ensure_web_route_rect_count(preview_path.size() - 1)
 	var projected_points := PackedVector2Array()
 	for coord in preview_path:
 		var surface_y := float(grid.tile(coord).get("elevation", 0)) * ELEVATION_STEP + 0.57
-		projected_points.append(_overlay_position_from_world(HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y)))
-	var segment_width := 7.0 * _portrait_ui_scale(_runtime_layout_size())
+		projected_points.append(_project_overlay_point(HexCoordScript.axial_to_world(coord, TILE_SIZE, surface_y)))
 	for segment_index in range(web_route_rects.size()):
 		var segment := web_route_rects[segment_index]
 		if segment_index >= projected_points.size() - 1:
 			segment.visible = false
 			continue
-		var segment_color := route_color.lightened(0.18) if segment_index < movement_points else Color("657989")
-		_place_web_overlay_segment(segment, projected_points[segment_index], projected_points[segment_index + 1], segment_width, segment_color)
+		var segment_color := segment.color
+		if route_changed:
+			segment_color = route_color.lightened(0.18) if segment_index < movement_points else Color("657989")
+		_place_web_overlay_segment(segment, projected_points[segment_index], projected_points[segment_index + 1], web_route_segment_width, segment_color)
 	web_route_overlay.visible = true
-	web_route_projection_camera = camera_target
-	web_route_projection_size = overlay.size
-	web_route_projection_camera_size = camera.size
-	web_route_projection_origin_screen = _overlay_position_from_world(Vector3.ZERO)
+	web_route_view_serial = overlay_view_serial
 
 func _update_web_selected_ring(force_projection := false) -> void:
-	if not OS.has_feature("web") or web_selected_overlay == null or not is_instance_valid(web_selected_overlay):
+	if not projected_overlay_enabled or web_selected_overlay == null or not is_instance_valid(web_selected_overlay):
 		return
 	var selected_target: Dictionary = selected_node if not selected_node.is_empty() else (selected_treasure if not selected_treasure.is_empty() else (selected_relay if not selected_relay.is_empty() else selected_event))
-	if selected_target.is_empty() \
-		or camera == null or not is_instance_valid(camera) \
-		or viewport == null or not is_instance_valid(viewport) \
-		or overlay == null or not is_instance_valid(overlay):
+	if selected_target.is_empty() or overlay == null or not is_instance_valid(overlay):
 		web_selected_overlay.visible = false
-		web_selected_overlay.position = Vector2.ZERO
-		web_selected_projection_camera = Vector3(1.0e20, 1.0e20, 1.0e20)
-		web_selected_projection_size = Vector2(-1.0, -1.0)
-		web_selected_projection_camera_size = -1.0
-		web_selected_projection_origin_screen = Vector2(1.0e20, 1.0e20)
+		web_selected_view_serial = -1
 		return
-	var geometry_changed := force_projection \
-		or not overlay.size.is_equal_approx(web_selected_projection_size) \
-		or not is_equal_approx(camera.size, web_selected_projection_camera_size)
-	if not geometry_changed and web_selected_projection_origin_screen.x < 1.0e19:
-		var current_origin_screen := _overlay_position_from_world(Vector3.ZERO)
-		web_selected_overlay.position = current_origin_screen - web_selected_projection_origin_screen
-		web_selected_projection_camera = camera_target
+	if force_projection:
+		_refresh_overlay_view()
+	elif web_selected_view_serial == overlay_view_serial:
 		return
+	if overlay_view_serial <= 0:
+		return
+	if force_projection or web_selected_view_serial < 0:
+		web_selected_edge_width = 4.0 * _portrait_ui_scale(_runtime_layout_size())
 	web_selected_overlay.position = Vector2.ZERO
 	var selected_coord := Vector2i(int(selected_target.get("q", 0)), int(selected_target.get("r", 0)))
 	var surface_y := float(grid.tile(selected_coord).get("elevation", 0)) * ELEVATION_STEP + 0.18
@@ -5465,15 +5451,11 @@ func _update_web_selected_ring(force_projection := false) -> void:
 	for point_index in range(6):
 		var angle := PI / 6.0 + TAU * float(point_index) / 6.0
 		var world_point := ring_center + Vector3(cos(angle) * 0.66, 0.0, sin(angle) * 0.66)
-		projected_points.append(_overlay_position_from_world(world_point))
-	var edge_width := 4.0 * _portrait_ui_scale(_runtime_layout_size())
+		projected_points.append(_project_overlay_point(world_point))
 	for edge_index in range(6):
-		_place_web_overlay_segment(web_selected_rects[edge_index], projected_points[edge_index], projected_points[(edge_index + 1) % 6], edge_width, Color("fff0a6f0"))
+		_place_web_overlay_segment(web_selected_rects[edge_index], projected_points[edge_index], projected_points[(edge_index + 1) % 6], web_selected_edge_width, Color("fff0a6f0"))
 	web_selected_overlay.visible = true
-	web_selected_projection_camera = camera_target
-	web_selected_projection_size = overlay.size
-	web_selected_projection_camera_size = camera.size
-	web_selected_projection_origin_screen = _overlay_position_from_world(Vector3.ZERO)
+	web_selected_view_serial = overlay_view_serial
 
 ## Route preview for the presentation overlay: cell tops along the path, how
 ## many steps this turn reaches, and the route's risk colour.
@@ -5659,7 +5641,7 @@ func _update_route_mesh() -> void:
 	route_nodes.clear()
 	selected_ring.visible = false
 	var immediate: ImmediateMesh = null
-	if not OS.has_feature("web"):
+	if not projected_overlay_enabled:
 		immediate = ImmediateMesh.new()
 	var route_color := Color("4fd3c2") if preview_risk == "SAFE" else (Color("e7bd63") if preview_risk == "WATCHED" else Color("e87972"))
 	var movement_points := MapExplorationServiceScript.movement_remaining(map_state, definition)
@@ -5667,7 +5649,7 @@ func _update_route_mesh() -> void:
 	_sync_fx_route(route_color, movement_points)
 	if preview_path.size() >= 2:
 		var guide_color := Color("657989") if route_exceeds_pulse else route_color.lightened(0.18)
-		if OS.has_feature("web"):
+		if projected_overlay_enabled:
 			_update_web_route_line(true)
 		else:
 			immediate.surface_begin(Mesh.PRIMITIVE_LINE_STRIP, _route_overlay_material(guide_color, guide_color.darkened(0.18)))
@@ -5701,15 +5683,15 @@ func _update_route_mesh() -> void:
 				route_nodes.append(pulse)
 	var selected_target: Dictionary = selected_node if not selected_node.is_empty() else (selected_treasure if not selected_treasure.is_empty() else (selected_relay if not selected_relay.is_empty() else selected_event))
 	if not selected_target.is_empty():
-		if OS.has_feature("web"):
+		if projected_overlay_enabled:
 			_update_web_selected_ring(true)
 		else:
 			var selected_coord := Vector2i(int(selected_target.get("q", 0)), int(selected_target.get("r", 0)))
 			selected_ring.position = HexCoordScript.axial_to_world(selected_coord, TILE_SIZE, float(grid.tile(selected_coord).get("elevation", 0)) * ELEVATION_STEP + 0.18)
 			selected_ring.visible = true
-	elif OS.has_feature("web"):
+	elif projected_overlay_enabled:
 		_update_web_selected_ring(true)
-	if OS.has_feature("web"):
+	if projected_overlay_enabled:
 		if preview_path.size() < 2:
 			_update_web_route_line(true)
 		route_mesh.mesh = null
@@ -6214,7 +6196,7 @@ func _update_map_notice_toast() -> void:
 
 func _layout_minimap_extras(map_width: float, map_height: float, inset: float, scale: float) -> void:
 	if minimap_toggle != null:
-		minimap_toggle.text = "미니맵 ▸" if minimap_collapsed else "▾"
+		minimap_toggle.text = "미니맵 ›" if minimap_collapsed else "▼"
 		minimap_toggle.add_theme_font_size_override("font_size", roundi(16.0 * scale))
 		var toggle_size := Vector2((110.0 if minimap_collapsed else 40.0) * scale, 34.0 * scale)
 		minimap_toggle.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
@@ -6399,6 +6381,10 @@ func _start_patrol_contact(node_id: String, return_coord: Vector2i, movement_ref
 	var node := ChapterMapLoaderScript.node_by_id(definition, node_id)
 	if node.is_empty() or not AppState.is_stage_unlocked(str(node.get("stage_id", ""))): return false
 	if _node_encounter_cleared(node): return false
+	pending_discovery_moment = {}
+	camera_moment_kind = ""
+	camera_moment_focus = Vector3.INF
+	web_entity_projection_dirty = true
 	_begin_movement_camera_settle(pawn.global_position)
 	_set_pawn_motion_state("ARRIVE")
 	movement_generation += 1
@@ -7840,13 +7826,12 @@ func _process(delta: float) -> void:
 	var projection_size_changed := overlay != null and is_instance_valid(overlay) and web_entity_projection_size != overlay.size
 	if camera_changed or moving or web_entity_projection_dirty or projection_size_changed:
 		_sync_web_pawn_front_overlay()
-	if OS.has_feature("web") and web_route_overlay != null and is_instance_valid(web_route_overlay) and web_route_overlay.visible:
-		_update_web_route_line()
-	if OS.has_feature("web") and web_selected_overlay != null and is_instance_valid(web_selected_overlay) and web_selected_overlay.visible:
-		_update_web_selected_ring()
+	# One shared projection for every world-space overlay (range cells, orientation
+	# grid, route guide, selection ring). It also follows camera moments and shakes,
+	# which move the camera without touching `camera_target`.
+	if _refresh_overlay_view():
+		_apply_projected_overlay_view()
 	persistent_cell_grid.update_projection(self)
-	if OS.has_feature("web") and web_movement_overlay != null and is_instance_valid(web_movement_overlay) and web_movement_overlay.visible:
-		_update_web_movement_range_projection()
 	if camera_changed or moving or web_entity_projection_dirty or projection_size_changed:
 		_update_screen_fog_overlay()
 	if environment_fx != null and is_instance_valid(environment_fx) and camera_changed:

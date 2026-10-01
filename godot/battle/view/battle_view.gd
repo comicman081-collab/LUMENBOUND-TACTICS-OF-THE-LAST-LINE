@@ -13,6 +13,8 @@ const DAMAGE_FONT := preload("res://assets/fonts/LanternRounded-Black.ttf")
 const Ornament := preload("res://ui/ornament_draw.gd")
 const HitFeedback := preload("res://battle/view/combat_hit_feedback.gd")
 const RegionFloor := preload("res://battle/view/battle_region_floor.gd")
+const SoftSprites := preload("res://battle/view/battle_soft_sprites.gd")
+const MeshKit := preload("res://battle/view/battle_mesh_kit.gd")
 
 signal battle_finished(result: Dictionary)
 ## Emitted once every asset required for this battle is attached, whether the
@@ -53,6 +55,22 @@ var hit_flash_frames: Dictionary = {}
 var region_theme: Dictionary = {}
 var region_theme_stage := ""
 var region_dressing_enabled := true
+## QA only: pins the floor animation clock (seconds) so two captures match; < 0 = live.
+var region_clock_override := -1.0
+## r22 draw caches. The memos are only valid while one `_draw()` pass runs (the
+## state they derive from cannot change inside a pass); every pass starts empty.
+## A unit can be asked about twice with different alive flags in one pass (a
+## squad body fading out after the simulation already marked it down), hence the
+## separate down-pose memo.
+var _draw_memo_active := false
+var _pose_memo: Dictionary = {}
+var _pose_memo_down: Dictionary = {}
+var _scale_memo: Dictionary = {}
+## Footing rings queued by _draw_contact_shadow, drawn together afterwards.
+var _footing_rings: Array = []
+## The tactical grid lattice, tessellated once per view size (see _grid_lattice).
+var _grid_mesh: ArrayMesh = null
+var _grid_mesh_size := Vector2.ZERO
 var sprite_library := BattleSpriteLibrary.new()
 var action_frames := ActionFrames.new()
 var sprite_pack_ready := false
@@ -284,6 +302,14 @@ var swarm_drops: Array = []
 ## preview uses, cached per wave.
 const NEXT_WAVE_FADE := .8
 const SILHOUETTE_SCALE := .6
+## Footing ring: semi-axes at width factor 1 (ally .8, enemy 1.35, boss 1.8) and
+## a fixed stroke; the original breathing stroke (2.2-3.0 px) is its mid value.
+const FOOTING_RING_RADIUS := Vector2(45.0, 10.0)
+const FOOTING_RING_STROKE := 2.6
+const FOOTING_RING_WIDTHS := [0.8, 1.35, 1.8]
+const SILHOUETTE_RIM_OFFSETS := [Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1), Vector2(0, -1)]
+const INTENT_ARC_STEPS := 32
+var _intent_arcs: Dictionary = {}
 var next_wave_cache := {"index": -2, "layout": []}
 var next_wave_age := 0.0
 ## Per-draw overrides for `_draw_combat_sprite`, set only around squad bodies
@@ -399,6 +425,7 @@ func _warm_battle_assets() -> void:
 	else:
 		boss_background = null
 	battle_font = load("res://assets/fonts/LanternSans-Medium.ttf") as Font
+	_bind_damage_font_fallback()
 	await _yield_asset_warmup("BATTLE_SHELL")
 
 	for entity_id in current_entity_ids:
@@ -697,6 +724,7 @@ func _attach_stage_asset_cache_bundle(active_entity_ids: Array[String]) -> bool:
 	normal_background = normal_value
 	boss_background = cached_boss_background if cached_boss_background is Texture2D else null
 	battle_font = font_value
+	_bind_damage_font_fallback()
 	var cached_fallbacks = bundle.get("fallback_previews", {})
 	if cached_fallbacks is Dictionary:
 		for entity_id in cached_fallbacks:
@@ -1147,6 +1175,10 @@ func skip_to_result() -> bool:
 
 func _process(delta: float) -> void:
 	if simulation == null: return
+	# A layout rebuild of the shell adds the tactical input layer again, on top of the boss aftermath
+	# scene: a full-rect STOP control that swallows every tap the scene waits for. Keep the scene on top.
+	if field_aftermath_state == "playing" and field_overlay != null and is_instance_valid(field_overlay) and field_overlay.get_index() != get_child_count() - 1:
+		move_child(field_overlay, get_child_count() - 1)
 	for flash_uid in hit_flash_frames.keys():
 		hit_flash_frames[flash_uid] = int(hit_flash_frames[flash_uid]) - 1
 		if int(hit_flash_frames[flash_uid]) <= 0: hit_flash_frames.erase(flash_uid)
@@ -1833,15 +1865,23 @@ func presentation_boss() -> Dictionary:
 func presentation_cursor_snapshot() -> Dictionary:
 	return {"read_cursor": presentation_read_cursor, "presented_cursor": presented_cursor, "active_batch": active_presentation_batch.duplicate(true), "director": presentation_director.cinematic_snapshot()}
 
+## A shallow copy is enough: the five fields below are replaced on the copy, and
+## every consumer only reads the nested dictionaries (statuses, stats). The deep
+## copy ran for every actor on every frame.
 func _presentation_unit(unit: Dictionary) -> Dictionary:
 	if unit.is_empty():
 		return {}
-	var visual := unit.duplicate(true)
+	var visual := unit.duplicate()
 	var snapshot: Dictionary = presentation_display_units.get(str(unit.get("uid", "")), {})
 	for field in ["hp", "shield", "alive", "state", "phase"]:
 		if snapshot.has(field):
 			visual[field] = snapshot[field]
 	return visual
+
+## UnitState.alive() of the presented copy, without building the copy.
+func _presentation_alive(unit: Dictionary) -> bool:
+	var snapshot: Dictionary = presentation_display_units.get(str(unit.get("uid", "")), {})
+	return bool(snapshot.get("alive", unit.get("alive", false))) and int(snapshot.get("hp", unit.get("hp", 0))) > 0
 
 func _spawn_projectile(source_uid: String, target_uid: String, attack_kind: String, launch_delay := .14) -> void:
 	var source := _actor_model(source_uid)
@@ -1877,6 +1917,20 @@ func _spawn_damage_text(event: Dictionary) -> void:
 	elif tags.has("COVER"): prefix = "엄폐 "
 	elif tags.has("AREA"): prefix = "직격 "
 	_spawn_floating_text({"target":str(event.get("target","")),"text":"MISS" if value == 0 else prefix + MathUtil.comma(value),"crit":critical,"style":style,"weight":HitFeedback.damage_weight(event,target),"color":tint,"age":0.0})
+
+## DAMAGE_FONT (a rounded Latin face) has no Hangul, and the web export has no system font to fall
+## back to: the flank / cover / area prefixes ("측면 156") would draw as hex boxes. The battle font
+## stands behind it for every glyph it lacks.
+func _bind_damage_font_fallback() -> void:
+	if battle_font == null:
+		return
+	# through a variable: GDScript refuses to assign a property of a preloaded constant
+	var damage_font: Font = DAMAGE_FONT
+	var current: Array[Font] = damage_font.fallbacks
+	if current.size() == 1 and current[0] == battle_font:
+		return
+	var fallbacks: Array[Font] = [battle_font]
+	damage_font.fallbacks = fallbacks
 
 func _damage_screen_scale() -> float:
 	if not is_inside_tree(): return 1.0
@@ -2232,12 +2286,22 @@ func _region_theme() -> Dictionary:
 	return region_theme
 
 func _region_clock() -> float:
+	if region_clock_override >= 0.0: return region_clock_override
 	return float(Time.get_ticks_msec()) / 1000.0
 
 func _battlefield_transform() -> Transform2D:
 	return RegionFloor.battlefield_transform(size, _battlefield_camera_zoom(), presentation_director.battlefield_offset() + field_offset)
 
 func _draw() -> void:
+	_pose_memo.clear()
+	_pose_memo_down.clear()
+	_scale_memo.clear()
+	_footing_rings.clear()
+	_draw_memo_active = true
+	_draw_scene()
+	_draw_memo_active = false
+
+func _draw_scene() -> void:
 	var rect := Rect2(Vector2.ZERO, size)
 	var theme := _region_theme()
 	var grade := RegionFloor.background_grade(theme)
@@ -2264,9 +2328,10 @@ func _draw() -> void:
 		visible_units.append(_presentation_unit(unit))
 		current_ids[str(unit.uid)] = true
 	for uid in presentation_actor_records:
-		if not current_ids.has(uid):
-			var old_unit := _presentation_unit(presentation_actor_records[uid])
-			if UnitState.alive(old_unit): visible_units.append(old_unit)
+		if current_ids.has(uid): continue
+		# Records of earlier waves stay forever; only copy the ones still standing.
+		var record: Dictionary = presentation_actor_records[uid]
+		if _presentation_alive(record): visible_units.append(_presentation_unit(record))
 	visible_units.sort_custom(func(a, b): return _unit_pos(a).y < _unit_pos(b).y)
 	# All ground shadows precede all bodies; a front unit's shadow must not
 	# paint over a rear unit's boots while formation lanes change.
@@ -2274,6 +2339,7 @@ func _draw() -> void:
 	_draw_tactical_grid()
 	_draw_next_wave_preview()
 	for unit in visible_units: _draw_contact_shadow(unit)
+	_draw_footing_rings()
 	for unit in visible_units: _draw_weapon_action(unit, true)
 	for unit in visible_units: _draw_unit(unit)
 	for unit in visible_units: _draw_weapon_action(unit, false)
@@ -2420,8 +2486,14 @@ func _draw() -> void:
 	# Nameplates and shouts sit above HP bars but under the damage numbers.
 	for callout in skill_callouts:
 		_draw_skill_callout(callout)
+	# Misses are secondary information: drawn first, so real numbers stay on top of them.
+	var number_anchors := {}
 	for text in floating_texts:
-		_draw_damage_number(text)
+		if _damage_number_style_name(text) == "miss":
+			_draw_damage_number(text, number_anchors)
+	for text in floating_texts:
+		if _damage_number_style_name(text) != "miss":
+			_draw_damage_number(text, number_anchors)
 	_draw_combo_counter()
 	# Warnings sit above the damage numbers so the countdown stays readable.
 	_draw_boss_telegraph_warnings()
@@ -2439,7 +2511,9 @@ func _damage_number_style_name(text: Dictionary) -> String:
 		return "normal"
 	return style
 
-func damage_number_layout(text: Dictionary) -> Dictionary:
+## anchors caches the head position per target for one frame (numbers share targets); an entry of
+## null means the target is gone or down and the number keeps the anchor it spawned with.
+func damage_number_layout(text: Dictionary, anchors: Dictionary = {}) -> Dictionary:
 	var screen_scale := _damage_screen_scale()
 	var css_size := clampf(size.x * screen_scale * .023,21.0,34.0)
 	var style := _damage_number_style_name(text)
@@ -2452,8 +2526,13 @@ func damage_number_layout(text: Dictionary) -> Dictionary:
 	var age := float(text.get("age",0.0))
 	var pop := 1.0 + float(spec.pop) * pow(1.0-clampf(age/.22,0.0,1.0),2.0)
 	var anchor: Vector2 = text.get("anchor",size*.5)
-	var target := _actor_model(str(text.get("target",""))) if simulation != null else {}
-	if not target.is_empty() and UnitState.alive(target): anchor = _damage_head_anchor(target)
+	if simulation != null:
+		var target_uid := str(text.get("target",""))
+		if not anchors.has(target_uid):
+			var target := _actor_model(target_uid)
+			anchors[target_uid] = _damage_head_anchor(target) if not target.is_empty() and UnitState.alive(target) else null
+		if anchors[target_uid] != null:
+			anchor = anchors[target_uid]
 	var width := DAMAGE_FONT.get_string_size(str(text.text),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x
 	var ascent := DAMAGE_FONT.get_ascent(font_size)
 	var descent := DAMAGE_FONT.get_descent(font_size)
@@ -2464,8 +2543,8 @@ func damage_number_layout(text: Dictionary) -> Dictionary:
 	var alpha := 1.0-clampf((age-duration*.65)/(duration*.35),0.0,1.0)
 	return {"position":position,"head":anchor,"font_size":font_size,"font_css":font_size*screen_scale*pop,"width":width,"ascent":ascent,"descent":descent,"pop":pop,"alpha":alpha,"crit":critical,"style":style,"screen_scale":screen_scale}
 
-func _draw_damage_number(text: Dictionary) -> void:
-	var metrics := damage_number_layout(text)
+func _draw_damage_number(text: Dictionary, anchors: Dictionary = {}) -> void:
+	var metrics := damage_number_layout(text, anchors)
 	var style := str(metrics.style)
 	var spec := HitFeedback.number_style(style)
 	var position: Vector2 = metrics.position
@@ -2476,7 +2555,7 @@ func _draw_damage_number(text: Dictionary) -> void:
 	var font_size := int(metrics.font_size)
 	var tag := str(spec.tag)
 	if not tag.is_empty():
-		var tag_size := maxi(10, roundi(float(font_size) * .42))
+		var tag_size := maxi(roundi(9.0 / screen_scale), roundi(float(font_size) * .42))
 		var tag_width := DAMAGE_FONT.get_string_size(tag, HORIZONTAL_ALIGNMENT_LEFT, -1, tag_size).x
 		var tag_base := position + Vector2(-tag_width * .5, -float(metrics.ascent) * float(metrics.pop) - 4.0 / screen_scale)
 		var tag_ink: Color = spec.tag_ink
@@ -2900,20 +2979,32 @@ func _draw_contact_shadow(unit: Dictionary) -> void:
 	p.x += (pose.get("offset", Vector2.ZERO) as Vector2).x
 	var width := 1.8 if str(unit.get("rank", "")) == "BOSS" else (0.8 if str(unit.get("team", "")) == "PLAYER" else 1.35)
 	var zoom := _battlefield_camera_zoom()
-	_draw_ellipse_polygon(p, Vector2(88 * width, 15) * zoom, Color(0, 0, 0, .12))
-	_draw_ellipse_polygon(p, Vector2(65 * width, 9) * zoom, Color(0, 0, 0, .25))
-	_draw_ellipse_polygon(p + Vector2(float(pose.get("contact_x", 0)), 0), Vector2(21, 4) * zoom, Color(0, 0, 0, .46))
+	# Soft ellipses are cached textures (see battle_soft_sprites.gd): the polygon
+	# versions rebuilt GPU buffers for every unit on every Web frame.
+	SoftSprites.draw_ellipse(self, p, Vector2(88 * width, 15) * zoom, Color(0, 0, 0, .12))
+	SoftSprites.draw_ellipse(self, p, Vector2(65 * width, 9) * zoom, Color(0, 0, 0, .25))
+	SoftSprites.draw_ellipse(self, p + Vector2(float(pose.get("contact_x", 0)), 0), Vector2(21, 4) * zoom, Color(0, 0, 0, .46))
 	if UnitState.alive(unit):
 		# Team-coloured footing: a soft glow pool plus a breathing ring, so allies
 		# (cyan) and enemies (red) separate at a glance even in busy effects.
 		var team_color := Color(.27, .88, .84) if str(unit.team) == "PLAYER" else Color(1, .30, .22)
 		var pulse := .5 + .5 * sin(float(Time.get_ticks_msec()) / 1000.0 * TAU * .6 + float(absi(hash(str(unit.uid))) % 100))
-		_draw_ellipse_polygon(p, Vector2(52 * width, 12) * zoom, Color(team_color.r, team_color.g, team_color.b, .10 + .06 * pulse))
-		var ring := PackedVector2Array()
-		for index in range(33):
-			var angle := float(index) / 32.0 * TAU
-			ring.append(p + Vector2(cos(angle) * 45 * width, sin(angle) * 10) * zoom)
-		draw_polyline(ring, Color(team_color.r, team_color.g, team_color.b, .58 + .3 * pulse), (2.2 + .8 * pulse) * zoom, true)
+		SoftSprites.draw_ellipse(self, p, Vector2(52 * width, 12) * zoom, Color(team_color.r, team_color.g, team_color.b, .10 + .06 * pulse))
+		_footing_rings.append([p, width, Color(team_color.r, team_color.g, team_color.b, .58 + .3 * pulse)])
+
+## The breathing rings of every footing, drawn after all the shadows so the three
+## ring textures (ally / enemy / boss width) batch instead of alternating with the
+## ellipse texture once per unit.
+func _draw_footing_rings() -> void:
+	if _footing_rings.is_empty(): return
+	var zoom := _battlefield_camera_zoom()
+	for ring_width in FOOTING_RING_WIDTHS:
+		var texture: Texture2D = null
+		for entry in _footing_rings:
+			if not is_equal_approx(float(entry[1]), ring_width): continue
+			if texture == null: texture = SoftSprites.ring(FOOTING_RING_RADIUS.x * ring_width, FOOTING_RING_RADIUS.y, FOOTING_RING_STROKE)
+			draw_texture_rect(texture, SoftSprites.ring_rect(entry[0], FOOTING_RING_RADIUS.x * ring_width, FOOTING_RING_RADIUS.y, FOOTING_RING_STROKE, zoom), false, entry[2])
+	_footing_rings.clear()
 
 func _draw_weapon_action(unit: Dictionary, ground_layer: bool) -> void:
 	if not UnitState.alive(unit): return
@@ -3043,8 +3134,11 @@ func _draw_enemy_intents() -> void:
 		var radius := 8.0 * readout
 		var imminent := left <= .45
 		var color := Color("ff6b5e") if imminent else Color("f1d77a")
-		draw_circle(center, radius + 2.0, Color(.02, .04, .08, .8))
-		draw_arc(center, radius, -PI * .5, -PI * .5 + TAU * charge, 24, color, 3.0 * readout, true)
+		SoftSprites.draw_disc(self, center, radius + 2.0, Color(.02, .04, .08, .8))
+		# The charge arc comes from a small set of prebuilt meshes (1/32 turn apart,
+		# about one simulation tick of an attack interval) instead of a polyline.
+		var arc_steps := clampi(roundi(charge * INTENT_ARC_STEPS), 0, INTENT_ARC_STEPS)
+		if arc_steps > 0: draw_mesh(_intent_arc(arc_steps), null, Transform2D(Vector2(readout, 0.0), Vector2(0.0, readout), center), color)
 		if imminent:
 			var target := TargetResolver.choose(model, simulation.state.party)
 			if target.is_empty(): continue
@@ -3053,6 +3147,22 @@ func _draw_enemy_intents() -> void:
 			var target_head := _head_position(target_view, _ground_position(target_view))
 			draw_line(head, target_head, Color(1.0, .42, .36, .55), 2.0 * readout, true)
 			draw_circle(target_head + Vector2(0, -10.0 * readout), 5.0 * readout, Color(1.0, .42, .36, .85))
+
+## Charge arc of the intent dial at `steps`/INTENT_ARC_STEPS of a turn, radius 8
+## and stroke 3 (the dial's size at readout 1; the caller scales it). White, so the
+## draw's modulate carries the colour.
+func _intent_arc(steps: int) -> ArrayMesh:
+	if _intent_arcs.has(steps): return _intent_arcs[steps]
+	var kit := MeshKit.new()
+	var segments := maxi(2, ceili(float(steps) * 24.0 / float(INTENT_ARC_STEPS)))
+	var points := PackedVector2Array()
+	for index in range(segments + 1):
+		var angle := -PI * .5 + TAU * float(steps) / float(INTENT_ARC_STEPS) * float(index) / float(segments)
+		points.append(Vector2(cos(angle), sin(angle)) * 8.0)
+	kit.stroke(points, 3.0, Color.WHITE, false)
+	var mesh := kit.build()
+	_intent_arcs[steps] = mesh
+	return mesh
 
 const STATUS_PIPS := {
 	"HASTE": ["가속", "7ee8a8"], "SLOW": ["감속", "ffb46b"], "TAUNT": ["도발", "ffd36a"],
@@ -3086,7 +3196,7 @@ func _draw_swarm_companions(unit: Dictionary, p: Vector2, members: int) -> void:
 	for index in range(members - 1):
 		var companion: Dictionary = SWARM_COMPANIONS[index]
 		var foot := p + _swarm_companion_offset(unit, index)
-		_draw_ellipse_polygon(foot, Vector2(46, 8) * zoom * float(companion.scale), Color(0, 0, 0, .26))
+		SoftSprites.draw_ellipse(self, foot, Vector2(46, 8) * zoom * float(companion.scale), Color(0, 0, 0, .26))
 		_draw_squad_body(unit, foot, float(companion.scale), Color(.86, .86, .92, 1.0), float(companion.phase))
 
 func _draw_squad_body(unit: Dictionary, foot: Vector2, body_scale: float, tint: Color, phase: float) -> void:
@@ -3168,38 +3278,71 @@ func _draw_next_wave_preview() -> void:
 	var last: Vector2 = points[points.size() - 1]
 	var haze_center := (first + last) * .5 + Vector2(0, 4.0 * zoom)
 	var haze_width := absf(first.x - last.x) * .5 + 60.0 * zoom
-	_draw_ellipse_polygon(haze_center, Vector2(haze_width * 1.15, 20.0 * zoom), Color(.55, .08, .10, .07 * fade))
-	_draw_ellipse_polygon(haze_center, Vector2(haze_width, 12.0 * zoom), Color(.60, .10, .12, .10 * fade))
+	SoftSprites.draw_ellipse(self, haze_center, Vector2(haze_width * 1.15, 20.0 * zoom), Color(.55, .08, .10, .07 * fade))
+	SoftSprites.draw_ellipse(self, haze_center, Vector2(haze_width, 12.0 * zoom), Color(.60, .10, .12, .10 * fade))
 	var top := INF
 	for index in range(layout.size() - 1, -1, -1):
 		var entry: Dictionary = layout[index]
 		var definition: Dictionary = entry.get("definition", {})
 		var body := {"uid": "next:%d:%d" % [int(next_wave_cache.index), index], "def_id": str(entry.get("id", "")), "team": "ENEMY", "rank": str(definition.get("rank", "NORMAL")), "role": str(definition.get("role", "")), "alive": true, "hp": 1, "max_hp": 1}
 		var foot: Vector2 = points[index] + Vector2(0, sin(t * 1.3 + float(index)) * 2.0 * zoom)
-		var bodies: Array = []
-		if swarm_unit(body):
-			for companion_index in range(SWARM_COMPANIONS.size()):
-				var companion: Dictionary = SWARM_COMPANIONS[companion_index]
-				bodies.append([foot + _swarm_companion_offset(body, companion_index) * SILHOUETTE_SCALE, SILHOUETTE_SCALE * float(companion.scale), float(companion.phase)])
-		bodies.append([foot, SILHOUETTE_SCALE, 0.0])
-		for item in bodies:
-			# Red rim first (four offset copies), then the dark body on top.
-			var rim := 2.0 * zoom
-			for rim_offset in [Vector2(rim, 0), Vector2(-rim, 0), Vector2(0, rim), Vector2(0, -rim)]:
-				_draw_squad_body(body, (item[0] as Vector2) + rim_offset, float(item[1]), Color(1.0, .22, .18, .34 * fade), float(item[2]))
-			_draw_squad_body(body, item[0], float(item[1]), Color(.07, .08, .13, .9 * fade), float(item[2]))
+		# The silhouette is the idle frame of the unit, so its texture, rect and pose
+		# are resolved once per entry and reused for every rim and body copy (they
+		# used to go through the full sprite path five times per body).
+		var frame := _combat_sprite_frame(body, true)
+		if not frame.is_empty():
+			var motion := _registered_sprite_pose(body)
+			if swarm_unit(body):
+				for companion_index in range(SWARM_COMPANIONS.size()):
+					var companion: Dictionary = SWARM_COMPANIONS[companion_index]
+					_draw_silhouette_body(body, frame, motion, foot + _swarm_companion_offset(body, companion_index) * SILHOUETTE_SCALE, SILHOUETTE_SCALE * float(companion.scale), float(companion.phase), fade, zoom)
+			_draw_silhouette_body(body, frame, motion, foot, SILHOUETTE_SCALE, 0.0, fade, zoom)
 		top = minf(top, foot.y - 512.0 * _combat_sprite_scale(body, "idle") * SILHOUETTE_SCALE * .62)
 	var font := battle_font if battle_font != null else ThemeDB.fallback_font
 	var readout := _readout_scale()
-	var font_size := clampi(roundi(12.0 * readout), 12, 28)
+	# at least 9 css px, however small the screen
+	var font_size := roundi(maxf(12.0 * readout, 9.0 / _damage_screen_scale()))
 	var label := "NEXT WAVE ×%d" % layout.size()
 	var width := font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x + 14.0
 	var center_x := minf((first.x + last.x) * .5, size.x - width * .5 - 8.0)
 	var tag := Rect2(Vector2(center_x - width * .5, top - font_size - 16.0), Vector2(width, font_size + 8.0))
 	var pulse := .5 + .5 * sin(t * TAU * .8)
 	draw_rect(tag, Color(0.03, 0.02, 0.05, .72 * fade))
-	draw_rect(tag, Color(1.0, .38, .32, (.45 + .35 * pulse) * fade), false, 1.2)
+	_outline_rect(tag, Color(1.0, .38, .32, (.45 + .35 * pulse) * fade), 1.2)
 	draw_string(font, tag.position + Vector2(7.0, font_size + 1.0), label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(1.0, .78, .72, .9 * fade))
+
+## One waiting body: a red rim (the idle frame drawn four times, nudged a couple
+## of pixels each way) under a dark copy. `frame` is the unit's idle frame at
+## scale 1; its rect scales linearly, so each squad body only rescales it.
+func _draw_silhouette_body(body: Dictionary, frame: Dictionary, motion: Dictionary, foot: Vector2, body_scale: float, phase: float, fade: float, zoom: float) -> void:
+	sprite_live_phase = phase
+	var live := _live_motion(body, "idle")
+	sprite_live_phase = 0.0
+	var texture: Texture2D = frame.texture
+	var base_rect: Rect2 = frame.rect
+	var rect := Rect2(base_rect.position * body_scale, base_rect.size * body_scale)
+	var basis_scale: Vector2 = (motion.get("scale", Vector2.ONE) as Vector2) * (live.scale as Vector2)
+	var rotation := float(motion.get("rotation", 0.0))
+	var skew := float(live.skew)
+	var origin: Vector2 = foot + (motion.get("offset", Vector2.ZERO) as Vector2) + (live.offset as Vector2)
+	var rim := 2.0 * zoom
+	var rim_tint := Color(1.0, .22, .18, .34 * fade)
+	for rim_offset in SILHOUETTE_RIM_OFFSETS:
+		draw_set_transform_matrix(Transform2D(rotation, basis_scale, skew, origin + (rim_offset as Vector2) * rim))
+		draw_texture_rect(texture, rect, false, rim_tint)
+	draw_set_transform_matrix(Transform2D(rotation, basis_scale, skew, origin))
+	draw_texture_rect(texture, rect, false, Color(.07, .08, .13, .9 * fade))
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+## Hollow rectangle from four filled rects, stroke centred on the edge like
+## `draw_rect(rect, color, false, width)`. The unfilled form is a polyline
+## command, which costs the Web renderer a GPU buffer every frame.
+func _outline_rect(rect: Rect2, color: Color, width: float) -> void:
+	var half := width * .5
+	draw_rect(Rect2(rect.position.x - half, rect.position.y - half, rect.size.x + width, width), color)
+	draw_rect(Rect2(rect.position.x - half, rect.end.y - half, rect.size.x + width, width), color)
+	draw_rect(Rect2(rect.position.x - half, rect.position.y + half, width, rect.size.y - width), color)
+	draw_rect(Rect2(rect.end.x - half, rect.position.y + half, width, rect.size.y - width), color)
 
 func _draw_unit_status(unit: Dictionary) -> void:
 	if boss_entry_elapsed >= 0.0 and str(unit.team) != "PLAYER" and boss_entry_elapsed < .95: return
@@ -3209,7 +3352,7 @@ func _draw_unit_status(unit: Dictionary) -> void:
 	var p := _ground_position(unit)
 	var readout_scale := _readout_scale()
 	var bar_width := (96.0 if unit.rank != "BOSS" else 150.0) * readout_scale
-	var bar_height := 9.0 * readout_scale
+	var bar_height := maxf(9.0 * readout_scale, 6.0 / _damage_screen_scale())
 	var head_position := _head_position(unit, p)
 	var bar_origin := head_position + Vector2(-bar_width / 2.0, -18.0 * readout_scale)
 	draw_rect(Rect2(bar_origin - Vector2(2, 2), Vector2(bar_width + 4, bar_height + 4)), Color(0.01, 0.02, 0.05, .72))
@@ -3221,12 +3364,12 @@ func _draw_unit_status(unit: Dictionary) -> void:
 		for third in [1.0 / 3.0, 2.0 / 3.0]:
 			draw_line(bar_origin + Vector2(bar_width * third, 0), bar_origin + Vector2(bar_width * third, bar_height), Color(0.01, 0.02, 0.05, .85), maxf(1.5, 2.0 * readout_scale))
 		var count_font := battle_font if battle_font != null else ThemeDB.fallback_font
-		var count_size := clampi(roundi(11.0 * readout_scale), 11, 26)
+		var count_size := roundi(maxf(11.0 * readout_scale, 8.0 / _damage_screen_scale()))
 		var count_text := "×%d" % swarm_member_count(UnitState.hp_ratio(unit))
 		var count_width := count_font.get_string_size(count_text, HORIZONTAL_ALIGNMENT_LEFT, -1, count_size).x + 6.0
 		var chip := Rect2(bar_origin + Vector2(bar_width + 5.0, (bar_height - count_size - 3.0) * .5), Vector2(count_width, count_size + 3.0))
 		draw_rect(chip, Color(0.02, 0.03, 0.07, .86))
-		draw_rect(chip, Color("ff8a7a"), false, 1.0)
+		_outline_rect(chip, Color("ff8a7a"), 1.0)
 		draw_string(count_font, chip.position + Vector2(3.0, count_size * .92), count_text, HORIZONTAL_ALIGNMENT_LEFT, -1, count_size, Color("ffd2c8"))
 	if int(unit.shield) > 0:
 		var shield_ratio := minf(1.0, float(unit.shield) / maxf(1.0, float(unit.max_hp)))
@@ -3240,12 +3383,16 @@ func _draw_unit_status(unit: Dictionary) -> void:
 		var text_width := label_font.get_string_size(str(pip[0]), HORIZONTAL_ALIGNMENT_LEFT, -1, pip_size).x
 		var pip_rect := Rect2(Vector2(pip_x, bar_origin.y - pip_size - 8.0), Vector2(text_width + 8.0, pip_size + 4.0))
 		draw_rect(pip_rect, Color(0.02, 0.04, 0.08, .82))
-		draw_rect(pip_rect, Color(str(pip[1])), false, 1.5)
+		_outline_rect(pip_rect, Color(str(pip[1])), 1.5)
 		draw_string(label_font, pip_rect.position + Vector2(4.0, pip_size), str(pip[0]), HORIZONTAL_ALIGNMENT_LEFT, -1, pip_size, Color(str(pip[1])))
 		pip_x += pip_rect.size.x + 4.0
 	var name_size := clampi(roundi(16.0 * readout_scale), 16, 40)
 	var name_width := 110.0 * readout_scale
-	draw_string(label_font, p + Vector2(-name_width / 2.0, 30.0 + name_size), unit_display_name(unit), HORIZONTAL_ALIGNMENT_CENTER, name_width, name_size, Color("dbe9ff"))
+	var name_text := unit_display_name(unit)
+	var name_base := p + Vector2(-name_width / 2.0, 30.0 + name_size)
+	# a dark outline keeps the name readable on the pale walkway tiles
+	draw_string_outline(label_font, name_base, name_text, HORIZONTAL_ALIGNMENT_CENTER, name_width, name_size, maxi(3, roundi(3.0 * readout_scale)), Color(.02, .03, .07, .85))
+	draw_string(label_font, name_base, name_text, HORIZONTAL_ALIGNMENT_CENTER, name_width, name_size, Color("dbe9ff"))
 
 func _draw_enemy_defeat_explosion(unit: Dictionary, p: Vector2, elapsed: float) -> void:
 	var duration := 1.05 if str(unit.get("rank", "")) == "BOSS" else .78
@@ -3273,7 +3420,11 @@ func _draw_enemy_defeat_explosion(unit: Dictionary, p: Vector2, elapsed: float) 
 	# A dim floor ember remains briefly, then vanishes with the burst.
 	_draw_ellipse_polygon(p + Vector2(0, 1), Vector2(42.0 if boss else 28.0, 7.0), Color(secondary.r, secondary.g, secondary.b, .22 * fade))
 
-func _draw_combat_sprite(unit: Dictionary, p: Vector2, alive: bool) -> bool:
+## Which texture a unit shows right now and where it lands, relative to the
+## planted foot: {texture, rect, animation, elapsed, down}, or {} when the unit
+## has no authored art. The rect scales linearly with `sprite_draw_scale`, so a
+## caller drawing the same unit several times can resolve it once.
+func _combat_sprite_frame(unit: Dictionary, alive: bool) -> Dictionary:
 	var character_id := str(unit.def_id)
 	var has_animation_pack := sprite_pack_ready and sprite_library.supports_character(character_id)
 	var track: Dictionary = animation_tracks.get(unit.uid, {"name": "idle", "elapsed": 0.0})
@@ -3285,7 +3436,7 @@ func _draw_combat_sprite(unit: Dictionary, p: Vector2, alive: bool) -> bool:
 	# fall through to a tiny code placeholder merely because an isolated QA shot
 	# (or a future selective preloader) did not also attach the compact baseline.
 	if not has_down_pose and not has_animation_pack and not has_signature_animation and not fallback_combat_previews.has(character_id):
-		return false
+		return {}
 	var texture: Texture2D = sprite_library.down_pose_texture(character_id) if has_down_pose else (sprite_library.texture_at(character_id, animation_name, animation_elapsed) if has_animation_pack else fallback_combat_previews.get(character_id))
 	var action_sample := _action_frame_sample(unit)
 	if not action_sample.is_empty(): texture = action_sample.texture
@@ -3299,7 +3450,7 @@ func _draw_combat_sprite(unit: Dictionary, p: Vector2, alive: bool) -> bool:
 		if signature_texture != null:
 			texture = signature_texture as Texture2D
 	if texture == null:
-		return false
+		return {}
 	var scale := _combat_sprite_scale(unit, animation_name) * sprite_draw_scale
 	# Runtime atlases use a smaller canvas but retain the immutable 512px
 	# gameplay anchor.  Scale from the authored canvas so Web compaction never
@@ -3324,6 +3475,17 @@ func _draw_combat_sprite(unit: Dictionary, p: Vector2, alive: bool) -> bool:
 				var canvas_scale := Vector2(destination_size.x / logical_canvas.x, destination_size.y / logical_canvas.y)
 				destination_rect.position += logical_rect.position * canvas_scale
 				destination_rect.size = logical_rect.size * canvas_scale
+	return {"texture": texture, "rect": destination_rect, "animation": animation_name, "elapsed": animation_elapsed, "down": has_down_pose}
+
+func _draw_combat_sprite(unit: Dictionary, p: Vector2, alive: bool) -> bool:
+	var frame := _combat_sprite_frame(unit, alive)
+	if frame.is_empty(): return false
+	var texture: Texture2D = frame.texture
+	var destination_rect: Rect2 = frame.rect
+	var animation_name: String = frame.animation
+	var animation_elapsed: float = frame.elapsed
+	var has_down_pose: bool = frame.down
+	var character_id := str(unit.def_id)
 	var flash_tint := Color.WHITE
 	if hit_flash_frames.has(unit.uid): flash_tint = HitFeedback.WHITE_FLASH_TINT
 	elif unit_flash.has(unit.uid): flash_tint = Color(1.0, .72, .72, 1.0)
@@ -3611,7 +3773,20 @@ func _entry_offset(unit: Dictionary) -> Vector2:
 	var direction := -1.0 if str(unit.team) == "PLAYER" else 1.0
 	return Vector2(direction * 150.0 * (1.0 - eased), 0.0)
 
+## The registered pose is read by shadows, the body, the head/HUD anchors and the
+## effects, five or more times per unit per frame; inside one `_draw()` pass the
+## inputs cannot change, so the first answer is reused (callers never mutate it).
 func _registered_sprite_pose(unit: Dictionary) -> Dictionary:
+	if not _draw_memo_active: return _compute_registered_sprite_pose(unit)
+	var uid := str(unit.get("uid", ""))
+	if uid.is_empty(): return _compute_registered_sprite_pose(unit)
+	var memo := _pose_memo if UnitState.alive(unit) else _pose_memo_down
+	if memo.has(uid): return memo[uid]
+	var pose := _compute_registered_sprite_pose(unit)
+	memo[uid] = pose
+	return pose
+
+func _compute_registered_sprite_pose(unit: Dictionary) -> Dictionary:
 	var id := str(unit.get("def_id", ""))
 	if not UnitState.alive(unit) and str(unit.get("team", "")) == "PLAYER" and sprite_library.has_down_pose(id):
 		# Static keyed prone art owns its own planted bottom edge. Returning an
@@ -3684,6 +3859,15 @@ func _head_position(unit: Dictionary, foot_position: Vector2) -> Vector2:
 	return foot_position + Vector2(0, -128)
 
 func _combat_sprite_scale(unit: Dictionary, _animation_name: String) -> float:
+	if not _draw_memo_active: return _compute_combat_sprite_scale(unit)
+	var uid := str(unit.get("uid", ""))
+	if uid.is_empty(): return _compute_combat_sprite_scale(unit)
+	if _scale_memo.has(uid): return _scale_memo[uid]
+	var body_scale := _compute_combat_sprite_scale(unit)
+	_scale_memo[uid] = body_scale
+	return body_scale
+
+func _compute_combat_sprite_scale(unit: Dictionary) -> float:
 	var character_id := str(unit.get("def_id", ""))
 	# Portrait combat needs a materially larger actor read than the old desktop
 	# baseline. The value is still bounded by the five-unit formation above and
@@ -3966,6 +4150,29 @@ func cell_at(point: Vector2) -> Array:
 func cell_screen_center(col: int, lane: int) -> Vector2:
 	return _battlefield_point(Grounding.cell_point(col, lane) * size)
 
+## `_battlefield_point` as a transform, for geometry authored in view pixels at
+## camera zoom 1 (zoom about the view centre, then the director and field offsets).
+func _battlefield_pixel_transform() -> Transform2D:
+	var zoom := _battlefield_camera_zoom()
+	return Transform2D(Vector2(zoom, 0.0), Vector2(0.0, zoom), size * .5 * (1.0 - zoom) + presentation_director.battlefield_offset() + field_offset)
+
+## All floor cells as one mesh in view pixels at zoom 1, rebuilt only when the
+## view size changes. Colours are the base alphas; the caller applies emphasis.
+func _grid_lattice() -> ArrayMesh:
+	if _grid_mesh != null and _grid_mesh_size == size: return _grid_mesh
+	var kit := MeshKit.new()
+	for col in range(BattleGrid.COLUMNS):
+		for lane in range(BattleGrid.LANES):
+			var cell := PackedVector2Array()
+			for point in Grounding.cell_polygon(col, lane, .006):
+				cell.append(point * size)
+			var player_side := col <= BattleGrid.PLAYER_FRONT
+			kit.fill(cell, Color(.30, .85, .95, .075) if player_side else Color(1.0, .40, .34, .055))
+			kit.stroke(cell, 1.6, Color(.78, .96, 1.0, .30) if player_side else Color(1.0, .74, .64, .20), true)
+	_grid_mesh = kit.build()
+	_grid_mesh_size = size
+	return _grid_mesh
+
 func _cell_screen_polygon(col: int, lane: int, inset := .006) -> PackedVector2Array:
 	var output := PackedVector2Array()
 	for point in Grounding.cell_polygon(col, lane, inset):
@@ -3993,12 +4200,11 @@ func _draw_tactical_grid() -> void:
 	var focused := deployment_active or not tactical_selected_uid.is_empty() or not tactical_aim_uid.is_empty()
 	var emphasis := 1.0 if focused else .42
 	var zoom := _battlefield_camera_zoom()
-	for col in range(BattleGrid.COLUMNS):
-		for lane in range(BattleGrid.LANES):
-			var poly := _cell_screen_polygon(col, lane)
-			var player_side := col <= BattleGrid.PLAYER_FRONT
-			draw_colored_polygon(poly, Color(.30, .85, .95, .075 * emphasis) if player_side else Color(1.0, .40, .34, .055 * emphasis))
-			draw_polyline(_closed(poly), Color(.78, .96, 1.0, .30 * emphasis) if player_side else Color(1.0, .74, .64, .20 * emphasis), 1.6 * zoom, true)
+	# The eighteen cells never change shape: one cached mesh, the camera applied as
+	# its draw transform (so stroke width follows the zoom exactly as before) and
+	# the emphasis as its alpha.
+	var lattice := _grid_lattice()
+	if lattice != null: draw_mesh(lattice, null, _battlefield_pixel_transform(), Color(1, 1, 1, emphasis))
 	# The contact line between the two zones.
 	var line_top := _battlefield_point(Grounding.cell_polygon(2, 0, 0.0)[1] * size)
 	var line_bottom := _battlefield_point(Grounding.cell_polygon(2, 2, 0.0)[2] * size)
@@ -4043,15 +4249,15 @@ func _draw_cover_marker(col: int, lane: int) -> void:
 	var bag := Vector2(width * .36, 9.0 * zoom)
 	var fill := Color(.62, .56, .42, .92)
 	var edge := Color(.20, .16, .10, .85)
+	# Each sandbag is two cached ellipses: the dark edge colour a stroke-width
+	# larger underneath, the fill a stroke-width smaller on top. That replaces a
+	# polygon plus a polyline per bag.
+	var half_stroke := Vector2(.7, .7) * zoom
 	for row in range(2):
 		for index in range(3 - row):
 			var offset := Vector2((float(index) - (2.0 - row) * .5) * bag.x * 1.55, -float(row) * bag.y * 1.35)
-			_draw_ellipse_polygon(center + offset, bag, fill.darkened(.08 * row))
-			var ring := PackedVector2Array()
-			for step in range(17):
-				var angle := TAU * float(step) / 16.0
-				ring.append(center + offset + Vector2(cos(angle) * bag.x, sin(angle) * bag.y))
-			draw_polyline(ring, edge, 1.4 * zoom, true)
+			SoftSprites.draw_ellipse(self, center + offset, bag + half_stroke, edge)
+			SoftSprites.draw_ellipse(self, center + offset, bag - half_stroke, fill.darkened(.08 * row))
 	if deployment_active:
 		var font := battle_font if battle_font != null else ThemeDB.fallback_font
 		var font_size := clampi(roundi(13.0 * _readout_scale()), 13, 30)

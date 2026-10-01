@@ -1159,7 +1159,7 @@
 - Actions는 1회만: 워크플로 변경을 `[skip actions]`로 main에 올리고(실행 0건 확인), `.deploy/REQUEST` 한 줄만 바꾼 커밋 하나로 실행을 시작했다(실행 36878970881, 47초, 성공).
   실행은 payload 브랜치를 받아 정확한 파일 집합, 모든 바이트의 해시, 서비스 워커·매니페스트·문구를 검증한 뒤에만 배포한다.
   올린 Pages 아티팩트는 `retention-days: 1`이고 배포 직후 실행이 스스로 지운다. 실행 뒤 아티팩트 0건, 캐시 0건. 새 워크플로는 main `da2d8ff`, 요청은 `b142237`.
-- 검증: 배포본 파일 2,935개(VERSION.json·DEPLOY_SHA.txt 제외, 약 540MB 조회)를 VERSION.json·audio_sidecars.json의 크기·SHA-256과 전부 대조해 일치했다(PCK `13455ea5…7731`).
+- 검증: 배포본 파일 2,935개(VERSION.json·DEPLOY_SHA.txt 제외, 약 540MB 조회)를 VERSION.json·audio_sidecars.json의 크기·SHA-256과 전부 대조해 일치했다(`tools/web/verify_live_pages.py`, PCK `13455ea5…7731`).
   새 Chrome 프로필로 로딩 화면(영어 문구) → 타이틀 → 지도 → 전투(57fps)까지 오류 없이 지났고, 인트로 영상은 실제로 재생됐다(3.0초 → 8.7초, 오류 없음).
   콘솔·네트워크 문제는 선택 파일 `_hd/…/atlas.png`의 404 한 건뿐이며 압축 텍스처로 폴백한다(이때 엔진 gzip 오류 로그 한 줄이 같이 찍힌다).
 - 정리: 임시 브랜치 `deploy-payload` 삭제(원격은 main과 기존 브랜치 두 개만 남음), 로컬 스테이징 사본·QA 프로필 약 1.7GB는 휴지통으로 보냈다. 이 브랜치는 푸시하지 않았다.

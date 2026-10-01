@@ -1147,3 +1147,24 @@
   `tools/powershell/START_LOCAL_GAME.ps1`은 이제 r22를 가리킨다. 자세한 내용: `reports/visual_r22_20261001/R22_REPORT.md`.
 - 하지 않은 것 / 못 한 것: 실제 휴대폰 확인, NVIDIA+ANGLE 외 GPU 확인, 전투 폴리곤 명령 약 130개 정리.
 - 배포·푸시는 하지 않았다.
+
+
+## 2026-10-01 — r22 GitHub Pages 배포 (Claude)
+
+- 요청: "깃허브에 루멘바운드 배포 주소 있으니 pages 찌꺼기 남겨서 용량 차지 않하게 하고 깃허브 액션 최소화해서 배포해", 이어서 "배포하고나서는 pages 에 찌꺼기 남기지 말고 다 지워라".
+  이 요청에 한해 "배포는 하지 말아" 제한을 풀었다. 배포 주소: `https://comicman081-collab.github.io/LUMENBOUND-TACTICS-OF-THE-LAST-LINE/` (저장소 `comicman081-collab/LUMENBOUND-TACTICS-OF-THE-LAST-LINE`).
+- 만든 것: `tools/web/stage_pages_release.py`. 검증된 r22 릴리스를 Pages 트리로 만든다(해시 이름 PCK/WASM, 오디오 사이드카, 검증된 인트로 `intro.mp4`, 하위 경로용 인트로 경로 보정,
+  영어 로딩 문구, 정리한 LICENSES/README, 파일별 해시표가 든 VERSION.json). 선택 HD 페이지 `_hd/`는 제외했다(Sites r21과 같이 PCK 안 압축 텍스처로 대체).
+  PCK 177,065,872바이트는 Git LFS 없이 49MB 이하 4조각으로 임시 브랜치 `deploy-payload`에 올렸다. LFS 무료 한도(1GiB)는 옛 기록(원격 약 1.14GB)으로 이미 넘었기 때문이다.
+- Actions는 1회만: 워크플로 변경을 `[skip actions]`로 main에 올리고(실행 0건 확인), `.deploy/REQUEST` 한 줄만 바꾼 커밋 하나로 실행을 시작했다(실행 36878970881, 47초, 성공).
+  실행은 payload 브랜치를 받아 정확한 파일 집합, 모든 바이트의 해시, 서비스 워커·매니페스트·문구를 검증한 뒤에만 배포한다.
+  올린 Pages 아티팩트는 `retention-days: 1`이고 배포 직후 실행이 스스로 지운다. 실행 뒤 아티팩트 0건, 캐시 0건. 새 워크플로는 main `da2d8ff`, 요청은 `b142237`.
+- 검증: 배포본 파일 2,935개(VERSION.json·DEPLOY_SHA.txt 제외, 약 540MB 조회)를 VERSION.json·audio_sidecars.json의 크기·SHA-256과 전부 대조해 일치했다(PCK `13455ea5…7731`).
+  새 Chrome 프로필로 로딩 화면(영어 문구) → 타이틀 → 지도 → 전투(57fps)까지 오류 없이 지났고, 인트로 영상은 실제로 재생됐다(3.0초 → 8.7초, 오류 없음).
+  콘솔·네트워크 문제는 선택 파일 `_hd/…/atlas.png`의 404 한 건뿐이며 압축 텍스처로 폴백한다(이때 엔진 gzip 오류 로그 한 줄이 같이 찍힌다).
+- 정리: 임시 브랜치 `deploy-payload` 삭제(원격은 main과 기존 브랜치 두 개만 남음), 로컬 스테이징 사본·QA 프로필 약 1.7GB는 휴지통으로 보냈다. 이 브랜치는 푸시하지 않았다.
+- 이 브랜치 변경: `.github/workflows/deploy-pages.yml`을 main의 새 워크플로와 맞추고 `tools/web/stage_pages_release.py`를 추가했다.
+- 인계(Codex): (1) `godot/screens/app_shell.gd`의 인트로 경로가 절대 경로 `/intro.mp4`라서 하위 경로 호스트에서는 스테이저의 보정 코드가 필요하다. 소스에서 `./intro.mp4`로 바꾸면 보정이 필요 없다.
+  (2) 배포본의 런타임 소스 커밋은 `2ed2b87`이지만 빌드에는 Codex의 당시 미커밋 타이틀·인트로 변경이 같이 들어 있다. `command_presentation.gd`는 아직 커밋되지 않았다.
+  (3) 다음 배포는 payload 브랜치를 먼저 만든 뒤 REQUEST를 바꾸는 순서다(워크플로 머리말 참고). 브랜치가 없으면 실행이 체크아웃에서 멈춘다.
+- 사용자가 직접 할 일: 실행 기록 삭제(Actions → 실행 → ⋯ → Delete workflow run), 필요하면 Settings → Actions → General의 아티팩트·로그 보관 기간 1일, 옛 LFS 객체 정리(GitHub Support 또는 저장소 재생성).

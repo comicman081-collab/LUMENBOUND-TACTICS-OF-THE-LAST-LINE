@@ -1,5 +1,9 @@
 name: Deploy LUMENBOUND Web
 
+# One deployment per explicit request. Only a change to .deploy/REQUEST on main starts this workflow;
+# ordinary commits and pushes never do. The Web payload is not kept on main: it travels on the
+# temporary branch `deploy-payload`, which is created before the request and deleted after the
+# deployment, so no build files or storage-counted artifacts stay behind.
 on:
   push:
     branches:
@@ -11,6 +15,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: write # only to remove this run's own temporary Pages artifact
 
 concurrency:
   group: pages
@@ -24,17 +29,21 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout verified Web payload
+      - name: Checkout temporary Web payload
         uses: actions/checkout@v4
         with:
-          lfs: true
+          ref: deploy-payload
+          lfs: false
+          fetch-depth: 1
+          persist-credentials: false
 
       - name: Verify and stamp Web payload
         shell: bash
         run: |
           set -euo pipefail
-          WEB_ROOT="$GITHUB_WORKSPACE/builds/web_release"
-          python3 - "$WEB_ROOT" "$GITHUB_SHA" <<'PY'
+          WEB_ROOT="$GITHUB_WORKSPACE/site"
+          python3 - "$WEB_ROOT" "$GITHUB_SHA" "$(git -C "$GITHUB_WORKSPACE" rev-parse HEAD)" <<'PY'
+          import gzip
           import hashlib
           import json
           import re
@@ -43,18 +52,16 @@ jobs:
           from pathlib import Path
 
           root = Path(sys.argv[1]).resolve()
-          deployment_commit = sys.argv[2]
-          required = (
-              "index.html", "index.js", "index.wasm", "index.pck",
-              "index.service.worker.js", "index.manifest.json", "index.offline.html",
-              "index.png", "index.icon.png", "index.apple-touch-icon.png",
-              "index.144x144.png", "index.180x180.png", "index.512x512.png",
-              "index.audio.worklet.js", "index.audio.position.worklet.js",
-              "LICENSES.md", "README_HTML.md", "VERSION.json",
-          )
+          deployment_commit, payload_commit = sys.argv[2], sys.argv[3]
+          PART_LIMIT = 50_000_000
+          PAYLOAD_BUDGET = 600_000_000
+          LEAK = re.compile(r"(?i)(?<![A-Za-z0-9_])[A-Z]:[\\/]|source_blends?|render_command|blender_sources|\.blend\b")
+          TEXT = {".html", ".js", ".json", ".md", ".txt"}
+
 
           def fail(message: str) -> None:
-              raise SystemExit(message)
+              raise SystemExit("WEB_PAYLOAD_VERIFY=FAIL " + message)
+
 
           def digest(path: Path) -> str:
               value = hashlib.sha256()
@@ -63,33 +70,85 @@ jobs:
                       value.update(block)
               return value.hexdigest()
 
+
           if not root.is_dir():
-              fail(f"Web payload directory is missing: {root}")
-          missing = [name for name in required if not (root / name).is_file() or (root / name).stat().st_size <= 0]
-          if missing:
-              fail("Web payload is incomplete: " + ", ".join(missing))
-
-          pck = root / "index.pck"
-          wasm = root / "index.wasm"
-          pck_size = pck.stat().st_size
-          wasm_size = wasm.stat().st_size
-          if not 100_000_000 < pck_size < 180_000_000:
-              fail(f"Unexpected PCK size or unresolved LFS pointer: {pck_size}")
-          with wasm.open("rb") as handle:
-              if handle.read(4) != b"\x00asm":
-                  fail("WebAssembly payload does not have the raw WASM magic")
-
+              fail(f"payload directory is missing: {root}")
           version_path = root / "VERSION.json"
           version = json.loads(version_path.read_text(encoding="utf-8"))
-          pck_hash = digest(pck)
-          wasm_hash = digest(wasm)
-          if version.get("pck_sha256") != pck_hash or version.get("pck_size") != pck_size:
-              fail("PCK hash/size does not match VERSION.json")
-          if version.get("wasm_sha256") != wasm_hash or version.get("wasm_size") != wasm_size:
-              fail("WASM hash/size does not match VERSION.json")
+          base = version.get("runtime_artifact_base", "")
+          if not re.fullmatch(r"r7_current_[0-9a-f]{12}", base):
+              fail(f"unexpected runtime artifact base: {base!r}")
+          if version.get("release_pack_mode") != "verified_prebuilt_web_export_without_optional_hd":
+              fail("unexpected release pack mode")
           runtime_source_commit = version.get("source_commit", "")
           if not re.fullmatch(r"[0-9a-f]{40}", runtime_source_commit):
               fail("VERSION.json has no exact runtime source commit")
+
+          # The PCK travels in parts below 50 MB: join them and prove the result before anything is published.
+          pck = root / f"{base}.pck"
+          parts = version.get("pck_parts", [])
+          if pck.exists() or not parts:
+              fail("the PCK must travel as parts")
+          if [part.get("name") for part in parts] != [f"{base}.pck.part{index:02d}" for index in range(len(parts))]:
+              fail("PCK part names are not contiguous")
+          whole = hashlib.sha256()
+          joined = 0
+          with pck.open("wb") as target:
+              for part in parts:
+                  path = root / part["name"]
+                  if not path.is_file() or path.stat().st_size != part["bytes"] or not 0 < part["bytes"] <= PART_LIMIT:
+                      fail(f"PCK part is missing or has the wrong size: {part['name']}")
+                  data = path.read_bytes()
+                  if hashlib.sha256(data).hexdigest() != part["sha256"]:
+                      fail(f"PCK part hash mismatch: {part['name']}")
+                  whole.update(data)
+                  target.write(data)
+                  joined += len(data)
+                  path.unlink()
+          pck_hash = whole.hexdigest()
+          if joined != version.get("pck_size") or pck_hash != version.get("pck_sha256") or base != "r7_current_" + pck_hash[:12]:
+              fail("joined PCK does not match VERSION.json")
+          if not 100_000_000 < joined < 180_000_000:
+              fail(f"unexpected PCK size: {joined}")
+
+          # Exactly the declared files: nothing missing, nothing extra, every byte verified.
+          audio = json.loads((root / "audio_sidecars.json").read_text(encoding="utf-8"))
+          sidecars = {}
+          for key in ("tracks", "sfx", "voice"):
+              sidecars.update(audio.get(key, {}))
+          files = version.get("files", {})
+          actual = {path.relative_to(root).as_posix() for path in root.rglob("*") if path.is_file()}
+          expected = set(files) | set(sidecars) | {"VERSION.json"}
+          if actual != expected:
+              fail("payload file set differs: missing=" + ",".join(sorted(expected - actual)[:5]) + " extra=" + ",".join(sorted(actual - expected)[:5]))
+          total = 0
+          for name, record in files.items():
+              path = root / name
+              if path.stat().st_size != record["bytes"] or digest(path) != record["sha256"]:
+                  fail(f"file does not match VERSION.json: {name}")
+              total += record["bytes"]
+          for name, record in sidecars.items():
+              path = root / name
+              if path.stat().st_size != record["bytes"] or digest(path) != record["sha256"]:
+                  fail(f"audio sidecar does not match audio_sidecars.json: {name}")
+              total += record["bytes"]
+          if total > PAYLOAD_BUDGET:
+              fail(f"payload exceeds the {PAYLOAD_BUDGET} byte budget: {total}")
+          if version.get("audio_sidecars", {}).get("files") != len(sidecars):
+              fail("audio sidecar count does not match VERSION.json")
+          intro = version.get("intro", {})
+          if files.get("intro.mp4", {}).get("sha256") != intro.get("sha256") or files["intro.mp4"]["bytes"] != intro.get("bytes"):
+              fail("intro.mp4 does not match VERSION.json")
+
+          wasm = root / f"{base}.wasm"
+          wasm_size = wasm.stat().st_size
+          if version.get("wasm_sha256") != files[wasm.name]["sha256"] or version.get("wasm_size") != wasm_size:
+              fail("WASM hash/size does not match VERSION.json")
+          with gzip.open(wasm, "rb") as stream:
+              if stream.read(4) != b"\x00asm":
+                  fail("the gzip payload does not hold a raw WebAssembly module")
+              while stream.read(1024 * 1024):
+                  pass
 
           html_path = root / "index.html"
           html = html_path.read_text(encoding="utf-8")
@@ -97,52 +156,62 @@ jobs:
           if not config_match:
               fail("Godot Web configuration is missing from index.html")
           config = json.loads(config_match.group(1))
-          if config.get("fileSizes", {}).get("index.pck") != pck_size:
-              fail("index.html PCK size is stale")
-          if config.get("fileSizes", {}).get("index.wasm") != wasm_size:
-              fail("index.html WASM size is stale")
-          if "LOADING LUMENBOUND TACTICAL DATA" not in html or "전술 기록을 불러오는 중" in html:
-              fail("The public loading label must be English")
+          sizes = config.get("fileSizes", {})
+          if config.get("executable") != base or sizes.get(f"{base}.pck") != joined or sizes.get(f"{base}.wasm") != wasm_size:
+              fail("index.html does not describe this PCK/WASM pair")
+          for token in ("LOADING LUMENBOUND TACTICAL DATA", "LUMENBOUND_PUBLIC_PROGRESS", "LUMENBOUND_PAGES_INTRO_PATH"):
+              if token not in html:
+                  fail(f"index.html is missing the public contract: {token}")
+          if "전술 기록을 불러오는 중" in html or "�" in html or "쨌" in html:
+              fail("the public loading screen text is unreadable or not English")
 
           manifest = json.loads((root / "index.manifest.json").read_text(encoding="utf-8"))
-          if manifest.get("orientation") != "any":
-              fail(f"Desktop/mobile orientation contract failed: {manifest.get('orientation')!r}")
-          worker_path = root / "index.service.worker.js"
-          worker = worker_path.read_text(encoding="utf-8")
+          if manifest.get("orientation") != "landscape" or manifest.get("name") != "LUMENBOUND: TACTICS OF THE LAST LINE":
+              fail(f"PWA manifest contract failed: {manifest.get('name')!r} {manifest.get('orientation')!r}")
+          worker = (root / "index.service.worker.js").read_text(encoding="utf-8")
           for token in (
               "const CACHE_PREFIX = 'LUMENBOUND-TACTICS-sw-cache-';",
               "self.skipWaiting()", "self.clients.claim()",
               "Navigation network error; using cached LUMENBOUND shell.",
           ):
               if token not in worker:
-                  fail(f"Service-worker contract is missing: {token}")
+                  fail(f"service-worker contract is missing: {token}")
           cache_digest = hashlib.sha256(
               "|".join(digest(path) for path in (pck, wasm, root / "index.js", html_path)).encode("utf-8")
           ).hexdigest()
           expected_cache_version = f"r7_{cache_digest[:16]}"
           if f"const CACHE_VERSION = '{expected_cache_version}';" not in worker:
-              fail(f"Service-worker cache version is stale; expected {expected_cache_version}")
+              fail(f"service-worker cache version is stale; expected {expected_cache_version}")
+
+          for path in root.rglob("*"):
+              relative = path.relative_to(root).as_posix()
+              if path.is_file() and path.suffix.lower() in TEXT and not relative.startswith("_audio/"):
+                  match = LEAK.search(path.read_text(encoding="utf-8", errors="replace"))
+                  if match:
+                      fail(f"public text leaks authoring lineage in {relative}: {match.group(0)!r}")
 
           version["deployment_commit"] = deployment_commit
+          version["payload_commit"] = payload_commit
           version["deployed_utc"] = datetime.now(timezone.utc).isoformat()
-          version_path.write_text(
-              json.dumps(version, ensure_ascii=False, indent=2) + "\n",
-              encoding="utf-8", newline="\n",
-          )
+          version_path.write_text(json.dumps(version, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
           (root / "DEPLOY_SHA.txt").write_text(
               f"deployment_commit={deployment_commit}\n"
+              f"payload_commit={payload_commit}\n"
               f"runtime_source_commit={runtime_source_commit}\n"
               f"pck_sha256={pck_hash}\n"
-              f"pck_size={pck_size}\n"
-              f"wasm_sha256={wasm_hash}\n"
+              f"pck_size={joined}\n"
+              f"wasm_sha256={version['wasm_sha256']}\n"
               f"wasm_size={wasm_size}\n"
-              "release_pack_mode=verified_prebuilt_full_web_export\n",
+              f"release_pack_mode={version['release_pack_mode']}\n",
               encoding="utf-8", newline="\n",
           )
           print(f"WEB_PAYLOAD_PCK_SHA256={pck_hash}")
-          print(f"WEB_PAYLOAD_PCK_BYTES={pck_size}")
+          print(f"WEB_PAYLOAD_PCK_BYTES={joined}")
+          print(f"WEB_PAYLOAD_FILES={len(actual) + 1}")
+          print(f"WEB_PAYLOAD_BYTES={total}")
           print(f"WEB_PAYLOAD_RUNTIME_SOURCE={runtime_source_commit}")
           print(f"WEB_PAYLOAD_DEPLOYMENT_COMMIT={deployment_commit}")
+          print(f"WEB_PAYLOAD_PAYLOAD_COMMIT={payload_commit}")
           print("WEB_PAYLOAD_VERIFY=PASS")
           PY
           echo "WEB_ROOT=$WEB_ROOT" >> "$GITHUB_ENV"
@@ -156,7 +225,23 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ env.WEB_ROOT }}
+          retention-days: 1
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Remove this run's temporary Pages artifact
+        if: always()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          ids=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts" --jq '.artifacts[] | select(.name == "github-pages") | .id')
+          removed=0
+          for id in $ids; do
+            gh api -X DELETE "repos/$GITHUB_REPOSITORY/actions/artifacts/$id"
+            removed=$((removed + 1))
+          done
+          echo "PAGES_ARTIFACTS_REMOVED=$removed"

@@ -1155,7 +1155,7 @@
   이 요청에 한해 "배포는 하지 말아" 제한을 풀었다. 배포 주소: `https://comicman081-collab.github.io/LUMENBOUND-TACTICS-OF-THE-LAST-LINE/` (저장소 `comicman081-collab/LUMENBOUND-TACTICS-OF-THE-LAST-LINE`).
 - 만든 것: `tools/web/stage_pages_release.py`. 검증된 r22 릴리스를 Pages 트리로 만든다(해시 이름 PCK/WASM, 오디오 사이드카, 검증된 인트로 `intro.mp4`, 하위 경로용 인트로 경로 보정,
   영어 로딩 문구, 정리한 LICENSES/README, 파일별 해시표가 든 VERSION.json). 선택 HD 페이지 `_hd/`는 제외했다(Sites r21과 같이 PCK 안 압축 텍스처로 대체).
-  PCK 177,065,872바이트는 Git LFS 없이 49MB 이하 4조각으로 임시 브랜치 `deploy-payload`에 올렸다. LFS 무료 한도(1GiB)는 옛 기록(원격 약 1.14GB)으로 이미 넘었기 때문이다.
+  PCK 177,065,872바이트는 Git LFS 없이 49MB 이하 4조각으로 임시 브랜치 `deploy-payload`에 올렸다. 처음에는 LFS 무료 한도가 1GiB라 옛 기록(원격 약 1.14GB)으로 이미 넘었다고 판단했지만 낡은 기준이었다. 공식 문서(2026-10-02 확인)는 GitHub Free에 저장 10GiB·대역폭 10GiB를 주고 매월 다시 센다고 하며, 옛 기록은 그 약 10%다. 그래도 LFS를 쓰지 않은 이유는 PCK 버전마다 LFS 저장이 영구히 쌓이고(지우려면 저장소를 새로 만들거나 Support 요청) Actions 체크아웃마다 대역폭을 쓰기 때문이다.
 - Actions는 1회만: 워크플로 변경을 `[skip actions]`로 main에 올리고(실행 0건 확인), `.deploy/REQUEST` 한 줄만 바꾼 커밋 하나로 실행을 시작했다(실행 36878970881, 47초, 성공).
   실행은 payload 브랜치를 받아 정확한 파일 집합, 모든 바이트의 해시, 서비스 워커·매니페스트·문구를 검증한 뒤에만 배포한다.
   올린 Pages 아티팩트는 `retention-days: 1`이고 배포 직후 실행이 스스로 지운다. 실행 뒤 아티팩트 0건, 캐시 0건. 새 워크플로는 main `da2d8ff`, 요청은 `b142237`.
@@ -1167,4 +1167,4 @@
 - 인계(Codex): (1) `godot/screens/app_shell.gd`의 인트로 경로가 절대 경로 `/intro.mp4`라서 하위 경로 호스트에서는 스테이저의 보정 코드가 필요하다. 소스에서 `./intro.mp4`로 바꾸면 보정이 필요 없다.
   (2) 배포본의 런타임 소스 커밋은 `2ed2b87`이지만 빌드에는 Codex의 당시 미커밋 타이틀·인트로 변경이 같이 들어 있다. `command_presentation.gd`는 아직 커밋되지 않았다.
   (3) 다음 배포는 payload 브랜치를 먼저 만든 뒤 REQUEST를 바꾸는 순서다(워크플로 머리말 참고). 브랜치가 없으면 실행이 체크아웃에서 멈춘다.
-- 사용자가 직접 할 일: 실행 기록 삭제(Actions → 실행 → ⋯ → Delete workflow run), 필요하면 Settings → Actions → General의 아티팩트·로그 보관 기간 1일, 옛 LFS 객체 정리(GitHub Support 또는 저장소 재생성).
+- 사용자가 직접 할 일: 이미 만들어진 실행 기록 1건 삭제(Actions → 실행 → ⋯ → Delete workflow run). Settings → Actions → General의 보관 기간 1일 설정은 사용자 승인 뒤 시도했지만 인앱 브라우저가 GitHub에 로그인돼 있지 않아 못 했다. 이 설정은 2026-10-01부터 실행 기록에도 적용되지만 새로 생기는 실행에만 적용된다. 옛 LFS 객체 약 1.14GB는 무료 허용량(10GiB)의 약 10%라 지울 필요가 없다.

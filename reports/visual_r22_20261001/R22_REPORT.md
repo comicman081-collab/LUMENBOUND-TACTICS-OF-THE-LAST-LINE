@@ -111,14 +111,16 @@ r21 전투 화면은 이런 명령이 프레임마다 수백 개였다(바닥 �
 ### 산출물
 
 - 빌드: `builds/web_visual_r22_release` (`VERSION.json`의 `build_id` = `LANTERNLINE_VISUAL_R22_WEB`).
-  개발자 모드 로그(`WEB_FRAME_GAP` 등)용 디버그 템플릿 빌드는 `builds/web_visual_r22_development`.
+  개발자 모드 로그(`WEB_FRAME_GAP` 등)용 디버그 템플릿 빌드 `builds/web_visual_r22_development`는 2026-10-02 용량 정리로 휴지통에 보냈다(3,584개 852,191,468바이트,
+  경로·SHA-256은 `reports/storage_cleanup_20261002/r22_development_retirement_manifest.json.gz`). 그 로그가 다시 필요하면 새 태그로
+  `tools/powershell/BUILD_WEB_R7.ps1`을 돌린다(같은 태그는 release 폴더가 있어 스크립트가 거부한다).
 - PCK: `r7_current_13455ea5e24b.pck`, 177,065,872바이트, SHA-256 `13455ea5e24bd0936f98e84e1a761fc02474bf611fae90d4d272554d3d2d7731`.
   wasm은 원본 39,513,091바이트, gzip 10,054,500바이트.
 - 로컬 실행기 `tools/powershell/START_LOCAL_GAME.ps1`은 이제 r22를 가리킨다(이 변경은 커밋에 포함).
 - 정리: 처음 만든 r22 출력 2개(릴리스 827MB, 개발 855MB, PCK `0ef18b459f4c`)는 새 빌드로 교체됐다. 경로·크기·SHA-256을
   `r22_first_release_retirement_manifest.json.gz`, `r22_first_development_retirement_manifest.json.gz`에 적고 휴지통으로 보냈다(영구 삭제 아님).
   `work/build_output_quarantine`의 `.retention.json` 두 개(빌드 도구의 기록)는 그대로 남겼다.
-  남은 빌드: r15(검증본), r21(배포본), r22(후보, 릴리스와 개발). r15(약 0.85GB)를 지울지는 사용자 결정으로 남겼다.
+  남은 빌드: r15(검증본), r21(배포본), r22 릴리스(후보, 2026-10-01에 GitHub Pages로 배포). r15(약 0.8GB)를 지울지는 사용자 결정으로 남겼다.
 - 이 빌드로 확인한 것: 새 Chrome 프로필에서 부팅·예열(`WEB_RENDER_WARMUP_COMPLETE`, 타이틀 연출 조각 662ms 포함) 10.6초,
   인트로 건너뛰기 → 타이틀 → 시작 → 프롤로그 → 지도 진입(`STAGE_ENTRY_PRELOAD_COMPLETE` 2,822ms, 목표 5,000ms 이내) → 이동 범위 표시 → 전투.
   콘솔에 오류 없음. 화면: `screenshots/web_title.png`, `web_map_overlay.png`, `web_battle.png`.

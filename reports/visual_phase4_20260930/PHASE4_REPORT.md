@@ -117,6 +117,9 @@
 
 ### 창 캡처 (실제 셸, 1600×900과 390×844)
 
+> 2026-10-02: 아래 캡처 16장(약 25MB, git 제외)은 용량 정리로 휴지통에 보냈다. 경로·SHA-256은
+> `reports/storage_cleanup_20261002/phase4_captures_retirement_manifest.json.gz`. 다시 필요하면 QA를 다시 돌려 만든다.
+
 - `screenshots/map_ch01_sheet.png`, `map_boss_sheet.png`, `lm_close_sheet.png`: 지도 전경, 보스 건물, 건물 근접
 - `screenshots/persp_vs_ortho.png`: 같은 자리를 원근과 직교로 비교
 - `screenshots/1600x900_51_floor_CH01 / 05 / 07 / 08 / 12-N05.png`: 지역별 전투 바닥, `mobile_sheet.png`: 390×844 묶음

@@ -1180,3 +1180,14 @@
 - 남긴 것: r22 릴리스(배포 원본), r21(Codex의 Sites 배포본이고 Codex 도구가 경로를 쓴다), r15(검증본, 지울지는 사용자 결정), `godot/.godot`(임포트 캐시 1GB),
   Codex 작업 폴더(`work/sites_*`, `reports/sites_r21_intro_fix_20261001` 약 3.1GB), 사운드·인트로 영상 전부.
 - 배포·푸시는 하지 않았다.
+
+
+## 2026-10-02 — r15 검증본 정리 (Claude)
+
+- 요청: "r15 지워". 직전 용량 정리에서 r15는 사용자 확인 빌드라 지울지 물었고, 사용자가 지우라고 답했다.
+- 휴지통으로 보낸 것(영구 삭제 아님): `builds/web_visual_r15_release`(3,593개 849,215,380바이트, PCK `a2ebffb1443a…34c7`). 경로·크기·SHA-256은
+  `reports/storage_cleanup_20261002/r15_release_retirement_manifest.json.gz`에 먼저 적었다.
+- 지우기 전 확인: 안의 오디오·영상 2,917개(186,275,219바이트)는 보존 대상이라 전부 해시로 대조했고, 같은 파일이 없는 것은 0개였다(BGM은 `godot/assets/audio/bgm`,
+  인트로 영상은 `work/video/intro_1080p_50s_20260920/…compressed.mp4`와 같다). `_hd` 페이지 656개도 `godot/assets`와 r22 빌드에 같은 파일이 있다. 이 경로를 쓰는 스크립트는 없었다.
+- `builds`에는 r21(Codex의 Sites 배포본)과 r22 릴리스만 남았다. 휴지통을 비워야 공간이 확보되며(D: 약 1.75GB), 비우는 일은 사용자가 한다.
+- 배포·푸시는 하지 않았다.

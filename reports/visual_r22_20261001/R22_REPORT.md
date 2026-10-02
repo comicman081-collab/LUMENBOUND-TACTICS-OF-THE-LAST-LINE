@@ -120,7 +120,8 @@ r21 전투 화면은 이런 명령이 프레임마다 수백 개였다(바닥 �
 - 정리: 처음 만든 r22 출력 2개(릴리스 827MB, 개발 855MB, PCK `0ef18b459f4c`)는 새 빌드로 교체됐다. 경로·크기·SHA-256을
   `r22_first_release_retirement_manifest.json.gz`, `r22_first_development_retirement_manifest.json.gz`에 적고 휴지통으로 보냈다(영구 삭제 아님).
   `work/build_output_quarantine`의 `.retention.json` 두 개(빌드 도구의 기록)는 그대로 남겼다.
-  남은 빌드: r15(검증본), r21(배포본), r22 릴리스(후보, 2026-10-01에 GitHub Pages로 배포). r15(약 0.8GB)를 지울지는 사용자 결정으로 남겼다.
+  남은 빌드: r21(배포본), r22 릴리스(후보, 2026-10-01에 GitHub Pages로 배포). r15 검증본(3,593개 849,215,380바이트)은 2026-10-02 사용자 지시("r15 지워")로 휴지통에 보냈다
+  (`reports/storage_cleanup_20261002/r15_release_retirement_manifest.json.gz`, 오디오·영상은 보존 위치에 같은 파일이 있음을 해시로 확인했다).
 - 이 빌드로 확인한 것: 새 Chrome 프로필에서 부팅·예열(`WEB_RENDER_WARMUP_COMPLETE`, 타이틀 연출 조각 662ms 포함) 10.6초,
   인트로 건너뛰기 → 타이틀 → 시작 → 프롤로그 → 지도 진입(`STAGE_ENTRY_PRELOAD_COMPLETE` 2,822ms, 목표 5,000ms 이내) → 이동 범위 표시 → 전투.
   콘솔에 오류 없음. 화면: `screenshots/web_title.png`, `web_map_overlay.png`, `web_battle.png`.

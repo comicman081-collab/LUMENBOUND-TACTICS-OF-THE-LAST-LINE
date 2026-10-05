@@ -1,0 +1,7 @@
+{
+  "name": "lumenbound-sites-release",
+  "version": "2026.9.20",
+  "private": true,
+  "type": "module",
+  "scripts": {"build": "node scripts/verify-prebuilt.mjs"}
+}

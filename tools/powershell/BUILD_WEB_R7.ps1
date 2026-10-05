@@ -1,7 +1,8 @@
 ﻿param(
     [string]$Tag = 'r7_current',
     [string]$MapRevision = 'R7',
-    [switch]$ReplaceExisting
+    [switch]$ReplaceExisting,
+    [switch]$ReleaseOnly
 )
 . "$PSScriptRoot\COMMON.ps1"
 $root = Get-ProjectRoot
@@ -115,7 +116,9 @@ function ConvertTo-HashedR7RuntimeArtifacts([string]$Directory) {
     }
 }
 
-foreach ($directory in @($development, $release)) {
+$outputDirectories = @($release)
+if (-not $ReleaseOnly) { $outputDirectories = @($development, $release) }
+foreach ($directory in $outputDirectories) {
     if (Test-Path -LiteralPath $directory -PathType Container) {
         $existing = @(Get-ChildItem -LiteralPath $directory -Force)
         if ($existing.Count -gt 0) {
@@ -138,17 +141,20 @@ foreach ($directory in @($development, $release)) {
     New-Item -ItemType Directory -Path $directory -Force | Out-Null
 }
 
-$importLog = Join-Path $development 'import.log'
+$importDirectory = if ($ReleaseOnly) { $release } else { $development }
+$importLog = Join-Path $importDirectory 'import.log'
 & $godot --headless --editor --path (Join-Path $root 'godot') --import --quit 2>&1 | Tee-Object -FilePath $importLog
 # Godot can exit zero after reporting a script parse error. Never package that
 # candidate just because its process status looked successful; retain the log.
 if ($LASTEXITCODE -ne 0 -or (Select-String -LiteralPath $importLog -Pattern 'SCRIPT ERROR:|ERROR:' -Quiet)) {
-    throw "Web import/compile gate failed. Candidate retained at $development"
+    throw "Web import/compile gate failed. Candidate retained at $importDirectory"
 }
 Invoke-Checked 'python' @((Join-Path $root 'tools\web\build_texture_integrity.py'))
-Invoke-Checked $godot @('--headless', '--path', (Join-Path $root 'godot'), '--export-debug', 'Web Development', (Join-Path $development 'index.html'))
-Invoke-Checked 'python' @((Join-Path $root 'tools\web\stage_density_sidecars.py'), $development)
-Invoke-Checked 'python' @((Join-Path $root 'tools\web\stage_audio_sidecars.py'), $development)
+if (-not $ReleaseOnly) {
+    Invoke-Checked $godot @('--headless', '--path', (Join-Path $root 'godot'), '--export-debug', 'Web Development', (Join-Path $development 'index.html'))
+    Invoke-Checked 'python' @((Join-Path $root 'tools\web\stage_density_sidecars.py'), $development)
+    Invoke-Checked 'python' @((Join-Path $root 'tools\web\stage_audio_sidecars.py'), $development)
+}
 Invoke-Checked $godot @('--headless', '--path', (Join-Path $root 'godot'), '--export-release', 'Web HTML Release', (Join-Path $release 'index.html'))
 Invoke-Checked 'python' @((Join-Path $root 'tools\web\stage_density_sidecars.py'), $release)
 Invoke-Checked 'python' @((Join-Path $root 'tools\web\stage_audio_sidecars.py'), $release)
@@ -194,5 +200,5 @@ foreach ($name in $required) {
 }
 $finalPckHash = Get-FileSha256 (Join-Path $release $runtimeArtifacts.pck_name)
 if ($finalPckHash -ne $runtimeArtifacts.pck_sha256) { throw 'Final PCK differs from its filename/VERSION fingerprint.' }
-Write-Host "WEB_R7_DEVELOPMENT=$development"
+if (-not $ReleaseOnly) { Write-Host "WEB_R7_DEVELOPMENT=$development" }
 Write-Host "WEB_R7_RELEASE=$release"

@@ -4,6 +4,7 @@ const GameUI := preload("res://ui/game_ui_tokens.gd")
 const GrowthAdvisorScript := preload("res://progression/growth_advisor.gd")
 const CinematicFx := preload("res://ui/cinematic_fx.gd")
 const ResultPresentation := preload("res://screens/result_presentation.gd")
+const TitleLive2D := preload("res://ui/title_live2d.gd")
 
 const INK := Color("081421")
 const GOLD := Color("edcc81")
@@ -76,18 +77,30 @@ static func scene_surface(s, name_value: String) -> Control:
 	s.content.add_child(stage)
 	return stage
 
-## Layered title stage: drifting cathedral, light shafts behind the heroine,
-## a breathing (Live2D-style) full-body cast, rising lantern motes and low fog.
-static func title_backdrop(s, parent: Node) -> void:
-	CinematicFx.drift_background(parent, load("res://assets/art/backgrounds/BG_BOSS_SIGNAL_CATHEDRAL/bg_boss_signal_cathedral_1920x1080.png"), {"zoom_base": 1.08, "tint": Color("b8d4ff"), "tint_strength": 0.12, "vignette": 0.32, "brightness": 1.3})
-	# Keep the left side dark enough for the logo, but let the set read on the right.
-	shade(parent, Color("050d18d0"), Color("0c243800"))
-	CinematicFx.light_rays(parent, {"origin": Vector2(0.70, -0.10), "ray_color": Color("ffd98a"), "intensity": 0.5})
-	var hero := art(s, parent, "CHR001", Rect2(.43, -.015, .56, 1.10))
-	CinematicFx.live_portrait(hero, "TITLE_CHR001", {"breath_amount": 0.010, "sway_amount": 0.006, "rim_color": Color("ffe3a0"), "rim_strength": 0.55})
-	CinematicFx.fog(parent, {"fog_color": Color("7fa3c4"), "intensity": 0.30, "top": 0.62})
-	CinematicFx.motes(parent, {"intensity": 0.85})
-	shade(parent, Color("030a1600"), Color("030a1699"), false)
+## Luminous rail backdrop and intact character silhouettes. The old cathedral
+## grade buried the cast in black and the UV sway bent faces and weapons.
+static func title_backdrop(s, parent: Node, intro_gate := false) -> void:
+	CinematicFx.drift_background(parent, load("res://assets/art/backgrounds/BG_BATTLE_GLASS_RAIL/bg_battle_glass_rail_1920x1080.png"), {"zoom_base": 1.035, "zoom_amount": 0.008, "pan_amount": 0.004, "tint": Color("d9fff6"), "tint_strength": 0.05, "vignette": 0.0, "shadow_gamma": 0.52, "brightness": 1.32})
+	var ambient := ColorRect.new()
+	ambient.color = Color("77bfcc40")
+	ambient.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	ambient.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	parent.add_child(ambient)
+	# Keep the tunnel's teal lights visible behind the title and portraits.
+	shade(parent, Color("08202b92"), Color("08202b00"))
+	CinematicFx.light_rays(parent, {"origin": Vector2(0.72, -0.12), "ray_color": Color("fff0bc"), "intensity": 0.40})
+	# The live-2D cast (ui/title_live2d.gd) replaces the two static portraits; it is absent
+	# before the audio gate, headless and whenever its textures are missing.
+	var live_cast: Control = null if intro_gate else TitleLive2D.attach(parent)
+	if live_cast == null:
+		if not intro_gate:
+			var vanguard := art(s, parent, "CHR002", Rect2(.49, .16, .32, .80))
+			CinematicFx.live_portrait(vanguard, "TITLE_CHR002", {"rim_color": Color("ffbd97"), "rim_strength": 0.42, "exposure": 1.22, "shadow_gamma": 0.82, "saturation": 1.12})
+		var hero := art(s, parent, "CHR001", Rect2(.59, .015, .40, 1.02))
+		CinematicFx.live_portrait(hero, "TITLE_CHR001", {"rim_color": Color("b8fff2"), "rim_strength": 0.45, "exposure": 1.22, "shadow_gamma": 0.82, "saturation": 1.12})
+	CinematicFx.fog(parent,{"fog_color": Color("7fc6d0"), "intensity": 0.11, "top": 0.74})
+	CinematicFx.motes(parent, {"intensity": 0.45})
+	shade(parent, Color("07172300"), Color("07172343"), false)
 
 static func title(s) -> void:
 	# The title follows the intro (a trusted gesture already happened), so the
@@ -111,10 +124,10 @@ static func title(s) -> void:
 	var eyebrow := label(s, "L A N T E R N L I N E   ·   C H A P T E R   0 1", 19, GOLD)
 	eyebrow.autowrap_mode = TextServer.AUTOWRAP_OFF
 	eyebrow_row.add_child(eyebrow)
-	var logo := label(s, "LUMEN\nBOUND", 128, Color("fff6dd"))
+	var logo := label(s, "LUMEN\nBOUND", 128, Color("effffb"))
 	logo.name = "TitleLogo"
-	CinematicFx.heroic_text(logo, Color("2a1606"), Color("000000c0"))
-	CinematicFx.shine(logo, {"shine_color": Color("fff2c4")})
+	CinematicFx.heroic_text(logo, Color("0a3440"), Color("000000b0"))
+	CinematicFx.shine(logo, {"shine_color": Color("dbfff3")})
 	column.add_child(logo)
 	var tagline := label(s, "꺼진 노선 위에서, 다시 빛을 잇다.", 27, Color("e3eef4"))
 	CinematicFx.heroic_text(tagline, Color("06121c"), Color("000000a0"))
@@ -125,13 +138,13 @@ static func title(s) -> void:
 	column.add_child(spacer)
 	var start = button(s, "기록 이어가기  ›" if not AppState.profile.get("stage_stars", {}).is_empty() else "기록 시작  ›", s._start_title_flow, false, Vector2(410, 78))
 	start.name = "TitleStartButton"
-	GameUI.apply_button(start, "objective")
+	GameUI.apply_button(start, "primary")
 	start.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	var starts := HBoxContainer.new()
 	starts.add_theme_constant_override("separation",18)
 	column.add_child(starts)
 	starts.add_child(start)
-	CinematicFx.pulse_glow(start, Color("ffd27a"), 22)
+	CinematicFx.pulse_glow(start, Color("83f1db"), 18)
 	var fresh := button(s,"새 게임",s._request_new_game,false,Vector2(230,78))
 	fresh.name = "TitleNewGameButton"
 	starts.add_child(fresh)

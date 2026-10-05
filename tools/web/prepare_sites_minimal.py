@@ -11,11 +11,19 @@ import shutil
 import sys
 from pathlib import Path
 
+from split_web_pck_for_sites import split_export
+from stage_sites_intro import stage_intro, verified_intro
+
 ROOT = Path(__file__).resolve().parents[2]
-RELEASE = ROOT / "builds/web_sites_20260920_release"
-SOURCE = ROOT / "work/sites_20260920"
-if len(sys.argv) != 2:
-    raise SystemExit("usage: prepare_sites_minimal.py SITE_CHECKOUT")
+RELEASE = Path(sys.argv[2]).resolve() if len(sys.argv) == 3 else ROOT / "builds/web_title_pop_r10_release"
+SOURCE = ROOT / "tools/web/sites_template"
+if len(sys.argv) not in (2, 3):
+    raise SystemExit("usage: prepare_sites_minimal.py SITE_CHECKOUT [WEB_RELEASE]")
+if not RELEASE.is_dir() or ROOT / "builds" not in RELEASE.parents:
+    raise SystemExit(f"release must be an existing directory under {ROOT / 'builds'}: {RELEASE}")
+# /intro.mp4 is served separately by the local player and is not exported by
+# Godot. Fail before writing a checkout if that required browser asset is absent.
+verified_intro()
 site = Path(sys.argv[1]).resolve()
 site.mkdir(parents=True, exist_ok=True)
 client = site / "dist/client"
@@ -31,6 +39,7 @@ shutil.copy2(SOURCE / "scripts/verify-prebuilt.mjs", site / "scripts/verify-preb
 
 files = {}
 hashes = {}
+pck_source = None
 for source in sorted(RELEASE.rglob("*")):
     if not source.is_file():
         continue
@@ -40,6 +49,13 @@ for source in sorted(RELEASE.rglob("*")):
     raw = source.read_bytes()
     digest = hashlib.sha256(raw).hexdigest()
     hashes[rel] = {"sha256": digest, "bytes": len(raw)}
+    if source.suffix == ".pck":
+        if pck_source is not None:
+            raise ValueError("expected one Web PCK")
+        pck_source = source
+        target = client / rel
+        target.write_bytes(raw)
+        continue
     if len(raw) <= 20_000_000:
         target = client / rel
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -61,6 +77,19 @@ for source in sorted(RELEASE.rglob("*")):
         ),
     }
 
+if pck_source is None:
+    raise ValueError("missing Web PCK")
+# Godot used to wait for one worker to fetch 42 asset parts in sequence. Patch
+# its own preloader to fetch the physical parts directly with bounded overlap.
+# The original file is removed only after the split and loader checks pass.
+pck_manifest = split_export(client, 4 * 1024 * 1024)
+if pck_manifest["original"]["sha256"] != hashes[pck_source.name]["sha256"]:
+    raise ValueError("split PCK does not match the release")
+staged_rewrites = {}
+for name in ("index.html", "index.js", "index.service.worker.js"):
+    raw = (client / name).read_bytes()
+    staged_rewrites[name] = {"sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw)}
+
 server = (site / "dist/server/index.js").read_text(encoding="utf-8")
 marker = server.index("export default")
 server = "const FILES = " + json.dumps(files, separators=(",", ":")) + ";\n" + server[marker:]
@@ -68,10 +97,11 @@ server = "const FILES = " + json.dumps(files, separators=(",", ":")) + ";\n" + s
 
 report = site / "reports/sites_update_20260920/staged_assets.json"
 report.parent.mkdir(parents=True, exist_ok=True)
-report.write_text(json.dumps({"files": hashes, "streamed_routes": files, "count": len(hashes)}, indent=2), encoding="utf-8")
+report.write_text(json.dumps({"files": hashes, "staged_rewrites": staged_rewrites, "streamed_routes": files, "count": len(hashes)}, indent=2), encoding="utf-8")
+stage_intro(site)
 (site / "dist/.openai").mkdir(parents=True, exist_ok=True)
 shutil.copy2(site / ".openai/hosting.json", site / "dist/.openai/hosting.json")
 largest = max(path.stat().st_size for path in client.rglob("*") if path.is_file())
 if largest > 20_000_000:
     raise ValueError(f"physical Sites member too large: {largest}")
-print(json.dumps({"files": len(hashes), "streamed": list(files), "largest_static_bytes": largest}))
+print(json.dumps({"files": len(hashes) + 1, "intro": "/intro.mp4", "streamed": list(files), "largest_static_bytes": largest}))

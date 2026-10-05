@@ -7,7 +7,8 @@ export function checkFullDensity(state, check) {
     check(actors.entity_ids.includes(actor.id), `${actor.id} uses its own loaded HD actor pages`);
     for (const action of ['idle','move','basic_attack','normal_skill','ultimate','hit','down','victory']) {
       const t = actor.action_textures?.[action];
-      check(t?.width === 256 && t?.height === 256, `${actor.id} ${action} retains a 256px source canvas`);
+      const cell = actor.id.startsWith('BOSS') ? 512 : 256;
+      check(t?.width === cell && t?.height === cell, `${actor.id} ${action} retains its ${cell}px source canvas`);
     }
     check(fx.projectile_ids.includes(actor.id) && ['basic','normal','ultimate'].every(kind=>fx.effect_keys.includes(actor.id.toLowerCase()+'_'+kind)), `${actor.id} own projectile and all three FX families are attached`);
   }

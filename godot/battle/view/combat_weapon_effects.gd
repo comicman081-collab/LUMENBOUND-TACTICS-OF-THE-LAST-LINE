@@ -1,4 +1,5 @@
 extends RefCounted
+const CachedDraw := preload("res://battle/view/battle_cached_draw.gd")
 
 ## Small, bounded vector accents connect weapon intent to contact. They are
 ## attached to the acting weapon/target, never full-screen particle noise.
@@ -65,9 +66,9 @@ static func action(c: CanvasItem, origin: Vector2, target: Vector2, style: Strin
 		var alpha := 1.0-age/.22
 		var length := (43.0 if style in ["mortar","siege"] else 29.0)*size
 		var flare := PackedVector2Array([origin-direction*5*size,origin+direction*length*.42+normal*11*size,origin+direction*length,origin+direction*length*.42-normal*11*size])
-		c.draw_colored_polygon(flare,Color(color.r,color.g,color.b,alpha*.88))
+		CachedDraw.fill(c, flare,Color(color.r,color.g,color.b,alpha*.88))
 		c.draw_line(origin,origin+direction*length,Color(1,.98,.90,alpha),4*size,true)
-		c.draw_circle(origin+direction*length*.12,(7.0+4.0*alpha)*size,Color(1,.97,.80,alpha*.85))
+		CachedDraw.disc(c, origin+direction*length*.12,(7.0+4.0*alpha)*size,Color(1,.97,.80,alpha*.85))
 		if style in ["rifle","burst"] and age < .16:
 			# Tracer: a thin hot streak runs from the muzzle towards the target.
 			var run := clampf(age/.14,0.0,1.0)
@@ -82,7 +83,7 @@ static func action(c: CanvasItem, origin: Vector2, target: Vector2, style: Strin
 				c.draw_line(start,start+direction*21*size,Color(color.r,color.g,color.b,alpha*.7),3*size,true)
 		elif style in ["mortar","siege"]:
 			c.draw_arc(origin,12*size+age*80*size,0,TAU,24,Color(1,.78,.38,alpha*.6),3*size,true)
-			c.draw_circle(origin+direction*length*.5+Vector2(0,-age*60.0*size),(9.0+age*50.0)*size,Color(.42,.36,.33,alpha*.35))
+			CachedDraw.disc(c, origin+direction*length*.5+Vector2(0,-age*60.0*size),(9.0+age*50.0)*size,Color(.42,.36,.33,alpha*.35))
 	elif style=="shield":
 		if age < -.12 or age > .25: return
 		var t := clampf((age+.12)/.37,0,1)
@@ -110,7 +111,7 @@ static func impact(c: CanvasItem, p: Vector2, style: String, t: float, color: Co
 	# the victim's white flash.
 	if t < .12:
 		var core := 1.0-t/.12
-		c.draw_circle(p,(12.0+13.0*core)*strength,Color(1,1,1,.85*core))
+		CachedDraw.disc(c, p,(12.0+13.0*core)*strength,Color(1,1,1,.85*core))
 	if style in ["blade","claw"]:
 		for i in range(3 if style=="claw" else 2):
 			var offset := Vector2((i-1)*13,0)*strength
@@ -129,10 +130,10 @@ static func impact(c: CanvasItem, p: Vector2, style: String, t: float, color: Co
 			c.draw_line(tip-direction*11*strength,tip,Color(1,.83,.56,fade),3*strength,true)
 		# Explosion: layered fireball, rising smoke and a scorch under it.
 		var ball := r*.62*(1.0-t*.35)
-		c.draw_circle(p,ball,Color(1.0,.42,.14,fade*.55))
-		c.draw_circle(p,ball*.66,Color(1.0,.74,.32,fade*.75))
-		c.draw_circle(p,ball*.32,Color(1.0,.96,.80,fade))
-		c.draw_circle(p+Vector2(0,-t*30.0*strength),r*.46*(.6+t),Color(.24,.21,.21,(1.0-t)*.34))
+		CachedDraw.disc(c, p,ball,Color(1.0,.42,.14,fade*.55))
+		CachedDraw.disc(c, p,ball*.66,Color(1.0,.74,.32,fade*.75))
+		CachedDraw.disc(c, p,ball*.32,Color(1.0,.96,.80,fade))
+		CachedDraw.disc(c, p+Vector2(0,-t*30.0*strength),r*.46*(.6+t),Color(.24,.21,.21,(1.0-t)*.34))
 		for i in range(6):
 			var debris_dir := Vector2.RIGHT.rotated(float(i)*1.05+.4)
 			var debris := p+debris_dir*r*(.45+t*.8)+Vector2(0,t*t*58.0*strength)
@@ -157,7 +158,7 @@ static func impact(c: CanvasItem, p: Vector2, style: String, t: float, color: Co
 		c.draw_arc(p,r*.7,0,TAU,28,Color(color.r,color.g,color.b,fade*.75),2.4*strength,true)
 		for i in range(4):
 			var rune := p+Vector2.RIGHT.rotated(spin*1.6+float(i)*TAU/4.0)*r*.7
-			c.draw_circle(rune,2.2*strength,Color(1,.97,.88,fade))
+			CachedDraw.disc(c, rune,2.2*strength,Color(1,.97,.88,fade))
 	elif style=="shield":
 		c.draw_arc(p,r,0,TAU,32,Color(color.r,color.g,color.b,fade),3*strength,true)
 		for i in range(6):
@@ -174,4 +175,4 @@ static func impact(c: CanvasItem, p: Vector2, style: String, t: float, color: Co
 		# Weak point: a cyan ring and an up chevron over the hit.
 		c.draw_arc(p,r*.92,0,TAU,28,Color(.55,.92,1.0,fade*.9),2.2*strength,true)
 		var tip := p+Vector2(0,-r*1.1)
-		c.draw_colored_polygon(PackedVector2Array([tip,tip+Vector2(-8,11)*strength,tip+Vector2(8,11)*strength]),Color(.55,.92,1.0,fade*.9))
+		CachedDraw.fill(c, PackedVector2Array([tip,tip+Vector2(-8,11)*strength,tip+Vector2(8,11)*strength]),Color(.55,.92,1.0,fade*.9))

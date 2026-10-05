@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-FAMILIES = (('full_density', 'r2'), ('full_density_effects', 'r1'), ('map_density', 'r1'), ('action_frames', 'r1'))
+FAMILIES = (('full_density', 'r2'), ('full_density', 'boss_r1'), ('full_density_effects', 'r1'), ('map_density', 'r1'), ('action_frames', 'r1'))
 MANIFEST = 'density_sidecars.json'
 
 

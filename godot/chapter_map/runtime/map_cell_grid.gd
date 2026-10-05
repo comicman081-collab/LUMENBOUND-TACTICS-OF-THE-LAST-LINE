@@ -25,6 +25,9 @@ const FAR_FACTOR := 3.2
 ## A chunk corner must stay at least this far in front of the camera plane.
 const DEPTH_MARGIN := 1.5
 const RESELECT_DISTANCE := 1.0
+## Selection is reused while the camera follows a step. Padding covers that
+## sub-cell translation and short moment orbit; it is outside the visible frame.
+const VIEW_PADDING_FRACTION := 0.20
 
 var cells: Array[Dictionary] = []
 var chunks: Dictionary = {}
@@ -37,6 +40,8 @@ var _selected_keys: Array[Vector2i] = []
 var _selection_target := Vector3(1.0e20, 0.0, 0.0)
 var _selection_distance := -1.0
 var _selection_forward := Vector3.ZERO
+var _selection_view_size := Vector2.ZERO
+var _selection_lens := Projection.IDENTITY
 var _build_queue: Array[Vector2i] = []
 var _drawn_signature := ""
 
@@ -86,18 +91,22 @@ func update_projection(screen: Control) -> void:
 	if screen.overlay_view_serial <= 0:
 		return
 	var view_changed: bool = screen.overlay_view_serial != _applied_serial
+	var selection_changed := false
 	if view_changed:
 		_applied_serial = screen.overlay_view_serial
 		open_layer.apply_view(screen.overlay_view_to_clip, screen.overlay_view_size, screen.overlay_view_scale)
 		blocked_layer.apply_view(screen.overlay_view_to_clip, screen.overlay_view_size, screen.overlay_view_scale)
 		if _selection_needs_refresh(screen):
 			_select_chunks(screen)
+			selection_changed = true
 	var built := 0
 	while built < BUILDS_PER_FRAME and not _build_queue.is_empty():
 		var key: Vector2i = _build_queue.pop_front()
 		if _build_chunk(key):
 			built += 1
-	if built > 0 or view_changed:
+	# Camera motion only changes shader uniforms. Rebuilding mesh lists and their
+	# string signature is needed when membership changes or a queued mesh is ready.
+	if built > 0 or selection_changed:
 		_refresh_drawn()
 
 func _selection_needs_refresh(screen: Control) -> bool:
@@ -107,7 +116,9 @@ func _selection_needs_refresh(screen: Control) -> bool:
 	var forward: Vector3 = screen.overlay_view_forward
 	return target.distance_squared_to(_selection_target) > RESELECT_DISTANCE * RESELECT_DISTANCE \
 		or absf(float(screen.overlay_view_distance) - _selection_distance) > 0.6 \
-		or forward.dot(_selection_forward) < 0.9995
+		or forward.dot(_selection_forward) < 0.9995 \
+		or screen.overlay_view_size != _selection_view_size \
+		or screen.camera.get_camera_projection() != _selection_lens
 
 ## Chooses the chunks that are entirely in front of the camera and near enough to
 ## matter, and queues the ones that still need a mesh (nearest first).
@@ -119,6 +130,8 @@ func _select_chunks(screen: Control) -> void:
 	_selection_target = target
 	_selection_distance = float(screen.overlay_view_distance)
 	_selection_forward = screen.overlay_view_forward
+	_selection_view_size = screen.overlay_view_size
+	_selection_lens = screen.camera.get_camera_projection()
 	var candidates: Array = []
 	for key in chunks.keys():
 		var chunk: Dictionary = chunks[key]
@@ -138,7 +151,7 @@ func _select_chunks(screen: Control) -> void:
 			if (corner - origin).dot(forward) < DEPTH_MARGIN:
 				in_front = false
 				break
-		if in_front:
+		if in_front and chunk_intersects_view(screen.overlay_view_to_clip, low, high, VIEW_PADDING_FRACTION):
 			candidates.append({"key": key, "gap": Vector2(centre.x - target.x, centre.z - target.z).length()})
 	candidates.sort_custom(func(a, b): return float(a.gap) < float(b.gap))
 	_selected_keys.clear()
@@ -148,6 +161,25 @@ func _select_chunks(screen: Control) -> void:
 		_selected_keys.append(key)
 		if not bool((chunks[key] as Dictionary).built):
 			_build_queue.append(key)
+
+## A perspective projection of a box wholly in front of the camera is bounded
+## by its eight projected corners. Reject only boxes outside the padded frame;
+## crossing boxes stay, including ones whose own corners surround the viewport.
+## This avoids submitting thousands of offscreen hexes to the Canvas renderer.
+static func chunk_intersects_view(world_to_clip: Projection, low: Vector3, high: Vector3, padding := VIEW_PADDING_FRACTION) -> bool:
+	var min_point := Vector2(INF, INF)
+	var max_point := Vector2(-INF, -INF)
+	for corner_index in range(8):
+		var corner := Vector3(high.x if corner_index & 1 else low.x, high.y if corner_index & 2 else low.y, high.z if corner_index & 4 else low.z)
+		var clip := world_to_clip * Vector4(corner.x, corner.y, corner.z, 1.0)
+		# Keep uncertain near-plane boxes rather than dropping possible geometry.
+		if clip.w <= 0.05:
+			return true
+		var point := Vector2(clip.x, clip.y) / clip.w
+		min_point = min_point.min(point)
+		max_point = max_point.max(point)
+	var limit := 1.0 + maxf(0.0, padding) * 2.0
+	return max_point.x >= -limit and min_point.x <= limit and max_point.y >= -limit and min_point.y <= limit
 
 func _build_chunk(key: Vector2i) -> bool:
 	var chunk: Dictionary = chunks.get(key, {})

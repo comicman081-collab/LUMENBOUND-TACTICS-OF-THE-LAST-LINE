@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://chapter_map/tests/map_turn_warmup_runner.gd" id="1"]
+
+[node name="MapTurnWarmupRunner" type="Node"]
+script = ExtResource("1")

@@ -133,6 +133,9 @@ var last_compact_landscape_layout := false
 var layout_refresh_queued := false
 var orientation_probe_left := 0.0
 var compact_touch_probe_left := 0.0
+var runtime_layout_size_cache := Vector2.ZERO
+var runtime_layout_size_cache_valid := false
+var battle_hud_text_cache: Dictionary = {}
 var last_battle_result: Dictionary = {}
 var last_rewards: Dictionary = {}
 var last_reward_report: Dictionary = {}
@@ -396,7 +399,7 @@ func _build_intro_title_backdrop(surface: Control) -> void:
 	intro_still_backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	intro_still_backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	surface.add_child(intro_still_backdrop)
-	preload("res://screens/command_presentation.gd").title_backdrop(self, intro_still_backdrop)
+	preload("res://screens/command_presentation.gd").title_backdrop(self, intro_still_backdrop, true)
 
 func _start_intro_video_playback(active_generation: int) -> void:
 	if not intro_video_active or active_generation != intro_video_generation or intro_video_player == null:
@@ -776,6 +779,9 @@ func _stage_asset_cache_phase_text(phase: String) -> String:
 		return "Combat resource cache ready"
 	return "작전 자원을 확인하고 있습니다"
 
+func _on_web_map_pipeline_progress(phase: String, percent: int, token: int) -> void:
+	_set_transition_loading_phase(token, phase, 14.0 + clampf(float(percent), 0.0, 100.0) * 0.12, 0.0)
+
 func _on_stage_asset_cache_progress(value: float, phase: String, token: int) -> void:
 	if not _transition_loading_token_is_valid(token):
 		return
@@ -1038,6 +1044,7 @@ func _update_viewport_gate() -> void:
 		orientation_forced_pause = false
 
 func _on_window_size_changed() -> void:
+	_invalidate_runtime_layout_size_cache()
 	_refresh_responsive_shell_metrics()
 	var portrait := _is_portrait_layout()
 	_queue_orientation_reflow_if_needed(portrait, _is_compact_landscape_layout())
@@ -1114,15 +1121,31 @@ func _is_portrait_layout() -> bool:
 	return size.y > size.x
 
 func _runtime_layout_size() -> Vector2:
+	# Every HUD and typography helper reads the same viewport snapshot. Browser
+	# bridge calls belong to resize events and the existing orientation probe,
+	# never to each combat frame or each control constructed in that frame.
+	if not runtime_layout_size_cache_valid:
+		_refresh_runtime_layout_size_cache()
+	return runtime_layout_size_cache
+
+func _invalidate_runtime_layout_size_cache() -> void:
+	runtime_layout_size_cache_valid = false
+
+func _refresh_runtime_layout_size_cache() -> void:
 	var window_size := DisplayServer.window_get_size()
 	var width := float(window_size.x)
 	var height := float(window_size.y)
 	if OS.has_feature("web"):
-		var browser_width = JavaScriptBridge.eval("window.innerWidth", true)
-		var browser_height = JavaScriptBridge.eval("window.innerHeight", true)
+		# The Web iframe and render target stay 1920x1080. The host's single
+		# transform supplies the real CSS size for existing text/touch metrics.
+		var browser_width = JavaScriptBridge.eval("window.__lumenboundHostLayoutSize?.width || window.innerWidth", true)
+		var browser_height = JavaScriptBridge.eval("window.__lumenboundHostLayoutSize?.height || window.innerHeight", true)
 		if browser_width is int or browser_width is float: width = float(browser_width)
 		if browser_height is int or browser_height is float: height = float(browser_height)
-	return GameUI.landscape_layout_size(Vector2(width, height))
+	var display_size := GameUI.landscape_layout_size(Vector2(width, height))
+	var display_scale := minf(display_size.x / DESIGN_VIEWPORT_SIZE.x, display_size.y / DESIGN_VIEWPORT_SIZE.y)
+	runtime_layout_size_cache = DESIGN_VIEWPORT_SIZE * display_scale
+	runtime_layout_size_cache_valid = true
 
 func responsive_ui_metrics_for_size(size: Vector2) -> Dictionary:
 	# The landscape composition uses the smaller layout/design ratio.
@@ -1299,6 +1322,12 @@ func _process(delta: float) -> void:
 	orientation_probe_left -= delta
 	if orientation_probe_left <= 0.0:
 		orientation_probe_left = 0.25
+		var previous_layout_size := runtime_layout_size_cache
+		_refresh_runtime_layout_size_cache()
+		if not runtime_layout_size_cache.is_equal_approx(previous_layout_size):
+			# A CSS-only host resize leaves the fixed Godot viewport unchanged.
+			# Refresh physical font/touch metrics without recreating simulation.
+			_refresh_responsive_shell_metrics()
 		_queue_orientation_reflow_if_needed()
 	compact_touch_probe_left -= delta
 	if compact_touch_probe_left <= 0.0:
@@ -2386,7 +2415,7 @@ func _build_standard_story_presentation(portrait: bool, ui_scale: float) -> void
 		story_portrait.size = Vector2(660, 740)
 	story_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	story_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	CinematicFx.live_portrait(story_portrait, "STORY_STANDARD", {"emphasis": 1.0, "rim_strength": 0.5})
+	CinematicFx.live_portrait(story_portrait, "STORY_STANDARD", {"emphasis": 1.0, "rim_strength": 0.5, "exposure": 1.22, "shadow_gamma": 0.82, "saturation": 1.12})
 	art_space.add_child(story_portrait)
 	# Asset provenance is useful while authoring, but it is not player-facing
 	# story UI.  Keep the label available only in the developer build.
@@ -3037,8 +3066,8 @@ func _refresh_prologue_portrait_layer() -> void:
 		var is_active := active_asset_id.is_empty() or active_asset_id == asset_id
 		# The speaker stands forward at full presence; listeners stay solid but
 		# recede into shadow instead of turning into translucent ghosts.
-		art.modulate = Color.WHITE if is_active else Color(0.60, 0.65, 0.76, 1.0)
-		CinematicFx.live_portrait(art, "STORY_" + asset_id, {"emphasis": 1.0 if is_active else 0.0, "rim_strength": 0.55 if is_active else 0.18, "breath_amount": 0.012 if is_active else 0.008})
+		art.modulate = Color.WHITE if is_active else Color(0.86, 0.89, 0.95, 1.0)
+		CinematicFx.live_portrait(art, "STORY_" + asset_id, {"emphasis": 1.0 if is_active else 0.0, "rim_strength": 0.45 if is_active else 0.20, "exposure": 1.22 if is_active else 1.12, "shadow_gamma": 0.82 if is_active else 0.88, "saturation": 1.14 if is_active else 1.08})
 		_configure_prologue_portrait_rect(art, slot, portrait_layout, ui_scale)
 		story_portrait_layer.add_child(art)
 
@@ -3416,6 +3445,14 @@ func _show_chapter_map() -> void:
 		_apply_chapter_map_shell_overrides()
 		_finish_transition_loading(loading_token, "전술 지도 준비 완료")
 		return
+	if OS.has_feature("web") and not WebSoakProbe.web_render_warmup_complete:
+		var pipeline_progress := Callable(self, "_on_web_map_pipeline_progress").bind(loading_token)
+		WebSoakProbe.web_map_pipeline_progress.connect(pipeline_progress)
+		await WebSoakProbe.ensure_web_map_pipelines()
+		WebSoakProbe.web_map_pipeline_progress.disconnect(pipeline_progress)
+		if current_screen != "STAGE_SELECT" or show_generation != chapter_map_show_generation:
+			_cancel_transition_loading(loading_token)
+			return
 	_set_transition_loading_phase(loading_token, "지도 정보를 불러오고 있습니다", 28.0, 0.24)
 	var definition: Dictionary = ChapterMapLoaderScript.load_map(map_id)
 	_set_transition_loading_phase(loading_token, "경로와 조우 정보를 확인하고 있습니다", 44.0, 0.24)
@@ -4467,24 +4504,21 @@ func _update_battle_hud() -> void:
 	# battlefield from the actors. Keep only global timing/resource context in a
 	# deliberately single-line mobile rail; desktop retains the fuller encounter
 	# read where it has the horizontal room.
-	if battle_portrait_layout or _is_compact_landscape_layout():
-		battle_hud.text = "웨이브 %d/%d  ·  %d초" % [simulation.state.wave, simulation.state.wave_count, roundi(remain)]
-	else:
-		var boss_text := ""
-		var boss: Dictionary = battle_view.presentation_boss()
-		if not boss.is_empty():
-			boss_text = "   보스 %d/%d [%s]" % [boss.hp, boss.max_hp, _boss_phase_hud_label(str(boss.get("phase", "PHASE_1")))]
-		battle_hud.text = "웨이브 %d/%d   남은 시간 %.1f초%s" % [simulation.state.wave, simulation.state.wave_count, remain, boss_text]
+	_update_battle_hud_text(simulation, remain, battle_portrait_layout or _is_compact_landscape_layout())
 	if battle_gauge != null and is_instance_valid(battle_gauge):
 		battle_gauge.queue_redraw()
 	if battle_auto_button != null:
-		battle_auto_button.text = "A·ON" if simulation.auto_enabled else "A·OFF"
+		var auto_text := "A·ON" if simulation.auto_enabled else "A·OFF"
+		if battle_auto_button.text != auto_text:
+			battle_auto_button.text = auto_text
 		# AUTO on glows in the signal colour; restyle only when the state flips.
 		if not battle_auto_button.has_meta("styled_auto") or bool(battle_auto_button.get_meta("styled_auto")) != simulation.auto_enabled:
 			battle_auto_button.set_meta("styled_auto", simulation.auto_enabled)
 			GameUI.apply_button(battle_auto_button, "primary" if simulation.auto_enabled else "secondary")
 	if battle_speed_button != null:
-		battle_speed_button.text = "×%d" % battle_view.speed
+		var speed_text := "×%d" % battle_view.speed
+		if battle_speed_button.text != speed_text:
+			battle_speed_button.text = speed_text
 	# A selection never survives its unit, a cutscene or a spent gauge.
 	if not battle_selected_uid.is_empty() or not battle_aim_uid.is_empty():
 		var holder := simulation.find_unit(battle_selected_uid if not battle_selected_uid.is_empty() else battle_aim_uid)
@@ -4502,6 +4536,42 @@ func _update_battle_hud() -> void:
 		ultimate_buttons[i].mouse_filter = Control.MOUSE_FILTER_IGNORE if orbs_pass_through else Control.MOUSE_FILTER_STOP
 		if ultimate_buttons[i] is BattleUltimateOrb:
 			(ultimate_buttons[i] as BattleUltimateOrb).set_charge(simulation.state.tactical_gauge, float(skill.get("tactical_cost", 10)), ready)
+
+func _update_battle_hud_text(simulation: BattleSimulation, remain: float, compact: bool) -> void:
+	if battle_hud == null:
+		return
+	var boss: Dictionary = {} if compact else battle_view.presentation_boss()
+	var wave: int = simulation.state.wave
+	var wave_count: int = simulation.state.wave_count
+	var time_bucket := roundi(remain) if compact else roundi(remain * 10.0)
+	var boss_hp := int(boss.get("hp", -1))
+	var boss_max_hp := int(boss.get("max_hp", -1))
+	var boss_phase := str(boss.get("phase", "PHASE_1")) if not boss.is_empty() else ""
+	var label_id := battle_hud.get_instance_id()
+	# Time text changes at one second on compact layouts and one tenth otherwise.
+	# Keep boss damage, phase changes and a newly rebuilt HUD immediately visible.
+	if battle_hud_text_cache.get("label_id", 0) == label_id \
+			and battle_hud_text_cache.compact == compact \
+			and battle_hud_text_cache.wave == wave \
+			and battle_hud_text_cache.wave_count == wave_count \
+			and battle_hud_text_cache.time_bucket == time_bucket \
+			and battle_hud_text_cache.boss_hp == boss_hp \
+			and battle_hud_text_cache.boss_max_hp == boss_max_hp \
+			and battle_hud_text_cache.boss_phase == boss_phase:
+		return
+	battle_hud_text_cache = {"label_id": label_id, "compact": compact,
+		"wave": wave, "wave_count": wave_count, "time_bucket": time_bucket,
+		"boss_hp": boss_hp, "boss_max_hp": boss_max_hp, "boss_phase": boss_phase}
+	var hud_text := ""
+	if compact:
+		hud_text = "웨이브 %d/%d  ·  %d초" % [wave, wave_count, roundi(remain)]
+	else:
+		var boss_text := ""
+		if not boss.is_empty():
+			boss_text = "   보스 %d/%d [%s]" % [boss_hp, boss_max_hp, _boss_phase_hud_label(boss_phase)]
+		hud_text = "웨이브 %d/%d   남은 시간 %.1f초%s" % [wave, wave_count, remain, boss_text]
+	if battle_hud.text != hud_text:
+		battle_hud.text = hud_text
 
 func _draw_battle_gauge() -> void:
 	if battle_gauge == null or battle_view == null or not is_instance_valid(battle_view) or battle_view.simulation == null:

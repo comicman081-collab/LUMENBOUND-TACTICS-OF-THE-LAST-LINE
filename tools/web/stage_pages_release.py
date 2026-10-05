@@ -113,7 +113,7 @@ def edit_loading_screen(html_path: Path) -> None:
     raw.decode("utf-8")  # strict: the unreadable Korean sub-line must be gone
 
 
-def stage(release: Path, out: Path, source_commit: str, godot_license: Path, source_note: str = "") -> dict:
+def stage(release: Path, out: Path, source_commit: str, godot_license: Path, source_note: str = "", reviewed_hd: bool = False) -> dict:
     release, out = release.resolve(), out.resolve()
     if not re.fullmatch(r"[0-9a-f]{40}", source_commit):
         raise SystemExit("--source-commit must be a full 40-character SHA")
@@ -135,7 +135,8 @@ def stage(release: Path, out: Path, source_commit: str, godot_license: Path, sou
         raise SystemExit(f"refusing to reuse an existing staging directory: {site}")
     for source in sorted(release.rglob("*")):
         rel = source.relative_to(release).as_posix()
-        if not source.is_file() or rel in EXCLUDED or rel.startswith("_hd/"):
+        superseded_boss = rel.startswith('_hd/full_density/r2/BOSS')
+        if not source.is_file() or rel in EXCLUDED or (rel.startswith("_hd/") and (not reviewed_hd or superseded_boss)):
             continue
         target = site / rel
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -157,7 +158,8 @@ def stage(release: Path, out: Path, source_commit: str, godot_license: Path, sou
         "Godot 4.7.1 Compatibility Web export, build " + version["build_id"] + ". Serve this directory over HTTP(S).\n"
         "Music, sound effects and story voices are the sidecars in `_audio/`; the opening movie is `intro.mp4`.\n"
         "The optional high-density texture pages (`_hd/`) are not part of this deployment: the game then uses\n"
-        "the compact textures packaged in the PCK.\n",
+        "the compact textures packaged in the PCK.\n" if not reviewed_hd else
+        "# LUMENBOUND R24 Web\n\nReviewed character, monster, effect and map HD pages are fetched only when required.\n",
         encoding="utf-8", newline="\n",
     )
 
@@ -185,7 +187,9 @@ def stage(release: Path, out: Path, source_commit: str, godot_license: Path, sou
     public_version = {
         "build_id": version["build_id"], "engine": version["engine"], "renderer": version["renderer"],
         "target": "Web HTML Release (GitHub Pages)", "map_revision": version.get("map_revision"),
-        "runtime_artifact_base": base, "release_pack_mode": PACK_MODE, "source_commit": source_commit,
+        "runtime_artifact_base": base, "release_pack_mode": 'verified_prebuilt_web_export_with_reviewed_hd' if reviewed_hd else PACK_MODE, "source_commit": source_commit,
+        "verified_local_source_pck_sha256": version.get('verified_local_source_pck_sha256', pck_hash),
+        "public_features": version.get('public_features', []),
         **({"source_note": source_note} if source_note else {}),
         "pck_sha256": pck_hash, "pck_size": pck_size, "pck_parts": parts,
         "wasm_sha256": files[wasm.name]["sha256"], "wasm_size": files[wasm.name]["bytes"],
@@ -247,11 +251,12 @@ def main() -> int:
     stage_parser.add_argument("--source-commit", required=True)
     stage_parser.add_argument("--godot-license", type=Path, default=DEFAULT_GODOT_LICENSE)
     stage_parser.add_argument("--source-note", default="")
+    stage_parser.add_argument("--reviewed-hd", action='store_true')
     transport_parser = commands.add_parser("transport")
     transport_parser.add_argument("out", type=Path)
     args = parser.parse_args()
     if args.command == "stage":
-        summary = stage(args.release, args.out, args.source_commit, args.godot_license, args.source_note)
+        summary = stage(args.release, args.out, args.source_commit, args.godot_license, args.source_note, args.reviewed_hd)
         print("PAGES_STAGE=PASS " + json.dumps(summary))
     else:
         print("PAGES_TRANSPORT=PASS " + json.dumps(transport(args.out)))

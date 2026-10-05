@@ -26,6 +26,8 @@ body.landscape-host {
 
 #canvas {
 	display: block;
+	width: 1920px;
+	height: 1080px;
 }
 
 #canvas:focus {
@@ -44,18 +46,48 @@ body.landscape-host {
 }
 
 #status {
-	background-color: $GODOT_SPLASH_COLOR;
+	background: radial-gradient(circle at 68% 26%, #246476 0%, #123a4a 42%, #071622 100%);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	visibility: hidden;
+	font-family: 'Noto Sans KR', 'Segoe UI', sans-serif;
 }
 
 #status-splash {
-	max-height: 100%;
-	max-width: 100%;
-	margin: auto;
+	display: none !important;
+}
+
+#status-brand {
+	position: relative;
+	z-index: 1;
+	text-align: center;
+	margin-top: -4vh;
+	padding: 0 24px;
+}
+
+#status-brand .kicker {
+	color: #e3c77d;
+	font-size: clamp(11px, 1.6vw, 17px);
+	font-weight: 700;
+	letter-spacing: .28em;
+}
+
+#status-brand h1 {
+	margin: 24px 0 18px;
+	color: #f1fffc;
+	font-size: clamp(70px, 11vw, 150px);
+	font-weight: 850;
+	letter-spacing: .055em;
+	line-height: .82;
+	text-shadow: 0 8px 1px #061720, 0 20px 50px #0008;
+}
+
+#status-brand p {
+	color: #a7e6df;
+	font-size: clamp(15px, 2vw, 22px);
+	letter-spacing: .08em;
 }
 
 #status-splash.show-image--false {
@@ -77,9 +109,11 @@ body.landscape-host {
 }
 
 #status-progress {
-	bottom: 10%;
-	width: 50%;
+	bottom: 14%;
+	width: min(62%, 600px);
+	height: 10px;
 	margin: 0 auto;
+	accent-color: #70e0cf;
 }
 
 #status-notice {
@@ -95,8 +129,8 @@ body.landscape-host {
 	text-align: center;
 	z-index: 1;
 }
-		/* The host rotates a full-size landscape frame. Input coordinates are
-   transformed by the browser at the frame boundary, including real touch. */
+		/* One browser transform fits the fixed 1920x1080 game and rotates it on
+   portrait phones. Input coordinates follow that same frame transform. */
 body.landscape-host > #canvas, body.landscape-host > #status { display: none !important; }
 #landscape-game {
 	position: fixed;
@@ -111,7 +145,7 @@ body.landscape-host > #canvas, body.landscape-host > #status { display: none !im
 		$GODOT_HEAD_INCLUDE
 	</head>
 	<body>
-		<canvas id="canvas">
+		<canvas id="canvas" width="1920" height="1080">
 			Your browser does not support the canvas tag.
 		</canvas>
 
@@ -120,6 +154,7 @@ body.landscape-host > #canvas, body.landscape-host > #status { display: none !im
 		</noscript>
 
 		<div id="status">
+			<div id="status-brand"><div class="kicker">LANTERNLINE · CHAPTER 01</div><h1>LUMEN<br>BOUND</h1><p>작전 기록을 불러오는 중</p></div>
 			<img id="status-splash" class="$GODOT_SPLASH_CLASSES" src="$GODOT_SPLASH" alt="">
 			<progress id="status-progress"></progress>
 			<div id="status-notice"></div>
@@ -128,6 +163,9 @@ body.landscape-host > #canvas, body.landscape-host > #status { display: none !im
 		<script src="$GODOT_URL"></script>
 		<script>
 const GODOT_CONFIG = $GODOT_CONFIG;
+// The host fits the fixed canvas once. Never let DPR, fullscreen or a larger
+// browser window allocate a second, higher-resolution game render target.
+GODOT_CONFIG.canvasResizePolicy = 0;
 const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;
 const engine = new Engine(GODOT_CONFIG);
 
@@ -164,10 +202,20 @@ const engine = new Engine(GODOT_CONFIG);
 		const fit = () => {
 			const width = window.innerWidth, height = window.innerHeight;
 			const rotated = mobileDevice && height > width;
-			frame.style.width = (mobileDevice ? Math.max(width, height) : width) + 'px';
-			frame.style.height = (mobileDevice ? Math.min(width, height) : Math.min(height, width * 9 / 16)) + 'px';
-			frame.style.transform = 'translate(-50%, -50%)' + (rotated ? ' rotate(90deg)' : '');
+			const availableWidth = rotated ? height : width;
+			const availableHeight = rotated ? width : height;
+			const scale = Math.max(0.001, Math.min(availableWidth / 1920, availableHeight / 1080));
+			frame.style.width = '1920px';
+			frame.style.height = '1080px';
+			frame.style.transform = 'translate(-50%, -50%)' + (rotated ? ' rotate(90deg)' : '') + ' scale(' + scale + ')';
 			frame.dataset.rotated = rotated ? '1' : '0';
+			frame.dataset.scale = String(scale);
+			// Responsive text and touch targets still need the displayed CSS size,
+			// separately from the game's fixed logical/rendering resolution.
+			window.__lumenboundHostLayoutSize = {width: 1920 * scale, height: 1080 * scale};
+			if (frame.contentWindow) {
+				frame.contentWindow.__lumenboundHostLayoutSize = window.__lumenboundHostLayoutSize;
+			}
 		};
 		fit();
 		frame.src = target.href;
@@ -175,6 +223,13 @@ const engine = new Engine(GODOT_CONFIG);
 		window.addEventListener('resize', fit);
 		return;
 	}
+	// The parent computes the display size before loading this document. Reads
+	// through the parent also cover the iframe's initial navigation and resizes.
+	try {
+		if (window.parent !== window && window.parent.__lumenboundHostLayoutSize) {
+			window.__lumenboundHostLayoutSize = window.parent.__lumenboundHostLayoutSize;
+		}
+	} catch (_) { /* A direct inner-frame URL may have an unrelated embedder. */ }
 	const statusOverlay = document.getElementById('status');
 	const statusProgress = document.getElementById('status-progress');
 	const statusNotice = document.getElementById('status-notice');

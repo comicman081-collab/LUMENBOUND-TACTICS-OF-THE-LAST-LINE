@@ -65,7 +65,7 @@ func _ready() -> void:
 	view._process(.3)
 	check(view.boss_entry_elapsed == elapsed, "Pause freezes entrance without consuming timer")
 	view.paused = false
-	view._process(3.1)
+	view._process(BattleView.BOSS_ENTRY_DURATION - elapsed + .1)
 	check(not view.scene_transition_active() and sim.state.tick == tick_before, "Entrance finishes without catch-up ticks")
 	check(sim.event_hash() == event_hash, "Cinematic does not alter deterministic event log")
 	check(not view._detect_boss_entrance(), "Same wave never restarts cinematic")

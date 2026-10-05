@@ -52,8 +52,9 @@ var manifests: Dictionary = {}
 var frames: Dictionary = {}
 var load_error := ""
 const FULL_DENSITY_ROOT := "res://assets/runtime_web/full_density/r2"
-## Inventory audit of all 500 authored stages: largest starting-party lease is
-## 135.79 MiB. 144 MiB covers it without disabling HD in 14 late boss stages.
+const BOSS_DENSITY_ROOT := "res://assets/runtime_web/full_density/boss_r1"
+## All 500 stages and 56 five-character parties: the 512px boss-page upgrade
+## peaks at 141.25 MiB. Preserve the existing bounded 144 MiB encounter lease.
 const FULL_DENSITY_BUDGET_BYTES := 144 * 1024 * 1024
 var full_density_bytes_by_entity: Dictionary = {}
 var full_density_error := ""
@@ -114,9 +115,13 @@ func down_pose_head_anchor(character_id: String) -> Vector2:
 
 func full_density_snapshot() -> Dictionary:
 	var total := 0
+	var density_by_entity: Dictionary = {}
 	for value in full_density_bytes_by_entity.values(): total += int(value)
+	for id in full_density_bytes_by_entity:
+		density_by_entity[id] = int(frame_canvas_size(id).x)
 	return {"entity_ids": full_density_bytes_by_entity.keys(), "decoded_rgba_bytes": total,
-		"budget_bytes": FULL_DENSITY_BUDGET_BYTES, "cell_size": 256, "error": full_density_error}
+		"budget_bytes": FULL_DENSITY_BUDGET_BYTES, "cell_size": 256,
+		"cell_size_by_entity": density_by_entity, "error": full_density_error}
 
 func warm_full_density(ids: Array[String], owner_node: Node) -> bool:
 	# Candidate capability is local-development only. This is not release approval.
@@ -126,17 +131,27 @@ func warm_full_density(ids: Array[String], owner_node: Node) -> bool:
 	var index_value = JSON.parse_string(FileAccess.get_file_as_string(index_path))
 	if not index_value is Dictionary or str(index_value.get("status", "")) != "LOCAL_QA_ONLY": return false
 	var actors: Dictionary = index_value.get("actors", {})
+	var boss_actors: Dictionary = {}
+	var boss_index_path := BOSS_DENSITY_ROOT + "/index.json"
+	if FileAccess.file_exists(boss_index_path):
+		var boss_index = JSON.parse_string(FileAccess.get_file_as_string(boss_index_path))
+		if boss_index is Dictionary and str(boss_index.get("status", "")) == "LOCAL_QA_ONLY":
+			boss_actors = boss_index.get("actors", {})
 	var planned_bytes := 0
 	for id in ids:
 		if not actors.has(id):
 			full_density_error = "HD_ENTITY_MISSING:%s" % id
 			return false
-		planned_bytes += int(actors[id].get("decoded_rgba_bytes", 0))
+		var approval: Dictionary = boss_actors.get(id, actors[id]) if id.begins_with("BOSS") else actors[id]
+		planned_bytes += int(approval.get("decoded_rgba_bytes", 0))
 	if planned_bytes <= 0 or planned_bytes > FULL_DENSITY_BUDGET_BYTES:
 		full_density_error = "HD_MEMORY_BUDGET:%d" % planned_bytes
 		return false
 	for id in ids:
-		var error: String = await _load_full_density_actor(id, actors[id], owner_node)
+		var use_boss_density := id.begins_with("BOSS") and boss_actors.has(id)
+		var approval: Dictionary = boss_actors[id] if use_boss_density else actors[id]
+		var root := BOSS_DENSITY_ROOT if use_boss_density else FULL_DENSITY_ROOT
+		var error: String = await _load_full_density_actor(id, approval, owner_node, root)
 		if not error.is_empty():
 			full_density_error = error
 			push_warning("Full-density actor pack unavailable: %s" % error)
@@ -144,8 +159,8 @@ func warm_full_density(ids: Array[String], owner_node: Node) -> bool:
 	full_density_error = ""
 	return true
 
-func _load_full_density_actor(id: String, approval: Dictionary, owner_node: Node) -> String:
-	var folder := FULL_DENSITY_ROOT + "/" + id
+func _load_full_density_actor(id: String, approval: Dictionary, owner_node: Node, root: String = FULL_DENSITY_ROOT) -> String:
+	var folder := root + "/" + id
 	var manifest_path := folder + "/animation_manifest.json"
 	if FileAccess.get_sha256(manifest_path) != str(approval.get("manifest_sha256", "")): return "HD_MANIFEST_HASH:%s" % id
 	var parsed = JSON.parse_string(FileAccess.get_file_as_string(manifest_path))
@@ -154,7 +169,8 @@ func _load_full_density_actor(id: String, approval: Dictionary, owner_node: Node
 	var dimensions: Array = manifest.get("frame_size", [])
 	# JSON numbers are floats in Godot; compare dimensions numerically instead of
 	# rejecting a valid canvas because its array element types differ.
-	if str(manifest.get("character_id", "")) != id or dimensions.size() != 2 or int(dimensions[0]) != 256 or int(dimensions[1]) != 256: return "HD_ID_OR_DENSITY:%s" % id
+	var cell_size := 512 if root == BOSS_DENSITY_ROOT and id.begins_with("BOSS") else 256
+	if str(manifest.get("character_id", "")) != id or dimensions.size() != 2 or int(dimensions[0]) != cell_size or int(dimensions[1]) != cell_size: return "HD_ID_OR_DENSITY:%s" % id
 	var baseline: Dictionary = manifests.get(id, {})
 	if str(manifest.get("source_asset_id", "")) != str(baseline.get("source_asset_id", "")) or str(manifest.get("view", "")) != str(baseline.get("view", "")): return "HD_IDENTITY_DRIFT:%s" % id
 	var pages: Array[Texture2D] = []
@@ -180,7 +196,7 @@ func _load_full_density_actor(id: String, approval: Dictionary, owner_node: Node
 		texture.atlas = pages[page_index]
 		texture.region = Rect2(float(region[0]), float(region[1]), float(region[2]), float(region[3]))
 		texture.margin = Rect2(float(margin[0]), float(margin[1]), float(margin[2]), float(margin[3]))
-		if not Rect2(Vector2.ZERO, texture.atlas.get_size()).encloses(texture.region) or texture.get_size() != Vector2(256,256): return "HD_FRAME_BOUNDS:%s" % id
+		if not Rect2(Vector2.ZERO, texture.atlas.get_size()).encloses(texture.region) or texture.get_size() != Vector2(cell_size,cell_size): return "HD_FRAME_BOUNDS:%s" % id
 		packed_frames.append(texture)
 	var actor_frames: Dictionary = {}
 	for name in manifest.get("animations", {}):

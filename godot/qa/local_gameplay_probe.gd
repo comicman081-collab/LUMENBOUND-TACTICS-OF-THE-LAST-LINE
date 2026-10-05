@@ -16,7 +16,9 @@ func _ready() -> void:
 		JavaScriptBridge.eval("window.__localGameplayQA = {request:'', response:null, ready:false}", true)
 
 func _process(delta: float) -> void:
-	if not WebSoakProbe.web_render_warmup_complete: return
+	# Startup now warms only title pipelines; map pipelines are lazy at entry.
+	# Waiting for them here would prevent the QA command that enters the first map.
+	if not WebSoakProbe.web_title_warmup_complete: return
 	if not ready_announced:
 		JavaScriptBridge.eval("if(window.__localGameplayQA) window.__localGameplayQA.ready = true", true)
 		ready_announced = true
@@ -542,6 +544,7 @@ func _snapshot(shell: Control) -> Dictionary:
 					"ground_contact": battle.ground_contact_snapshot(unit)})
 			result["battle"] = {"ready": battle.assets_ready, "phase": battle.asset_warmup_phase,
 				"boss_scene": battle.boss_scene_snapshot(),
+				"wave_scene": battle.wave_scene_snapshot(),
 				"contact_queue": battle.contact_events.size(), "contact_commits": battle.contact_commits,
 				"combat_readout": battle.combat_readout,
 				"enemy_defeat_bursts": battle.enemy_defeat_bursts.size(),

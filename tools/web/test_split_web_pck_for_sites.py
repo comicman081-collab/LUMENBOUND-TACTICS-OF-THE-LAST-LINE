@@ -71,6 +71,7 @@ class SplitWebPckForSitesTest(unittest.TestCase):
             worker = (root / "index.service.worker.js").read_text(encoding="utf-8")
             self.assertIn(splitter.HTML_MARKER, html)
             self.assertIn('"game.pck":173', html)
+            self.assertIn(f'index.js?v={manifest["original"]["sha256"][:12]}', html)
             self.assertIn(splitter.JS_MARKER, loader)
             self.assertIn("fetchChunkedGodotResource(file, fileSize)", loader)
             self.assertNotIn("game.pck", json.loads(
@@ -91,13 +92,22 @@ globalThis.__GODOT_PCK_CHUNKS__ = {json.dumps({
     'original': manifest['original'],
     'chunks': manifest['chunks'],
 }, separators=(',', ':'))};
-globalThis.fetch = async (file) => new Response(fs.readFileSync(path.join({json.dumps(str(root))}, file)));
+let active = 0;
+let maxActive = 0;
+globalThis.fetch = async (file) => {{
+  active += 1;
+  maxActive = Math.max(maxActive, active);
+  await new Promise(resolve => setTimeout(resolve, 10));
+  const response = new Response(fs.readFileSync(path.join({json.dumps(str(root))}, file)));
+  active -= 1;
+  return response;
+}};
 {splitter.STREAM_HELPER}
 (async () => {{
   const response = await fetchChunkedGodotResource('game.pck', 173);
   const body = Buffer.from(await response.arrayBuffer());
   const digest = crypto.createHash('sha256').update(body).digest('hex');
-  if (body.length !== 173 || digest !== {json.dumps(hashlib.sha256(payload).hexdigest())}) process.exit(7);
+  if (body.length !== 173 || digest !== {json.dumps(hashlib.sha256(payload).hexdigest())} || maxActive < 2) process.exit(7);
 }})().catch((error) => {{ console.error(error); process.exit(8); }});
 """
                 subprocess.run([node, "-e", node_program], check=True, timeout=20)

@@ -42,7 +42,8 @@ def source_path(raw):
     if not result.is_relative_to(ROOT.resolve()): raise ValueError('SOURCE_OUTSIDE_PROJECT')
     return result
 
-def build_actor(entity, destination, qa, baseline_root=None):
+def build_actor(entity, destination, qa, baseline_root=None, cell_size=CELL):
+    if cell_size not in (256, 512): raise ValueError('UNSUPPORTED_DENSITY')
     current = read((baseline_root or GODOT / 'assets/runtime_web/combat') / entity / 'animation_manifest.json')
     source = source_path(current['source_root'])
     source_manifest = read(source / 'animation_manifest.json') if source.is_dir() else None
@@ -73,11 +74,11 @@ def build_actor(entity, destination, qa, baseline_root=None):
                 matte.save(master_path)
                 original.save(keyed_path)
                 item.update(green_master=master_path.relative_to(ROOT).as_posix(), green_master_sha256=sha(master_path), keyed_rgba=keyed_path.relative_to(ROOT).as_posix(), keyed_sha256=sha(keyed_path), key_qc=key_qc)
-            frame = original.resize((CELL,CELL), Image.Resampling.LANCZOS)
+            frame = original.resize((cell_size,cell_size), Image.Resampling.LANCZOS)
             bounds = frame.getchannel('A').getbbox()
             if not bounds: raise ValueError(f'{entity}:{name}:EMPTY_FRAME')
             left,top,right,bottom = bounds
-            left,top,right,bottom = max(0,left-3),max(0,top-3),min(CELL,right+3),min(CELL,bottom+3)
+            left,top,right,bottom = max(0,left-3),max(0,top-3),min(cell_size,right+3),min(cell_size,bottom+3)
             digest = hashlib.sha256(frame.tobytes()).hexdigest()
             if digest not in digest_to_index:
                 digest_to_index[digest] = len(unique)
@@ -87,7 +88,8 @@ def build_actor(entity, destination, qa, baseline_root=None):
             if index == count//2 and animation_index < 8:
                 x,y = (animation_index%4)*268,(animation_index//4)*294
                 preview.paste('#eee9e0' if animation_index%2 else '#182531',(x,y,x+256,y+256))
-                preview.paste(frame,(x,y),frame)
+                preview_frame = frame.resize((256,256), Image.Resampling.LANCZOS)
+                preview.paste(preview_frame,(x,y),preview_frame)
                 painter.text((x+4,y+263),f'{entity} {name}',fill='#ffffff')
         animations[name] = {**definition,'frame_indices':indices}
     destination.mkdir(parents=True, exist_ok=False)
@@ -107,14 +109,14 @@ def build_actor(entity, destination, qa, baseline_root=None):
             item = unique[offset+local_index]
             atlas.alpha_composite(item['image'],position)
             rect = item['logical_rect']
-            records[offset+local_index] = {'page':len(pages),'region':[*position,*item['image'].size], 'margin':[rect[0],rect[1],CELL-rect[2],CELL-rect[3]]}
+            records[offset+local_index] = {'page':len(pages),'region':[*position,*item['image'].size], 'margin':[rect[0],rect[1],cell_size-rect[2],cell_size-rect[3]]}
         path = destination / f'page_{len(pages):02}.png'
         atlas.save(path, compress_level=6)
         pages.append({'atlas_path':path.name,'atlas_sha256':sha(path),'size':list(size),'rgba_bytes':size[0]*size[1]*4})
         offset += count
-    manifest = {**current,'status':'LOCAL_QA_ONLY_FULL_DENSITY','frame_size':[CELL,CELL], 'atlas_path':'','atlas_pages':pages,'packed_frames':records,'animations':animations,
+    manifest = {**current,'status':'LOCAL_QA_ONLY_FULL_DENSITY','frame_size':[cell_size,cell_size], 'atlas_path':'','atlas_pages':pages,'packed_frames':records,'animations':animations,
         'source_manifest_sha256':sha(source/'animation_manifest.json') if source_manifest else sha(source),
-        'density_provenance':'512px_or_larger_original_to_256px; compact_atlas_never_used',
+        'density_provenance':f'512px_or_larger_original_to_{cell_size}px; compact_atlas_never_used',
         'identity_change':False,'costume_change':False,'decoded_rgba_bytes':sum(p['rgba_bytes'] for p in pages)}
     manifest_path = destination / 'animation_manifest.json'
     save_json(manifest_path,manifest)
@@ -126,6 +128,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--revision',required=True)
     parser.add_argument('--entities',default='')
+    parser.add_argument('--cell-size', type=int, choices=(256,512), default=CELL)
     args=parser.parse_args()
     destination=GODOT/'assets/runtime_web/full_density'/args.revision
     qa=ROOT/'work/full_density'/args.revision
@@ -134,7 +137,7 @@ def main():
     entities=args.entities.split(',') if args.entities else sorted(p.name for p in (GODOT/'assets/runtime_web/combat').iterdir() if p.is_dir())
     results={}
     for entity in entities:
-        results[entity]=build_actor(entity,destination/entity,qa)
+        results[entity]=build_actor(entity,destination/entity,qa,cell_size=args.cell_size)
         print(json.dumps({'entity':entity,**results[entity]}),flush=True)
     save_json(destination/'index.json',{'status':'LOCAL_QA_ONLY','revision':args.revision,'no_source_mutation':True,'actors':results})
     save_json(qa/'build_summary.json',{'entities':len(results),'frames':sum(v['frames'] for v in results.values()),'actors':results})

@@ -13,7 +13,9 @@ import html
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[2]
-INTRO = ROOT / 'intro/completed_1080p_50s/intro_1080p_50s.mp4'
+# The game requests /intro.mp4. Serve the same verified browser-compatible
+# 1080p/50s clip used by the published build; retain the old video originals.
+INTRO = ROOT / 'intro/web_1080p_50s/intro.mp4'
 SERVICE = 'lumenbound-local-player-v2'
 
 def reviewed_art():

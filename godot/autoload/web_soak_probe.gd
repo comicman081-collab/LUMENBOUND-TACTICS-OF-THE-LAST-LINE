@@ -1,5 +1,9 @@
 extends Node
 
+signal web_map_pipeline_progress(phase: String, percent: int)
+signal web_map_pipelines_ready
+signal web_title_pipelines_ready
+
 const WebMovementOverlayScript := preload("res://chapter_map/runtime/web_movement_overlay.gd")
 const EnvironmentWaterShader := preload("res://chapter_map/shaders/water_environment.gdshader")
 const MapAtmosphereShader := preload("res://chapter_map/shaders/map_atmosphere.gdshader")
@@ -20,6 +24,8 @@ var interval_frames_over_50ms := 0
 var interval_frames_over_100ms := 0
 var interval_frame_count := 0
 var web_render_warmup_complete := false
+var web_title_warmup_complete := false
+var web_map_warmup_running := false
 var web_render_resource_cache: Dictionary = {}
 var sampling_enabled := false
 
@@ -48,11 +54,10 @@ func _ready() -> void:
 		if sampling_enabled:
 			var sandbox_state := "active" if SaveService.is_soak_sandbox_enabled() else "inactive"
 			print("R7_WEB_SOAK_PROBE_READY interval=5s max_samples=240 sandbox=%s" % sandbox_state)
-		# WebGL creates several renderer variants lazily on their first visible draw.
-		# Starting this before the trusted sound click moves those one-time compiles
-		# into the silent boot gate instead of letting the first map entry, route
-		# selection, or post-move yellow range starve WebAudio later.
-		_prewarm_web_render_pipelines()
+		# The first interactive screen is 2D. Do not compile the entire tactical
+		# world's 3D variants before the player can even start the intro. Map entry
+		# has its own loading/input boundary and retains the same warmed resources.
+		_prewarm_web_title_pipelines()
 
 func _web_soak_sampling_requested() -> bool:
 	if not OS.has_feature("web"):
@@ -60,17 +65,53 @@ func _web_soak_sampling_requested() -> bool:
 	var value = JavaScriptBridge.eval("new URLSearchParams(window.location.search).get('r7-web-soak-probe')", true)
 	return str(value).strip_edges().to_lower() in ["1", "true", "yes", "on"]
 
+func ensure_web_map_pipelines() -> void:
+	if not OS.has_feature("web") or web_render_warmup_complete:
+		return
+	if not web_title_warmup_complete:
+		await web_title_pipelines_ready
+	if web_map_warmup_running:
+		await web_map_pipelines_ready
+		return
+	web_map_warmup_running = true
+	await _prewarm_web_render_pipelines()
+	web_map_warmup_running = false
+	web_map_pipelines_ready.emit()
+
+func _prewarm_web_title_pipelines() -> void:
+	var started_usec := Time.get_ticks_usec()
+	_set_boot_loading_phase("시작 화면 그래픽", 10)
+	var viewport := SubViewport.new()
+	viewport.name = "WebTitlePipelineWarmup"
+	viewport.size = Vector2i(96, 96)
+	viewport.disable_3d = true
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	add_child(viewport)
+	var canvas_root := Control.new()
+	canvas_root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	viewport.add_child(canvas_root)
+	_add_title_pipeline_samples(canvas_root)
+	await _warmup_draw_slice("타이틀 연출", 90)
+	for _frame_index in range(6):
+		await get_tree().process_frame
+	viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	viewport.queue_free()
+	web_title_warmup_complete = true
+	JavaScriptBridge.eval("document.getElementById('lantern-render-loading')?.remove(); window.__lanternRenderReady = true;", true)
+	web_title_pipelines_ready.emit()
+	print("WEB_TITLE_WARMUP_COMPLETE %.2fms" % (float(Time.get_ticks_usec() - started_usec) / 1000.0))
+
 func _prewarm_web_render_pipelines() -> void:
 	# Compatibility/Web compiles several 3D shader/pipeline variants on their first
 	# visible draw. When that first draw happened during map entry it produced
 	# repeated 100-150ms frames and starved the main-thread audio mixer. Render one
-	# tiny representative scene before the user starts audio, then discard it; the
+	# tiny representative scene under the first map-entry loading gate, discard it;
 	# actual map can reuse the warmed vertex-colour, MultiMesh, sprite and overlay
 	# pipelines without changing any gameplay or save state.
 	if not OS.has_feature("web") or web_render_warmup_complete:
 		return
 	var warmup_started_usec := Time.get_ticks_usec()
-	_set_boot_loading_phase("그래픽 초기화", 0)
+	web_map_pipeline_progress.emit("지도 그래픽 초기화", 0)
 	var warmup_viewport := SubViewport.new()
 	warmup_viewport.name = "WebRenderPipelineWarmup"
 	warmup_viewport.size = Vector2i(96, 96)
@@ -253,6 +294,14 @@ func _prewarm_web_render_pipelines() -> void:
 	sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_OPAQUE_PREPASS
 	root.add_child(sprite)
 	await _warmup_draw_slice("캐릭터 표시", 65)
+	# An empty AwarenessCue creates no glyph surface until the first enemy turn.
+	# Its ordinary alpha Label3D material differs from the opaque-prepass Sprite3D
+	# above. GLES3 initializes its base, instanced and depth program variants together;
+	# the measured cold turn spent ~230ms linking those five programs. Draw the exact
+	# label flags and Korean glyphs now, while input/audio remain behind the boot gate.
+	# Godot's get_material_for_2d cache retains the shader after this node is freed.
+	root.add_child(create_map_awareness_warmup())
+	await _warmup_draw_slice("적 인지 표시", 67)
 
 	# Warm the actual R17 terrain/foliage/water shaders, not just the older
 	# StandardMaterial placeholders. Both mesh and instanced variants are used
@@ -330,6 +379,16 @@ func _prewarm_web_render_pipelines() -> void:
 		segment.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		canvas_root.add_child(segment)
 
+	await _warmup_draw_slice("지도 표시", 96)
+	for _frame_index in range(6):
+		await get_tree().process_frame
+	warmup_viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	# Retain immutable Mesh/Material resources, never an attached disabled viewport.
+	warmup_viewport.queue_free()
+	web_render_warmup_complete = true
+	print("WEB_MAP_WARMUP_COMPLETE %.2fms" % (float(Time.get_ticks_usec() - warmup_started_usec) / 1000.0))
+
+func _add_title_pipeline_samples(canvas_root: Control) -> void:
 	# The title's live-2D puppet and its lantern halo are two more canvas programs (the puppet is by
 	# far the largest). Link them here, with the real textures bound, so the title does not
 	# freeze for the compile when the intro ends.
@@ -363,29 +422,28 @@ func _prewarm_web_render_pipelines() -> void:
 	canvas_root.add_child(halo_rect)
 	web_render_resource_cache["title_puppet_material"] = puppet_material
 	web_render_resource_cache["title_halo_material"] = halo_material
-	await _warmup_draw_slice("타이틀 연출", 96)
 
-	# Six actual draw frames cover 3D and Canvas pipeline creation plus two steady
-	# frames. This completes while audio is still locked by the browser.
-	for _frame_index in range(6):
-		await get_tree().process_frame
-	warmup_viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
-	# A disabled SubViewport must not remain attached in the Web build. Godot's
-	# single-threaded Compatibility renderer may later dereference one of its
-	# released scene objects and leave the canvas black while audio keeps playing.
-	# The warmed driver programs survive this short-lived viewport; scene owners do
-	# not need to remain in the active tree.
-	warmup_viewport.queue_free()
-	web_render_warmup_complete = true
-	JavaScriptBridge.eval("document.getElementById('lantern-render-loading')?.remove(); window.__lanternRenderReady = true;", true)
-	print("WEB_RENDER_WARMUP_COMPLETE %.2fms" % (float(Time.get_ticks_usec() - warmup_started_usec) / 1000.0))
+static func create_map_awareness_warmup() -> Label3D:
+	var awareness := Label3D.new()
+	awareness.name = "MapAwarenessPipelineWarmup"
+	awareness.text = "! 추적\n경계 복귀"
+	awareness.font_size = 50
+	awareness.outline_size = 9
+	awareness.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	awareness.no_depth_test = true
+	awareness.alpha_cut = Label3D.ALPHA_CUT_DISABLED
+	awareness.position = Vector3(0.0, 0.75, 0.6)
+	return awareness
 
 func _warmup_draw_slice(label: String, percent: int) -> void:
-	_set_boot_loading_phase(label, percent)
+	if web_title_warmup_complete:
+		web_map_pipeline_progress.emit(label, percent)
+	else:
+		_set_boot_loading_phase(label, percent)
 	var started := Time.get_ticks_usec()
 	# Flush each family in its own draw boundary; never pile all driver links
-	# into a single 18-second first title frame. Input stays behind the explicit
-	# boot gate until the driver and real map material variants have settled.
+	# into a single frame. Map compiles use the existing map loading boundary;
+	# they never recreate the startup overlay or reset the title-ready signal.
 	await get_tree().process_frame
 	await get_tree().process_frame
 	print("WEB_RENDER_WARMUP_SLICE %s %.2fms" % [label, float(Time.get_ticks_usec()-started)/1000.0])

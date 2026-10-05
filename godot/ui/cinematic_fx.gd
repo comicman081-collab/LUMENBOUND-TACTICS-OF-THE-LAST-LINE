@@ -1,8 +1,8 @@
 extends RefCounted
 
 ## Shared cinematic layers for title, story and result screens: drifting
-## backgrounds, light shafts, floating motes, low fog, Live2D-style idle motion
-## for illustrations, title shine, pulsing button glow and entrance tweens.
+## backgrounds, light shafts, floating motes, low fog, contour-safe light on
+## illustrations, title shine, pulsing button glow and entrance tweens.
 ## Everything is presentation-only and safe to build outside the SceneTree
 ## (tweens are skipped until the node is inside the tree).
 
@@ -53,7 +53,7 @@ static func motes(parent: Node, params: Dictionary = {}) -> ColorRect:
 static func fog(parent: Node, params: Dictionary = {}) -> ColorRect:
 	return _overlay(parent, "CinematicFog", FOG, params)
 
-## Stable per-character phase so two illustrations never breathe in unison.
+## Stable per-character phase so rigid image drift and edge lights do not sync.
 static func seeded_phase(seed_text: String) -> float:
 	return float(absi(hash(seed_text)) % 1000) / 1000.0 * TAU
 

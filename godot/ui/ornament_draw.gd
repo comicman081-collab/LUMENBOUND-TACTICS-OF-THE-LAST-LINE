@@ -16,11 +16,26 @@ const INK := Color(.018, .040, .075)
 const ALERT := Color("ff4d4d")
 const ALERT_DEEP := Color("5a0c12")
 
+# Metrics depend only on the font resource, text and pixel size. Keep the
+# exact font results while the moving bands change position/color every frame.
+const TEXT_METRICS_LIMIT := 512
+static var _text_metrics: Dictionary = {}
+static var _metric_fonts: Dictionary = {}
+
 static func tint(color: Color, alpha: float) -> Color:
 	return Color(color.r, color.g, color.b, color.a * clampf(alpha, 0.0, 1.0))
 
 static func quad(ci: CanvasItem, a: Vector2, b: Vector2, c: Vector2, d: Vector2, ca: Color, cb: Color, cc: Color, cd: Color) -> void:
-	ci.draw_polygon(PackedVector2Array([a, b, c, d]), PackedColorArray([ca, cb, cc, cd]))
+	ci.draw_primitive(PackedVector2Array([a, b, c, d]), PackedColorArray([ca, cb, cc, cd]), PackedVector2Array())
+
+static func _flat_primitive(ci: CanvasItem, points: PackedVector2Array, color: Color) -> void:
+	if points.size() == 3 or points.size() == 4:
+		var colors := PackedColorArray()
+		colors.resize(points.size())
+		colors.fill(color)
+		ci.draw_primitive(points, colors, PackedVector2Array())
+	else:
+		ci.draw_colored_polygon(points, color)
 
 ## A rect whose fill fades to transparent over `fade` pixels at both ends.
 static func faded_rect(ci: CanvasItem, rect: Rect2, color: Color, fade: float) -> void:
@@ -38,7 +53,7 @@ static func faded_rect(ci: CanvasItem, rect: Rect2, color: Color, fade: float) -
 	quad(ci, Vector2(x2, top), Vector2(x3, top), Vector2(x3, bottom), Vector2(x2, bottom), color, clear, clear, color)
 
 static func diamond(ci: CanvasItem, center: Vector2, radius: float, color: Color) -> void:
-	ci.draw_colored_polygon(PackedVector2Array([
+	_flat_primitive(ci, PackedVector2Array([
 		center + Vector2(0, -radius), center + Vector2(radius, 0),
 		center + Vector2(0, radius), center + Vector2(-radius, 0)]), color)
 
@@ -175,12 +190,37 @@ static func speed_lines(ci: CanvasItem, rect: Rect2, time: float, color: Color, 
 		ci.draw_line(start, finish, tint(color, .35 + .5 * h), width, true)
 
 ## Centred text with an outline; returns the drawn width.
+static func text_metrics(font: Font, text: String, size: int) -> Dictionary:
+	var font_id := font.get_instance_id()
+	if not _metric_fonts.has(font_id) or (_metric_fonts[font_id] as WeakRef).get_ref() != font:
+		_metric_fonts[font_id] = weakref(font)
+		var invalidate := _invalidate_text_metrics.bind(font_id)
+		if not font.changed.is_connected(invalidate):
+			font.changed.connect(invalidate)
+	var key := "%d:%d:%s" % [font_id, size, text]
+	if not _text_metrics.has(key):
+		if _text_metrics.size() >= TEXT_METRICS_LIMIT:
+			_text_metrics.clear()
+		_text_metrics[key] = {
+			"width": font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x,
+			"ascent": font.get_ascent(size),
+			"descent": font.get_descent(size),
+		}
+	return _text_metrics[key]
+
+static func _invalidate_text_metrics(font_id: int) -> void:
+	var prefix := "%d:" % font_id
+	for key in _text_metrics.keys():
+		if (key as String).begins_with(prefix):
+			_text_metrics.erase(key)
+
 static func centered_text(ci: CanvasItem, font: Font, center: Vector2, text: String, size: int, color: Color, outline := 0, outline_color := Color(0, 0, 0, .8)) -> float:
 	if font == null or text.is_empty():
 		return 0.0
-	var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x
-	var ascent := font.get_ascent(size)
-	var descent := font.get_descent(size)
+	var metrics := text_metrics(font, text, size)
+	var width := float(metrics.width)
+	var ascent := float(metrics.ascent)
+	var descent := float(metrics.descent)
 	var baseline := Vector2(center.x - width * .5, center.y + (ascent - descent) * .5)
 	if outline > 0:
 		ci.draw_string_outline(font, baseline, text, HORIZONTAL_ALIGNMENT_LEFT, -1, size, outline, outline_color)
@@ -193,18 +233,29 @@ static func hazard_stripes(ci: CanvasItem, rect: Rect2, time: float, color: Colo
 	var offset := fposmod(time * stripe * 2.0, stripe * 2.0)
 	var x := rect.position.x - slant - stripe * 2.0 + offset
 	while x < rect.end.x:
-		var a := Vector2(x, rect.end.y)
-		var b := Vector2(x + stripe, rect.end.y)
-		var c := Vector2(x + stripe + slant, rect.position.y)
-		var d := Vector2(x + slant, rect.position.y)
-		var clipped := Geometry2D.intersect_polygons(PackedVector2Array([a, b, c, d]), PackedVector2Array([
-			rect.position, Vector2(rect.end.x, rect.position.y), rect.end, Vector2(rect.position.x, rect.end.y)]))
-		for polygon in clipped:
-			# Clipping at the band ends can leave a sliver with no area, which the
-			# renderer cannot triangulate; those are invisible anyway.
-			if polygon.size() >= 3 and absf(_polygon_area(polygon)) > .5:
-				ci.draw_colored_polygon(polygon, color)
+		var polygon := _hazard_stripe_polygon(rect, x, stripe)
+		# Clipping at the band ends can leave a sliver with no area, which the
+		# renderer cannot triangulate; those are invisible anyway.
+		if polygon.size() >= 3 and absf(_polygon_area(polygon)) > .5:
+			_flat_primitive(ci, polygon, color)
 		x += stripe * 2.0
+
+static func _hazard_stripe_polygon(rect: Rect2, x: float, stripe: float) -> PackedVector2Array:
+	var right := x + stripe + rect.size.y
+	if right <= rect.position.x or x >= rect.end.x:
+		return PackedVector2Array()
+	var polygon := PackedVector2Array([
+		Vector2(x, rect.end.y), Vector2(x + stripe, rect.end.y),
+		Vector2(right, rect.position.y), Vector2(x + rect.size.y, rect.position.y),
+	])
+	# All four vertices lie on/in the same rectangular band. Only the two
+	# moving boundary stripes need the original polygon intersection routine.
+	if x >= rect.position.x and right <= rect.end.x:
+		return polygon
+	var clipped := Geometry2D.intersect_polygons(polygon, PackedVector2Array([
+		rect.position, Vector2(rect.end.x, rect.position.y), rect.end, Vector2(rect.position.x, rect.end.y),
+	]))
+	return clipped[0] if not clipped.is_empty() else PackedVector2Array()
 
 static func _polygon_area(polygon: PackedVector2Array) -> float:
 	var area := 0.0

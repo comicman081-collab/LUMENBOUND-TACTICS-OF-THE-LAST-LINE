@@ -16,13 +16,20 @@ def main() -> int:
         raise SystemExit("missing .openai/hosting.json")
     if not (root / "dist/client/index.html").is_file():
         raise SystemExit("missing dist/client/index.html")
+    if not (root / "dist/client/intro.mp4").is_file():
+        raise SystemExit("missing browser intro sidecar dist/client/intro.mp4")
     archive.parent.mkdir(parents=True, exist_ok=True)
     with tarfile.open(archive, "w:gz", format=tarfile.PAX_FORMAT) as output:
-        for path in sorted(root.rglob("*")):
-            if ".git" in path.relative_to(root).parts:
-                continue
+        # Sites accepts build output, not the source tree or local QA reports.
+        paths = [root / ".openai/hosting.json", *(root / "dist").rglob("*")]
+        for path in sorted(paths):
             if path.is_file():
-                output.add(path, arcname=path.relative_to(root).as_posix(), recursive=False)
+                info = output.gettarinfo(str(path), arcname=path.relative_to(root).as_posix())
+                info.mtime = 0
+                info.uid = info.gid = 0
+                info.uname = info.gname = ""
+                with path.open("rb") as content:
+                    output.addfile(info, content)
     print(archive)
     return 0
 

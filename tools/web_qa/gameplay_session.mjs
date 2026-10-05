@@ -15,7 +15,7 @@ export class GameplaySession {
     this.pending = new Map();
     this.nextId = 1;
   }
-  async start({browserPath, url, port = 9248, width = 390, height = 844, profileGPU = false, profileAudio = false, allowFileAccess = false}) {
+  async start({browserPath, url, port = 9248, width = 390, height = 844, profileGPU = false, profileAudio = false, allowFileAccess = false, initScript = ''}) {
     this.url = url;
     this.viewport = {width, height};
     await mkdir(this.output, {recursive: true});
@@ -57,6 +57,9 @@ export class GameplaySession {
         else pending.resolve(message.result);
       } else if (['Runtime.consoleAPICalled', 'Runtime.exceptionThrown', 'Network.loadingFailed', 'Network.responseReceived', 'Log.entryAdded'].includes(message.method)) {
         if (message.method === 'Network.responseReceived' && message.params.response.status < 400) return;
+        // Visual-only captures have their own bounded frame writer. Keeping the
+        // base64 frames in the diagnostic event report would duplicate the movie.
+        if (message.method === 'Page.screencastFrame') return;
         this.events.push({at: Date.now(), ...message});
       }
     });
@@ -103,7 +106,7 @@ export class GameplaySession {
             try {return original.apply(this, args);} finally {
               const duration = performance.now() - started;
               if (duration > 5) profile.calls.push({name, at:started, duration});
-              if(name==='getProgramParameter' && duration>100 && !recorded.has(args[0])) {recorded.add(args[0]);profile.programs.push({at:started,duration,sources:(attachments.get(args[0])||[]).map(shader=>sources.get(shader))});}
+              if(name==='getProgramParameter' && duration>20 && !recorded.has(args[0])) {recorded.add(args[0]);profile.programs.push({at:started,duration,sources:(attachments.get(args[0])||[]).map(shader=>sources.get(shader))});}
             }
           };
         }
@@ -121,6 +124,7 @@ export class GameplaySession {
     if (profileAudio) await this.send('Page.addScriptToEvaluateOnNewDocument', {
       source: await readFile(new URL('./audio_graph_probe.js', import.meta.url), 'utf8'),
     });
+    if (initScript) await this.send('Page.addScriptToEvaluateOnNewDocument', {source: initScript});
     await this.send('Page.navigate', {url});
     return {pid: this.browser.pid, url, viewport: this.viewport};
   }
@@ -146,16 +150,17 @@ export class GameplaySession {
     const response=await this.send('Runtime.evaluate',{expression:`(() => {
       const f=document.getElementById('landscape-game'); if(!f)return {x:${x},y:${y}};
       const r=f.getBoundingClientRect(); return f.dataset.rotated==='1'
-        ? {x:r.left+f.clientHeight-${y},y:r.top+${x}} : {x:r.left+${x},y:r.top+${y}};
+        ? {x:r.left+(f.clientHeight-${y})*r.width/f.clientHeight,y:r.top+${x}*r.height/f.clientWidth}
+        : {x:r.left+${x}*r.width/f.clientWidth,y:r.top+${y}*r.height/f.clientHeight};
     })()`,returnByValue:true});
     return response.result.value;
   }
-  async click(x, y) {
+  async click(x, y, {clickCount = 1} = {}) {
     ({x,y}=await this.inputPoint(x,y));
-    this.actions.push({at: Date.now(), type: 'click', x, y});
+    this.actions.push({at: Date.now(), type: 'click', x, y, clickCount});
     await this.send('Input.dispatchMouseEvent', {type: 'mouseMoved', x, y});
-    await this.send('Input.dispatchMouseEvent', {type: 'mousePressed', x, y, button: 'left', clickCount: 1});
-    await this.send('Input.dispatchMouseEvent', {type: 'mouseReleased', x, y, button: 'left', clickCount: 1});
+    await this.send('Input.dispatchMouseEvent', {type: 'mousePressed', x, y, button: 'left', clickCount});
+    await this.send('Input.dispatchMouseEvent', {type: 'mouseReleased', x, y, button: 'left', clickCount});
   }
   async key(key, code, virtualKeyCode) {
     this.actions.push({at: Date.now(), type: 'key', key});

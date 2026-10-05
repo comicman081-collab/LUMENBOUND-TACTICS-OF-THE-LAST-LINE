@@ -15,7 +15,8 @@ func run() -> void:
 			failures.append("%s actor=%s" % [entity,actors.full_density_error])
 		for action in ["idle", "move", "basic_attack", "normal_skill", "ultimate", "hit", "down", "victory"]:
 			var frame := actors.texture_at(entity, action, .2)
-			if frame == null or frame.get_size() != Vector2(256,256): failures.append("%s:%s frame" % [entity,action])
+			var cell_size := 512 if str(entity).begins_with("BOSS") else 256
+			if frame == null or frame.get_size() != Vector2(cell_size,cell_size): failures.append("%s:%s frame" % [entity,action])
 		var effects = preload("res://battle/view/full_density_effects.gd").new()
 		if not await effects.warm(ids, self): failures.append("%s FX=%s" % [entity,effects.error])
 		if effects.projectile_at(entity, .2) == null or effects.ultimate_at(entity,.4) == null: failures.append("%s missing FX" % entity)

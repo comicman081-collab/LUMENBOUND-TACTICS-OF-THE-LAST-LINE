@@ -27,12 +27,52 @@ var survey_signature := ""
 var last_tap_msec := -1000
 var terrain_count := 0
 var ui_scale := 1.0
+var terrain_revision := 0
+var _terrain_signature := ""
+var _terrain_layer: PaintLayer
+var _marker_layer: PaintLayer
+
+# Keep recorded terrain commands when only an enemy or the selection changes.
+# Re-uploading every hex at each turn/preview caused repeatable Web hitches.
+class PaintLayer extends Control:
+	var painter: Callable
+	func _draw() -> void:
+		if painter.is_valid():
+			painter.call(self)
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	clip_contents = true
 	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	tooltip_text = "더블클릭 / 두 번 탭: 전체 지도"
+	_ensure_paint_layers()
+	resized.connect(_request_paint)
+	_request_paint()
+
+func _ensure_paint_layers() -> void:
+	if is_instance_valid(_terrain_layer):
+		return
+	_terrain_layer = PaintLayer.new()
+	_terrain_layer.name = "CachedTerrain"
+	_terrain_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_terrain_layer.painter = _draw_terrain
+	add_child(_terrain_layer)
+	_marker_layer = PaintLayer.new()
+	_marker_layer.name = "LiveMarkers"
+	_marker_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_marker_layer.painter = _draw_markers
+	add_child(_marker_layer)
+
+func _request_paint() -> void:
+	_ensure_paint_layers()
+	var next_terrain := "%s:%s:%s:%s:%s:%s" % [map_signature, survey_signature,
+		str(size), str(ui_scale), str(full_map), str(bounds_min) + str(bounds_max)]
+	if next_terrain != _terrain_signature:
+		_terrain_signature = next_terrain
+		terrain_revision += 1
+		_terrain_layer.queue_redraw()
+	_marker_layer.queue_redraw()
+	queue_redraw()
 
 func configure(definition: Dictionary, state: Dictionary, selected: Dictionary, _hard_visible: bool, vision_radius := 8) -> void:
 	var next_map := "%s:%d" % [str(definition.get("map_id", "")), definition.get("tiles", []).size()]
@@ -80,7 +120,7 @@ func configure(definition: Dictionary, state: Dictionary, selected: Dictionary, 
 		if Hex.distance(current_coord, live) <= vision_radius:
 			_add_marker({"q": live.x, "r": live.y}, ENEMY_COLOR, "enemy")
 	_recalculate_bounds()
-	queue_redraw()
+	_request_paint()
 
 func _add_marker(item: Dictionary, color: Color, kind: String) -> void:
 	var coord := Vector2i(int(item.get("q", 0)), int(item.get("r", 0)))
@@ -133,6 +173,8 @@ func _draw() -> void:
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(10)
 	draw_style_box(style, Rect2(Vector2.ZERO, size))
+
+func _draw_terrain(canvas: Control) -> void:
 	var scale := _map_scale()
 	var terrain_rect := Rect2(Vector2(10, 26) * ui_scale, size - Vector2(20, 54) * ui_scale)
 	terrain_count = 0
@@ -150,26 +192,32 @@ func _draw() -> void:
 		# corridors read as the route at a glance.
 		if bool(tile.get("movement_blocked", false)):
 			color = color.darkened(0.45)
-		draw_colored_polygon(corners, color)
+		# Two convex quads cover exactly the same six-corner hex, without the
+		# polygon triangulation and per-polygon Web buffer allocation.
+		canvas.draw_primitive(PackedVector2Array([corners[0], corners[1], corners[2], corners[3]]), PackedColorArray([color]), PackedVector2Array())
+		canvas.draw_primitive(PackedVector2Array([corners[0], corners[3], corners[4], corners[5]]), PackedColorArray([color]), PackedVector2Array())
 		terrain_count += 1
+
+func _draw_markers(canvas: Control) -> void:
+	var terrain_rect := Rect2(Vector2(10, 26) * ui_scale, size - Vector2(20, 54) * ui_scale)
 	var marker_outer := 6.5 if full_map else 4.4
 	var marker_inner := 4.8 if full_map else 3.2
 	for marker in markers:
 		var point := _map_point(_point(marker.coord))
 		if not terrain_rect.grow(-6).has_point(point): continue
-		draw_circle(point, marker_outer, UNKNOWN)
-		draw_circle(point, marker_inner, marker.color)
+		canvas.draw_circle(point, marker_outer, UNKNOWN)
+		canvas.draw_circle(point, marker_inner, marker.color)
 	var current := _map_point(_point(current_coord))
-	draw_circle(current, 9 if full_map else 7, UNKNOWN)
-	draw_circle(current, 6 if full_map else 4.5, SQUAD_COLOR)
-	draw_arc(current, 10 if full_map else 8, -PI * 0.75, PI * 0.25, 16, Color("fff8cf"), 1.5, true)
+	canvas.draw_circle(current, 9 if full_map else 7, UNKNOWN)
+	canvas.draw_circle(current, 6 if full_map else 4.5, SQUAD_COLOR)
+	canvas.draw_arc(current, 10 if full_map else 8, -PI * 0.75, PI * 0.25, 16, Color("fff8cf"), 1.5, true)
 	if explored.has(Hex.key(selected_coord)):
 		var selected := _map_point(_point(selected_coord))
-		if terrain_rect.grow(-8).has_point(selected): draw_arc(selected, 7, 0, TAU, 20, Color.WHITE, 1.4, true)
+		if terrain_rect.grow(-8).has_point(selected): canvas.draw_arc(selected, 7, 0, TAU, 20, Color.WHITE, 1.4, true)
 	var font := get_theme_default_font()
-	draw_string(font, Vector2(12, 18) * ui_scale, "전체 지도 · 탐색한 지역" if full_map else "미니맵", HORIZONTAL_ALIGNMENT_LEFT, size.x - 24, roundi((15 if full_map else 12) * ui_scale), Color("d5eee9"))
+	canvas.draw_string(font, Vector2(12, 18) * ui_scale, "전체 지도 · 탐색한 지역" if full_map else "미니맵", HORIZONTAL_ALIGNMENT_LEFT, size.x - 24, roundi((15 if full_map else 12) * ui_scale), Color("d5eee9"))
 	if not full_map:
-		draw_string(font, Vector2(12 * ui_scale, size.y - 10 * ui_scale), "더블클릭 · 전체 지도", HORIZONTAL_ALIGNMENT_LEFT, size.x - 24, roundi(11 * ui_scale), Color("d7d8c2"))
+		canvas.draw_string(font, Vector2(12 * ui_scale, size.y - 10 * ui_scale), "더블클릭 · 전체 지도", HORIZONTAL_ALIGNMENT_LEFT, size.x - 24, roundi(11 * ui_scale), Color("d7d8c2"))
 		return
 	# Each legend entry uses the exact marker colour drawn on the map.
 	var font_size := roundi(14 * ui_scale)
@@ -177,9 +225,9 @@ func _draw() -> void:
 	var x := 14.0 * ui_scale
 	for entry in [[SQUAD_COLOR, "부대"], [TREASURE_COLOR, "보물"], [ENEMY_COLOR, "적"], [RELAY_COLOR, "중계기"], [LANDMARK_COLOR, "명소"]]:
 		var dot := Vector2(x + 6 * ui_scale, baseline - font_size * 0.35)
-		draw_circle(dot, 6.5 * ui_scale, UNKNOWN)
-		draw_circle(dot, 4.8 * ui_scale, entry[0])
+		canvas.draw_circle(dot, 6.5 * ui_scale, UNKNOWN)
+		canvas.draw_circle(dot, 4.8 * ui_scale, entry[0])
 		x += 16 * ui_scale
-		draw_string(font, Vector2(x, baseline), str(entry[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color("e6e4cf"))
+		canvas.draw_string(font, Vector2(x, baseline), str(entry[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color("e6e4cf"))
 		x += font.get_string_size(str(entry[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x + 18 * ui_scale
-	draw_string(font, Vector2(x + 6 * ui_scale, baseline), "어두운 칸: 지나갈 수 없는 지형", HORIZONTAL_ALIGNMENT_LEFT, maxf(0.0, size.x - x - 20 * ui_scale), font_size, Color("aab3a8"))
+	canvas.draw_string(font, Vector2(x + 6 * ui_scale, baseline), "어두운 칸: 지나갈 수 없는 지형", HORIZONTAL_ALIGNMENT_LEFT, maxf(0.0, size.x - x - 20 * ui_scale), font_size, Color("aab3a8"))

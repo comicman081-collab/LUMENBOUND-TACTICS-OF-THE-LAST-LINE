@@ -15,6 +15,8 @@ const HitFeedback := preload("res://battle/view/combat_hit_feedback.gd")
 const RegionFloor := preload("res://battle/view/battle_region_floor.gd")
 const SoftSprites := preload("res://battle/view/battle_soft_sprites.gd")
 const MeshKit := preload("res://battle/view/battle_mesh_kit.gd")
+const CachedDraw := preload("res://battle/view/battle_cached_draw.gd")
+const WaveTransition := preload("res://battle/view/battle_wave_transition.gd")
 
 signal battle_finished(result: Dictionary)
 ## Emitted once every asset required for this battle is attached, whether the
@@ -66,11 +68,30 @@ var _draw_memo_active := false
 var _pose_memo: Dictionary = {}
 var _pose_memo_down: Dictionary = {}
 var _scale_memo: Dictionary = {}
+## Camera and actor anchors are invariant during one draw pass. A single attack
+## used to recompute camera trigonometry and melee travel for its shadow, body,
+## health bar, projectile and damage number separately.
+var _position_memo: Dictionary = {}
+var _ground_memo: Dictionary = {}
+var _action_sample_memo: Dictionary = {}
+var _actor_memo: Dictionary = {}
+var _frame_memo: Dictionary = {}
+var _frame_memo_down: Dictionary = {}
+var _draw_zoom := 1.0
+var _draw_offset := Vector2.ZERO
 ## Footing rings queued by _draw_contact_shadow, drawn together afterwards.
 var _footing_rings: Array = []
 ## The tactical grid lattice, tessellated once per view size (see _grid_lattice).
 var _grid_mesh: ArrayMesh = null
 var _grid_mesh_size := Vector2.ZERO
+var _cell_mesh_size := Vector2.ZERO
+var _cell_meshes: Dictionary = {}
+var _cell_bracket_meshes: Dictionary = {}
+var _contact_divider_mesh: ArrayMesh = null
+var _boss_floor_mesh: ArrayMesh = null
+var _boss_floor_mesh_size := Vector2.ZERO
+var _ellipse_mesh: ArrayMesh = null
+var _readout_style: StyleBoxFlat = null
 var sprite_library := BattleSpriteLibrary.new()
 var action_frames := ActionFrames.new()
 var sprite_pack_ready := false
@@ -117,6 +138,10 @@ var boss_entry_uids: Array[String] = []
 var boss_entry_name := ""
 var boss_entry_from_arena := false
 var boss_victory_elapsed := -1.0
+var wave_entry_wave := 1
+var wave_entry_elapsed := -1.0
+var wave_entry_enemy_uid := ""
+var wave_entry_ally_uid := ""
 # Field direction (phase 3). The host turns the boss aftermath on; tests and tools keep
 # the default so a battle still ends without waiting for a tap.
 var field_aftermath_enabled := false
@@ -126,7 +151,7 @@ var field_overlay: Control
 var field_poses: Dictionary = {}
 var field_zoom := 1.0
 var field_offset := Vector2.ZERO
-const BOSS_ENTRY_DURATION := 3.8
+const BOSS_ENTRY_DURATION := WaveTransition.BOSS_DURATION
 const BOSS_VICTORY_DURATION := 1.8
 var battle_font: Font
 var ultimate_portraits: Dictionary = {}
@@ -1115,6 +1140,10 @@ func setup(value: BattleSimulation) -> void:
 	boss_entry_wave = -1
 	boss_entry_elapsed = -1.0
 	boss_victory_elapsed = -1.0
+	wave_entry_wave = simulation.state.wave
+	wave_entry_elapsed = -1.0
+	wave_entry_enemy_uid = ""
+	wave_entry_ally_uid = ""
 	_reset_field_direction()
 	boss_entry_uids.clear()
 	accumulator = 0.0
@@ -1149,6 +1178,7 @@ func skip_to_result() -> bool:
 		skip_in_progress = false
 		return false
 	boss_entry_elapsed = -1.0
+	wave_entry_elapsed = -1.0
 	boss_victory_elapsed = -1.0
 	_reset_field_direction()
 	field_aftermath_state = "done"
@@ -1183,12 +1213,22 @@ func _process(delta: float) -> void:
 		hit_flash_frames[flash_uid] = int(hit_flash_frames[flash_uid]) - 1
 		if int(hit_flash_frames[flash_uid]) <= 0: hit_flash_frames.erase(flash_uid)
 	if deployment_active: start_band_armed = true
-	if assets_ready: _detect_boss_entrance()
-	if boss_entry_elapsed >= 0.0:
+	if assets_ready: _detect_wave_entrance()
+	if _wave_scene_elapsed() >= 0.0:
 		if not paused:
-			boss_entry_elapsed += delta
+			if boss_entry_elapsed >= 0.0:
+				boss_entry_elapsed += delta
+			else:
+				wave_entry_elapsed += delta
 			_advance_defeat_presentations(delta)
-			if boss_entry_elapsed >= BOSS_ENTRY_DURATION: boss_entry_elapsed = -1.0
+			_advance_animations(delta)
+			var elapsed := _wave_scene_elapsed()
+			for unit in simulation.state.enemies:
+				var uid := str(unit.uid)
+				animation_tracks[uid].name = "move" if elapsed < 1.90 and not boss_entry_uids.has(uid) else "idle"
+			if elapsed >= WaveTransition.duration(boss_entry_elapsed >= 0.0):
+				boss_entry_elapsed = -1.0
+				wave_entry_elapsed = -1.0
 		accumulator = 0.0
 		queue_redraw()
 		return
@@ -1200,7 +1240,7 @@ func _process(delta: float) -> void:
 			emitted_finish = true
 			battle_finished.emit(simulation.result_snapshot())
 		return
-	if not paused and not deployment_active and not tactical_hold and not simulation.state.ended and opening_elapsed >= .85 and not presentation_director.is_active() and not _waiting_for_boss_contact() and not start_band_holding():
+	if not paused and not deployment_active and not tactical_hold and not simulation.state.ended and opening_elapsed >= .85 and not presentation_director.is_active() and not _waiting_for_wave_contact() and not start_band_holding():
 		accumulator += delta * speed
 		var safety := 0
 		while accumulator >= BattleSimulation.TICK_DELTA and safety < 30:
@@ -1208,13 +1248,13 @@ func _process(delta: float) -> void:
 			_consume_events()
 			accumulator -= BattleSimulation.TICK_DELTA
 			safety += 1
-			# Stop on the spawn tick, including 3x/slow-frame catch-up. The new
-			# boss cannot attack invisibly while its entrance owns the screen.
-			if assets_ready and _detect_boss_entrance():
+			# Stop on every spawn tick, including 3x/slow-frame catch-up. Incoming
+			# enemies cannot attack before the camera releases their entrance.
+			if assets_ready and _detect_wave_entrance():
 				accumulator = 0.0
 				queue_redraw()
 				return
-			if presentation_director.is_active() or _waiting_for_boss_contact():
+			if presentation_director.is_active() or _waiting_for_wave_contact():
 				accumulator = 0.0
 				break
 	var presentation_delta := 0.0
@@ -1285,7 +1325,43 @@ func start_band_holding() -> bool:
 	return start_band_armed and wave_banner_title == START_BAND_TITLE and wave_banner_left > WAVE_BANNER_DURATION - START_BAND_HOLD
 
 func scene_transition_active() -> bool:
-	return boss_entry_elapsed >= 0.0 or boss_victory_elapsed >= 0.0 or finale_elapsed >= 0.0 or field_aftermath_state == "playing"
+	return _wave_scene_elapsed() >= 0.0 or boss_victory_elapsed >= 0.0 or finale_elapsed >= 0.0 or field_aftermath_state == "playing"
+
+func _wave_scene_elapsed() -> float:
+	return boss_entry_elapsed if boss_entry_elapsed >= 0.0 else wave_entry_elapsed
+
+func _detect_wave_entrance() -> bool:
+	if simulation == null or simulation.state.ended or _wave_scene_elapsed() >= 0.0: return false
+	if not contact_events.is_empty() or presentation_director.is_active() or consumed_events < simulation.event_log.size(): return false
+	if simulation.has_boss(): return _detect_boss_entrance()
+	if simulation.state.wave <= wave_entry_wave or not contact_events.is_empty() or presentation_director.is_active(): return false
+	# Finish every preceding contact/cut-in before changing the camera. The
+	# simulation stops on the spawn tick while this presentation queue drains.
+	if consumed_events < simulation.event_log.size(): return false
+	wave_entry_wave = simulation.state.wave
+	wave_entry_elapsed = 0.0
+	_prepare_wave_entrance()
+	return true
+
+func _prepare_wave_entrance() -> void:
+	wave_banner_left = 0.0
+	combat_readout = ""
+	combat_readout_left = 0.0
+	_clear_active_presentation_effects()
+	_snapshot_display_units_from_simulation()
+	wave_entry_enemy_uid = ""
+	wave_entry_ally_uid = ""
+	for unit in simulation.state.enemies:
+		if not UnitState.alive(unit): continue
+		if wave_entry_enemy_uid.is_empty() or str(unit.rank) == "BOSS": wave_entry_enemy_uid = str(unit.uid)
+	for unit in simulation.state.party:
+		if UnitState.alive(unit):
+			wave_entry_ally_uid = str(unit.uid)
+			break
+	for unit in simulation.state.party + simulation.state.enemies:
+		animation_tracks[unit.uid] = {"name": "idle" if UnitState.alive(unit) else "down", "elapsed": 0.0}
+		entry_tracks[unit.uid] = 1.0
+	_request_signature_residency_rollover()
 
 func _detect_boss_entrance() -> bool:
 	if not contact_events.is_empty(): return false
@@ -1297,6 +1373,7 @@ func _detect_boss_entrance() -> bool:
 	boss_arena_active = true
 	boss_entry_elapsed = 0.0
 	boss_entry_name = unit_display_name(bosses[0])
+	wave_entry_wave = simulation.state.wave
 	combat_readout = ""
 	combat_readout_left = 0.0
 	boss_entry_uids.clear()
@@ -1310,16 +1387,22 @@ func _detect_boss_entrance() -> bool:
 		var event: Dictionary = simulation.event_log[event_index]
 		if str(event.get("type", "")) == BattleEvent.DOWN:
 			_start_defeat_presentation(str(event.get("target", "")))
-	_clear_active_presentation_effects()
-	_snapshot_display_units_from_simulation()
+	_prepare_wave_entrance()
 	consumed_events = simulation.event_log.size()
 	presentation_read_cursor = consumed_events
 	presented_cursor = consumed_events
-	for unit in simulation.state.party + simulation.state.enemies:
-		animation_tracks[unit.uid] = {"name": "idle" if UnitState.alive(unit) else "down", "elapsed": 0.0}
-		entry_tracks[unit.uid] = 1.0
-	_request_signature_residency_rollover()
 	return true
+
+func wave_scene_snapshot() -> Dictionary:
+	var elapsed := _wave_scene_elapsed()
+	var boss := boss_entry_elapsed >= 0.0
+	var beat := WaveTransition.sample(elapsed, boss) if elapsed >= 0.0 else {}
+	return {"wave": wave_entry_wave, "active": elapsed >= 0.0, "elapsed": elapsed,
+		"phase": str(beat.get("phase", "idle")), "boss": boss, "duration": WaveTransition.duration(boss),
+		"enemy_uid": wave_entry_enemy_uid, "ally_uid": wave_entry_ally_uid,
+		"camera_zoom": _compute_battlefield_camera_zoom(), "mask": float(beat.get("mask", 0.0)),
+		"enemy_caption": float(beat.get("enemy_caption", 0.0)), "ally_caption": float(beat.get("ally_caption", 0.0)),
+		"banner": float(beat.get("banner", 0.0)), "combat_held": scene_transition_active()}
 
 func boss_scene_snapshot() -> Dictionary:
 	return {"arena": boss_arena_active, "entry_wave": boss_entry_wave, "entry_elapsed": boss_entry_elapsed,
@@ -1329,34 +1412,88 @@ func boss_scene_snapshot() -> Dictionary:
 func _boss_background_mix() -> float:
 	if not boss_arena_active: return 0.0
 	if boss_entry_elapsed < 0.0 or boss_entry_from_arena: return 1.0
-	return smoothstep(.30, 1.45, boss_entry_elapsed)
+	# Crossfade the environment entirely inside the opaque aperture, then reveal
+	# the boss's descent. The arena stays owned after the boss falls.
+	return smoothstep(.85, 1.0, boss_entry_elapsed)
 
 func _draw_boss_scene() -> void:
-	if boss_entry_elapsed < 0.0 and boss_victory_elapsed < 0.0: return
-	var t := boss_entry_elapsed
-	var ending := boss_victory_elapsed >= 0.0
-	var visibility := minf(smoothstep(0.0, .3, t), 1.0 - smoothstep(3.25, BOSS_ENTRY_DURATION, t)) if not ending else 1.0
-	var band := size.y * .105 * visibility
+	if _wave_scene_elapsed() >= 0.0:
+		_draw_wave_scene()
+		return
+	if boss_victory_elapsed < 0.0: return
+	var band := size.y * .105
 	draw_rect(Rect2(0, 0, size.x, band), Color(.008, .018, .03, .94))
 	draw_rect(Rect2(0, size.y - band, size.x, band), Color(.008, .018, .03, .94))
-	if not ending:
-		# A brief dark aperture masks the environmental cut; the boss descends
-		# only after the chamber is visible. No music restart is issued here.
-		var aperture := sin(clampf(t / 1.4, 0.0, 1.0) * PI) * .62
-		draw_rect(Rect2(Vector2.ZERO, size), Color(.01, .025, .045, aperture))
-		if t >= 1.95 and t < 2.65:
-			var landing := (t - 1.95) / .70
-			var center := _battlefield_point(Grounding.cell_point(4, 1) * size)
-			_draw_ellipse_polygon(center, Vector2(size.x * (.025 + .13 * landing), size.y * .025), Color(.46, .87, 1, (1.0 - landing) * .48))
-		_draw_boss_encounter_band(t)
-		var font := battle_font if battle_font != null else ThemeDB.fallback_font
-		var css_scale := _damage_screen_scale()
-		var caption_size := roundi(clampf(size.x * css_scale * .018, 13.0, 22.0) / css_scale)
-		var caption := "상공에서 거대한 반응이 내려옵니다. 전원, 전투 대형 유지!" if size.x >= size.y else "거대 반응 접근. 전투 대형 유지!"
-		var text_alpha := smoothstep(.85, 1.2, t) * visibility
-		draw_string(font, Vector2(size.x * .05, size.y - band * .33), caption, HORIZONTAL_ALIGNMENT_CENTER, size.x * .9, caption_size, Color(.89, .96, 1, text_alpha))
-		return
 	_draw_finale_card(boss_victory_elapsed, BOSS_VICTORY_DURATION, "위협 제거", "작전 완료", "적의 신호가 소멸했습니다" if size.x >= size.y else "다음 노선 확보")
+
+func _draw_wave_scene() -> void:
+	var t := _wave_scene_elapsed()
+	var boss := boss_entry_elapsed >= 0.0
+	var beat := WaveTransition.sample(t, boss)
+	var visibility := float(beat.visibility)
+	# The shell has a 24px safe margin around BattleView. Extend the cinematic
+	# matte through that margin; otherwise strips of the lobby leak around it.
+	var canvas := get_global_transform_with_canvas().affine_inverse() * get_viewport_rect()
+	var ink := Color(.006, .010, .02, visibility)
+	var bar_height := canvas.size.y * .11 * visibility
+	draw_rect(Rect2(canvas.position, Vector2(canvas.size.x, bar_height)), ink)
+	draw_rect(Rect2(Vector2(canvas.position.x, canvas.end.y - bar_height), Vector2(canvas.size.x, bar_height)), ink)
+	if canvas.position.x < 0:
+		draw_rect(Rect2(canvas.position, Vector2(-canvas.position.x, canvas.size.y)), ink)
+	if canvas.end.x > size.x:
+		draw_rect(Rect2(Vector2(size.x, canvas.position.y), Vector2(canvas.end.x - size.x, canvas.size.y)), ink)
+	if boss and t >= 1.95 and t < 2.65:
+		var landing := (t - 1.95) / .70
+		var enemy := _actor_model(wave_entry_enemy_uid)
+		var center := _unit_pos(enemy)
+		_draw_ellipse_polygon(center, Vector2(size.x * (.025 + .13 * landing), size.y * .025), Color(.46, .87, 1, (1.0 - landing) * .48))
+	var enemy_line := "새로운 적 무리가 전방을 봉쇄합니다."
+	if boss: enemy_line = "거대 신호가 내려옵니다. 노선 전체가 흔들립니다."
+	_draw_wave_dialogue(wave_entry_enemy_uid, "거대 신호 접근" if boss else "적 증원 확인", enemy_line, float(beat.enemy_caption), true)
+	_draw_wave_dialogue(wave_entry_ally_uid, unit_display_name(_actor_model(wave_entry_ally_uid)),
+		"전열 유지. 저 반응을 끊고 길을 열자!" if boss else "아직 끝나지 않았어. 다음 무리도 함께 돌파하자!", float(beat.ally_caption), false)
+	var alpha := float(beat.banner)
+	if alpha > 0.0:
+		var font := battle_font if battle_font != null else ThemeDB.fallback_font
+		var accent := Color("ff806f") if boss else Color("72e4d0")
+		var strip := Rect2(0, size.y * .73, size.x, size.y * .14)
+		Ornament.quad(self, strip.position, Vector2(size.x, strip.position.y), strip.end, Vector2(0, strip.end.y),
+			Color(.20 if boss else .025, .035, .045, .96 * alpha), Color(.08, .025, .04, .92 * alpha),
+			Color(.08, .025, .04, .92 * alpha), Color(.20 if boss else .025, .035, .045, .96 * alpha))
+		draw_rect(Rect2(strip.position, Vector2(size.x, 2)), Ornament.tint(accent, alpha))
+		draw_rect(Rect2(Vector2(0, strip.end.y - 2), Vector2(size.x, 2)), Ornament.tint(accent, alpha))
+		var title := boss_entry_name if boss else "WAVE %d / %d · 적 증원" % [simulation.state.wave, simulation.state.wave_count]
+		var css := _damage_screen_scale()
+		var title_size := _fit_font_size(font, title, roundi(clampf(36.0 / css, 36, 76)), size.x * .88)
+		Ornament.centered_text(self, font, Vector2(size.x * .5, strip.position.y + strip.size.y * .65), title, title_size, Color(1, .94, .84, alpha), 3, Color(.02, .01, .02, alpha))
+		Ornament.centered_text(self, font, Vector2(size.x * .5, strip.position.y + strip.size.y * .25),
+			"BOSS ENCOUNTER" if boss else "NEXT ENCOUNTER", roundi(clampf(15.0 / css, 15, 32)), Ornament.tint(accent, alpha))
+	# Draw last: the environment and incoming bodies are never revealed across
+	# an uncovered cut. Music continues on its existing stream throughout.
+	if float(beat.mask) > 0.0:
+		draw_rect(canvas, Color(.006, .010, .02, float(beat.mask)))
+
+func _draw_wave_dialogue(uid: String, speaker: String, line: String, alpha: float, enemy: bool) -> void:
+	if alpha <= 0.0 or uid.is_empty(): return
+	var unit := _actor_model(uid)
+	if unit.is_empty(): return
+	var font := battle_font if battle_font != null else ThemeDB.fallback_font
+	var css := _damage_screen_scale()
+	var font_size := _fit_font_size(font, line, roundi(clampf(24.0 / css, 24, 54)), size.x * .80 - 48)
+	var name_size := maxi(18, roundi(font_size * .68))
+	var width := minf(size.x * .84, float(Ornament.text_metrics(font, line, font_size).width) + 52.0)
+	var height := font_size * 1.65 + name_size + 20.0
+	var head := _head_position(unit, _ground_position(unit))
+	var left := clampf(head.x - width * .5, size.x * .06, size.x * .94 - width)
+	var top := clampf(head.y - height - 26.0, size.y * .12, size.y * .54)
+	var rect := Rect2(left, top, width, height)
+	var accent := Color("ff927e") if enemy else Color("72e4d0")
+	draw_rect(rect, Color(.09 if enemy else .018, .035, .05, .94 * alpha))
+	_outline_rect(rect, Ornament.tint(accent, .8 * alpha), 1.5)
+	CachedDraw.fill(self, PackedVector2Array([Vector2(clampf(head.x, left + 18, rect.end.x - 18) - 9, rect.end.y),
+		Vector2(clampf(head.x, left + 18, rect.end.x - 18) + 9, rect.end.y), Vector2(clampf(head.x, left + 18, rect.end.x - 18), rect.end.y + 12)]), Ornament.tint(accent, .8 * alpha))
+	draw_string(font, rect.position + Vector2(24, name_size + 10), speaker, HORIZONTAL_ALIGNMENT_LEFT, width - 48, name_size, Ornament.tint(accent, alpha))
+	draw_string(font, rect.position + Vector2(24, height - font_size * .35), line, HORIZONTAL_ALIGNMENT_LEFT, width - 48, font_size, Color(.98, .98, .94, alpha))
 
 func _consume_events() -> void:
 	if simulation == null or presentation_director.is_active():
@@ -2290,14 +2427,25 @@ func _region_clock() -> float:
 	return float(Time.get_ticks_msec()) / 1000.0
 
 func _battlefield_transform() -> Transform2D:
-	return RegionFloor.battlefield_transform(size, _battlefield_camera_zoom(), presentation_director.battlefield_offset() + field_offset)
+	return RegionFloor.battlefield_transform(size, _battlefield_camera_zoom(), _battlefield_offset())
 
-func _draw() -> void:
+func _begin_draw_memos() -> void:
 	_pose_memo.clear()
 	_pose_memo_down.clear()
 	_scale_memo.clear()
+	_position_memo.clear()
+	_ground_memo.clear()
+	_action_sample_memo.clear()
+	_actor_memo.clear()
+	_frame_memo.clear()
+	_frame_memo_down.clear()
 	_footing_rings.clear()
+	_draw_zoom = _compute_battlefield_camera_zoom()
+	_draw_offset = _compute_battlefield_offset()
 	_draw_memo_active = true
+
+func _draw() -> void:
+	_begin_draw_memos()
 	_draw_scene()
 	_draw_memo_active = false
 
@@ -2325,6 +2473,10 @@ func _draw_scene() -> void:
 	var visible_units: Array = []
 	var current_ids: Dictionary = {}
 	for unit in simulation.state.party + simulation.state.enemies:
+		# A spawn is authoritative immediately, but its body waits for the
+		# aperture. Otherwise it pops into the old wave's last impact frame.
+		if str(unit.team) == "ENEMY" and UnitState.alive(unit) and _waiting_for_wave_contact(): continue
+		if str(unit.team) == "ENEMY" and _wave_scene_elapsed() >= 0.0 and _wave_scene_elapsed() < 1.0: continue
 		visible_units.append(_presentation_unit(unit))
 		current_ids[str(unit.uid)] = true
 	for uid in presentation_actor_records:
@@ -2411,7 +2563,7 @@ func _draw_scene() -> void:
 			var projectile_tint := signature_profile_tint if signature_projectile != null else Color.WHITE
 			draw_texture_rect(texture, Rect2(position - projectile_size * .5, projectile_size), false, projectile_tint)
 		else:
-			draw_circle(position, 8, Color("fff3a6") if source.team == "PLAYER" else Color("ff8c8c"))
+			CachedDraw.disc(self, position, 8, Color("fff3a6") if source.team == "PLAYER" else Color("ff8c8c"))
 	for presentation in vfx_presentations:
 		var source := _actor_model(str(presentation.source))
 		var target := _actor_model(str(presentation.get("target", "")))
@@ -2603,7 +2755,7 @@ func _draw_damage_number_badge(style: String, metrics: Dictionary, ink: Color, a
 	elif style == "heal":
 		var glow := .30 * alpha * (1.0 - clampf(age / .7, 0.0, 1.0))
 		if glow > 0.0:
-			draw_circle(centre, width * .5 + ascent * .5, Color(.46, .92, .66, glow))
+			CachedDraw.disc(self, centre, width * .5 + ascent * .5, Color(.46, .92, .66, glow))
 		var arm := ascent * .30
 		var thick := maxf(2.0, ascent * .13)
 		var cross := Vector2(-width * .5 - ascent * .46, centre.y)
@@ -2640,8 +2792,8 @@ func _draw_compact_ultimate_pulse(source: Dictionary, cinematic: Dictionary, vis
 	var pulse := sin(progress * PI) * 8.0
 	var radius := clampf(minf(size.x, size.y) * .105 + pulse, 38.0, 54.0)
 	draw_rect(Rect2(Vector2.ZERO, size), Color(.005, .015, .04, .16 * visibility), true)
-	draw_circle(focus, radius * 1.72, Color(accent.r, accent.g, accent.b, .055 * visibility))
-	draw_circle(focus, radius * 1.16, Color(.015, .035, .075, .18 * visibility))
+	CachedDraw.disc(self, focus, radius * 1.72, Color(accent.r, accent.g, accent.b, .055 * visibility))
+	CachedDraw.disc(self, focus, radius * 1.16, Color(.015, .035, .075, .18 * visibility))
 	draw_arc(focus, radius, -PI * .5, -PI * .5 + TAU * (.32 + .68 * progress), 36, Color(accent.r, accent.g, accent.b, .94 * visibility), 2.8, true)
 	draw_arc(focus, radius * .72, PI * .18, PI * 1.42, 24, Color(1.0, 1.0, 1.0, .60 * visibility), 1.2, true)
 	for ray_index in range(4):
@@ -2683,7 +2835,7 @@ func _draw_boss_phase_presentation(presentation: Dictionary) -> void:
 	if not boss.is_empty():
 		var boss_position := _unit_pos(boss) + _entry_offset(boss) + Vector2(0, -92)
 		var pulse := 56.0 + 34.0 * sin(clampf(progress / .44, 0.0, 1.0) * PI)
-		draw_circle(boss_position, pulse, Color(accent.r, accent.g, accent.b, .10 * visibility))
+		CachedDraw.disc(self, boss_position, pulse, Color(accent.r, accent.g, accent.b, .10 * visibility))
 		draw_arc(boss_position, pulse, -progress * TAU, TAU - progress * TAU, 36, Color(accent.r, accent.g, accent.b, .82 * visibility), 4.0, true)
 
 func _draw_runtime_skill_vfx(position: Vector2, source: Dictionary, kind: String, progress: float) -> void:
@@ -2695,7 +2847,7 @@ func _draw_runtime_skill_vfx(position: Vector2, source: Dictionary, kind: String
 		# Endpoint: shock disk, starburst debris and a crisp white core. This is
 		# delayed to the visible projectile arrival instead of being a caster ring.
 		var impact_radius := (56.0 if ultimate else 38.0) * (0.55 + impact * .65)
-		draw_circle(position, impact_radius, Color(color.r, color.g, color.b, .22 * fade))
+		CachedDraw.disc(self, position, impact_radius, Color(color.r, color.g, color.b, .22 * fade))
 		draw_arc(position, impact_radius, -progress * 2.6, TAU - progress * 2.6, 32, Color(color.r, color.g, color.b, .92 * fade), 4.0 if ultimate else 2.8, true)
 		draw_arc(position, impact_radius * .56, progress * 4.1, TAU + progress * 4.1, 24, Color(1.0, .98, .84, .86 * fade), 2.0, true)
 		var shards := 12 if ultimate else 8
@@ -2704,11 +2856,11 @@ func _draw_runtime_skill_vfx(position: Vector2, source: Dictionary, kind: String
 			var origin := position + Vector2(cos(angle), sin(angle)) * impact_radius * .18
 			var tip := position + Vector2(cos(angle), sin(angle)) * impact_radius * (1.08 + progress * .38)
 			draw_line(origin, tip, Color(color.r, color.g, color.b, .86 * fade), 3.0 if ultimate else 2.0, true)
-		draw_circle(position, 9.0 + impact * 10.0, Color(1.0, 1.0, 1.0, .90 * fade))
+		CachedDraw.disc(self, position, 9.0 + impact * 10.0, Color(1.0, 1.0, 1.0, .90 * fade))
 		return
 	if kind == "heal":
 		var heal_radius := 30.0 + impact * 24.0
-		draw_circle(position, heal_radius, Color(.32, 1.0, .72, .16 * fade))
+		CachedDraw.disc(self, position, heal_radius, Color(.32, 1.0, .72, .16 * fade))
 		draw_arc(position, heal_radius, -progress * TAU, TAU - progress * TAU, 28, Color(.48, 1.0, .76, .92 * fade), 3.2, true)
 		draw_line(position + Vector2(-heal_radius * .38, 0), position + Vector2(heal_radius * .38, 0), Color(1, 1, 1, .94 * fade), 4.0, true)
 		draw_line(position + Vector2(0, -heal_radius * .38), position + Vector2(0, heal_radius * .38), Color(1, 1, 1, .94 * fade), 4.0, true)
@@ -2726,7 +2878,7 @@ func _draw_runtime_skill_vfx(position: Vector2, source: Dictionary, kind: String
 	var radius := 30.0 + 22.0 * impact + (20.0 if ultimate else 0.0)
 	var glow := Color(color.r, color.g, color.b, (.26 if ultimate else .19) * fade)
 	var core := Color(color.r, color.g, color.b, .92 * fade)
-	draw_circle(position + Vector2(0, 18), radius * .84, glow)
+	CachedDraw.disc(self, position + Vector2(0, 18), radius * .84, glow)
 	draw_arc(position, radius, 0.0, TAU, 32, core, 4.4 if ultimate else 3.0, true)
 	draw_arc(position, radius * .60, -progress * TAU * 1.6, TAU - progress * TAU * 1.6, 20, Color(.94, 1.0, 1.0, .80 * fade), 1.8, true)
 	var spokes := 12 if ultimate else 8
@@ -2785,7 +2937,7 @@ func _draw_vfx_signature_accent(position: Vector2, kind: String, progress: float
 				for index in range(6):
 					var ember_angle := float(index) * TAU / 6.0 + progress * 3.0
 					var ember := position + Vector2(cos(ember_angle), sin(ember_angle)) * radius * (.72 + .16 * sin(progress * 9.0 + index))
-					draw_circle(ember, 3.2, secondary)
+					CachedDraw.disc(self, ember, 3.2, secondary)
 		"tracer", "lightning", "glass_tracer", "reverse_arc", "orbital_scan", "broadcast_glitch", "broadcast_tear":
 			if shape != "lightning":
 				draw_arc(position, radius * .48, 0.0, TAU, 24, secondary, 1.8, true)
@@ -2809,14 +2961,14 @@ func _draw_vfx_signature_accent(position: Vector2, kind: String, progress: float
 					var impact_angle := -2.3 + float(index) * 1.15
 					var impact := position + Vector2(cos(impact_angle), sin(impact_angle)) * radius * .92
 					draw_line(position + Vector2(0, radius * .22), impact, primary, 1.7, true)
-					draw_circle(impact, 3.0, secondary)
+					CachedDraw.disc(self, impact, 3.0, secondary)
 		"distort", "dust", "void":
 			for index in range(3):
 				var local_radius := radius * (.42 + float(index) * .22)
 				var angle := progress * TAU * (1.6 if shape != "void" else -2.3) + index * 1.2
 				draw_arc(position, local_radius, angle, angle + PI * 1.45, 22, primary if index != 1 else secondary, 2.6, true)
 			if shape == "void":
-				draw_circle(position, radius * .24, Color(.04, .06, .14, .44 * fade))
+				CachedDraw.disc(self, position, radius * .24, Color(.04, .06, .14, .44 * fade))
 		"implode":
 			# BOSS001, Void Engine: particles are drawn inward until the peak,
 			# then the same rays reverse into a compact rupture.  This is visibly
@@ -2831,9 +2983,9 @@ func _draw_vfx_signature_accent(position: Vector2, kind: String, progress: float
 				var inner_point := position + Vector2(cos(implode_angle + .20), sin(implode_angle + .20)) * inner_radius
 				draw_line(outer_point, inner_point, primary if index % 2 == 0 else secondary, 3.2, true)
 			draw_arc(position, radius * (1.08 - implode_phase * .72 + rupture_phase * .44), -progress * 7.0, TAU - progress * 7.0, 32, secondary, 3.4, true)
-			draw_circle(position, radius * (.12 + rupture_phase * .20), Color(.025, .04, .11, .78 * fade))
+			CachedDraw.disc(self, position, radius * (.12 + rupture_phase * .20), Color(.025, .04, .11, .78 * fade))
 			if rupture_phase > .12:
-				draw_circle(position, radius * (.10 + rupture_phase * .18), Color(1.0, 1.0, 1.0, .68 * fade))
+				CachedDraw.disc(self, position, radius * (.10 + rupture_phase * .18), Color(1.0, 1.0, 1.0, .68 * fade))
 		"resonance":
 			# BOSS002, Midnight Bell: the impact is three delayed ring pulses,
 			# intentionally leaving a brief readable gap before the largest ring.
@@ -2846,7 +2998,7 @@ func _draw_vfx_signature_accent(position: Vector2, kind: String, progress: float
 				var ring_alpha := (1.0 - ring_progress) * (.38 + float(index) * .16) * fade
 				draw_arc(position, ring_radius, PI * .12 + index * .28, TAU + PI * .12 + index * .28, 40, Color(primary.r, primary.g, primary.b, ring_alpha), 2.2 + index * 1.15, true)
 				draw_arc(position, ring_radius * .72, -ring_progress * TAU, TAU - ring_progress * TAU, 26, Color(secondary.r, secondary.g, secondary.b, ring_alpha * .82), 1.2, true)
-			draw_circle(position, radius * (.07 + peak * .12), Color(1.0, 1.0, 1.0, .68 * fade))
+			CachedDraw.disc(self, position, radius * (.07 + peak * .12), Color(1.0, 1.0, 1.0, .68 * fade))
 		"lockon":
 			# BOSS003, White Night Observer: narrow targeting axis, reticle lock,
 			# then a snapped wide beam.  Its linear grammar avoids ring reuse.
@@ -2860,7 +3012,7 @@ func _draw_vfx_signature_accent(position: Vector2, kind: String, progress: float
 				var corner_origin: Vector2 = position + corner * reticle * .50
 				draw_line(corner_origin, corner_origin - corner * reticle * (.24 + overload_phase * .14), primary, 3.0, true)
 			if overload_phase > .10:
-				draw_circle(position, radius * (.10 + overload_phase * .15), Color(1.0, 1.0, 1.0, .74 * fade))
+				CachedDraw.disc(self, position, radius * (.10 + overload_phase * .15), Color(1.0, 1.0, 1.0, .74 * fade))
 		"gate_reverse":
 			# BOSS004, Reverse Gatekeeper: paired plates close, counter-rotate and
 			# snap apart.  The panel geometry is unique to this boss.
@@ -2895,14 +3047,14 @@ func _draw_vfx_signature_accent(position: Vector2, kind: String, progress: float
 				var link_alpha := (.18 + form_phase * .58) * (1.0 - collapse_phase * .34) * fade
 				draw_line(node, next_node, Color(primary.r, primary.g, primary.b, link_alpha), 2.4, true)
 				draw_line(node, position, Color(secondary.r, secondary.g, secondary.b, link_alpha * .72), 1.7, true)
-				draw_circle(node, 4.0 + form_phase * 3.4, Color(secondary.r, secondary.g, secondary.b, .76 * fade))
-			draw_circle(position, radius * (.10 + form_phase * .18 - collapse_phase * .08), Color(primary.r, primary.g, primary.b, .34 * fade))
-			draw_circle(position, radius * (.05 + form_phase * .08), Color(1.0, 1.0, 1.0, .72 * fade))
+				CachedDraw.disc(self, node, 4.0 + form_phase * 3.4, Color(secondary.r, secondary.g, secondary.b, .76 * fade))
+			CachedDraw.disc(self, position, radius * (.10 + form_phase * .18 - collapse_phase * .08), Color(primary.r, primary.g, primary.b, .34 * fade))
+			CachedDraw.disc(self, position, radius * (.05 + form_phase * .08), Color(1.0, 1.0, 1.0, .72 * fade))
 		"heal", "barrier_mend":
 			for index in range(3):
 				var heal_y := position.y + radius * .32 - float(index) * radius * .25 - progress * radius * .24
 				draw_arc(Vector2(position.x, heal_y), radius * (.42 + index * .16), PI * .08, PI * .92, 20, primary, 2.7, true)
-			draw_circle(position, radius * .18, secondary)
+			CachedDraw.disc(self, position, radius * .18, secondary)
 		"heavy", "summon", "ward_gate":
 			var vertices := 5 if shape == "summon" else 4
 			var polygon := PackedVector2Array()
@@ -2954,22 +3106,37 @@ func _draw_connected_boss_floor(visibility := 1.0, grade := Color.WHITE) -> void
 	# Composite the existing scene-matched, high-resolution stone foreground
 	# in Canvas (no altered bitmap, download or texture allocation). The boss
 	# chamber remains behind it; the party gains a real full-width battle lane.
-	var bands := [.615, .665, .93, 1.02]
-	var source_rows := [.605, .645, .93, 1.0]
-	var colors := [Color(.63, .56, .44, 0), Color(.72, .64, .51, 1), Color(.65, .57, .45, 1), Color(.22, .25, .25, 1)]
-	for i in colors.size():
-		colors[i] = Color(colors[i].r * grade.r, colors[i].g * grade.g, colors[i].b * grade.b, colors[i].a * visibility)
-	for index in range(bands.size() - 1):
-		var top := float(bands[index])
-		var bottom := float(bands[index + 1])
-		var points := PackedVector2Array([
-			_battlefield_point(Vector2(0, size.y * top)), _battlefield_point(Vector2(size.x, size.y * top)),
-			_battlefield_point(Vector2(size.x, size.y * bottom)), _battlefield_point(Vector2(0, size.y * bottom))])
-		var uv := PackedVector2Array([Vector2(0, source_rows[index]), Vector2(1, source_rows[index]), Vector2(1, source_rows[index + 1]), Vector2(0, source_rows[index + 1])])
-		draw_polygon(points, PackedColorArray([colors[index], colors[index], colors[index + 1], colors[index + 1]]), uv, normal_background)
+	if _boss_floor_mesh == null or _boss_floor_mesh_size != size:
+		var bands := [.615, .665, .93, 1.02]
+		var source_rows := [.605, .645, .93, 1.0]
+		var colors := [Color(.63, .56, .44, 0), Color(.72, .64, .51, 1), Color(.65, .57, .45, 1), Color(.22, .25, .25, 1)]
+		var vertices := PackedVector2Array()
+		var uv := PackedVector2Array()
+		var vertex_colors := PackedColorArray()
+		var indices := PackedInt32Array()
+		for index in range(bands.size() - 1):
+			var base := vertices.size()
+			vertices.append_array(PackedVector2Array([Vector2(0, size.y * bands[index]), Vector2(size.x, size.y * bands[index]), Vector2(size.x, size.y * bands[index + 1]), Vector2(0, size.y * bands[index + 1])]))
+			uv.append_array(PackedVector2Array([Vector2(0, source_rows[index]), Vector2(1, source_rows[index]), Vector2(1, source_rows[index + 1]), Vector2(0, source_rows[index + 1])]))
+			vertex_colors.append_array(PackedColorArray([colors[index], colors[index], colors[index + 1], colors[index + 1]]))
+			indices.append_array(PackedInt32Array([base, base + 1, base + 2, base, base + 2, base + 3]))
+		var arrays := []
+		arrays.resize(Mesh.ARRAY_MAX)
+		arrays[Mesh.ARRAY_VERTEX] = vertices
+		arrays[Mesh.ARRAY_TEX_UV] = uv
+		arrays[Mesh.ARRAY_COLOR] = vertex_colors
+		arrays[Mesh.ARRAY_INDEX] = indices
+		_boss_floor_mesh = ArrayMesh.new()
+		_boss_floor_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+		_boss_floor_mesh_size = size
+	draw_mesh(_boss_floor_mesh, normal_background, _battlefield_pixel_transform(), Color(grade.r, grade.g, grade.b, visibility))
 
 func _ground_position(unit: Dictionary) -> Vector2:
-	return _unit_pos(unit) + _entry_offset(unit) + _actor_travel_offset(unit) + _field_pose_offset(unit)
+	var uid := str(unit.get("uid", ""))
+	if _draw_memo_active and not uid.is_empty() and _ground_memo.has(uid): return _ground_memo[uid]
+	var point := _unit_pos(unit) + _entry_offset(unit) + _actor_travel_offset(unit) + _field_pose_offset(unit)
+	if _draw_memo_active and not uid.is_empty(): _ground_memo[uid] = point
+	return point
 
 func _draw_contact_shadow(unit: Dictionary) -> void:
 	if boss_entry_elapsed >= 0.0 and boss_entry_uids.has(str(unit.uid)) and boss_entry_elapsed < 1.95: return
@@ -3050,19 +3217,19 @@ func _draw_unit(unit: Dictionary) -> void:
 	elif unit.rank == "BOSS":
 		# Bosses deploy on the right and visibly face screen-left. The forward
 		# sensor, jaw, and attack core all sit on the left side of the chassis.
-		draw_circle(p + Vector2(8, -48), 62, color)
+		CachedDraw.disc(self, p + Vector2(8, -48), 62, color)
 		draw_rect(Rect2(p + Vector2(-40, -35), Vector2(96, 70)), color.darkened(.15))
 		var boss_jaw := PackedVector2Array([p + Vector2(-62, -67), p + Vector2(-28, -81), p + Vector2(-30, -45), p + Vector2(-66, -48)])
 		draw_colored_polygon(boss_jaw, color.lightened(.08))
-		draw_circle(p + Vector2(-29, -65), 9, Color("ffdf6b"))
-		draw_circle(p + Vector2(-49, -57), 5, Color("ff7a70"))
+		CachedDraw.disc(self, p + Vector2(-29, -65), 9, Color("ffdf6b"))
+		CachedDraw.disc(self, p + Vector2(-49, -57), 5, Color("ff7a70"))
 	else:
 		_draw_nonhuman_enemy(p, color, str(unit.role), alive)
 
 ## Full-width wave banner: a gilt band sweeps open, the title punches in, then
 ## both fade. Timed in presentation seconds, so pause and speed are respected.
 func _draw_wave_banner() -> void:
-	if wave_banner_left <= 0.0 or wave_banner_title.is_empty() or deployment_active: return
+	if wave_banner_left <= 0.0 or wave_banner_title.is_empty() or deployment_active or _wave_scene_elapsed() >= 0.0 or _waiting_for_wave_contact(): return
 	var elapsed := WAVE_BANNER_DURATION - wave_banner_left
 	var open := smoothstep(0.0, .26, elapsed)
 	var fade := 1.0 - smoothstep(WAVE_BANNER_DURATION - .45, WAVE_BANNER_DURATION, elapsed)
@@ -3146,7 +3313,7 @@ func _draw_enemy_intents() -> void:
 			if target_view.is_empty(): continue
 			var target_head := _head_position(target_view, _ground_position(target_view))
 			draw_line(head, target_head, Color(1.0, .42, .36, .55), 2.0 * readout, true)
-			draw_circle(target_head + Vector2(0, -10.0 * readout), 5.0 * readout, Color(1.0, .42, .36, .85))
+			CachedDraw.disc(self, target_head + Vector2(0, -10.0 * readout), 5.0 * readout, Color(1.0, .42, .36, .85))
 
 ## Charge arc of the intent dial at `steps`/INTENT_ARC_STEPS of a turn, radius 8
 ## and stroke 3 (the dial's size at readout 1; the caller scales it). White, so the
@@ -3265,7 +3432,7 @@ func next_wave_silhouette_points(count: int) -> Array:
 	return points
 
 func _draw_next_wave_preview() -> void:
-	if deployment_active or simulation.state.ended or boss_entry_elapsed >= 0.0 or _boss_present(): return
+	if deployment_active or simulation.state.ended or scene_transition_active() or _waiting_for_wave_contact() or _boss_present(): return
 	var layout := next_wave_layout()
 	if layout.is_empty(): return
 	var fade := smoothstep(0.0, NEXT_WAVE_FADE, next_wave_age)
@@ -3345,6 +3512,7 @@ func _outline_rect(rect: Rect2, color: Color, width: float) -> void:
 	draw_rect(Rect2(rect.end.x - half, rect.position.y + half, width, rect.size.y - width), color)
 
 func _draw_unit_status(unit: Dictionary) -> void:
+	if _wave_scene_elapsed() >= 0.0: return
 	if boss_entry_elapsed >= 0.0 and str(unit.team) != "PLAYER" and boss_entry_elapsed < .95: return
 	var player: bool = str(unit.team) == "PLAYER"
 	var alive := UnitState.alive(unit)
@@ -3406,8 +3574,8 @@ func _draw_enemy_defeat_explosion(unit: Dictionary, p: Vector2, elapsed: float) 
 	var secondary := Color("c18cff") if boss else Color("ffd166")
 	# Layered flash, ring and shards keep the death readable without a temporary
 	# silhouette or an enemy-specific bitmap.
-	draw_circle(center, radius * .56, Color(primary.r, primary.g, primary.b, .16 * fade))
-	draw_circle(center, radius * .28, Color(1.0, .94, .72, .82 * fade))
+	CachedDraw.disc(self, center, radius * .56, Color(primary.r, primary.g, primary.b, .16 * fade))
+	CachedDraw.disc(self, center, radius * .28, Color(1.0, .94, .72, .82 * fade))
 	draw_arc(center, radius * .72, -PI, PI, 28, Color(primary.r, primary.g, primary.b, .88 * fade), 4.0 if boss else 3.0, true)
 	draw_arc(center, radius, -PI * .72, PI * .84, 28, Color(secondary.r, secondary.g, secondary.b, .64 * fade), 2.2, true)
 	for index in range(12 if boss else 9):
@@ -3416,7 +3584,7 @@ func _draw_enemy_defeat_explosion(unit: Dictionary, p: Vector2, elapsed: float) 
 		var outer := center + Vector2(cos(angle), sin(angle)) * (radius * (1.08 + .20 * sin(float(index))))
 		draw_line(inner, outer, Color(secondary.r, secondary.g, secondary.b, .86 * fade), 3.0 if boss else 2.2, true)
 		if index % 2 == 0:
-			draw_circle(outer, 3.0 if boss else 2.0, Color(primary.r, primary.g, primary.b, .78 * fade))
+			CachedDraw.disc(self, outer, 3.0 if boss else 2.0, Color(primary.r, primary.g, primary.b, .78 * fade))
 	# A dim floor ember remains briefly, then vanishes with the burst.
 	_draw_ellipse_polygon(p + Vector2(0, 1), Vector2(42.0 if boss else 28.0, 7.0), Color(secondary.r, secondary.g, secondary.b, .22 * fade))
 
@@ -3425,6 +3593,23 @@ func _draw_enemy_defeat_explosion(unit: Dictionary, p: Vector2, elapsed: float) 
 ## has no authored art. The rect scales linearly with `sprite_draw_scale`, so a
 ## caller drawing the same unit several times can resolve it once.
 func _combat_sprite_frame(unit: Dictionary, alive: bool) -> Dictionary:
+	var uid := str(unit.get("uid", ""))
+	var memo := _frame_memo if alive else _frame_memo_down
+	var frame: Dictionary
+	if _draw_memo_active and not uid.is_empty() and memo.has(uid):
+		frame = memo[uid]
+	else:
+		frame = _compute_combat_sprite_frame(unit, alive)
+		if _draw_memo_active and not uid.is_empty(): memo[uid] = frame
+	if frame.is_empty() or sprite_draw_scale == 1.0: return frame
+	# Companions and their fading copies share the authored frame. Only the
+	# rectangle varies; each copy keeps its own tint and live motion phase.
+	var scaled := frame.duplicate()
+	var rect: Rect2 = frame.rect
+	scaled.rect = Rect2(rect.position * sprite_draw_scale, rect.size * sprite_draw_scale)
+	return scaled
+
+func _compute_combat_sprite_frame(unit: Dictionary, alive: bool) -> Dictionary:
 	var character_id := str(unit.def_id)
 	var has_animation_pack := sprite_pack_ready and sprite_library.supports_character(character_id)
 	var track: Dictionary = animation_tracks.get(unit.uid, {"name": "idle", "elapsed": 0.0})
@@ -3451,7 +3636,7 @@ func _combat_sprite_frame(unit: Dictionary, alive: bool) -> Dictionary:
 			texture = signature_texture as Texture2D
 	if texture == null:
 		return {}
-	var scale := _combat_sprite_scale(unit, animation_name) * sprite_draw_scale
+	var scale := _combat_sprite_scale(unit, animation_name)
 	# Runtime atlases use a smaller canvas but retain the immutable 512px
 	# gameplay anchor.  Scale from the authored canvas so Web compaction never
 	# shrinks a real character back into a code-placeholder silhouette.
@@ -3617,9 +3802,9 @@ func _draw_player_sd(p: Vector2, color: Color, role: String, alive: bool) -> voi
 	var suit := color.darkened(.08)
 	var trim := color.lightened(.34)
 	# Long hair and ponytail behind the body.
-	draw_circle(p + Vector2(11, -86), 29, hair)
+	CachedDraw.disc(self, p + Vector2(11, -86), 29, hair)
 	draw_line(p + Vector2(24, -82), p + Vector2(38, -18), hair, 18.0, true)
-	draw_circle(p + Vector2(40, -14), 10, hair)
+	CachedDraw.disc(self, p + Vector2(40, -14), 10, hair)
 	# Long legs and opaque thigh boots.
 	draw_line(p + Vector2(-13, -25), p + Vector2(-15, 15), skin, 13.0, true)
 	draw_line(p + Vector2(13, -25), p + Vector2(15, 15), skin, 13.0, true)
@@ -3637,10 +3822,10 @@ func _draw_player_sd(p: Vector2, color: Color, role: String, alive: bool) -> voi
 	draw_line(p + Vector2(20, -71), p + Vector2(0, -54), trim, 3.0, true)
 	# Player units deploy left and look toward lower-right in a readable 3/4
 	# view: the near/right eye is larger and the nose/chin project rightward.
-	draw_circle(p + Vector2(4, -101), 27, hair)
-	draw_circle(p + Vector2(5, -96), 22, skin)
-	draw_circle(p + Vector2(1, -99), 2.3, Color("17243b"))
-	draw_circle(p + Vector2(14, -97), 3.7, Color("17243b"))
+	CachedDraw.disc(self, p + Vector2(4, -101), 27, hair)
+	CachedDraw.disc(self, p + Vector2(5, -96), 22, skin)
+	CachedDraw.disc(self, p + Vector2(1, -99), 2.3, Color("17243b"))
+	CachedDraw.disc(self, p + Vector2(14, -97), 3.7, Color("17243b"))
 	draw_line(p + Vector2(21, -94), p + Vector2(25, -91), skin.darkened(.28), 2.0, true)
 	draw_line(p + Vector2(9, -86), p + Vector2(18, -88), Color("a65b67"), 2.0, true)
 	draw_line(p + Vector2(-17, -112), p + Vector2(23, -117), hair.lightened(.18), 7.0, true)
@@ -3652,7 +3837,7 @@ func _draw_player_sd(p: Vector2, color: Color, role: String, alive: bool) -> voi
 		var shield := PackedVector2Array([p + Vector2(28, -79), p + Vector2(51, -87), p + Vector2(67, -70), p + Vector2(64, -23), p + Vector2(45, -7), p + Vector2(25, -29)])
 		draw_colored_polygon(shield, Color("246f79"))
 		draw_polyline(shield + PackedVector2Array([shield[0]]), Color("8de4d5"), 4.0, true)
-		draw_circle(p + Vector2(34, -55), 5.0, Color("f3c2ad"))
+		CachedDraw.disc(self, p + Vector2(34, -55), 5.0, Color("f3c2ad"))
 	elif role == "MEDIC":
 		draw_arc(p + Vector2(37, -50), 18, 0, TAU, 24, Color("8ff5df"), 5.0, true)
 	elif role == "ARTILLERY":
@@ -3671,7 +3856,7 @@ func _draw_nonhuman_enemy(p: Vector2, color: Color, role: String, alive: bool) -
 	var head := PackedVector2Array([p + Vector2(-48, -83), p + Vector2(-22, -105), p + Vector2(20, -99), p + Vector2(30, -72), p + Vector2(12, -61), p + Vector2(-29, -65)])
 	draw_colored_polygon(head, metal)
 	draw_rect(Rect2(p + Vector2(-38, -87), Vector2(31, 8)), Color("ff666f"))
-	draw_circle(p + Vector2(-40, -83), 4.0, Color("ffd166"))
+	CachedDraw.disc(self, p + Vector2(-40, -83), 4.0, Color("ffd166"))
 	draw_line(p + Vector2(-27, -37), p + Vector2(-55, -2), metal.lightened(.15), 12.0, true)
 	draw_line(p + Vector2(22, -35), p + Vector2(45, 8), metal.lightened(.15), 11.0, true)
 	if role in ["RANGED", "AREA", "DEBUFFER"]:
@@ -3701,16 +3886,22 @@ func _placeholder_pose_offset(unit: Dictionary) -> Vector2:
 			return Vector2.ZERO
 
 func _draw_ellipse_polygon(center: Vector2, radii: Vector2, color: Color) -> void:
-	var points := PackedVector2Array()
-	for i in range(24):
-		var angle := TAU * i / 24.0
-		points.append(center + Vector2(cos(angle) * radii.x, sin(angle) * radii.y))
-	draw_colored_polygon(points, color)
+	if _ellipse_mesh == null:
+		var points := PackedVector2Array()
+		for i in range(24):
+			var angle := TAU * i / 24.0
+			points.append(Vector2(cos(angle), sin(angle)))
+		var kit := MeshKit.new()
+		kit.fill(points, Color.WHITE)
+		_ellipse_mesh = kit.build()
+	draw_mesh(_ellipse_mesh, null, Transform2D(Vector2(radii.x, 0), Vector2(0, radii.y), center), color)
 
 func _unit_pos(unit: Dictionary) -> Vector2:
 	var uid := str(unit.get("uid", ""))
-	if engagement_positions.has(uid): return _battlefield_point((engagement_positions[uid] as Vector2) * size)
-	return _battlefield_point(Grounding.cell_point(float(unit.get("col", 0)), float(unit.get("lane", 1))) * size)
+	if _draw_memo_active and not uid.is_empty() and _position_memo.has(uid): return _position_memo[uid]
+	var point := _battlefield_point((engagement_positions[uid] as Vector2) * size) if engagement_positions.has(uid) else _battlefield_point(Grounding.cell_point(float(unit.get("col", 0)), float(unit.get("lane", 1))) * size)
+	if _draw_memo_active and not uid.is_empty(): _position_memo[uid] = point
+	return point
 
 func _projectile_origin(unit: Dictionary) -> Vector2:
 	var track: Dictionary = animation_tracks.get(str(unit.get("uid", "")), {"name": "idle", "elapsed": 0.0})
@@ -3768,6 +3959,8 @@ func _actor_travel_offset(unit: Dictionary) -> Vector2:
 func _entry_offset(unit: Dictionary) -> Vector2:
 	if boss_entry_elapsed >= 0.0 and boss_entry_uids.has(str(unit.uid)):
 		return Vector2(0, -size.y * 1.1 * (1.0 - smoothstep(.95, 1.95, boss_entry_elapsed)))
+	if _wave_scene_elapsed() >= 0.0 and str(unit.team) == "ENEMY":
+		return Vector2(size.x * .28 * (1.0 - smoothstep(1.0, 1.90, _wave_scene_elapsed())), 0)
 	var progress := clampf(float(entry_tracks.get(unit.uid, 1.0)), 0.0, 1.0)
 	var eased := 1.0 - pow(1.0 - progress, 3.0)
 	var direction := -1.0 if str(unit.team) == "PLAYER" else 1.0
@@ -3800,7 +3993,9 @@ func _compute_registered_sprite_pose(unit: Dictionary) -> Dictionary:
 	var duration := sprite_library.duration(id, action) if has_ordinary else (sprite_library.signature_duration(id, action) if signature else .75)
 	var source_right := sprite_library.signature_source_faces_right(id) if signature else sprite_library.source_faces_right(id)
 	var mirrored := (str(unit.get("team", "")) == "PLAYER") != source_right
-	var kind := "signature" if signature else ("full" if sprite_library.frame_canvas_size(id).x == 256.0 else "compact")
+	# HD boss pages have 512px canvases but share the same normalized contacts.
+	# Pixel density must not switch an actor back to compact grounding metadata.
+	var kind := "signature" if signature else ("full" if sprite_library.full_density_bytes_by_entity.has(id) else "compact")
 	var points := Grounding.contacts(kind, id, action, elapsed)
 	var motion := combat_motion_snapshot(str(unit.get("team", "")), action, elapsed, duration, str(unit.get("role", "")))
 	var action_sample := _action_frame_sample(unit)
@@ -3824,8 +4019,12 @@ func _action_duration(id: String, action: String) -> float:
 
 func _action_frame_sample(unit: Dictionary) -> Dictionary:
 	if not UnitState.alive(unit): return {}
-	var track: Dictionary = animation_tracks.get(str(unit.get("uid", "")), {})
-	return action_frames.sample(str(unit.get("def_id", "")), str(track.get("name", "idle")), float(track.get("elapsed", 0.0)), str(unit.get("role", "")) in ActorChoreography.MELEE_ROLES)
+	var uid := str(unit.get("uid", ""))
+	if _draw_memo_active and not uid.is_empty() and _action_sample_memo.has(uid): return _action_sample_memo[uid]
+	var track: Dictionary = animation_tracks.get(uid, {})
+	var sample := action_frames.sample(str(unit.get("def_id", "")), str(track.get("name", "idle")), float(track.get("elapsed", 0.0)), str(unit.get("role", "")) in ActorChoreography.MELEE_ROLES)
+	if _draw_memo_active and not uid.is_empty(): _action_sample_memo[uid] = sample
+	return sample
 
 func action_motion_snapshot(unit: Dictionary) -> Dictionary:
 	var sample := _action_frame_sample(unit)
@@ -3905,18 +4104,38 @@ func _compute_combat_sprite_scale(unit: Dictionary) -> float:
 	return scale * _battlefield_camera_zoom()
 
 func _battlefield_camera_zoom() -> float:
-	if boss_entry_elapsed >= 0.0:
-		return lerpf(1.10, 1.0, smoothstep(.35, 2.65, boss_entry_elapsed))
+	return _draw_zoom if _draw_memo_active else _compute_battlefield_camera_zoom()
+
+func _compute_battlefield_camera_zoom() -> float:
+	if _wave_scene_elapsed() >= 0.0:
+		return float(WaveTransition.sample(_wave_scene_elapsed(), boss_entry_elapsed >= 0.0).zoom)
 	return presentation_director.battlefield_zoom() * field_zoom
+
+func _battlefield_offset() -> Vector2:
+	return _draw_offset if _draw_memo_active else _compute_battlefield_offset()
+
+func _wave_focus_anchor(uid: String, fallback: Vector2) -> Vector2:
+	var unit := _actor_model(uid)
+	if unit.is_empty(): return fallback
+	var ground: Vector2 = engagement_positions.get(uid, Grounding.cell_point(float(unit.get("col", 0)), float(unit.get("lane", 1))))
+	return ground * size + Vector2(0, -200.0 if str(unit.get("rank", "")) == "BOSS" else -95.0)
+
+func _compute_battlefield_offset() -> Vector2:
+	if _wave_scene_elapsed() >= 0.0:
+		var camera := WaveTransition.camera(_wave_scene_elapsed(), boss_entry_elapsed >= 0.0, size,
+			_wave_focus_anchor(wave_entry_enemy_uid, size * Vector2(.75, .6)),
+			_wave_focus_anchor(wave_entry_ally_uid, size * Vector2(.25, .6)))
+		return camera.offset
+	return presentation_director.battlefield_offset() + field_offset
 
 func _battlefield_point(point: Vector2) -> Vector2:
 	var center := size * 0.5
-	return center + (point - center) * _battlefield_camera_zoom() + presentation_director.battlefield_offset() + field_offset
+	return center + (point - center) * _battlefield_camera_zoom() + _battlefield_offset()
 
 func _battlefield_rect(rect: Rect2) -> Rect2:
 	var zoom := _battlefield_camera_zoom()
 	var center := size * 0.5
-	return Rect2(center + (rect.position - center) * zoom + presentation_director.battlefield_offset() + field_offset, rect.size * zoom)
+	return Rect2(center + (rect.position - center) * zoom + _battlefield_offset(), rect.size * zoom)
 
 # -- Field direction hooks (phase 3) ------------------------------------------------
 # Presentation only: a BattleFieldStage reads positions and writes poses and camera
@@ -4068,11 +4287,15 @@ func _enemy_color(rank: String) -> Color:
 
 func _actor_model(uid: String) -> Dictionary:
 	if simulation == null: return {}
+	if _draw_memo_active and _actor_memo.has(uid): return _actor_memo[uid]
 	var live := simulation.find_unit(uid)
-	return live if not live.is_empty() else presentation_actor_records.get(uid, {})
+	var actor: Dictionary = live if not live.is_empty() else presentation_actor_records.get(uid, {})
+	if _draw_memo_active: _actor_memo[uid] = actor
+	return actor
 
-func _waiting_for_boss_contact() -> bool:
-	return not contact_events.is_empty() and simulation.state.wave != boss_entry_wave and simulation.has_boss()
+func _waiting_for_wave_contact() -> bool:
+	if simulation == null or simulation.state.ended: return false
+	return simulation.state.wave > wave_entry_wave or (simulation.has_boss() and simulation.state.wave != boss_entry_wave)
 
 func _advance_contacts(delta: float) -> void:
 	for item in contact_events: item.remaining = float(item.remaining) - delta
@@ -4154,7 +4377,7 @@ func cell_screen_center(col: int, lane: int) -> Vector2:
 ## camera zoom 1 (zoom about the view centre, then the director and field offsets).
 func _battlefield_pixel_transform() -> Transform2D:
 	var zoom := _battlefield_camera_zoom()
-	return Transform2D(Vector2(zoom, 0.0), Vector2(0.0, zoom), size * .5 * (1.0 - zoom) + presentation_director.battlefield_offset() + field_offset)
+	return Transform2D(Vector2(zoom, 0.0), Vector2(0.0, zoom), size * .5 * (1.0 - zoom) + _battlefield_offset())
 
 ## All floor cells as one mesh in view pixels at zoom 1, rebuilt only when the
 ## view size changes. Colours are the base alphas; the caller applies emphasis.
@@ -4179,6 +4402,58 @@ func _cell_screen_polygon(col: int, lane: int, inset := .006) -> PackedVector2Ar
 		output.append(_battlefield_point(point * size))
 	return output
 
+func _cell_pixel_polygon(col: int, lane: int, inset: float) -> PackedVector2Array:
+	var output := PackedVector2Array()
+	for point in Grounding.cell_polygon(col, lane, inset): output.append(point * size)
+	return output
+
+func _prepare_cell_meshes() -> void:
+	if _cell_mesh_size == size: return
+	_cell_mesh_size = size
+	_cell_meshes.clear()
+	_cell_bracket_meshes.clear()
+	_contact_divider_mesh = null
+
+## Tint and camera animation do not invalidate cell geometry. The same fill or
+## range outline is reused for deployment, aim previews, cast windup and landing.
+func _cell_mesh(col: int, lane: int, inset: float, width := 0.0) -> ArrayMesh:
+	_prepare_cell_meshes()
+	var key := "%d|%d|%s|%s" % [col, lane, str(inset), str(width)]
+	if not _cell_meshes.has(key):
+		var kit := MeshKit.new()
+		var points := _cell_pixel_polygon(col, lane, inset)
+		if width > 0.0: kit.stroke(points, width, Color.WHITE, true)
+		else: kit.fill(points, Color.WHITE)
+		_cell_meshes[key] = kit.build()
+	return _cell_meshes[key]
+
+func _draw_cell_fill(col: int, lane: int, inset: float, color: Color) -> void:
+	draw_mesh(_cell_mesh(col, lane, inset), null, _battlefield_pixel_transform(), color)
+
+func _draw_cell_outline(col: int, lane: int, inset: float, width: float, color: Color) -> void:
+	draw_mesh(_cell_mesh(col, lane, inset, width), null, _battlefield_pixel_transform(), color)
+
+func _draw_danger_brackets(col: int, lane: int, color: Color) -> void:
+	_prepare_cell_meshes()
+	var key := Vector2i(col, lane)
+	if not _cell_bracket_meshes.has(key):
+		var kit := MeshKit.new()
+		var poly := _cell_pixel_polygon(col, lane, .003)
+		for index in range(poly.size()):
+			var corner := poly[index]
+			kit.stroke(PackedVector2Array([corner, corner.lerp(poly[(index - 1 + poly.size()) % poly.size()], .22)]), 2.4, Color.WHITE)
+			kit.stroke(PackedVector2Array([corner, corner.lerp(poly[(index + 1) % poly.size()], .22)]), 2.4, Color.WHITE)
+		_cell_bracket_meshes[key] = kit.build()
+	draw_mesh(_cell_bracket_meshes[key], null, _battlefield_pixel_transform(), color)
+
+func _draw_contact_divider(color: Color) -> void:
+	_prepare_cell_meshes()
+	if _contact_divider_mesh == null:
+		var kit := MeshKit.new()
+		kit.stroke(PackedVector2Array([Grounding.cell_polygon(2, 0, 0.0)[1] * size, Grounding.cell_polygon(2, 2, 0.0)[2] * size]), 2.4, Color.WHITE)
+		_contact_divider_mesh = kit.build()
+	draw_mesh(_contact_divider_mesh, null, _battlefield_pixel_transform(), color)
+
 func _closed(points: PackedVector2Array) -> PackedVector2Array:
 	var output := points.duplicate()
 	if not output.is_empty(): output.append(output[0])
@@ -4199,16 +4474,13 @@ func _draw_tactical_grid() -> void:
 	if simulation == null or scene_transition_active(): return
 	var focused := deployment_active or not tactical_selected_uid.is_empty() or not tactical_aim_uid.is_empty()
 	var emphasis := 1.0 if focused else .42
-	var zoom := _battlefield_camera_zoom()
 	# The eighteen cells never change shape: one cached mesh, the camera applied as
 	# its draw transform (so stroke width follows the zoom exactly as before) and
 	# the emphasis as its alpha.
 	var lattice := _grid_lattice()
 	if lattice != null: draw_mesh(lattice, null, _battlefield_pixel_transform(), Color(1, 1, 1, emphasis))
 	# The contact line between the two zones.
-	var line_top := _battlefield_point(Grounding.cell_polygon(2, 0, 0.0)[1] * size)
-	var line_bottom := _battlefield_point(Grounding.cell_polygon(2, 2, 0.0)[2] * size)
-	draw_line(line_top, line_bottom, Color(.96, .84, .52, .34 * emphasis + .12), 2.4 * zoom, true)
+	_draw_contact_divider(Color(.96, .84, .52, .34 * emphasis + .12))
 	for cell in simulation.state.cover_cells:
 		_draw_cover_marker(int(cell[0]), int(cell[1]))
 	var selected := simulation.find_unit(tactical_selected_uid)
@@ -4217,26 +4489,26 @@ func _draw_tactical_grid() -> void:
 		for col in BattleGrid.PLAYER_COLUMNS:
 			for lane in range(BattleGrid.LANES):
 				if int(col) == int(selected.col) and lane == int(selected.lane):
-					draw_colored_polygon(_cell_screen_polygon(int(col), lane), Color(.45, 1.0, .72, .24 + .12 * pulse))
+					_draw_cell_fill(int(col), lane, .006, Color(.45, 1.0, .72, .24 + .12 * pulse))
 					continue
 				var occupant := simulation.unit_at(int(col), lane)
 				var allowed := deployment_active or simulation.move_block_reason(str(selected.uid), int(col), lane).is_empty()
 				if not allowed or (not occupant.is_empty() and str(occupant.team) != "PLAYER"): continue
 				var tint := Color(.98, .82, .40, .20) if not occupant.is_empty() else Color(.45, 1.0, .72, .16)
-				draw_colored_polygon(_cell_screen_polygon(int(col), lane, .012), tint)
+				_draw_cell_fill(int(col), lane, .012, tint)
 		# Cells the selected ally reaches from where it stands.
 		for col in range(BattleGrid.COLUMNS):
 			for lane in range(BattleGrid.LANES):
 				if col <= BattleGrid.PLAYER_FRONT and str(simulation.unit_at(col, lane).get("team", "")) != "ENEMY": continue
 				if not TargetResolver.in_range(selected, {"col": col, "lane": lane}): continue
-				draw_polyline(_closed(_cell_screen_polygon(col, lane, .016)), Color(1.0, .66, .30, .70), 2.2 * zoom, true)
+				_draw_cell_outline(col, lane, .016, 2.2, Color(1.0, .66, .30, .70))
 	var aim := simulation.find_unit(tactical_aim_uid)
 	if not aim.is_empty():
 		var skill := simulation._skill(str(aim.ultimate_skill_id))
 		var preview := simulation.find_unit(tactical_preview_uid)
 		if str(skill.get("effect", "")) == "AOE_DAMAGE" and not preview.is_empty() and UnitState.alive(preview):
 			for cell in BattleSimulation.ultimate_area_cells(preview):
-				draw_colored_polygon(_cell_screen_polygon(int(cell[0]), int(cell[1]), .008), Color(1.0, .72, .26, .26))
+				_draw_cell_fill(int(cell[0]), int(cell[1]), .008, Color(1.0, .72, .26, .26))
 	_draw_danger_cells()
 	_draw_telegraph_flashes()
 
@@ -4286,17 +4558,17 @@ func _draw_danger_cells() -> void:
 		var cells: Array = cast.get("cells", [])
 		for cell in cells:
 			var poly := _cell_screen_polygon(int(cell[0]), int(cell[1]), .003)
-			draw_colored_polygon(poly, Color(1.0, .10, .08, .08 + .06 * pulse))
+			_draw_cell_fill(int(cell[0]), int(cell[1]), .003, Color(1.0, .10, .08, .08 + .06 * pulse))
 			var front := _shrunk(poly, 1.0 - urgency)
 			if urgency >= .98:
-				draw_colored_polygon(poly, Color(1.0, .26, .14, .52))
+				_draw_cell_fill(int(cell[0]), int(cell[1]), .003, Color(1.0, .26, .14, .52))
 			elif urgency > .02:
 				_draw_polygon_band(poly, front, Color(1.0, .26, .14, .30 + .22 * urgency))
 			draw_polyline(_closed(poly), Color(1.0, .22, .14, .18 + .10 * pulse), (8.0 + 4.0 * urgency) * zoom, true)
 			draw_polyline(_closed(poly), Color(1.0, .48, .32, .80 + .20 * pulse), (2.0 + 1.4 * urgency) * zoom, true)
 			if urgency > .02 and urgency < .97:
 				draw_polyline(_closed(front), Color(1.0, .86, .62, .55 + .35 * urgency), 1.5 * zoom, true)
-			_draw_cell_brackets(poly, Color(1.0, .80, .55, .70 + .25 * urgency), zoom)
+			_draw_danger_brackets(int(cell[0]), int(cell[1]), Color(1.0, .80, .55, .70 + .25 * urgency))
 		if str(cast.get("shape", "CELL")) != "CELL" and cells.size() > 1:
 			_draw_aoe_rings(cells, urgency, clock, zoom)
 
@@ -4305,8 +4577,9 @@ func _draw_polygon_band(outer: PackedVector2Array, inner: PackedVector2Array, co
 	var count := mini(outer.size(), inner.size())
 	for index in range(count):
 		var next := (index + 1) % count
-		draw_colored_polygon(PackedVector2Array([outer[index], outer[next], inner[next]]), color)
-		draw_colored_polygon(PackedVector2Array([outer[index], inner[next], inner[index]]), color)
+		# A convex four-vertex strip uses the renderer's streamed quad batch.
+		# Its two triangles have exactly the same vertices and order as before.
+		draw_primitive(PackedVector2Array([outer[index], outer[next], inner[next], inner[index]]), PackedColorArray([color, color, color, color]), PackedVector2Array())
 
 func _draw_cell_brackets(poly: PackedVector2Array, color: Color, zoom: float) -> void:
 	var count := poly.size()
@@ -4373,7 +4646,7 @@ func _draw_telegraph_flashes() -> void:
 		var heat := pow(1.0 - progress, 2.0)
 		for cell in flash.cells:
 			var poly := _cell_screen_polygon(int(cell[0]), int(cell[1]), .003)
-			draw_colored_polygon(poly, Color(1.0, .92, .78, .70 * heat))
+			_draw_cell_fill(int(cell[0]), int(cell[1]), .003, Color(1.0, .92, .78, .70 * heat))
 			draw_polyline(_closed(_shrunk(poly, 1.0 + .30 * progress)), Color(1.0, .55, .30, 1.0 - progress), (3.0 + 5.0 * (1.0 - progress)) * zoom, true)
 
 func telegraph_snapshot() -> Dictionary:
@@ -4399,7 +4672,7 @@ func _draw_tactical_markers() -> void:
 		for index in range(4):
 			var angle := spin * 1.4 + TAU * float(index) / 4.0
 			draw_arc(center, radius, angle, angle + .9, 10, Color("ffd36a"), 3.0 * zoom, true)
-		draw_circle(center, 4.0 * zoom, Color("ffd36a"))
+		CachedDraw.disc(self, center, 4.0 * zoom, Color("ffd36a"))
 	var aim := simulation.find_unit(tactical_aim_uid)
 	if not aim.is_empty():
 		for enemy in simulation.alive_enemies():
@@ -4449,10 +4722,11 @@ func _draw_combat_readout() -> void:
 	draw_string(font, box.position + Vector2(10, text_size * 1.12), combat_readout, HORIZONTAL_ALIGNMENT_CENTER, box.size.x - 20, text_size, Color("f6e5bd"))
 
 func _combat_readout_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(.025, .055, .085, .9)
-	style.set_corner_radius_all(8)
-	return style
+	if _readout_style == null:
+		_readout_style = StyleBoxFlat.new()
+		_readout_style.bg_color = Color(.025, .055, .085, .9)
+		_readout_style.set_corner_radius_all(8)
+	return _readout_style
 
 # --- Phase 1 presentation (2026-09-30) ---------------------------------------
 # Nameplates, shouts, combo counter, boss band, end card and the character
@@ -4537,7 +4811,7 @@ func skill_callout_snapshot() -> Array:
 func _fit_font_size(font: Font, text: String, font_size: int, max_width: float) -> int:
 	if font == null or text.is_empty():
 		return font_size
-	var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+	var width := float(Ornament.text_metrics(font, text, font_size).width)
 	if width <= max_width or width <= 0.0:
 		return font_size
 	return maxi(10, int(floor(float(font_size) * max_width / width)))
@@ -4581,10 +4855,10 @@ func _draw_skill_callout(callout: Dictionary) -> void:
 	# marker readable at a glance while the plate carries the name.
 	var callout_position := Vector2(rect.position.x, rect.get_center().y)
 	var callout_radius := height * (.50 if strong else .44)
-	draw_circle(callout_position, callout_radius + 4.0 * readout, Color(accent.r, accent.g, accent.b, alpha * .16))
-	draw_circle(callout_position, callout_radius, Color(.015, .035, .075, alpha * .92))
+	CachedDraw.disc(self, callout_position, callout_radius + 4.0 * readout, Color(accent.r, accent.g, accent.b, alpha * .16))
+	CachedDraw.disc(self, callout_position, callout_radius, Color(.015, .035, .075, alpha * .92))
 	draw_arc(callout_position, callout_radius, -PI * .62, PI * 1.15, 24, Color(accent.r, accent.g, accent.b, alpha), 2.0 * readout, true)
-	draw_circle(callout_position, callout_radius * .24, Color(1.0, 1.0, 1.0, alpha * .9))
+	CachedDraw.disc(self, callout_position, callout_radius * .24, Color(1.0, 1.0, 1.0, alpha * .9))
 	var cursor := rect.position.x + callout_radius + 8.0 * readout
 	if chip_width > 0.0:
 		var chip := Rect2(Vector2(cursor, rect.position.y + height * .18), Vector2(chip_width - 6.0 * readout, height * .64))
@@ -4733,13 +5007,18 @@ func _draw_character_cutin(source: Dictionary, cinematic: Dictionary, visibility
 		var back_bottom := bottom + band_height * .10
 		var back_left := size.x - (size.x + slant * 2.0) * ease_in
 		var back := Color(accent.r, accent.g, accent.b, .30 * visibility)
-		draw_colored_polygon(PackedVector2Array([Vector2(back_left + slant, back_top), Vector2(size.x + slant, back_top), Vector2(size.x - slant, back_bottom), Vector2(back_left - slant, back_bottom)]), back)
+		CachedDraw.fill(self, PackedVector2Array([Vector2(back_left + slant, back_top), Vector2(size.x + slant, back_top), Vector2(size.x - slant, back_bottom), Vector2(back_left - slant, back_bottom)]), back)
 		Ornament.rail(self, Vector2(back_left + slant, back_top), Vector2(size.x + slant, back_top), visibility * .8, readout * .7, secondary, -1.0)
 	var band_poly := PackedVector2Array([Vector2(-slant, top), Vector2(reach + slant, top), Vector2(reach - slant, bottom), Vector2(-slant * 2.0, bottom)])
 	var ink := Color(.02, .035, .07, .94 * visibility)
 	var deep := accent.darkened(.62)
 	deep.a = .94 * visibility
-	draw_polygon(band_poly, PackedColorArray([deep, ink, ink, deep]))
+	# Keep the original polygon's triangulation for this tapered gradient: the
+	# two diagonals do not interpolate identically on a non-parallelogram.
+	var band_colors := PackedColorArray([deep, ink, ink, deep])
+	var band_indices := Geometry2D.triangulate_polygon(band_poly)
+	for triangle in range(0, band_indices.size(), 3):
+		draw_primitive(PackedVector2Array([band_poly[band_indices[triangle]], band_poly[band_indices[triangle + 1]], band_poly[band_indices[triangle + 2]]]), PackedColorArray([band_colors[band_indices[triangle]], band_colors[band_indices[triangle + 1]], band_colors[band_indices[triangle + 2]]]), PackedVector2Array())
 	var band_rect := Rect2(Vector2(0, top), Vector2(clampf(reach, 0.0, size.x), band_height))
 	Ornament.speed_lines(self, band_rect.grow_individual(0, -6.0, 0, -6.0), clock, Color(secondary.r, secondary.g, secondary.b, .50 * visibility), 26, absi(def_id.hash()) % 97, 1.6)
 	Ornament.speed_lines(self, band_rect, clock * 1.3, Color(1, 1, 1, .26 * visibility), 12, 7, 2.2)

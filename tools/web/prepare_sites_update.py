@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-release = ROOT / 'builds/web_sites_20260920_release'
+release = ROOT / 'builds/web_title_pop_r10_release'
 site = Path(sys.argv[1]).resolve()
 assert json.loads((site / '.openai/hosting.json').read_text('utf-8'))['project_id'] == 'appgprj_6a8470621e60819190718ccb72b10c1d'
 assert not (site / 'dist/client').exists(), 'Retire previous generated client explicitly first'

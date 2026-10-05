@@ -29,14 +29,23 @@ var route_color := Color("4fd3c2")
 var rim_world: Array = []
 var rim_center := Vector3.ZERO
 var dust: Array = []
+var projection_serial := -1
+var projection_dirty := true
+var projected_scale := -1.0
+var projected_route: Array[Vector2] = []
+var projected_rim: Array[Vector2] = []
+var projected_rim_center := Vector2.ZERO
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 func _process(delta: float) -> void:
 	clock += delta
-	for puff in dust: puff.age = float(puff.age) + delta
-	dust = dust.filter(func(puff): return float(puff.age) < DUST_DURATION)
+	for index in range(dust.size() - 1, -1, -1):
+		var puff: Dictionary = dust[index]
+		puff.age = float(puff.age) + delta
+		if float(puff.age) >= DUST_DURATION:
+			dust.remove_at(index)
 	if not markers.is_empty() or not extra_markers.is_empty() or route_world.size() >= 2 or not rim_world.is_empty() or not dust.is_empty():
 		queue_redraw()
 
@@ -44,12 +53,38 @@ func set_route(points: Array, reach: int, color: Color) -> void:
 	route_world = points
 	route_reach = reach
 	route_color = color
+	projection_dirty = true
 	queue_redraw()
 
 func set_rim(segments: Array, center: Vector3) -> void:
 	rim_world = segments
 	rim_center = center
+	projection_dirty = true
 	queue_redraw()
+
+## The map owns one exact projection serial shared by its world-space overlays.
+## Pulsing/dotted presentation continues at the display rate; a stationary camera
+## does not need Camera3D.unproject_position for every rim edge on every frame.
+func apply_projection_serial(serial: int) -> void:
+	if projection_serial == serial:
+		return
+	projection_serial = serial
+	projection_dirty = true
+	queue_redraw()
+
+func _refresh_projected_geometry() -> void:
+	if projection_serial >= 0 and not projection_dirty and is_equal_approx(projected_scale, ui_scale):
+		return
+	projected_route.clear()
+	for world in route_world:
+		projected_route.append(_project(world))
+	projected_rim.clear()
+	for segment in rim_world:
+		projected_rim.append(_project(segment[0]))
+		projected_rim.append(_project(segment[1]))
+	projected_rim_center = _project(rim_center)
+	projected_scale = ui_scale
+	projection_dirty = false
 
 func spawn_dust(world: Vector3, strength := 1.0) -> void:
 	dust.append({"world": world, "age": 0.0, "strength": strength})
@@ -66,25 +101,28 @@ func _on_screen(world: Vector3) -> bool:
 	return visible_check.call(world, Vector2(8, 8)) if visible_check.is_valid() else true
 
 func _draw() -> void:
+	_refresh_projected_geometry()
 	_draw_rim()
 	_draw_route()
 	_draw_dust()
-	for marker in markers + extra_markers:
+	for marker in markers:
+		_draw_marker(marker)
+	for marker in extra_markers:
 		_draw_marker(marker)
 
 # --- move range rim -------------------------------------------------------
 
 func _draw_rim() -> void:
 	if rim_world.is_empty(): return
-	var center := _project(rim_center)
+	var center := projected_rim_center
 	var sweep := fmod(clock * 1.25, TAU)
-	for segment in rim_world:
-		var a := _project(segment[0])
-		var b := _project(segment[1])
+	var breathe := .5 + .5 * sin(clock * 2.2)
+	for index in range(0, projected_rim.size(), 2):
+		var a := projected_rim[index]
+		var b := projected_rim[index + 1]
 		var mid := (a + b) * .5
 		var angle := atan2(mid.y - center.y, mid.x - center.x)
 		var light := pow(maxf(0.0, cos(angle - sweep)), 8.0)
-		var breathe := .5 + .5 * sin(clock * 2.2)
 		draw_line(a, b, Color(1.0, .86, .48, .30 + .12 * breathe), 3.0 * ui_scale, true)
 		if light > .02:
 			draw_line(a, b, Color(1.0, .95, .72, .85 * light), 5.5 * ui_scale, true)
@@ -93,8 +131,7 @@ func _draw_rim() -> void:
 
 func _draw_route() -> void:
 	if route_world.size() < 2: return
-	var points: Array = []
-	for world in route_world: points.append(_project(world))
+	var points := projected_route
 	var spacing := 15.0 * ui_scale
 	var offset := fmod(clock * 30.0 * ui_scale, spacing)
 	var travelled := 0.0

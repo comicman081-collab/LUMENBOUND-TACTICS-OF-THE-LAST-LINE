@@ -492,6 +492,10 @@ func _ready() -> void:
 			return
 	_refresh_state_visuals()
 	_focus_current(true)
+	if OS.has_feature("web"):
+		await _prewarm_web_awareness_pipeline()
+		if not _web_async_owner_alive():
+			return
 	map_simulation_paused = false
 	_emit_map_load_progress(1.0, "ready")
 	map_ready_complete = true
@@ -506,6 +510,24 @@ func _ready() -> void:
 	if _first_map_tutorial_active():
 		call_deferred("_start_first_map_tutorial")
 	call_deferred("_present_pending_reveal_once")
+
+func _prewarm_web_awareness_pipeline() -> void:
+	# Label3D's optimized base pass depends on this viewport's MSAA/environment
+	# settings. Boot warms its shared default programs; render the actual map pass
+	# before map_ready releases the loading mask and enables movement/turn input.
+	if not is_instance_valid(camera) or not is_instance_valid(world_root):
+		return
+	_emit_map_load_progress(0.98, "map_presentation")
+	var awareness: Label3D = WebSoakProbe.create_map_awareness_warmup()
+	world_root.add_child(awareness)
+	awareness.global_position = camera.global_position - camera.global_basis.z * 8.0
+	await get_tree().process_frame
+	await RenderingServer.frame_post_draw
+	if is_instance_valid(awareness):
+		awareness.queue_free()
+	# Removal must be drawn before the loading layer disappears.
+	await get_tree().process_frame
+	await RenderingServer.frame_post_draw
 
 func resume_from_cache() -> void:
 	# Battle/result mutate the canonical dictionary while this preserved view is
@@ -1678,8 +1700,8 @@ func _runtime_layout_size() -> Vector2:
 	# Read browser dimensions explicitly so portrait phones get a true mobile
 	# sheet and correctly proportioned 3D render target.
 	if OS.has_feature("web"):
-		var browser_width = JavaScriptBridge.eval("window.innerWidth", true)
-		var browser_height = JavaScriptBridge.eval("window.innerHeight", true)
+		var browser_width = JavaScriptBridge.eval("window.__lumenboundHostLayoutSize?.width || window.innerWidth", true)
+		var browser_height = JavaScriptBridge.eval("window.__lumenboundHostLayoutSize?.height || window.innerHeight", true)
 		if browser_width is int or browser_width is float:
 			width = float(browser_width)
 		if browser_height is int or browser_height is float:
@@ -4543,6 +4565,7 @@ func _create_enemy_pawn(node: Dictionary) -> void:
 		sprite.position.x = -0.34
 	sprite.render_priority = 12
 	root.add_child(sprite)
+	root.set_meta("primary_animation_sprite", sprite)
 	_add_occlusion_silhouette(sprite, root, "EnemyOcclusionSilhouette", Color("ff746e") if not is_companion_event else Color("75f3dc"))
 	if is_companion_duo:
 		# A duo remains one map contact and one battle transaction, but both
@@ -4565,6 +4588,7 @@ func _create_enemy_pawn(node: Dictionary) -> void:
 		second_sprite.position = Vector3(0.34, _sprite_center_y_for_foot(0.08, 0.0, second_frame_size.y, second_sprite.pixel_size, second_anchor.y), 0.0)
 		second_sprite.render_priority = 12
 		root.add_child(second_sprite)
+		root.set_meta("secondary_animation_sprite", second_sprite)
 		_add_occlusion_silhouette(second_sprite, root, "CompanionSecondaryOcclusionSilhouette", Color("75f3dc"))
 	var threat := Label3D.new()
 	threat.text = "!" if is_event_contact else ("위협" if rank == "NORMAL" else ("정예" if rank == "ELITE" else "보스"))
@@ -5238,6 +5262,8 @@ func _refresh_overlay_view() -> bool:
 	overlay_view_forward = -camera.global_transform.basis.z
 	overlay_view_distance = maxf(camera.global_position.distance_to(camera_target), 1.0)
 	overlay_view_serial += 1
+	if map_fx_overlay != null and is_instance_valid(map_fx_overlay):
+		map_fx_overlay.call("apply_projection_serial", overlay_view_serial)
 	return true
 
 ## Pushes the current view to every projected overlay that is showing something.
@@ -5757,9 +5783,15 @@ func _refresh_state_visuals(refresh_movement_range := true) -> void:
 		if stage_id == "":
 			fill = Color("10364a")
 			border = Color("ffd477")
-		button.add_theme_stylebox_override("normal", _node_style(fill, border))
-		button.add_theme_stylebox_override("hover", _node_style(fill.lightened(0.16), Color("fff1b5")))
-		button.add_theme_stylebox_override("pressed", _node_style(fill.darkened(0.12), Color("ffffff")))
+		# Theme changes invalidate minimum sizes and descendant layouts even when
+		# the shared StyleBox resource is unchanged. A turn does not change the
+		# appearance of every stage button; clear/unlock/overlay changes still do.
+		var style_signature := str(fill) + ":" + str(border)
+		if str(button.get_meta("map_style_signature", "")) != style_signature:
+			button.set_meta("map_style_signature", style_signature)
+			button.add_theme_stylebox_override("normal", _node_style(fill, border))
+			button.add_theme_stylebox_override("hover", _node_style(fill.lightened(0.16), Color("fff1b5")))
+			button.add_theme_stylebox_override("pressed", _node_style(fill.darkened(0.12), Color("ffffff")))
 		button.disabled = moving or turn_transitioning or map_simulation_paused
 		if marker_root != null:
 			var marker_color := Color("78eed9") if unlocked else Color("5a7083")
@@ -7751,33 +7783,27 @@ func _process(delta: float) -> void:
 		var root: Node3D = enemy_pawns.get(node_id)
 		if root == null or not is_instance_valid(root) or not root.visible: continue
 		var pack: Dictionary = enemy_animation_packs[node_id]
-		var sprite: Sprite3D = null
-		for child in root.get_children():
-			if child is Sprite3D:
-				sprite = child
-				break
-		if sprite == null or not sprite.texture is AtlasTexture: continue
+		var sprite: Sprite3D = root.get_meta("primary_animation_sprite", null)
+		if sprite == null or not is_instance_valid(sprite) or not sprite.texture is AtlasTexture: continue
 		var atlas_texture := sprite.texture as AtlasTexture
 		var frame_size: Vector2 = pack.get("frame_size", Vector2(104, 104))
 		var animation_name := "move" if animation_now_msec < int(root.get_meta("patrol_motion_until_msec", 0)) else "idle"
 		var frame := _animation_frame(pack, animation_name, animation_now_msec)
-		var frame_token := "%s:%d" % [animation_name, frame]
-		if str(root.get_meta("last_atlas_frame_token", "")) != frame_token:
+		var frame_token := frame + (10000 if animation_name == "move" else 0)
+		if int(root.get_meta("last_atlas_frame_token", -1)) != frame_token:
 			atlas_texture.region = Rect2(float(frame % int(pack.get("columns", 1))) * frame_size.x, float(frame / int(pack.get("columns", 1))) * frame_size.y, frame_size.x, frame_size.y)
 			root.set_meta("last_atlas_frame_token", frame_token)
-		for child in root.get_children():
-			if not child is Sprite3D or child == sprite:
-				continue
+		var child: Sprite3D = root.get_meta("secondary_animation_sprite") if root.has_meta("secondary_animation_sprite") else null
+		if child != null and is_instance_valid(child):
 			var secondary_pack_value = child.get_meta("animation_pack", {})
-			if not secondary_pack_value is Dictionary or not (child as Sprite3D).texture is AtlasTexture:
-				continue
-			var secondary_pack: Dictionary = secondary_pack_value
-			var secondary_texture := (child as Sprite3D).texture as AtlasTexture
-			var secondary_size: Vector2 = secondary_pack.get("frame_size", Vector2(104, 104))
-			var secondary_frame := _animation_frame(secondary_pack, "idle", animation_now_msec + int(child.get_meta("animation_phase_msec", 0)))
-			if int(child.get_meta("last_atlas_frame", -1)) != secondary_frame:
-				secondary_texture.region = Rect2(float(secondary_frame % int(secondary_pack.get("columns", 1))) * secondary_size.x, float(secondary_frame / int(secondary_pack.get("columns", 1))) * secondary_size.y, secondary_size.x, secondary_size.y)
-				child.set_meta("last_atlas_frame", secondary_frame)
+			if secondary_pack_value is Dictionary and child.texture is AtlasTexture:
+				var secondary_pack: Dictionary = secondary_pack_value
+				var secondary_texture := child.texture as AtlasTexture
+				var secondary_size: Vector2 = secondary_pack.get("frame_size", Vector2(104, 104))
+				var secondary_frame := _animation_frame(secondary_pack, "idle", animation_now_msec + int(child.get_meta("animation_phase_msec", 0)))
+				if int(child.get_meta("last_atlas_frame", -1)) != secondary_frame:
+					secondary_texture.region = Rect2(float(secondary_frame % int(secondary_pack.get("columns", 1))) * secondary_size.x, float(secondary_frame / int(secondary_pack.get("columns", 1))) * secondary_size.y, secondary_size.x, secondary_size.y)
+					child.set_meta("last_atlas_frame", secondary_frame)
 		if bool(root.get_meta("event_contact", false)):
 			var marker_phase := float(root.get_meta("event_marker_phase", 0.0))
 			var event_marker = root.get_meta("event_marker", null)

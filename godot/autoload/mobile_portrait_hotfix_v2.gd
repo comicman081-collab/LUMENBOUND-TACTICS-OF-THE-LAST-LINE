@@ -69,8 +69,8 @@ func _runtime_size() -> Vector2:
 	var width := float(size.x)
 	var height := float(size.y)
 	if OS.has_feature("web"):
-		var browser_width = JavaScriptBridge.eval("window.innerWidth", true)
-		var browser_height = JavaScriptBridge.eval("window.innerHeight", true)
+		var browser_width = JavaScriptBridge.eval("window.__lumenboundHostLayoutSize?.width || window.innerWidth", true)
+		var browser_height = JavaScriptBridge.eval("window.__lumenboundHostLayoutSize?.height || window.innerHeight", true)
 		if browser_width is int or browser_width is float:
 			width = float(browser_width)
 		if browser_height is int or browser_height is float:

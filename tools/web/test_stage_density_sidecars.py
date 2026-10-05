@@ -24,7 +24,7 @@ class SidecarDeliveryTests(unittest.TestCase):
 
     def test_all_families_are_delivered_and_verified(self):
         result = stage(self.export, self.root)
-        self.assertEqual(len(result['pages']), 3)
+        self.assertEqual(len(result['pages']), len(FAMILIES))
         self.assertEqual(validate(self.export, self.root), result)
 
     def test_missing_page_is_rejected(self):

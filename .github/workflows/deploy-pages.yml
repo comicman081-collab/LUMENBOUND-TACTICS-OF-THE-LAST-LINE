@@ -54,7 +54,8 @@ jobs:
           root = Path(sys.argv[1]).resolve()
           deployment_commit, payload_commit = sys.argv[2], sys.argv[3]
           PART_LIMIT = 50_000_000
-          PAYLOAD_BUDGET = 600_000_000
+          # Current game resources only; never carry older deployments or QA bundles.
+          PAYLOAD_BUDGET = 1_000_000_000
           LEAK = re.compile(r"(?i)(?<![A-Za-z0-9_])[A-Z]:[\\/]|source_blends?|render_command|blender_sources|\.blend\b")
           TEXT = {".html", ".js", ".json", ".md", ".txt"}
 
@@ -78,7 +79,7 @@ jobs:
           base = version.get("runtime_artifact_base", "")
           if not re.fullmatch(r"r7_current_[0-9a-f]{12}", base):
               fail(f"unexpected runtime artifact base: {base!r}")
-          if version.get("release_pack_mode") != "verified_prebuilt_web_export_without_optional_hd":
+          if version.get("release_pack_mode") not in ("verified_prebuilt_web_export_without_optional_hd", "verified_prebuilt_web_export_with_reviewed_hd"):
               fail("unexpected release pack mode")
           runtime_source_commit = version.get("source_commit", "")
           if not re.fullmatch(r"[0-9a-f]{40}", runtime_source_commit):

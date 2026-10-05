@@ -1,0 +1,160 @@
+{
+  "completed_utc": "2026-10-05T05:02:10.759764+00:00",
+  "deployment_status": "completed",
+  "game_build": "R24",
+  "local_source_pck_sha256": "63a0293bc3a9e53c326d05518286d240986efe78417cf298160c00725389bc22",
+  "public_pck_sha256": "5051a19f1cfe6a6b8dbe21932031c1b6edcd0b4632aea90cc587fef371d7fb53",
+  "unchanged_gameplay_asset_resources": 4017,
+  "only_pck_resource_change": "project.binary: lanternline_reviewed_hd",
+  "public_developer_features": false,
+  "github_source_branch": "feature/mobile-portrait-visibility-20260828",
+  "game_source_commit": "d1b8a28a14032fda687fcd036169e91f288222d6",
+  "github_hosting_fix_commit": "c10a1b56328b58e4d5cdcf9dce4913df2e289fb9",
+  "sites": {
+    "saved": {
+      "id": "appgprj_6a8470621e60819190718ccb72b10c1d~appgver_e897ab19f96081918f2b5bcb07cd8d23",
+      "project_id": "appgprj_6a8470621e60819190718ccb72b10c1d",
+      "version_number": 24,
+      "source": {
+        "commit_sha": "015b489932076b56232e3330476f586c1d85232b"
+      },
+      "archive_storage": {
+        "archive_format": "tar",
+        "sediment_file_id": "file_0000000054288209ba768c9b98e334a8",
+        "content_hash": "sha256:da51fa51e05867d00f7a437b33df20f3b88cd65a120e379ca132f7d3d78770b5",
+        "size_bytes": 268001280,
+        "file_count": 2982
+      },
+      "screenshot_url": null,
+      "deployment_id": null
+    },
+    "deployed": {
+      "id": "appgdep_6ac32c138b388191997af1ff42c537d3",
+      "project_id": "appgprj_6a8470621e60819190718ccb72b10c1d",
+      "title": "LANTERNLINE R7 Web",
+      "version_id": "appgprj_6a8470621e60819190718ccb72b10c1d~appgver_e897ab19f96081918f2b5bcb07cd8d23",
+      "type": "publish",
+      "status": "succeeded",
+      "url": "https://lanternline-r7.comicman081.chatgpt.site",
+      "has_mcp": false,
+      "screenshot_asset_pointer": null,
+      "provider_deployment_id": "site---6a8470621e60819190718ccb72b10c1d",
+      "failure_message": null,
+      "env_set_revision": 0,
+      "updated_at": "2026-10-05T04:48:35.720038+00:00"
+    },
+    "packaging": {
+      "project_id": "appgprj_6a8470621e60819190718ccb72b10c1d",
+      "checkout_path": "D:\\AI 종합 폴더\\Games\\블아 like\\SD_STORY_RPG_GODOT\\work\\sites_r24_checkout",
+      "commit_sha": "015b489932076b56232e3330476f586c1d85232b",
+      "archive": "D:/AI 종합 폴더/Games/블아 like/SD_STORY_RPG_GODOT/reports/deployment_r24_20261005/r24-sites-hd-fixed.tar.gz"
+    }
+  },
+  "github": {
+    "artifacts": 0,
+    "artifact_bytes": 0,
+    "caches": 0,
+    "cache_bytes": 0,
+    "payload_branch_removed": true,
+    "delete_result": {
+      "http_status": 204
+    },
+    "branches_retained": [
+      "deploy/lumenbound-web-20260828",
+      "feature/mobile-portrait-visibility-20260828",
+      "main"
+    ],
+    "live_pck_sha256_after_cleanup": "5051a19f1cfe6a6b8dbe21932031c1b6edcd0b4632aea90cc587fef371d7fb53",
+    "run_id": 37263494372,
+    "run_count_this_task": 1,
+    "retention": {
+      "days": 1,
+      "maximum_allowed_days": 90
+    }
+  },
+  "pages_url": "https://comicman081-collab.github.io/LUMENBOUND-TACTICS-OF-THE-LAST-LINE/",
+  "sites_url": "https://lanternline-r7.comicman081.chatgpt.site/",
+  "verification": {
+    "pages_all_file_hashes": {
+      "passed": true,
+      "count": 3622,
+      "log": "pages_live_verify.log"
+    },
+    "sites_physical_assets": {
+      "passed": true,
+      "byte_identical": 2978,
+      "html_normalized": 2,
+      "normalization": "Remove only the observed Cloudflare browser-challenge script; remaining bytes equal staged HTML",
+      "raw_first_attempt_report": "sites_live_assets.json",
+      "html_evidence": "sites_html_injection_check.json"
+    },
+    "sites_hd_routes": {
+      "passed": true,
+      "boss_pages": 75,
+      "other_actor_probes": 2,
+      "report": "sites_live_hd_fixed.json"
+    },
+    "public_intro_full_playback": [
+      {
+        "url": "https://comicman081-collab.github.io/LUMENBOUND-TACTICS-OF-THE-LAST-LINE/",
+        "passed": true,
+        "checks": 7
+      },
+      {
+        "url": "https://lanternline-r7.comicman081.chatgpt.site/",
+        "passed": true,
+        "checks": 7
+      }
+    ],
+    "source_gameplay_fps": "Previously verified actual local 1080p R24; no new full public battle FPS run",
+    "public_startup_under_10_seconds": {
+      "passed": false,
+      "sites_seconds": 29.217300048828125,
+      "evidence": "sites_live_startup/startup_summary.json"
+    },
+    "local_sites_startup": {
+      "passed": true,
+      "seconds": 7.8925
+    }
+  },
+  "remaining_issues": [
+    "Public Sites cold navigation measured 29.2173 seconds; public 10-second goal remains unmet."
+  ],
+  "historical_failures_resolved": [
+    "Windows GNU tar drive-colon archive path; repaired with force-local and slash paths before publication",
+    "Cloudflare redirect:error unsupported; Worker logs identified cause, fixed to manual, corrected 77 HD routes verified",
+    "Raw hosted HTML hash differs solely due Cloudflare browser-challenge insertion; original HTML equality verified after removing that exact insertion"
+  ],
+  "storage_note": "Actions artifact/cache counts describe current storage; deployed Pages files remain required and historical accrued usage is not reset.",
+  "local_cleanup": "temporary_retirement_completion.json",
+  "cleanup_policy_block": "Recursive deletion of this deployment temporary copies rejected by automatic review: blocked by policy. Reversible quarantine used instead.",
+  "local_cleanup_summary": {
+    "quarantined": true,
+    "deleted": false,
+    "files": 17395,
+    "logicalBytes": 8808113230,
+    "protectedMediaVerified": 11797,
+    "reason": "Recursive deletion rejected by automatic policy review; reversible quarantine only"
+  },
+  "local_quarantine": "quarantine/user_delete_deployment_r24_20261005",
+  "post_quarantine_live_checks": [
+    {
+      "url": "https://lanternline-r7.comicman081.chatgpt.site/VERSION.json",
+      "passed": true,
+      "pck": "5051a19f1cfe6a6b8dbe21932031c1b6edcd0b4632aea90cc587fef371d7fb53"
+    },
+    {
+      "url": "https://comicman081-collab.github.io/LUMENBOUND-TACTICS-OF-THE-LAST-LINE/VERSION.json",
+      "passed": true,
+      "pck": "5051a19f1cfe6a6b8dbe21932031c1b6edcd0b4632aea90cc587fef371d7fb53"
+    },
+    {
+      "path": "_hd/full_density/boss_r1/BOSS023/page_00.png",
+      "passed": true
+    },
+    {
+      "url": "http://127.0.0.1:8780/play/63a0293bc3a9/",
+      "passed": true
+    }
+  ]
+}

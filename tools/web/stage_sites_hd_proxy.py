@@ -30,7 +30,7 @@ code = '''  const hd=HD_PAGES[decodeURIComponent(url.pathname)];
    if(!['GET','HEAD'].includes(request.method))return new Response(null,{status:405});
    const upstream=new URL(url.pathname.slice(1),HD_ORIGIN);
    upstream.searchParams.set('v',hd.sha256);
-   const response=await fetch(upstream,{method:request.method,redirect:'error',headers:{Accept:'image/png'}});
+   const response=await fetch(upstream,{method:request.method,redirect:'manual',headers:{Accept:'image/png'}});
    const length=response.headers.get('Content-Length');
    if(!response.ok||(length&&Number(length)!==hd.bytes))return new Response('Reviewed HD page unavailable',{status:502});
    return new Response(request.method==='HEAD'?null:response.body,{status:200,headers:{
